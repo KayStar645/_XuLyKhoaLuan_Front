@@ -1,0 +1,54 @@
+<form class="container">    
+    <div class="header">
+        <img src="../assets/Images/header_login.jpg" alt="">
+    </div>
+    <div id="main">
+        <div id="form__role">
+            <div>
+                <div class="select_role">
+                    <div class="role" (click)="clickRole($event)" name="Admin">Giáo vụ</div>
+                </div>
+                <div class="select__role">
+                    <div class="role" (click)="clickRole($event)" name="Teacher">Giảng viên</div>
+                </div>
+                <div class="select__role">
+                    <div class="role" (click)="clickRole($event)" name="Student">Sinh viên</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="form">
+            <div class="input">
+                <p class="label">Mã sinh viên</p>
+                <input class="text" type="text" name="username" />
+            </div>
+            <div class="input">
+                <p class="label">Mật khẩu</p>
+                <input class="text" type="password" name="password" />
+            </div>
+            <div class="input">
+                <p class="label">Mã bảo vệ</p>
+                <input class="text protect" type="text" maxlength="4" name="securitycode" />
+            </div>
+            <div class="button">
+                <button type="submit">ĐĂNG NHẬP</button>
+            </div>
+            <div class="back">
+                <a class="back__link" (click)="clickBack($event)">Quay lại</a>
+            </div>
+        </form>
+
+
+    </div>
+    <div class="footer">
+        <div class="info">
+            <p>TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP THỰC PHẨM TP.HỒ CHÍ MINH</p>
+            <p>Địa chỉ : 140 Lê Trọng Tấn, Phường Tây Thạnh, Quận Tân Phú, TP.HCM</p>
+            <p>Điện thoại: (028)38163319</p>
+            <p>Email: info@hufi.edu.vn</p>
+        </div>
+        <div class="license">
+            <p>Bản quyền 2020 - Trường Đại học Công nghiệp Thực phẩm TP. Hồ Chí Minh</p>
+        </div>
+    </div>
+</form>

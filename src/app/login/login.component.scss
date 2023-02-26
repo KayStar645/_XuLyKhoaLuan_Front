@@ -1,0 +1,145 @@
+// Header
+.container {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+.header img {
+    width: 100%;
+    object-fit: fill;
+    
+}
+
+// Main -- Role
+#form__role {
+    width: 460px;
+    margin: 16px auto;
+    padding: 4px 16px;
+    padding-bottom: 12px;
+    border-radius: 4px;
+
+    border: 1px solid #ccc;
+    background-color: #fff;
+    width: 460px;
+    height: 276.5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.role {
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    cursor: pointer;
+    margin: 16px 0;
+    border: 1px solid #888;
+    border-radius: 6px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);
+}
+
+.role:hover {
+    cursor: pointer;
+    background-color: #0a5999;
+}
+
+// Main -- Form
+#form {
+    width: 460px;
+    margin: 16px auto;
+    padding: 4px 16px;
+    padding-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: none;
+}
+
+.input {
+    margin: 16px 0;
+}
+
+.label {
+    display: inline-block;
+    background-color: #e9ecef;
+    width: 30%;
+    padding: 6.5px 8px;
+    padding-left: 10px;
+}
+
+.text {
+    width: 70%;
+    height: 36px;
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    border-radius: 0 4px 4px 0;
+    background-color: #e8f0fe;
+}
+
+input.protect {
+    width: 30%;
+    outline: 1px solid #777;
+    border-radius: 0;
+    background-color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.button button {
+    width: 100%;
+    color: #fff;
+    background-color: #007bff;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    height: 56px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: -5px -5px 5px #666;
+    -moz-box-shadow: -5px -5px 5px #666;
+    -webkit-box-shadow: -5px -5px 5px #666;
+}
+
+.button button:hover {
+    background-color: #286090;
+    cursor: pointer;
+}
+
+.back {
+    text-decoration: none;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.back__link {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.back__link:hover {
+    color: #ff0000;
+    cursor: pointer;
+}
+
+// Footer
+.footer {
+    color: #fff;
+}
+
+.info {
+    background-color: #0069d9;
+    padding: 16px;
+}
+
+.license {
+    background-color: #3e99e2;
+    text-align: center;
+    padding: 10px 0;
+}
