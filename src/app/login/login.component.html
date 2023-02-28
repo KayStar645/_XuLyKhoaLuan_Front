@@ -17,14 +17,14 @@
             </div>
         </div>
 
-        <form id="form">
+        <form id="form" onsubmit="return false" (submit)="logIn()" [formGroup]="loginForm">
             <div class="input">
-                <p class="label">Mã sinh viên</p>
-                <input class="text" type="text" name="username" />
+                <p class="label">Mã đăng nhập</p>
+                <input class="text" type="text" formControlName="username" />
             </div>
             <div class="input">
                 <p class="label">Mật khẩu</p>
-                <input class="text" type="password" name="password" />
+                <input class="text" type="password" formControlName="password" />
             </div>
             <div class="input">
                 <p class="label">Mã bảo vệ</p>
@@ -35,10 +35,18 @@
             </div>
             <div class="back">
                 <a class="back__link" (click)="clickBack($event)">Quay lại</a>
+                <br />
+                <a class="back__link" (click)="getAllTest()">getAllTest</a>
+                <br>
+                <a class="back__link" (click)="getTest()">getTest</a>
+                <br>
+                <a class="back__link" (click)="postTest()">postTest</a>
+                <br>
+                <a class="back__link" (click)="updateTest()">updateTest</a>
+                <br>
+                <a class="back__link" (click)="deleteTest()">deleteTest</a>
             </div>
         </form>
-
-
     </div>
     <div class="footer">
         <div class="info">
