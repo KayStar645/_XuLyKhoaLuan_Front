@@ -22,88 +22,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   apiUrl = environment.api;
 
-  getTest() {
-    this.giaoVuService.getById('GV00003').subscribe(
-      (user) => {
-        // Xử lý kết quả trả về
-        console.log(user);
-      },
-      (error) => {
-        // Xử lý lỗi
-        console.log(error);
-      }
-    );
-    // this.giaoVuService.getById('GV00003').subscribe(data => console.log(data));
-  }
-  getAllTest() {
-    this.giaoVuService.getAll().subscribe(
-      (user) => {
-        // Xử lý kết quả trả về
-        console.log(user);
-      },
-      (error) => {
-        // Xử lý lỗi
-        console.log(error);
-      }
-    );
-    // this.giaoVuService.getAll().subscribe(data => console.log(data));
-  }
-
-  postTest() {
-    var giaoVu = new GiaoVu();
-    giaoVu.MaGV = 'GV00003';
-    giaoVu.TenGV = 'Đặng Trần Toàn';
-    giaoVu.GioiTinh = 'Nam';
-    giaoVu.Email = 'khanhdt@hufi.edu.vn';
-    giaoVu.MaKhoa = 'CNTT';
-
-    this.giaoVuService.add(giaoVu).subscribe(
-      (user) => {
-        // Xử lý kết quả trả về
-        console.log(user);
-      },
-      (error) => {
-        // Xử lý lỗi
-        console.log(error);
-      }
-    );
-  }
-
-  updateTest() {
-    var giaoVu = new GiaoVu();
-    giaoVu.MaGV = 'GV00003';
-    giaoVu.TenGV = 'Cao Công Khởi';
-    giaoVu.GioiTinh = 'Nam';
-    giaoVu.Email = 'khoicc@hufi.edu.vn';
-    giaoVu.MaKhoa = 'CNTT';
-
-    this.giaoVuService.update(giaoVu).subscribe(
-      (user) => {
-        // Xử lý kết quả trả về
-        console.log(user);
-      },
-      (error) => {
-        // Xử lý lỗi
-        console.log(error);
-      }
-    );
-    // console.log(this.giaoVuService.update(giaoVu).subscribe(data => console.log(data)));
-  }
-
-  deleteTest() {
-    this.giaoVuService.delete('GV00003').subscribe(
-      (user) => {
-        // Xử lý kết quả trả về
-        console.log(user);
-      },
-      (error) => {
-        // Xử lý lỗi
-        console.log(error);
-      }
-    );
-    // console.log(this.giaoVuService.delete('GV00003').subscribe(data => console.log(data)));
-  }
-
   constructor(private elementRef: ElementRef, private authService: AuthService,
      private router: Router, private fb: FormBuilder, private http: HttpClient,
      private giaoVuService : giaoVuService) {
@@ -115,6 +33,17 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn();
+    // if(this.isLoggedIn$) {
+    //   if(this.role === "Admin") {
+    //     this.router.navigate(['/admin']);
+    //   }
+    //   else if (this.role === "Teacher") {
+    //     this.router.navigate(['/home']);
+    //   }
+    //   else if(this.role === "Studnet") {
+    //     this.router.navigate(['/dashboard']);
+    //   }
+    // }
   }
 
   clickRole(event:any): void {
@@ -141,33 +70,17 @@ export class LoginComponent implements OnInit {
   logIn() {
     var user = new User(this.loginForm.value["username"], this.loginForm.value["password"]);
 
-    // this.authService.logIn(user, this.role).subscribe(result => {
-    //   if (result) {
-    //     this.router.navigate(['/dashboard']);
-    //   }
-    // });  
-
-    this.router.navigate(['/home']);
-    this.authService.logIn(user, this.role);
-
-    console.log("localStorage: ")
-    console.log(localStorage.getItem('token'))
-
-    console.log("End: ")
-    console.log(this.authService.isLoggedIn())
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+    if(this.authService.logIn(user, this.role)) {
+      // console.log("Xử lý lỗi!");
+      if(this.role === "Admin") {
+        this.router.navigate(['/admin']);
+      }
+      else if (this.role === "Teacher") {
+        this.router.navigate(['/home']);
+      }
+      else if(this.role === "Studnet") {
+        this.router.navigate(['/dashboard']);
+      }
     }
-
-    // this.authService.logIn(user, this.role).subscribe(
-    //   (response) => {
-        
-
-    //     this.router.navigate(['/dashboard']);
-    //   },
-    //   (error) => {
-    //     // Xử lý lỗi đăng nhập (ví dụ: hiển thị thông báo lỗi)
-    //   }
-    // );
   }
 }

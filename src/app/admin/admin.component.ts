@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -6,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
 
-  constructor() { }
+  constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
   }
-
 }

@@ -15,8 +15,4 @@ export class DashboardComponent implements OnInit {
     this.isLoggedIn$ = this.authService.isLoggedIn();
   }
 
-  public logout(): void {
-    this.authService.logOut();
-  }
-
 }

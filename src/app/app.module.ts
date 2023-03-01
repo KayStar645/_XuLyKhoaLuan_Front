@@ -14,7 +14,7 @@ import { ShareComponent } from './share/share.component';
 @NgModule({
   declarations: [AppComponent, HomeComponent, LoginComponent, DashboardComponent, AdminComponent, ShareComponent],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, ReactiveFormsModule],
-  providers: [HttpClient, FormBuilder],
+  providers: [HttpClient, FormBuilder, BrowserModule, AppRoutingModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
