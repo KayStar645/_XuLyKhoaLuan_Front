@@ -1,7 +1,3 @@
-<div *ngIf="isLoggedIn$ | async as isLoggedIn"> Chỗ này share dữ liệu giữa các component + Đăng nhập mới thấy được
-    Đây là navbar &nbsp;
-    <a [routerLink]="['/home']" [routerLinkActive]="'active-link'">Home</a> &nbsp;
-    &nbsp;
+<div *ngIf="isLoggedIn$ | async as isLoggedIn">
     <p>This is dashboard1!</p>
-    <p>This is dashboard2!</p>
 </div>

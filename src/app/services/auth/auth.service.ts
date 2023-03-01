@@ -12,6 +12,7 @@ import { User } from 'src/app/models/User.model';
 export class AuthService {
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private apiUrl = environment.api;
+  
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -32,26 +33,28 @@ export class AuthService {
     }
     
     login.subscribe(
-      (response: any) => {
-        if (response.token) {
-          // Lưu trữ token trong local storage
-          localStorage.setItem('token', response.token);
-          console.log(response.token);
-        } else {
-          console.log('Đăng nhập thất bại');
-        }
+      (user) => {
+
       },
       (error) => {
-        console.log(error.token);
-        console.log('Đăng nhập thất bại');
+        // console.log(error.error.text);
+        localStorage.setItem('token', error.error.text)
       }
     );
 
-    //return this.http.post<any>(this.apiUrl, user);
+    if(this.isLoggedIn()) {
+      if(role === "Admin") {
+        this.router.navigate(['/admin']);
+      }
+      else if (role === "Teacher") {
+        this.router.navigate(['/home']);
+      }
+      else if(role === "Studnet") {
+        this.router.navigate(['/dashboard']);
+      }
+    }
 
-    // return this.http.post<any>(this.apiUrl, user).subscribe(data => {
-    //   localStorage.setItem('token', data);
-    // });
+    return this.isLoggedIn();
   }
 
   public logOut() {
@@ -62,13 +65,14 @@ export class AuthService {
   }
 
   public isLoggedIn(): Observable<boolean> {
-    //this.loggedIn.asObservable();
 
     const token = localStorage.getItem('token');
-    return token ? new BehaviorSubject<boolean>(true) : new BehaviorSubject<boolean>(false);
+    if(token == "undefined" || token == null) {
+      this.loggedIn.next(false);
+    }
+    else {
+      this.loggedIn.next(true);
+    }
+    return this.loggedIn;
   }
-
-  // isLoggedIn(): boolean {
-  //   return localStorage.getItem('token') !== null;
-  // }
 }
