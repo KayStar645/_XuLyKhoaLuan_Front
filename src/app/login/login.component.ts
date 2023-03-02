@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if(this.isLoggedIn$) {
       if(localStorage.getItem('role') === "Admin") {
-        this.router.navigate(['/admin']);
+        // this.router.navigate(['/admin']);
+        this.router.navigate(['/']);
       }
       else if (localStorage.getItem('role') === "Teacher") {
         this.router.navigate(['/home']);
@@ -73,7 +74,8 @@ export class LoginComponent implements OnInit {
     if(this.authService.logIn(user, this.role)) {
       // console.log("Xử lý lỗi!");
       if(this.role === "Admin") {
-        this.router.navigate(['/admin']);
+        // this.router.navigate(['/admin']);
+        this.router.navigate(['/']);
       }
       else if (this.role === "Teacher") {
         this.router.navigate(['/home']);

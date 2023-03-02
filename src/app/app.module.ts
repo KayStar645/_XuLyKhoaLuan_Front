@@ -10,9 +10,15 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { ShareComponent } from './share/share.component';
+import { ThongbaoComponent } from './admin/thongbao/thongbao.component';
+import { DanhsachsinhvienComponent } from './admin/danhsachsinhvien/danhsachsinhvien.component';
+import { DanhsachgiangvienComponent } from './admin/danhsachgiangvien/danhsachgiangvien.component';
+import { DanhsachdetaiComponent } from './admin/danhsachdetai/danhsachdetai.component';
+import { KehoachComponent } from './admin/kehoach/kehoach.component';
+import { HoidongComponent } from './admin/hoidong/hoidong.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, DashboardComponent, AdminComponent, ShareComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, DashboardComponent, AdminComponent, ShareComponent, ThongbaoComponent, DanhsachsinhvienComponent, DanhsachgiangvienComponent, DanhsachdetaiComponent, KehoachComponent, HoidongComponent],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [HttpClient, FormBuilder, BrowserModule, AppRoutingModule],
   bootstrap: [AppComponent]

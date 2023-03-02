@@ -21,17 +21,9 @@ export class AdminComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     else {
-      this.router.navigate(['/admin']);
-    }
-  }
-
-  public onLoad() {
-    if(!(this.isLoggedIn$ && localStorage.getItem('role') == "Admin")) {
-      this.isLoggedIn$ = of(false);
-      this.router.navigate(['/login']);
-    }
-    else {
-      this.router.navigate(['/admin']);
+      this.isLoggedIn$ = of(true);
+      // this.router.navigate(['/admin']);
+      this.router.navigate(['/']);
     }
   }
 }
