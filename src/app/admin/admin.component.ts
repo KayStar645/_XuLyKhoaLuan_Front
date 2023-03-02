@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
 
@@ -10,9 +12,26 @@ import { AuthService } from '../services/auth/auth.service';
 export class AdminComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   public ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn();
+    if(!(this.isLoggedIn$ && localStorage.getItem('role') == "Admin")) {
+      this.isLoggedIn$ = of(false);
+      this.router.navigate(['/login']);
+    }
+    else {
+      this.router.navigate(['/admin']);
+    }
+  }
+
+  public onLoad() {
+    if(!(this.isLoggedIn$ && localStorage.getItem('role') == "Admin")) {
+      this.isLoggedIn$ = of(false);
+      this.router.navigate(['/login']);
+    }
+    else {
+      this.router.navigate(['/admin']);
+    }
   }
 }

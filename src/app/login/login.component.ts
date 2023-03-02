@@ -33,17 +33,17 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn();
-    // if(this.isLoggedIn$) {
-    //   if(this.role === "Admin") {
-    //     this.router.navigate(['/admin']);
-    //   }
-    //   else if (this.role === "Teacher") {
-    //     this.router.navigate(['/home']);
-    //   }
-    //   else if(this.role === "Studnet") {
-    //     this.router.navigate(['/dashboard']);
-    //   }
-    // }
+    if(this.isLoggedIn$) {
+      if(localStorage.getItem('role') === "Admin") {
+        this.router.navigate(['/admin']);
+      }
+      else if (localStorage.getItem('role') === "Teacher") {
+        this.router.navigate(['/home']);
+      }
+      else if(localStorage.getItem('role') === "Studnet") {
+        this.router.navigate(['/dashboard']);
+      }
+    }
   }
 
   clickRole(event:any): void {

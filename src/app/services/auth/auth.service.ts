@@ -31,6 +31,8 @@ export class AuthService {
     } else {
       login = this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInStudent`, user);
     }
+
+    localStorage.setItem('role', role);
     
     login.subscribe(
       (user) => {
@@ -59,6 +61,7 @@ export class AuthService {
 
   public logOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
 
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
