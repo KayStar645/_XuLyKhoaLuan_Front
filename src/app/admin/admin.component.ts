@@ -16,7 +16,6 @@ import { AuthService } from '../services/auth/auth.service';
 export class AdminComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data!: GiaoVu;
-  // list: GiaoVu[] = [];
   constructor(private authService: AuthService, private router: Router, private giaoVuService: giaoVuService) {}
 
   public ngOnInit(): void {
@@ -34,23 +33,10 @@ export class AdminComponent implements OnInit {
     // Get dữ liệu của giáo vụ
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
       this.data = data;
+      console.log(this.data.ngaySinh);
+      this.data.ngaySinh = this.data.ngaySinh.substring(8, 10) + "/" +
+                           this.data.ngaySinh.substring(5, 7) + "/" +
+                           this.data.ngaySinh.substring(0, 4);
     });
-    // this.data.ngaySinh = this.data.ngaySinh.substring(0, 10);
   }
-
-  // onClick1() {
-  //   this.id = "" + localStorage.getItem('Id')?.toString();
-
-  //   this.giaoVuService.getById(this.id).subscribe((data) => {
-  //     this.data = data;
-  //   });
-  //   console.log(this.data);
-  // }
-
-  // onClick() {
-  //   this.giaoVuService.getAll().subscribe((data) => {
-  //     this.list = data;
-  //   })
-  //   console.log(this.list);
-  // }
 }
