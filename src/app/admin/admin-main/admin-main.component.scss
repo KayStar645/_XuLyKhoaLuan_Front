@@ -1,0 +1,192 @@
+
+// Header
+.container {
+    width: 80%;
+    margin: 0 auto;
+    color: #666;
+}
+
+// Main
+.body {
+    background-color: #e7ecf0;
+}
+
+.main {
+    padding: 20px 0;
+}
+
+.top {
+    display: flex;
+    gap: 20px;
+}
+
+.top-info {
+    background-color: #fff;
+    width: 65%;
+    border-radius: 4px;
+}
+
+.info-title {
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    color: #0066cb;
+}
+
+.info-content {
+    display: flex;
+}
+
+.info-img {
+    width: 20%;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.info-img img {
+    width: 80%;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
+
+.info-left,
+.info-right {
+    width: 40%;
+    padding: 30px;
+}
+
+.info-left-item {
+    padding: 8px 0;
+    list-style-type: none;
+}
+
+.top-right {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.top-notifi,
+.top-plan {
+    background-color: #fff;
+    border-radius: 4px;
+    flex-basis: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.count {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.top-notifi-count {
+    flex-basis: 70%;
+    padding: 16px;
+}
+
+.navbar-list {
+    display: flex;
+}
+
+.navbar-item {
+    background-color: #fff;
+    list-style-type: none;
+    margin: 20px 20px 0 0;
+    text-align: center;
+    border-radius: 4px;
+    flex-basis: calc(100%/6);
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #666;
+    padding: 30px;
+    display: inline-block;
+}
+
+.navbar-link:hover {
+    color: #1DA1F2;
+}
+
+.navbar-icon {
+    margin-bottom: 20px;
+}
+
+// Bottom
+.bottom {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.bottom-left,
+.bottom-right {
+    background-color: #fff;
+    flex-basis: 65%;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.bottom-right {
+    margin: 0 20px;
+    flex-basis: 35%;
+}
+
+.bottom-title {
+    border-bottom: 2px solid #afafaf;
+    padding: 6px 0;
+    font-size: 18px;
+    color: #0066cb;
+}
+
+.bottom-notifi-item {
+    list-style-type: none;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+}
+
+.bottom-notifi-img-l img {
+    width: 150px;
+    padding: 10px;
+}
+
+.bottom-notifi-img img {
+    width: 100px;
+    padding: 6px;
+}
+
+.bottom-notifi-link a {
+    text-decoration: none;
+    padding: 10px;
+    display: inline-block;
+    color: #000;
+    top: 0;
+    text-align: justify;
+}
+
+.bottom-notifi-link a:hover {
+    color: #0056b3;
+}
+
+.icon-cal {
+    color: #1DA1F2;
+}
+
+.date {
+    padding-left: 10px;
+    color: #666;
+}
+
+// Dùng chung
+.clear {
+    clear: both;
+}
+
+.detail-link {
+    text-decoration: none;
+    color: #1da1f2;
+}
+

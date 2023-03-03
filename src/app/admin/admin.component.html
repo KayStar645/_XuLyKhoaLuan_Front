@@ -7,175 +7,51 @@
             <div class="header__right">
                 <ul class="header__right-list">
                     <li class="header__right-item">
-                        <a href="" class="header__right-link">Trang chủ</a>
+                        <a href="" class="header__right-link">
+                            <i class="icon-m-right fa-solid fa-house"></i>
+                            Trang chủ
+                        </a>
                     </li>
                     <li class="header__right-item">
-                        <a href="" class="header__right-link">Thông báo</a>
+                        <a href="" class="header__right-link">
+                            <i class="icon-m-right fa-regular fa-bell"></i>
+                            Thông báo
+                        </a>
                     </li>
                     <li class="header__right-item">
-                        <a class="header__right-link">{{ data?.tenGv }}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="body">
-        <div class="container">
-            <div class="main">
-                <div class="top">
-                    <div class="top-info">
-                        <h2 class="info-title">Thông tin cá nhân</h2>
-                        <div class="info-content">
-                            <div class="info-img">
+                        <a  (click)="clickAccount()" class="header__right-link">
+                            <div class="header__right-img">
                                 <img *ngIf="data?.gioiTinh == 'Nữ'" src="../../assets/Images/avatar-nu.jpg" alt="Avatar" />
                                 <img *ngIf="data?.gioiTinh == 'Nam'" src="../../assets/Images/avatar-nam.jpeg" alt="Avatar" />
-                                <br />
-                                <a href="" class="detail-link">Xem chi tiết</a>
                             </div>
-                            <div class="info-left">
-                                <ul class="info-left-list">
-                                    <li class="info-left-item">MSGV: <b>{{ data?.maGv }}</b></li>
-                                    <li class="info-left-item">Họ tên: <b>{{ data?.tenGv }}</b></li>
-                                    <li class="info-left-item">Giới tính: <b>{{ data?.gioiTinh }}</b></li>
-                                    <li class="info-left-item">Ngày sinh: <b>{{ data?.ngaySinh }}</b></li>
-                                </ul>
+                            <div class="header__right-account">
+                                {{ data?.tenGv }}
+                            <i class="fa-solid fa-caret-down"></i>
                             </div>
-                            <div class="info-right">
-                                <li class="info-left-item">Ngày nhận việc: <b>{{ data?.ngayNhanViec }}</b></li>
-                                <li class="info-left-item">Email: <b>{{ data?.email }}</b></li>
-                                <li class="info-left-item">Số điện thoại: <b>{{ data?.sdt }}</b></li>
-                            </div>
+                        </a>
+                        <div id="box-account">
+                            <ul class="account-list">
+                                <li class="account-item">
+                                    <a href="" class="account-link">
+                                        Thông tin cá nhân
+                                    </a>
+                                </li>
+                                <li class="account-item">
+                                    <a href="" class="account-link">
+                                        Đổi mật khẩu
+                                    </a>
+                                </li>
+                                <li class="account-item">
+                                    <a (click)="logOut()" class="account-link">
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="top-right">
-                        <div class="top-notifi">
-                            Thông báo
-                            <br />
-                            <a href="" class="detail-link">Xem chi tiết</a>
-                        </div>
-                        <div class="top-plan">
-                            Kế hoạch
-                            <br />
-                            <a href="" class="detail-link">Xem chi tiết</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <ul class="navbar-list">
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Thông báo
-                        </a>
-                    </li>
-                    <!-- <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Kế hoạch
-                        </a>
-                    </li> -->
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Phân công
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Hội đồng
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Giảng viên
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Đề tài
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Sinh viên
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="" class="navbar-link">
-                            Quản lý chung
-                        </a>
                     </li>
                 </ul>
-
-                <div class="bottom">
-                    <div class="bottom-left">
-                        <h3 class="bottom-title">Kế hoạch thực hiện</h3>
-                        <!-- <div class="bottom-plan">
-                            Kế hoạch
-                            <br />
-                            <a href="" class="detail-link">Xem chi tiết</a>
-                        </div> -->
-                        
-                    </div>
-                    <div class="bottom-right">
-                        <h3 class="bottom-title">Thông báo</h3>
-                        <!-- <div class="bottom-notifi">
-                            Thông báo
-                            <br />
-                            <a href="" class="detail-link">Xem chi tiết</a>
-                        </div> -->
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-
+    <app-admin-main></app-admin-main>
 </div>
-
-<!-- 
-    <div>
-        <table>
-            <tr>
-                <th>Mã giảng viên</th>
-                <th>Tên giảng viên</th>
-                <th>Ngày sinh</th>
-                <th>Giới tính</th>
-                <th>Email</th>
-                <th>Số điện thoại</th>
-                <th>Mã khoa</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>{{ data.maGv }}</td>
-                <td>{{ data.ngaySinh }}</td>
-                <td>{{ data.gioiTinh }}</td>
-                <td>{{ data.email }}</td>
-                <td>{{ data.sdt }}</td>
-                <td>{{ data.maKhoa }}</td>
-            </tr>
-        </table>
-    </div>
-    <button (click)="onClick1()">Click me!</button>
-
-    <div>
-        <table>
-            <tr>
-                <th>Mã giảng viên</th>
-                <th>Tên giảng viên</th>
-                <th>Ngày sinh</th>
-                <th>Giới tính</th>
-                <th>Email</th>
-                <th>Số điện thoại</th>
-                <th>Mã khoa</th>
-            </tr>
-            <tr *ngFor="let item of list">
-                <td>1</td>
-                <td>{{ item.tenGv }}</td>
-                <td>{{ item.ngaySinh }}</td>
-                <td>{{ item.gioiTinh }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.sdt }}</td>
-                <td>{{ item.maKhoa }}</td>
-            </tr>
-        </table>
-    </div>
-    <button (click)="onClick()">Click me Array!</button>
-
- -->

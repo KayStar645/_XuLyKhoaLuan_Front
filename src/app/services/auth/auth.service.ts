@@ -23,7 +23,7 @@ export class AuthService {
 
   public logIn(user: User, role: string) {
 
-    localStorage.setItem('Id', user.Id)
+    localStorage.setItem('Id', user.Id);
     // localStorage.setItem('Password', user.Password)
 
 
@@ -67,6 +67,7 @@ export class AuthService {
   public logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('Id');
 
     this.loggedIn.next(false);
     this.router.navigate(['/login']);

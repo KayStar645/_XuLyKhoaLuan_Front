@@ -16,9 +16,10 @@ import { DanhsachgiangvienComponent } from './admin/danhsachgiangvien/danhsachgi
 import { DanhsachdetaiComponent } from './admin/danhsachdetai/danhsachdetai.component';
 import { KehoachComponent } from './admin/kehoach/kehoach.component';
 import { HoidongComponent } from './admin/hoidong/hoidong.component';
+import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, DashboardComponent, AdminComponent, ShareComponent, ThongbaoComponent, DanhsachsinhvienComponent, DanhsachgiangvienComponent, DanhsachdetaiComponent, KehoachComponent, HoidongComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, DashboardComponent, AdminComponent, ShareComponent, ThongbaoComponent, DanhsachsinhvienComponent, DanhsachgiangvienComponent, DanhsachdetaiComponent, KehoachComponent, HoidongComponent, AdminMainComponent],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [HttpClient, FormBuilder, BrowserModule, AppRoutingModule],
   bootstrap: [AppComponent]

@@ -5,9 +5,7 @@
 }
 
 // Header
-
 .container {
-    // width: 1140px;
     width: 80%;
     margin: 0 auto;
     color: #666;
@@ -49,6 +47,7 @@
 .header__right-item {
     list-style-type: none;
     padding: 16px 8px;
+    position: relative;
 }
 
 .header__right-link {
@@ -56,145 +55,60 @@
     color: #666;
     cursor: pointer;
     padding: 8px;
-}
-
-// Main
-
-.body {
-    background-color: #e7ecf0;
-    // height: 1000px;
-}
-
-.main {
-    padding: 20px 0;
-}
-
-.top {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    text-transform:uppercase;
 }
 
-.top-info {
-    background-color: #fff;
-    width: 65%;
-    // margin-right: 2%;
-    border-radius: 4px;
-}
-
-.info-title {
-    padding: 8px 12px;
-    font-size: 20px;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    color: #0066cb;
-}
-
-.info-content {
-    display: flex;
-}
-
-.info-img {
-    width: 20%;
-    text-align: center;
-    padding: 10px 0;
-}
-
-.info-img img {
-    width: 80%;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-}
-
-.info-left,
-.info-right {
-    width: 40%;
-    // background-color: aquamarine;
-    // float: left;
-    padding: 10px 20px;
-}
-
-.info-left-list {
-
-}
-
-.info-left-item {
-    padding: 4px 0;
-    list-style-type: none;
-}
-
-.top-right {
-    width: 35%;
-    // float: left;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.top-notifi,
-.top-plan {
-    background-color: #fff;
-    // margin-bottom: 20px;
-    border-radius: 4px;
-    padding: 16px;
-    flex-basis: 50%;
-}
-
-.navbar-list {
-    display: flex;
-}
-
-.navbar-item {
-    background-color: #fff;
-    list-style-type: none;
-    margin: 20px 20px 0 0;
-    text-align: center;
-    border-radius: 4px;
-    flex-basis: calc(100%/6);
-    line-height: 150px;
-}
-
-.navbar-link {
-    text-decoration: none;
-    color: #666;
-}
-
-.navbar-link:hover {
+.header__right-link:hover {
     color: #1DA1F2;
 }
 
-// Bottom
-.bottom {
-    margin-top: 20px;
-    display: flex;
-    gap: 20px;
+.header__right-img img {
+    width: 30px;
+    border-radius: 50%;
 }
 
-.bottom-left,
-.bottom-right {
+.header__right-account {
+    margin-left: 12px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.header-icon {
+    height: 16px;
+}
+
+.icon-m-right {
+    margin-right: 10px;
+}
+
+// Box account
+#box-account {
+    width: 180px;
     background-color: #fff;
-    flex-basis: 65%;
-    padding: 10px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    position: absolute;
+    right: 16px;
+    display: none;
     border-radius: 4px;
 }
 
-.bottom-right {
-    margin: 0 20px;
-    flex-basis: 35%;
+.account-item {
+    list-style-type: none;
 }
 
-.bottom-title {
-    border-bottom: 2px solid #afafaf;
-    padding: 6px 0;
-    font-size: 18px;
-    color: #0066cb;
-}
-
-// Dùng chung
-.clear {
-    clear: both;
-}
-
-.detail-link {
+.account-link {
+    display: block;
     text-decoration: none;
-    color: #1da1f2;
+    color: #666;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.account-link:hover {
+    background-color: #d6d6d6;
+    color: #667580;
+    cursor: pointer;
 }

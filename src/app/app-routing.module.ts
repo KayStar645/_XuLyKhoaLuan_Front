@@ -1,3 +1,4 @@
+import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'admin-main', component: AdminMainComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' },
 ];
 
