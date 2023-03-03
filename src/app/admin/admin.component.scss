@@ -16,6 +16,11 @@
     border-bottom: 1px solid #ccc;
     box-shadow: 0 4px 4px #ccc;
     display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
 }
 
 .header__left {
