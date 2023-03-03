@@ -7,7 +7,8 @@
 // Header
 
 .container {
-    width: 1140px;
+    // width: 1140px;
+    width: 80%;
     margin: 0 auto;
     color: #666;
 }
@@ -16,10 +17,12 @@
     height: 60px;
     border-bottom: 1px solid #ccc;
     box-shadow: 0 4px 4px #ccc;
+    display: flex;
 }
 
 .header__left {
-    width: 60%;
+    // width: 60%;
+    flex-basis: 60%;
     height: 60px;
     float: left;
     position: relative;
@@ -32,8 +35,8 @@
 }
 
 .header__right {
-    width: 40%;
-    float: left;
+    flex-basis: 40%;
+    margin-right: 4px;
 }
 
 .header__right-list {
@@ -83,6 +86,7 @@
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid #ddd;
+    color: #0066cb;
 }
 
 .info-content {
@@ -105,7 +109,7 @@
 .info-right {
     width: 40%;
     // background-color: aquamarine;
-    float: left;
+    // float: left;
     padding: 10px 20px;
 }
 
@@ -120,7 +124,7 @@
 
 .top-right {
     width: 35%;
-    float: left;
+    // float: left;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -142,17 +146,48 @@
 .navbar-item {
     background-color: #fff;
     list-style-type: none;
-    line-height: 150px;
     margin: 20px 20px 0 0;
     text-align: center;
     border-radius: 4px;
-    flex-basis: calc(100%/5);
+    flex-basis: calc(100%/6);
+    line-height: 150px;
 }
 
 .navbar-link {
     text-decoration: none;
+    color: #666;
 }
 
+.navbar-link:hover {
+    color: #1DA1F2;
+}
+
+// Bottom
+.bottom {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.bottom-left,
+.bottom-right {
+    background-color: #fff;
+    flex-basis: 65%;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.bottom-right {
+    margin: 0 20px;
+    flex-basis: 35%;
+}
+
+.bottom-title {
+    border-bottom: 2px solid #afafaf;
+    padding: 6px 0;
+    font-size: 18px;
+    color: #0066cb;
+}
 
 // Dùng chung
 .clear {

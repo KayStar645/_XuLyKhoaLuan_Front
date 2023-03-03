@@ -29,6 +29,7 @@
                             <div class="info-img">
                                 <img *ngIf="data?.gioiTinh == 'Nữ'" src="../../assets/Images/avatar-nu.jpg" alt="Avatar" />
                                 <img *ngIf="data?.gioiTinh == 'Nam'" src="../../assets/Images/avatar-nam.jpeg" alt="Avatar" />
+                                <br />
                                 <a href="" class="detail-link">Xem chi tiết</a>
                             </div>
                             <div class="info-left">
@@ -44,7 +45,6 @@
                                 <li class="info-left-item">Email: <b>{{ data?.email }}</b></li>
                                 <li class="info-left-item">Số điện thoại: <b>{{ data?.sdt }}</b></li>
                             </div>
-                            <div class="clear"></div>
                         </div>
                     </div>
                     <div class="top-right">
@@ -67,9 +67,19 @@
                             Thông báo
                         </a>
                     </li>
-                    <li class="navbar-item">
+                    <!-- <li class="navbar-item">
                         <a href="" class="navbar-link">
                             Kế hoạch
+                        </a>
+                    </li> -->
+                    <li class="navbar-item">
+                        <a href="" class="navbar-link">
+                            Phân công
+                        </a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="" class="navbar-link">
+                            Hội đồng
                         </a>
                     </li>
                     <li class="navbar-item">
@@ -87,7 +97,32 @@
                             Sinh viên
                         </a>
                     </li>
+                    <li class="navbar-item">
+                        <a href="" class="navbar-link">
+                            Quản lý chung
+                        </a>
+                    </li>
                 </ul>
+
+                <div class="bottom">
+                    <div class="bottom-left">
+                        <h3 class="bottom-title">Kế hoạch thực hiện</h3>
+                        <!-- <div class="bottom-plan">
+                            Kế hoạch
+                            <br />
+                            <a href="" class="detail-link">Xem chi tiết</a>
+                        </div> -->
+                        
+                    </div>
+                    <div class="bottom-right">
+                        <h3 class="bottom-title">Thông báo</h3>
+                        <!-- <div class="bottom-notifi">
+                            Thông báo
+                            <br />
+                            <a href="" class="detail-link">Xem chi tiết</a>
+                        </div> -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
