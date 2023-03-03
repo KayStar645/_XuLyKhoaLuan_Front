@@ -22,6 +22,11 @@ export class AuthService {
   // }
 
   public logIn(user: User, role: string) {
+
+    localStorage.setItem('Id', user.Id)
+    localStorage.setItem('Password', user.Password)
+
+
     var login;
     if(role == 'Admin') {
       login = this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInMinistry`, user);

@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -14,6 +14,12 @@ import { GiaoVu } from '../models/GiaoVu.model';
 export class giaoVuService {
     private apiUrl = environment.api;
     private giaoVus!: BehaviorSubject<GiaoVu>;
+    private httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // Authorization: 'my-auth-token'
+      }),
+    };
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -27,6 +33,10 @@ export class giaoVuService {
       return this.http.get<GiaoVu>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${id}`);
     }
 
+    getById2(id: string):Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${id}`, this.httpOptions);
+    }
+
     // Chạy được
     add(giaoVu: GiaoVu): Observable<any> {
       return this.http.post<GiaoVu>(`${this.apiUrl}/api/Giaovus`, giaoVu);
@@ -34,7 +44,7 @@ export class giaoVuService {
 
     // Chạy được
     update(giaoVu: GiaoVu): Observable<GiaoVu> {
-      return this.http.put<GiaoVu>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${giaoVu.MaGV}`, giaoVu);
+      return this.http.put<GiaoVu>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${giaoVu.maGv}`, giaoVu);
     }
 
     // Chạy được

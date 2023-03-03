@@ -1,3 +1,49 @@
 <div *ngIf="isLoggedIn$ | async as isLoggedIn">
-    This is Admin    
+    <div>
+        <table>
+            <tr>
+                <th>Mã giảng viên</th>
+                <th>Tên giảng viên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Mã khoa</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>{{ data.maGv }}</td>
+                <td>{{ data.ngaySinh }}</td>
+                <td>{{ data.gioiTinh }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.sdt }}</td>
+                <td>{{ data.maKhoa }}</td>
+            </tr>
+        </table>
+    </div>
+    <button (click)="onClick1()">Click me!</button>
+
+    <div>
+        <table>
+            <tr>
+                <th>Mã giảng viên</th>
+                <th>Tên giảng viên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Mã khoa</th>
+            </tr>
+            <tr *ngFor="let item of list">
+                <td>1</td>
+                <td>{{ item.tenGv }}</td>
+                <td>{{ item.ngaySinh }}</td>
+                <td>{{ item.gioiTinh }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.sdt }}</td>
+                <td>{{ item.maKhoa }}</td>
+            </tr>
+        </table>
+    </div>
+    <button (click)="onClick()">Click me Array!</button>
 </div>
