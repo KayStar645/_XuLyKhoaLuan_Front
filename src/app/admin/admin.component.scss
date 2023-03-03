@@ -142,12 +142,11 @@
 .navbar-item {
     background-color: #fff;
     list-style-type: none;
-    line-height: 120px;
-    width: 150px;
-    height: 120px;
+    line-height: 150px;
     margin: 20px 20px 0 0;
     text-align: center;
     border-radius: 4px;
+    flex-basis: calc(100%/5);
 }
 
 .navbar-link {
