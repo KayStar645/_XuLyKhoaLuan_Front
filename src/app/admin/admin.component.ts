@@ -1,7 +1,7 @@
 import { GiaoVu } from './../models/GiaoVu.model';
 import { giaoVuService } from './../services/giaoVu.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth/auth.service';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
+  title = 'Quản lý';
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data!: GiaoVu;
   countTB = 0;
@@ -30,8 +31,8 @@ export class AdminComponent implements OnInit {
     }
     else {
       this.isLoggedIn$ = of(true);
-      this.router.navigate(['/']);
     }
+    this.router.navigate(['/admin', 'admin-main']);
 
     // Get dữ liệu của giáo vụ
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
@@ -47,16 +48,18 @@ export class AdminComponent implements OnInit {
                            this.data.ngayNhanViec.substring(0, 4);
       }
     });
-    this.router.navigate(['/admin-main']);
   }
 
   clickAccount() {
-    const form_login = this.elementRef.nativeElement.querySelector('#box-account');
-    if(form_login.style.display == "none") {
-      form_login.style.display = "block";
+    const form_logout = this.elementRef.nativeElement.querySelector('#box-account');
+    const form_logout2 = this.elementRef.nativeElement.querySelector('#box-body');
+    if(!form_logout.classList.contains("block")) {
+      form_logout.classList.add('block');
+      form_logout2.classList.add('block');
     }
     else {
-      form_login.style.display = "none";
+      form_logout.classList.remove('block');
+      form_logout2.classList.remove('block');
     }
   }
 

@@ -17,6 +17,8 @@ import { Observable } from 'rxjs/internal/Observable';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  title = 'Đăng nhập';
+
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   role!: string;
   loginForm: FormGroup;
@@ -35,14 +37,16 @@ export class LoginComponent implements OnInit {
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if(this.isLoggedIn$) {
       if(localStorage.getItem('role') === "Admin") {
-        // this.router.navigate(['/admin']);
-        this.router.navigate(['/']);
+        this.router.navigate(['/admin']);
       }
       else if (localStorage.getItem('role') === "Teacher") {
         this.router.navigate(['/home']);
       }
       else if(localStorage.getItem('role') === "Studnet") {
         this.router.navigate(['/dashboard']);
+      }
+      else {
+        this.router.navigate(['/login']);
       }
     }
   }
@@ -71,18 +75,25 @@ export class LoginComponent implements OnInit {
   logIn() {
     var user = new User(this.loginForm.value["username"], this.loginForm.value["password"]);
 
-    if(this.authService.logIn(user, this.role)) {
-      // console.log("Xử lý lỗi!");
-      if(this.role === "Admin") {
-        // this.router.navigate(['/admin']);
-        this.router.navigate(['/']);
+    this.authService.logIn(user, this.role).pipe()
+    .subscribe({
+      next: (data) => {
+      },
+      error: (err) => {
+        localStorage.setItem('token', err.error.text);
+        localStorage.setItem('Id', user.Id);
+        localStorage.setItem('role', this.role);
+        if(this.role === "Admin") {
+          this.router.navigate(['/admin']);
+          // window.location.href = window.location.origin + '/admin';
+        }
+        else if (this.role === "Teacher") {
+          this.router.navigate(['/home']);
+        }
+        else if(this.role === "Student") {
+          this.router.navigate(['/dashboard']);
+        }
       }
-      else if (this.role === "Teacher") {
-        this.router.navigate(['/home']);
-      }
-      else if(this.role === "Studnet") {
-        this.router.navigate(['/dashboard']);
-      }
-    }
+    });
   }
 }

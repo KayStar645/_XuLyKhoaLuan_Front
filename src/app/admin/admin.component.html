@@ -19,7 +19,7 @@
                         </a>
                     </li>
                     <li class="header__right-item">
-                        <a  (click)="clickAccount()" class="header__right-link">
+                        <a class="header__right-link" (click)="clickAccount()">
                             <div class="header__right-img">
                                 <img *ngIf="data?.gioiTinh == 'Nữ'" src="../../assets/Images/avatar-nu.jpg" alt="Avatar" />
                                 <img *ngIf="data?.gioiTinh == 'Nam'" src="../../assets/Images/avatar-nam.jpeg" alt="Avatar" />
@@ -29,6 +29,7 @@
                             <i class="fa-solid fa-caret-down"></i>
                             </div>
                         </a>
+                        <div id="box-body" (click)="clickAccount()"></div>
                         <div id="box-account">
                             <ul class="account-list">
                                 <li class="account-item">
@@ -53,5 +54,6 @@
             </div>
         </div>
     </div>
-    <app-admin-main></app-admin-main>
+    <!-- <app-admin-main></app-admin-main> -->
+    <router-outlet></router-outlet>
 </div>

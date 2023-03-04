@@ -2,9 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/User.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root',
@@ -16,61 +20,35 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // Chạy được
-  // add(giaoVu: GiaoVu): Observable<GiaoVu> {
-  //   return this.http.post<GiaoVu>(`${this.apiUrl}/api/Giaovus`, giaoVu);
+  // login(user: User): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/api/Accounts/SigInMinistry`, user, httpOptions);
   // }
 
   public logIn(user: User, role: string) {
-
     localStorage.setItem('Id', user.Id);
-    // localStorage.setItem('Password', user.Password)
+    localStorage.setItem('role', role);
 
-
-    var login;
     if(role == 'Admin') {
-      login = this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInMinistry`, user);
+      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInMinistry`, user, httpOptions);
     }
     else if(role == 'Teacher') {
-      login = this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInTeacher`, user);
+      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInTeacher`, user, httpOptions);
     } else {
-      login = this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInStudent`, user);
+      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInStudent`, user, httpOptions);
     }
-
-    localStorage.setItem('role', role);
-    
-    login.subscribe(
-      (user) => {
-
-      },
-      (error) => {
-        // console.log(error.error.text);
-        localStorage.setItem('token', error.error.text)
-      }
-    );
-
-    if(this.isLoggedIn()) {
-      if(role === "Admin") {
-        this.router.navigate(['/admin']);
-      }
-      else if (role === "Teacher") {
-        this.router.navigate(['/home']);
-      }
-      else if(role === "Studnet") {
-        this.router.navigate(['/dashboard']);
-      }
-    }
-
-    return this.isLoggedIn();
   }
 
   public logOut() {
+    window.location.href = window.location.origin + '/login';
+    
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('Id');
 
     this.loggedIn.next(false);
-    this.router.navigate(['/login']);
+
+
+    //this.router.navigate(['/login']); // Sai chỗ này
   }
 
   public isLoggedIn(): Observable<boolean> {

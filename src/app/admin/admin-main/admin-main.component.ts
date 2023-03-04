@@ -30,7 +30,6 @@ export class AdminMainComponent implements OnInit {
     }
     else {
       this.isLoggedIn$ = of(true);
-      this.router.navigate(['/']);
     }
 
     // Get dữ liệu của giáo vụ

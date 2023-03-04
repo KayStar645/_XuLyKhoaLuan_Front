@@ -89,6 +89,16 @@
 }
 
 // Box account
+#box-body {
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+}
+
 #box-account {
     width: 180px;
     background-color: #fff;
@@ -96,8 +106,8 @@
     border-bottom: none;
     position: absolute;
     right: 16px;
-    display: none;
     border-radius: 4px;
+    display: none;
 }
 
 .account-item {
@@ -116,4 +126,8 @@
     background-color: #d6d6d6;
     color: #667580;
     cursor: pointer;
+}
+
+.block {
+    display: block !important;
 }
