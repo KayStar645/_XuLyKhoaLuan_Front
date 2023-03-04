@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { GiaoVu } from 'src/app/models/GiaoVu.model';
 import { giaoVuService } from 'src/app/services/giaoVu.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -19,9 +20,11 @@ export class AdminMainComponent implements OnInit {
   countTB = 0;
   countKH = 0;
   constructor(private authService: AuthService, private router: Router,
-    private giaoVuService: giaoVuService, private elementRef: ElementRef) {}
+    private giaoVuService: giaoVuService, private titleService: Title) {}
 
   public ngOnInit(): void {
+    this.titleService.setTitle('Quản lý');
+
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if(!(this.isLoggedIn$ && localStorage.getItem('role') == "Admin")) {
