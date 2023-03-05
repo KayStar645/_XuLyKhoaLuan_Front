@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DeTai } from '../models/DeTai.model';
 import { GiangVien } from '../models/GiangVien.model';
-import { deTaiService } from '../services/DeTai.service';
+import { deTaiService } from '../services/deTai.service';
 
 @Component({
   selector: 'app-test',
@@ -30,7 +30,7 @@ export class TestComponent implements OnInit {
 
   Add() {
     var detai = new DeTai();
-    detai.maDT = 'DT001';
+    detai.maDT = 'DT004';
     detai.slMax = 3;
     detai.slMin = 2;
     detai.tenDT = 'Nghiên cứu ứng dụng Android';
@@ -53,8 +53,9 @@ export class TestComponent implements OnInit {
 
   Update() {
     var detai = new DeTai();
-    detai.maDT = 'DT001';
-    detai.tenDT = 'Nghiên cứu Java'
+    detai.maDT = 'DT004';
+    detai.tenDT = 'Nghiên cứu Java';
+    detai.tomTat = 'Tìm hiểu các chức năng';
 
     this.deTaiService.update(detai).subscribe(
       (success) => {
@@ -69,7 +70,7 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.deTaiService.delete('DT001').subscribe(data => {
+    this.deTaiService.delete('DT004').subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });
