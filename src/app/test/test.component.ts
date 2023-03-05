@@ -1,6 +1,7 @@
-import { giaoVuService } from './../services/giaoVu.service';
 import { Component, OnInit } from '@angular/core';
-import { GiaoVu } from '../models/GiaoVu.model';
+import { DeTai } from '../models/DeTai.model';
+import { GiangVien } from '../models/GiangVien.model';
+import { deTaiService } from '../services/DeTai.service';
 
 @Component({
   selector: 'app-test',
@@ -8,39 +9,37 @@ import { GiaoVu } from '../models/GiaoVu.model';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private giaoVuService: giaoVuService) { }
+  constructor(private deTaiService: deTaiService) { }
 
   ngOnInit(): void {
   }
 
   getAll() {
-    this.giaoVuService.getAll().subscribe(data => {
+    this.deTaiService.getAll().subscribe(data => {
       console.log("Get all: ");
       console.log(data);
     });
   }
 
   getById() {
-    this.giaoVuService.getById('GV00001').subscribe(data => {
-      console.log("Get by ID GV00001: ");
+    this.deTaiService.getById('DT001').subscribe(data => {
+      console.log("Get by ID DT001: ");
       console.log(data);
     });
   }
 
   Add() {
-    var giaoVu = new GiaoVu();
-    giaoVu.maGv = 'GV00002';
-    giaoVu.tenGv = 'Trần Cao Lãnh';
-    giaoVu.gioiTinh = 'Nam';
-    giaoVu.ngaySinh = '1995-03-10';
-    giaoVu.ngayNhanViec = '2020-10-05';
-    giaoVu.email = 'lanhtc@hufi.edu.vn';
-    giaoVu.sdt = '0384612484';
-    giaoVu.maKhoa = 'CNTT';
+    var detai = new DeTai();
+    detai.maDT = 'DT001';
+    detai.slMax = 3;
+    detai.slMin = 2;
+    detai.tenDT = 'Nghiên cứu ứng dụng Android';
+    detai.tomTat = 'Tìm hiểu các chức năng'
+    detai.trangThai = true;
 
-    console.log(giaoVu);
+    console.log(detai);
 
-    this.giaoVuService.add(giaoVu).subscribe(
+    this.deTaiService.add(detai).subscribe(
       (success) => {
         console.log("Thêm oke!")
         console.log(success);
@@ -53,12 +52,11 @@ export class TestComponent implements OnInit {
   }
 
   Update() {
-    var giaoVu = new GiaoVu();
-    giaoVu.maGv = 'GV00002';
-    giaoVu.tenGv = 'Trần Cao Bằng';
-    giaoVu.ngaySinh = '1995-10-22';
+    var detai = new DeTai();
+    detai.maDT = 'DT001';
+    detai.tenDT = 'Nghiên cứu Java'
 
-    this.giaoVuService.update(giaoVu).subscribe(
+    this.deTaiService.update(detai).subscribe(
       (success) => {
         console.log("Upload oke!");
         console.log(success);
@@ -71,7 +69,7 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.giaoVuService.delete('GV00002').subscribe(data => {
+    this.deTaiService.delete('DT001').subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });

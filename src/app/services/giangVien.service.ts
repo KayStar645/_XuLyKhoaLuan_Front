@@ -1,13 +1,11 @@
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError } from 'rxjs/internal/operators/catchError';
 import { environment } from 'src/environments/environment';
 import { GiangVien } from '../models/GiangVien.model';
-import { GiaoVu } from '../models/GiaoVu.model';
+import { shareService } from './../services/share.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,43 +13,28 @@ import { GiaoVu } from '../models/GiaoVu.model';
 export class giangVienService {
     private apiUrl = environment.api;
     private giangViens!: BehaviorSubject<GiangVien>;
-    private httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        // Authorization: 'my-auth-token'
-      }),
-    };
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router,
+      private shareService: shareService) {}
 
-    // Chạy được
+    //Được
     getAll(): Observable<GiangVien[]> {
-      return this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens`);
+      return this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens`, this.shareService.httpOptions);
     }
 
-    // Chạy được
     getById(id: string):Observable<GiangVien> {
-      return this.http.get<GiangVien>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${id}`);
+      return this.http.get<GiangVien>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${id}`, this.shareService.httpOptions);
     }
 
-    getById2(id: string):Observable<any> {
-      return this.http.get<any>(`${this.apiUrl}/api/GiangVien/MaGV?MaGV=${id}`, this.httpOptions);
+    add(giangVien: GiangVien): Observable<any> {
+      return this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, this.shareService.httpOptions);
     }
 
-    // Chạy được
-    add(GiangVien: GiangVien): Observable<any> {
-      return this.http.post<GiangVien>(`${this.apiUrl}/api/Giaovus`, GiangVien);
+    update(giangVien: GiangVien): Observable<any> {
+      return this.http.put<any>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${giangVien.maGv}`, giangVien, this.shareService.httpOptions);
     }
 
-    // Chạy được
-    update(GiangVien: GiangVien): Observable<GiangVien> {
-      return this.http.put<GiangVien>(`${this.apiUrl}/api/GiangVien/MaGV?MaGV=${GiangVien.maGv}`, GiangVien);
-    }
-
-    // Chạy được
     delete(maGV: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/GiangVien/MaGV?MaGV=${maGV}`);
+      return this.http.delete(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${maGV}`, this.shareService.httpOptions);
     }
-
-    // Các nghiệp vụ khác nếu có
 }
