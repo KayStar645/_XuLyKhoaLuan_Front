@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-danhsachsinhvien',
-  templateUrl: './danhsachsinhvien.component.html',
-  styleUrls: ['./danhsachsinhvien.component.scss']
+  selector: 'app-sinhvien',
+  templateUrl: './sinhvien.component.html',
+  styleUrls: ['./sinhvien.component.scss']
 })
-export class DanhsachsinhvienComponent implements OnInit {
+export class SinhvienComponent implements OnInit {
 
   constructor(private titleService: Title) { }
 

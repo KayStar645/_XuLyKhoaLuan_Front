@@ -10,15 +10,16 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { ThongbaoComponent } from './admin/thongbao/thongbao.component';
-import { DanhsachsinhvienComponent } from './admin/danhsachsinhvien/danhsachsinhvien.component';
-import { DanhsachgiangvienComponent } from './admin/danhsachgiangvien/danhsachgiangvien.component';
-import { DanhsachdetaiComponent } from './admin/danhsachdetai/danhsachdetai.component';
+import { SinhvienComponent } from './admin/sinhvien/sinhvien.component';
+import { DetaiComponent } from './admin/detai/detai.component';
 import { KehoachComponent } from './admin/kehoach/kehoach.component';
 import { HoidongComponent } from './admin/hoidong/hoidong.component';
 import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 import { PhancongComponent } from './admin/phancong/phancong.component';
 import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component';
 import { TestComponent } from './test/test.component';
+import { GiangvienComponent } from './admin/giangvien/giangvien.component';
+import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
 
 @NgModule({
   declarations: [
@@ -27,16 +28,16 @@ import { TestComponent } from './test/test.component';
 
     AdminComponent, 
     ThongbaoComponent,
-    DanhsachsinhvienComponent, 
-    DanhsachgiangvienComponent, 
-    DanhsachdetaiComponent, 
+    SinhvienComponent, 
+    GiangvienComponent,
+    DetaiComponent, 
     KehoachComponent, 
     HoidongComponent, 
     AdminMainComponent,
 
     HomeComponent, 
 
-    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, 
+    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, 
   ],
 
   imports: [

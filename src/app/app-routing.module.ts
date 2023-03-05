@@ -1,6 +1,6 @@
 import { ThongbaoComponent } from './admin/thongbao/thongbao.component';
 import { KehoachComponent } from './admin/kehoach/kehoach.component';
-import { DanhsachdetaiComponent } from './admin/danhsachdetai/danhsachdetai.component';
+import { DetaiComponent } from './admin/detai/detai.component';
 import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -9,11 +9,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
-import { DanhsachgiangvienComponent } from './admin/danhsachgiangvien/danhsachgiangvien.component';
-import { DanhsachsinhvienComponent } from './admin/danhsachsinhvien/danhsachsinhvien.component';
+import { SinhvienComponent } from './admin/sinhvien/sinhvien.component';
 import { HoidongComponent } from './admin/hoidong/hoidong.component';
 import { PhancongComponent } from './admin/phancong/phancong.component';
 import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component';
+import { GiangvienComponent } from './admin/giangvien/giangvien.component';
+import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,9 +28,15 @@ const routes: Routes = [
       { path: 'ke-hoach', component: KehoachComponent, /* canActivate: [AuthGuard] */},
       { path: 'phan-cong', component: PhancongComponent, /* canActivate: [AuthGuard] */},
       { path: 'hoi-dong', component: HoidongComponent, /* canActivate: [AuthGuard] */},
-      { path: 'danh-sach-de-tai', component: DanhsachdetaiComponent, /* canActivate: [AuthGuard] */},
-      { path: 'danh-sach-giang-vien', component: DanhsachgiangvienComponent, /* canActivate: [AuthGuard] */},
-      { path: 'danh-sach-sinh-vien', component: DanhsachsinhvienComponent, /* canActivate: [AuthGuard] */},
+      { path: 'de-tai', component: DetaiComponent, /* canActivate: [AuthGuard] */},
+      { 
+        component: GiangvienComponent,
+        path: 'giang-vien',
+        children: [
+          {path: 'danh-sach-giang-vien', component: DanhsachgiangvienComponent, /* canActivate: [AuthGuard] */},
+        ]
+      },
+      { path: 'sinh-vien', component: SinhvienComponent, /* canActivate: [AuthGuard] */},
       { path: 'quan-ly-chung', component: QuanlychungComponent, /* canActivate: [AuthGuard] */},
     ],
     canActivate: [AuthGuard] 
