@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
     else {
       this.isLoggedIn$ = of(true);
     }
-    this.router.navigate(['/admin', 'admin-main']);
+    // this.router.navigate(['/admin', 'admin-main']); -- Tạm thời tắt
 
     // Get dữ liệu của giáo vụ
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {

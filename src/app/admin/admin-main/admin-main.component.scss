@@ -1,17 +1,4 @@
-
-// Header
-.container {
-    width: 80%;
-    margin: 0 auto;
-    color: #666;
-}
-
 // Main
-.body {
-    background-color: #e7ecf0;
-    margin-top: 60px;
-}
-
 .main {
     padding: 20px 0;
 }
@@ -84,7 +71,7 @@
 }
 
 .top-notifi-count {
-    flex-basis: 70%;
+    flex-basis: 60%;
     padding: 16px;
 }
 
@@ -98,7 +85,7 @@
     margin: 20px 20px 0 0;
     text-align: center;
     border-radius: 4px;
-    flex-basis: calc(100%/6);
+    flex-basis: calc(100%/8);
 }
 
 .navbar-link {

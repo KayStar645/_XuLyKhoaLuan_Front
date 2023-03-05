@@ -2,18 +2,20 @@
     <div class="header">
         <div class="container">
             <div class="header__left">
-                <img src="../../assets/Images/sv_logo_dashboard.png" alt="Logo" />
+                <a routerLink="/admin/admin-main">
+                    <img src="../../assets/Images/sv_logo_dashboard.png" alt="Logo" />
+                </a>
             </div>
             <div class="header__right">
                 <ul class="header__right-list">
                     <li class="header__right-item">
-                        <a href="" class="header__right-link">
+                        <a routerLink="/admin/admin-main" class="header__right-link">
                             <i class="icon-m-right fa-solid fa-house"></i>
                             Trang chủ
                         </a>
                     </li>
                     <li class="header__right-item">
-                        <a href="" class="header__right-link">
+                        <a routerLink="/admin/admin-main" class="header__right-link">
                             <i class="icon-m-right fa-regular fa-bell"></i>
                             Thông báo
                         </a>
@@ -54,6 +56,9 @@
             </div>
         </div>
     </div>
-    <!-- <app-admin-main></app-admin-main> -->
-    <router-outlet></router-outlet>
+    <div class="body">
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>
