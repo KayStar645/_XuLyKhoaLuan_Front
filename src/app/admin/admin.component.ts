@@ -1,5 +1,6 @@
 import { GiaoVu } from './../models/GiaoVu.model';
 import { giaoVuService } from './../services/giaoVu.service';
+import { shareService } from './../services/share.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -20,7 +21,8 @@ export class AdminComponent implements OnInit {
   countTB = 0;
   countKH = 0;
   constructor(private authService: AuthService, private router: Router,
-    private giaoVuService: giaoVuService, private elementRef: ElementRef) {}
+    private giaoVuService: giaoVuService, private elementRef: ElementRef,
+    private shareService: shareService) {}
 
   public ngOnInit(): void {
     // Kiểm tra đăng nhập để điều hướng
@@ -37,16 +39,8 @@ export class AdminComponent implements OnInit {
     // Get dữ liệu của giáo vụ
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
       this.data = data;
-      if(this.data.ngaySinh != null) {
-        this.data.ngaySinh = this.data.ngaySinh.substring(8, 10) + "/" +
-                           this.data.ngaySinh.substring(5, 7) + "/" +
-                           this.data.ngaySinh.substring(0, 4);
-      }
-      if(this.data.ngayNhanViec != null) {
-        this.data.ngayNhanViec = this.data.ngayNhanViec.substring(8, 10) + "/" +
-                           this.data.ngayNhanViec.substring(5, 7) + "/" +
-                           this.data.ngayNhanViec.substring(0, 4);
-      }
+      this.data.ngaySinh = this.shareService.dateFormat(this.data.ngaySinh);
+      this.data.ngayNhanViec = this.shareService.dateFormat(this.data.ngayNhanViec);
     });
   }
 

@@ -1,3 +1,4 @@
+import { shareService } from './../share.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -6,9 +7,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/User.model';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+// const httpOptions = {
+//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+// };
 
 @Injectable({
   providedIn: 'root',
@@ -18,23 +19,20 @@ export class AuthService {
   private apiUrl = environment.api;
   
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  // login(user: User): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/api/Accounts/SigInMinistry`, user, httpOptions);
-  // }
+  constructor(private http: HttpClient, private router: Router,
+    private shareService: shareService) {}
 
   public logIn(user: User, role: string) {
     localStorage.setItem('Id', user.Id);
     localStorage.setItem('role', role);
 
     if(role == 'Admin') {
-      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInMinistry`, user, httpOptions);
+      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInMinistry`, user, this.shareService.httpOptions);
     }
     else if(role == 'Teacher') {
-      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInTeacher`, user, httpOptions);
+      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInTeacher`, user, this.shareService.httpOptions);
     } else {
-      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInStudent`, user, httpOptions);
+      return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInStudent`, user, this.shareService.httpOptions);
     }
   }
 

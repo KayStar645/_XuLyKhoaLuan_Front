@@ -18,6 +18,7 @@ import { HoidongComponent } from './admin/hoidong/hoidong.component';
 import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 import { PhancongComponent } from './admin/phancong/phancong.component';
 import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component'
 
     HomeComponent, 
 
-    DashboardComponent, PhancongComponent, QuanlychungComponent, 
+    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, 
   ],
 
   imports: [
