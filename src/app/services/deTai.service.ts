@@ -30,7 +30,7 @@ export class deTaiService {
       return this.http.post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions);
     }
 
-    //đang lỗi
+    //Tóm tắt không được để trống
     update(deTai: DeTai): Observable<any> {
       return this.http.put<any>(`${this.apiUrl}/api/Detais/maDT?maDT=${deTai.maDT}`, deTai, this.shareService.httpOptions);
     }

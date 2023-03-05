@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DeTai } from '../models/DeTai.model';
-import { GiangVien } from '../models/GiangVien.model';
-import { deTaiService } from '../services/DeTai.service';
+import { DotDk } from '../models/DotDk.model';
+import { Khoa } from '../models/Khoa.model';
+import { khoaService } from '../services/khoa.service';
 
 @Component({
   selector: 'app-test',
@@ -9,37 +9,36 @@ import { deTaiService } from '../services/DeTai.service';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private deTaiService: deTaiService) { }
+  constructor(private khoaService: khoaService) { }
 
   ngOnInit(): void {
   }
 
   getAll() {
-    this.deTaiService.getAll().subscribe(data => {
+    this.khoaService.getAll().subscribe(data => {
       console.log("Get all: ");
       console.log(data);
     });
   }
 
   getById() {
-    this.deTaiService.getById('DT001').subscribe(data => {
-      console.log("Get by ID DT001: ");
+    this.khoaService.getById('CNTT').subscribe(data => {
+      console.log("Thông tin khoa CNTT: ");
       console.log(data);
     });
   }
 
   Add() {
-    var detai = new DeTai();
-    detai.maDT = 'DT001';
-    detai.slMax = 3;
-    detai.slMin = 2;
-    detai.tenDT = 'Nghiên cứu ứng dụng Android';
-    detai.tomTat = 'Tìm hiểu các chức năng'
-    detai.trangThai = true;
+    var khoa = new Khoa();
+    khoa.maKhoa = "PTDL";
+    khoa.email = "ptdl@gmail.com";
+    khoa.phong = "B103";
+    khoa.sdt = "035261";
+    khoa.tenKhoa = "Phân tích dữ liệu";
 
-    console.log(detai);
+    console.log(khoa);
 
-    this.deTaiService.add(detai).subscribe(
+    this.khoaService.add(khoa).subscribe(
       (success) => {
         console.log("Thêm oke!")
         console.log(success);
@@ -52,11 +51,14 @@ export class TestComponent implements OnInit {
   }
 
   Update() {
-    var detai = new DeTai();
-    detai.maDT = 'DT001';
-    detai.tenDT = 'Nghiên cứu Java'
+    var khoa = new Khoa();
+    khoa.maKhoa = "PTDL";
+    khoa.phong = "B109";
+    khoa.sdt = "035261";
+    khoa.tenKhoa = "Phân tích";
+    
 
-    this.deTaiService.update(detai).subscribe(
+    this.khoaService.update(khoa).subscribe(
       (success) => {
         console.log("Upload oke!");
         console.log(success);
@@ -69,7 +71,7 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.deTaiService.delete('DT001').subscribe(data => {
+    this.khoaService.delete('PTDL').subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });
