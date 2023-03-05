@@ -1,27 +1,47 @@
-<div id="container">
+<div id=container>
     <ul class="search-list">
         <li class="search-item">
-            <a routerLink="" class="search-link">Mặc đinh</a>
-        </li>
-        <li class="search-item">
-            <input type="text" placeholder="Tìm theo tên" />
-        </li>
-        <li class="search-item">
-            <select>
+            <select class="search-select" id="search-select">
                 <option>Tất cả</option>
                 <option>Kỹ thuật phần mềm</option>
                 <option>Hệ thống thông tin</option>
                 <option>Khoa học phân tích dữ liệu</option>
                 <option>Mạng máy tính</option>
+            </select>
+        </li>
+        <li class="search-item">
+            <input type="text" placeholder="Tìm theo tên..." />
+        </li>
+        <li class="search-item">
+            <select class="search-select" id="sort-select">
+                <option>Tăng theo mã</option>
+                <option>Giảm theo mã</option>
+                <option>Tăng theo tên</option>
+                <option>Giảm theo tên</option>
+                <option>Tăng theo bộ môn</option>
+                <option>Giảm theo bộ môn</option>
                 </select>
         </li>
         <li class="search-item">
-            <select>
-                <option>Sắp xếp theo mã</option>
-                <option>Sắp xếp theo tên</option>
-                <option>Sắp xếp theo bộ môn</option>
-                </select>
+            <button class="search-button" (click)="addGiangVien()">Thêm GV</button>
+            <button class="search-button" (click)="importGiangVien()">Import File</button>
+        </li>
+        <li class="search-item">
+            <button class="search-button" (click)="updateGiangVien()">Sửa</button>
+            <button class="search-button" (click)="deleteGiangVien()">Xóa</button>
         </li>
     </ul>
     <router-outlet></router-outlet>
+    
+    <div id="create" (click)="clickCreate()">
+        create
+    </div>
+    
+    <div id="update" (click)="clickUpdate()">
+        update
+    </div>
+
+    <div id="delete" (click)="clickDelete()">
+        delete
+    </div>
 </div>
