@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DotDk } from '../models/DotDk.model';
-import { Khoa } from '../models/Khoa.model';
-import { khoaService } from '../services/khoa.service';
+import { HuongDan } from '../models/HuongDan.model';
+import { VaiTro } from '../models/VaiTro.model';
+import { vaiTroService } from '../services/vaiTro.service';
 
 @Component({
   selector: 'app-test',
@@ -9,36 +9,33 @@ import { khoaService } from '../services/khoa.service';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private khoaService: khoaService) { }
+  constructor(private vaiTroService : vaiTroService) { }
 
   ngOnInit(): void {
   }
 
   getAll() {
-    this.khoaService.getAll().subscribe(data => {
+    this.vaiTroService.getAll().subscribe(data => {
       console.log("Get all: ");
       console.log(data);
     });
   }
 
   getById() {
-    this.khoaService.getById('CNTT').subscribe(data => {
-      console.log("Thông tin khoa CNTT: ");
+    this.vaiTroService.getById('VT001').subscribe(data => {
+      console.log("Thông tin hướng dẫn: ");
       console.log(data);
     });
   }
 
   Add() {
-    var khoa = new Khoa();
-    khoa.maKhoa = "PTDL";
-    khoa.email = "ptdl@gmail.com";
-    khoa.phong = "B103";
-    khoa.sdt = "035261";
-    khoa.tenKhoa = "Phân tích dữ liệu";
+    var vaitro = new VaiTro();
+    vaitro.maVt = 'VT003';
+    vaitro.tenVaiTro = 'Bình thường';
 
-    console.log(khoa);
+    console.log(vaitro);
 
-    this.khoaService.add(khoa).subscribe(
+    this.vaiTroService.add(vaitro).subscribe(
       (success) => {
         console.log("Thêm oke!")
         console.log(success);
@@ -51,14 +48,11 @@ export class TestComponent implements OnInit {
   }
 
   Update() {
-    var khoa = new Khoa();
-    khoa.maKhoa = "PTDL";
-    khoa.phong = "B109";
-    khoa.sdt = "035261";
-    khoa.tenKhoa = "Phân tích";
-    
+    var vaitro = new VaiTro();
+    vaitro.maVt = 'VT003';
+    vaitro.tenVaiTro = 'Bình 0 thường'
 
-    this.khoaService.update(khoa).subscribe(
+    this.vaiTroService.update(vaitro).subscribe(
       (success) => {
         console.log("Upload oke!");
         console.log(success);
@@ -71,7 +65,7 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.khoaService.delete('PTDL').subscribe(data => {
+    this.vaiTroService.delete('VT003').subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });

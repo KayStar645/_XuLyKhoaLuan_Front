@@ -4,9 +4,21 @@
 
 .table {
     width: 100%;
+    background-color: #fff;
 }
 
 .table th,
 .table td {
-    padding: 15px 30px;
+    padding: 15px 30px;    
 }
+
+.table tr {
+    color: #000;
+}
+
+.br-line:hover {
+    background-color: #1cadeb;
+    cursor: pointer;
+    color: #fff !important;
+}
+

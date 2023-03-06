@@ -17,7 +17,6 @@ export class deTaiService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    //Được
     getAll(): Observable<DeTai[]> {
       return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais`, this.shareService.httpOptions);
     }

@@ -17,7 +17,6 @@ export class giangVienService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    //Được
     getAll(): Observable<GiangVien[]> {
       return this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens`, this.shareService.httpOptions);
     }
