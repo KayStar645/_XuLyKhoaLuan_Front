@@ -7,13 +7,5 @@ export class HoiDong {
     public maBm!: string;
 
 
-    constructor(maHd: string, tenHd: string, ngayLap: string, ngayBaoVe: string
-        , diaDiem: string, maBm: string){
-        this.maHd = maHd;
-        this.tenHd = tenHd;
-        this.ngayLap = ngayLap;
-        this.ngayBaoVe = ngayBaoVe;
-        this.diaDiem = diaDiem;
-        this.maBm = maBm;
-    }
+    constructor(){}
 }

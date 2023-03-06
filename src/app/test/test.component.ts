@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DeTai } from '../models/DeTai.model';
-import { GiangVien } from '../models/GiangVien.model';
-import { deTaiService } from '../services/deTai.service';
+import { HuongDan } from '../models/HuongDan.model';
+import { VaiTro } from '../models/VaiTro.model';
+import { vaiTroService } from '../services/vaiTro.service';
 
 @Component({
   selector: 'app-test',
@@ -9,37 +9,33 @@ import { deTaiService } from '../services/deTai.service';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private deTaiService: deTaiService) { }
+  constructor(private vaiTroService : vaiTroService) { }
 
   ngOnInit(): void {
   }
 
   getAll() {
-    this.deTaiService.getAll().subscribe(data => {
+    this.vaiTroService.getAll().subscribe(data => {
       console.log("Get all: ");
       console.log(data);
     });
   }
 
   getById() {
-    this.deTaiService.getById('DT001').subscribe(data => {
-      console.log("Get by ID DT001: ");
+    this.vaiTroService.getById('VT001').subscribe(data => {
+      console.log("Thông tin hướng dẫn: ");
       console.log(data);
     });
   }
 
   Add() {
-    var detai = new DeTai();
-    detai.maDT = 'DT004';
-    detai.slMax = 3;
-    detai.slMin = 2;
-    detai.tenDT = 'Nghiên cứu ứng dụng Android';
-    detai.tomTat = 'Tìm hiểu các chức năng'
-    detai.trangThai = true;
+    var vaitro = new VaiTro();
+    vaitro.maVt = 'VT003';
+    vaitro.tenVaiTro = 'Bình thường';
 
-    console.log(detai);
+    console.log(vaitro);
 
-    this.deTaiService.add(detai).subscribe(
+    this.vaiTroService.add(vaitro).subscribe(
       (success) => {
         console.log("Thêm oke!")
         console.log(success);
@@ -52,12 +48,11 @@ export class TestComponent implements OnInit {
   }
 
   Update() {
-    var detai = new DeTai();
-    detai.maDT = 'DT004';
-    detai.tenDT = 'Nghiên cứu Java';
-    detai.tomTat = 'Tìm hiểu các chức năng';
+    var vaitro = new VaiTro();
+    vaitro.maVt = 'VT003';
+    vaitro.tenVaiTro = 'Bình 0 thường'
 
-    this.deTaiService.update(detai).subscribe(
+    this.vaiTroService.update(vaitro).subscribe(
       (success) => {
         console.log("Upload oke!");
         console.log(success);
@@ -70,7 +65,7 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.deTaiService.delete('DT004').subscribe(data => {
+    this.vaiTroService.delete('VT003').subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });
