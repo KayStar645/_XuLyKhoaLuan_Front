@@ -34,13 +34,11 @@ export class AdminComponent implements OnInit {
     else {
       this.isLoggedIn$ = of(true);
     }
-    // this.router.navigate(['/admin', 'admin-main']); -- Tạm thời tắt
+    this.router.navigate(['/admin', 'admin-main']); //-- Tạm thời tắt
 
     // Get dữ liệu của giáo vụ
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
       this.data = data;
-      this.data.ngaySinh = this.shareService.dateFormat(this.data.ngaySinh);
-      this.data.ngayNhanViec = this.shareService.dateFormat(this.data.ngayNhanViec);
     });
   }
 

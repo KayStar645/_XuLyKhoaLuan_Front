@@ -1,41 +1,32 @@
 <div id="container">
-    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-        <thead>
-            <tr>
-                <th>MGV</th>
-                <th>Họ và tên</th>
-                <th>Ngày sinh</th>
-                <th>Giới tính</th>
-                <th>Email</th>
-                <th>SĐT</th>
-                <th>Ngày nhận việc</th>
-                <th>Ngày nghĩ</th>
-                <th>Bộ môn công tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="br-line">
-                <td>GV00001</td>
-                <td>Nguyễn Thị Thanh Xuân</td>
-                <td>15/10/1999</td>
-                <td>Nữ</td>
-                <td>xuanntt@hufi.edu.vn</td>
-                <td>0395853756</td>
-                <td>01/01/2020</td>
-                <td></td>
-                <td>Kỹ thuật phần mềm</td>
-            </tr>
-            <tr class="br-line">
-                <td>GV00001</td>
-                <td>Nguyễn Thị Thanh Xuân</td>
-                <td>15/10/1999</td>
-                <td>Nữ</td>
-                <td>xuanntt@hufi.edu.vn</td>
-                <td>0395853756</td>
-                <td>01/01/2020</td>
-                <td></td>
-                <td>Kỹ thuật phần mềm</td>
-            </tr>
-        </tbody>
-    </table>    
+    <div>
+        <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+            <thead>
+                <tr>
+                    <th>MGV</th>
+                    <th>Họ và tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Giới tính</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Ngày nhận việc</th>
+                    <th>Ngày nghĩ</th>
+                    <th>Bộ môn công tác</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let gv of listGV">
+                <tr class="br-line" (dblclick)="clickLine($event)">
+                    <td>{{ gv.maGv }}</td>
+                    <td>{{ gv?.tenGv }}</td>
+                    <td>{{ dateFormat(gv.ngaySinh) }}</td>
+                    <td>{{ gv?.gioiTinh }}</td>
+                    <td>{{ gv?.email }}</td>
+                    <td>{{ gv?.sdt }}</td>
+                    <td>{{ dateFormat(gv.ngayNhanViec) }}</td>
+                    <td>{{ dateFormat(gv.ngayNghi) == null ? 'Hiện tại' : ''  }}</td>
+                    <td>{{ getTenKhoaById(gv.maBm) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>    
 </div>

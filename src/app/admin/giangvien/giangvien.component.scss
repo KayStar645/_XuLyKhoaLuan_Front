@@ -52,19 +52,19 @@
 #create,
 #update,
 #delete {
-    background-color: #1cadeb;
+    background-color: transparent;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    opacity: 0.2;
     display: none;
-    color: red;
+    color: #000;
 }
 
 #create {
-
+    // display: block;
+    // background-color: #16749d;
 }
 
 #update {
@@ -72,5 +72,75 @@
 }
 
 #delete {
+    
+}
 
+#CUD_header {
+
+}
+
+.CUD_box {
+    width: 850px;
+    height: 400px;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 50px;
+}
+
+.CUD_box-left,
+.CUD_box-right {
+    width: 45%;
+    float: left;
+    margin: 0 15px;
+    // border: 1px solid #000;
+}
+
+
+.input {
+    margin: 16px 0;
+}
+
+.label {
+    display: inline-block;
+    background-color: #e9ecef;
+    width: 30%;
+    padding: 6.5px 8px;
+    padding-left: 10px;
+}
+
+.text {
+    width: 70%;
+    height: 36px;
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    border-radius: 0 4px 4px 0;
+    background-color: #e8f0fe;
+}
+
+input.protect {
+    width: 30%;
+    outline: 1px solid #777;
+    border-radius: 0;
+    background-color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.label {
+    padding: 4px;
+}
+
+.text {
+
+}
+
+.CUD_box-right {
+    
 }

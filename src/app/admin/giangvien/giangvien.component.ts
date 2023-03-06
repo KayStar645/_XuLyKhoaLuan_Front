@@ -20,11 +20,14 @@ export class GiangvienComponent implements OnInit {
 
   clickCreate() {
     const create = this.elementRef.nativeElement.querySelector('#create');
-    if(!create.classList.contains("block")) {
+    const create_box = this.elementRef.nativeElement.querySelector('#create_box');
+    if(!create_box.classList.contains("block")) {
       create.classList.add('block');
+      create_box.classList.add('block');
     }
     else {
       create.classList.remove('block');
+      create_box.classList.remove('block');
     }
   }
 
