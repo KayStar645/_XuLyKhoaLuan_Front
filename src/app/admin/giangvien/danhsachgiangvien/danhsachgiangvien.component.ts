@@ -1,6 +1,7 @@
+import { GiangvienComponent } from './../giangvien.component';
 import { shareService } from './../../../services/share.service';
 import { giangVienService } from './../../../services/giangVien.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 
 @Component({
@@ -9,17 +10,17 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
   styleUrls: ['./danhsachgiangvien.component.scss']
 })
 export class DanhsachgiangvienComponent implements OnInit {
+  @Input() searchName = '';  
   listGV: GiangVien[] = [];
+  root: GiangVien[] = [];
   lineGV!: GiangVien;
   elementOld: any;
 
   constructor(private elementRef: ElementRef, private giangVienService: giangVienService,
-    private shareService: shareService) { }
+    private shareService: shareService,) { }
 
   ngOnInit(): void {
-    this.giangVienService.getAll().subscribe( data => {
-      this.listGV = data;
-    })
+    this.getAllGiangVien();
   }
 
   clickLine(event: any) {
@@ -43,16 +44,69 @@ export class DanhsachgiangvienComponent implements OnInit {
     }
   }
 
-  getTenKhoaById(maKhoa: string): string {
+  getAllGiangVien() {
+    this.giangVienService.getAll().subscribe( data => {
+      this.listGV = data;
+      this.root = data;
+    });
+  }
+
+  getGiangVienByMaBM(maBM: string) {
+    this.giangVienService.getByBoMon(maBM).subscribe( data => {
+      this.listGV = data;
+    });
+  }
+
+  sortGiangVien(sort: string) {
+    if(sort == "asc-id") {
+      this.listGV.sort((a, b) => a.maGv.localeCompare(b.maGv));
+    }
+    else if(sort == "desc-id") {
+      this.listGV.sort((a, b) => b.maGv.localeCompare(a.maGv));
+    }
+    else if(sort == "asc-name") {
+      this.listGV.sort((a, b) => a.tenGv.localeCompare(b.tenGv));
+    }
+    else if(sort == "desc-name") {
+      this.listGV.sort((a, b) => b.tenGv.localeCompare(a.tenGv));
+    }
+    else if(sort == "asc-subject") {
+      this.listGV.sort((a, b) => a.maBm.localeCompare(b.maBm));
+    }
+    else if(sort == "desc-subject") {
+      this.listGV.sort((a, b) => b.maBm.localeCompare(a.maBm));
+    }
+    else {
+      this.giangVienService.getAll().subscribe( data => {
+        this.listGV = data;
+      });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.searchName) {
+      this.filterItems();
+    }
+  }
+
+  filterItems() {
+    const searchName = this.searchName.trim().toLowerCase();
+    this.listGV = this.root.filter(
+      (item) => item.tenGv.toLowerCase().includes(searchName)
+    );
+  }
+
+
+  getTenBMById(maBM: string): string {
     // Gọi service khoa chỗ này
     // Tạm thời if else
-    if(maKhoa === 'KTPM') {
+    if(maBM === 'KTPM') {
       return "Kỹ thuật phần mềm";
     }
-    if(maKhoa === 'MMT') {
+    if(maBM === 'MMT') {
       return "Mạng máy tính";
     }
-    if(maKhoa === 'HTTT') {
+    if(maBM === 'HTTT') {
       return "Hệ thống thông tin";
     }
     return "Khoa học phân tích dữ liệu";

@@ -75,6 +75,7 @@ export class LoginComponent implements OnInit {
   logIn() {
     var user = new User(this.loginForm.value["username"], this.loginForm.value["password"]);
 
+    
     this.authService.logIn(user, this.role).pipe()
     .subscribe({
       next: (data) => {

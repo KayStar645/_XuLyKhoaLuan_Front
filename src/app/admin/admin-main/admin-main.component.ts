@@ -43,7 +43,7 @@ export class AdminMainComponent implements OnInit {
     });
   }
 
-  dateFormat(str: string): string {
+  dateFormat(str: any): string {
     return this.shareService.dateFormat(str);
   }
 }

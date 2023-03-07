@@ -1,3 +1,5 @@
+import { GiangVien } from 'src/app/models/GiangVien.model';
+import { giangVienService } from './../services/giangVien.service';
 import { Component, OnInit } from '@angular/core';
 import { HuongDan } from '../models/HuongDan.model';
 import { VaiTro } from '../models/VaiTro.model';
@@ -9,64 +11,26 @@ import { vaiTroService } from '../services/vaiTro.service';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private vaiTroService : vaiTroService) { }
+  constructor(private giangVienService : giangVienService) { }
 
   ngOnInit(): void {
   }
 
-  getAll() {
-    this.vaiTroService.getAll().subscribe(data => {
-      console.log("Get all: ");
-      console.log(data);
-    });
-  }
-
-  getById() {
-    this.vaiTroService.getById('VT001').subscribe(data => {
-      console.log("Thông tin hướng dẫn: ");
-      console.log(data);
-    });
-  }
-
   Add() {
-    var vaitro = new VaiTro();
-    vaitro.maVt = 'VT003';
-    vaitro.tenVaiTro = 'Bình thường';
+  const gv = new GiangVien();
+  gv.init('magv', 'tengv', '2000-01-01', 'Nam', '', '', '', '', '2020-01-01', '', 'HTTT');
+    
+    console.log(gv);
+    this.giangVienService.add(gv).subscribe(data => {
+      console.log(data);
+    });
 
-    console.log(vaitro);
 
-    this.vaiTroService.add(vaitro).subscribe(
-      (success) => {
-        console.log("Thêm oke!")
-        console.log(success);
-      },
-      (error) => {
-        console.log("Không oke rồi!")
-        console.log(error);
-      }
-    );
   }
 
-  Update() {
-    var vaitro = new VaiTro();
-    vaitro.maVt = 'VT003';
-    vaitro.tenVaiTro = 'Bình 0 thường'
-
-    this.vaiTroService.update(vaitro).subscribe(
-      (success) => {
-        console.log("Upload oke!");
-        console.log(success);
-      },
-      (error) => {
-        console.log("Upload thất bại rồi!");
-        console.log(error);
-      }
-    );
-  }
-
-  Delete() {
-    this.vaiTroService.delete('VT003').subscribe(data => {
-      console.log("Delete: ");
+  getByBomon() {
+    this.giangVienService.getByBoMon('VT001').subscribe(data => {
+      console.log("Thông tin hướng dẫn: ");
       console.log(data);
     });
   }
