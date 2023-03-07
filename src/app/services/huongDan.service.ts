@@ -21,7 +21,19 @@ export class huongDanService {
       return this.http.get<HuongDan[]>(`${this.apiUrl}/api/Huongdans`, this.shareService.httpOptions);
     }
 
+    getById(MaGV: string, MaDT: string):Observable<HuongDan> {
+      return this.http.get<HuongDan>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+    }
+
     add(huongDan: HuongDan): Observable<any> {
       return this.http.post(`${this.apiUrl}/api/Huongdans`, huongDan, this.shareService.httpOptions);
+    }
+
+    update(huongDan: HuongDan): Observable<any> {
+      return this.http.put<any>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`, huongDan, this.shareService.httpOptions);
+    }
+
+    delete(MaGV: string, MaDT: string): Observable<any> {
+      return this.http.delete(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
     }
 }

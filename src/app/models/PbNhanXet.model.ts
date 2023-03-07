@@ -6,6 +6,10 @@ export class PbNhanXet {
     public maDt!: string;
 
     constructor(id: number, thoiGian: string, noiDung: string, maGv: string, maDt: string){
-        
+        this.id = id;
+        this.thoiGian = thoiGian;
+        this.noiDung = noiDung;
+        this.maGv = maGv;
+        this.maDt = maDt;
     }
 }

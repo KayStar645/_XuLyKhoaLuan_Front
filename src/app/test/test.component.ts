@@ -1,41 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { HuongDan } from '../models/HuongDan.model';
-import { VaiTro } from '../models/VaiTro.model';
-import { vaiTroService } from '../services/vaiTro.service';
+import { ThamGiaHd } from '../models/ThamGiaHd.model';
+import { thamGiaHdService } from '../services/thamGiaHD.service';
 
 @Component({
   selector: 'app-test',
-  templateUrl: './test.component.html',
+  templateUrl: './test.component.html'
 })
 export class TestComponent implements OnInit {
 
-  constructor(private vaiTroService : vaiTroService) { }
+  constructor(private thamGiaHdService : thamGiaHdService) { }
 
   ngOnInit(): void {
   }
 
   getAll() {
-    this.vaiTroService.getAll().subscribe(data => {
+    this.thamGiaHdService.getAll().subscribe(data => {
       console.log("Get all: ");
       console.log(data);
     });
   }
 
   getById() {
-    this.vaiTroService.getById('VT001').subscribe(data => {
-      console.log("Thông tin hướng dẫn: ");
+    this.thamGiaHdService.getById('GV0001', 'HD001').subscribe(data => {
+      console.log("Thông tin sinh viên: ");
       console.log(data);
     });
   }
 
   Add() {
-    var vaitro = new VaiTro();
-    vaitro.maVt = 'VT003';
-    vaitro.tenVaiTro = 'Bình thường';
+    var thamGiaHD = new ThamGiaHd();
+    thamGiaHD.maGv = 'GV0002';
+    thamGiaHD.maHd = 'HD001';
+    thamGiaHD.maVt = 'VT002';
 
-    console.log(vaitro);
 
-    this.vaiTroService.add(vaitro).subscribe(
+    console.log(thamGiaHD);
+
+    this.thamGiaHdService.add(thamGiaHD).subscribe(
       (success) => {
         console.log("Thêm oke!")
         console.log(success);
@@ -48,11 +49,12 @@ export class TestComponent implements OnInit {
   }
 
   Update() {
-    var vaitro = new VaiTro();
-    vaitro.maVt = 'VT003';
-    vaitro.tenVaiTro = 'Bình 0 thường'
+    var thamGiaHD = new ThamGiaHd();
+    thamGiaHD.maGv = 'GV0002';
+    thamGiaHD.maHd = 'HD001';
+    thamGiaHD.maVt = 'VT001';
 
-    this.vaiTroService.update(vaitro).subscribe(
+    this.thamGiaHdService.update(thamGiaHD).subscribe(
       (success) => {
         console.log("Upload oke!");
         console.log(success);
@@ -65,7 +67,7 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.vaiTroService.delete('VT003').subscribe(data => {
+    this.thamGiaHdService.delete('GV0002','HD001').subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });
