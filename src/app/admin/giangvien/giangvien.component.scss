@@ -52,36 +52,20 @@
 #create,
 #update,
 #delete {
-    background-color: transparent;
+    background-color: #7fb7dc;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    opacity: 0.2;
     display: none;
-    color: #000;
 }
 
-#create {
-    // display: block;
-    // background-color: #16749d;
-}
-
-#update {
-
-}
-
-#delete {
-    
-}
-
-#CUD_header {
-
-}
-
-.CUD_box {
-    width: 850px;
-    height: 400px;
+#create_box,
+#update_box {
+    width: 750px;
+    height: 550px;
     background-color: #fff;
     position: absolute;
     top: 50%;
@@ -90,57 +74,100 @@
     border-radius: 6px;
     border: 1px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 50px;
+    padding: 20px 40px;
+    display: none;
+    z-index: 100;
 }
 
-.CUD_box-left,
-.CUD_box-right {
-    width: 45%;
-    float: left;
-    margin: 0 15px;
-    // border: 1px solid #000;
+.CUD_header {
+    text-align: center;
+    font-size: 24px;
+    color: #007bff;
 }
-
 
 .input {
-    margin: 16px 0;
-}
-
-.label {
+    // border: 1px solid #000;
+    width: 50%;
     display: inline-block;
-    background-color: #e9ecef;
-    width: 30%;
-    padding: 6.5px 8px;
-    padding-left: 10px;
-}
-
-.text {
-    width: 70%;
-    height: 36px;
-    outline: none;
-    border: 1px solid #ccc;
-    padding: 4px 8px;
-    border-radius: 0 4px 4px 0;
-    background-color: #e8f0fe;
-}
-
-input.protect {
-    width: 30%;
-    outline: 1px solid #777;
-    border-radius: 0;
-    background-color: #fff;
-    text-transform: uppercase;
-    text-align: center;
+    padding: 10px 20px;
 }
 
 .label {
-    padding: 4px;
+    
 }
 
 .text {
-
+    width: 100%;
+    font-size: 16px;
+    padding: 2px 8px;
+    outline: none;
 }
 
-.CUD_box-right {
-    
+select.text {
+    padding: 6px !important;
+}
+
+.btn-add,
+.btn-update {
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 15px 30px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 4px;
+}
+
+.notification {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #60ff80;
+    border-radius: 4px;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    font-size: 20px;
+    color: #00ff33;
+    box-shadow: #bcf7c8 0px 7px 29px 0px;
+    display: none;
+}
+
+.success {
+    // display: none;
+}
+
+.error {
+    // display: none;
+}
+
+.noti-result {
+    animation-name: fadeInOut;
+    animation-duration: 3s;
+}
+
+@keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      display: none;
+    }
+    10% {
+      opacity: 1;
+      display: block;
+    }
+    90% {
+      opacity: 1;
+      display: block;
+    }
+    100% {
+      opacity: 0;
+      display: none;
+    }
 }

@@ -40,6 +40,7 @@ export class AdminComponent implements OnInit {
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
       this.data = data;
     });
+    this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']); // Tạm thời
   }
 
   clickAccount() {

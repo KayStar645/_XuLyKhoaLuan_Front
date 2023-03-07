@@ -25,6 +25,14 @@ export class giangVienService {
       return this.http.get<GiangVien>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${id}`, this.shareService.httpOptions);
     }
 
+    getByBoMon(maBM: string):Observable<GiangVien[]> {
+      return this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens/MaBM?MaBM=${maBM}`, this.shareService.httpOptions);
+    }
+
+    searchByName(tenGV: string):Observable<GiangVien[]> {
+      return this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens/tenGV?tenGV=${tenGV}`, this.shareService.httpOptions);
+    }
+
     add(giangVien: GiangVien): Observable<any> {
       return this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, this.shareService.httpOptions);
     }

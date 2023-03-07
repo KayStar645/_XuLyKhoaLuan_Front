@@ -1,7 +1,7 @@
 <div id=container>
     <ul class="search-list">
         <li class="search-item">
-            <select class="search-select" id="search-select">
+            <select class="search-select" id="search-select" (change)="getGiangVienByMaBM($event)">
                 <option value="">Tất cả</option>
                 <option value="KTPM">Kỹ thuật phần mềm</option>
                 <option value="HTTT">Hệ thống thông tin</option>
@@ -10,10 +10,11 @@
             </select>
         </li>
         <li class="search-item">
-            <input type="text" placeholder="Tìm theo tên..." />
+            <input type="text" placeholder="Tìm theo tên..." [(ngModel)]="searchName" />
         </li>
         <li class="search-item">
-            <select class="search-select" id="sort-select">
+            <select class="search-select" id="sort-select" (change)="sortGiangVien($event)">
+                <option value="">Mặc định</option>
                 <option value="asc-id">Tăng theo mã</option>
                 <option value="desc-id">Giảm theo mã</option>
                 <option value="asc-name">Tăng theo tên</option>
@@ -23,69 +24,140 @@
                 </select>
         </li>
         <li class="search-item">
-            <button class="search-button" (click)="addGiangVien()">Thêm</button>
+            <button class="search-button" (click)="clickCreate()">Thêm</button>
             <button class="search-button" (click)="importGiangVien()">Import</button>
         </li>
         <li class="search-item">
-            <button class="search-button" (click)="updateGiangVien()">Sửa</button>
-            <button class="search-button" (click)="deleteGiangVien()">Xóa</button>
+            <button class="search-button" (click)="clickUpdate()">Sửa</button>
+            <button class="search-button" (click)="clickDelete()">Xóa</button>
         </li>
     </ul>
-    <router-outlet></router-outlet>
+    <!-- <router-outlet></router-outlet> -->
+    <app-danhsachgiangvien [searchName]="searchName"></app-danhsachgiangvien>
     
-    <div id="create" (click)="clickCreate()">
-        <div class="CUD_box" id="create_box">
-            <!-- <h2 id="CUD_header">THÊM GIẢNG VIÊN MỚI</h2> -->
-           <div class="CUD_box-left">
-                <div class="input">
-                    <p class="label">Mã giảng viên</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Tên giảng viên</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Năm sinh</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Giới tính</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Số điện thoại</p>
-                    <input class="text" type="text" />
-                </div>
-           </div>
-           <div class="CUD_box-right">
-                <div class="input">
-                    <p class="label">Bộ môn</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Email</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Ngày làm việc</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Học hàm</p>
-                    <input class="text" type="text" />
-                </div>
-                <div class="input">
-                    <p class="label">Học vị</p>
-                    <input class="text" type="text" />
-                </div>
-            </div>
+    <div id="create" (click)="clickCreate()"></div>
+    <div id="create_box" [formGroup]="gvAddForm">
+        <h2 class="CUD_header">THÊM GIẢNG VIÊN MỚI</h2>
+        <div class="input">
+            <p class="label">Mã giảng viên</p>
+            <input class="text" type="text" formControlName="maGV" [value]='this.gvAddForm.value["maGV"]' />
         </div>
-        
+        <div class="input">
+            <p class="label">Bộ môn</p>
+            <select name="" class="text" formControlName="maBM">
+                <option *ngFor="let bm of listBoMon;" [value]="bm.maBm">{{ bm.tenBm }}</option>
+            </select>
+        </div>
+        <div class="input">
+            <p class="label">Tên giảng viên</p>
+            <input class="text" type="text" formControlName="tenGV" [value]='this.gvAddForm.value["tenGV"]' />
+        </div>
+        <div class="input">
+            <p class="label">Email</p>
+            <input class="text" type="text" formControlName="email" [value]='this.gvAddForm.value["email"]' />
+        </div>
+        <div class="input">
+            <p class="label">Ngày sinh</p>
+            <input class="text" type="date" formControlName="ngaySinh" [value]='this.gvAddForm.value["ngaySinh"]' />
+        </div>
+        <div class="input">
+            <p class="label">Ngày nhận việc</p>
+            <input class="text" type="date" formControlName="ngayNhanViec" [value]='this.gvAddForm.value["ngayNhanViec"]' />
+        </div>
+        <div class="input">
+            <p class="label">Giới tính</p>
+            <select name="" class="text" formControlName="gioiTinh"> 
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+        </div>
+        <div class="input">
+            <p class="label">Học hàm</p>
+            <select name="" class="text" formControlName="hocHam"> 
+                <option value="">Không có</option>
+                <option value="GS">Giáo sư</option>
+                <option value="PGS">Phó giáo sư</option>
+            </select>
+        </div>
+        <div class="input">
+            <p class="label">Số điện thoại</p>
+            <input class="text" type="text" formControlName="sdt" [value]='this.gvAddForm.value["sdt"]' />
+        </div>
+        <div class="input">
+            <p class="label">Học vị</p>
+            <select name="" class="text" formControlName="hocVi">
+                <option value="">Không có</option>
+                <option value="CH">Cao học</option>
+                <option value="ThS">Thạc sĩ</option>
+                <option value="TS">Tiến sĩ</option>
+            </select>
+        </div>
+        <button class="btn-add" (click)="addGiangVien()">Thêm giảng viên</button>
+    </div>
+    <div class="notification">
+        <div class="success">Thêm thành công!</div>
+        <div class="error">Thêm thất bại!</div>
     </div>
     
-    <div id="update" (click)="clickUpdate()">
-        update
+    
+    <div id="update" (click)="clickUpdate()"></div>
+    <div id="update_box" [formGroup]="gvUpdateForm">
+        <h2 class="CUD_header">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
+        <div class="input">
+            <p class="label">Mã giảng viên</p>
+            <input class="text" type="text" formControlName="maGV" [value]='this.gvUpdate?.maGv' />
+        </div>
+        <div class="input">
+            <p class="label">Bộ môn</p>
+            <select name="" class="text" formControlName="maBM">
+                <option *ngFor="let bm of listBoMon;" [value]="bm.maBm">{{ bm.tenBm }}</option>
+            </select>
+        </div>
+        <div class="input">
+            <p class="label">Tên giảng viên</p>
+            <input class="text" type="text" formControlName="tenGV" [value]='this.gvUpdate?.tenGv' />
+        </div>
+        <div class="input">
+            <p class="label">Email</p>
+            <input class="text" type="text" formControlName="email" [value]='this.gvUpdate?.email' />
+        </div>
+        <div class="input">
+            <p class="label">Ngày sinh</p>
+            <input class="text" type="date" formControlName="ngaySinh" [value]='this.gvUpdate?.ngaySinh' />
+        </div>
+        <div class="input">
+            <p class="label">Ngày nhận việc</p>
+            <input class="text" type="date" formControlName="ngayNhanViec" [value]='this.gvUpdate?.ngayNhanViec' />
+        </div>
+        <div class="input">
+            <p class="label">Giới tính</p>
+            <select name="" class="text" formControlName="gioiTinh"> 
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+        </div>
+        <div class="input">
+            <p class="label">Học hàm</p>
+            <select name="" class="text" formControlName="hocHam"> 
+                <option value="">Không có</option>
+                <option value="GS">Giáo sư</option>
+                <option value="PGS">Phó giáo sư</option>
+            </select>
+        </div>
+        <div class="input">
+            <p class="label">Số điện thoại</p>
+            <input class="text" type="text" formControlName="sdt" [value]='this.gvUpdate?.sdt' />
+        </div>
+        <div class="input">
+            <p class="label">Học vị</p>
+            <select name="" class="text" formControlName="hocVi">
+                <option value="">Không có</option>
+                <option value="CH">Cao học</option>
+                <option value="ThS">Thạc sĩ</option>
+                <option value="TS">Tiến sĩ</option>
+            </select>
+        </div>
+        <button class="btn-update" (click)="updateGiangVien()">Cập nhật thông tin</button>
     </div>
 
     <div id="delete" (click)="clickDelete()">

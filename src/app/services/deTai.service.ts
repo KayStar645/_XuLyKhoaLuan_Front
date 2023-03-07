@@ -25,6 +25,18 @@ export class deTaiService {
       return this.http.get<DeTai>(`${this.apiUrl}/api/Detais/maDT?maDT=${id}`, this.shareService.httpOptions);
     }
 
+    getByChuyenNganh(maCN: string):Observable<DeTai[]> {
+      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais/MaCN?MaCN=${maCN}`, this.shareService.httpOptions);
+    }
+
+    getChuyennganhOfDetai(maDT: string) {
+      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais/MaDeTai?MaDeTai=${maDT}`, this.shareService.httpOptions);
+    }
+
+    searchByName(tenGV: string):Observable<DeTai[]> {
+      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais/tenDT?tenDT=${tenGV}`, this.shareService.httpOptions);
+    }
+
     add(deTai: DeTai): Observable<any> {
       return this.http.post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions);
     }

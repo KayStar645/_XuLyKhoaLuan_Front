@@ -20,37 +20,41 @@ import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component'
 import { TestComponent } from './test/test.component';
 import { GiangvienComponent } from './admin/giangvien/giangvien.component';
 import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
+import { DanhsachsinhvienComponent } from './admin/sinhvien/danhsachsinhvien/danhsachsinhvien.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent, 
 
-    AdminComponent, 
-    ThongbaoComponent,
-    SinhvienComponent, 
-    GiangvienComponent,
+    AdminComponent, AdminMainComponent,
     DetaiComponent, 
-    KehoachComponent, 
+    GiangvienComponent, DanhsachgiangvienComponent,
     HoidongComponent, 
-    AdminMainComponent,
+    KehoachComponent, 
+    PhancongComponent,
+    QuanlychungComponent,
+    SinhvienComponent, 
+    ThongbaoComponent, 
 
     HomeComponent, 
 
-    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, 
+    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, DanhsachsinhvienComponent, 
   ],
 
   imports: [
     HttpClientModule, 
     BrowserModule, 
     AppRoutingModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
   ],
 
   providers: [HttpClient, 
     FormBuilder, 
     BrowserModule, 
-    AppRoutingModule],
+    AppRoutingModule,
+    DanhsachgiangvienComponent,],
 
   bootstrap: [
     AppComponent
