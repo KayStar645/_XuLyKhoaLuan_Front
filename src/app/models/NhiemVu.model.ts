@@ -10,16 +10,5 @@ export class NhiemVu {
     public maGv!: string;
 
 
-    constructor(maNv: number, tenNv: string, soLuongDt: number, thoiGianBd: string, thoiGianKt: string
-        , hinhAnh: string, fileNv: string, maBm: string, maGv: string){
-        this.maNv = maNv;
-        this.tenNv = tenNv;
-        this.soLuongDt = soLuongDt;
-        this.thoiGianBd = thoiGianBd;
-        this.thoiGianKt = thoiGianKt;
-        this.hinhAnh = hinhAnh;
-        this.fileNv = fileNv;
-        this.maBm = maBm;
-        this.maGv = maGv;
-    }
+    constructor(){}
 }
