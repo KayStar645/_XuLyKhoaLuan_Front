@@ -7,14 +7,5 @@ export class BinhLuan {
     public namHoc!: string;
     public dot!: number;
 
-    constructor(id: number, thoiGian: string, noiDung: string, maCv: string, maSv: string, 
-        namHoc: string, dot: number) {
-        this.id = id;
-        this.thoiGian = thoiGian;
-        this.noiDung = noiDung;
-        this.maCv = maCv;
-        this.maSv = maSv;
-        this.namHoc = namHoc;
-        this.dot = dot;
-    }
+    constructor() {}
 }

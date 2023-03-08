@@ -36,4 +36,13 @@ export class sinhVienService {
     delete(maSV: string): Observable<any> {
       return this.http.delete(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${maSV}`, this.shareService.httpOptions);
     }
+
+    //Không có thuộc tính MaBM
+    getByMaBm(MaBM: string):Observable<SinhVien[]> {
+      return this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/MaBM?MaBM=${MaBM}`, this.shareService.httpOptions);
+    }
+
+    getByTenSv(tenSV: string):Observable<SinhVien[]> {
+      return this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/tenSV?tenSV=${tenSV}`, this.shareService.httpOptions);
+    }
 }
