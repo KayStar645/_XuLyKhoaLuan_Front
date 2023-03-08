@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-giangvien',
   templateUrl: './giangvien.component.html',
-  styleUrls: ['./giangvien.component.scss']
+  styleUrls: ['./giangvien.component.scss'],
 })
 export class GiangvienComponent implements OnInit {
   @ViewChild(DanhsachgiangvienComponent)
@@ -24,39 +24,44 @@ export class GiangvienComponent implements OnInit {
   gvUpdateForm: FormGroup;
   selectedBomon!: string;
 
-  constructor(private titleService: Title, private router: Router,
-    private elementRef: ElementRef, private boMonService: boMonService,
-     private fb: FormBuilder, private giangVienService: giangVienService) {
-      this.gvUpdateForm = this.fb.group({
-        maGV: ['', Validators.required],
-        maBM: ['', Validators.required],
-        tenGV: ['', Validators.required],
-        email: [''],
-        ngaySinh: [''],
-        ngayNhanViec: ['', Validators.required],
-        gioiTinh: ['', Validators.required],
-        hocHam: [''],
-        sdt: [''],
-        hocVi: [''],
-       });
+  constructor(
+    private titleService: Title,
+    private router: Router,
+    private elementRef: ElementRef,
+    private boMonService: boMonService,
+    private fb: FormBuilder,
+    private giangVienService: giangVienService
+  ) {
+    this.gvUpdateForm = this.fb.group({
+      maGV: ['', Validators.required],
+      maBM: ['', Validators.required],
+      tenGV: ['', Validators.required],
+      email: [''],
+      ngaySinh: [''],
+      ngayNhanViec: ['', Validators.required],
+      gioiTinh: ['', Validators.required],
+      hocHam: [''],
+      sdt: [''],
+      hocVi: [''],
+    });
 
-       this.gvAddForm = this.fb.group({
-        maGV: ['', Validators.required],
-        maBM: ['', Validators.required],
-        tenGV: ['', Validators.required],
-        email: [''],
-        ngaySinh: [''],
-        ngayNhanViec: ['', Validators.required],
-        gioiTinh: ['', Validators.required],
-        hocHam: [''],
-        sdt: [''],
-        hocVi: [''],
-       });
-      }
+    this.gvAddForm = this.fb.group({
+      maGV: ['', Validators.required],
+      maBM: ['', Validators.required],
+      tenGV: ['', Validators.required],
+      email: [''],
+      ngaySinh: [''],
+      ngayNhanViec: ['', Validators.required],
+      gioiTinh: ['', Validators.required],
+      hocHam: [''],
+      sdt: [''],
+      hocVi: [''],
+    });
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('Danh sách giảng viên');
-    this.boMonService.getAll().subscribe(data => {
+    this.boMonService.getAll().subscribe((data) => {
       this.listBoMon = data;
       this.selectedBomon = data[0].maBm;
     });
@@ -66,78 +71,81 @@ export class GiangvienComponent implements OnInit {
 
   clickCreate() {
     const create = this.elementRef.nativeElement.querySelector('#create');
-    const create_box = this.elementRef.nativeElement.querySelector('#create_box');
-    if(!create.classList.contains("block")) {
-      create.classList.add('block');
-      create_box.classList.add('block');
-    }
-    else {
-      create.classList.remove('block');
-      create_box.classList.remove('block');
+    const create_box =
+      this.elementRef.nativeElement.querySelector('#create_box');
+    if (!create.classList.contains('active')) {
+      create.classList.add('active');
+      create_box.classList.add('active');
+    } else {
+      create.classList.remove('active');
+      create_box.classList.remove('active');
     }
   }
 
   clickUpdate() {
     const update = this.elementRef.nativeElement.querySelector('#update');
-    const update_box = this.elementRef.nativeElement.querySelector('#update_box');
-    if(!update.classList.contains("block")) {
-      update.classList.add('block');
-      update_box.classList.add('block');
-    }
-    else {
-      update.classList.remove('block');
-      update_box.classList.remove('block');
+    const update_box =
+      this.elementRef.nativeElement.querySelector('#update_box');
+    if (!update.classList.contains('active')) {
+      update.classList.add('active');
+      update_box.classList.add('active');
+    } else {
+      update.classList.remove('active');
+      update_box.classList.remove('active');
     }
   }
 
   clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
-    const _delete_box = this.elementRef.nativeElement.querySelector('#delete_box');
-    if(!_delete.classList.contains("block")) {
-      _delete.classList.add('block');
-      _delete_box.classList.add('block');
-    }
-    else {
-      _delete.classList.remove('block');
-      _delete_box.classList.remove('block');
+    const _delete_box =
+      this.elementRef.nativeElement.querySelector('#delete_box');
+    if (!_delete.classList.contains('active')) {
+      _delete.classList.add('active');
+      _delete_box.classList.add('active');
+    } else {
+      _delete.classList.remove('active');
+      _delete_box.classList.remove('active');
     }
   }
 
   addGiangVien() {
-    if(this.gvAddForm.valid) {
+    if (this.gvAddForm.valid) {
       const giangVien = new GiangVien();
-      giangVien.init(this.gvAddForm.value["maGV"], this.gvAddForm.value["tenGV"],
-       this.gvAddForm.value["ngaySinh"], this.gvAddForm.value["gioiTinh"],
-        this.gvAddForm.value["email"], this.gvAddForm.value["sdt"],
-         this.gvAddForm.value["hocHam"], this.gvAddForm.value["hocVi"],
-          this.gvAddForm.value["ngayNhanViec"], '', this.gvAddForm.value["maBM"]);
+      giangVien.init(
+        this.gvAddForm.value['maGV'],
+        this.gvAddForm.value['tenGV'],
+        this.gvAddForm.value['ngaySinh'],
+        this.gvAddForm.value['gioiTinh'],
+        this.gvAddForm.value['email'],
+        this.gvAddForm.value['sdt'],
+        this.gvAddForm.value['hocHam'],
+        this.gvAddForm.value['hocVi'],
+        this.gvAddForm.value['ngayNhanViec'],
+        '',
+        this.gvAddForm.value['maBM']
+      );
 
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
+          console.log('hiiiii');
           this.DSGVComponent.getAllGiangVien();
+        },
+        (error) => {
+          console.log('hii');
+          console.log(error);
+        }
+      );
 
-      },
-      (error) => {
-        console.log(error);
-      });
-
-      // this.giangVienService.add(giangVien).subscribe(data => {
-      //   console.log(data);
-      //   this.DSGVComponent.getAllGiangVien();      
-      // });
-    }
-    else {
-      console.log("Không vô")
+    } else {
+      console.log('Không vô');
     }
   }
 
-  importGiangVien() {
-
-  }
+  importGiangVien() {}
 
   updateGiangVien() {
     // this.clickUpdate();
-    console.log(this.gvUpdateForm.value)
+    console.log(this.gvUpdateForm.value);
   }
 
   deleteGiangVien() {
@@ -146,10 +154,9 @@ export class GiangvienComponent implements OnInit {
 
   getGiangVienByMaBM(event: any) {
     const maBM = event.target.value;
-    if(maBM == '') {
+    if (maBM == '') {
       this.DSGVComponent.getAllGiangVien();
-    }
-    else {
+    } else {
       this.DSGVComponent.getGiangVienByMaBM(maBM);
     }
   }
@@ -158,5 +165,4 @@ export class GiangvienComponent implements OnInit {
     const sort = event.target.value;
     this.DSGVComponent.sortGiangVien(sort);
   }
-
 }
