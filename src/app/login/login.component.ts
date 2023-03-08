@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
   clickBack(event:any): void {
     // Hiện form chọn vai trò
     const form_role = this.elementRef.nativeElement.querySelector('#form__role');
-    form_role.style.display = "flex";
+    form_role.style.display = "block";
     // Ẩn form đăng nhập
     const form_login = this.elementRef.nativeElement.querySelector('#form');
     form_login.style.display = "none";

@@ -1,24 +1,36 @@
 .table {
-    width: 100%;
-    background-color: #fff;
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+
+  tr th {
+    background-color: #0c6fbe;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  tr td{
+    font-size: 1.3rem;
+
+  }
 }
 
 .table th,
 .table td {
-    padding: 12px 6px;
-    text-align: center;
+  padding: 12px 6px;
+  border: 1px solid #238be8;
 }
 
 .table tr {
-    color: #000;
+  color: #000;
 }
 
 .br-line:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .br-line-hover {
-    background-color: #1cadeb;
-    color: #fff !important;
+  background-color: #1cadeb;
+  color: #fff !important;
 }
-
