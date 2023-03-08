@@ -6,11 +6,5 @@ export class Nhom {
     public truongNhom!: string;
 
 
-    constructor(maNhom: number, tenNhom: string, soLuong: number, slmax: number, truongNhom: string){
-        this.maNhom = maNhom;
-        this.tenNhom = tenNhom;
-        this.soLuong = soLuong;
-        this.slmax = slmax;
-        this.truongNhom = truongNhom;
-    }
+    constructor(){}
 }

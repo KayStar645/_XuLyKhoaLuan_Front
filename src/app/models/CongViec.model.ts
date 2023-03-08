@@ -9,16 +9,5 @@ export class CongViec {
     public maDt!: string;
     public maNhom!: number;
 
-    constructor(maCv: string, tenCv: string, yeuCau: string, moTa: string, hanChot: string,
-        mucDoHoanThanh: number, maGv: string, maDt: string, maNhom: number){
-        this.maCv = maCv;
-        this.tenCv = tenCv;
-        this.yeuCau = yeuCau;
-        this.moTa = moTa;
-        this.hanChot = hanChot;
-        this.mucDoHoanThanh = mucDoHoanThanh;
-        this.maGv = maGv;
-        this.maDt = maDt;
-        this.maNhom = maNhom;
-    }
+    constructor(){}
 }

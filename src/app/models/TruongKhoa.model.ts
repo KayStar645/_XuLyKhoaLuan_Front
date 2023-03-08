@@ -4,10 +4,5 @@ export class TruongKhoa {
     public ngayNhanChuc!: string;
     public ngayNghi!: string;
 
-    constructor(maKhoa: string, maGv: string, ngayNhanChuc: string, ngayNghi: string) {
-        this.maKhoa = maKhoa;
-        this.maGv = maGv;
-        this.ngayNhanChuc = ngayNhanChuc;
-        this.ngayNghi = ngayNghi;
-    }
+    constructor() {}
 }

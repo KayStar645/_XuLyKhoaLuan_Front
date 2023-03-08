@@ -1,5 +1,6 @@
-export class HdCham {
+export class HdPhanBienCham {
     public maGv!: string;
+    public maHd!: string;
     public maDt!: string;
     public maSv!: string;
     public namHoc!: string;
