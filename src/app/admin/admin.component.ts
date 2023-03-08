@@ -20,6 +20,10 @@ export class AdminComponent implements OnInit {
   data!: GiaoVu;
   countTB = 0;
   countKH = 0;
+  // Sửa lại sau
+  public role!: string;
+  public id!: string;
+
   constructor(private authService: AuthService, private router: Router,
     private giaoVuService: giaoVuService, private elementRef: ElementRef,
     private shareService: shareService) {}
@@ -34,13 +38,13 @@ export class AdminComponent implements OnInit {
     else {
       this.isLoggedIn$ = of(true);
     }
-    this.router.navigate(['/admin', 'admin-main']); //-- Tạm thời tắt
+    this.router.navigate(['/admin', 'admin-main']);
 
     // Get dữ liệu của giáo vụ
     this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
       this.data = data;
     });
-    this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']); // Tạm thời
+    // this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']); // Tạm thời
   }
 
   clickAccount() {

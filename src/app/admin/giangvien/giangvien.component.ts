@@ -58,7 +58,9 @@ export class GiangvienComponent implements OnInit {
     this.titleService.setTitle('Danh sách giảng viên');
     this.boMonService.getAll().subscribe(data => {
       this.listBoMon = data;
-      this.selectedBomon = data[0].maBm;
+      if(data.length > 0) {
+        this.selectedBomon = data[0].maBm;
+      }
     });
     this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']);
     this.gvUpdate = this.DSGVComponent?.lineGV;
@@ -119,6 +121,7 @@ export class GiangvienComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        // Xử lý lỗi
       });
 
       // this.giangVienService.add(giangVien).subscribe(data => {
