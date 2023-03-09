@@ -21,7 +21,7 @@ export class GiangvienComponent implements OnInit {
   @ViewChild(DanhsachgiangvienComponent)
   private DSGVComponent!: DanhsachgiangvienComponent;
   listBoMon: BoMon[] = [];
-  gvUpdate!: GiangVien;
+  gvUpdate: any = GiangVien;
   searchName = '';
   selectedBomon!: string;
   isAddFormActive: boolean = false;
@@ -112,7 +112,7 @@ export class GiangvienComponent implements OnInit {
       _delete.classList.remove('active');
       _delete_box.classList.remove('active');
     }
-  } 
+  }
 
   addGiangVien() {
     if (this.gvAddForm.valid) {
@@ -134,7 +134,7 @@ export class GiangvienComponent implements OnInit {
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
           console.log(data);
-          
+
           this.DSGVComponent.getAllGiangVien();
         },
         (error) => {

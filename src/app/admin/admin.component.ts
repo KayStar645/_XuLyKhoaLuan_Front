@@ -15,7 +15,7 @@ import { AuthService } from '../services/auth/auth.service';
 export class AdminComponent implements OnInit {
   title = 'Quản lý';
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
-  data!: GiaoVu;
+  data: any = GiaoVu;
   countTB = 0;
   countKH = 0;
   // Sửa lại sau
@@ -42,9 +42,11 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/admin', 'admin-main']);
 
     // Get dữ liệu của giáo vụ
-    this.giaoVuService.getById("" + localStorage.getItem('Id')?.toString()).subscribe((data) => {
-      this.data = data;
-    });
+    this.giaoVuService
+      .getById('' + localStorage.getItem('Id')?.toString())
+      .subscribe((data) => {
+        this.data = data;
+      });
     this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']); // Tạm thời
   }
 
