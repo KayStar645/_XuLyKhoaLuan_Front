@@ -36,224 +36,295 @@
       </select>
     </li>
     <li class="search-item row ali-center jus-end flex-1">
-      <button class="search-button" (click)="clickCreate()">Thêm</button>
+      <button class="search-button" (click)="handleToggleAdd()">Thêm</button>
       <button class="search-button" (click)="importGiangVien()">Nhập DS</button>
-      <button class="search-button" (click)="clickUpdate()">Sửa</button>
+      <button class="search-button" (click)="handleToggleUpdate()">Sửa</button>
       <button class="search-button" (click)="clickDelete()">Xóa</button>
     </li>
   </ul>
   <!-- <router-outlet></router-outlet> -->
   <app-danhsachgiangvien [searchName]="searchName"></app-danhsachgiangvien>
 
-  <div id="create" (click)="clickCreate()"></div>
-  <div id="create_box" [formGroup]="gvAddForm">
-    <h2 class="CUD_header">THÊM GIẢNG VIÊN MỚI</h2>
-    <div class="row form-list">
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Mã giảng viên</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="maGV"
-            [value]="this.gvUpdate?.maGv"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Bộ môn</p>
-          <select name="" class="text" formControlName="maBM">
-            <option *ngFor="let bm of listBoMon" [value]="bm.maBm">
-              {{ bm.tenBm }}
-            </option>
-          </select>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Tên giảng viên</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="tenGV"
-            [value]="this.gvUpdate?.tenGv"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Giới tính</p>
-          <select name="" class="text" formControlName="gioiTinh">
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-          </select>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày sinh</p>
-          <input
-            class="text"
-            type="date"
-            formControlName="ngaySinh"
-            [value]="this.gvUpdate?.ngaySinh"
-          />
-        </label>
+  <div *ngIf="isAddFormActive; then add"></div>
+  <ng-template #add>
+    <div id="create" (click)="handleToggleAdd()"></div>
+    <div id="create_box" [formGroup]="gvAddForm" class="form">
+      <h2 class="title">THÊM GIẢNG VIÊN MỚI</h2>
+
+      <div class="row form-list form">
+        <div class="h-6 p-l-12 p-r-12">
+          <label class="form-control row ali-center form-control">
+            <p class="label">Mã giảng viên</p>
+            <div class="form-value">
+              <input
+                (blur)="onBlur($event)"
+                type="text"
+                formControlName="maGV"
+                [value]="this.gvUpdate?.maGv"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Email</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="email"
+                [value]="this.gvUpdate?.email"
+                (blur)="onBlur($event)"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+
+          <label class="form-control row ali-center form-control">
+            <p class="label">Tên giảng viên</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="tenGV"
+                [value]="this.gvUpdate?.tenGv"
+                (blur)="onBlur($event)"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="form-control row ali-center form-control">
+            <p class="label">Giới tính</p>
+            <div class="form-value">
+              <select formControlName="gioiTinh" (blur)="onBlur($event)">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="form-control row ali-center form-control">
+            <p class="label">Ngày sinh</p>
+            <div class="form-value">
+              <input
+                type="date"
+                formControlName="ngaySinh"
+                [value]="this.gvUpdate?.ngaySinh"
+                (blur)="onBlur($event)"
+              />
+
+              <p class="error-mess"></p>
+            </div>
+          </label>
+        </div>
+        <div class="h-6 p-l-12 p-r-12">
+          <label class="form-control row ali-center form-control">
+            <p class="label">Bộ môn</p>
+            <div class="form-value">
+              <select formControlName="maBM">
+                <option
+                  *ngFor="let bm of listBoMon"
+                  [value]="bm.maBm"
+                  (blur)="onBlur($event)"
+                >
+                  {{ bm.tenBm }}
+                </option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Ngày nhận việc</p>
+            <div class="form-value">
+              <input
+                type="date"
+                formControlName="ngayNhanViec"
+                [value]="this.gvUpdate?.ngayNhanViec"
+                (blur)="onBlur($event)"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Học hàm</p>
+            <div class="form-value">
+              <select formControlName="hocHam" (blur)="onBlur($event)">
+                <option value="">Không có</option>
+                <option value="GS">Giáo sư</option>
+                <option value="PGS">Phó giáo sư</option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Số điện thoại</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="sdt"
+                [value]="this.gvUpdate?.sdt"
+                (blur)="onBlur($event)"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Học vị</p>
+            <div class="form-value">
+              <select formControlName="hocVi" (blur)="onBlur($event)">
+                <option value="">Không có</option>
+                <option value="CH">Cao học</option>
+                <option value="ThS">Thạc sĩ</option>
+                <option value="TS">Tiến sĩ</option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+        </div>
       </div>
 
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Email</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="email"
-            [value]="this.gvUpdate?.email"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày nhận việc</p>
-          <input
-            class="text"
-            type="date"
-            formControlName="ngayNhanViec"
-            [value]="this.gvUpdate?.ngayNhanViec"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Học hàm</p>
-          <select name="" class="text" formControlName="hocHam">
-            <option value="">Không có</option>
-            <option value="GS">Giáo sư</option>
-            <option value="PGS">Phó giáo sư</option>
-          </select>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Số điện thoại</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="sdt"
-            [value]="this.gvUpdate?.sdt"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Học vị</p>
-          <select name="" class="text" formControlName="hocVi">
-            <option value="">Không có</option>
-            <option value="CH">Cao học</option>
-            <option value="ThS">Thạc sĩ</option>
-            <option value="TS">Tiến sĩ</option>
-          </select>
-        </label>
+      <div class="submit-btn text-right">
+        <button class="btn-add" (click)="addGiangVien()">
+          Thêm giảng viên
+        </button>
       </div>
     </div>
-    <div class="text-right">
-      <button class="btn-add" (click)="addGiangVien()">Thêm giảng viên</button>
+  </ng-template>
+
+  <div *ngIf="isUpdateFormActive; then update"></div>
+
+  <ng-template #update>
+    <div id="update" (click)="handleToggleUpdate()"></div>
+    <div id="update_box" [formGroup]="gvUpdateForm" class="form">
+      <h2 class="title">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
+      <div class="row form-list form">
+        <div class="h-6 p-l-12 p-r-12">
+          <label class="form-control row ali-center form-control">
+            <p class="label">Mã giảng viên</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="maGV"
+                [value]="this.gvUpdate?.maGv"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Email</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="email"
+                [value]="this.gvUpdate?.email"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+
+          <label class="form-control row ali-center form-control">
+            <p class="label">Tên giảng viên</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="tenGV"
+                [value]="this.gvUpdate?.tenGv"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="form-control row ali-center form-control">
+            <p class="label">Giới tính</p>
+            <div class="form-value">
+              <select formControlName="gioiTinh">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="form-control row ali-center form-control">
+            <p class="label">Ngày sinh</p>
+            <div class="form-value">
+              <input
+                type="date"
+                formControlName="ngaySinh"
+                [value]="this.gvUpdate?.ngaySinh"
+              />
+
+              <p class="error-mess"></p>
+            </div>
+          </label>
+        </div>
+        <div class="h-6 p-l-12 p-r-12">
+          <label class="form-control row ali-center form-control">
+            <p class="label">Bộ môn</p>
+            <div class="form-value">
+              <select formControlName="maBM">
+                <option *ngFor="let bm of listBoMon" [value]="bm.maBm">
+                  {{ bm.tenBm }}
+                </option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Ngày nhận việc</p>
+            <div class="form-value">
+              <input
+                type="date"
+                formControlName="ngayNhanViec"
+                [value]="this.gvUpdate?.ngayNhanViec"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Học hàm</p>
+            <div class="form-value">
+              <select formControlName="hocHam">
+                <option value="">Không có</option>
+                <option value="GS">Giáo sư</option>
+                <option value="PGS">Phó giáo sư</option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Số điện thoại</p>
+            <div class="form-value">
+              <input
+                type="text"
+                formControlName="sdt"
+                [value]="this.gvUpdate?.sdt"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="input row ali-center form-control">
+            <p class="label">Học vị</p>
+            <div class="form-value">
+              <select formControlName="hocVi">
+                <option value="">Không có</option>
+                <option value="CH">Cao học</option>
+                <option value="ThS">Thạc sĩ</option>
+                <option value="TS">Tiến sĩ</option>
+              </select>
+              <p class="error-mess"></p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="submit-btn text-right">
+        <button class="btn-update" (click)="updateGiangVien()">
+          Cập nhật thông tin
+        </button>
+      </div>
     </div>
-  </div>
+  </ng-template>
 
   <div class="notification">
     <div class="success">Thêm thành công!</div>
     <div class="error">Thêm thất bại!</div>
   </div>
 
-  <div id="update" (click)="clickUpdate()"></div>
-  <div id="update_box" [formGroup]="gvUpdateForm">
-    <h2 class="CUD_header">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
-    <div class="row form-list">
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Mã giảng viên</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="maGV"
-            [value]="this.gvUpdate?.maGv"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Bộ môn</p>
-          <select name="" class="text" formControlName="maBM">
-            <option *ngFor="let bm of listBoMon" [value]="bm.maBm">
-              {{ bm.tenBm }}
-            </option>
-          </select>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Tên giảng viên</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="tenGV"
-            [value]="this.gvUpdate?.tenGv"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Giới tính</p>
-          <select name="" class="text" formControlName="gioiTinh">
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-          </select>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày sinh</p>
-          <input
-            class="text"
-            type="date"
-            formControlName="ngaySinh"
-            [value]="this.gvUpdate?.ngaySinh"
-          />
-        </label>
-      </div>
-
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Email</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="email"
-            [value]="this.gvUpdate?.email"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày nhận việc</p>
-          <input
-            class="text"
-            type="date"
-            formControlName="ngayNhanViec"
-            [value]="this.gvUpdate?.ngayNhanViec"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Học hàm</p>
-          <select name="" class="text" formControlName="hocHam">
-            <option value="">Không có</option>
-            <option value="GS">Giáo sư</option>
-            <option value="PGS">Phó giáo sư</option>
-          </select>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Số điện thoại</p>
-          <input
-            class="text"
-            type="text"
-            formControlName="sdt"
-            [value]="this.gvUpdate?.sdt"
-          />
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Học vị</p>
-          <select name="" class="text" formControlName="hocVi">
-            <option value="">Không có</option>
-            <option value="CH">Cao học</option>
-            <option value="ThS">Thạc sĩ</option>
-            <option value="TS">Tiến sĩ</option>
-          </select>
-        </label>
-      </div>
-    </div>
-
-    <div class="text-right">
-      <button class="btn-update" (click)="updateGiangVien()">
-        Cập nhật thông tin
-      </button>
-    </div>
-  </div>
-
-  <div id="delete" (click)="clickDelete()">delete</div>
+  <!-- <div id="delete" (click)="clickDelete()">delete</div> -->
 </div>

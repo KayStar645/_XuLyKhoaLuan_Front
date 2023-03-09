@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form } from 'src/assets/utils';
 
 @Component({
   selector: 'app-giangvien',
@@ -20,43 +21,35 @@ export class GiangvienComponent implements OnInit {
   listBoMon: BoMon[] = [];
   gvUpdate!: GiangVien;
   searchName = '';
-  gvAddForm: FormGroup;
-  gvUpdateForm: FormGroup;
   selectedBomon!: string;
+  isAddFormActive: boolean = false;
+  isUpdateFormActive: boolean = false;
+
+  gvAddForm: any;
+  gvUpdateForm: any;
+
+  gvForm = new Form({
+    maGV: ['', Validators.required],
+    maBM: ['', Validators.required],
+    tenGV: ['', Validators.required],
+    email: [''],
+    ngaySinh: [''],
+    ngayNhanViec: ['', Validators.required],
+    gioiTinh: ['', Validators.required],
+    hocHam: [''],
+    sdt: [''],
+    hocVi: [''],
+  });
 
   constructor(
     private titleService: Title,
     private router: Router,
     private elementRef: ElementRef,
     private boMonService: boMonService,
-    private fb: FormBuilder,
     private giangVienService: giangVienService
   ) {
-    this.gvUpdateForm = this.fb.group({
-      maGV: ['', Validators.required],
-      maBM: ['', Validators.required],
-      tenGV: ['', Validators.required],
-      email: [''],
-      ngaySinh: [''],
-      ngayNhanViec: ['', Validators.required],
-      gioiTinh: ['', Validators.required],
-      hocHam: [''],
-      sdt: [''],
-      hocVi: [''],
-    });
-
-    this.gvAddForm = this.fb.group({
-      maGV: ['', Validators.required],
-      maBM: ['', Validators.required],
-      tenGV: ['', Validators.required],
-      email: [''],
-      ngaySinh: [''],
-      ngayNhanViec: ['', Validators.required],
-      gioiTinh: ['', Validators.required],
-      hocHam: [''],
-      sdt: [''],
-      hocVi: [''],
-    });
+    this.gvAddForm = this.gvForm.form;
+    this.gvUpdateForm = this.gvForm.form;
   }
 
   ngOnInit(): void {
@@ -69,30 +62,16 @@ export class GiangvienComponent implements OnInit {
     this.gvUpdate = this.DSGVComponent?.lineGV;
   }
 
-  clickCreate() {
-    const create = this.elementRef.nativeElement.querySelector('#create');
-    const create_box =
-      this.elementRef.nativeElement.querySelector('#create_box');
-    if (!create.classList.contains('active')) {
-      create.classList.add('active');
-      create_box.classList.add('active');
-    } else {
-      create.classList.remove('active');
-      create_box.classList.remove('active');
-    }
+  handleToggleAdd() {
+    this.isAddFormActive = !this.isAddFormActive;
   }
 
-  clickUpdate() {
-    const update = this.elementRef.nativeElement.querySelector('#update');
-    const update_box =
-      this.elementRef.nativeElement.querySelector('#update_box');
-    if (!update.classList.contains('active')) {
-      update.classList.add('active');
-      update_box.classList.add('active');
-    } else {
-      update.classList.remove('active');
-      update_box.classList.remove('active');
-    }
+  handleToggleUpdate() {
+    this.isUpdateFormActive = !this.isUpdateFormActive;
+  }
+
+  onBlur(event: any) {
+    this.gvForm.inputBlur(event);
   }
 
   clickDelete() {
@@ -135,7 +114,6 @@ export class GiangvienComponent implements OnInit {
           console.log(error);
         }
       );
-
     } else {
       console.log('Không vô');
     }

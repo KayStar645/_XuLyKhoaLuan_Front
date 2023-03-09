@@ -14,7 +14,7 @@
 // Main -- Role
 #main {
   height: calc(100vh - 355px);
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 #form__role {
@@ -23,12 +23,6 @@
   border: 1px solid #ccc;
   background-color: #fff;
   padding: 24px 60px;
-
-  h2 {
-    font-size: 2rem;
-    color: #0a5999;
-    padding-bottom: 12px;
-  }
 }
 
 .role-list {
@@ -56,72 +50,33 @@
 // Main -- Form
 #form {
   width: 460px;
-  margin: 16px auto;
   padding: 4px 16px;
   padding-bottom: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  display: none;
   background: #fff;
-}
-
-.input {
-  margin: 16px 0;
-  font-size: 1.4rem;
-}
-
-.label {
-  width: 120px;
-}
-
-.text {
-  width: 70%;
-  height: 36px;
-  outline: none;
-  border: 1px solid #ccc;
-  padding: 4px 8px;
-  border-radius: 0 4px 4px 0;
-
-  &:focus {
-    box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);
-  }
-}
-
-input.protect {
-  width: 30%;
-  border-radius: 0;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.button button {
-  min-width: 120px;
-  color: #fff;
-  background-color: #007bff;
-  border-radius: 6px;
-  font-size: 1.4rem;
-  font-weight: 600;
-  padding: 12px;
-}
-
-.button button:hover {
-  background-color: #286090;
-  cursor: pointer;
+  //display:none;
 }
 
 .back {
   margin-top: 8px;
-  font-size: 1.3rem;
-}
-
-.back__link {
-  text-decoration: none;
+  font-size: 1.4rem;
   color: #007bff;
+
+  i {
+    font-size: 1.1rem;
+    transition: all 0.2s linear;
+    padding-right: 4px;
+  }
 }
 
-.back__link:hover {
-  color: #ff0000;
+.back:hover {
+  opacity: 0.8;
   cursor: pointer;
+
+  i {
+    transform: translateX(-4px);
+  }
 }
 
 // Footer

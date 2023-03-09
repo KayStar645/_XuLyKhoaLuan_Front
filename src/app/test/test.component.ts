@@ -50,31 +50,31 @@ export class TestComponent implements OnInit {
     );
   }
 
-  Update() {
-    var binhLuan = new BinhLuan();
-    binhLuan.dot = 1;
-    binhLuan.id = 2;
-    binhLuan.maCv = 'CV002';
-    binhLuan.maSv = 'SV001';
-    binhLuan.namHoc = '2020-2024';
-    binhLuan.noiDung = 'Đây là bình luận'
+  // Update() {
+  //   var binhLuan = new BinhLuan();
+  //   binhLuan.dot = 1;
+  //   binhLuan.id = 2;
+  //   binhLuan.maCv = 'CV002';
+  //   binhLuan.maSv = 'SV001';
+  //   binhLuan.namHoc = '2020-2024';
+  //   binhLuan.noiDung = 'Đây là bình luận'
 
-    this.binhLuanService.update(binhLuan).subscribe(
-      (success) => {
-        console.log("Upload oke!");
-        console.log(success);
-      },
-      (error) => {
-        console.log("Upload thất bại rồi!");
-        console.log(error);
-      }
-    );
-  }
+  //   this.binhLuanService.update(binhLuan).subscribe(
+  //     (success) => {
+  //       console.log("Upload oke!");
+  //       console.log(success);
+  //     },
+  //     (error) => {
+  //       console.log("Upload thất bại rồi!");
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
-  Delete() {
-    this.binhLuanService.delete(2).subscribe(data => {
-      console.log("Delete: ");
-      console.log(data);
-    });
-  }
+  // Delete() {
+  //   this.binhLuanService.delete(2).subscribe(data => {
+  //     console.log("Delete: ");
+  //     console.log(data);
+  //   });
+  // }
 }
