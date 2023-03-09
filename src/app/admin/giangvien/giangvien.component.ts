@@ -29,16 +29,16 @@ export class GiangvienComponent implements OnInit {
   gvUpdateForm: any;
 
   gvForm = new Form({
-    maGV: ['', Validators.required],
-    maBM: ['', Validators.required],
-    tenGV: ['', Validators.required],
-    email: [''],
-    ngaySinh: [''],
-    ngayNhanViec: ['', Validators.required],
-    gioiTinh: ['', Validators.required],
-    hocHam: [''],
-    sdt: [''],
-    hocVi: [''],
+    maGv: ['', Validators.required]
+    // maBM: ['', Validators.required],
+    // tenGV: ['', Validators.required],
+    // email: [''],
+    // ngaySinh: [''],
+    // ngayNhanViec: ['', Validators.required],
+    // gioiTinh: ['', Validators.required],
+    // hocHam: [''],
+    // sdt: [''],
+    // hocVi: [''],
   });
 
   constructor(
@@ -69,6 +69,9 @@ export class GiangvienComponent implements OnInit {
   }
 
   handleToggleUpdate() {
+    this.gvForm.form.setValue({
+      maGv: this.DSGVComponent.lineGV.maGv
+    });
     this.isUpdateFormActive = !this.isUpdateFormActive;
   }
 
@@ -124,12 +127,11 @@ export class GiangvienComponent implements OnInit {
   importGiangVien() {}
 
   updateGiangVien() {
-    // this.clickUpdate();
     console.log(this.gvUpdateForm.value);
   }
 
   deleteGiangVien() {
-    // this.clickDelete();
+    
   }
 
   getGiangVienByMaBM(event: any) {

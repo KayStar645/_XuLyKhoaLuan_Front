@@ -13,7 +13,7 @@ export class DanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';  
   listGV: GiangVien[] = [];
   root: GiangVien[] = [];
-  lineGV!: GiangVien;
+  lineGV = new GiangVien();
   elementOld: any;
 
   constructor(private elementRef: ElementRef, private giangVienService: giangVienService,
@@ -40,6 +40,7 @@ export class DanhsachgiangvienComponent implements OnInit {
       const mgv = element.firstElementChild.innerHTML;
       this.giangVienService.getById(mgv).subscribe(data => {
         this.lineGV = data;
+        console.log(this.lineGV);
       });
     }
   }
