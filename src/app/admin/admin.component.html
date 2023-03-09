@@ -1,64 +1,74 @@
 <div *ngIf="isLoggedIn$ | async as isLoggedIn">
+  <div class="grid wide">
     <div class="header">
-        <div class="container">
-            <div class="header__left">
-                <a routerLink="/admin/admin-main">
-                    <img src="../../assets/Images/sv_logo_dashboard.png" alt="Logo" />
-                </a>
-            </div>
-            <div class="header__right">
-                <ul class="header__right-list">
-                    <li class="header__right-item">
-                        <a routerLink="/admin/admin-main" class="header__right-link">
-                            <i class="icon-m-right fa-solid fa-house"></i>
-                            Trang chủ
-                        </a>
-                    </li>
-                    <li class="header__right-item">
-                        <a routerLink="/admin/admin-main" class="header__right-link">
-                            <i class="icon-m-right fa-regular fa-bell"></i>
-                            Thông báo
-                        </a>
-                    </li>
-                    <li class="header__right-item">
-                        <a class="header__right-link" (click)="clickAccount()">
-                            <div class="header__right-img">
-                                <img *ngIf="data?.gioiTinh == 'Nữ'" src="../../assets/Images/avatar-nu.jpg" alt="Avatar" />
-                                <img *ngIf="data?.gioiTinh == 'Nam'" src="../../assets/Images/avatar-nam.jpeg" alt="Avatar" />
-                            </div>
-                            <div class="header__right-account">
-                                {{ data?.tenGv }}
-                            <i class="fa-solid fa-caret-down"></i>
-                            </div>
-                        </a>
-                        <div id="box-body" (click)="clickAccount()"></div>
-                        <div id="box-account">
-                            <ul class="account-list">
-                                <li class="account-item">
-                                    <a href="" class="account-link">
-                                        Thông tin cá nhân
-                                    </a>
-                                </li>
-                                <li class="account-item">
-                                    <a href="" class="account-link">
-                                        Đổi mật khẩu
-                                    </a>
-                                </li>
-                                <li class="account-item">
-                                    <a (click)="logOut()" class="account-link">
-                                        Đăng xuất
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+      <div class="container row ali-center jus-between h-100">
+        <div class="header__left">
+          <a routerLink="/admin/admin-main">
+            <img src="../../assets/Images/sv_logo_dashboard.png" alt="Logo" />
+          </a>
+        </div>
+        <div class="header__right h-100">
+          <ul class="header__right-list row ali-center h-100">
+            <li class="header__right-item">
+              <a routerLink="/admin/admin-main" class="header__right-link">
+                <i class="icon-m-right fa-solid fa-house"></i>
+                Trang chủ
+              </a>
+            </li>
+            <li class="header__right-item">
+              <a routerLink="/admin/admin-main" class="header__right-link">
+                <i class="icon-m-right fa-regular fa-bell"></i>
+                Thông báo
+              </a>
+            </li>
+            <li class="header__right-item text-upper">
+              <a
+                class="header__right-link row ali-center"
+                (click)="clickAccount()"
+              >
+                <div class="header__right-img row ali-center">
+                  <img
+                    *ngIf="data?.gioiTinh == 'Nữ'"
+                    src="../../assets/Images/avatar-nu.jpg"
+                    alt="Avatar"
+                  />
+                  <img
+                    *ngIf="data?.gioiTinh == 'Nam'"
+                    src="../../assets/Images/avatar-nam.jpeg"
+                    alt="Avatar"
+                  />
+                </div>
+
+                <div class="header__right-account">
+                  {{ data?.tenGv }}
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+              </a>
+
+              <div id="box-body" (click)="clickAccount()"></div>
+              <div id="box-account">
+                <ul class="account-list">
+                  <li class="account-item">
+                    <a href="" class="account-link"> Thông tin cá nhân </a>
+                  </li>
+                  <li class="account-item">
+                    <a href="" class="account-link"> Đổi mật khẩu </a>
+                  </li>
+                  <li class="account-item">
+                    <a (click)="logOut()" class="account-link"> Đăng xuất </a>
+                  </li>
                 </ul>
-            </div>
+              </div>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
+
     <div class="body">
-        <div class="container">
-            <router-outlet></router-outlet>
-        </div>
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
     </div>
+  </div>
 </div>

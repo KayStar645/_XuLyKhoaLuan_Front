@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ThamGiaHd } from '../models/ThamGiaHd.model';
-import { thamGiaHdService } from '../services/thamGiaHD.service';
+import { BaoCao } from '../models/BaoCao.model';
+import { BinhLuan } from '../models/BinhLuan.model';
+import { PbCham } from '../models/PbCham.model';
+import { baoCaoService } from '../services/baoCao.service';
+import { binhLuanService } from '../services/binhLuan.service';
+import { pbChamService } from '../services/pbCham.service';
 
 @Component({
   selector: 'app-test',
@@ -8,35 +12,33 @@ import { thamGiaHdService } from '../services/thamGiaHD.service';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private thamGiaHdService : thamGiaHdService) { }
+  constructor(private binhLuanService : binhLuanService) { }
 
   ngOnInit(): void {
   }
 
   getAll() {
-    this.thamGiaHdService.getAll().subscribe(data => {
+    this.binhLuanService.getAll().subscribe(data => {
       console.log("Get all: ");
       console.log(data);
     });
   }
 
-  getById() {
-    this.thamGiaHdService.getById('GV0001', 'HD001').subscribe(data => {
-      console.log("Thông tin sinh viên: ");
+  /*getById() {
+    this.binhLuanService.getById(1).subscribe(data => {
       console.log(data);
     });
-  }
+  }*/
 
   Add() {
-    var thamGiaHD = new ThamGiaHd();
-    thamGiaHD.maGv = 'GV0002';
-    thamGiaHD.maHd = 'HD001';
-    thamGiaHD.maVt = 'VT002';
+    var binhLuan = new BinhLuan();
+    binhLuan.dot = 1;
+    binhLuan.id = 2;
+    binhLuan.maCv = 'CV002';
+    binhLuan.maSv = 'SV001';
+    binhLuan.namHoc = '2020-2024';
 
-
-    console.log(thamGiaHD);
-
-    this.thamGiaHdService.add(thamGiaHD).subscribe(
+    this.binhLuanService.add(binhLuan).subscribe(
       (success) => {
         console.log("Thêm oke!")
         console.log(success);
@@ -49,12 +51,15 @@ export class TestComponent implements OnInit {
   }
 
   Update() {
-    var thamGiaHD = new ThamGiaHd();
-    thamGiaHD.maGv = 'GV0002';
-    thamGiaHD.maHd = 'HD001';
-    thamGiaHD.maVt = 'VT001';
+    var binhLuan = new BinhLuan();
+    binhLuan.dot = 1;
+    binhLuan.id = 2;
+    binhLuan.maCv = 'CV002';
+    binhLuan.maSv = 'SV001';
+    binhLuan.namHoc = '2020-2024';
+    binhLuan.noiDung = 'Đây là bình luận'
 
-    this.thamGiaHdService.update(thamGiaHD).subscribe(
+    this.binhLuanService.update(binhLuan).subscribe(
       (success) => {
         console.log("Upload oke!");
         console.log(success);
@@ -67,10 +72,9 @@ export class TestComponent implements OnInit {
   }
 
   Delete() {
-    this.thamGiaHdService.delete('GV0002','HD001').subscribe(data => {
+    this.binhLuanService.delete(2).subscribe(data => {
       console.log("Delete: ");
       console.log(data);
     });
   }
-
 }

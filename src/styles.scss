@@ -1,26 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-}
+@import url("./assets/styles/GridSystem.scss");
+@import url("./assets/styles/Margin.scss");
+@import url("./assets/styles/Padding.scss");
+@import url("./assets/styles/GlobalStyles.scss");
 
-html {
-    // font-size: 62.5%;
-    // line-height: 1.6rem;
-    font-family: 'Roboto', sans-serif;
-    box-sizing: border-box;
-    background-color: #e7ecf0;
-    color: #666;
-} 
-
-.block {
-    display: block !important;
-}
-
-.clear {
-    clear: both !important;
+body {
+  background: #e7ecf0;
 }

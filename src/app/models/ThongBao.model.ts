@@ -7,14 +7,5 @@ export class ThongBao {
     public fileTb!: string;
     public maKhoa!: string;
 
-    constructor(maTb: number, tenTb: string, moTa: string, noiDung: string, hinhAnh: string
-        , fileTb: string, maKhoa: string) {
-        this.maTb = maTb;
-        this.tenTb = tenTb;
-        this.moTa = moTa;
-        this.noiDung = noiDung;
-        this.hinhAnh = hinhAnh;
-        this.fileTb = fileTb;
-        this.maKhoa = maKhoa;
-    }
+    constructor() {}
 }
