@@ -12,7 +12,7 @@ import { shareService } from './share.service';
 })
 export class boMonService {
     private apiUrl = environment.api;
-    private boMons!: BehaviorSubject<BoMon>;
+    //private boMons!: BehaviorSubject<BoMon>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

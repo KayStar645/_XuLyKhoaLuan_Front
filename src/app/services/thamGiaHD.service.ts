@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class thamGiaHdService {
     private apiUrl = environment.api;
-    private thamGiaHds!: BehaviorSubject<ThamGiaHd>;
+    //private thamGiaHds!: BehaviorSubject<ThamGiaHd>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

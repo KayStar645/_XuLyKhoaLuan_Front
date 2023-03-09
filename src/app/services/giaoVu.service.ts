@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class giaoVuService {
     private apiUrl = environment.api;
-    private giaoVus!: BehaviorSubject<GiaoVu>;
+    //private giaoVus!: BehaviorSubject<GiaoVu>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

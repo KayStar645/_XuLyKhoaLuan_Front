@@ -12,7 +12,7 @@ import { shareService } from './share.service';
 })
 export class deTaiService {
     private apiUrl = environment.api;
-    private deTais!: BehaviorSubject<DeTai>;
+    //private deTais!: BehaviorSubject<DeTai>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

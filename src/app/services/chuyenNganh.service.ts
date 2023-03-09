@@ -12,12 +12,11 @@ import { shareService } from './share.service';
 })
 export class chuyenNganhService {
     private apiUrl = environment.api;
-    private chuyenNganhs!: BehaviorSubject<ChuyenNganh>;
+    //private chuyenNganhs!: BehaviorSubject<ChuyenNganh>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    //Được
     getAll(): Observable<ChuyenNganh[]> {
       return this.http.get<ChuyenNganh[]>(`${this.apiUrl}/api/Chuyennganhs`, this.shareService.httpOptions);
     }

@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class nhiemVuService {
     private apiUrl = environment.api;
-    private nhiemVus!: BehaviorSubject<NhiemVu>;
+    //private nhiemVus!: BehaviorSubject<NhiemVu>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

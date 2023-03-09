@@ -13,7 +13,7 @@ import { shareService } from './../services/share.service';
 })
 export class hdChamService {
     private apiUrl = environment.api;
-    private HdChams!: BehaviorSubject<HdCham>;
+    //private HdChams!: BehaviorSubject<HdCham>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

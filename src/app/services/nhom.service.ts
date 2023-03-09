@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class nhomService {
     private apiUrl = environment.api;
-    private nhoms!: BehaviorSubject<Nhom>;
+    //private nhoms!: BehaviorSubject<Nhom>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

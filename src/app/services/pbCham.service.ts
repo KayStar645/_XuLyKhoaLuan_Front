@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class pbChamService {
     private apiUrl = environment.api;
-    private PbChams!: BehaviorSubject<PbCham>;
+    //private PbChams!: BehaviorSubject<PbCham>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

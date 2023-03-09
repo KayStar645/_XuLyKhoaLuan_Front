@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class xacNhanService {
     private apiUrl = environment.api;
-    private xacNhans!: BehaviorSubject<XacNhan>;
+    //private xacNhans!: BehaviorSubject<XacNhan>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

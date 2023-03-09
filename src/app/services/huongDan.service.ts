@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class huongDanService {
     private apiUrl = environment.api;
-    private huongDans!: BehaviorSubject<HuongDan>;
+    //private huongDans!: BehaviorSubject<HuongDan>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

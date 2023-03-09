@@ -13,7 +13,7 @@ import { shareService } from './share.service';
 })
 export class dangKyService {
     private apiUrl = environment.api;
-    private DangKys!: BehaviorSubject<DangKy>;
+    //private DangKys!: BehaviorSubject<DangKy>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

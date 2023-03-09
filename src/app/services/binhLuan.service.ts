@@ -12,7 +12,7 @@ import { shareService } from './share.service';
 })
 export class binhLuanService {
     private apiUrl = environment.api;
-    private BinhLuans!: BehaviorSubject<BinhLuan>;
+    //private BinhLuans!: BehaviorSubject<BinhLuan>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

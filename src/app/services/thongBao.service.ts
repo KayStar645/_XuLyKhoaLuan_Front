@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class thongBaoService {
     private apiUrl = environment.api;
-    private thongBaos!: BehaviorSubject<ThongBao>;
+    //private thongBaos!: BehaviorSubject<ThongBao>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

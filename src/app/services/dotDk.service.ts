@@ -13,7 +13,7 @@ import { shareService } from './share.service';
 })
 export class dotDkService {
     private apiUrl = environment.api;
-    private dotDks!: BehaviorSubject<DotDk>;
+    //private dotDks!: BehaviorSubject<DotDk>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

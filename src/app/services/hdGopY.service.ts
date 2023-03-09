@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class hdGopYService {
     private apiUrl = environment.api;
-    private HdGopis!: BehaviorSubject<HdGopi>;
+    //private HdGopis!: BehaviorSubject<HdGopi>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

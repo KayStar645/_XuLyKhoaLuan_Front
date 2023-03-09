@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class hdPhanBienChamService {
     private apiUrl = environment.api;
-    private HdPhanBienChams!: BehaviorSubject<HdPhanBienCham>;
+    //private HdPhanBienChams!: BehaviorSubject<HdPhanBienCham>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

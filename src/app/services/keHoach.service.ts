@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class keHoachService {
     private apiUrl = environment.api;
-    private keHoachs!: BehaviorSubject<KeHoach>;
+    //private keHoachs!: BehaviorSubject<KeHoach>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

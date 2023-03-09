@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class khoaService {
     private apiUrl = environment.api;
-    private khoas!: BehaviorSubject<Khoa>;
+    //private khoas!: BehaviorSubject<Khoa>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

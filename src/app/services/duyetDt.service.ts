@@ -12,7 +12,7 @@ import { shareService } from './share.service';
 })
 export class duyetDtService {
     private apiUrl = environment.api;
-    private duyetDts!: BehaviorSubject<DuyetDt>;
+    //private duyetDts!: BehaviorSubject<DuyetDt>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

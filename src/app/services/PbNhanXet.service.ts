@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class pbNhanXetService {
     private apiUrl = environment.api;
-    private pbNhanXets!: BehaviorSubject<PbNhanXet>;
+    //private pbNhanXets!: BehaviorSubject<PbNhanXet>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

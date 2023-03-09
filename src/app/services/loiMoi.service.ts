@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class loiMoiService {
     private apiUrl = environment.api;
-    private LoiMois!: BehaviorSubject<LoiMoi>;
+    //private LoiMois!: BehaviorSubject<LoiMoi>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

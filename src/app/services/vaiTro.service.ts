@@ -12,7 +12,7 @@ import { shareService } from './../services/share.service';
 })
 export class vaiTroService {
     private apiUrl = environment.api;
-    private vaiTros!: BehaviorSubject<VaiTro>;
+    //private vaiTros!: BehaviorSubject<VaiTro>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}

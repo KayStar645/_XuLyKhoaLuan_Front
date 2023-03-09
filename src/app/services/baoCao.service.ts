@@ -12,7 +12,7 @@ import { shareService } from './share.service';
 })
 export class baoCaoService {
     private apiUrl = environment.api;
-    private BaoCaos!: BehaviorSubject<BaoCao>;
+    //private BaoCaos!: BehaviorSubject<BaoCao>;
 
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
