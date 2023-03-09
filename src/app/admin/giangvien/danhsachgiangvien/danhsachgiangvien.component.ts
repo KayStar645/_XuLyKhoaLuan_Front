@@ -40,7 +40,6 @@ export class DanhsachgiangvienComponent implements OnInit {
       const mgv = element.firstElementChild.innerHTML;
       this.giangVienService.getById(mgv).subscribe(data => {
         this.lineGV = data;
-        console.log(this.lineGV);
       });
     }
   }

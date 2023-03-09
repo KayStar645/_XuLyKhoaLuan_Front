@@ -37,9 +37,10 @@
     </li>
     <li class="search-item row ali-center jus-end flex-1">
       <button class="search-button" (click)="handleToggleAdd()">Thêm</button>
-      <button class="search-button" (click)="importGiangVien()">Nhập DS</button>
       <button class="search-button" (click)="handleToggleUpdate()">Sửa</button>
       <button class="search-button" (click)="clickDelete()">Xóa</button>
+      <button class="search-button" (click)="importGiangVien()">Nhập DS</button>
+      <!-- <input type="file" name="" id="" (input)="onInput($event)"> -->
     </li>
   </ul>
   <!-- <router-outlet></router-outlet> -->
@@ -48,7 +49,7 @@
   <div *ngIf="isAddFormActive; then add"></div>
   <ng-template #add>
     <div id="create" (click)="handleToggleAdd()"></div>
-    <div id="create_box" [formGroup]="gvAddForm" class="form">
+    <form id="create_box" [formGroup]="gvAddForm" class="form">
       <h2 class="title">THÊM GIẢNG VIÊN MỚI</h2>
 
       <div class="row form-list form">
@@ -59,7 +60,7 @@
               <input
                 (blur)="onBlur($event)"
                 type="text"
-                formControlName="maGV"
+                formControlName="maGv"
                 [value]="this.gvUpdate?.maGv"
               />
               <p class="error-mess"></p>
@@ -83,7 +84,7 @@
             <div class="form-value">
               <input
                 type="text"
-                formControlName="tenGV"
+                formControlName="tenGv"
                 [value]="this.gvUpdate?.tenGv"
                 (blur)="onBlur($event)"
               />
@@ -118,7 +119,7 @@
           <label class="form-control row ali-center form-control">
             <p class="label">Bộ môn</p>
             <div class="form-value">
-              <select formControlName="maBM">
+              <select formControlName="maBm">
                 <option
                   *ngFor="let bm of listBoMon"
                   [value]="bm.maBm"
@@ -185,7 +186,7 @@
           Thêm giảng viên
         </button>
       </div>
-    </div>
+    </form>
   </ng-template>
 
   <div *ngIf="isUpdateFormActive; then update"></div>
@@ -207,7 +208,7 @@
               <p class="error-mess"></p>
             </div>
           </label>
-          <!-- <label class="input row ali-center form-control">
+          <label class="input row ali-center form-control">
             <p class="label">Email</p>
             <div class="form-value">
               <input
@@ -224,7 +225,7 @@
             <div class="form-value">
               <input
                 type="text"
-                formControlName="tenGV"
+                formControlName="tenGv"
                 [value]="this.gvUpdate?.tenGv"
               />
               <p class="error-mess"></p>
@@ -251,13 +252,13 @@
 
               <p class="error-mess"></p>
             </div>
-          </label> -->
+          </label>
         </div>
-        <!-- <div class="h-6 p-l-12 p-r-12">
+        <div class="h-6 p-l-12 p-r-12">
           <label class="form-control row ali-center form-control">
             <p class="label">Bộ môn</p>
             <div class="form-value">
-              <select formControlName="maBM">
+              <select formControlName="maBm">
                 <option *ngFor="let bm of listBoMon" [value]="bm.maBm">
                   {{ bm.tenBm }}
                 </option>
@@ -310,7 +311,7 @@
               <p class="error-mess"></p>
             </div>
           </label>
-        </div> -->
+        </div>
       </div>
 
       <div class="submit-btn text-right">

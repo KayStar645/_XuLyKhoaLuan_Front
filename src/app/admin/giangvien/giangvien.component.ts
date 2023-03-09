@@ -9,6 +9,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Form } from 'src/assets/utils';
+import * as XLSX from 'xlsx';
+// import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-giangvien',
@@ -24,21 +26,23 @@ export class GiangvienComponent implements OnInit {
   selectedBomon!: string;
   isAddFormActive: boolean = false;
   isUpdateFormActive: boolean = false;
+  giangVienFile: any[] = [];
 
   gvAddForm: any;
   gvUpdateForm: any;
 
   gvForm = new Form({
-    maGv: ['', Validators.required]
-    // maBM: ['', Validators.required],
-    // tenGV: ['', Validators.required],
-    // email: [''],
-    // ngaySinh: [''],
-    // ngayNhanViec: ['', Validators.required],
-    // gioiTinh: ['', Validators.required],
-    // hocHam: [''],
-    // sdt: [''],
-    // hocVi: [''],
+    maGv: ['', Validators.required],
+    maBm: ['', Validators.required],
+    tenGv: ['', Validators.required],
+    email: [''],
+    ngaySinh: ['', Validators.required],
+    ngayNhanViec: ['', Validators.required],
+    gioiTinh: ['', Validators.required],
+    hocHam: [''],
+    sdt: [''],
+    hocVi: [''],
+    ngayNghi: [''],
   });
 
   constructor(
@@ -56,7 +60,7 @@ export class GiangvienComponent implements OnInit {
     this.titleService.setTitle('Danh sách giảng viên');
     this.boMonService.getAll().subscribe((data) => {
       this.listBoMon = data;
-      if(data.length > 0) {
+      if (data.length > 0) {
         this.selectedBomon = data[0].maBm;
       }
     });
@@ -70,13 +74,31 @@ export class GiangvienComponent implements OnInit {
 
   handleToggleUpdate() {
     this.gvForm.form.setValue({
-      maGv: this.DSGVComponent.lineGV.maGv
+      ...this.DSGVComponent.lineGV,
+      ngayNhanViec: this.DSGVComponent.lineGV.ngayNhanViec.substring(0, 10),
+      ngaySinh: this.DSGVComponent.lineGV.ngaySinh.substring(0, 10),
     });
     this.isUpdateFormActive = !this.isUpdateFormActive;
   }
 
   onBlur(event: any) {
     this.gvForm.inputBlur(event);
+  }
+
+  onInput(event: any) {
+    let file = event.target.files[0];
+
+    const fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(file);
+    fileReader.onload = (event) => {
+      const arrayBuffer: any = fileReader.result;
+      const data = new Uint8Array(arrayBuffer);
+      const workBook = XLSX.read(data, { type: 'array' });
+      const workSheet = workBook.Sheets[workBook.SheetNames[0]];
+      const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+
+      this.giangVienFile = excelData;
+    };
   }
 
   clickDelete() {
@@ -90,7 +112,7 @@ export class GiangvienComponent implements OnInit {
       _delete.classList.remove('active');
       _delete_box.classList.remove('active');
     }
-  }
+  } 
 
   addGiangVien() {
     if (this.gvAddForm.valid) {
@@ -111,28 +133,24 @@ export class GiangvienComponent implements OnInit {
 
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
-          console.log('hiiiii');
+          console.log(data);
+          
           this.DSGVComponent.getAllGiangVien();
         },
         (error) => {
-          console.log('hii');
           console.log(error);
         }
       );
     } else {
-      console.log('Không vô');
+      this.gvForm.validate('#create_box');
     }
   }
 
   importGiangVien() {}
 
-  updateGiangVien() {
-    console.log(this.gvUpdateForm.value);
-  }
+  updateGiangVien() {}
 
-  deleteGiangVien() {
-    
-  }
+  deleteGiangVien() {}
 
   getGiangVienByMaBM(event: any) {
     const maBM = event.target.value;
