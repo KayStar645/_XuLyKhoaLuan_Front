@@ -50,15 +50,6 @@
   bottom: 0;
   right: 0;
   opacity: 0.2;
-  display: none;
-}
-
-#create.active {
-  display: block;
-}
-
-#update.active {
-  display: block;
 }
 
 #create_box,
@@ -74,64 +65,10 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 24px 30px;
   z-index: 100;
-  display: none;
-}
-
-#create_box.active {
-  display: block;
-}
-
-#update_box.active {
-  display: block;
-}
-
-.CUD_header {
-  text-align: center;
-  font-size: 2.4rem;
-  color: #007bff;
-  padding-bottom: 16px;
 }
 
 .form-list {
   margin: 0 -12px;
-}
-
-.form-control {
-  padding-top: 12px;
-  padding-bottom: 12px;
-
-  p {
-    width: 120px;
-    font-size: 1.4rem;
-    color: #5c676f;
-  }
-
-  input,
-  select {
-    flex: 1;
-    font-size: 1.4rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    height: 40px;
-    padding: 0 12px;
-  }
-}
-
-select.text {
-  padding: 6px !important;
-}
-
-.btn-add,
-.btn-update {
-  cursor: pointer;
-  background-color: #007bff;
-  color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 12px;
-  font-size: 1.4rem;
-  margin-top: 20px;
-  font-weight: 600;
 }
 
 .notification {

@@ -1,6 +1,7 @@
 {
   "name": "xu-ly-khoa-luanfe",
   "version": "0.0.0",
+  "main": "index.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

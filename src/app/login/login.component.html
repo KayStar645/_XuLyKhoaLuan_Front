@@ -4,8 +4,8 @@
   </div>
   <div id="main">
     <div class="row ali-start jus-center h-100">
-      <div id="form__role">
-        <h2 class="text-center">Bạn là ai ?</h2>
+      <div id="form__role" class="form">
+        <h2 class="title">Bạn là ai ?</h2>
         <div class="row ali-center role-list">
           <div class="select__role text-center">
             <div class="role" (click)="clickRole($event)" name="Admin">
@@ -25,36 +25,67 @@
         </div>
       </div>
 
-      <form
-        id="form"
-        onsubmit="return false"
-        (submit)="logIn()"
-        [formGroup]="loginForm"
-      >
-        <label class="input row ali-center">
-          <p class="label">Mã đăng nhập</p>
-          <input class="text flex-1" type="text" formControlName="username" />
-        </label>
-        <label class="input row ali-center">
-          <p class="label">Mật khẩu</p>
-          <input class="text flex-1" type="password" formControlName="password" />
-        </label>
-        <label class="input row ali-center">
-          <p class="label">Mã bảo vệ</p>
-          <input
-            class="text flex-1 protect"
-            type="text"
-            maxlength="4"
-            name="securitycode"
-          />
-        </label>
-        <div class="button text-right">
-          <button type="submit">ĐĂNG NHẬP</button>
-        </div>
-        <div class="back">
-          <a class="back__link" (click)="clickBack($event)">Quay lại</a>
-        </div>
-      </form>
+      <div *ngIf="activeForm == true; then form"></div>
+
+      <ng-template #form>
+        <form
+          id="form"
+          class="form"
+          (ngSubmit)="logIn()"
+          [formGroup]="loginForm"
+        >
+          <p class="title">ĐĂNG NHẬP VÀO HỆ THỐNG</p>
+          <label class="form-control row ali-center">
+            <p class="label">Tài khoản</p>
+
+            <div class="form-value">
+              <input
+                (blur)="onBlur($event)"
+                type="text"
+                formControlName="username"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="form-control row ali-center">
+            <p class="label">Mật khẩu</p>
+            <div class="form-value">
+              <input
+                (blur)="onBlur($event)"
+                type="password"
+                formControlName="password"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <label class="form-control row ali-center">
+            <p class="label">Mã bảo vệ</p>
+            <div class="form-value">
+              <input
+                (blur)="onBlur($event)"
+                class="protect text-center"
+                type="text"
+                formControlName="protectCode"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+          <p class="error-mess">Tài khoản hoặc mật khẩu không tồn tại</p>
+
+          <div class="submit-btn text-right">
+            <button type="submit">ĐĂNG NHẬP</button>
+          </div>
+          <div class="back row ali-center">
+            <div>
+              <i class="fa-solid fa-chevron-left"></i>
+            </div>
+
+            <div>
+              <a class="back__link" (click)="clickBack($event)">Quay lại</a>
+            </div>
+          </div>
+        </form>
+      </ng-template>
     </div>
   </div>
 
