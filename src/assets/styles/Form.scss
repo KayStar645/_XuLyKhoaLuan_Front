@@ -62,6 +62,12 @@
   background: #ffffff;
 }
 
+.form-value input:disabled,
+.form-control section:disabled {
+  background: #cccccc29;
+  color: #5e6267;
+}
+
 .form-value input:focus,
 .form-value select:focus {
   box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);

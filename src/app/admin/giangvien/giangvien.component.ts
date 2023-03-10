@@ -29,6 +29,7 @@ export class GiangvienComponent implements OnInit {
 
   gvAddForm: any;
   gvUpdateForm: any;
+  gvOldForm: any;
 
   gvForm = new Form({
     maGv: ['', Validators.required],
@@ -80,7 +81,7 @@ export class GiangvienComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    this.gvForm.form.get('maGv')?.disable();
+    // this.gvForm.form.get('maGv')?.disable();
 
     if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
       this.gvForm.form.setValue({
@@ -91,6 +92,7 @@ export class GiangvienComponent implements OnInit {
 
       updateBox.classList.add('active');
       update.classList.add('active');
+      this.gvOldForm = this.gvForm.form.value;
     } else {
       this.toastr.warning(
         'Vui lòng chọn giảng viên để cập nhập thông tin',
@@ -99,31 +101,19 @@ export class GiangvienComponent implements OnInit {
     }
   }
 
-  isFormHaveValue(formSelector: string) {
-    const form = this.elementRef.nativeElement.querySelector(formSelector);
-
-    for (let i = 0; i < form.length; i++) {
-      const element = form[i];
-
-      if (element.value !== '') {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   handleToggleAdd() {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
-    let notify = this.elementRef.nativeElement.querySelector('.form-notify');
+    let notify = this.elementRef.nativeElement.querySelector(
+      '#create_box .form-notify'
+    );
     const cancel = this.elementRef.nativeElement.querySelector(
       '#create_box .cancel'
     );
     const agree =
       this.elementRef.nativeElement.querySelector('#create_box .agree');
 
-    if (this.isFormHaveValue('#create_box')) {
+    if (this.gvForm.isHaveValue('#create_box')) {
       notify.classList.add('active');
 
       cancel.addEventListener('click', () => {
@@ -145,6 +135,45 @@ export class GiangvienComponent implements OnInit {
   handleToggleUpdate() {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
+    let notify = this.elementRef.nativeElement.querySelector(
+      '#update_box .form-notify'
+    );
+
+    if (this.gvOldForm !== this.gvForm.form.value) {
+      const cancel = this.elementRef.nativeElement.querySelector(
+        '#update_box .cancel'
+      );
+      const agree =
+        this.elementRef.nativeElement.querySelector('#update_box .agree');
+      const save =
+        this.elementRef.nativeElement.querySelector('#update_box .save');
+      const progress = updateBox.querySelector('.progress-bar');
+
+      notify.classList.add('active');
+      setTimeout(() => {
+        progress.classList.remove('active');
+      }, 3500);
+
+      cancel.addEventListener('click', () => {
+        notify.classList.remove('active');
+      });
+
+      agree.addEventListener('click', () => {
+        updateBox.classList.remove('active');
+        update.classList.remove('active');
+        notify.classList.remove('active');
+      });
+
+      save.addEventListener('click', () => {
+        this.updateGiangVien();
+        update.classList.remove('active');
+        updateBox.classList.remove('active');
+        notify.classList.remove('active');
+      });
+    } else {
+      update.classList.remove('active');
+      updateBox.classList.remove('active');
+    }
   }
 
   onBlur(event: any) {
@@ -200,9 +229,14 @@ export class GiangvienComponent implements OnInit {
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
           this.DSGVComponent.getAllGiangVien();
-          this.gvForm.resetForm("#create_box");
+          this.gvForm.resetForm('#create_box');
         },
-        (error) => {}
+        (error) => {
+          this.toastr.error(
+            'Thông tin bạn cung cấp không hợp lệ.',
+            'Thông báo !'
+          );
+        }
       );
     } else {
       this.gvForm.validate('#create_box');
@@ -211,7 +245,53 @@ export class GiangvienComponent implements OnInit {
 
   importGiangVien() {}
 
-  updateGiangVien() {}
+  updateGiangVien() {
+    let update = this.elementRef.nativeElement.querySelector('#update');
+    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
+    if (this.gvUpdateForm.valid) {
+      if (this.gvOldForm === this.gvForm.form.value) {
+        this.toastr.warning(
+          'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
+          'Thông báo !'
+        );
+      } else if (this.gvOldForm !== this.gvForm.form.value) {
+        const giangVien = new GiangVien();
+        giangVien.init(
+          this.gvUpdateForm.value['maGv'],
+          this.gvUpdateForm.value['tenGv'],
+          this.gvUpdateForm.value['ngaySinh'],
+          this.gvUpdateForm.value['gioiTinh'],
+          this.gvUpdateForm.value['email'],
+          this.gvUpdateForm.value['sdt'],
+          this.gvUpdateForm.value['hocHam'],
+          this.gvUpdateForm.value['hocVi'],
+          this.gvUpdateForm.value['ngayNhanViec'],
+          '',
+          this.gvUpdateForm.value['maBm']
+        );
+
+        this.giangVienService.update(giangVien).subscribe(
+          (data) => {
+            this.DSGVComponent.getAllGiangVien();
+            this.toastr.success(
+              'Cập nhập thông tin nhân viên thành công',
+              'Thông báo !'
+            );
+            update.classList.remove('active');
+            updateBox.classList.remove('active');
+          },
+          (error) => {
+            this.toastr.error(
+              'Thông tin bạn cung cấp không hợp lệ.',
+              'Thông báo !'
+            );
+          }
+        );
+      }
+    } else {
+      this.gvForm.validate('#update_box');
+    }
+  }
 
   deleteGiangVien() {}
 

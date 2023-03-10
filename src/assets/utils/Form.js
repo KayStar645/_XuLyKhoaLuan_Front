@@ -49,6 +49,20 @@ class Form {
       setErrors(errors, e.target);
     }
   }
+
+  isHaveValue(formSelector) {
+    const form = document.querySelector(formSelector);
+
+    for (let i = 0; i < form.length; i++) {
+      const element = form[i];
+
+      if (element.value !== "") {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
 
 export default Form;

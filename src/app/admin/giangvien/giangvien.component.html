@@ -57,6 +57,7 @@
           <button class="cancel">Hủy</button>
           <button class="agree">Đồng ý</button>
         </div>
+        <div class="progress-bar"></div>
       </div>
     </div>
 
@@ -164,6 +165,7 @@
             <input
               type="text"
               formControlName="sdt"
+              maxlength="10"
               (blur)="gvForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
@@ -194,6 +196,22 @@
 
   <div id="update" (click)="handleToggleUpdate()"></div>
   <div id="update_box" [formGroup]="gvUpdateForm" class="form">
+    <div class="form-notify">
+      <div class="notify-container">
+        <p class="notify-title">Thông báo !</p>
+        <p class="notify-content">
+          Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
+        </p>
+        <div class="row ali-center jus-end">
+          <button class="cancel">Hủy</button>
+          <button class="agree">Đồng ý</button>
+          <button class="save">Lưu thay đổi và thoát</button>
+        </div>
+
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+
     <h2 class="title">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
     <div class="row form-list form">
       <div class="h-6 p-l-12 p-r-12">
@@ -203,7 +221,7 @@
             <input
               type="text"
               formControlName="maGv"
-              [value]="this.gvUpdate?.maGv"
+              [value]="gvUpdate?.maGv"
             />
             <p class="error-mess"></p>
           </div>
@@ -301,6 +319,7 @@
             <input
               type="text"
               formControlName="sdt"
+              maxlength="10"
               [value]="this.gvUpdate?.sdt"
             />
             <p class="error-mess"></p>
@@ -327,11 +346,5 @@
       </button>
     </div>
   </div>
-
-  <div class="notification">
-    <div class="success">Thêm thành công!</div>
-    <div class="error">Thêm thất bại!</div>
-  </div>
-
   <!-- <div id="delete" (click)="clickDelete()">delete</div> -->
 </div>
