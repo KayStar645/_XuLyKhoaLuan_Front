@@ -17,7 +17,8 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth/auth.service';
 import { User } from '../models/User.model';
 import { Observable } from 'rxjs/internal/Observable';
-import { Form, getParentElement, setErrors } from 'src/assets/utils';
+import { Form } from 'src/assets/utils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -44,7 +45,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private router: Router,
     private fb: FormBuilder,
     private http: HttpClient,
-    private giaoVuService: giaoVuService
+    private giaoVuService: giaoVuService,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.form.form;
   }

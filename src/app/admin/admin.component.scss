@@ -1,106 +1,107 @@
 // Header
 .container {
-    width: 80%;
-    margin: 0 auto;
-    // color: #666;
+  width: 80%;
+  margin: 0 auto;
+  // color: #666;
 }
 
 .header {
-    height: 60px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #fff;
+  height: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 99999;
 }
 
 .header__right {
-    // margin-right: 4px;
+  // margin-right: 4px;
 }
 
-.header__right-list{
-    gap: 12px;
+.header__right-list {
+  gap: 12px;
 }
 
 .header__right-item {
-    position: relative;
-    font-size: 1.4rem;
-    font-weight: 400;
+  position: relative;
+  font-size: 1.4rem;
+  font-weight: 400;
 }
 
 .header__right-link {
-    color: #666;
-    padding: 8px;
+  color: #666;
+  padding: 8px;
 }
 
 .header__right-link:hover {
-    color: #1DA1F2;
+  color: #1da1f2;
 }
 
 .header__right-img img {
-    width: 30px;
-    border-radius: 50%;
+  width: 30px;
+  border-radius: 50%;
 }
 
 .header__right-account {
-    margin-left: 8px;
-    -webkit-user-select: none;
-    user-select: none;
+  margin-left: 8px;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .header-icon {
-    height: 16px;
+  height: 16px;
 }
 
 .icon-m-right {
-    margin-right: 2px;
+  margin-right: 2px;
 }
 
 // Box account
 #box-body {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
 }
 
 #box-account {
-    width: 180px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    position: absolute;
-    right: 0;
-    border-radius: 4px;
-    display: none;
+  width: 180px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  position: absolute;
+  right: 0;
+  border-radius: 4px;
+  display: none;
 }
 
-#box-account.active{
-    display: block;
+#box-account.active {
+  display: block;
 }
 
 .account-item {
-    font-weight: 500;
-    font-size: 1.3rem;
+  font-weight: 500;
+  font-size: 1.3rem;
 }
 
 .account-link {
-    display: block;
-    text-transform: none;
-    color: #666;
-    padding: 8px 16px;
-    border-bottom: 1px solid #efecec;
+  display: block;
+  text-transform: none;
+  color: #666;
+  padding: 8px 16px;
+  border-bottom: 1px solid #efecec;
 }
 
 .account-link:hover {
-    color: #1DA1F2;
-    cursor: pointer;
+  color: #1da1f2;
+  cursor: pointer;
 }
 
 // Main
 .body {
-    margin-top: 60px;
+  margin-top: 60px;
 }
