@@ -21,6 +21,9 @@ import { TestComponent } from './test/test.component';
 import { GiangvienComponent } from './admin/giangvien/giangvien.component';
 import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
 import { DanhsachsinhvienComponent } from './admin/sinhvien/danhsachsinhvien/danhsachsinhvien.component';
+import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
+import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
+import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,7 @@ import { DanhsachsinhvienComponent } from './admin/sinhvien/danhsachsinhvien/dan
 
     HomeComponent, 
 
-    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, DanhsachsinhvienComponent, 
+    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, DanhsachsinhvienComponent, DashboardMainComponent, DashboardThongbaoComponent, DashboardLoimoiComponent, 
   ],
 
   imports: [

@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/admin']);
       } else if (localStorage.getItem('role') === 'Teacher') {
         this.router.navigate(['/home']);
-      } else if (localStorage.getItem('role') === 'Studnet') {
+      } else if (localStorage.getItem('role') === 'Student') {
         this.router.navigate(['/dashboard']);
       } else {
         this.router.navigate(['/login']);

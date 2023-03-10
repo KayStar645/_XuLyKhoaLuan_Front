@@ -15,6 +15,9 @@ import { PhancongComponent } from './admin/phancong/phancong.component';
 import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component';
 import { GiangvienComponent } from './admin/giangvien/giangvien.component';
 import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
+import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
+import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
+import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -36,7 +39,10 @@ const routes: Routes = [
           {path: 'danh-sach-giang-vien', component: DanhsachgiangvienComponent, /* canActivate: [AuthGuard] */},
         ]
       },
-      { path: 'sinh-vien', component: SinhvienComponent, /* canActivate: [AuthGuard] */},
+      { 
+        path: 'sinh-vien', 
+        component: SinhvienComponent, /* canActivate: [AuthGuard] */
+      },
       { path: 'quan-ly-chung', component: QuanlychungComponent, /* canActivate: [AuthGuard] */},
     ],
     canActivate: [AuthGuard] 
@@ -46,7 +52,15 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
 
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { 
+    path: 'dashboard', 
+    component: DashboardComponent, /*canActivate: [AuthGuard]*/
+    children: [
+      { path: 'dashboard-main', component: DashboardMainComponent, /* canActivate: [AuthGuard] */},
+      { path: 'dashboard-loimoi', component: DashboardLoimoiComponent, /* canActivate: [AuthGuard] */},
+      { path: 'dashboard-thongbao', component: DashboardThongbaoComponent, /* canActivate: [AuthGuard] */},
+    ]
+  },
   { path: '**', redirectTo: '' },
 ];
 
