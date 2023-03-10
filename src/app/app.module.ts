@@ -21,6 +21,9 @@ import { TestComponent } from './test/test.component';
 import { GiangvienComponent } from './admin/giangvien/giangvien.component';
 import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
 import { DanhsachsinhvienComponent } from './admin/sinhvien/danhsachsinhvien/danhsachsinhvien.component';
+import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
+import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
+import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
@@ -46,12 +49,16 @@ import { ToastrModule } from 'ngx-toastr';
 
     HomeComponent,
 
+<<<<<<< HEAD
+    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, DanhsachsinhvienComponent, DashboardMainComponent, DashboardThongbaoComponent, DashboardLoimoiComponent, 
+=======
     DashboardComponent,
     PhancongComponent,
     QuanlychungComponent,
     TestComponent,
     DanhsachgiangvienComponent,
     DanhsachsinhvienComponent,
+>>>>>>> 35b877dbb16591b4496d1de9c2035c8d683e3dde
   ],
 
   imports: [

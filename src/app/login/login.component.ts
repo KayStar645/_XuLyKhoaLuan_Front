@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private giaoVuService: giaoVuService,
-    private toastr: ToastrService
+    //private toastr: ToastrService
   ) {
     this.loginForm = this.form.form;
   }
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/admin']);
       } else if (localStorage.getItem('role') === 'Teacher') {
         this.router.navigate(['/home']);
-      } else if (localStorage.getItem('role') === 'Studnet') {
+      } else if (localStorage.getItem('role') === 'Student') {
         this.router.navigate(['/dashboard']);
       } else {
         this.router.navigate(['/login']);
