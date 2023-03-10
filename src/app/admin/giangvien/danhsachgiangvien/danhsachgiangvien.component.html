@@ -3,25 +3,29 @@
     <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
       <tr>
         <th [width]="1">MGV</th>
-        <th [width]="150">Họ và tên</th>
-        <th [width]="1">Email</th>
+        <th [width]="120">Họ và tên</th>
+        <th [width]="50">Email</th>
         <th [width]="1">Ngày sinh</th>
         <th [width]="50">Giới tính</th>
-        <th [width]="1">SĐT</th>
+        <th [width]="70">SĐT</th>
         <th [width]="70">Ngày nhận việc</th>
         <th [width]="70">Ngày nghỉ</th>
-        <th [width]="100">Bộ môn công tác</th>
+        <th [width]="150">Bộ môn công tác</th>
       </tr>
       <tbody *ngFor="let gv of listGV">
         <tr class="br-line" (dblclick)="clickLine($event)">
           <td class="text-center">{{ gv.maGv }}</td>
-          <td class="text-left">{{ gv?.tenGv }}</td>
+          <td class="text-left">
+            {{ gv?.hocHam }} {{ gv?.hocVi }} {{ gv?.tenGv }}
+          </td>
           <td class="text-left">{{ gv?.email }}</td>
           <td class="text-center">{{ dateFormat(gv.ngaySinh) }}</td>
           <td class="text-center">{{ gv?.gioiTinh }}</td>
           <td class="text-center">{{ gv?.sdt }}</td>
           <td class="text-center">{{ dateFormat(gv.ngayNhanViec) }}</td>
-          <td class="text-center">{{ dateFormat(gv.ngayNghi) == null ? "" : gv.ngayNghi }}</td>
+          <td class="text-center">
+            {{ dateFormat(gv.ngayNghi) == null ? "" : gv.ngayNghi }}
+          </td>
           <td class="text-left">{{ getTenBMById(gv.maBm) }}</td>
         </tr>
       </tbody>

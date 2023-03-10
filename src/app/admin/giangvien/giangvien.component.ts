@@ -7,9 +7,10 @@ import { QuanlychungComponent } from './../quanlychung/quanlychung.component';
 import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Form } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
+import { ToastrService } from 'ngx-toastr';
 // import * as FileSaver from 'file-saver';
 
 @Component({
@@ -24,8 +25,6 @@ export class GiangvienComponent implements OnInit {
   gvUpdate: any = GiangVien;
   searchName = '';
   selectedBomon!: string;
-  isAddFormActive: boolean = false;
-  isUpdateFormActive: boolean = false;
   giangVienFile: any[] = [];
 
   gvAddForm: any;
@@ -35,7 +34,7 @@ export class GiangvienComponent implements OnInit {
     maGv: ['', Validators.required],
     maBm: ['', Validators.required],
     tenGv: ['', Validators.required],
-    email: [''],
+    email: ['', Validators.email],
     ngaySinh: ['', Validators.required],
     ngayNhanViec: ['', Validators.required],
     gioiTinh: ['', Validators.required],
@@ -50,7 +49,8 @@ export class GiangvienComponent implements OnInit {
     private router: Router,
     private elementRef: ElementRef,
     private boMonService: boMonService,
-    private giangVienService: giangVienService
+    private giangVienService: giangVienService,
+    private toastr: ToastrService
   ) {
     this.gvAddForm = this.gvForm.form;
     this.gvUpdateForm = this.gvForm.form;
@@ -68,17 +68,83 @@ export class GiangvienComponent implements OnInit {
     this.gvUpdate = this.DSGVComponent?.lineGV;
   }
 
+  onShowFormAdd() {
+    let createBox = this.elementRef.nativeElement.querySelector('#create_box');
+    let create = this.elementRef.nativeElement.querySelector('#create');
+
+    createBox.classList.add('active');
+    create.classList.add('active');
+  }
+
+  onShowFormUpdate() {
+    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
+    let update = this.elementRef.nativeElement.querySelector('#update');
+
+    this.gvForm.form.get('maGv')?.disable();
+
+    if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
+      this.gvForm.form.setValue({
+        ...this.DSGVComponent.lineGV,
+        ngayNhanViec: this.DSGVComponent.lineGV.ngayNhanViec.substring(0, 10),
+        ngaySinh: this.DSGVComponent.lineGV.ngaySinh.substring(0, 10),
+      });
+
+      updateBox.classList.add('active');
+      update.classList.add('active');
+    } else {
+      this.toastr.warning(
+        'Vui lòng chọn giảng viên để cập nhập thông tin',
+        'Thông báo !'
+      );
+    }
+  }
+
+  isFormHaveValue(formSelector: string) {
+    const form = this.elementRef.nativeElement.querySelector(formSelector);
+
+    for (let i = 0; i < form.length; i++) {
+      const element = form[i];
+
+      if (element.value !== '') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   handleToggleAdd() {
-    this.isAddFormActive = !this.isAddFormActive;
+    let createBox = this.elementRef.nativeElement.querySelector('#create_box');
+    let create = this.elementRef.nativeElement.querySelector('#create');
+    let notify = this.elementRef.nativeElement.querySelector('.form-notify');
+    const cancel = this.elementRef.nativeElement.querySelector(
+      '#create_box .cancel'
+    );
+    const agree =
+      this.elementRef.nativeElement.querySelector('#create_box .agree');
+
+    if (this.isFormHaveValue('#create_box')) {
+      notify.classList.add('active');
+
+      cancel.addEventListener('click', () => {
+        notify.classList.remove('active');
+      });
+
+      agree.addEventListener('click', () => {
+        this.gvForm.resetForm('#create_box');
+        createBox.classList.remove('active');
+        create.classList.remove('active');
+        notify.classList.remove('active');
+      });
+    } else {
+      createBox.classList.remove('active');
+      create.classList.remove('active');
+    }
   }
 
   handleToggleUpdate() {
-    this.gvForm.form.setValue({
-      ...this.DSGVComponent.lineGV,
-      ngayNhanViec: this.DSGVComponent.lineGV.ngayNhanViec.substring(0, 10),
-      ngaySinh: this.DSGVComponent.lineGV.ngaySinh.substring(0, 10),
-    });
-    this.isUpdateFormActive = !this.isUpdateFormActive;
+    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
+    let update = this.elementRef.nativeElement.querySelector('#update');
   }
 
   onBlur(event: any) {
@@ -118,8 +184,8 @@ export class GiangvienComponent implements OnInit {
     if (this.gvAddForm.valid) {
       const giangVien = new GiangVien();
       giangVien.init(
-        this.gvAddForm.value['maGV'],
-        this.gvAddForm.value['tenGV'],
+        this.gvAddForm.value['maGv'],
+        this.gvAddForm.value['tenGv'],
         this.gvAddForm.value['ngaySinh'],
         this.gvAddForm.value['gioiTinh'],
         this.gvAddForm.value['email'],
@@ -128,18 +194,15 @@ export class GiangvienComponent implements OnInit {
         this.gvAddForm.value['hocVi'],
         this.gvAddForm.value['ngayNhanViec'],
         '',
-        this.gvAddForm.value['maBM']
+        this.gvAddForm.value['maBm']
       );
 
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
-          console.log(data);
-
           this.DSGVComponent.getAllGiangVien();
+          this.gvForm.resetForm("#create_box");
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       );
     } else {
       this.gvForm.validate('#create_box');

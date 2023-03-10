@@ -5,7 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
@@ -25,42 +25,71 @@ import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-mai
 import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
 import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 
+import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressHttpModule } from 'ngx-progressbar/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent, 
+    LoginComponent,
 
-    AdminComponent, AdminMainComponent,
-    DetaiComponent, 
-    GiangvienComponent, DanhsachgiangvienComponent,
-    HoidongComponent, 
-    KehoachComponent, 
+    AdminComponent,
+    AdminMainComponent,
+    DetaiComponent,
+    GiangvienComponent,
+    DanhsachgiangvienComponent,
+    HoidongComponent,
+    KehoachComponent,
     PhancongComponent,
     QuanlychungComponent,
-    SinhvienComponent, 
-    ThongbaoComponent, 
+    SinhvienComponent,
+    ThongbaoComponent,
 
-    HomeComponent, 
+    HomeComponent,
 
+<<<<<<< HEAD
     DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, DanhsachsinhvienComponent, DashboardMainComponent, DashboardThongbaoComponent, DashboardLoimoiComponent, 
+=======
+    DashboardComponent,
+    PhancongComponent,
+    QuanlychungComponent,
+    TestComponent,
+    DanhsachgiangvienComponent,
+    DanhsachsinhvienComponent,
+>>>>>>> 35b877dbb16591b4496d1de9c2035c8d683e3dde
   ],
 
   imports: [
-    HttpClientModule, 
-    BrowserModule, 
-    AppRoutingModule, 
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+
+    NgProgressModule,
+    NgProgressHttpModule,
+
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      timeOut: 3500,
+      titleClass: 'toast-title',
+      messageClass: 'toast-mess',
+    }),
   ],
 
-  providers: [HttpClient, 
-    FormBuilder, 
-    BrowserModule, 
+  providers: [
+    HttpClient,
+    FormBuilder,
+    BrowserModule,
     AppRoutingModule,
-    DanhsachgiangvienComponent,],
+    DanhsachgiangvienComponent,
+  ],
 
-  bootstrap: [
-    AppComponent
-  ]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,4 +1,5 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
+import getParentElement from "./getParentElement";
 import setErrors from "./setErrors";
 
 class Form {
@@ -11,7 +12,7 @@ class Form {
 
   validate(formSelector) {
     let formElement = document.querySelector(formSelector);
-    
+
     for (let i = 0; i < formElement.length; i++) {
       const element = formElement[i];
       let controlName = element.getAttribute("formControlName");
@@ -24,6 +25,18 @@ class Form {
         let errors = this.controls[controlName].errors;
         setErrors(errors, element);
       }
+    }
+  }
+
+  resetForm(formSelector) {
+    const form = document.querySelector(formSelector);
+
+    for (let i = 0; i < form.length; i++) {
+      const element = form[i];
+      const parent = getParentElement(element, ".form-control");
+
+      parent && parent.classList.remove("invalid");
+      element.value = "";
     }
   }
 

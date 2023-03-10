@@ -65,7 +65,35 @@ export class DashboardLoimoiComponent implements OnInit{
   }
 
   sendInvitation(event: any){
+    //Lấy ra thứ tự nhóm lớn nhất
+    let maxNhomId = - Infinity;
+    let i = 0;
+    this.nhomService.getAll().forEach(nhom => {
+      if(nhom[i].maNhom > maxNhomId){
+        maxNhomId = nhom[i].maNhom;
+      }
+      console.log(nhom[i].maNhom);
+      i++;
+    });
+    console.log(maxNhomId);
     
+    //tạo nhóm trước khi gửi lời mời
+    var nhom = new Nhom();
+    nhom.maNhom = this.maxId + 1;
+    nhom.slmax = this.MAX_IN_GROUP;
+    nhom.tenNhom = 'Nhóm ' + nhom.maNhom;
+    nhom.truongNhom = this.idSentStudent;
+
+    this.nhomService.add(nhom).subscribe(
+      (success) => {
+        console.log("Thêm oke!")
+        console.log(success);
+      },
+      (error) => {
+        console.log("Không oke rồi!")
+        console.log(error);
+      }
+    );
   }
 
   dateFormat(str: any): string {

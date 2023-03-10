@@ -3,7 +3,13 @@
 @import url("./assets/styles/Padding.scss");
 @import url("./assets/styles/GlobalStyles.scss");
 @import url("./assets/styles/Form.scss");
+@import url("./assets/styles/ToastMessage.scss");
+@import url("./assets/styles/CustomeToastMess.scss");
 
 body {
   background: #e7ecf0;
+}
+
+.ng-bar-placeholder {
+  height: 5px !important;
 }
