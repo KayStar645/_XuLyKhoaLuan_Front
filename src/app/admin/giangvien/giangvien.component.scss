@@ -42,6 +42,7 @@
 // CUD
 #create,
 #update,
+#drag-file,
 #delete {
   background-color: rgb(127, 183, 220, 0.2);
   position: fixed;
@@ -58,7 +59,8 @@
 }
 
 #create_box,
-#update_box {
+#update_box,
+#drag-file_box {
   width: 750px;
   background-color: #fff;
   position: absolute;
@@ -71,93 +73,103 @@
   padding: 24px 30px;
   z-index: 12;
   display: none;
+  overflow: hidden;
 
   &.active {
     display: block;
   }
 }
 
+#drag-file_box {
+  width: 600px;
+}
+
+#drag-file_box .description {
+  font-size: 1.3rem;
+  color: #6f6f6f;
+}
+
+#drag-file_box .title {
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #0a5999;
+}
+
+.drag-form {
+  width: 100%;
+  height: 120px;
+  margin-top: 12px;
+  border: 3px dashed #ccc;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  color: #6f6f6f;
+}
+
+.drag-form i {
+  font-size: 4rem;
+  padding-bottom: 8px;
+}
+
+.drag-form span {
+  color: #007de4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.drag-form.active {
+  border-color: #007de43b;
+  background: #319ff41a;
+}
+
+.drag-form.active i {
+  color: #0035ff;
+}
+
+.drag-form.active p {
+  color: #333;
+}
+
 .form-list {
   margin: 0 -12px;
 }
 
-.form-notify {
-  display: none;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  z-index: 99;
-  background: rgba(31, 87, 230, 0.24);
-}
-
-.form-notify.active {
-  display: block;
-}
-
-.notify-container {
-  position: absolute;
-  background: #fff;
-  border-radius: 10px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 20px rgba(31, 87, 230, 0.24);
-  z-index: 9;
-  padding: 16px 24px;
-  overflow: hidden;
-  border-left: 12px solid #0a5999;
-}
-
-.form-notify .notify-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #0a5999;
-}
-
-.form-notify .notify-content {
-  font-size: 1.4rem;
-  padding-top: 4px;
-  color: #676f78;
-  font-weight: 600;
-  padding-bottom: 12px;
-}
-
-.form-notify button {
-  padding: 6px 12px;
-  min-width: 50px;
-  font-size: 1.3rem;
+.file-choose .file-choose-container {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border: 2px solid #dbdbdb;
   border-radius: 5px;
-  margin-left: 12px;
-  font-weight: 600;
-  background: #167dec;
+  font-size: 1.4rem;
+  color: #3e3e3e;
+}
+
+.file-choose-container i {
+  font-size: 2.5rem;
+  color: #01731c;
+  padding-right: 16px;
+}
+
+.file-choose-container .file-size {
+  font-size: 1.2rem;
+}
+
+.file-choose-container .import-btn {
+  background-color: #167dec;
+  padding: 4px 12px;
+  border-radius: 5px;
   color: #fff;
+  font-size: 1.3rem;
+  font-weight: 400;
   cursor: pointer;
-
-  &:hover {
-    background: #0a5999;
-  }
 }
 
-.progress-bar {
-  position: absolute;
-  background: #0984e3;
-  width: 0%;
-  height: 4px;
-  left: 0;
-  bottom: 0;
+.file-choose-container .import-btn:hover {
+  background-color: #0f69b8;
 }
 
-.form-notify.active .progress-bar {
-  animation: progressBar 3.5s linear;
+#delele {
+  background: none;
 }
 
-@keyframes progressBar {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+#delete .form-notify .notify-container {
+  width: 500px;
 }

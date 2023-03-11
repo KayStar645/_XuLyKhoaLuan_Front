@@ -49,16 +49,15 @@ import { ToastrModule } from 'ngx-toastr';
 
     HomeComponent,
 
-<<<<<<< HEAD
-    DashboardComponent, PhancongComponent, QuanlychungComponent, TestComponent, DanhsachgiangvienComponent, DanhsachsinhvienComponent, DashboardMainComponent, DashboardThongbaoComponent, DashboardLoimoiComponent, 
-=======
     DashboardComponent,
     PhancongComponent,
     QuanlychungComponent,
     TestComponent,
     DanhsachgiangvienComponent,
     DanhsachsinhvienComponent,
->>>>>>> 35b877dbb16591b4496d1de9c2035c8d683e3dde
+    DashboardMainComponent,
+    DashboardThongbaoComponent,
+    DashboardLoimoiComponent,
   ],
 
   imports: [

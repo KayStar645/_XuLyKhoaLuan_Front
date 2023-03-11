@@ -39,7 +39,7 @@
       <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
       <button class="search-button" (click)="onShowFormUpdate()">Sửa</button>
       <button class="search-button" (click)="clickDelete()">Xóa</button>
-      <button class="search-button" (click)="importGiangVien()">Nhập DS</button>
+      <button class="search-button" (click)="onShowFormDrag()">Nhập DS</button>
     </li>
   </ul>
   <!-- <router-outlet></router-outlet> -->
@@ -195,7 +195,7 @@
   </form>
 
   <div id="update" (click)="handleToggleUpdate()"></div>
-  <div id="update_box" [formGroup]="gvUpdateForm" class="form">
+  <form id="update_box" [formGroup]="gvUpdateForm" class="form">
     <div class="form-notify">
       <div class="notify-container">
         <p class="notify-title">Thông báo !</p>
@@ -219,6 +219,7 @@
           <p class="label">Mã giảng viên</p>
           <div class="form-value">
             <input
+              [readonly]="true"
               type="text"
               formControlName="maGv"
               [value]="gvUpdate?.maGv"
@@ -303,6 +304,18 @@
           </div>
         </label>
         <label class="input row ali-center form-control">
+          <p class="label">Ngày nghỉ</p>
+          <div class="form-value">
+            <input
+              type="date"
+              formControlName="ngayNghi"
+              [value]="this.gvUpdate?.ngayNghi"
+              (blur)="gvForm.inputBlur($event)"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </label>
+        <label class="input row ali-center form-control">
           <p class="label">Học hàm</p>
           <div class="form-value">
             <select formControlName="hocHam">
@@ -345,6 +358,63 @@
         Cập nhật thông tin
       </button>
     </div>
+  </form>
+
+  <div id="drag-file" (click)="onCloseDrag($event)"></div>
+  <div id="drag-file_box">
+    <p class="title">Nhập danh sách</p>
+    <p class="description">Nhập danh sách giảng viên thông qua 1 file excel</p>
+
+    <form
+      class="drag-form form row flex-column ali-center jus-center"
+      (dragover)="onDragFileOver($event)"
+      (dragleave)="onDragFileLeave($event)"
+      (drop)="onDropFile($event)"
+      (dragenter)="onDragFileOver($event)"
+    >
+      <input
+        type="file"
+        class="file-content"
+        hidden
+        (input)="onFileInput($event)"
+      />
+      <i class="fa-solid fa-cloud-arrow-up"></i>
+      <p>
+        Kéo và thả file vào đây hoặc
+        <span class="choose-file" (click)="onSelect()">chọn file</span>
+      </p>
+    </form>
+
+    <div class="file-choose" *ngIf="giangVienFile">
+      <p class="title">File đã chọn</p>
+      <div class="row ali-center file-choose-container">
+        <i class="fa-solid fa-file-excel"></i>
+        <div class="row ali-center jus-between flex-1">
+          <div class="file-info">
+            <p class="file-name">{{ giangVienFile.name }}</p>
+            <p class="file-size">{{ giangVienFile.size }}</p>
+          </div>
+          <p class="import-btn" (click)="onReadFile()">Nhập</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- <div id="delete" (click)="clickDelete()">delete</div> -->
+
+  <div id="delete">
+    <div class="form-notify">
+      <div class="notify-container">
+        <p class="notify-title">Thông báo !</p>
+        <p class="notify-content">
+          Việc xóa sẽ làm tất cả thông tin có liên quan đến giảng viên biến mất.
+          Bạn có chắc chắn muốn xóa ?
+        </p>
+        <div class="row ali-center jus-end">
+          <button class="cancel">Hủy</button>
+          <button class="agree">Đồng ý</button>
+        </div>
+
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -8,10 +8,11 @@ import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Validators } from '@angular/forms';
-import { Form } from 'src/assets/utils';
+import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
-// import * as FileSaver from 'file-saver';
+import { userService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-giangvien',
@@ -25,7 +26,7 @@ export class GiangvienComponent implements OnInit {
   gvUpdate: any = GiangVien;
   searchName = '';
   selectedBomon!: string;
-  giangVienFile: any[] = [];
+  giangVienFile: any;
 
   gvAddForm: any;
   gvUpdateForm: any;
@@ -51,7 +52,8 @@ export class GiangvienComponent implements OnInit {
     private elementRef: ElementRef,
     private boMonService: boMonService,
     private giangVienService: giangVienService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: userService,
   ) {
     this.gvAddForm = this.gvForm.form;
     this.gvUpdateForm = this.gvForm.form;
@@ -66,7 +68,6 @@ export class GiangvienComponent implements OnInit {
       }
     });
     this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']);
-    this.gvUpdate = this.DSGVComponent?.lineGV;
   }
 
   onShowFormAdd() {
@@ -75,19 +76,21 @@ export class GiangvienComponent implements OnInit {
 
     createBox.classList.add('active');
     create.classList.add('active');
+    this.gvForm.resetForm('#create_box');
   }
 
   onShowFormUpdate() {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    // this.gvForm.form.get('maGv')?.disable();
-
     if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
+      console.log(this.DSGVComponent.lineGV);
+
       this.gvForm.form.setValue({
         ...this.DSGVComponent.lineGV,
         ngayNhanViec: this.DSGVComponent.lineGV.ngayNhanViec.substring(0, 10),
         ngaySinh: this.DSGVComponent.lineGV.ngaySinh.substring(0, 10),
+        ngayNghi: this.DSGVComponent.lineGV.ngayNghi.substring(0, 10),
       });
 
       updateBox.classList.add('active');
@@ -104,27 +107,16 @@ export class GiangvienComponent implements OnInit {
   handleToggleAdd() {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
-    let notify = this.elementRef.nativeElement.querySelector(
-      '#create_box .form-notify'
-    );
-    const cancel = this.elementRef.nativeElement.querySelector(
-      '#create_box .cancel'
-    );
-    const agree =
-      this.elementRef.nativeElement.querySelector('#create_box .agree');
 
     if (this.gvForm.isHaveValue('#create_box')) {
-      notify.classList.add('active');
+      let option = new Option('#create_box');
 
-      cancel.addEventListener('click', () => {
-        notify.classList.remove('active');
-      });
+      option.show('warning');
 
-      agree.addEventListener('click', () => {
+      option.agree(() => {
         this.gvForm.resetForm('#create_box');
         createBox.classList.remove('active');
         create.classList.remove('active');
-        notify.classList.remove('active');
       });
     } else {
       createBox.classList.remove('active');
@@ -135,40 +127,23 @@ export class GiangvienComponent implements OnInit {
   handleToggleUpdate() {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
-    let notify = this.elementRef.nativeElement.querySelector(
-      '#update_box .form-notify'
-    );
 
     if (this.gvOldForm !== this.gvForm.form.value) {
-      const cancel = this.elementRef.nativeElement.querySelector(
-        '#update_box .cancel'
-      );
-      const agree =
-        this.elementRef.nativeElement.querySelector('#update_box .agree');
-      const save =
-        this.elementRef.nativeElement.querySelector('#update_box .save');
-      const progress = updateBox.querySelector('.progress-bar');
+      let option = new Option('#update_box');
 
-      notify.classList.add('active');
-      setTimeout(() => {
-        progress.classList.remove('active');
-      }, 3500);
+      option.show('warning');
 
-      cancel.addEventListener('click', () => {
-        notify.classList.remove('active');
-      });
+      option.cancel();
 
-      agree.addEventListener('click', () => {
+      option.agree(() => {
         updateBox.classList.remove('active');
         update.classList.remove('active');
-        notify.classList.remove('active');
       });
 
-      save.addEventListener('click', () => {
+      option.save(() => {
         this.updateGiangVien();
         update.classList.remove('active');
         updateBox.classList.remove('active');
-        notify.classList.remove('active');
       });
     } else {
       update.classList.remove('active');
@@ -180,10 +155,38 @@ export class GiangvienComponent implements OnInit {
     this.gvForm.inputBlur(event);
   }
 
-  onInput(event: any) {
+  onDragFileEnter(event: any) {
+    event.preventDefault();
+    const parent = getParentElement(event.target, '.drag-form');
+
+    parent.classList.add('active');
+  }
+
+  onDragFileOver(event: any) {
+    event.preventDefault();
+    event.target.classList.add('active');
+  }
+
+  onDragFileLeave(event: any) {
+    event.preventDefault();
+    event.target.classList.remove('active');
+  }
+
+  onDropFile(event: any) {
+    event.preventDefault();
+    let file = event.dataTransfer.files[0];
+    this.readExcelFile(file);
+  }
+
+  onFileInput(event: any) {
     let file = event.target.files[0];
 
+    this.readExcelFile(file);
+  }
+
+  readExcelFile(file: any) {
     const fileReader = new FileReader();
+
     fileReader.readAsArrayBuffer(file);
     fileReader.onload = (event) => {
       const arrayBuffer: any = fileReader.result;
@@ -191,22 +194,110 @@ export class GiangvienComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-
-      this.giangVienFile = excelData;
+      const datas = excelData
+        .slice(1, excelData.length)
+        .filter((data: any) => data.length > 0);
+      datas.forEach((data: any, i) => {
+        data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
+        data[8] = data[8] ? XLSX.SSF.format('yyyy-MM-dd', data[8]) : undefined;
+        data[9] = data[9] ? XLSX.SSF.format('yyyy-MM-dd', data[9]) : undefined;
+      });
+      this.giangVienFile = {
+        name: file.name,
+        size: (file.size / 1024).toFixed(2) + 'MB',
+        data: datas,
+      };
     };
+  }
+
+  onSelect() {
+    let input = this.elementRef.nativeElement.querySelector(
+      '#drag-file_box input[type=file]'
+    );
+
+    input.click();
+  }
+
+  onCloseDrag(event: any) {
+    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
+
+    event.target.classList.remove('active');
+    dragBox.classList.remove('active');
+  }
+
+  onReadFile() {
+    if (this.giangVienFile.data.length > 0) {
+      const datas = this.giangVienFile.data;
+
+      datas.forEach((data: any) => {
+        let gv = new GiangVien();
+        gv.init(
+          data[0] ? data[0] : '',
+          data[1] ? data[1] : '',
+          data[2] ? data[2] : '',
+          data[3] ? data[3] : '',
+          data[4] ? data[4] : '',
+          data[5] ? data[5] : '',
+          data[6] ? data[6] : '',
+          data[7] ? data[7] : '',
+          data[8] ? data[8] : '',
+          data[9] ? data[9] : '',
+          data[10] ? data[10] : ''
+        );
+        this.giangVienService.add(gv).subscribe(
+          (data) => {
+            // Add tai khoan
+            this.userService.addTeacher(new User(gv.maGv, gv.maGv));
+            this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
+          },
+          (error) => {
+            this.toastr.error(
+              'Thông tin bạn cung cấp không hợp lệ.',
+              'Thông báo !'
+            );
+          }
+        );
+      });
+
+      this.DSGVComponent.getAllGiangVien();
+    }
   }
 
   clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
-    const _delete_box =
-      this.elementRef.nativeElement.querySelector('#delete_box');
-    if (!_delete.classList.contains('active')) {
+
+    if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
       _delete.classList.add('active');
-      _delete_box.classList.add('active');
+      let option = new Option('#delete');
+
+      option.show('error', () => {
+        _delete.classList.remove('active');
+      });
+
+      option.cancel(() => {
+        _delete.classList.remove('active');
+      });
+
+      option.agree(() => {
+        this.giangVienService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
+          (data) => {
+            this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
+            this.DSGVComponent.lineGV = new GiangVien();
+            this.DSGVComponent.getAllGiangVien();
+          },
+          (error) => {
+            this.toastr.error(
+              'Xóa giảng viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
+              'Thông báo !'
+            );
+          }
+        );
+        _delete.classList.remove('active');
+      });
     } else {
-      _delete.classList.remove('active');
-      _delete_box.classList.remove('active');
+      this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');
     }
+    this.toastr.clear();
   }
 
   addGiangVien() {
@@ -228,8 +319,11 @@ export class GiangvienComponent implements OnInit {
 
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
-          this.DSGVComponent.getAllGiangVien();
           this.gvForm.resetForm('#create_box');
+          this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
+          this.DSGVComponent.getAllGiangVien();
+          // Add tai khoan
+          this.userService.addTeacher(new User(giangVien.maGv, giangVien.maGv));
         },
         (error) => {
           this.toastr.error(
@@ -243,11 +337,18 @@ export class GiangvienComponent implements OnInit {
     }
   }
 
-  importGiangVien() {}
+  onShowFormDrag() {
+    let drag = this.elementRef.nativeElement.querySelector('#drag-file');
+    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
+
+    drag.classList.add('active');
+    dragBox.classList.add('active');
+  }
 
   updateGiangVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
+
     if (this.gvUpdateForm.valid) {
       if (this.gvOldForm === this.gvForm.form.value) {
         this.toastr.warning(
@@ -266,19 +367,19 @@ export class GiangvienComponent implements OnInit {
           this.gvUpdateForm.value['hocHam'],
           this.gvUpdateForm.value['hocVi'],
           this.gvUpdateForm.value['ngayNhanViec'],
-          '',
+          this.gvUpdateForm.value['ngayNghi'],
           this.gvUpdateForm.value['maBm']
         );
 
         this.giangVienService.update(giangVien).subscribe(
           (data) => {
+            update.classList.remove('active');
+            updateBox.classList.remove('active');
             this.DSGVComponent.getAllGiangVien();
             this.toastr.success(
               'Cập nhập thông tin nhân viên thành công',
               'Thông báo !'
             );
-            update.classList.remove('active');
-            updateBox.classList.remove('active');
           },
           (error) => {
             this.toastr.error(
@@ -292,8 +393,6 @@ export class GiangvienComponent implements OnInit {
       this.gvForm.validate('#update_box');
     }
   }
-
-  deleteGiangVien() {}
 
   getGiangVienByMaBM(event: any) {
     const maBM = event.target.value;

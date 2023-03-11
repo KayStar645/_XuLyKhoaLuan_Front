@@ -1,0 +1,99 @@
+.form-notify {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 99;
+  background: rgba(31, 87, 230, 0.24);
+}
+
+.notify-container {
+  position: absolute;
+  background: #fff;
+  border-radius: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px rgba(31, 87, 230, 0.24);
+  z-index: 9;
+  padding: 16px 24px;
+  overflow: hidden;
+}
+
+.form-notify .notify-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #525557;
+}
+
+.form-notify .notify-content {
+  font-size: 1.4rem;
+  padding-top: 4px;
+  color: #676f78;
+  font-weight: 600;
+  padding-bottom: 12px;
+}
+
+.form-notify button {
+  padding: 6px 12px;
+  min-width: 50px;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  margin-left: 12px;
+  font-weight: 600;
+  background: #167dec;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-notify button:hover {
+  background: #0a5999;
+}
+
+.progress-bar {
+  position: absolute;
+  background: #63676a;
+  width: 0%;
+  height: 4px;
+  left: 0;
+  bottom: 0;
+}
+
+@keyframes progressBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.file-choose {
+  margin-top: 20px;
+}
+
+.form-notify.info,
+.form-notify.warning,
+.form-notify.error {
+  display: block;
+}
+
+.form-notify.info .progress-bar,
+.form-notify.warning .progress-bar,
+.form-notify.error .progress-bar {
+  animation: progressBar 3.5s linear;
+}
+
+.form-notify.info .notify-container {
+  border-left: 12px solid #0a5999;
+}
+
+.form-notify.warning .notify-container {
+  border-left: 12px solid #fea305e3;
+}
+
+.form-notify.error .notify-container {
+  border-left: 12px solid #e31010e3;
+}

@@ -23,9 +23,7 @@
           <td class="text-center">{{ gv?.gioiTinh }}</td>
           <td class="text-center">{{ gv?.sdt }}</td>
           <td class="text-center">{{ dateFormat(gv.ngayNhanViec) }}</td>
-          <td class="text-center">
-            {{ dateFormat(gv.ngayNghi) == null ? "" : gv.ngayNghi }}
-          </td>
+          <td class="text-center">{{ dateFormat(gv.ngayNghi) }}</td>
           <td class="text-left">{{ getTenBMById(gv.maBm) }}</td>
         </tr>
       </tbody>
