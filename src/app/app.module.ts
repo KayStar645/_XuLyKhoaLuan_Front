@@ -55,6 +55,9 @@ import { ToastrModule } from 'ngx-toastr';
     TestComponent,
     DanhsachgiangvienComponent,
     DanhsachsinhvienComponent,
+    DashboardMainComponent,
+    DashboardThongbaoComponent,
+    DashboardLoimoiComponent,
   ],
 
   imports: [

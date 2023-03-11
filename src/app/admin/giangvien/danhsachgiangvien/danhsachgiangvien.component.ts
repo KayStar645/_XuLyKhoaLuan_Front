@@ -1,23 +1,31 @@
 import { GiangvienComponent } from './../giangvien.component';
 import { shareService } from './../../../services/share.service';
 import { giangVienService } from './../../../services/giangVien.service';
-import { Component, ElementRef, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 
 @Component({
   selector: 'app-danhsachgiangvien',
   templateUrl: './danhsachgiangvien.component.html',
-  styleUrls: ['./danhsachgiangvien.component.scss']
+  styleUrls: ['./danhsachgiangvien.component.scss'],
 })
 export class DanhsachgiangvienComponent implements OnInit {
-  @Input() searchName = '';  
+  @Input() searchName = '';
   listGV: GiangVien[] = [];
   root: GiangVien[] = [];
   lineGV = new GiangVien();
   elementOld: any;
 
-  constructor(private elementRef: ElementRef, private giangVienService: giangVienService,
-    private shareService: shareService,) { }
+  constructor(
+    private giangVienService: giangVienService,
+    private shareService: shareService
+  ) {}
 
   ngOnInit(): void {
     this.getAllGiangVien();
@@ -25,12 +33,11 @@ export class DanhsachgiangvienComponent implements OnInit {
 
   clickLine(event: any) {
     const element = event.target.parentNode;
-    if(this.elementOld == element && this.lineGV.maGv != null) {
+    if (this.elementOld == element && this.lineGV.maGv != null) {
       this.elementOld.classList.remove('br-line-hover');
       this.lineGV = new GiangVien();
-    }
-    else {
-      if(this.elementOld != null) {
+    } else {
+      if (this.elementOld != null) {
         this.elementOld.classList.remove('br-line-hover');
       }
 
@@ -38,46 +45,40 @@ export class DanhsachgiangvienComponent implements OnInit {
       this.elementOld = element;
 
       const mgv = element.firstElementChild.innerHTML;
-      this.giangVienService.getById(mgv).subscribe(data => {
+      this.giangVienService.getById(mgv).subscribe((data) => {
         this.lineGV = data;
       });
     }
   }
 
   getAllGiangVien() {
-    this.giangVienService.getAll().subscribe( data => {
+    this.giangVienService.getAll().subscribe((data) => {
       this.listGV = data;
       this.root = data;
     });
   }
 
   getGiangVienByMaBM(maBM: string) {
-    this.giangVienService.getByBoMon(maBM).subscribe( data => {
+    this.giangVienService.getByBoMon(maBM).subscribe((data) => {
       this.listGV = data;
     });
   }
 
   sortGiangVien(sort: string) {
-    if(sort == "asc-id") {
+    if (sort == 'asc-id') {
       this.listGV.sort((a, b) => a.maGv.localeCompare(b.maGv));
-    }
-    else if(sort == "desc-id") {
+    } else if (sort == 'desc-id') {
       this.listGV.sort((a, b) => b.maGv.localeCompare(a.maGv));
-    }
-    else if(sort == "asc-name") {
+    } else if (sort == 'asc-name') {
       this.listGV.sort((a, b) => a.tenGv.localeCompare(b.tenGv));
-    }
-    else if(sort == "desc-name") {
+    } else if (sort == 'desc-name') {
       this.listGV.sort((a, b) => b.tenGv.localeCompare(a.tenGv));
-    }
-    else if(sort == "asc-subject") {
+    } else if (sort == 'asc-subject') {
       this.listGV.sort((a, b) => a.maBm.localeCompare(b.maBm));
-    }
-    else if(sort == "desc-subject") {
+    } else if (sort == 'desc-subject') {
       this.listGV.sort((a, b) => b.maBm.localeCompare(a.maBm));
-    }
-    else {
-      this.giangVienService.getAll().subscribe( data => {
+    } else {
+      this.giangVienService.getAll().subscribe((data) => {
         this.listGV = data;
       });
     }
@@ -91,29 +92,27 @@ export class DanhsachgiangvienComponent implements OnInit {
 
   filterItems() {
     const searchName = this.searchName.trim().toLowerCase();
-    this.listGV = this.root.filter(
-      (item) => item.tenGv.toLowerCase().includes(searchName)
+    this.listGV = this.root.filter((item) =>
+      item.tenGv.toLowerCase().includes(searchName)
     );
   }
-
 
   getTenBMById(maBM: string): string {
     // Gọi service khoa chỗ này
     // Tạm thời if else
-    if(maBM === 'KTPM') {
-      return "Kỹ thuật phần mềm";
+    if (maBM === 'KTPM') {
+      return 'Kỹ thuật phần mềm';
     }
-    if(maBM === 'MMT') {
-      return "Mạng máy tính";
+    if (maBM === 'MMT') {
+      return 'Mạng máy tính';
     }
-    if(maBM === 'HTTT') {
-      return "Hệ thống thông tin";
+    if (maBM === 'HTTT') {
+      return 'Hệ thống thông tin';
     }
-    return "Khoa học phân tích dữ liệu";
+    return 'Khoa học phân tích dữ liệu';
   }
 
   dateFormat(str: string): string {
     return this.shareService.dateFormat(str);
   }
-
 }
