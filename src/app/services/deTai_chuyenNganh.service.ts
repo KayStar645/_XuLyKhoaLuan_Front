@@ -21,7 +21,7 @@ export class deTai_chuyenNganhService {
         return this.http.get<DeTai_ChuyenNganh[]>(`${this.apiUrl}/api/DetaiChuyennganh`, this.shareService.httpOptions);
     }
 
-    getById(MaDT: string, MaCN:string):Observable<DeTai_ChuyenNganh[]> {
+    getByMaDtMaCn(MaDT: string, MaCN:string):Observable<DeTai_ChuyenNganh[]> {
         return this.http.get<DeTai_ChuyenNganh[]>(`${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`,
          this.shareService.httpOptions);
     }

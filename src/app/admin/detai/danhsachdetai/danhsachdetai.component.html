@@ -5,21 +5,25 @@
         <th>Mã ĐT</th>
         <th>Tên đề tài</th>
         <th>Tóm tắt</th>
-        <th>Tối thiểu</th>
-        <th>Tối đa</th>
+        <th>Số lượng</th>
+        <th>Chuyên ngành</th>
+        <th>Giảng viên ra đề</th>
+        <th>Giảng viên duyệt</th>
+        <th>Lần cuối duyệt</th>
         <th>Trạng thái</th>
       </tr>
       <tbody *ngFor="let dt of listDT">
         <tr class="br-line" (dblclick)="clickLine($event)">
           <td class="text-center">{{ dt.maDT }}</td>
-          <td class="text-left">
-            {{ dt?.tenDT }}
-          </td>
+          <td class="text-left">{{ dt?.tenDT }}</td>
           <td class="text-left">{{ dt?.tomTat }}</td>
-          <td class="text-center">{{ dt?.slMin }}</td>
-          <td class="text-center">{{ dt?.slMax }}</td>
+          <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
+          <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
+          <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
+          <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td>
+          <td class="text-center">{{ getThoiGianDuyetByMaDT(dt.maDT) }}</td>
           <td class="text-center">
-            {{ dt?.trangThai ? "Đã xử lý" : "Chưa xử lý" }}
+            {{ dt?.trangThai ? "Xác nhận!" : "Chưa duyệt!" }}
           </td>
         </tr>
       </tbody>

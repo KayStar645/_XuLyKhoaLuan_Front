@@ -21,8 +21,8 @@ export class raDeService {
       return this.http.get<RaDe[]>(`${this.apiUrl}/api/Rade`, this.shareService.httpOptions);
     }
 
-    getById(MaGV: string, MaDT:string):Observable<RaDe> {
-      return this.http.get<RaDe>(`${this.apiUrl}/api/Rade/maGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, this.shareService.httpOptions);
+    getByMaGvMaDt(MaGV: string, MaDT:string):Observable<RaDe[]> {
+      return this.http.get<RaDe[]>(`${this.apiUrl}/api/Rade/maGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, this.shareService.httpOptions);
     }
 
     add(raDe: RaDe): Observable<any> {

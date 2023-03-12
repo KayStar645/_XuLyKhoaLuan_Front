@@ -1,6 +1,6 @@
 export class RaDe {
-    public MaGv!: string;
-    public MaDt!: string;
+    public maGv!: string;
+    public maDt!: string;
 
     constructor() {}
 }

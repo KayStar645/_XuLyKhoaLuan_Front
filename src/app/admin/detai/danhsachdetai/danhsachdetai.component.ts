@@ -1,9 +1,19 @@
+import { DuyetDt } from './../../../models/DuyetDt.model';
+import { GiangVien } from 'src/app/models/GiangVien.model';
+import { ChuyenNganh } from './../../../models/ChuyenNganh.model';
+import { DeTai_ChuyenNganh } from './../../../models/DeTai_ChuyenNganh.model';
+import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
+import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
+import { giangVienService } from './../../../services/giangVien.service';
+import { RaDe } from './../../../models/RaDe.model';
+import { duyetDtService } from './../../../services/duyetDt.service';
+import { raDeService } from './../../../services/raDe.service';
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { BoMon } from 'src/app/models/BoMon.model';
 import { DeTai } from 'src/app/models/DeTai.model';
-import { boMonService } from 'src/app/services/boMon.service';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
+import { forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-danhsachdetai',
@@ -17,13 +27,31 @@ export class DanhsachdetaiComponent {
   lineGV = new DeTai();
   elementOld: any;
 
+  listRade: RaDe[] = [];
+  listDuyetDt: DuyetDt[] = [];
+  listGiangvien: GiangVien[] = [];
+  listDeta_Chuyennganh: DeTai_ChuyenNganh[] = [];
+  listChuyennganh: ChuyenNganh[] = [];
+
   constructor(
     private deTaiService: deTaiService,
-    private shareService: shareService
+    private shareService: shareService,
+    private raDeService: raDeService,
+    private duyetDtService: duyetDtService,
+    private giangVienService: giangVienService,
+    private chuyenNganhService: chuyenNganhService,
+    private deTai_chuyenNganhService: deTai_chuyenNganhService,
   ) {}
 
   ngOnInit(): void {
     this.getAllDeTai();
+    
+    this.raDeService.getAll().subscribe(data => this.listRade = data);
+    this.duyetDtService.getAll().subscribe(data => this.listDuyetDt = data);
+    this.giangVienService.getAll().subscribe(data => this.listGiangvien = data);
+    this.deTai_chuyenNganhService.getAll().subscribe(data => this.listDeta_Chuyennganh = data);
+    this.chuyenNganhService.getAll().subscribe(data => this.listChuyennganh = data);
+
   }
 
   clickLine(event: any) {
@@ -53,10 +81,56 @@ export class DanhsachdetaiComponent {
     });
   }
 
-  getGiangVienByMaBM(maBM: string) {
-    // this.deTaiService.getByBoMon(maBM).subscribe((data) => {
-    //   this.listDT = data;
-    // });
+  getGiangVienByMaCn(maCn: string) {
+    for(let item of this.listDT) {
+      if(this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
+        
+      }
+    }
+    this.deTaiService.getByChuyenNganh(maCn).subscribe((data) => {
+      this.listDT = data;
+    });
+  }
+
+  getTenChuyennganhByMaDT(maDT: string) {
+    let result = [];
+    let dtcns = this.listDeta_Chuyennganh.filter(item => item.maDt == maDT);
+
+    for(let item of dtcns) {
+      result.push(this.listChuyennganh.find(c => c.maCn == item.maCn)?.tenCn);
+    }
+    return result;
+  }
+
+  getTenGvRadeByMaDT(maDT: string) {
+    let result = [];
+    let rades = this.listRade.filter(item => item.maDt == maDT);
+    // rades.forEach(item => result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv));
+    for(let item of rades) {
+      result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv);
+    }
+    return result;
+  }
+
+  getTenGvDuyetByMaDT(maDT: string) {
+    let result = [];
+    let duyetdts = this.listDuyetDt.filter(item => item.maDt == maDT);
+    for(let item of duyetdts) {
+      result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv);
+    }
+    return result;
+  }
+
+  getThoiGianDuyetByMaDT(maDT: string) {
+    let result = [];
+    let duyetdts = this.listDuyetDt.filter(item => item.maDt == maDT);
+    if(duyetdts.length > 0) {
+      const date = duyetdts.reduce((max, duyetdt) => {
+        return new Date(duyetdt?.ngayDuyet) > max ? new Date(duyetdt?.ngayDuyet) : max;
+      }, new Date(duyetdts[0]?.ngayDuyet));
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    }
+    return "Chưa duyệt!";
   }
 
   sortGiangVien(sort: string) {

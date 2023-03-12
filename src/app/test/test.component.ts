@@ -23,7 +23,7 @@ export class TestComponent implements OnInit {
   }
 
   getById() {
-    this.raDeService.getById("GV00001", "DT0002").subscribe(
+    this.raDeService.getByMaGvMaDt("", "DT0002").subscribe(
       (success) => {
         console.log("Lấy oke!")
         console.log(success);
@@ -37,8 +37,8 @@ export class TestComponent implements OnInit {
 
   Add() {
     var dtcn = new RaDe();
-    dtcn.MaDt = "DT0002";
-    dtcn.MaGv = "GV00001";
+    dtcn.maDt = "DT0002";
+    dtcn.maGv = "GV00001";
 
     this.raDeService.add(dtcn).subscribe(
       (success) => {

@@ -372,12 +372,12 @@ export class DetaiComponent implements OnInit {
     }
   }
 
-  getGiangVienByMaBM(event: any) {
+  getGiangVienByMaCn(event: any) {
     const maBM = event.target.value;
     if (maBM == '') {
       this.DSDTComponent.getAllDeTai();
     } else {
-      this.DSDTComponent.getGiangVienByMaBM(maBM);
+      this.DSDTComponent.getGiangVienByMaCn(maBM);
     }
   }
 
