@@ -22,7 +22,6 @@ export class GiangvienComponent implements OnInit {
   @ViewChild(DanhsachgiangvienComponent)
   private DSGVComponent!: DanhsachgiangvienComponent;
   listBoMon: BoMon[] = [];
-  gvUpdate: any = GiangVien;
   searchName = '';
   selectedBomon!: string;
   giangVienFile: any;

@@ -7,10 +7,9 @@
         (change)="getGiangVienByMaBM($event)"
       >
         <option value="">Tất cả</option>
-        <option value="KTPM">Kỹ thuật phần mềm</option>
-        <option value="HTTT">Hệ thống thông tin</option>
-        <option value="KHPTDL">Khoa học phân tích dữ liệu</option>
-        <option value="MMT">Mạng máy tính</option>
+        <option *ngFor="let bm of listBoMon" value="{{ bm.maBm }}">
+          {{ bm.tenBm }}
+        </option>
       </select>
     </li>
     <li class="search-item">
@@ -218,12 +217,7 @@
         <label class="form-control row ali-center form-control">
           <p class="label">Mã giảng viên</p>
           <div class="form-value">
-            <input
-              [readonly]="true"
-              type="text"
-              formControlName="maGv"
-              [value]="gvUpdate?.maGv"
-            />
+            <input [readonly]="true" type="text" formControlName="maGv" />
             <p class="error-mess"></p>
           </div>
         </label>
@@ -233,7 +227,6 @@
             <input
               type="text"
               formControlName="email"
-              [value]="this.gvUpdate?.email"
               (blur)="gvForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
@@ -246,7 +239,6 @@
             <input
               type="text"
               formControlName="tenGv"
-              [value]="this.gvUpdate?.tenGv"
               (blur)="gvForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
@@ -271,7 +263,6 @@
             <input
               type="date"
               formControlName="ngaySinh"
-              [value]="this.gvUpdate?.ngaySinh"
               (blur)="gvForm.inputBlur($event)"
             />
 
@@ -297,7 +288,6 @@
             <input
               type="date"
               formControlName="ngayNhanViec"
-              [value]="this.gvUpdate?.ngayNhanViec"
               (blur)="gvForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
@@ -309,7 +299,6 @@
             <input
               type="date"
               formControlName="ngayNghi"
-              [value]="this.gvUpdate?.ngayNghi"
               (blur)="gvForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
@@ -329,12 +318,7 @@
         <label class="input row ali-center form-control">
           <p class="label">Số điện thoại</p>
           <div class="form-value">
-            <input
-              type="text"
-              formControlName="sdt"
-              maxlength="10"
-              [value]="this.gvUpdate?.sdt"
-            />
+            <input type="text" formControlName="sdt" maxlength="10" />
             <p class="error-mess"></p>
           </div>
         </label>
