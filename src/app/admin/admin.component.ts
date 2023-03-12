@@ -47,7 +47,7 @@ export class AdminComponent implements OnInit {
       .subscribe((data) => {
         this.data = data;
       });
-    this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']); // Tạm thời
+    this.router.navigate(['/admin/sinh-vien', 'danh-sach-sinh-vien']); // Tạm thời
   }
 
   clickAccount() {

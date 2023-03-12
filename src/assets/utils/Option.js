@@ -31,6 +31,7 @@ class Option {
 
   cancel(onCancel = () => {}) {
     const cancel = this.notify.querySelector(".cancel");
+    console.log("hi");
 
     cancel.addEventListener("click", () => {
       onCancel();

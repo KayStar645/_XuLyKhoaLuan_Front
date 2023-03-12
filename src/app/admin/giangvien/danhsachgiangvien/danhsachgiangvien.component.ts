@@ -28,6 +28,7 @@ export class DanhsachgiangvienComponent implements OnInit {
     this.getAllGiangVien();
 
     this.boMonService.getAll().subscribe((data) => (this.listBM = data));
+    
   }
 
   clickLine(event: any) {

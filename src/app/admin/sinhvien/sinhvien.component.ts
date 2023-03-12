@@ -34,12 +34,12 @@ export class SinhvienComponent implements OnInit {
   svForm = new Form({
     maSv: ['', Validators.required],
     tenSv: ['', Validators.required],
-    email: ['', Validators.required],
-    ngaySinh: ['', [Validators.email, Validators.required]],
+    email: ['', Validators.email],
+    ngaySinh: [''],
     gioiTinh: ['', Validators.required],
-    sdt: ['', Validators.required],
+    sdt: [''],
     lop: ['', Validators.required],
-    maCn: [''],
+    maCn: ['', Validators.required],
   });
 
   constructor(
@@ -56,7 +56,7 @@ export class SinhvienComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Danh sách giảng viên');
+    this.titleService.setTitle('Danh sách sinh viên');
     this.chuyenNganhService.getAll().subscribe((data) => {
       this.listChuyenNganh = data;
       if (data.length > 0) {
@@ -89,7 +89,7 @@ export class SinhvienComponent implements OnInit {
       this.svOldForm = this.svForm.form.value;
     } else {
       this.toastr.warning(
-        'Vui lòng chọn giảng viên để cập nhập thông tin',
+        'Vui lòng chọn sinh viên để cập nhập thông tin',
         'Thông báo !'
       );
     }
@@ -103,6 +103,8 @@ export class SinhvienComponent implements OnInit {
       let option = new Option('#create_box');
 
       option.show('warning');
+
+      option.cancel();
 
       option.agree(() => {
         this.svForm.resetForm('#create_box');
@@ -190,8 +192,6 @@ export class SinhvienComponent implements OnInit {
         .filter((data: any) => data.length > 0);
       datas.forEach((data: any, i) => {
         data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-        data[8] = data[8] ? XLSX.SSF.format('yyyy-MM-dd', data[8]) : undefined;
-        data[9] = data[9] ? XLSX.SSF.format('yyyy-MM-dd', data[9]) : undefined;
       });
       this.sinhVienFile = {
         name: file.name,
@@ -216,14 +216,14 @@ export class SinhvienComponent implements OnInit {
     dragBox.classList.remove('active');
   }
 
-  onReadFile() {
+  async onReadFile() {
     if (this.sinhVienFile.data.length > 0) {
       const datas = this.sinhVienFile.data;
 
-      datas.forEach((data: any) => {
+      await datas.forEach((data: any) => {
         let sinhVien = new SinhVien();
         sinhVien.init(
-          data[0] ? data[0] : '',
+          data[0] ? JSON.stringify(data[0]) : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
@@ -232,11 +232,13 @@ export class SinhvienComponent implements OnInit {
           data[6] ? data[6] : '',
           data[7] ? data[7] : ''
         );
+        console.log(sinhVien);
+
         this.sinhVienService.add(sinhVien).subscribe(
           (data) => {
             // Add tai khoan
             this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv));
-            this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
+            this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           },
           (error) => {
             this.toastr.error(
@@ -246,7 +248,6 @@ export class SinhvienComponent implements OnInit {
           }
         );
       });
-
       this.DSSVComponent.getAllSinhVien();
     }
   }
@@ -269,13 +270,13 @@ export class SinhvienComponent implements OnInit {
       option.agree(() => {
         this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
           (data) => {
-            this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
+            this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
             this.DSSVComponent.lineSV = new SinhVien();
             this.DSSVComponent.getAllSinhVien();
           },
           (error) => {
             this.toastr.error(
-              'Xóa giảng viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
+              'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
               'Thông báo !'
             );
           }
@@ -283,7 +284,7 @@ export class SinhvienComponent implements OnInit {
         _delete.classList.remove('active');
       });
     } else {
-      this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');
+      this.toastr.warning('Vui lòng chọn sinh viên để xóa', 'Thông báo !');
     }
     this.toastr.clear();
   }
@@ -305,7 +306,7 @@ export class SinhvienComponent implements OnInit {
       this.sinhVienService.add(sinhVien).subscribe(
         (data) => {
           this.svForm.resetForm('#create_box');
-          this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
+          this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           this.DSSVComponent.getAllSinhVien();
           // Add tai khoan
           this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv));
@@ -328,6 +329,13 @@ export class SinhvienComponent implements OnInit {
 
     drag.classList.add('active');
     dragBox.classList.add('active');
+  }
+
+  resetLineActive() {
+    this.DSSVComponent.lineSV = new SinhVien();
+    this.elementRef.nativeElement
+      .querySelector('.table tr.br-line-hover')
+      .classList.remove('br-line-hover');
   }
 
   updateSinhVien() {
@@ -358,6 +366,7 @@ export class SinhvienComponent implements OnInit {
             update.classList.remove('active');
             updateBox.classList.remove('active');
             this.DSSVComponent.getAllSinhVien();
+            this.resetLineActive();
             this.toastr.success(
               'Cập nhập thông tin sinh viên thành công',
               'Thông báo !'
@@ -374,6 +383,8 @@ export class SinhvienComponent implements OnInit {
     } else {
       this.svForm.validate('#update_box');
     }
+
+    this.DSSVComponent.lineSV = new SinhVien();
   }
 
   getSinhVienByMaCN(event: any) {

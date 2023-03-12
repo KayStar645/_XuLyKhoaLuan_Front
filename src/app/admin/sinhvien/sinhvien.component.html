@@ -123,9 +123,9 @@
           <div class="form-value">
             <select formControlName="maCn" (blur)="svForm.inputBlur($event)">
               <option value="">Không có</option>
-              <option value="CH">Cao học</option>
-              <option value="ThS">Thạc sĩ</option>
-              <option value="TS">Tiến sĩ</option>
+              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
+                {{ cn?.tenCn }}
+              </option>
             </select>
             <p class="error-mess"></p>
           </div>
@@ -265,9 +265,9 @@
               [value]="svUpdate?.maCn"
             >
               <option value="">Không có</option>
-              <option value="CH">Cao học</option>
-              <option value="ThS">Thạc sĩ</option>
-              <option value="TS">Tiến sĩ</option>
+              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
+                {{ cn?.tenCn }}
+              </option>
             </select>
             <p class="error-mess"></p>
           </div>

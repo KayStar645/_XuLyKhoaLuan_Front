@@ -18,48 +18,88 @@ import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
 import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
+import { DanhsachsinhvienComponent } from './admin/sinhvien/danhsachsinhvien/danhsachsinhvien.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
   {
-    component: AdminComponent, 
+    component: AdminComponent,
     path: 'admin',
     children: [
-      { path: 'admin-main', component: AdminMainComponent, /* canActivate: [AuthGuard] */},
-      { path: 'thong-bao', component: ThongbaoComponent, /* canActivate: [AuthGuard] */},
-      { path: 'ke-hoach', component: KehoachComponent, /* canActivate: [AuthGuard] */},
-      { path: 'phan-cong', component: PhancongComponent, /* canActivate: [AuthGuard] */},
-      { path: 'hoi-dong', component: HoidongComponent, /* canActivate: [AuthGuard] */},
-      { path: 'de-tai', component: DetaiComponent, /* canActivate: [AuthGuard] */},
-      { 
+      {
+        path: 'admin-main',
+        component: AdminMainComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'thong-bao',
+        component: ThongbaoComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'ke-hoach',
+        component: KehoachComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'phan-cong',
+        component: PhancongComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'hoi-dong',
+        component: HoidongComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'de-tai',
+        component: DetaiComponent /* canActivate: [AuthGuard] */,
+      },
+      {
         component: GiangvienComponent,
         path: 'giang-vien',
         children: [
-          {path: 'danh-sach-giang-vien', component: DanhsachgiangvienComponent, /* canActivate: [AuthGuard] */},
-        ]
+          {
+            path: 'danh-sach-giang-vien',
+            component:
+              DanhsachgiangvienComponent /* canActivate: [AuthGuard] */,
+          },
+        ],
       },
-      { 
-        path: 'sinh-vien', 
-        component: SinhvienComponent, /* canActivate: [AuthGuard] */
+      {
+        component: SinhvienComponent,
+        path: 'sinh-vien',
+        children: [
+          {
+            path: 'danh-sach-sinh-vien',
+            component:
+              DanhsachsinhvienComponent /* canActivate: [AuthGuard] */,
+          },
+        ] /* canActivate: [AuthGuard] */,
       },
-      { path: 'quan-ly-chung', component: QuanlychungComponent, /* canActivate: [AuthGuard] */},
+      {
+        path: 'quan-ly-chung',
+        component: QuanlychungComponent /* canActivate: [AuthGuard] */,
+      },
     ],
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard],
   },
-
 
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
-
-  { 
-    path: 'dashboard', 
-    component: DashboardComponent, /*canActivate: [AuthGuard]*/
+  {
+    path: 'dashboard',
+    component: DashboardComponent /*canActivate: [AuthGuard]*/,
     children: [
-      { path: 'dashboard-main', component: DashboardMainComponent, /* canActivate: [AuthGuard] */},
-      { path: 'dashboard-loimoi', component: DashboardLoimoiComponent, /* canActivate: [AuthGuard] */},
-      { path: 'dashboard-thongbao', component: DashboardThongbaoComponent, /* canActivate: [AuthGuard] */},
-    ]
+      {
+        path: 'dashboard-main',
+        component: DashboardMainComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'dashboard-loimoi',
+        component: DashboardLoimoiComponent /* canActivate: [AuthGuard] */,
+      },
+      {
+        path: 'dashboard-thongbao',
+        component: DashboardThongbaoComponent /* canActivate: [AuthGuard] */,
+      },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

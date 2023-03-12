@@ -111,6 +111,8 @@ export class GiangvienComponent implements OnInit {
 
       option.show('warning');
 
+      option.cancel();
+
       option.agree(() => {
         this.gvForm.resetForm('#create_box');
         createBox.classList.remove('active');
@@ -343,6 +345,13 @@ export class GiangvienComponent implements OnInit {
     dragBox.classList.add('active');
   }
 
+  resetLineActive() {
+    this.DSGVComponent.lineGV = new GiangVien();
+    this.elementRef.nativeElement
+      .querySelector('.table tr.br-line-hover')
+      .classList.remove('br-line-hover');
+  }
+
   updateGiangVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
@@ -374,6 +383,7 @@ export class GiangvienComponent implements OnInit {
             update.classList.remove('active');
             updateBox.classList.remove('active');
             this.DSGVComponent.getAllGiangVien();
+            this.resetLineActive();
             this.toastr.success(
               'Cập nhập thông tin giảng viên viên thành công',
               'Thông báo !'
