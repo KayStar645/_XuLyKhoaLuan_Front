@@ -29,6 +29,7 @@ import { NgProgressModule } from 'ngx-progressbar';
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { DanhsachdetaiComponent } from './admin/detai/danhsachdetai/danhsachdetai.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ToastrModule } from 'ngx-toastr';
     DashboardMainComponent,
     DashboardThongbaoComponent,
     DashboardLoimoiComponent,
+    DanhsachdetaiComponent,
   ],
 
   imports: [

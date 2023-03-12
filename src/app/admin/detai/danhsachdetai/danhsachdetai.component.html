@@ -1,0 +1,28 @@
+<div id="container">
+  <div>
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã ĐT</th>
+        <th>Tên đề tài</th>
+        <th>Tóm tắt</th>
+        <th>Tối thiểu</th>
+        <th>Tối đa</th>
+        <th>Trạng thái</th>
+      </tr>
+      <tbody *ngFor="let dt of listDT">
+        <tr class="br-line" (dblclick)="clickLine($event)">
+          <td class="text-center">{{ dt.maDT }}</td>
+          <td class="text-left">
+            {{ dt?.tenDT }}
+          </td>
+          <td class="text-left">{{ dt?.tomTat }}</td>
+          <td class="text-center">{{ dt?.slMin }}</td>
+          <td class="text-center">{{ dt?.slMax }}</td>
+          <td class="text-center">
+            {{ dt?.trangThai ? "Đã xử lý" : "Chưa xử lý" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
