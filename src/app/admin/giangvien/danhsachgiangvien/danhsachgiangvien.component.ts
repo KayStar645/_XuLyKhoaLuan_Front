@@ -1,13 +1,6 @@
-import { GiangvienComponent } from './../giangvien.component';
 import { shareService } from './../../../services/share.service';
 import { giangVienService } from './../../../services/giangVien.service';
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 
 @Component({

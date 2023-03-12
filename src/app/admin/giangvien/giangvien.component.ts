@@ -3,7 +3,6 @@ import { BoMon } from './../../models/BoMon.model';
 import { boMonService } from './../../services/boMon.service';
 import { DanhsachgiangvienComponent } from './danhsachgiangvien/danhsachgiangvien.component';
 import { giangVienService } from './../../services/giangVien.service';
-import { QuanlychungComponent } from './../quanlychung/quanlychung.component';
 import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -53,7 +52,7 @@ export class GiangvienComponent implements OnInit {
     private boMonService: boMonService,
     private giangVienService: giangVienService,
     private toastr: ToastrService,
-    private userService: userService,
+    private userService: userService
   ) {
     this.gvAddForm = this.gvForm.form;
     this.gvUpdateForm = this.gvForm.form;
@@ -67,7 +66,6 @@ export class GiangvienComponent implements OnInit {
         this.selectedBomon = data[0].maBm;
       }
     });
-    this.router.navigate(['/admin/giang-vien', 'danh-sach-giang-vien']);
   }
 
   onShowFormAdd() {
@@ -84,13 +82,13 @@ export class GiangvienComponent implements OnInit {
     let update = this.elementRef.nativeElement.querySelector('#update');
 
     if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
-      console.log(this.DSGVComponent.lineGV);
-
       this.gvForm.form.setValue({
         ...this.DSGVComponent.lineGV,
         ngayNhanViec: this.DSGVComponent.lineGV.ngayNhanViec.substring(0, 10),
         ngaySinh: this.DSGVComponent.lineGV.ngaySinh.substring(0, 10),
-        ngayNghi: this.DSGVComponent.lineGV.ngayNghi.substring(0, 10),
+        ngayNghi:
+          this.DSGVComponent.lineGV.ngayNghi &&
+          this.DSGVComponent.lineGV.ngayNghi.substring(0, 10),
       });
 
       updateBox.classList.add('active');
@@ -377,7 +375,7 @@ export class GiangvienComponent implements OnInit {
             updateBox.classList.remove('active');
             this.DSGVComponent.getAllGiangVien();
             this.toastr.success(
-              'Cập nhập thông tin nhân viên thành công',
+              'Cập nhập thông tin giảng viên viên thành công',
               'Thông báo !'
             );
           },

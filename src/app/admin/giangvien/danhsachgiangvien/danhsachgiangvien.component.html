@@ -2,15 +2,15 @@
   <div>
     <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
       <tr>
-        <th [width]="1">MGV</th>
-        <th [width]="120">Họ và tên</th>
-        <th [width]="50">Email</th>
-        <th [width]="1">Ngày sinh</th>
-        <th [width]="50">Giới tính</th>
-        <th [width]="70">SĐT</th>
-        <th [width]="70">Ngày nhận việc</th>
-        <th [width]="70">Ngày nghỉ</th>
-        <th [width]="150">Bộ môn công tác</th>
+        <th>Mã GV</th>
+        <th>Họ và tên</th>
+        <th>Email</th>
+        <th>Ngày sinh</th>
+        <th>Giới tính</th>
+        <th>SĐT</th>
+        <th>Ngày nhận việc</th>
+        <th>Ngày nghỉ</th>
+        <th>Bộ môn công tác</th>
       </tr>
       <tbody *ngFor="let gv of listGV">
         <tr class="br-line" (dblclick)="clickLine($event)">
