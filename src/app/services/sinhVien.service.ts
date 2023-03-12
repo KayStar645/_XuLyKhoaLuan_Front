@@ -37,8 +37,8 @@ export class sinhVienService {
       return this.http.delete(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${maSV}`, this.shareService.httpOptions);
     }
 
-    getByMaCn(MaCN: string):Observable<SinhVien[]> {
-      return this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/maCN?maCN=${MaCN}`, this.shareService.httpOptions);
+    getByMaCn(maCN: string): Observable<SinhVien[]> {
+      return this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/maCN?maCN=${maCN}`, this.shareService.httpOptions);
     }
 
     getByTenSv(tenSV: string):Observable<SinhVien[]> {

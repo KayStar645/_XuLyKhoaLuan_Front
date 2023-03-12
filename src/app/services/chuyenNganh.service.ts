@@ -11,6 +11,7 @@ import { shareService } from './share.service';
   providedIn: 'root',
 })
 export class chuyenNganhService {
+    tenCn: string = '';
     private apiUrl = environment.api;
     //private chuyenNganhs!: BehaviorSubject<ChuyenNganh>;
 
@@ -23,6 +24,11 @@ export class chuyenNganhService {
 
     getById(id: string):Observable<ChuyenNganh> {
       return this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions);
+    }
+
+    getTenChuyenNganhById(id: string):string {
+      this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions).subscribe(nhom => this.tenCn = nhom.tenCn);
+      return this.tenCn;
     }
 
     add(chuyenNganh: ChuyenNganh): Observable<any> {
