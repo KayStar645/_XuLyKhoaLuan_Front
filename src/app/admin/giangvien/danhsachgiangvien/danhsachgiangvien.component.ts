@@ -2,6 +2,8 @@ import { shareService } from './../../../services/share.service';
 import { giangVienService } from './../../../services/giangVien.service';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
+import { boMonService } from 'src/app/services/boMon.service';
+import { BoMon } from 'src/app/models/BoMon.model';
 
 @Component({
   selector: 'app-danhsachgiangvien',
@@ -11,17 +13,21 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 export class DanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
   listGV: GiangVien[] = [];
+  listBM: BoMon[] = [];
   root: GiangVien[] = [];
   lineGV = new GiangVien();
   elementOld: any;
 
   constructor(
     private giangVienService: giangVienService,
+    private boMonService: boMonService,
     private shareService: shareService
   ) {}
 
   ngOnInit(): void {
     this.getAllGiangVien();
+
+    this.boMonService.getAll().subscribe((data) => (this.listBM = data));
   }
 
   clickLine(event: any) {
@@ -91,18 +97,12 @@ export class DanhsachgiangvienComponent implements OnInit {
   }
 
   getTenBMById(maBM: string): string {
-    // Gọi service khoa chỗ này
-    // Tạm thời if else
-    if (maBM === 'KTPM') {
-      return 'Kỹ thuật phần mềm';
+    let tenbbm: any = '';
+    if (this.listBM) {
+      tenbbm = this.listBM.find((t) => t.maBm === maBM)?.tenBm;
     }
-    if (maBM === 'MMT') {
-      return 'Mạng máy tính';
-    }
-    if (maBM === 'HTTT') {
-      return 'Hệ thống thông tin';
-    }
-    return 'Khoa học phân tích dữ liệu';
+
+    return tenbbm;
   }
 
   dateFormat(str: string): string {

@@ -121,10 +121,7 @@
         <label class="input row ali-center form-control">
           <p class="label">Chuyên ngành</p>
           <div class="form-value">
-            <select
-              formControlName="chuyenNganh"
-              (blur)="svForm.inputBlur($event)"
-            >
+            <select formControlName="maCn" (blur)="svForm.inputBlur($event)">
               <option value="">Không có</option>
               <option value="CH">Cao học</option>
               <option value="ThS">Thạc sĩ</option>
@@ -198,7 +195,6 @@
         <div class="progress-bar"></div>
       </div>
     </div>
-    <!-- [value]="gvUpdate?.maGv" -->
 
     <h2 class="title">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
     <div class="row form-list form">
@@ -210,6 +206,7 @@
               (blur)="svForm.inputBlur($event)"
               type="text"
               formControlName="maSv"
+              [value]="svUpdate?.maSv"
             />
             <p class="error-mess"></p>
           </div>
@@ -222,6 +219,7 @@
               type="text"
               formControlName="tenSv"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.tenSv"
             />
             <p class="error-mess"></p>
           </div>
@@ -234,6 +232,7 @@
               type="date"
               formControlName="ngaySinh"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.ngaySinh"
             />
 
             <p class="error-mess"></p>
@@ -246,6 +245,7 @@
             <select
               formControlName="gioiTinh"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.gioiTinh"
             >
               <option value="Nam">Nam</option>
               <option value="Nữ">Nữ</option>
@@ -260,8 +260,9 @@
           <p class="label">Chuyên ngành</p>
           <div class="form-value">
             <select
-              formControlName="chuyenNganh"
+              formControlName="maCn"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.maCn"
             >
               <option value="">Không có</option>
               <option value="CH">Cao học</option>
@@ -279,6 +280,7 @@
               type="text"
               formControlName="lop"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.lop"
             />
             <p class="error-mess"></p>
           </div>
@@ -291,6 +293,7 @@
               type="text"
               formControlName="email"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.email"
             />
             <p class="error-mess"></p>
           </div>
@@ -304,6 +307,7 @@
               formControlName="sdt"
               maxlength="10"
               (blur)="svForm.inputBlur($event)"
+              [value]="svUpdate?.sdt"
             />
             <p class="error-mess"></p>
           </div>
@@ -363,8 +367,8 @@
       <div class="notify-container">
         <p class="notify-title">Thông báo !</p>
         <p class="notify-content">
-          Việc xóa sẽ làm tất cả thông tin có liên quan đến sinh viên sẽ biến mất.
-          Bạn có chắc chắn muốn xóa ?
+          Việc xóa sẽ làm tất cả thông tin có liên quan đến sinh viên sẽ biến
+          mất. Bạn có chắc chắn muốn xóa ?
         </p>
         <div class="row ali-center jus-end">
           <button class="cancel">Hủy</button>

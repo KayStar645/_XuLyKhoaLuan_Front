@@ -39,7 +39,7 @@ export class SinhvienComponent implements OnInit {
     gioiTinh: ['', Validators.required],
     sdt: ['', Validators.required],
     lop: ['', Validators.required],
-    chuyenNganh: [''],
+    maCn: [''],
   });
 
   constructor(

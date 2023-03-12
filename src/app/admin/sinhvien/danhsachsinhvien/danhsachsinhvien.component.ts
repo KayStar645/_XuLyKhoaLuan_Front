@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
+import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 
@@ -11,17 +13,20 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 export class DanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
   listSV: SinhVien[] = [];
+  listCN: ChuyenNganh[] = [];
   root: SinhVien[] = [];
   lineSV = new SinhVien();
   elementOld: any;
 
   constructor(
     private sinhVienService: sinhVienService,
+    private chuyenNganhService: chuyenNganhService,
     private shareService: shareService
   ) {}
 
   ngOnInit(): void {
     this.getAllSinhVien();
+    this.chuyenNganhService.getAll().subscribe((data) => (this.listCN = data));
   }
 
   clickLine(event: any) {
@@ -52,7 +57,7 @@ export class DanhsachsinhvienComponent implements OnInit {
   }
 
   getSinhVienByMaCN(maCn: string) {
-    this.sinhVienService.getByMaBm(maCn).subscribe((data) => {
+    this.sinhVienService.getByMaCn(maCn).subscribe((data) => {
       this.listSV = data;
     });
   }
@@ -90,22 +95,17 @@ export class DanhsachsinhvienComponent implements OnInit {
     );
   }
 
-  getTenBMById(maCn: string): string {
-    // Gọi service khoa chỗ này
-    // Tạm thời if else
-    if (maCn === 'KTPM') {
-      return 'Kỹ thuật phần mềm';
+  getTenCNById(maCn: string): string {
+    let tencn: any = '';
+
+    if (this.listCN) {
+      tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
     }
-    if (maCn === 'MMT') {
-      return 'Mạng máy tính';
-    }
-    if (maCn === 'HTTT') {
-      return 'Hệ thống thông tin';
-    }
-    return 'Khoa học phân tích dữ liệu';
+
+    return tencn;
   }
 
-  dateFormat(str: string): string {
+  dateFormat(str: string) {
     return this.shareService.dateFormat(str);
   }
 }
