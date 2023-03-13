@@ -246,7 +246,13 @@ export class GiangvienComponent implements OnInit {
         this.giangVienService.add(gv).subscribe(
           (data) => {
             // Add tai khoan
-            this.userService.addTeacher(new User(gv.maGv, gv.maGv));
+            this.userService.addTeacher(new User(gv.maGv, gv.maGv)).subscribe(
+              (success) => {
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
             this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
           },
           (error) => {
@@ -280,6 +286,13 @@ export class GiangvienComponent implements OnInit {
       option.agree(() => {
         this.giangVienService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
           (data) => {
+            this.userService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
+              (success) => {
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
             this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
             this.DSGVComponent.lineGV = new GiangVien();
             this.DSGVComponent.getAllGiangVien();
@@ -323,6 +336,14 @@ export class GiangvienComponent implements OnInit {
       this.giangVienService.add(giangVien).subscribe(
         (data) => {
           this.gvForm.resetForm('#create_box');
+          // Add tai khoan
+          this.userService.addTeacher(new User(giangVien.maGv, giangVien.maGv)).subscribe(
+            (success) => {
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
           this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
           this.DSGVComponent.getAllGiangVien();
         },

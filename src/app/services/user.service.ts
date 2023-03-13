@@ -17,15 +17,19 @@ export class userService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    addMinistry(User: User): Observable<any> {
-      return this.http.post(`${this.apiUrl}​/api​/Accounts​/SigUpMinistry`, User, this.shareService.httpOptions);
+    addMinistry(user: User): Observable<any> {
+      return this.http.post(`${this.apiUrl}/api/Accounts/SigUpMinistry`, user, this.shareService.httpOptions);
     }
 
-    addTeacher(User: User): Observable<any> {
-      return this.http.post(`${this.apiUrl}​/api​/Accounts​/SigUpTeacher`, User, this.shareService.httpOptions);
+    addTeacher(user: User): Observable<any> {
+      return this.http.post(`${this.apiUrl}/api/Accounts/SigUpTeacher`, user, this.shareService.httpOptions);
     }
 
-    addStudent(User: User): Observable<any> {
-      return this.http.post(`${this.apiUrl}​/api​/Accounts​/SigUpStudent`, User, this.shareService.httpOptions);
+    addStudent(user: User): Observable<any> {
+      return this.http.post(`${this.apiUrl}/api/Accounts/SigUpStudent`, user, this.shareService.httpOptions);
+    }
+
+    delete(id: string) {
+      return this.http.delete(`${this.apiUrl}/api/Accounts/${id}`, this.shareService.httpOptions);
     }
 }

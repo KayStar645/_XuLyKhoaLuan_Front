@@ -54,13 +54,15 @@ import { QuillModule } from 'ngx-quill';
     DashboardComponent,
     PhancongComponent,
     QuanlychungComponent,
-    TestComponent,
     DanhsachgiangvienComponent,
     DanhsachsinhvienComponent,
     DashboardMainComponent,
     DashboardThongbaoComponent,
     DashboardLoimoiComponent,
     DanhsachdetaiComponent,
+    
+    
+    TestComponent,
   ],
 
   imports: [
