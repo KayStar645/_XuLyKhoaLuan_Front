@@ -75,11 +75,6 @@
   padding: 24px 30px;
   z-index: 12;
   display: none;
-  overflow: hidden;
-
-  &.active {
-    display: block;
-  }
 }
 
 #update_box.active,

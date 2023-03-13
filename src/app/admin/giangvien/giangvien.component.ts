@@ -302,6 +302,10 @@ export class GiangvienComponent implements OnInit {
   addGiangVien() {
     if (this.gvAddForm.valid) {
       const giangVien = new GiangVien();
+      const taiKhoan = new User(
+        this.gvAddForm.value['maGv'],
+        this.gvAddForm.value['maGv']
+      );
       giangVien.init(
         this.gvAddForm.value['maGv'],
         this.gvAddForm.value['tenGv'],
@@ -321,8 +325,6 @@ export class GiangvienComponent implements OnInit {
           this.gvForm.resetForm('#create_box');
           this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
           this.DSGVComponent.getAllGiangVien();
-          // Add tai khoan
-          this.userService.addTeacher(new User(giangVien.maGv, giangVien.maGv));
         },
         (error) => {
           this.toastr.error(

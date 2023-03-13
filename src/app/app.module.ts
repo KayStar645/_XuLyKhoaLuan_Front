@@ -30,6 +30,7 @@ import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { DanhsachdetaiComponent } from './admin/detai/danhsachdetai/danhsachdetai.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { DanhsachdetaiComponent } from './admin/detai/danhsachdetai/danhsachdeta
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    QuillModule,
 
     NgProgressModule,
     NgProgressHttpModule,

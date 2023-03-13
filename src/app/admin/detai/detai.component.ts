@@ -25,6 +25,7 @@ export class DetaiComponent implements OnInit {
   dtAddForm: any;
   dtUpdateForm: any;
   dtOldForm: any;
+  isSummary: boolean = false;
 
   dtForm = new Form({
     maDT: ['', Validators.required],
@@ -34,6 +35,20 @@ export class DetaiComponent implements OnInit {
     slMax: ['', Validators.required],
     trangThai: ['', Validators.required],
   });
+
+  quillConfig: any = {
+    //toolbar: '.toolbar',
+    toolbar: {
+      container: [
+        [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+        [{ direction: 'rtl' }], // text direction
+        ['link'],
+      ],
+    },
+  };
 
   constructor(
     private titleService: Title,
@@ -179,6 +194,7 @@ export class DetaiComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+      
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);
@@ -309,7 +325,34 @@ export class DetaiComponent implements OnInit {
       );
     } else {
       this.dtForm.validate('#create_box');
+
+      let summary = this.elementRef.nativeElement.querySelector(
+        'quill-editor.ng-invalid'
+      );
     }
+  }
+
+  toggleSummary() {
+    this.dtAddForm.patchValue({
+      trangThai: 'false',
+      tomTat: 'temp',
+    });
+
+    if (this.dtAddForm.valid) {
+      this.isSummary = !this.isSummary;
+      this.dtAddForm.patchValue({
+        trangThai: 'false',
+        tomTat: '',
+      });
+    } else {
+      this.dtForm.validate('#create_box');
+    }
+  }
+
+  onContentChanged(event: any) {
+    this.dtForm.form.patchValue({
+      tomTat: event.html,
+    });
   }
 
   onShowFormDrag() {

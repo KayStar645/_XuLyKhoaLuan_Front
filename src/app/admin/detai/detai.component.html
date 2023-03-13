@@ -61,9 +61,9 @@
 
     <h2 class="title">THÊM ĐỀ TÀI MỚI</h2>
 
-    <div class="row form-list form">
+    <div class="row form-list form" *ngIf="!isSummary">
       <div class="h-6 p-l-12 p-r-12">
-        <label class="form-control row ali-center form-control">
+        <label class="row ali-center form-control">
           <p class="label">Mã đề tài</p>
           <div class="form-value">
             <input
@@ -75,7 +75,7 @@
           </div>
         </label>
 
-        <label class="input row ali-center form-control">
+        <label class="row ali-center form-control">
           <p class="label">Tên đề tài</p>
           <div class="form-value">
             <input
@@ -83,17 +83,6 @@
               formControlName="tenDT"
               (blur)="dtForm.inputBlur($event)"
             />
-            <p class="error-mess"></p>
-          </div>
-        </label>
-
-        <label class="form-control row ali-center form-control">
-          <p class="label">Tóm tắt</p>
-          <div class="form-value">
-            <textarea
-              formControlName="tomTat"
-              (blur)="dtForm.inputBlur($event)"
-            ></textarea>
             <p class="error-mess"></p>
           </div>
         </label>
@@ -127,9 +116,32 @@
       </div>
     </div>
 
+    <div *ngIf="isSummary">
+      <div class="form-value">
+        <quill-editor
+          [styles]="{ width: '100%' }"
+          placeholder="Thêm mô tả cho đề tài"
+          [modules]="quillConfig"
+          [required]="true"
+          (onContentChanged)="onContentChanged($event)"
+        ></quill-editor>
+
+        <p class="error-mess"></p>
+      </div>
+    </div>
+
     <div class="submit-btn text-right">
-      <button class="ma-r-12" (click)="resetForm()">Làm mới</button>
-      <button class="btn-add" (click)="addDeTai()">Thêm đề tài</button>
+      <div *ngIf="isSummary">
+        <button class="btn-add ma-r-12" (click)="toggleSummary()">
+          Quay lại
+        </button>
+        <button class="btn-add" (click)="addDeTai()">Thêm đề tài</button>
+      </div>
+
+      <div *ngIf="!isSummary">
+        <button class="ma-r-12" (click)="resetForm()">Làm mới</button>
+        <button class="btn-add" (click)="toggleSummary()">Thêm mô tả</button>
+      </div>
     </div>
   </form>
 
@@ -178,7 +190,7 @@
           </div>
         </label>
 
-        <label class="form-control row ali-center form-control">
+        <!-- <label class="form-control row ali-center form-control">
           <p class="label">Tóm tắt</p>
           <div class="form-value">
             <textarea
@@ -187,7 +199,7 @@
             ></textarea>
             <p class="error-mess"></p>
           </div>
-        </label>
+        </label> -->
       </div>
 
       <div class="h-6 p-l-12 p-r-12">
