@@ -1,13 +1,13 @@
-import { DuyetDt } from './../../../models/DuyetDt.model';
+import { DuyetDt } from '../../../models/DuyetDt.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
-import { ChuyenNganh } from './../../../models/ChuyenNganh.model';
-import { DeTai_ChuyenNganh } from './../../../models/DeTai_ChuyenNganh.model';
-import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
+import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
+import { DeTai_ChuyenNganh } from '../../../models/DeTai_ChuyenNganh.model';
+import { deTai_chuyenNganhService } from '../../../services/deTai_chuyenNganh.service';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
-import { giangVienService } from './../../../services/giangVien.service';
-import { RaDe } from './../../../models/RaDe.model';
-import { duyetDtService } from './../../../services/duyetDt.service';
-import { raDeService } from './../../../services/raDe.service';
+import { giangVienService } from '../../../services/giangVien.service';
+import { RaDe } from '../../../models/RaDe.model';
+import { duyetDtService } from '../../../services/duyetDt.service';
+import { raDeService } from '../../../services/raDe.service';
 import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
@@ -17,10 +17,10 @@ import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-danhsachdetai',
-  templateUrl: './danhsachdetai.component.html',
-  styleUrls: ['./danhsachdetai.component.scss'],
+  templateUrl: './ministry-danhsachdetai.component.html',
+  styleUrls: ['./ministry-danhsachdetai.component.scss'],
 })
-export class DanhsachdetaiComponent {
+export class MinistryDanhsachdetaiComponent {
   @Input() searchName = '';
   listDT: DeTai[] = [];
   root: DeTai[] = [];

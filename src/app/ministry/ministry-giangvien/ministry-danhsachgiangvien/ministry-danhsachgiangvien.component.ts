@@ -1,5 +1,5 @@
-import { shareService } from './../../../services/share.service';
-import { giangVienService } from './../../../services/giangVien.service';
+import { shareService } from '../../../services/share.service';
+import { giangVienService } from '../../../services/giangVien.service';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { boMonService } from 'src/app/services/boMon.service';
@@ -7,10 +7,10 @@ import { BoMon } from 'src/app/models/BoMon.model';
 
 @Component({
   selector: 'app-danhsachgiangvien',
-  templateUrl: './danhsachgiangvien.component.html',
-  styleUrls: ['./danhsachgiangvien.component.scss'],
+  templateUrl: './ministry-danhsachgiangvien.component.html',
+  styleUrls: ['./ministry-danhsachgiangvien.component.scss'],
 })
-export class DanhsachgiangvienComponent implements OnInit {
+export class MinistryDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
   listGV: GiangVien[] = [];
   listBM: BoMon[] = [];

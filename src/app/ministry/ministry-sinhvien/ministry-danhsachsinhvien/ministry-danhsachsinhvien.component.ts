@@ -7,10 +7,10 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 
 @Component({
   selector: 'app-danhsachsinhvien',
-  templateUrl: './danhsachsinhvien.component.html',
-  styleUrls: ['./danhsachsinhvien.component.scss'],
+  templateUrl: './ministry-danhsachsinhvien.component.html',
+  styleUrls: ['./ministry-danhsachsinhvien.component.scss'],
 })
-export class DanhsachsinhvienComponent implements OnInit {
+export class MinistryDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];

@@ -60,6 +60,6 @@ export class DashboardMainComponent implements OnInit{
     const data = {
       id: this.data.maSv
     }
-    this.router.navigate(['/dashboard/dashboard-loimoi'], {queryParams: data});
+    this.router.navigate(['/dashboard/loi-moi'], {queryParams: data});
   }
 }

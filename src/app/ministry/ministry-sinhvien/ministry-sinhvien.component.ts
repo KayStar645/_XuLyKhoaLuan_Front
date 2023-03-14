@@ -8,9 +8,9 @@ import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
-import { DanhsachsinhvienComponent } from './danhsachsinhvien/danhsachsinhvien.component';
 import * as XLSX from 'xlsx';
 import { User } from 'src/app/models/User.model';
+import { MinistryDanhsachsinhvienComponent } from './ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
 
 @Component({
   selector: 'app-ministry-sinhvien',
@@ -18,8 +18,8 @@ import { User } from 'src/app/models/User.model';
   styleUrls: ['./ministry-sinhvien.component.scss'],
 })
 export class MinistrySinhvienComponent implements OnInit {
-  @ViewChild(DanhsachsinhvienComponent)
-  private DSSVComponent!: DanhsachsinhvienComponent;
+  @ViewChild(MinistryDanhsachsinhvienComponent)
+  private DSSVComponent!: MinistryDanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
   searchName = '';
   selectedChuyenNganh!: string;

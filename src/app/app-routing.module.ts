@@ -1,4 +1,3 @@
-import { DanhsachgiangvienComponent } from './home/home-giangvien/danhsachgiangvien/danhsachgiangvien.component';
 import { HomeGiaobaitapComponent } from './home/home-giaobaitap/home-giaobaitap.component';
 import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
 import { HomeMainComponent } from './home/home-main/home-main.component';
@@ -11,7 +10,6 @@ import { AuthGuard } from './services/auth/auth.guard';
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
 import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
-import { DanhsachsinhvienComponent } from './ministry/ministry-sinhvien/danhsachsinhvien/danhsachsinhvien.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.component';
 import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
@@ -29,6 +27,11 @@ import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
 import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
 import { HomeHoidongComponent } from './home/home-hoidong/home-hoidong.component';
 import { HomeLichphanbienComponent } from './home/home-lichphanbien/home-lichphanbien.component';
+import { HomeDanhsachgiangvienComponent } from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
+import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
+import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
+import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
+import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -76,7 +79,7 @@ const routes: Routes = [
           {
             path: 'danh-sach-giang-vien',
             component:
-              DanhsachgiangvienComponent, 
+            MinistryDanhsachgiangvienComponent, 
               canActivate: [AuthGuard],
           },
         ],
@@ -88,7 +91,7 @@ const routes: Routes = [
           {
             path: 'danh-sach-sinh-vien',
             component:
-              DanhsachsinhvienComponent, 
+            MinistryDanhsachsinhvienComponent, 
               canActivate: [AuthGuard],
           },
         ], 
@@ -131,13 +134,13 @@ const routes: Routes = [
         path: 'giang-vien',
         component: HomeGiangvienComponent,
         canActivate: [AuthGuard],
-        // children: [
-        //   {
-        //     path: 'danh-sach-giang-vien',
-        //     //component: DanhsachgiangvienComponent,
-        //     canActivate: [AuthGuard], 
-        //   }
-        // ]
+        children: [
+          {
+            path: 'danh-sach-giang-vien',
+            component: HomeDanhsachgiangvienComponent,
+            canActivate: [AuthGuard], 
+          }
+        ]
       },
       {
         path: 'thong-bao',
@@ -148,11 +151,25 @@ const routes: Routes = [
         path: 'de-tai',
         component: HomeDetaiComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'danh-sach-de-tai',
+            component: HomeDanhsachdetaiComponent,
+            canActivate: [AuthGuard], 
+          }
+        ]
       },
       {
         path: 'sinh-vien',
         component: HomeSinhvienComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'danh-sach-sinh-vien',
+            component: HomeDanhsachsinhvienComponent,
+            canActivate: [AuthGuard], 
+          }
+        ]
       },
       {
         path: 'hoi-dong',
@@ -183,12 +200,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'loimoi',
+        path: 'loi-moi',
         component: DashboardLoimoiComponent, 
         canActivate: [AuthGuard],
       },
       {
-        path: 'thongbao',
+        path: 'thong-bao',
         component: DashboardThongbaoComponent, 
         canActivate: [AuthGuard],
       },

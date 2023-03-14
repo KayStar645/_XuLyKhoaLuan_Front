@@ -6,8 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
-import { DanhsachdetaiComponent } from './danhsachdetai/danhsachdetai.component';
 import * as XLSX from 'xlsx';
+import { MinistryDanhsachdetaiComponent } from './ministry-danhsachdetai/ministry-danhsachdetai.component';
 
 @Component({
   selector: 'app-ministry-detai',
@@ -15,8 +15,8 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./ministry-detai.component.scss'],
 })
 export class MinistryDetaiComponent implements OnInit {
-  @ViewChild(DanhsachdetaiComponent)
-  private DSDTComponent!: DanhsachdetaiComponent;
+  @ViewChild(MinistryDanhsachdetaiComponent)
+  private DSDTComponent!: MinistryDanhsachdetaiComponent;
   dtUpdate: any = DeTai;
   searchName = '';
   selectedBomon!: string;

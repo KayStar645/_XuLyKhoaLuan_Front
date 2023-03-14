@@ -1,7 +1,6 @@
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { BoMon } from '../../models/BoMon.model';
 import { boMonService } from '../../services/boMon.service';
-import { DanhsachgiangvienComponent } from './danhsachgiangvien/danhsachgiangvien.component';
 import { giangVienService } from '../../services/giangVien.service';
 import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -12,6 +11,7 @@ import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
 import { userService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/User.model';
+import { MinistryDanhsachgiangvienComponent } from './ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
 
 @Component({
   selector: 'app-ministry-giangvien',
@@ -19,8 +19,8 @@ import { User } from 'src/app/models/User.model';
   styleUrls: ['./ministry-giangvien.component.scss'],
 })
 export class MinistryGiangvienComponent implements OnInit {
-  @ViewChild(DanhsachgiangvienComponent)
-  private DSGVComponent!: DanhsachgiangvienComponent;
+  @ViewChild(MinistryDanhsachgiangvienComponent)
+  private DSGVComponent!: MinistryDanhsachgiangvienComponent;
   listBoMon: BoMon[] = [];
   searchName = '';
   selectedBomon!: string;
