@@ -1,0 +1,12 @@
+.custome-functional {
+  flex-wrap: nowrap;
+  gap: 12px;
+
+  .form-control {
+    flex-basis: calc(100% / 3);
+  }
+
+  .label {
+    width: 100px;
+  }
+}

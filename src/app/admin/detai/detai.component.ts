@@ -40,11 +40,9 @@ export class DetaiComponent implements OnInit {
     //toolbar: '.toolbar',
     toolbar: {
       container: [
-        [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+        ['bold', 'italic', 'underline'], // toggled buttons
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-        [{ direction: 'rtl' }], // text direction
         ['link'],
       ],
     },
@@ -194,7 +192,7 @@ export class DetaiComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-      
+
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);

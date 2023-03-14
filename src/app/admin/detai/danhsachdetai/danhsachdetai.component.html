@@ -15,8 +15,17 @@
       <tbody *ngFor="let dt of listDT">
         <tr class="br-line" (dblclick)="clickLine($event)">
           <td class="text-center">{{ dt.maDT }}</td>
-          <td class="text-left">{{ dt?.tenDT }}</td>
-          <td class="text-left">{{ dt?.tomTat }}</td>
+          <td class="text-left">
+            <p class="cell-limit">
+              {{ dt?.tenDT }}
+            </p>
+          </td>
+          <td class="text-left relative">
+            <p class="topic-summary cell-limit">
+              {{ dt?.tomTat }}
+            </p>
+            <span class="show-more">[Chi tiết]</span>
+          </td>
           <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
           <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
           <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>

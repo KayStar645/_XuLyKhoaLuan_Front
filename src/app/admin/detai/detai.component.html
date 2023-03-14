@@ -44,7 +44,7 @@
   <app-danhsachdetai [searchName]="searchName"></app-danhsachdetai>
 
   <div id="create" (click)="handleToggleAdd()"></div>
-  <form id="create_box" [formGroup]="dtAddForm" class="form">
+  <div id="create_box" [formGroup]="dtAddForm" class="form">
     <div class="form-notify">
       <div class="notify-container">
         <p class="notify-title">Thông báo !</p>
@@ -61,89 +61,78 @@
 
     <h2 class="title">THÊM ĐỀ TÀI MỚI</h2>
 
-    <div class="row form-list form" *ngIf="!isSummary">
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="row ali-center form-control">
-          <p class="label">Mã đề tài</p>
-          <div class="form-value">
-            <input
-              (blur)="dtForm.inputBlur($event)"
-              type="text"
-              formControlName="maDT"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
+    <div class="row ali-center custome-functional">
+      <label class="row ali-center form-control">
+        <p class="label">Mã đề tài</p>
+        <div class="form-value">
+          <input
+            (blur)="dtForm.inputBlur($event)"
+            type="text"
+            formControlName="maDT"
+          />
+        </div>
+      </label>
 
-        <label class="row ali-center form-control">
-          <p class="label">Tên đề tài</p>
-          <div class="form-value">
-            <input
-              type="text"
-              formControlName="tenDT"
-              (blur)="dtForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
-      </div>
+      <label class="row ali-center form-control">
+        <p class="label">Tối thiểu</p>
+        <div class="form-value">
+          <input
+            type="number"
+            formControlName="slMin"
+            (blur)="dtForm.inputBlur($event)"
+            min="1"
+          />
+        </div>
+      </label>
 
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Tối thiểu</p>
-          <div class="form-value">
-            <input
-              type="number"
-              formControlName="slMin"
-              (blur)="dtForm.inputBlur($event)"
-              min="1"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Tối đa</p>
-          <div class="form-value">
-            <input
-              type="number"
-              formControlName="slMax"
-              (blur)="dtForm.inputBlur($event)"
-              [value]="3"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
-      </div>
+      <label class="row ali-center form-control">
+        <p class="label">Tối đa</p>
+        <div class="form-value">
+          <input
+            type="number"
+            formControlName="slMax"
+            (blur)="dtForm.inputBlur($event)"
+            [value]="3"
+          />
+        </div>
+      </label>
     </div>
 
-    <div *ngIf="isSummary">
+    <label class="form-control">
+      <p class="label p-b-8">Tên đề tài</p>
+
       <div class="form-value">
         <quill-editor
-          [styles]="{ width: '100%' }"
-          placeholder="Thêm mô tả cho đề tài"
+          spellcheck="false"
+          class="topic-name"
+          placeholder="Tên đề tài (bắt buộc)" 
+          formControlName="tenDT"
+          [modules]="{ toolbar: false }"
+        >
+        </quill-editor>
+      </div>
+    </label>
+
+    <div class="form-control">
+      <p class="label p-b-8">Tóm tắt</p>
+
+      <div class="form-value">
+        <quill-editor
+          spellcheck="false"
+          class="topic-summary"
+          placeholder="Thêm mô tả cho đề tài (bắt buộc)"
           [modules]="quillConfig"
           [required]="true"
-          (onContentChanged)="onContentChanged($event)"
+          formControlName="tomTat"
         ></quill-editor>
-
-        <p class="error-mess"></p>
       </div>
     </div>
 
     <div class="submit-btn text-right">
-      <div *ngIf="isSummary">
-        <button class="btn-add ma-r-12" (click)="toggleSummary()">
-          Quay lại
-        </button>
-        <button class="btn-add" (click)="addDeTai()">Thêm đề tài</button>
-      </div>
-
-      <div *ngIf="!isSummary">
-        <button class="ma-r-12" (click)="resetForm()">Làm mới</button>
-        <button class="btn-add" (click)="toggleSummary()">Thêm mô tả</button>
-      </div>
+      <button class="ma-r-12" (click)="resetForm()">Làm mới</button>
+      <button class="btn-add" (click)="addDeTai()">Thêm đề tài</button>
     </div>
-  </form>
+  </div>
 
   <div id="update" (click)="handleToggleUpdate()"></div>
   <form id="update_box" [formGroup]="dtUpdateForm" class="form">

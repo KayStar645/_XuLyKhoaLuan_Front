@@ -9,12 +9,12 @@
 
 .form-control {
   padding: 12px 0;
-  font-size: 1.4rem;
 }
 
 .form-control .label {
   width: 120px;
   color: #4b525a;
+  font-size: 1.4rem;
 }
 
 .error-mess {
@@ -30,7 +30,6 @@
   padding-bottom: 16px;
   position: initial;
   display: block;
-  font-size: 1.3rem;
 }
 
 .form-control.invalid {
@@ -55,12 +54,16 @@
 
 .form-control input,
 .form-control select,
-.form-control textarea {
+.form-control textarea,
+.form-control quill-editor {
   width: 100%;
   padding: 12px;
   border-radius: 5px;
   border: 1px solid #eae9e9;
   background: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 .form-control textarea {

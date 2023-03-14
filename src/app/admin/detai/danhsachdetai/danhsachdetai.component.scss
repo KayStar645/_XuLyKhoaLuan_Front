@@ -1,0 +1,18 @@
+.topic-summary {
+  width: 400px;
+}
+
+.show-more {
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+  right: 11px;
+  padding-left: 4px;
+  cursor: pointer;
+  color: royalblue;
+  background: #fff;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
