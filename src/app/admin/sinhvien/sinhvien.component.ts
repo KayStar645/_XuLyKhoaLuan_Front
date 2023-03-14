@@ -232,12 +232,17 @@ export class SinhvienComponent implements OnInit {
           data[6] ? data[6] : '',
           data[7] ? data[7] : ''
         );
-        console.log(sinhVien);
 
         this.sinhVienService.add(sinhVien).subscribe(
           (data) => {
             // Add tai khoan
-            this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv));
+            this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv)).subscribe(
+              (success) => {
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
             this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           },
           (error) => {
@@ -270,6 +275,13 @@ export class SinhvienComponent implements OnInit {
       option.agree(() => {
         this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
           (data) => {
+            this.userService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
+              (success) => {
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
             this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
             this.DSSVComponent.lineSV = new SinhVien();
             this.DSSVComponent.getAllSinhVien();
@@ -306,10 +318,19 @@ export class SinhvienComponent implements OnInit {
       this.sinhVienService.add(sinhVien).subscribe(
         (data) => {
           this.svForm.resetForm('#create_box');
+          // Add tai khoan
+          this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv)).subscribe(
+            (success) => {
+              // console.log("Thành công!");
+              // console.log(success);
+            },
+            (error) => {
+              // console.log("Thất bại!");
+              console.log(error);
+            }
+          );
           this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           this.DSSVComponent.getAllSinhVien();
-          // Add tai khoan
-          this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv));
         },
         (error) => {
           this.toastr.error(

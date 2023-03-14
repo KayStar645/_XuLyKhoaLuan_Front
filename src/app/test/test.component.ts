@@ -1,7 +1,9 @@
+import { userService } from 'src/app/services/user.service';
 import { raDeService } from './../services/raDe.service';
 import { DeTai_ChuyenNganh } from './../models/DeTai_ChuyenNganh.model';
 import { Component, OnInit } from '@angular/core';
 import { RaDe } from '../models/RaDe.model';
+import { User } from '../models/User.model';
 
 
 @Component({
@@ -10,9 +12,37 @@ import { RaDe } from '../models/RaDe.model';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private raDeService : raDeService) { }
+  constructor(
+    private raDeService : raDeService,
+    private userService: userService,
+    ) { }
 
   ngOnInit(): void {
+  }
+
+  taoTaiKhoan() {
+    this.userService.addTeacher(new User("GV00021", "GV00021")).subscribe(
+      (success) => {
+        console.log("Thành công!");
+        console.log(success);
+      },
+      (error) => {
+        console.log("Thất bại!");
+        console.log(error);
+      }
+    )
+  }
+
+  xoaTaiKhoan() {
+    console.log("Xóa nè")
+    this.userService.delete("GV00021").subscribe(
+      (success) => {
+        console.log("Thành công!");
+      },
+      (error) => {
+        console.log("Thất bại!");
+      }
+    );
   }
 
   getAll() {
