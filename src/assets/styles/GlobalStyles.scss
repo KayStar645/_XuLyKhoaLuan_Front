@@ -43,6 +43,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+label {
+  display: block;
+}
+
 svg,
 img {
   user-select: none;

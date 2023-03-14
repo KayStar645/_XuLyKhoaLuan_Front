@@ -59,72 +59,82 @@
       </div>
     </div>
 
-    <h2 class="title">THÊM ĐỀ TÀI MỚI</h2>
+    <div>
+      <h2 class="title">THÊM ĐỀ TÀI MỚI</h2>
 
-    <div class="row ali-center custome-functional">
-      <label class="row ali-center form-control">
-        <p class="label">Mã đề tài</p>
-        <div class="form-value">
-          <input
-            (blur)="dtForm.inputBlur($event)"
-            type="text"
-            formControlName="maDT"
-          />
-        </div>
-      </label>
+      <div class="row ali-center custome-functional">
+        <label class="row ali-center form-control">
+          <p class="label">Mã đề tài</p>
+          <div class="form-value">
+            <input
+              class="form-input"
+              (blur)="dtForm.inputBlur($event)"
+              type="text"
+              formControlName="maDT"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </label>
 
-      <label class="row ali-center form-control">
-        <p class="label">Tối thiểu</p>
-        <div class="form-value">
-          <input
-            type="number"
-            formControlName="slMin"
-            (blur)="dtForm.inputBlur($event)"
-            min="1"
-          />
-        </div>
-      </label>
+        <label class="row ali-center form-control">
+          <p class="label">Tối thiểu</p>
+          <div class="form-value">
+            <input
+              class="form-input"
+              type="number"
+              formControlName="slMin"
+              (blur)="dtForm.inputBlur($event)"
+              min="1"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </label>
 
-      <label class="row ali-center form-control">
-        <p class="label">Tối đa</p>
-        <div class="form-value">
-          <input
-            type="number"
-            formControlName="slMax"
-            (blur)="dtForm.inputBlur($event)"
-            [value]="3"
-          />
-        </div>
-      </label>
-    </div>
-
-    <label class="form-control">
-      <p class="label p-b-8">Tên đề tài</p>
-
-      <div class="form-value">
-        <quill-editor
-          spellcheck="false"
-          class="topic-name"
-          placeholder="Tên đề tài (bắt buộc)" 
-          formControlName="tenDT"
-          [modules]="{ toolbar: false }"
-        >
-        </quill-editor>
+        <label class="row ali-center form-control">
+          <p class="label">Tối đa</p>
+          <div class="form-value">
+            <input
+              class="form-input"
+              type="number"
+              formControlName="slMax"
+              (blur)="dtForm.inputBlur($event)"
+              [value]="3"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </label>
       </div>
-    </label>
 
-    <div class="form-control">
-      <p class="label p-b-8">Tóm tắt</p>
+      <div class="form-control">
+        <p class="label p-b-8">Tên đề tài</p>
 
-      <div class="form-value">
-        <quill-editor
-          spellcheck="false"
-          class="topic-summary"
-          placeholder="Thêm mô tả cho đề tài (bắt buộc)"
-          [modules]="quillConfig"
-          [required]="true"
-          formControlName="tomTat"
-        ></quill-editor>
+        <div class="form-value">
+          <quill-editor
+            class="form-input topic-name"
+            spellcheck="false"
+            placeholder=""
+            formControlName="tenDT"
+            [modules]="{ toolbar: false }"
+          >
+          </quill-editor>
+          <p class="error-mess"></p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <p class="label p-b-8">Tóm tắt</p>
+
+        <div class="form-value">
+          <quill-editor
+            spellcheck="false"
+            class="form-input topic-summary"
+            placeholder=""
+            [modules]="quillConfig"
+            [required]="true"
+            formControlName="tomTat"
+          ></quill-editor>
+          <p class="error-mess"></p>
+        </div>
       </div>
     </div>
 
@@ -135,7 +145,7 @@
   </div>
 
   <div id="update" (click)="handleToggleUpdate()"></div>
-  <form id="update_box" [formGroup]="dtUpdateForm" class="form">
+  <div id="update_box" [formGroup]="dtUpdateForm" class="form">
     <div class="form-notify">
       <div class="notify-container">
         <p class="notify-title">Thông báo !</p>
@@ -152,13 +162,15 @@
       </div>
     </div>
 
-    <h2 class="title">CẬP NHẬT THÔNG TIN ĐỀ TÀI</h2>
-    <div class="row form-list form">
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="form-control row ali-center form-control">
+    <div>
+      <h2 class="title">CẬP NHẬT THÔNG TIN ĐỀ TÀI</h2>
+
+      <div class="row ali-center custome-functional">
+        <label class="row ali-center form-control">
           <p class="label">Mã đề tài</p>
           <div class="form-value">
             <input
+              class="form-input"
               (blur)="dtForm.inputBlur($event)"
               type="text"
               formControlName="maDT"
@@ -167,35 +179,11 @@
           </div>
         </label>
 
-        <label class="input row ali-center form-control">
-          <p class="label">Tên đề tài</p>
-          <div class="form-value">
-            <input
-              type="text"
-              formControlName="tenDT"
-              (blur)="dtForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
-
-        <!-- <label class="form-control row ali-center form-control">
-          <p class="label">Tóm tắt</p>
-          <div class="form-value">
-            <textarea
-              formControlName="tomTat"
-              (blur)="dtForm.inputBlur($event)"
-            ></textarea>
-            <p class="error-mess"></p>
-          </div>
-        </label> -->
-      </div>
-
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
+        <label class="row ali-center form-control">
           <p class="label">Tối thiểu</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="number"
               formControlName="slMin"
               (blur)="dtForm.inputBlur($event)"
@@ -205,30 +193,69 @@
           </div>
         </label>
 
-        <label class="input row ali-center form-control">
+        <label class="row ali-center form-control">
           <p class="label">Tối đa</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="number"
               formControlName="slMax"
               (blur)="dtForm.inputBlur($event)"
-              min="3"
+              [value]="3"
             />
             <p class="error-mess"></p>
           </div>
         </label>
+      </div>
 
-        <label class="input row ali-center form-control">
-          <p class="label">Trạng thái</p>
-          <div class="form-value">
-            <input
-              type="number"
-              formControlName="trangThai"
-              (blur)="dtForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
+      <label class="row ali-center form-control">
+        <p class="label">Trạng thái</p>
+        <div class="form-value">
+          <div class="form-input">
+            <div class="row ali-center">
+              <input type="radio" value="true" formControlName="trangThai" />
+              <p class="label">Đã duyệt</p>
+            </div>
+
+            <div class="row ali-center">
+              <input type="radio" value="false" formControlName="trangThai" />
+              <p class="label">Chưa duyệt</p>
+            </div>
           </div>
-        </label>
+          <p class="error-mess"></p>
+        </div>
+      </label>
+
+      <div class="form-control">
+        <p class="label p-b-8">Tên đề tài</p>
+
+        <div class="form-value">
+          <quill-editor
+            class="form-input topic-name"
+            spellcheck="false"
+            placeholder=""
+            formControlName="tenDT"
+            [modules]="{ toolbar: false }"
+          >
+          </quill-editor>
+          <p class="error-mess"></p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <p class="label p-b-8">Tóm tắt</p>
+
+        <div class="form-value">
+          <quill-editor
+            spellcheck="false"
+            class="form-input topic-summary"
+            placeholder=""
+            [modules]="quillConfig"
+            [required]="true"
+            formControlName="tomTat"
+          ></quill-editor>
+          <p class="error-mess"></p>
+        </div>
       </div>
     </div>
 
@@ -237,7 +264,7 @@
         Cập nhật thông tin
       </button>
     </div>
-  </form>
+  </div>
 
   <div id="drag-file" (click)="onCloseDrag($event)"></div>
   <div id="drag-file_box">

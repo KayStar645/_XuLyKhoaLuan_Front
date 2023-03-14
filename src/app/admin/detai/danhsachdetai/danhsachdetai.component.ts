@@ -8,7 +8,7 @@ import { giangVienService } from './../../../services/giangVien.service';
 import { RaDe } from './../../../models/RaDe.model';
 import { duyetDtService } from './../../../services/duyetDt.service';
 import { raDeService } from './../../../services/raDe.service';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
@@ -24,7 +24,7 @@ export class DanhsachdetaiComponent {
   @Input() searchName = '';
   listDT: DeTai[] = [];
   root: DeTai[] = [];
-  lineGV = new DeTai();
+  lineDT = new DeTai();
   elementOld: any;
 
   listRade: RaDe[] = [];
@@ -35,6 +35,7 @@ export class DanhsachdetaiComponent {
 
   constructor(
     private deTaiService: deTaiService,
+    private elementRef: ElementRef,
     private shareService: shareService,
     private raDeService: raDeService,
     private duyetDtService: duyetDtService,
@@ -61,9 +62,9 @@ export class DanhsachdetaiComponent {
 
   clickLine(event: any) {
     const element = event.target.parentNode;
-    if (this.elementOld == element && this.lineGV.maDT != null) {
+    if (this.elementOld == element && this.lineDT.maDT != null) {
       this.elementOld.classList.remove('br-line-hover');
-      this.lineGV = new DeTai();
+      this.lineDT = new DeTai();
     } else {
       if (this.elementOld != null) {
         this.elementOld.classList.remove('br-line-hover');
@@ -74,7 +75,7 @@ export class DanhsachdetaiComponent {
 
       const mgv = element.firstElementChild.innerHTML;
       this.deTaiService.getById(mgv).subscribe((data) => {
-        this.lineGV = data;
+        this.lineDT = data;
       });
     }
   }

@@ -38,7 +38,8 @@
 
 .form-control.invalid input,
 .form-control.invalid select,
-.form-control.invalid textarea {
+.form-control.invalid textarea,
+.form-control.invalid quill-editor {
   box-shadow: 0 0 7px rgba(255, 0, 0, 0.3);
 }
 
@@ -72,15 +73,14 @@
 }
 
 .form-control input:read-only,
-.form-control section:read-only,
-.form-control textarea:read-only {
+.form-control section:read-only {
   background: #cccccc29;
   color: #5e6267;
 }
 
 .form-control input:focus,
 .form-control select:focus,
-.form-control textarea:focus {
+.form-control quill-editor:focus-within {
   box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);
 }
 
