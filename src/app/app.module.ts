@@ -31,6 +31,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { DanhsachdetaiComponent } from './admin/detai/danhsachdetai/danhsachdetai.component';
 import { QuillModule } from 'ngx-quill';
+import { HomeMainComponent } from './home/home-main/home-main.component';
+import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
+import { HomeKehoachComponent } from './home/home-kehoach/home-kehoach.component';
+import { HomePhancongComponent } from './home/home-phancong/home-phancong.component';
+import { HomeGiangvienComponent } from './home/home-giangvien/home-giangvien.component';
+import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
+import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
+import { HomeHoidongComponent } from './home/home-hoidong/home-hoidong.component';
+import { HomeGiaobaitapComponent } from './home/home-giaobaitap/home-giaobaitap.component';
+import { HomeLichphanbienComponent } from './home/home-lichphanbien/home-lichphanbien.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +60,8 @@ import { QuillModule } from 'ngx-quill';
     ThongbaoComponent,
 
     HomeComponent,
+    HomeMainComponent,
+
 
     DashboardComponent,
     PhancongComponent,
@@ -63,6 +75,15 @@ import { QuillModule } from 'ngx-quill';
     
     
     TestComponent,
+                HomeThongbaoComponent,
+                HomeKehoachComponent,
+                HomePhancongComponent,
+                HomeGiangvienComponent,
+                HomeDetaiComponent,
+                HomeSinhvienComponent,
+                HomeHoidongComponent,
+                HomeGiaobaitapComponent,
+                HomeLichphanbienComponent,
   ],
 
   imports: [

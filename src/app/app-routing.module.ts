@@ -1,3 +1,4 @@
+import { HomeMainComponent } from './home/home-main/home-main.component';
 import { ThongbaoComponent } from './admin/thongbao/thongbao.component';
 import { KehoachComponent } from './admin/kehoach/kehoach.component';
 import { DetaiComponent } from './admin/detai/detai.component';
@@ -5,7 +6,7 @@ import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
@@ -26,39 +27,48 @@ const routes: Routes = [
   {
     component: AdminComponent,
     path: 'admin',
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'admin-main',
-        component: AdminMainComponent /* canActivate: [AuthGuard] */,
+        component: AdminMainComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'thong-bao',
-        component: ThongbaoComponent /* canActivate: [AuthGuard] */,
+        component: ThongbaoComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'ke-hoach',
-        component: KehoachComponent /* canActivate: [AuthGuard] */,
+        component: KehoachComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'phan-cong',
-        component: PhancongComponent /* canActivate: [AuthGuard] */,
+        component: PhancongComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'hoi-dong',
-        component: HoidongComponent /* canActivate: [AuthGuard] */,
+        component: HoidongComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'de-tai',
-        component: DetaiComponent /* canActivate: [AuthGuard] */,
+        component: DetaiComponent, 
+        canActivate: [AuthGuard],
       },
       {
         component: GiangvienComponent,
         path: 'giang-vien',
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'danh-sach-giang-vien',
             component:
-              DanhsachgiangvienComponent /* canActivate: [AuthGuard] */,
+              DanhsachgiangvienComponent, 
+              canActivate: [AuthGuard],
           },
         ],
       },
@@ -69,35 +79,51 @@ const routes: Routes = [
           {
             path: 'danh-sach-sinh-vien',
             component:
-              DanhsachsinhvienComponent /* canActivate: [AuthGuard] */,
+              DanhsachsinhvienComponent, 
+              canActivate: [AuthGuard],
           },
-        ] /* canActivate: [AuthGuard] */,
+        ], 
+        canActivate: [AuthGuard],
       },
       {
         path: 'quan-ly-chung',
-        component: QuanlychungComponent /* canActivate: [AuthGuard] */,
+        component: QuanlychungComponent, 
+        canActivate: [AuthGuard],
       },
     ],
-    canActivate: [AuthGuard],
   },
 
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { 
+    path: 'home', 
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'home-main',
+        component: HomeMainComponent,
+      },
+    ],
+  },
 
   {
     path: 'dashboard',
-    component: DashboardComponent /*canActivate: [AuthGuard]*/,
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard-main',
-        component: DashboardMainComponent /* canActivate: [AuthGuard] */,
+        component: DashboardMainComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'dashboard-loimoi',
-        component: DashboardLoimoiComponent /* canActivate: [AuthGuard] */,
+        component: DashboardLoimoiComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'dashboard-thongbao',
-        component: DashboardThongbaoComponent /* canActivate: [AuthGuard] */,
+        component: DashboardThongbaoComponent, 
+        canActivate: [AuthGuard],
       },
     ],
   },
