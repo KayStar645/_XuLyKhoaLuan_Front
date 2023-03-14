@@ -1,3 +1,4 @@
+import { boMonService } from './../../services/boMon.service';
 import { TruongBm } from './../../models/TruongBm.model';
 import { TruongKhoa } from './../../models/TruongKhoa.model';
 import { truongBmService } from './../../services/truongBm.service';
@@ -20,10 +21,13 @@ import { of } from 'rxjs/internal/observable/of';
 export class HomeMainComponent {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiangVien;
-  truongKhoas: TruongKhoa[] = [];
-  truongBms: TruongBm[] = [];
+  truongKhoa: any = TruongKhoa;
+  truongBm: any = TruongBm;
   countTB = 0;
   countKH = 0;
+  boMon = "";
+  maGV = '' + localStorage.getItem('Id')?.toString();
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -32,6 +36,7 @@ export class HomeMainComponent {
     private shareService: shareService,
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
+    private boMonService: boMonService,
   ) {}
 
   public ngOnInit(): void {
@@ -48,20 +53,16 @@ export class HomeMainComponent {
 
     // Get dữ liệu của giáo viên
     this.giangVienService
-      .getById('' + localStorage.getItem('Id')?.toString())
+      .getById(this.maGV)
       .subscribe((data) => {
         this.data = data;
+        this.boMonService.getById(data.maBm).subscribe(data => this.boMon = data.tenBm);
       });
 
     // Lấy chức vụ
-    this.truongKhoaService
-      .getAll().subscribe((data) => {
-        this.truongKhoas = data;
-      });
-      
-    this.truongBmService
-      .getAll().subscribe((data) => {
-        this.truongBms = data;
+    this.truongKhoaService.getByMaGV(this.maGV)
+      .subscribe((data) => {
+        this.truongKhoa = data;
       });
   }
 

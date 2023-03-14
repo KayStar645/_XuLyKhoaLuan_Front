@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit {
     } else {
       this.isLoggedIn$ = of(true);
     }
-    this.router.navigate(['/home', 'home-main']);
 
      // Get dữ liệu của giảng viên
      this.giangVienService

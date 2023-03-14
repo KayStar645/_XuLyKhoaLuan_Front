@@ -1,8 +1,8 @@
 import { GiangVien } from 'src/app/models/GiangVien.model';
-import { BoMon } from './../../models/BoMon.model';
-import { boMonService } from './../../services/boMon.service';
+import { BoMon } from '../../models/BoMon.model';
+import { boMonService } from '../../services/boMon.service';
 import { DanhsachgiangvienComponent } from './danhsachgiangvien/danhsachgiangvien.component';
-import { giangVienService } from './../../services/giangVien.service';
+import { giangVienService } from '../../services/giangVien.service';
 import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -14,11 +14,11 @@ import { userService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/User.model';
 
 @Component({
-  selector: 'app-giangvien',
-  templateUrl: './giangvien.component.html',
-  styleUrls: ['./giangvien.component.scss'],
+  selector: 'app-ministry-giangvien',
+  templateUrl: './ministry-giangvien.component.html',
+  styleUrls: ['./ministry-giangvien.component.scss'],
 })
-export class GiangvienComponent implements OnInit {
+export class MinistryGiangvienComponent implements OnInit {
   @ViewChild(DanhsachgiangvienComponent)
   private DSGVComponent!: DanhsachgiangvienComponent;
   listBoMon: BoMon[] = [];

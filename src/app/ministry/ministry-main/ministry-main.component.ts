@@ -1,4 +1,4 @@
-import { shareService } from './../../services/share.service';
+import { shareService } from '../../services/share.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -9,11 +9,11 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-admin-main',
-  templateUrl: './admin-main.component.html',
-  styleUrls: ['./admin-main.component.scss'],
+  selector: 'app-ministry-main',
+  templateUrl: './ministry-main.component.html',
+  styleUrls: ['./ministry-main.component.scss'],
 })
-export class AdminMainComponent implements OnInit {
+export class MinistryMainComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiaoVu;
   countTB = 0;
@@ -31,7 +31,7 @@ export class AdminMainComponent implements OnInit {
 
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Admin')) {
+    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Ministry')) {
       this.isLoggedIn$ = of(false);
       this.router.navigate(['/login']);
     } else {

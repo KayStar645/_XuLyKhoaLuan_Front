@@ -1,103 +1,92 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { DeTai } from 'src/app/models/DeTai.model';
-import { deTaiService } from 'src/app/services/deTai.service';
+import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
+import { SinhVien } from 'src/app/models/SinhVien.model';
+import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
+import { sinhVienService } from 'src/app/services/sinhVien.service';
+import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
-import { DanhsachdetaiComponent } from './danhsachdetai/danhsachdetai.component';
+import { DanhsachsinhvienComponent } from './danhsachsinhvien/danhsachsinhvien.component';
 import * as XLSX from 'xlsx';
+import { User } from 'src/app/models/User.model';
 
 @Component({
-  selector: 'app-detai',
-  templateUrl: './detai.component.html',
-  styleUrls: ['./detai.component.scss'],
+  selector: 'app-ministry-sinhvien',
+  templateUrl: './ministry-sinhvien.component.html',
+  styleUrls: ['./ministry-sinhvien.component.scss'],
 })
-export class DetaiComponent implements OnInit {
-  @ViewChild(DanhsachdetaiComponent)
-  private DSDTComponent!: DanhsachdetaiComponent;
-  dtUpdate: any = DeTai;
+export class MinistrySinhvienComponent implements OnInit {
+  @ViewChild(DanhsachsinhvienComponent)
+  private DSSVComponent!: DanhsachsinhvienComponent;
+  listChuyenNganh: ChuyenNganh[] = [];
   searchName = '';
-  selectedBomon!: string;
-  deTaiFile: any;
+  selectedChuyenNganh!: string;
+  sinhVienFile: any;
 
-  dtAddForm: any;
-  dtUpdateForm: any;
-  dtOldForm: any;
-  isSummary: boolean = false;
+  svAddForm: any;
+  svUpdateForm: any;
+  svOldForm: any;
 
-  dtForm = new Form({
-    maDT: ['', Validators.required],
-    tenDT: ['', Validators.required],
-    tomTat: ['', Validators.required],
-    slMin: ['', Validators.required],
-    slMax: ['', Validators.required],
-    trangThai: ['', Validators.required],
+  svForm = new Form({
+    maSv: ['', Validators.required],
+    tenSv: ['', Validators.required],
+    email: ['', Validators.email],
+    ngaySinh: [''],
+    gioiTinh: ['', Validators.required],
+    sdt: [''],
+    lop: ['', Validators.required],
+    maCn: ['', Validators.required],
   });
-
-  exceptInput = ['slMin', 'slMax'];
-
-  quillConfig: any = {
-    toolbar: {
-      container: [
-        ['bold', 'italic', 'underline'], // toggled buttons
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-        ['link'],
-      ],
-    },
-  };
 
   constructor(
     private titleService: Title,
     private elementRef: ElementRef,
-    private deTaiService: deTaiService,
-    private toastr: ToastrService
+    private chuyenNganhService: chuyenNganhService,
+    private sinhVienService: sinhVienService,
+    private toastr: ToastrService,
+    private userService: userService
   ) {
-    this.dtAddForm = this.dtForm.form;
-    this.dtUpdateForm = this.dtForm.form;
+    this.svAddForm = this.svForm.form;
+    this.svUpdateForm = this.svForm.form;
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Danh sách đề tài');
-  }
-
-  resetForm(formSelector: string = '#create_box') {
-    this.dtForm.resetForm(formSelector, this.exceptInput);
-
-    this.dtForm.form.patchValue({
-      trangThai: '',
-      slMin: 1,
-      slMax: 3,
+    this.titleService.setTitle('Danh sách sinh viên');
+    this.chuyenNganhService.getAll().subscribe((data) => {
+      this.listChuyenNganh = data;
+      if (data.length > 0) {
+        this.selectedChuyenNganh = data[0].maCn;
+      }
     });
   }
 
   onShowFormAdd() {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
-    this.resetForm('#create_box');
 
     createBox.classList.add('active');
     create.classList.add('active');
+    this.svForm.resetForm('#create_box');
   }
 
   onShowFormUpdate() {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
-      this.dtForm.form.setValue({
-        ...this.DSDTComponent.lineDT,
-        trangThai: JSON.stringify(this.DSDTComponent.lineDT.trangThai),
+    if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
+      this.svForm.form.setValue({
+        ...this.DSSVComponent.lineSV,
+        ngaySinh: this.DSSVComponent.lineSV.ngaySinh.substring(0, 10),
       });
 
       updateBox.classList.add('active');
       update.classList.add('active');
-      this.dtOldForm = this.dtForm.form.value;
+      this.svOldForm = this.svForm.form.value;
     } else {
       this.toastr.warning(
-        'Vui lòng chọn đề tài để cập nhập thông tin',
+        'Vui lòng chọn sinh viên để cập nhập thông tin',
         'Thông báo !'
       );
     }
@@ -107,7 +96,7 @@ export class DetaiComponent implements OnInit {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
-    if (this.dtForm.isHaveValue(this.exceptInput)) {
+    if (this.svForm.isHaveValue()) {
       let option = new Option('#create_box');
 
       option.show('warning');
@@ -115,7 +104,7 @@ export class DetaiComponent implements OnInit {
       option.cancel();
 
       option.agree(() => {
-        this.resetForm('#create_box');
+        this.svForm.resetForm('#create_box');
         createBox.classList.remove('active');
         create.classList.remove('active');
       });
@@ -130,7 +119,7 @@ export class DetaiComponent implements OnInit {
     let update = this.elementRef.nativeElement.querySelector('#update');
 
     if (
-      JSON.stringify(this.dtOldForm) !== JSON.stringify(this.dtForm.form.value)
+      JSON.stringify(this.svOldForm) !== JSON.stringify(this.svForm.form.value)
     ) {
       let option = new Option('#update_box');
 
@@ -141,11 +130,11 @@ export class DetaiComponent implements OnInit {
       option.agree(() => {
         updateBox.classList.remove('active');
         update.classList.remove('active');
-        this.dtForm.resetValidte('#update_box');
+        this.svForm.resetValidte('#update_box');
       });
 
       option.save(() => {
-        this.updateDeTai();
+        this.updateSinhVien();
         update.classList.remove('active');
         updateBox.classList.remove('active');
       });
@@ -156,7 +145,7 @@ export class DetaiComponent implements OnInit {
   }
 
   onBlur(event: any) {
-    this.dtForm.inputBlur(event);
+    this.svForm.inputBlur(event);
   }
 
   onDragFileEnter(event: any) {
@@ -198,16 +187,13 @@ export class DetaiComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);
       datas.forEach((data: any, i) => {
         data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-        data[8] = data[8] ? XLSX.SSF.format('yyyy-MM-dd', data[8]) : undefined;
-        data[9] = data[9] ? XLSX.SSF.format('yyyy-MM-dd', data[9]) : undefined;
       });
-      this.deTaiFile = {
+      this.sinhVienFile = {
         name: file.name,
         size: (file.size / 1024).toFixed(2) + 'MB',
         data: datas,
@@ -230,23 +216,35 @@ export class DetaiComponent implements OnInit {
     dragBox.classList.remove('active');
   }
 
-  onReadFile() {
-    if (this.deTaiFile.data.length > 0) {
-      const datas = this.deTaiFile.data;
+  async onReadFile() {
+    if (this.sinhVienFile.data.length > 0) {
+      const datas = this.sinhVienFile.data;
 
-      datas.forEach((data: any) => {
-        let gv = new DeTai();
-        gv.init(
-          data[0] ? data[0] : '',
+      await datas.forEach((data: any) => {
+        let sinhVien = new SinhVien();
+        sinhVien.init(
+          data[0] ? JSON.stringify(data[0]) : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
           data[4] ? data[4] : '',
-          data[5] ? data[5] : ''
+          data[5] ? data[5] : '',
+          data[6] ? data[6] : '',
+          data[7] ? data[7] : ''
         );
-        this.deTaiService.add(gv).subscribe(
+
+        this.sinhVienService.add(sinhVien).subscribe(
           (data) => {
-            this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
+            // Add tai khoan
+            this.userService
+              .addStudent(new User(sinhVien.maSv, sinhVien.maSv))
+              .subscribe(
+                (success) => {},
+                (error) => {
+                  console.log(error);
+                }
+              );
+            this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           },
           (error) => {
             this.toastr.error(
@@ -256,15 +254,14 @@ export class DetaiComponent implements OnInit {
           }
         );
       });
-
-      this.DSDTComponent.getAllDeTai();
+      this.DSSVComponent.getAllSinhVien();
     }
   }
 
   clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
 
-    if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
+    if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
       _delete.classList.add('active');
       let option = new Option('#delete');
 
@@ -277,15 +274,21 @@ export class DetaiComponent implements OnInit {
       });
 
       option.agree(() => {
-        this.deTaiService.delete(this.DSDTComponent.lineDT.maDT).subscribe(
+        this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
           (data) => {
-            this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-            this.DSDTComponent.lineDT = new DeTai();
-            this.DSDTComponent.getAllDeTai();
+            this.userService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
+              (success) => {},
+              (error) => {
+                console.log(error);
+              }
+            );
+            this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+            this.DSSVComponent.lineSV = new SinhVien();
+            this.DSSVComponent.getAllSinhVien();
           },
           (error) => {
             this.toastr.error(
-              'Xóa đề tài thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
+              'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
               'Thông báo !'
             );
           }
@@ -293,32 +296,43 @@ export class DetaiComponent implements OnInit {
         _delete.classList.remove('active');
       });
     } else {
-      this.toastr.warning('Vui lòng chọn đề tài để xóa', 'Thông báo !');
+      this.toastr.warning('Vui lòng chọn sinh viên để xóa', 'Thông báo !');
     }
     this.toastr.clear();
   }
 
-  addDeTai() {
-    this.dtForm.form.patchValue({
-      trangThai: 'false',
-    });
-
-    if (this.dtAddForm.valid) {
-      const deTai = new DeTai();
-      deTai.init(
-        this.dtAddForm.value['maDT'],
-        this.dtAddForm.value['tenDT'],
-        this.dtAddForm.value['tomTat'],
-        this.dtAddForm.value['slMin'],
-        this.dtAddForm.value['slMax'],
-        false
+  addSinhVien() {
+    if (this.svAddForm.valid) {
+      const sinhVien = new SinhVien();
+      sinhVien.init(
+        this.svAddForm.value['maSv'],
+        this.svAddForm.value['tenSv'],
+        this.svAddForm.value['ngaySinh'],
+        this.svAddForm.value['gioiTinh'],
+        this.svAddForm.value['lop'],
+        this.svAddForm.value['sdt'],
+        this.svAddForm.value['email'],
+        this.svAddForm.value['maCn']
       );
 
-      this.deTaiService.add(deTai).subscribe(
+      this.sinhVienService.add(sinhVien).subscribe(
         (data) => {
-          this.dtForm.resetForm('#create_box');
-          this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
-          this.DSDTComponent.getAllDeTai();
+          this.svForm.resetForm('#create_box');
+          // Add tai khoan
+          this.userService
+            .addStudent(new User(sinhVien.maSv, sinhVien.maSv))
+            .subscribe(
+              (success) => {
+                // console.log("Thành công!");
+                // console.log(success);
+              },
+              (error) => {
+                // console.log("Thất bại!");
+                console.log(error);
+              }
+            );
+          this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
+          this.DSSVComponent.getAllSinhVien();
         },
         (error) => {
           this.toastr.error(
@@ -328,35 +342,8 @@ export class DetaiComponent implements OnInit {
         }
       );
     } else {
-      this.dtForm.validate('#create_box');
-
-      let summary = this.elementRef.nativeElement.querySelector(
-        'quill-editor.ng-invalid'
-      );
+      this.svForm.validate('#create_box');
     }
-  }
-
-  toggleSummary() {
-    this.dtAddForm.patchValue({
-      trangThai: 'false',
-      tomTat: 'temp',
-    });
-
-    if (this.dtAddForm.valid) {
-      this.isSummary = !this.isSummary;
-      this.dtAddForm.patchValue({
-        trangThai: 'false',
-        tomTat: '',
-      });
-    } else {
-      this.dtForm.validate('#create_box');
-    }
-  }
-
-  onContentChanged(event: any) {
-    this.dtForm.form.patchValue({
-      tomTat: event.html,
-    });
   }
 
   onShowFormDrag() {
@@ -368,41 +355,43 @@ export class DetaiComponent implements OnInit {
   }
 
   resetLineActive() {
-    this.DSDTComponent.lineDT = new DeTai();
+    this.DSSVComponent.lineSV = new SinhVien();
     this.elementRef.nativeElement
       .querySelector('.table tr.br-line-hover')
       .classList.remove('br-line-hover');
   }
 
-  updateDeTai() {
+  updateSinhVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
-    if (this.dtUpdateForm.valid) {
-      if (this.dtOldForm === this.dtForm.form.value) {
+    if (this.svUpdateForm.valid) {
+      if (this.svOldForm === this.svForm.form.value) {
         this.toastr.warning(
           'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
           'Thông báo !'
         );
-      } else if (this.dtOldForm !== this.dtForm.form.value) {
-        const deTai = new DeTai();
-        deTai.init(
-          this.dtUpdateForm.value['maDT'],
-          this.dtUpdateForm.value['tenDT'],
-          this.dtUpdateForm.value['tomTat'],
-          this.dtUpdateForm.value['slMin'],
-          this.dtUpdateForm.value['slMax'],
-          this.dtUpdateForm.value['trangThai'] === 'false' ? false : true
+      } else if (this.svOldForm !== this.svForm.form.value) {
+        const sinhVien = new SinhVien();
+        sinhVien.init(
+          this.svUpdateForm.value['maSv'],
+          this.svUpdateForm.value['tenSv'],
+          this.svUpdateForm.value['ngaySinh'],
+          this.svUpdateForm.value['gioiTinh'],
+          this.svUpdateForm.value['lop'],
+          this.svUpdateForm.value['sdt'],
+          this.svUpdateForm.value['email'],
+          this.svUpdateForm.value['maCn']
         );
 
-        this.deTaiService.update(deTai).subscribe(
+        this.sinhVienService.update(sinhVien).subscribe(
           (data) => {
             update.classList.remove('active');
             updateBox.classList.remove('active');
-            this.DSDTComponent.getAllDeTai();
+            this.DSSVComponent.getAllSinhVien();
             this.resetLineActive();
             this.toastr.success(
-              'Cập nhập thông tin đề tài viên thành công',
+              'Cập nhập thông tin sinh viên thành công',
               'Thông báo !'
             );
           },
@@ -415,21 +404,23 @@ export class DetaiComponent implements OnInit {
         );
       }
     } else {
-      this.dtForm.validate('#update_box');
+      this.svForm.validate('#update_box');
     }
+
+    this.DSSVComponent.lineSV = new SinhVien();
   }
 
-  getGiangVienByMaCn(event: any) {
-    const maBM = event.target.value;
-    if (maBM == '') {
-      this.DSDTComponent.getAllDeTai();
+  getSinhVienByMaCN(event: any) {
+    const maCn = event.target.value;
+    if (maCn == '') {
+      this.DSSVComponent.getAllSinhVien();
     } else {
-      this.DSDTComponent.getGiangVienByMaCn(maBM);
+      this.DSSVComponent.getSinhVienByMaCN(maCn);
     }
   }
 
-  sortGiangVien(event: any) {
+  sortSinhVien(event: any) {
     const sort = event.target.value;
-    this.DSDTComponent.sortGiangVien(sort);
+    this.DSSVComponent.sortSinhVien(sort);
   }
 }

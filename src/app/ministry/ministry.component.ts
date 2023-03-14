@@ -8,11 +8,11 @@ import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
+  selector: 'app-ministry',
+  templateUrl: './ministry.component.html',
+  styleUrls: ['./ministry.component.scss'],
 })
-export class AdminComponent implements OnInit {
+export class MinistryComponent implements OnInit {
   title = 'Quản lý';
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiaoVu;
@@ -33,13 +33,12 @@ export class AdminComponent implements OnInit {
   public ngOnInit(): void {
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Admin')) {
+    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Ministry')) {
       this.isLoggedIn$ = of(false);
       this.router.navigate(['/login']);
     } else {
       this.isLoggedIn$ = of(true);
     }
-    this.router.navigate(['/admin', 'admin-main']);
 
     // Get dữ liệu của giáo vụ
     this.giaoVuService
@@ -47,7 +46,6 @@ export class AdminComponent implements OnInit {
       .subscribe((data) => {
         this.data = data;
       });
-    // this.router.navigate(['/admin/giang-vien']); // Tạm thời
   }
 
   clickAccount() {

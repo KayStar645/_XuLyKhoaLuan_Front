@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   data: any = SinhVien;
   countTB = 0;
   countKH = 0;
+
   // Sửa lại sau
   public role!: string;
   public id!: string;
@@ -27,14 +28,10 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private sinhVienService: sinhVienService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
   ) {}
 
   public ngOnInit(): void {
-    //Set thông tin ban đầu
-    localStorage.setItem('role', 'Student');
-    this.isLoggedIn$ = of(true);
-    localStorage.setItem('Id','SV002');
 
     // Kiểm tra đăng nhập để điều hướng
     //this.isLoggedIn$ = this.authService.isLoggedIn(); [Tạm thời]
@@ -44,7 +41,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.isLoggedIn$ = of(true);
     }
-    this.router.navigate(['/dashboard', 'dashboard-main']);
 
     // Get dữ liệu của sinh viên
     this.sinhVienService

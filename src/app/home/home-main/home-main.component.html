@@ -39,6 +39,10 @@
                       <p>Ngày sinh:</p>
                       <b>{{ dateFormat(data?.ngaySinh) }}</b>
                     </li>
+                    <li class="info-left-item row ali-center" *ngIf="truongKhoa.maKhoa != null">
+                      <p>Chức vụ:</p>
+                      <b>{{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : "" }}</b>
+                    </li>
                   </ul>
                 </div>
                 <div class="info-right">
@@ -55,8 +59,12 @@
                     <b>{{ data?.sdt }}</b>
                   </li>
                   <li class="info-left-item row ali-center">
-                    <p>Chức vụ:</p>
-                    <b>{{ data?.sdt }}</b>
+                    <p>Bộ môn:</p>
+                    <b>{{ boMon }}</b>
+                  </li>
+                  <li class="info-left-item row ali-center" *ngIf="truongKhoa.maKhoa != null">
+                    <p>Ngày nhận chức:</p>
+                    <b>{{ dateFormat(truongKhoa.ngayNhanChuc) }}</b>
                   </li>
                 </div>
               </div>
@@ -101,7 +109,7 @@
     <div>
       <ul class="navbar-list row ali-center">
         <li class="navbar-item">
-          <a routerLink="/admin/thong-bao" class="navbar-link">
+          <a routerLink="/home/thong-bao" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/thong-bao.png"
@@ -112,7 +120,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/admin/ke-hoach" class="navbar-link">
+          <a routerLink="/home/ke-hoach" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/ke-hoach.png"
@@ -123,7 +131,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/admin/phan-cong" class="navbar-link">
+          <a routerLink="/home/phan-cong" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/phan-cong.png"
@@ -134,7 +142,7 @@
           </a>
         </li>
         <li class="navbar-item">
-            <a routerLink="/admin/giang-vien" class="navbar-link">
+            <a routerLink="/home/giang-vien" class="navbar-link">
               <img
                 class="navbar-icon"
                 src="../../assets/Images/giang-vien.png"
@@ -145,7 +153,7 @@
             </a>
           </li>
         <li class="navbar-item">
-          <a routerLink="/admin/de-tai" class="navbar-link">
+          <a routerLink="/home/de-tai" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/de-tai.png"
@@ -156,7 +164,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/admin/sinh-vien" class="navbar-link">
+          <a routerLink="/home/sinh-vien" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/sinh-vien.png"
@@ -167,7 +175,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/admin/hoi-dong" class="navbar-link">
+          <a routerLink="/home/hoi-dong" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/hoi-dong.png"
@@ -178,7 +186,7 @@
           </a>
         </li>
         <li class="navbar-item">
-            <a routerLink="/admin/giao-bai-tap" class="navbar-link">
+            <a routerLink="/home/giao-bai-tap" class="navbar-link">
               <img
                 class="navbar-icon"
                 src="../../assets/Images/giao-bai-tap.png"
@@ -189,7 +197,7 @@
             </a>
           </li>
         <li class="navbar-item">
-          <a routerLink="/admin/quan-ly-chung" class="navbar-link">
+          <a routerLink="/home/lich-phan-bien" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/lich-phan-bien.png"

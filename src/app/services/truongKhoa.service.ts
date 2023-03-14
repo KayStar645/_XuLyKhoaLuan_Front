@@ -21,8 +21,12 @@ export class truongKhoaService {
       return this.http.get<TruongKhoa[]>(`${this.apiUrl}/api/Truongkhoas`, this.shareService.httpOptions);
     }
 
-    getById(MaKhoa: string, MaGV: string):Observable<TruongKhoa> {
+    getByMaKhoaMaGV(MaKhoa: string, MaGV: string):Observable<TruongKhoa> {
       return this.http.get<TruongKhoa>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, this.shareService.httpOptions);
+    }
+
+    getByMaGV(MaGV: string):Observable<TruongKhoa> {
+      return this.http.get<TruongKhoa>(`${this.apiUrl}/api/Truongkhoas/MaGV?MaGV=${MaGV}`, this.shareService.httpOptions);
     }
 
     add(TruongKhoa: TruongKhoa): Observable<any> {
