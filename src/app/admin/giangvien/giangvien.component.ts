@@ -105,7 +105,7 @@ export class GiangvienComponent implements OnInit {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
-    if (this.gvForm.isHaveValue('#create_box')) {
+    if (this.gvForm.isHaveValue()) {
       let option = new Option('#create_box');
 
       option.show('warning');
@@ -127,7 +127,9 @@ export class GiangvienComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (this.gvOldForm !== this.gvForm.form.value) {
+    if (
+      JSON.stringify(this.gvOldForm) !== JSON.stringify(this.gvForm.form.value)
+    ) {
       let option = new Option('#update_box');
 
       option.show('warning');
@@ -137,6 +139,7 @@ export class GiangvienComponent implements OnInit {
       option.agree(() => {
         updateBox.classList.remove('active');
         update.classList.remove('active');
+        this.gvForm.resetValidte('#update_box');
       });
 
       option.save(() => {
@@ -247,8 +250,7 @@ export class GiangvienComponent implements OnInit {
           (data) => {
             // Add tai khoan
             this.userService.addTeacher(new User(gv.maGv, gv.maGv)).subscribe(
-              (success) => {
-              },
+              (success) => {},
               (error) => {
                 console.log(error);
               }
@@ -287,8 +289,7 @@ export class GiangvienComponent implements OnInit {
         this.giangVienService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
           (data) => {
             this.userService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
-              (success) => {
-              },
+              (success) => {},
               (error) => {
                 console.log(error);
               }
@@ -337,13 +338,14 @@ export class GiangvienComponent implements OnInit {
         (data) => {
           this.gvForm.resetForm('#create_box');
           // Add tai khoan
-          this.userService.addTeacher(new User(giangVien.maGv, giangVien.maGv)).subscribe(
-            (success) => {
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+          this.userService
+            .addTeacher(new User(giangVien.maGv, giangVien.maGv))
+            .subscribe(
+              (success) => {},
+              (error) => {
+                console.log(error);
+              }
+            );
           this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
           this.DSGVComponent.getAllGiangVien();
         },

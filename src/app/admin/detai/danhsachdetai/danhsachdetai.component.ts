@@ -8,7 +8,7 @@ import { giangVienService } from './../../../services/giangVien.service';
 import { RaDe } from './../../../models/RaDe.model';
 import { duyetDtService } from './../../../services/duyetDt.service';
 import { raDeService } from './../../../services/raDe.service';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
@@ -24,7 +24,7 @@ export class DanhsachdetaiComponent {
   @Input() searchName = '';
   listDT: DeTai[] = [];
   root: DeTai[] = [];
-  lineGV = new DeTai();
+  lineDT = new DeTai();
   elementOld: any;
 
   listRade: RaDe[] = [];
@@ -35,30 +35,36 @@ export class DanhsachdetaiComponent {
 
   constructor(
     private deTaiService: deTaiService,
+    private elementRef: ElementRef,
     private shareService: shareService,
     private raDeService: raDeService,
     private duyetDtService: duyetDtService,
     private giangVienService: giangVienService,
     private chuyenNganhService: chuyenNganhService,
-    private deTai_chuyenNganhService: deTai_chuyenNganhService,
+    private deTai_chuyenNganhService: deTai_chuyenNganhService
   ) {}
 
   ngOnInit(): void {
     this.getAllDeTai();
-    
-    this.raDeService.getAll().subscribe(data => this.listRade = data);
-    this.duyetDtService.getAll().subscribe(data => this.listDuyetDt = data);
-    this.giangVienService.getAll().subscribe(data => this.listGiangvien = data);
-    this.deTai_chuyenNganhService.getAll().subscribe(data => this.listDeta_Chuyennganh = data);
-    this.chuyenNganhService.getAll().subscribe(data => this.listChuyennganh = data);
 
+    this.raDeService.getAll().subscribe((data) => (this.listRade = data));
+    this.duyetDtService.getAll().subscribe((data) => (this.listDuyetDt = data));
+    this.giangVienService
+      .getAll()
+      .subscribe((data) => (this.listGiangvien = data));
+    this.deTai_chuyenNganhService
+      .getAll()
+      .subscribe((data) => (this.listDeta_Chuyennganh = data));
+    this.chuyenNganhService
+      .getAll()
+      .subscribe((data) => (this.listChuyennganh = data));
   }
 
   clickLine(event: any) {
     const element = event.target.parentNode;
-    if (this.elementOld == element && this.lineGV.maDT != null) {
+    if (this.elementOld == element && this.lineDT.maDT != null) {
       this.elementOld.classList.remove('br-line-hover');
-      this.lineGV = new DeTai();
+      this.lineDT = new DeTai();
     } else {
       if (this.elementOld != null) {
         this.elementOld.classList.remove('br-line-hover');
@@ -69,7 +75,7 @@ export class DanhsachdetaiComponent {
 
       const mgv = element.firstElementChild.innerHTML;
       this.deTaiService.getById(mgv).subscribe((data) => {
-        this.lineGV = data;
+        this.lineDT = data;
       });
     }
   }
@@ -78,13 +84,26 @@ export class DanhsachdetaiComponent {
     this.deTaiService.getAll().subscribe((data) => {
       this.listDT = data;
       this.root = data;
+
+      this.listDT.forEach((info) => {
+        let topicSummary = document.createElement('div');
+        let topicName = document.createElement('div');
+
+        topicSummary.innerHTML = info.tomTat;
+        topicName.innerHTML = info.tenDT;
+
+        let firstSummary: any = topicSummary.firstChild?.textContent;
+        let firstName: any = topicName.firstChild?.textContent;
+
+        info.tomTat = firstSummary;
+        info.tenDT = firstName;
+      });
     });
   }
 
   getGiangVienByMaCn(maCn: string) {
-    for(let item of this.listDT) {
-      if(this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
-        
+    for (let item of this.listDT) {
+      if (this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
       }
     }
     this.deTaiService.getByChuyenNganh(maCn).subscribe((data) => {
@@ -94,43 +113,45 @@ export class DanhsachdetaiComponent {
 
   getTenChuyennganhByMaDT(maDT: string) {
     let result = [];
-    let dtcns = this.listDeta_Chuyennganh.filter(item => item.maDt == maDT);
+    let dtcns = this.listDeta_Chuyennganh.filter((item) => item.maDt == maDT);
 
-    for(let item of dtcns) {
-      result.push(this.listChuyennganh.find(c => c.maCn == item.maCn)?.tenCn);
+    for (let item of dtcns) {
+      result.push(this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn);
     }
     return result;
   }
 
   getTenGvRadeByMaDT(maDT: string) {
     let result = [];
-    let rades = this.listRade.filter(item => item.maDt == maDT);
+    let rades = this.listRade.filter((item) => item.maDt == maDT);
     // rades.forEach(item => result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv));
-    for(let item of rades) {
-      result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv);
+    for (let item of rades) {
+      result.push(this.listGiangvien.find((g) => g.maGv == item.maGv)?.tenGv);
     }
     return result;
   }
 
   getTenGvDuyetByMaDT(maDT: string) {
     let result = [];
-    let duyetdts = this.listDuyetDt.filter(item => item.maDt == maDT);
-    for(let item of duyetdts) {
-      result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv);
+    let duyetdts = this.listDuyetDt.filter((item) => item.maDt == maDT);
+    for (let item of duyetdts) {
+      result.push(this.listGiangvien.find((g) => g.maGv == item.maGv)?.tenGv);
     }
     return result;
   }
 
   getThoiGianDuyetByMaDT(maDT: string) {
     let result = [];
-    let duyetdts = this.listDuyetDt.filter(item => item.maDt == maDT);
-    if(duyetdts.length > 0) {
+    let duyetdts = this.listDuyetDt.filter((item) => item.maDt == maDT);
+    if (duyetdts.length > 0) {
       const date = duyetdts.reduce((max, duyetdt) => {
-        return new Date(duyetdt?.ngayDuyet) > max ? new Date(duyetdt?.ngayDuyet) : max;
+        return new Date(duyetdt?.ngayDuyet) > max
+          ? new Date(duyetdt?.ngayDuyet)
+          : max;
       }, new Date(duyetdts[0]?.ngayDuyet));
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
-    return "Chưa duyệt!";
+    return 'Chưa duyệt!';
   }
 
   sortGiangVien(sort: string) {
@@ -142,10 +163,6 @@ export class DanhsachdetaiComponent {
       this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
     } else if (sort == 'desc-name') {
       this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-      // } else if (sort == 'asc-subject') {
-      //   this.listDT.sort((a, b) => a.maBm.localeCompare(b.maBm));
-      // } else if (sort == 'desc-subject') {
-      //   this.listDT.sort((a, b) => b.maBm.localeCompare(a.maBm));
     } else {
       this.deTaiService.getAll().subscribe((data) => {
         this.listDT = data;

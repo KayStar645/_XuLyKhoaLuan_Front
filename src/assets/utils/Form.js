@@ -11,32 +11,48 @@ class Form {
   }
 
   validate(formSelector) {
-    let formElement = document.querySelector(formSelector);
+    let form = document.querySelector(formSelector);
+    let formElement = form.querySelectorAll(".form-input");
 
     for (let i = 0; i < formElement.length; i++) {
       const element = formElement[i];
       let controlName = element.getAttribute("formControlName");
 
       if (this.controls.hasOwnProperty(controlName)) {
-        // set value
-        this.controls[controlName].setValue(element.value);
-
-        // validate
         let errors = this.controls[controlName].errors;
+
         setErrors(errors, element);
       }
     }
   }
 
-  resetForm(formSelector) {
-    const form = document.querySelector(formSelector);
+  resetValidte(formSelector, except = {}) {
+    let form = document.querySelector(formSelector);
+    let formElement = form.querySelectorAll(".form-input");
 
-    for (let i = 0; i < form.length; i++) {
-      const element = form[i];
+    for (let i = 0; i < formElement.length; i++) {
+      const element = formElement[i];
       const parent = getParentElement(element, ".form-control");
 
       parent && parent.classList.remove("invalid");
-      element.value = "";
+    }
+  }
+
+  resetForm(formSelector, except = []) {
+    let form = document.querySelector(formSelector);
+    let formElement = form.querySelectorAll(".form-input");
+
+    for (let i = 0; i < formElement.length; i++) {
+      const element = formElement[i];
+      const parent = getParentElement(element, ".form-control");
+      let controlName = element.getAttribute("formControlName");
+
+      if (!except.includes(controlName)) {
+        parent && parent.classList.remove("invalid");
+        this.form.patchValue({
+          [controlName]: "",
+        });
+      }
     }
   }
 
@@ -50,18 +66,18 @@ class Form {
     }
   }
 
-  isHaveValue(formSelector) {
-    const form = document.querySelector(formSelector);
+  isHaveValue(except = []) {
+    let check = false;
 
-    for (let i = 0; i < form.length; i++) {
-      const element = form[i];
-
-      if (element.value !== "") {
-        return true;
+    Object.entries(this.form.value).forEach((value) => {
+      if (!except.includes(value[0])) {
+        if (value[1] && value[1] !== "") {
+          check = true;
+        }
       }
-    }
+    });
 
-    return false;
+    return check;
   }
 }
 

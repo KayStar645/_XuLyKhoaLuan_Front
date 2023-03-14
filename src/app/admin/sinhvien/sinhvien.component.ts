@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
@@ -22,7 +21,6 @@ export class SinhvienComponent implements OnInit {
   @ViewChild(DanhsachsinhvienComponent)
   private DSSVComponent!: DanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
-  svUpdate: any = SinhVien;
   searchName = '';
   selectedChuyenNganh!: string;
   sinhVienFile: any;
@@ -44,7 +42,6 @@ export class SinhvienComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private router: Router,
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
@@ -99,7 +96,7 @@ export class SinhvienComponent implements OnInit {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
-    if (this.svForm.isHaveValue('#create_box')) {
+    if (this.svForm.isHaveValue()) {
       let option = new Option('#create_box');
 
       option.show('warning');
@@ -121,7 +118,9 @@ export class SinhvienComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (this.svOldForm !== this.svForm.form.value) {
+    if (
+      JSON.stringify(this.svOldForm) !== JSON.stringify(this.svForm.form.value)
+    ) {
       let option = new Option('#update_box');
 
       option.show('warning');
@@ -131,6 +130,7 @@ export class SinhvienComponent implements OnInit {
       option.agree(() => {
         updateBox.classList.remove('active');
         update.classList.remove('active');
+        this.svForm.resetValidte('#update_box');
       });
 
       option.save(() => {
@@ -236,13 +236,14 @@ export class SinhvienComponent implements OnInit {
         this.sinhVienService.add(sinhVien).subscribe(
           (data) => {
             // Add tai khoan
-            this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv)).subscribe(
-              (success) => {
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
+            this.userService
+              .addStudent(new User(sinhVien.maSv, sinhVien.maSv))
+              .subscribe(
+                (success) => {},
+                (error) => {
+                  console.log(error);
+                }
+              );
             this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           },
           (error) => {
@@ -276,8 +277,7 @@ export class SinhvienComponent implements OnInit {
         this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
           (data) => {
             this.userService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
-              (success) => {
-              },
+              (success) => {},
               (error) => {
                 console.log(error);
               }
@@ -319,16 +319,18 @@ export class SinhvienComponent implements OnInit {
         (data) => {
           this.svForm.resetForm('#create_box');
           // Add tai khoan
-          this.userService.addStudent(new User(sinhVien.maSv, sinhVien.maSv)).subscribe(
-            (success) => {
-              // console.log("Thành công!");
-              // console.log(success);
-            },
-            (error) => {
-              // console.log("Thất bại!");
-              console.log(error);
-            }
-          );
+          this.userService
+            .addStudent(new User(sinhVien.maSv, sinhVien.maSv))
+            .subscribe(
+              (success) => {
+                // console.log("Thành công!");
+                // console.log(success);
+              },
+              (error) => {
+                // console.log("Thất bại!");
+                console.log(error);
+              }
+            );
           this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
           this.DSSVComponent.getAllSinhVien();
         },

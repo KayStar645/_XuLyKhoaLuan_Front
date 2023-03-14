@@ -9,12 +9,12 @@
 
 .form-control {
   padding: 12px 0;
-  font-size: 1.4rem;
 }
 
 .form-control .label {
   width: 120px;
   color: #4b525a;
+  font-size: 1.4rem;
 }
 
 .error-mess {
@@ -30,7 +30,6 @@
   padding-bottom: 16px;
   position: initial;
   display: block;
-  font-size: 1.3rem;
 }
 
 .form-control.invalid {
@@ -39,7 +38,8 @@
 
 .form-control.invalid input,
 .form-control.invalid select,
-.form-control.invalid textarea {
+.form-control.invalid textarea,
+.form-control.invalid quill-editor {
   box-shadow: 0 0 7px rgba(255, 0, 0, 0.3);
 }
 
@@ -55,12 +55,16 @@
 
 .form-control input,
 .form-control select,
-.form-control textarea {
+.form-control textarea,
+.form-control quill-editor {
   width: 100%;
   padding: 12px;
   border-radius: 5px;
   border: 1px solid #eae9e9;
   background: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 .form-control textarea {
@@ -69,15 +73,14 @@
 }
 
 .form-control input:read-only,
-.form-control section:read-only,
-.form-control textarea:read-only {
+.form-control section:read-only {
   background: #cccccc29;
   color: #5e6267;
 }
 
 .form-control input:focus,
 .form-control select:focus,
-.form-control textarea:focus {
+.form-control quill-editor:focus-within {
   box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);
 }
 

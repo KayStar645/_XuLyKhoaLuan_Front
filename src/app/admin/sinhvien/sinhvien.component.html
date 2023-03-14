@@ -68,9 +68,9 @@
           <p class="label">Mã sinh viên</p>
           <div class="form-value">
             <input
-              (blur)="svForm.inputBlur($event)"
               type="text"
               formControlName="maSv"
+              (blur)="svForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
           </div>
@@ -202,10 +202,9 @@
           <p class="label">Mã sinh viên</p>
           <div class="form-value">
             <input
-              (blur)="svForm.inputBlur($event)"
               type="text"
               formControlName="maSv"
-              [value]="svUpdate?.maSv"
+              (blur)="svForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
           </div>
@@ -218,7 +217,6 @@
               type="text"
               formControlName="tenSv"
               (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.tenSv"
             />
             <p class="error-mess"></p>
           </div>
@@ -231,7 +229,6 @@
               type="date"
               formControlName="ngaySinh"
               (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.ngaySinh"
             />
 
             <p class="error-mess"></p>
@@ -244,7 +241,6 @@
             <select
               formControlName="gioiTinh"
               (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.gioiTinh"
             >
               <option value="Nam">Nam</option>
               <option value="Nữ">Nữ</option>
@@ -258,11 +254,7 @@
         <label class="input row ali-center form-control">
           <p class="label">Chuyên ngành</p>
           <div class="form-value">
-            <select
-              formControlName="maCn"
-              (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.maCn"
-            >
+            <select formControlName="maCn" (blur)="svForm.inputBlur($event)">
               <option value="">Không có</option>
               <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
                 {{ cn?.tenCn }}
@@ -279,7 +271,6 @@
               type="text"
               formControlName="lop"
               (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.lop"
             />
             <p class="error-mess"></p>
           </div>
@@ -292,7 +283,6 @@
               type="text"
               formControlName="email"
               (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.email"
             />
             <p class="error-mess"></p>
           </div>
@@ -306,7 +296,6 @@
               formControlName="sdt"
               maxlength="10"
               (blur)="svForm.inputBlur($event)"
-              [value]="svUpdate?.sdt"
             />
             <p class="error-mess"></p>
           </div>

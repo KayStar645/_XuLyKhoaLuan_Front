@@ -36,15 +36,14 @@ export class DetaiComponent implements OnInit {
     trangThai: ['', Validators.required],
   });
 
+  exceptInput = ['slMin', 'slMax'];
+
   quillConfig: any = {
-    //toolbar: '.toolbar',
     toolbar: {
       container: [
-        [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+        ['bold', 'italic', 'underline'], // toggled buttons
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-        [{ direction: 'rtl' }], // text direction
         ['link'],
       ],
     },
@@ -65,9 +64,10 @@ export class DetaiComponent implements OnInit {
   }
 
   resetForm(formSelector: string = '#create_box') {
-    this.dtForm.resetForm(formSelector);
+    this.dtForm.resetForm(formSelector, this.exceptInput);
 
     this.dtForm.form.patchValue({
+      trangThai: '',
       slMin: 1,
       slMax: 3,
     });
@@ -86,9 +86,10 @@ export class DetaiComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (Object.entries(this.DSDTComponent.lineGV).length > 0) {
+    if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
       this.dtForm.form.setValue({
-        ...this.DSDTComponent.lineGV,
+        ...this.DSDTComponent.lineDT,
+        trangThai: JSON.stringify(this.DSDTComponent.lineDT.trangThai),
       });
 
       updateBox.classList.add('active');
@@ -106,7 +107,7 @@ export class DetaiComponent implements OnInit {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
-    if (this.dtForm.isHaveValue('#create_box')) {
+    if (this.dtForm.isHaveValue(this.exceptInput)) {
       let option = new Option('#create_box');
 
       option.show('warning');
@@ -128,7 +129,9 @@ export class DetaiComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (this.dtOldForm !== this.dtForm.form.value) {
+    if (
+      JSON.stringify(this.dtOldForm) !== JSON.stringify(this.dtForm.form.value)
+    ) {
       let option = new Option('#update_box');
 
       option.show('warning');
@@ -138,6 +141,7 @@ export class DetaiComponent implements OnInit {
       option.agree(() => {
         updateBox.classList.remove('active');
         update.classList.remove('active');
+        this.dtForm.resetValidte('#update_box');
       });
 
       option.save(() => {
@@ -194,7 +198,7 @@ export class DetaiComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-      
+
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);
@@ -260,7 +264,7 @@ export class DetaiComponent implements OnInit {
   clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
 
-    if (Object.entries(this.DSDTComponent.lineGV).length > 0) {
+    if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
       _delete.classList.add('active');
       let option = new Option('#delete');
 
@@ -273,10 +277,10 @@ export class DetaiComponent implements OnInit {
       });
 
       option.agree(() => {
-        this.deTaiService.delete(this.DSDTComponent.lineGV.maDT).subscribe(
+        this.deTaiService.delete(this.DSDTComponent.lineDT.maDT).subscribe(
           (data) => {
             this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-            this.DSDTComponent.lineGV = new DeTai();
+            this.DSDTComponent.lineDT = new DeTai();
             this.DSDTComponent.getAllDeTai();
           },
           (error) => {
@@ -364,7 +368,7 @@ export class DetaiComponent implements OnInit {
   }
 
   resetLineActive() {
-    this.DSDTComponent.lineGV = new DeTai();
+    this.DSDTComponent.lineDT = new DeTai();
     this.elementRef.nativeElement
       .querySelector('.table tr.br-line-hover')
       .classList.remove('br-line-hover');
@@ -388,7 +392,7 @@ export class DetaiComponent implements OnInit {
           this.dtUpdateForm.value['tomTat'],
           this.dtUpdateForm.value['slMin'],
           this.dtUpdateForm.value['slMax'],
-          this.dtUpdateForm.value['trangThai']
+          this.dtUpdateForm.value['trangThai'] === 'false' ? false : true
         );
 
         this.deTaiService.update(deTai).subscribe(

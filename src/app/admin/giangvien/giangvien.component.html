@@ -68,9 +68,10 @@
           <p class="label">Mã giảng viên</p>
           <div class="form-value">
             <input
-              (blur)="gvForm.inputBlur($event)"
               type="text"
               formControlName="maGv"
+              (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -82,6 +83,7 @@
               type="text"
               formControlName="email"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -94,6 +96,7 @@
               type="text"
               formControlName="tenGv"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -104,6 +107,7 @@
             <select
               formControlName="gioiTinh"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             >
               <option value="Nam">Nam</option>
               <option value="Nữ">Nữ</option>
@@ -118,6 +122,7 @@
               type="date"
               formControlName="ngaySinh"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
 
             <p class="error-mess"></p>
@@ -128,7 +133,11 @@
         <label class="form-control row ali-center form-control">
           <p class="label">Bộ môn</p>
           <div class="form-value">
-            <select formControlName="maBm" (blur)="gvForm.inputBlur($event)">
+            <select
+              formControlName="maBm"
+              (blur)="gvForm.inputBlur($event)"
+              class="form-input"
+            >
               <option *ngFor="let bm of listBoMon" value="{{ bm.maBm }}">
                 {{ bm.tenBm }}
               </option>
@@ -143,6 +152,7 @@
               type="date"
               formControlName="ngayNhanViec"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -150,7 +160,11 @@
         <label class="input row ali-center form-control">
           <p class="label">Học hàm</p>
           <div class="form-value">
-            <select formControlName="hocHam" (blur)="gvForm.inputBlur($event)">
+            <select
+              formControlName="hocHam"
+              (blur)="gvForm.inputBlur($event)"
+              class="form-input"
+            >
               <option value="">Không có</option>
               <option value="GS">Giáo sư</option>
               <option value="PGS">Phó giáo sư</option>
@@ -166,6 +180,7 @@
               formControlName="sdt"
               maxlength="10"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -173,7 +188,11 @@
         <label class="input row ali-center form-control">
           <p class="label">Học vị</p>
           <div class="form-value">
-            <select formControlName="hocVi" (blur)="gvForm.inputBlur($event)">
+            <select
+              formControlName="hocVi"
+              (blur)="gvForm.inputBlur($event)"
+              class="form-input"
+            >
               <option value="">Không có</option>
               <option value="CH">Cao học</option>
               <option value="ThS">Thạc sĩ</option>
@@ -228,6 +247,7 @@
               type="text"
               formControlName="email"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -240,6 +260,7 @@
               type="text"
               formControlName="tenGv"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -250,6 +271,7 @@
             <select
               formControlName="gioiTinh"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             >
               <option value="Nam">Nam</option>
               <option value="Nữ">Nữ</option>
@@ -264,6 +286,7 @@
               type="date"
               formControlName="ngaySinh"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
 
             <p class="error-mess"></p>
@@ -274,7 +297,11 @@
         <label class="form-control row ali-center form-control">
           <p class="label">Bộ môn</p>
           <div class="form-value">
-            <select formControlName="maBm" (blur)="gvForm.inputBlur($event)">
+            <select
+              formControlName="maBm"
+              (blur)="gvForm.inputBlur($event)"
+              class="form-input"
+            >
               <option *ngFor="let bm of listBoMon" [value]="bm.maBm">
                 {{ bm.tenBm }}
               </option>
@@ -289,6 +316,7 @@
               type="date"
               formControlName="ngayNhanViec"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>
@@ -300,6 +328,7 @@
               type="date"
               formControlName="ngayNghi"
               (blur)="gvForm.inputBlur($event)"
+              class="form-input"
             />
             <p class="error-mess"></p>
           </div>

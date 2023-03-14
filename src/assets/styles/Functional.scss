@@ -75,6 +75,8 @@
   padding: 24px 30px;
   z-index: 12;
   display: none;
+  max-height: calc(100vh - 96px);
+  overflow: auto;
 }
 
 #update_box.active,

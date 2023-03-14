@@ -9,18 +9,22 @@
 .table tr th {
   background-color: #0984e3;
   color: #fff;
-  font-size: 1.3rem;
-  font-weight: 500;
 }
 
-.table tr td {
-  font-size: 1.3rem;
+.table td .cell-limit {
+  max-height: 1.6 * 1.3rem * 3;
+  overflow: hidden;
 }
 
 .table th,
 .table td {
   padding: 12px 6px;
   border: 1px solid #7ab8ed;
+  font-size: 1.3rem;
+}
+
+.table tr td {
+  font-weight: 400;
 }
 
 .table tr {
