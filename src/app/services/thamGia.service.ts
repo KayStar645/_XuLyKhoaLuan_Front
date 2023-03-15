@@ -32,4 +32,8 @@ export class thamGiaService {
     delete(MaSV: string, NamHoc: string, Dot: number): Observable<any> {
       return this.http.delete(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
     }
+
+    add(ThamGia: ThamGia): Observable<any> {
+      return this.http.post(`${this.apiUrl}/api/Thamgias`, ThamGia, this.shareService.httpOptions);
+    }
 }
