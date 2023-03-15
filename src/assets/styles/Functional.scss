@@ -1,10 +1,13 @@
-#functional-container {
-  padding-top: 20px;
+.search-list {
+  margin: 0 -10px 0 -10px;
+  position: sticky;
+  top: 60px;
+  background: #e7ecf0;
+  padding: 16px 0;
 }
 
-.search-list {
+.search-container {
   height: 40px;
-  margin: 0 -10px 20px -10px;
 }
 
 .search-item {

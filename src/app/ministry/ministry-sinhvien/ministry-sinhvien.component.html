@@ -1,46 +1,50 @@
 <div id="functional-container">
-  <ul class="search-list row ali-center">
-    <li class="search-item">
-      <select
-        class="search-select"
-        id="search-select"
-        (change)="getSinhVienByMaCN($event)"
-      >
-        <option value="">Tất cả</option>
-        <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-          {{ cn?.tenCn }}
-        </option>
-      </select>
-    </li>
-    <li class="search-item">
-      <input
-        type="text"
-        placeholder="Tìm theo tên..."
-        [(ngModel)]="searchName"
-      />
-    </li>
-    <li class="search-item">
-      <select
-        class="search-select"
-        id="sort-select"
-        (change)="sortSinhVien($event)"
-      >
-        <option value="">Mặc định</option>
-        <option value="asc-id">Tăng theo mã</option>
-        <option value="desc-id">Giảm theo mã</option>
-        <option value="asc-name">Tăng theo tên</option>
-        <option value="desc-name">Giảm theo tên</option>
-        <option value="asc-subject">Tăng theo chuyên ngành</option>
-        <option value="desc-subject">Giảm theo chuyên ngành</option>
-      </select>
-    </li>
-    <li class="search-item row ali-center jus-end flex-1">
-      <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
-      <button class="search-button" (click)="onShowFormUpdate()">Sửa</button>
-      <button class="search-button" (click)="clickDelete()">Xóa</button>
-      <button class="search-button" (click)="onShowFormDrag()">Nhập DS</button>
-    </li>
-  </ul>
+  <div class="search-list">
+    <ul class="search-container row ali-center">
+      <li class="search-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="getSinhVienByMaCN($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
+            {{ cn?.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class="search-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tên..."
+          [(ngModel)]="searchName"
+        />
+      </li>
+      <li class="search-item">
+        <select
+          class="search-select"
+          id="sort-select"
+          (change)="sortSinhVien($event)"
+        >
+          <option value="">Mặc định</option>
+          <option value="asc-id">Tăng theo mã</option>
+          <option value="desc-id">Giảm theo mã</option>
+          <option value="asc-name">Tăng theo tên</option>
+          <option value="desc-name">Giảm theo tên</option>
+          <option value="asc-subject">Tăng theo chuyên ngành</option>
+          <option value="desc-subject">Giảm theo chuyên ngành</option>
+        </select>
+      </li>
+      <li class="search-item row ali-center jus-end flex-1">
+        <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
+        <button class="search-button" (click)="onShowFormUpdate()">Sửa</button>
+        <button class="search-button" (click)="clickDelete()">Xóa</button>
+        <button class="search-button" (click)="onShowFormDrag()">
+          Nhập DS
+        </button>
+      </li>
+    </ul>
+  </div>
 
   <app-danhsachsinhvien [searchName]="searchName"></app-danhsachsinhvien>
 

@@ -41,10 +41,11 @@ export class MinistryDetaiComponent implements OnInit {
   quillConfig: any = {
     toolbar: {
       container: [
-        ['bold', 'italic', 'underline'], // toggled buttons
+        ['bold', 'italic', 'underline'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+        [{ indent: '-1' }, { indent: '+1' }],
         ['link'],
+        ['clean'],
       ],
     },
   };
@@ -198,14 +199,16 @@ export class MinistryDetaiComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);
+
       datas.forEach((data: any, i) => {
-        data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-        data[8] = data[8] ? XLSX.SSF.format('yyyy-MM-dd', data[8]) : undefined;
-        data[9] = data[9] ? XLSX.SSF.format('yyyy-MM-dd', data[9]) : undefined;
+        data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
+        data[2] = data[2].split('\r\n');
+        data[2] = data[2].map((line: string) => `<p>${line}</p>`);
+
+        data[2] = data[2].join('');
       });
       this.deTaiFile = {
         name: file.name,
@@ -242,8 +245,11 @@ export class MinistryDetaiComponent implements OnInit {
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
           data[4] ? data[4] : '',
-          data[5] ? data[5] : ''
+          data[5] === 1 ? true : false
         );
+
+        console.log(gv);
+
         this.deTaiService.add(gv).subscribe(
           (data) => {
             this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
@@ -284,10 +290,7 @@ export class MinistryDetaiComponent implements OnInit {
             this.DSDTComponent.getAllDeTai();
           },
           (error) => {
-            this.toastr.error(
-              'Xóa đề tài thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
-              'Thông báo !'
-            );
+            this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
           }
         );
         _delete.classList.remove('active');
@@ -316,7 +319,7 @@ export class MinistryDetaiComponent implements OnInit {
 
       this.deTaiService.add(deTai).subscribe(
         (data) => {
-          this.dtForm.resetForm('#create_box');
+          this.resetForm('#create_box');
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
           this.DSDTComponent.getAllDeTai();
         },
@@ -329,34 +332,7 @@ export class MinistryDetaiComponent implements OnInit {
       );
     } else {
       this.dtForm.validate('#create_box');
-
-      let summary = this.elementRef.nativeElement.querySelector(
-        'quill-editor.ng-invalid'
-      );
     }
-  }
-
-  toggleSummary() {
-    this.dtAddForm.patchValue({
-      trangThai: 'false',
-      tomTat: 'temp',
-    });
-
-    if (this.dtAddForm.valid) {
-      this.isSummary = !this.isSummary;
-      this.dtAddForm.patchValue({
-        trangThai: 'false',
-        tomTat: '',
-      });
-    } else {
-      this.dtForm.validate('#create_box');
-    }
-  }
-
-  onContentChanged(event: any) {
-    this.dtForm.form.patchValue({
-      tomTat: event.html,
-    });
   }
 
   onShowFormDrag() {
@@ -379,12 +355,15 @@ export class MinistryDetaiComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
     if (this.dtUpdateForm.valid) {
-      if (this.dtOldForm === this.dtForm.form.value) {
+      if (
+        JSON.stringify(this.dtOldForm) ===
+        JSON.stringify(this.dtForm.form.value)
+      ) {
         this.toastr.warning(
           'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
           'Thông báo !'
         );
-      } else if (this.dtOldForm !== this.dtForm.form.value) {
+      } else {
         const deTai = new DeTai();
         deTai.init(
           this.dtUpdateForm.value['maDT'],
