@@ -35,7 +35,7 @@ import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.co
 import { MinistryGiangvienComponent } from './ministry/ministry-giangvien/ministry-giangvien.component';
 import { MinistryHoidongComponent } from './ministry/ministry-hoidong/ministry-hoidong.component';
 import { MinistryKehoachComponent } from './ministry/ministry-kehoach/ministry-kehoach.component';
-import { MinistryPhancongComponent } from './ministry/ministry-phancong/ministry-phancong.component';
+import { MinistryNhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-nhiemvu.component';
 import { MinistryQuanlychungComponent } from './ministry/ministry-quanlychung/ministry-quanlychung.component';
 import { MinistrySinhvienComponent } from './ministry/ministry-sinhvien/ministry-sinhvien.component';
 import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
@@ -55,7 +55,7 @@ import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component
     MinistryKehoachComponent,
     MinistryGiangvienComponent,
     MinistryDanhsachgiangvienComponent, //--
-    MinistryPhancongComponent,
+    MinistryNhiemvuComponent,
     MinistryDetaiComponent,
     MinistryDanhsachdetaiComponent, //--
     MinistrySinhvienComponent,

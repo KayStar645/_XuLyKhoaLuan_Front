@@ -14,7 +14,7 @@ import { MinistryComponent } from './ministry/ministry.component';
 import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.component';
 import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
 import { MinistryKehoachComponent } from './ministry/ministry-kehoach/ministry-kehoach.component';
-import { MinistryPhancongComponent } from './ministry/ministry-phancong/ministry-phancong.component';
+import { MinistryNhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-nhiemvu.component';
 import { MinistryHoidongComponent } from './ministry/ministry-hoidong/ministry-hoidong.component';
 import { MinistryDetaiComponent } from './ministry/ministry-detai/ministry-detai.component';
 import { MinistryGiangvienComponent } from './ministry/ministry-giangvien/ministry-giangvien.component';
@@ -57,8 +57,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'phan-cong',
-        component: MinistryPhancongComponent, 
+        path: 'nhiem-vu',
+        component: MinistryNhiemvuComponent, 
         canActivate: [AuthGuard],
       },
       {

@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ministry-phancong',
-  templateUrl: './ministry-phancong.component.html',
-  styleUrls: ['./ministry-phancong.component.scss']
+  templateUrl: './ministry-nhiemvu.component.html',
+  styleUrls: ['./ministry-nhiemvu.component.scss']
 })
-export class MinistryPhancongComponent implements OnInit {
+export class MinistryNhiemvuComponent implements OnInit {
 
   constructor(private titleService: Title) { }
 
