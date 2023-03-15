@@ -1,0 +1,169 @@
+// Main
+.main {
+    padding: 12px 0;
+  }
+  
+  .top {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .top-info {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 24px;
+  }
+  
+  .info-title {
+    font-size: 2rem;
+    font-weight: 700;
+    border-bottom: 1px solid #ddd;
+    color: #0066cb;
+  }
+  
+  .info-content {
+    padding: 0 16px;
+  }
+  
+  .info-img {
+    width: 120px;
+    text-align: center;
+  }
+  
+  .info-img img {
+    border-radius: 50%;
+    border: 1px solid #ddd;
+  }
+  
+  .info-left-item {
+    padding: 4px 0;
+    color: #5c676f;
+  
+    p {
+      font-size: 1.3rem;
+      margin-right: 4px;
+      font-weight: 400;
+    }
+  
+    b {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+  
+  .top-right {
+    gap: 20px;
+  }
+  
+  .top-notifi,
+  .top-plan {
+    background-color: #fff;
+    border-radius: 4px;
+    flex-basis: 100%;
+    padding: 0 24px;
+    color: #5c676f;
+  }
+  
+  .top-notifi img,
+  .top-plan img {
+    width: 25px;
+  }
+  
+  .count {
+    font-weight: 500;
+    font-size: 3.6rem;
+  }
+  
+  .top-info-title {
+    font-size: 1.3rem;
+  }
+  
+  .navbar-list {
+    margin: 16px -8px 0 -8px;
+  }
+  
+  .navbar-item {
+    padding: 0 8px;
+    flex-basis: calc(100% / 9);
+  }
+  
+  .navbar-link {
+    background-color: #fff;
+    border-radius: 4px;
+    color: #666;
+    display: inline-block;
+    width: 100%;
+    padding: 24px 0;
+    text-align: center;
+    font-size: 1.3rem;
+  }
+  
+  .navbar-link:hover {
+    color: #1da1f2;
+  }
+  
+  .navbar-icon {
+    margin-bottom: 6px;
+    width: 32px;
+  }
+  
+  // Bottom
+  .bottom {
+    margin: 16px -8px 0 -8px;
+  }
+  
+  .bottom-left,
+  .bottom-right {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 16px 16px 0 16px;
+  
+    .info-title{
+      border: none;
+    }
+  }
+  
+  .bottom-notifi-item {
+    border-top: 1.6px solid #ccc;
+    padding-bottom: 16px;
+  }
+  
+  .bottom-notifi-img-l img {
+    width: 150px;
+  }
+  
+  .bottom-notifi-img img {
+    width: 120px;
+  }
+  
+  .bottom-notifi-link {
+    padding: 4px 10px;
+    color: #5c676f;
+    top: 0;
+    text-align: justify;
+    font-size: 1.3rem;
+  }
+  
+  .bottom-notifi-link a:hover {
+    color: #0056b3;
+  }
+  
+  .icon-cal {
+    color: #1da1f2;
+  }
+  
+  .date {
+    color: #666;
+    font-size: 1.2rem;
+    padding-bottom: 2px;
+  
+    i{
+      margin-right: 4px;
+    }
+  }
+  
+  .detail-link {
+    color: #1da1f2;
+    font-size: 1.3rem;
+  }
+  

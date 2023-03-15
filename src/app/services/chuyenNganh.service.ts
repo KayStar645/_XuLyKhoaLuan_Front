@@ -26,10 +26,10 @@ export class chuyenNganhService {
       return this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions);
     }
 
-    getTenChuyenNganhById(id: string):string {
-      this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions).subscribe(nhom => this.tenCn = nhom.tenCn);
-      return this.tenCn;
-    }
+    // getTenChuyenNganhById(id: string):string {
+    //   this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions).subscribe(nhom => this.tenCn = nhom.tenCn);
+    //   return this.tenCn;
+    // }
 
     add(chuyenNganh: ChuyenNganh): Observable<any> {
       return this.http.post(`${this.apiUrl}/api/Chuyennganhs`, chuyenNganh, this.shareService.httpOptions);

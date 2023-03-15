@@ -1,3 +1,4 @@
+import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from './../../services/share.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -18,12 +19,15 @@ export class DashboardMainComponent implements OnInit{
   data: any = SinhVien;
   countTB = 0;
   countKH = 0;
+  chuyenNganh = "";
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private sinhVienService: sinhVienService,
     private titleService: Title,
-    private shareService: shareService
+    private shareService: shareService,
+    private chuyenNganhService: chuyenNganhService,
   ) {}
 
   public ngOnInit(): void {
@@ -43,6 +47,8 @@ export class DashboardMainComponent implements OnInit{
       .getById('' + localStorage.getItem('Id')?.toString())
       .subscribe((data) => {
         this.data = data;
+        console.log(data);
+        this.chuyenNganhService.getById(data.maCn).subscribe((data) => this.chuyenNganh = data.tenCn);
       });
   }
 
@@ -54,6 +60,6 @@ export class DashboardMainComponent implements OnInit{
     const data = {
       id: this.data.maSv
     }
-    this.router.navigate(['/dashboard/dashboard-loimoi'], {queryParams: data});
+    this.router.navigate(['/dashboard/loi-moi'], {queryParams: data});
   }
 }

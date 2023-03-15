@@ -26,7 +26,7 @@ export class AuthService {
     localStorage.setItem('Id', user.Id);
     localStorage.setItem('role', role);
 
-    if(role == 'Admin') {
+    if(role == 'Ministry') {
       return this.http.post<any>(`${this.apiUrl}/api/Accounts/SigInMinistry`, user, this.shareService.httpOptions);
     }
     else if(role == 'Teacher') {

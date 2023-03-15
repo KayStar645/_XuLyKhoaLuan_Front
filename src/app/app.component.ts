@@ -10,7 +10,7 @@ export class AppComponent {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.router.navigate(['/admin', 'sinh-vien']);
+    this.router.navigate(['/login']);
     // this.router.navigate(['/dashboard', 'dashboard-main']);
   }
 }

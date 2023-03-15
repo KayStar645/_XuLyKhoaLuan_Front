@@ -1,0 +1,312 @@
+<div class="main">
+    <div class="top">
+      <div class="h-7">
+        <div class="top-info">
+          <h2 class="info-title p-b-8">Thông tin cá nhân</h2>
+  
+          <div class="info-content row ma-t-24">
+            <div class="info-img">
+              <img
+                *ngIf="data?.gioiTinh == 'Nữ'"
+                src="../../assets/Images/avatar-nu.jpg"
+                alt="Avatar"
+              />
+              <img
+                *ngIf="data?.gioiTinh == 'Nam'"
+                src="../../assets/Images/avatar-nam.jpeg"
+                alt="Avatar"
+              />
+              <a href="" class="detail-link">Xem chi tiết</a>
+            </div>
+  
+            <div class="flex-1">
+              <div class="row jus-around">
+                <div class="info-left">
+                  <ul class="info-left-list">
+                    <li class="info-left-item row ali-center">
+                      <p>MSGV:</p>
+                      <b>{{ data?.maGv }}</b>
+                    </li>
+                    <li class="info-left-item row ali-center">
+                      <p>Họ tên:</p>
+                      <b>{{ data?.tenGv }}</b>
+                    </li>
+                    <li class="info-left-item row ali-center">
+                      <p>Giới tính:</p>
+                      <b>{{ data?.gioiTinh }}</b>
+                    </li>
+                    <li class="info-left-item row ali-center">
+                      <p>Ngày sinh:</p>
+                      <b>{{ dateFormat(data?.ngaySinh) }}</b>
+                    </li>
+                    <li class="info-left-item row ali-center" *ngIf="truongKhoa.maKhoa != null">
+                      <p>Chức vụ:</p>
+                      <b>{{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : "" }}</b>
+                    </li>
+                  </ul>
+                </div>
+                <div class="info-right">
+                  <li class="info-left-item row ali-center">
+                    <p>Ngày nhận việc:</p>
+                    <b>{{ dateFormat(data?.ngayNhanViec) }}</b>
+                  </li>
+                  <li class="info-left-item row ali-center">
+                    <p>Email:</p>
+                    <b>{{ data?.email }}</b>
+                  </li>
+                  <li class="info-left-item row ali-center">
+                    <p>Số điện thoại:</p>
+                    <b>{{ data?.sdt }}</b>
+                  </li>
+                  <li class="info-left-item row ali-center">
+                    <p>Bộ môn:</p>
+                    <b>{{ boMon }}</b>
+                  </li>
+                  <li class="info-left-item row ali-center" *ngIf="truongKhoa.maKhoa != null">
+                    <p>Ngày nhận chức:</p>
+                    <b>{{ dateFormat(truongKhoa.ngayNhanChuc) }}</b>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="h-5">
+        <div class="top-right row h-100">
+          <div class="top-notifi row ali-center jus-between">
+            <div class="top-notifi-count row flex-column">
+              <div class="top-info-title">Nhắc nhở mới, chưa xem</div>
+              <p class="count">{{ countTB }}</p>
+              <a href="" class="detail-link">Xem chi tiết</a>
+            </div>
+            <div>
+              <img
+                src="./../../../assets/Images/thong-bao.png"
+                width="100"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="top-plan row ali-center jus-between">
+            <div class="top-notifi-count row flex-column">
+              <div class="top-info-title">Kế hoạch thực hiện</div>
+              <p class="count">{{ countTB }}</p>
+              <a href="" class="detail-link">Xem chi tiết</a>
+            </div>
+            <div>
+              <img
+                src="./../../../assets/Images/ke-hoach.png"
+                width="80"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <ul class="navbar-list row ali-center">
+        <li class="navbar-item">
+          <a routerLink="/home/thong-bao" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/thong-bao.png"
+              alt=""
+              width="48"
+            />
+            <p>Thông báo</p>
+          </a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/home/ke-hoach" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/ke-hoach.png"
+              alt=""
+              width="48"
+            />
+            <p>Kế hoạch</p>
+          </a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/home/phan-cong" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/phan-cong.png"
+              alt=""
+              width="48"
+            />
+            <p>Phân công</p>
+          </a>
+        </li>
+        <li class="navbar-item">
+            <a routerLink="/home/giang-vien" class="navbar-link">
+              <img
+                class="navbar-icon"
+                src="../../assets/Images/giang-vien.png"
+                alt=""
+                width="48"
+              />
+              <p>Giảng viên</p>
+            </a>
+          </li>
+        <li class="navbar-item">
+          <a routerLink="/home/de-tai" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/de-tai.png"
+              alt=""
+              width="48"
+            />
+            <p>Đề tài</p>
+          </a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/home/sinh-vien" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/sinh-vien.png"
+              alt=""
+              width="48"
+            />
+            <p>Sinh viên</p>
+          </a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/home/hoi-dong" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/hoi-dong.png"
+              alt=""
+              width="48"
+            />
+            <p>Hội đồng</p>
+          </a>
+        </li>
+        <li class="navbar-item">
+            <a routerLink="/home/giao-bai-tap" class="navbar-link">
+              <img
+                class="navbar-icon"
+                src="../../assets/Images/giao-bai-tap.png"
+                alt=""
+                width="48"
+              />
+              <p>Giao bài tập</p>
+            </a>
+          </li>
+        <li class="navbar-item">
+          <a routerLink="/home/lich-phan-bien" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/lich-phan-bien.png"
+              alt=""
+              width="48"
+            />
+            <p>Lịch phản biện</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="bottom row">
+      <div class="h-7 p-r-8 p-l-8">
+        <div class="w-100 bottom-left">
+          <h2 class="info-title p-b-8">Kế hoạch thực hiện</h2>
+          <ul class="bottom-notifi-list">
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img-l">
+                <img src="../../assets/Images/img-test.jpg" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a href="">
+                  <div class="date">
+                    <i class="icon-cal fa-regular fa-calendar"></i>
+                    <span>01/01/2022</span>
+                  </div>
+                  <b>Hội nghị Quốc tế FDSE năm 2023</b>
+                </a>
+              </div>
+            </li>
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img-l">
+                <img src="../../assets/Images/img-test.jpg" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a href="">
+                  <div class="date">
+                    <i class="icon-cal fa-regular fa-calendar"></i>
+                    <span>01/01/2022</span>
+                  </div>
+                  <b
+                    >Thông báo về việc nộp giấy khám sức khỏe và tổ chức khám sức
+                    khỏe định kỳ năm học 2022-2023 (áp dụng cho khóa 11DH)</b
+                  >
+                </a>
+              </div>
+            </li>
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img-l">
+                <img src="../../assets/Images/img-test.jpg" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a href="">
+                  <div class="date">
+                    <i class="icon-cal fa-regular fa-calendar"></i>
+                    <span>01/01/2022</span>
+                  </div>
+                  <b
+                    >Thông báo về việc phản hồi điểm rèn luyện học kỳ 1 năm học
+                    2022-2023</b
+                  >
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="h-5 p-l-8 p-r-8">
+        <div class="bottom-right w-100">
+          <h2 class="info-title p-b-8">Thông báo</h2>
+          <ul class="bottom-notifi-list">
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img">
+                <img src="../../assets/Images/img-test.jpg" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1 flex-1">
+                <a href=""><b>Hội nghị Quốc tế FDSE năm 2023</b></a>
+              </div>
+            </li>
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img">
+                <img src="../../assets/Images/img-test.jpg" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a href=""
+                  ><b
+                    >Thông báo về việc nộp giấy khám sức khỏe và tổ chức khám sức
+                    khỏe định kỳ năm học 2022-2023 (áp dụng cho khóa 11DH)</b
+                  ></a
+                >
+              </div>
+            </li>
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img">
+                <img src="../../assets/Images/img-test.jpg" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a href=""
+                  ><b
+                    >Thông báo về việc phản hồi điểm rèn luyện học kỳ 1 năm học
+                    2022-2023</b
+                  ></a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  

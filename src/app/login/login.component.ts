@@ -54,8 +54,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if (this.isLoggedIn$) {
-      if (localStorage.getItem('role') === 'Admin') {
-        this.router.navigate(['/admin']);
+      if (localStorage.getItem('role') === 'Ministry') {
+        this.router.navigate(['/ministry']);
       } else if (localStorage.getItem('role') === 'Teacher') {
         this.router.navigate(['/home']);
       } else if (localStorage.getItem('role') === 'Student') {
@@ -112,9 +112,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
             localStorage.setItem('token', err.error.text);
             localStorage.setItem('Id', user.Id);
             localStorage.setItem('role', this.role);
-            if (this.role === 'Admin') {
-              this.router.navigate(['/admin']);
-              // window.location.href = window.location.origin + '/admin';
+            if (this.role === 'Ministry') {
+              this.router.navigate(['/ministry']);
+              // window.location.href = window.location.origin + '/ministry';
             } else if (this.role === 'Teacher') {
               this.router.navigate(['/home']);
             } else if (this.role === 'Student') {

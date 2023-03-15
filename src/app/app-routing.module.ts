@@ -1,103 +1,213 @@
-import { ThongbaoComponent } from './admin/thongbao/thongbao.component';
-import { KehoachComponent } from './admin/kehoach/kehoach.component';
-import { DetaiComponent } from './admin/detai/detai.component';
-import { AdminMainComponent } from './admin/admin-main/admin-main.component';
-import { AdminComponent } from './admin/admin.component';
+import { HomeGiaobaitapComponent } from './home/home-giaobaitap/home-giaobaitap.component';
+import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
+import { HomeMainComponent } from './home/home-main/home-main.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
-import { SinhvienComponent } from './admin/sinhvien/sinhvien.component';
-import { HoidongComponent } from './admin/hoidong/hoidong.component';
-import { PhancongComponent } from './admin/phancong/phancong.component';
-import { QuanlychungComponent } from './admin/quanlychung/quanlychung.component';
-import { GiangvienComponent } from './admin/giangvien/giangvien.component';
-import { DanhsachgiangvienComponent } from './admin/giangvien/danhsachgiangvien/danhsachgiangvien.component';
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
 import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
-import { DanhsachsinhvienComponent } from './admin/sinhvien/danhsachsinhvien/danhsachsinhvien.component';
+import { MinistryComponent } from './ministry/ministry.component';
+import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.component';
+import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
+import { MinistryKehoachComponent } from './ministry/ministry-kehoach/ministry-kehoach.component';
+import { MinistryPhancongComponent } from './ministry/ministry-phancong/ministry-phancong.component';
+import { MinistryHoidongComponent } from './ministry/ministry-hoidong/ministry-hoidong.component';
+import { MinistryDetaiComponent } from './ministry/ministry-detai/ministry-detai.component';
+import { MinistryGiangvienComponent } from './ministry/ministry-giangvien/ministry-giangvien.component';
+import { MinistrySinhvienComponent } from './ministry/ministry-sinhvien/ministry-sinhvien.component';
+import { MinistryQuanlychungComponent } from './ministry/ministry-quanlychung/ministry-quanlychung.component';
+import { HomeKehoachComponent } from './home/home-kehoach/home-kehoach.component';
+import { HomePhancongComponent } from './home/home-phancong/home-phancong.component';
+import { HomeGiangvienComponent } from './home/home-giangvien/home-giangvien.component';
+import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
+import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
+import { HomeHoidongComponent } from './home/home-hoidong/home-hoidong.component';
+import { HomeLichphanbienComponent } from './home/home-lichphanbien/home-lichphanbien.component';
+import { HomeDanhsachgiangvienComponent } from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
+import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
+import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
+import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
+import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
   {
-    component: AdminComponent,
-    path: 'admin',
+    path: 'ministry',
+    component: MinistryComponent,
+    canActivate: [AuthGuard],
     children: [
       {
-        path: 'admin-main',
-        component: AdminMainComponent /* canActivate: [AuthGuard] */,
+        path: '',
+        component: MinistryMainComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'thong-bao',
-        component: ThongbaoComponent /* canActivate: [AuthGuard] */,
+        component: MinistryThongbaoComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'ke-hoach',
-        component: KehoachComponent /* canActivate: [AuthGuard] */,
+        component: MinistryKehoachComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'phan-cong',
-        component: PhancongComponent /* canActivate: [AuthGuard] */,
+        component: MinistryPhancongComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'hoi-dong',
-        component: HoidongComponent /* canActivate: [AuthGuard] */,
+        component: MinistryHoidongComponent, 
+        canActivate: [AuthGuard],
       },
       {
         path: 'de-tai',
-        component: DetaiComponent /* canActivate: [AuthGuard] */,
+        component: MinistryDetaiComponent, 
+        canActivate: [AuthGuard],
       },
       {
-        component: GiangvienComponent,
+        component: MinistryGiangvienComponent,
         path: 'giang-vien',
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'danh-sach-giang-vien',
             component:
-              DanhsachgiangvienComponent /* canActivate: [AuthGuard] */,
+            MinistryDanhsachgiangvienComponent, 
+              canActivate: [AuthGuard],
           },
         ],
       },
       {
-        component: SinhvienComponent,
+        component: MinistrySinhvienComponent,
         path: 'sinh-vien',
         children: [
           {
             path: 'danh-sach-sinh-vien',
             component:
-              DanhsachsinhvienComponent /* canActivate: [AuthGuard] */,
+            MinistryDanhsachsinhvienComponent, 
+              canActivate: [AuthGuard],
           },
-        ] /* canActivate: [AuthGuard] */,
+        ], 
+        canActivate: [AuthGuard],
       },
       {
         path: 'quan-ly-chung',
-        component: QuanlychungComponent /* canActivate: [AuthGuard] */,
+        component: MinistryQuanlychungComponent, 
+        canActivate: [AuthGuard],
       },
     ],
-    canActivate: [AuthGuard],
   },
 
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { 
+    path: 'home', 
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: HomeMainComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'thong-bao',
+        component: HomeThongbaoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ke-hoach',
+        component: HomeKehoachComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'phan-cong',
+        component: HomePhancongComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'giang-vien',
+        component: HomeGiangvienComponent,
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'danh-sach-giang-vien',
+            component: HomeDanhsachgiangvienComponent,
+            canActivate: [AuthGuard], 
+          }
+        ]
+      },
+      {
+        path: 'thong-bao',
+        component: HomeThongbaoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'de-tai',
+        component: HomeDetaiComponent,
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'danh-sach-de-tai',
+            component: HomeDanhsachdetaiComponent,
+            canActivate: [AuthGuard], 
+          }
+        ]
+      },
+      {
+        path: 'sinh-vien',
+        component: HomeSinhvienComponent,
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'danh-sach-sinh-vien',
+            component: HomeDanhsachsinhvienComponent,
+            canActivate: [AuthGuard], 
+          }
+        ]
+      },
+      {
+        path: 'hoi-dong',
+        component: HomeHoidongComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'giao-bai-tap',
+        component: HomeGiaobaitapComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'lich-phan-bien',
+        component: HomeLichphanbienComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
 
   {
     path: 'dashboard',
-    component: DashboardComponent /*canActivate: [AuthGuard]*/,
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard-main',
-        component: DashboardMainComponent /* canActivate: [AuthGuard] */,
+        path: '',
+        component: DashboardMainComponent, 
+        canActivate: [AuthGuard],
       },
       {
-        path: 'dashboard-loimoi',
-        component: DashboardLoimoiComponent /* canActivate: [AuthGuard] */,
+        path: 'loi-moi',
+        component: DashboardLoimoiComponent, 
+        canActivate: [AuthGuard],
       },
       {
-        path: 'dashboard-thongbao',
-        component: DashboardThongbaoComponent /* canActivate: [AuthGuard] */,
+        path: 'thong-bao',
+        component: DashboardThongbaoComponent, 
+        canActivate: [AuthGuard],
       },
     ],
   },
