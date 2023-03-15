@@ -1,4 +1,4 @@
-.form > .title {
+.form  h2.title {
   min-width: 120px;
   font-size: 2rem;
   text-align: center;
@@ -53,7 +53,7 @@
   position: relative;
 }
 
-.form-control input,
+.form-control input:not([type="radio"]):not([type="checkbox"]),
 .form-control select,
 .form-control textarea,
 .form-control quill-editor {
@@ -67,18 +67,23 @@
   line-height: 1.6;
 }
 
+.form-control input[type="radio"],
+.form-control [type="checkbox"] {
+  margin-right: 4px;
+}
+
 .form-control textarea {
   min-height: 80px;
   padding: 8px 12px;
 }
 
-.form-control input:read-only,
+.form-control input:not([type="radio"]):not([type="checkbox"]):read-only,
 .form-control section:read-only {
   background: #cccccc29;
   color: #5e6267;
 }
 
-.form-control input:focus,
+.form-control input:not([type="radio"]):not([type="checkbox"]):focus,
 .form-control select:focus,
 .form-control quill-editor:focus-within {
   box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);

@@ -14,6 +14,7 @@ import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
 import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { getParentElement } from 'src/assets/utils';
 
 @Component({
   selector: 'app-danhsachdetai',
@@ -61,23 +62,38 @@ export class DanhsachdetaiComponent {
   }
 
   clickLine(event: any) {
-    const element = event.target.parentNode;
-    if (this.elementOld == element && this.lineDT.maDT != null) {
-      this.elementOld.classList.remove('br-line-hover');
-      this.lineDT = new DeTai();
-    } else {
-      if (this.elementOld != null) {
-        this.elementOld.classList.remove('br-line-hover');
-      }
+    const parent = getParentElement(event.target, '.br-line');
+    const firstChild = parent.firstChild;
+    const activeLine = this.elementRef.nativeElement.querySelector(
+      '.br-line.br-line-hover'
+    );
 
-      element.classList.add('br-line-hover');
-      this.elementOld = element;
-
-      const mgv = element.firstElementChild.innerHTML;
-      this.deTaiService.getById(mgv).subscribe((data) => {
+    !parent.classList.contains('br-line-hover') &&
+      this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
         this.lineDT = data;
       });
-    }
+
+    activeLine && activeLine.classList.remove('br-line-hover');
+    parent.classList.add('br-line-hover');
+  }
+
+  onShowDetail(event: MouseEvent) {
+    const parent = getParentElement(event.target, '.br-line');
+    const firstChild = parent.firstChild;
+    const activeLine = this.elementRef.nativeElement.querySelector(
+      '.br-line.br-line-hover'
+    );
+
+    !parent.classList.contains('br-line-hover') &&
+      this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
+        this.lineDT = data;
+        document
+          .querySelector('.update-btn')
+          ?.dispatchEvent(new Event('click'));
+      });
+
+    activeLine && activeLine.classList.remove('br-line-hover');
+    parent.classList.add('br-line-hover');
   }
 
   getAllDeTai() {

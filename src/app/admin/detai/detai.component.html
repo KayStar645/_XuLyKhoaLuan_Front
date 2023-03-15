@@ -35,7 +35,7 @@
     </li>
     <li class="search-item row ali-center jus-end flex-1">
       <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
-      <button class="search-button" (click)="onShowFormUpdate()">Sửa</button>
+      <button class="search-button update-btn" (click)="onShowFormUpdate()">Sửa</button>
       <button class="search-button" (click)="clickDelete()">Xóa</button>
       <button class="search-button" (click)="onShowFormDrag()">Nhập DS</button>
     </li>
@@ -211,16 +211,26 @@
       <label class="row ali-center form-control">
         <p class="label">Trạng thái</p>
         <div class="form-value">
-          <div class="form-input">
-            <div class="row ali-center">
-              <input type="radio" value="true" formControlName="trangThai" />
+          <div class="row ali-center">
+            <label class="row ali-center">
+              <input
+                type="radio"
+                value="true"
+                class="form-input"
+                formControlName="trangThai"
+              />
               <p class="label">Đã duyệt</p>
-            </div>
+            </label>
 
-            <div class="row ali-center">
-              <input type="radio" value="false" formControlName="trangThai" />
+            <label class="row ali-center">
+              <input
+                type="radio"
+                value="false"
+                class="form-input"
+                formControlName="trangThai"
+              />
               <p class="label">Chưa duyệt</p>
-            </div>
+            </label>
           </div>
           <p class="error-mess"></p>
         </div>
