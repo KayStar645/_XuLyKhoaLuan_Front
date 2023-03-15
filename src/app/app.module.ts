@@ -23,7 +23,6 @@ import { QuillModule } from 'ngx-quill';
 import { HomeMainComponent } from './home/home-main/home-main.component';
 import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
 import { HomeKehoachComponent } from './home/home-kehoach/home-kehoach.component';
-import { HomePhancongComponent } from './home/home-phancong/home-phancong.component';
 import { HomeGiangvienComponent } from './home/home-giangvien/home-giangvien.component';
 import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
 import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
@@ -43,6 +42,7 @@ import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry
 import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
 import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
 import { MinistryDanhsachdetaiComponent } from './ministry/ministry-detai/ministry-danhsachdetai/ministry-danhsachdetai.component';
+import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +68,7 @@ import { MinistryDanhsachdetaiComponent } from './ministry/ministry-detai/minist
 
 
     DashboardComponent,
-    HomePhancongComponent,
+    HomeNhiemvuComponent,
     
     DashboardMainComponent,
     DashboardThongbaoComponent,

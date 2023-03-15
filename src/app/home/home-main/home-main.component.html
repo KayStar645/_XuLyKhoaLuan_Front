@@ -39,9 +39,12 @@
                       <p>Ngày sinh:</p>
                       <b>{{ dateFormat(data?.ngaySinh) }}</b>
                     </li>
-                    <li class="info-left-item row ali-center" *ngIf="truongKhoa.maKhoa != null">
+                    <li class="info-left-item row ali-center" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
                       <p>Chức vụ:</p>
-                      <b>{{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : "" }}</b>
+                      <b>
+                        {{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : ""  }},
+                        {{ truongBm.maBm != null ? "Trưởng BM " + truongBm.maBm : "" }}
+                      </b>
                     </li>
                   </ul>
                 </div>
@@ -62,10 +65,10 @@
                     <p>Bộ môn:</p>
                     <b>{{ boMon }}</b>
                   </li>
-                  <li class="info-left-item row ali-center" *ngIf="truongKhoa.maKhoa != null">
+                  <!-- <li class="info-left-item row ali-center" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
                     <p>Ngày nhận chức:</p>
                     <b>{{ dateFormat(truongKhoa.ngayNhanChuc) }}</b>
-                  </li>
+                  </li> -->
                 </div>
               </div>
             </div>
@@ -131,17 +134,17 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/home/phan-cong" class="navbar-link">
+          <a routerLink="/home/nhiem-vu" class="navbar-link">
             <img
               class="navbar-icon"
-              src="../../assets/Images/phan-cong.png"
+              src="../../assets/Images/nhiem-vu.png"
               alt=""
               width="48"
             />
-            <p>Phân công</p>
+            <p>Nhiệm vụ</p>
           </a>
         </li>
-        <li class="navbar-item">
+        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
             <a routerLink="/home/giang-vien" class="navbar-link">
               <img
                 class="navbar-icon"
@@ -151,8 +154,8 @@
               />
               <p>Giảng viên</p>
             </a>
-          </li>
-        <li class="navbar-item">
+        </li>
+        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
           <a routerLink="/home/de-tai" class="navbar-link">
             <img
               class="navbar-icon"
@@ -163,7 +166,7 @@
             <p>Đề tài</p>
           </a>
         </li>
-        <li class="navbar-item">
+        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
           <a routerLink="/home/sinh-vien" class="navbar-link">
             <img
               class="navbar-icon"
@@ -174,7 +177,7 @@
             <p>Sinh viên</p>
           </a>
         </li>
-        <li class="navbar-item">
+        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null || hoiDong.maGv != null">
           <a routerLink="/home/hoi-dong" class="navbar-link">
             <img
               class="navbar-icon"

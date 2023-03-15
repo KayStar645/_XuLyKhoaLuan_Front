@@ -21,7 +21,6 @@ import { MinistryGiangvienComponent } from './ministry/ministry-giangvien/minist
 import { MinistrySinhvienComponent } from './ministry/ministry-sinhvien/ministry-sinhvien.component';
 import { MinistryQuanlychungComponent } from './ministry/ministry-quanlychung/ministry-quanlychung.component';
 import { HomeKehoachComponent } from './home/home-kehoach/home-kehoach.component';
-import { HomePhancongComponent } from './home/home-phancong/home-phancong.component';
 import { HomeGiangvienComponent } from './home/home-giangvien/home-giangvien.component';
 import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
 import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
@@ -32,6 +31,7 @@ import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvie
 import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
 import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
 import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
+import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -126,8 +126,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'phan-cong',
-        component: HomePhancongComponent,
+        path: 'nhiem-vu',
+        component: HomeNhiemvuComponent,
         canActivate: [AuthGuard],
       },
       {

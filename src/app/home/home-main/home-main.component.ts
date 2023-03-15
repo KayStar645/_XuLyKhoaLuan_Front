@@ -1,3 +1,5 @@
+import { HoiDong } from './../../models/HoiDong.model';
+import { hoiDongService } from './../../services/hoiDong.service';
 import { boMonService } from './../../services/boMon.service';
 import { TruongBm } from './../../models/TruongBm.model';
 import { TruongKhoa } from './../../models/TruongKhoa.model';
@@ -23,6 +25,9 @@ export class HomeMainComponent {
   data: any = GiangVien;
   truongKhoa: any = TruongKhoa;
   truongBm: any = TruongBm;
+  hoiDong: any = HoiDong;
+  itemNumber = 9;
+
   countTB = 0;
   countKH = 0;
   boMon = "";
@@ -37,10 +42,12 @@ export class HomeMainComponent {
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
     private boMonService: boMonService,
+    private hoiDongService: hoiDongService,
   ) {}
 
   public ngOnInit(): void {
     this.titleService.setTitle('Quản lý');
+    // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
 
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
@@ -57,12 +64,25 @@ export class HomeMainComponent {
       .subscribe((data) => {
         this.data = data;
         this.boMonService.getById(data.maBm).subscribe(data => this.boMon = data.tenBm);
+        // Test nè nha
+        this.itemNumber -= 4;
+        
       });
 
-    // Lấy chức vụ
+    // Lấy chức vụ trưởng khoa
     this.truongKhoaService.getByMaGV(this.maGV)
       .subscribe((data) => {
-        this.truongKhoa = data;
+        if(data.ngayNghi == null) {
+          this.truongKhoa = data;
+        }
+      });
+
+    // Lấy chức vụ trưởng bộ môn
+    this.truongBmService.getByMaGv(this.maGV)
+      .subscribe((data) => {
+        if(data.ngayNghi == null) {
+          this.truongBm = data;
+        }
       });
   }
 

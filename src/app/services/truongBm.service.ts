@@ -21,8 +21,12 @@ export class truongBmService {
       return this.http.get<TruongBm[]>(`${this.apiUrl}/api/Truongbms`, this.shareService.httpOptions);
     }
 
-    getById(MaGV: string, MaBM: string):Observable<TruongBm> {
+    getByMaGvMaBm(MaGV: string, MaBM: string):Observable<TruongBm> {
       return this.http.get<TruongBm>(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`, this.shareService.httpOptions);
+    }
+
+    getByMaGv(MaGV: string):Observable<TruongBm> {
+      return this.http.get<TruongBm>(`${this.apiUrl}/api/Truongbms/MaGV?MaGV=${MaGV}`, this.shareService.httpOptions);
     }
 
     add(TruongBm: TruongBm): Observable<any> {
