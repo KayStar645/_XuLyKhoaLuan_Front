@@ -84,13 +84,10 @@ export class MinistryDanhsachdetaiComponent {
       '.br-line.br-line-hover'
     );
 
-    !parent.classList.contains('br-line-hover') &&
-      this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
-        this.lineDT = data;
-        document
-          .querySelector('.update-btn')
-          ?.dispatchEvent(new Event('click'));
-      });
+    this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
+      this.lineDT = data;
+      document.querySelector('.update-btn')?.dispatchEvent(new Event('click'));
+    });
 
     activeLine && activeLine.classList.remove('br-line-hover');
     parent.classList.add('br-line-hover');

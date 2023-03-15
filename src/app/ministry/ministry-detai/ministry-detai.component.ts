@@ -20,6 +20,7 @@ export class MinistryDetaiComponent implements OnInit {
   dtUpdate: any = DeTai;
   searchName = '';
   selectedBomon!: string;
+  slMax: number = 3;
   deTaiFile: any;
 
   dtAddForm: any;
@@ -62,6 +63,17 @@ export class MinistryDetaiComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Danh sách đề tài');
+  }
+
+  setSlMax(event: any) {
+    const currentValue = parseInt(event.target.value);
+    const previousValue = parseInt(event.target.defaultValue);
+
+    if (currentValue > previousValue) {
+      this.slMax += 1;
+    } else if (currentValue < previousValue) {
+      this.slMax += 1;
+    }
   }
 
   resetForm(formSelector: string = '#create_box') {

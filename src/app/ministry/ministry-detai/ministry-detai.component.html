@@ -90,6 +90,7 @@
               formControlName="slMin"
               (blur)="dtForm.inputBlur($event)"
               min="1"
+              [max]="slMax"
             />
             <p class="error-mess"></p>
           </div>
@@ -103,7 +104,8 @@
               type="number"
               formControlName="slMax"
               (blur)="dtForm.inputBlur($event)"
-              [value]="3"
+              [defaultValue]="slMax"
+              (change)="setSlMax($event)"
             />
             <p class="error-mess"></p>
           </div>

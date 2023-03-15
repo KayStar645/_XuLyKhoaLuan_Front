@@ -57,12 +57,16 @@ class Form {
   }
 
   inputBlur(e) {
-    let controlName = e.target.getAttribute("formControlName");
+    if (e.target) {
+      let controlName = e.target.getAttribute("formControlName");
 
-    if (this.controls.hasOwnProperty(controlName)) {
-      let errors = this.controls[controlName].errors;
+      if (this.controls.hasOwnProperty(controlName)) {
+        let errors = this.controls[controlName].errors;
 
-      setErrors(errors, e.target);
+        setErrors(errors, e.target);
+      }
+    } else {
+      console.log([e]);
     }
   }
 
