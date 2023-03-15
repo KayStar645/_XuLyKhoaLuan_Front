@@ -31,10 +31,10 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    //Set thông tin ban đầu
+    //Set thông tin ban đầu [Tạm thời]
     localStorage.setItem('role', 'Student');
     this.isLoggedIn$ = of(true);
-    localStorage.setItem('Id','SV002');
+    localStorage.setItem('Id','SV001');
 
     // Kiểm tra đăng nhập để điều hướng
     //this.isLoggedIn$ = this.authService.isLoggedIn(); [Tạm thời]

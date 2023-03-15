@@ -50,7 +50,7 @@ export class DashboardMainComponent implements OnInit{
     return this.shareService.dateFormat(str);
   }
 
-  goToRoute(event: any){
+  goToDashboardLoiMoiRoute(event: any){
     const data = {
       id: this.data.maSv
     }
