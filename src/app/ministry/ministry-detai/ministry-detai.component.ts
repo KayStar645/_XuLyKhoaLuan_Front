@@ -199,14 +199,16 @@ export class MinistryDetaiComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);
+
       datas.forEach((data: any, i) => {
-        data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-        data[8] = data[8] ? XLSX.SSF.format('yyyy-MM-dd', data[8]) : undefined;
-        data[9] = data[9] ? XLSX.SSF.format('yyyy-MM-dd', data[9]) : undefined;
+        data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
+        data[2] = data[2].split('\r\n');
+        data[2] = data[2].map((line: string) => `<p>${line}</p>`);
+
+        data[2] = data[2].join('');
       });
       this.deTaiFile = {
         name: file.name,
@@ -243,8 +245,11 @@ export class MinistryDetaiComponent implements OnInit {
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
           data[4] ? data[4] : '',
-          data[5] ? data[5] : ''
+          data[5] === 1 ? true : false
         );
+
+        console.log(gv);
+
         this.deTaiService.add(gv).subscribe(
           (data) => {
             this.toastr.success('Thêm đề tài thành công', 'Thông báo !');

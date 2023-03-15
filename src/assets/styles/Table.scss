@@ -12,7 +12,7 @@
 }
 
 .table td .cell-limit {
-  max-height: 1.6 * 1.3rem * 3;
+  max-height: calc(1.6 * 1.3rem * 3);
   overflow: hidden;
 }
 
