@@ -34,15 +34,16 @@
           (ngSubmit)="logIn()"
           [formGroup]="loginForm"
         >
-          <p class="title">ĐĂNG NHẬP VÀO HỆ THỐNG</p>
+          <h2 class="title">ĐĂNG NHẬP VÀO HỆ THỐNG</h2>
           <label class="form-control row ali-center">
             <p class="label">Tài khoản</p>
 
             <div class="form-value">
               <input
-                (blur)="onBlur($event)"
                 type="text"
                 formControlName="username"
+                (blur)="onBlur($event)"
+                class="form-input"
               />
               <p class="error-mess"></p>
             </div>
@@ -51,9 +52,10 @@
             <p class="label">Mật khẩu</p>
             <div class="form-value">
               <input
-                (blur)="onBlur($event)"
                 type="password"
                 formControlName="password"
+                (blur)="onBlur($event)"
+                class="form-input"
               />
               <p class="error-mess"></p>
             </div>
@@ -62,10 +64,10 @@
             <p class="label">Mã bảo vệ</p>
             <div class="form-value">
               <input
-                (blur)="onBlur($event)"
-                class="protect text-center"
+                class="protect text-center form-input"
                 type="text"
                 formControlName="protectCode"
+                (blur)="onBlur($event)"
               />
               <p class="error-mess"></p>
             </div>

@@ -366,12 +366,15 @@ export class MinistrySinhvienComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
     if (this.svUpdateForm.valid) {
-      if (this.svOldForm === this.svForm.form.value) {
+      if (
+        JSON.stringify(this.svOldForm) ===
+        JSON.stringify(this.svForm.form.value)
+      ) {
         this.toastr.warning(
           'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
           'Thông báo !'
         );
-      } else if (this.svOldForm !== this.svForm.form.value) {
+      } else {
         const sinhVien = new SinhVien();
         sinhVien.init(
           this.svUpdateForm.value['maSv'],

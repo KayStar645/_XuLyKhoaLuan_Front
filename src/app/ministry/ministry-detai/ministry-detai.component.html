@@ -1,46 +1,51 @@
 <div id="functional-container">
-  <ul class="search-list row ali-center">
-    <li class="search-item">
-      <select
-        class="search-select"
-        id="search-select"
-        (change)="getGiangVienByMaCn($event)"
-      >
-        <option value="">Tất cả</option>
-        <option value="KTPM">Kỹ thuật phần mềm</option>
-        <option value="HTTT">Hệ thống thông tin</option>
-        <option value="KHPTDL">Khoa học phân tích dữ liệu</option>
-        <option value="MMT">Mạng máy tính</option>
-      </select>
-    </li>
-    <li class="search-item">
-      <input
-        type="text"
-        placeholder="Tìm theo tên..."
-        [(ngModel)]="searchName"
-      />
-    </li>
-    <li class="search-item">
-      <select
-        class="search-select"
-        id="sort-select"
-        (change)="sortGiangVien($event)"
-      >
-        <option value="">Mặc định</option>
-        <option value="asc-id">Tăng theo mã</option>
-        <option value="desc-id">Giảm theo mã</option>
-        <option value="asc-name">Tăng theo tên</option>
-        <option value="desc-name">Giảm theo tên</option>
-      </select>
-    </li>
-    <li class="search-item row ali-center jus-end flex-1">
-      <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
-      <button class="search-button update-btn" (click)="onShowFormUpdate()">Sửa</button>
-      <button class="search-button" (click)="clickDelete()">Xóa</button>
-      <button class="search-button" (click)="onShowFormDrag()">Nhập DS</button>
-    </li>
-  </ul>
-  <!-- <router-outlet></router-outlet> -->
+  <div class="search-list">
+    <ul class="search-container row ali-center">
+      <li class="search-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="getGiangVienByMaCn($event)"
+        >
+          <option value="">Tất cả</option>
+          <option value="KTPM">Kỹ thuật phần mềm</option>
+          <option value="HTTT">Hệ thống thông tin</option>
+          <option value="KHPTDL">Khoa học phân tích dữ liệu</option>
+          <option value="MMT">Mạng máy tính</option>
+        </select>
+      </li>
+      <li class="search-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tên..."
+          [(ngModel)]="searchName"
+        />
+      </li>
+      <li class="search-item">
+        <select
+          class="search-select"
+          id="sort-select"
+          (change)="sortGiangVien($event)"
+        >
+          <option value="">Mặc định</option>
+          <option value="asc-id">Tăng theo mã</option>
+          <option value="desc-id">Giảm theo mã</option>
+          <option value="asc-name">Tăng theo tên</option>
+          <option value="desc-name">Giảm theo tên</option>
+        </select>
+      </li>
+      <li class="search-item row ali-center jus-end flex-1">
+        <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
+        <button class="search-button update-btn" (click)="onShowFormUpdate()">
+          Sửa
+        </button>
+        <button class="search-button" (click)="clickDelete()">Xóa</button>
+        <button class="search-button" (click)="onShowFormDrag()">
+          Nhập DS
+        </button>
+      </li>
+    </ul>
+  </div>
   <app-danhsachdetai [searchName]="searchName"></app-danhsachdetai>
 
   <div id="create" (click)="handleToggleAdd()"></div>
@@ -130,7 +135,6 @@
             class="form-input topic-summary"
             placeholder=""
             [modules]="quillConfig"
-            [required]="true"
             formControlName="tomTat"
           ></quill-editor>
           <p class="error-mess"></p>
@@ -260,9 +264,8 @@
             spellcheck="false"
             class="form-input topic-summary"
             placeholder=""
-            [modules]="quillConfig"
-            [required]="true"
             formControlName="tomTat"
+            [modules]="quillConfig"
           ></quill-editor>
           <p class="error-mess"></p>
         </div>

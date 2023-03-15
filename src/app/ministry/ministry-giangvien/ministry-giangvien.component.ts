@@ -381,12 +381,15 @@ export class MinistryGiangvienComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
     if (this.gvUpdateForm.valid) {
-      if (this.gvOldForm === this.gvForm.form.value) {
+      if (
+        JSON.stringify(this.gvOldForm) ===
+        JSON.stringify(this.gvForm.form.value)
+      ) {
         this.toastr.warning(
           'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
           'Thông báo !'
         );
-      } else if (this.gvOldForm !== this.gvForm.form.value) {
+      } else {
         const giangVien = new GiangVien();
         giangVien.init(
           this.gvUpdateForm.value['maGv'],

@@ -41,10 +41,11 @@ export class MinistryDetaiComponent implements OnInit {
   quillConfig: any = {
     toolbar: {
       container: [
-        ['bold', 'italic', 'underline'], // toggled buttons
+        ['bold', 'italic', 'underline'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+        [{ indent: '-1' }, { indent: '+1' }],
         ['link'],
+        ['clean'],
       ],
     },
   };
@@ -284,10 +285,7 @@ export class MinistryDetaiComponent implements OnInit {
             this.DSDTComponent.getAllDeTai();
           },
           (error) => {
-            this.toastr.error(
-              'Xóa đề tài thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
-              'Thông báo !'
-            );
+            this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
           }
         );
         _delete.classList.remove('active');
@@ -316,7 +314,7 @@ export class MinistryDetaiComponent implements OnInit {
 
       this.deTaiService.add(deTai).subscribe(
         (data) => {
-          this.dtForm.resetForm('#create_box');
+          this.resetForm('#create_box');
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
           this.DSDTComponent.getAllDeTai();
         },
@@ -329,34 +327,7 @@ export class MinistryDetaiComponent implements OnInit {
       );
     } else {
       this.dtForm.validate('#create_box');
-
-      let summary = this.elementRef.nativeElement.querySelector(
-        'quill-editor.ng-invalid'
-      );
     }
-  }
-
-  toggleSummary() {
-    this.dtAddForm.patchValue({
-      trangThai: 'false',
-      tomTat: 'temp',
-    });
-
-    if (this.dtAddForm.valid) {
-      this.isSummary = !this.isSummary;
-      this.dtAddForm.patchValue({
-        trangThai: 'false',
-        tomTat: '',
-      });
-    } else {
-      this.dtForm.validate('#create_box');
-    }
-  }
-
-  onContentChanged(event: any) {
-    this.dtForm.form.patchValue({
-      tomTat: event.html,
-    });
   }
 
   onShowFormDrag() {
@@ -379,12 +350,15 @@ export class MinistryDetaiComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
     if (this.dtUpdateForm.valid) {
-      if (this.dtOldForm === this.dtForm.form.value) {
+      if (
+        JSON.stringify(this.dtOldForm) ===
+        JSON.stringify(this.dtForm.form.value)
+      ) {
         this.toastr.warning(
           'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
           'Thông báo !'
         );
-      } else if (this.dtOldForm !== this.dtForm.form.value) {
+      } else {
         const deTai = new DeTai();
         deTai.init(
           this.dtUpdateForm.value['maDT'],
