@@ -68,23 +68,14 @@ import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component
 
 
     DashboardComponent,
-    HomeNhiemvuComponent,
-    
     DashboardMainComponent,
     DashboardThongbaoComponent,
     DashboardLoimoiComponent,
-
-
-    HomeThongbaoComponent,
-    HomeKehoachComponent,
-    HomeGiangvienComponent,
-    HomeDetaiComponent,
-    HomeSinhvienComponent,
-    HomeHoidongComponent,
-    HomeGiaobaitapComponent,
-    HomeLichphanbienComponent,
-
+    // PhancongComponent,
+    // QuanlychungComponent,
     TestComponent,
+    // DanhsachgiangvienComponent,
+    // DanhsachsinhvienComponent,
   ],
 
   imports: [
