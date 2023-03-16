@@ -94,14 +94,14 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   async clickLine(event: any) {
     const element = event.target.parentNode;
     if (this.elementOld == element && this.lineGV.maGv != null) {
-      this.elementOld.classList.remove('br-line-hover');
+      this.elementOld.classList.remove('br-line-dblclick');
       this.lineGV = new GiangVien();
     } else {
       if (this.elementOld != null) {
-        this.elementOld.classList.remove('br-line-hover');
+        this.elementOld.classList.remove('br-line-dblclick');
       }
 
-      element.classList.add('br-line-hover');
+      element.classList.add('br-line-dblclick');
       this.elementOld = element;
 
       const mgv = element.firstElementChild.innerHTML;

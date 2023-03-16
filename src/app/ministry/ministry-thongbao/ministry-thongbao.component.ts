@@ -147,16 +147,15 @@ export class MinistryThongbaoComponent implements OnInit {
       });
 
       option.agree(() => {
-        this.thongBaoService.delete(this.DSTBComponent.lineTB.maTb).subscribe(
-          (data) => {
-            this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-            this.DSTBComponent.lineTB = new ThongBao();
-            this.DSTBComponent.getAllThongBao();
-          },
-          (error) => {
-            this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-          }
-        );
+        try {
+          this.thongBaoService.delete(this.DSTBComponent.lineTB.maTb);
+          this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
+          this.DSTBComponent.lineTB = new ThongBao();
+          this.DSTBComponent.getAllThongBao();
+
+        } catch (error) {
+          this.toastr.error('Xóa đề tài thất bại', 'Thông báo !'); 
+        }
         _delete.classList.remove('active');
       });
     } else if (
@@ -167,17 +166,15 @@ export class MinistryThongbaoComponent implements OnInit {
     }
 
     this.DSTBComponent.selectedTB.forEach((maTB) => {
-      this.thongBaoService.delete(maTB).subscribe(
-        (data) => {
-          this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-          this.DSTBComponent.lineTB = new ThongBao();
-          this.DSTBComponent.getAllThongBao();
-          this.isSelectedTB = false;
-        },
-        (error) => {
-          this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-        }
-      );
+      try {
+        this.thongBaoService.delete(maTB);
+        this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
+        this.DSTBComponent.lineTB = new ThongBao();
+        this.DSTBComponent.getAllThongBao();
+        this.isSelectedTB = false;
+      } catch (error) {
+        this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
+      }
     });
   }
 
@@ -194,19 +191,17 @@ export class MinistryThongbaoComponent implements OnInit {
         this.tbAddForm.value['maKhoa']
       );
 
-      this.thongBaoService.add(sinhVien).subscribe(
-        (data) => {
-          this.tbForm.resetForm('#create_box');
-          this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
-          this.DSTBComponent.getAllThongBao();
-        },
-        (error) => {
-          this.toastr.error(
-            'Thông tin bạn cung cấp không hợp lệ.',
-            'Thông báo !'
-          );
-        }
-      );
+      try {
+        this.thongBaoService.add(sinhVien);
+        this.tbForm.resetForm('#create_box');
+        this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
+        this.DSTBComponent.getAllThongBao();
+      } catch (error) {
+        this.toastr.error(
+          'Thông tin bạn cung cấp không hợp lệ.',
+          'Thông báo !'
+        );
+      }
     } else {
       this.tbForm.validate('#create_box');
     }
@@ -219,7 +214,7 @@ export class MinistryThongbaoComponent implements OnInit {
       .classList.remove('br-line-hover');
   }
 
-  updateSinhVien() {
+  async updateSinhVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
@@ -243,25 +238,22 @@ export class MinistryThongbaoComponent implements OnInit {
           this.tbUpdateForm.value['fileTb'],
           this.tbUpdateForm.value['maKhoa']
         );
-
-        this.thongBaoService.update(sinhVien).subscribe(
-          (data) => {
-            update.classList.remove('active');
-            updateBox.classList.remove('active');
-            this.DSTBComponent.getAllThongBao();
-            this.resetLineActive();
-            this.toastr.success(
-              'Cập nhập thông tin đề tài thành công',
-              'Thông báo !'
-            );
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        try {
+          await this.thongBaoService.update(sinhVien);
+          update.classList.remove('active');
+          updateBox.classList.remove('active');
+          this.DSTBComponent.getAllThongBao();
+          this.resetLineActive();
+          this.toastr.success(
+            'Cập nhập thông tin đề tài thành công',
+            'Thông báo !'
+          );
+        } catch (error) {
+          this.toastr.error(
+            'Thông tin bạn cung cấp không hợp lệ.',
+            'Thông báo !'
+          ); 
+        }
       }
     } else {
       this.tbForm.validate('#update_box');

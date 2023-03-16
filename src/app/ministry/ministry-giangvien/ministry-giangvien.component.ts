@@ -281,25 +281,18 @@ export class MinistryGiangvienComponent implements OnInit {
     ) {
       this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');
     }
-
     this.DSGVComponent.selectedGV.forEach((maGV) => {
-      this.giangVienService.delete(maGV).subscribe(
-        (data) => {
-          this.userService.delete(maGV).subscribe(
-            (success) => {},
-            (error) => {
-              console.log(error);
-            }
-          );
-          this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
-          this.DSGVComponent.lineGV = new GiangVien();
-          this.DSGVComponent.getAllGiangVien();
-          this.isSelectedGV = false;
-        },
-        (error) => {
-          this.toastr.error('Xóa giảng viên thất bại', 'Thông báo !');
-        }
-      );
+      try {
+        this.giangVienService.delete(maGV);
+        this.userService.delete(maGV);
+
+        this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
+        this.DSGVComponent.lineGV = new GiangVien();
+        this.DSGVComponent.getAllGiangVien();
+        this.isSelectedGV = false;
+      } catch (error) {
+        this.toastr.error('Xóa giảng viên thất bại', 'Thông báo !');
+      }
     });
   }
 

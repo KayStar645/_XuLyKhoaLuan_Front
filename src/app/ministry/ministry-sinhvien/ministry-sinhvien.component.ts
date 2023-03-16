@@ -85,10 +85,6 @@ export class MinistrySinhvienComponent implements OnInit {
     this.isSelectedSV = event;
   }
 
-  setIsSelectedSv(event: any) {
-    this.isSelectedSV = event;
-  }
-
   onShowFormAdd() {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
@@ -303,23 +299,16 @@ export class MinistrySinhvienComponent implements OnInit {
     }
 
     this.DSSVComponent.selectedSV.forEach((maSV) => {
-      this.sinhVienService.delete(maSV).subscribe(
-        (data) => {
-          this.userService.delete(maSV).subscribe(
-            (success) => {},
-            (error) => {
-              console.log(error);
-            }
-          );
-          this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
-          this.DSSVComponent.lineSV = new SinhVien();
-          this.DSSVComponent.getAllSinhVien();
-          this.isSelectedSV = false;
-        },
-        (error) => {
-          this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
-        }
-      );
+      try {
+        this.sinhVienService.delete(maSV);
+        this.userService.delete(maSV);
+        this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+        this.DSSVComponent.lineSV = new SinhVien();
+        this.DSSVComponent.getAllSinhVien();
+        this.isSelectedSV = false;
+      } catch (error) {
+        this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !'); 
+      }
     });
   }
 

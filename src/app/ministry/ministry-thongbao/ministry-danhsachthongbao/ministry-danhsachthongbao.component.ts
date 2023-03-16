@@ -52,27 +52,24 @@ export class MinistryDanhsachthongbaoComponent {
     });
   }
 
-  clickLine(event: any) {
+  async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
     const activeLine = this.elementRef.nativeElement.querySelector(
       '.br-line.br-line-dblclick'
     );
 
-    !parent.classList.contains('br-line-dblclick') &&
-      this.thongBaoService.getById(firstChild.innerText).subscribe((data) => {
-        this.lineTB = data;
-      });
+    if(!parent.classList.contains('br-line-dblclick')) {
+      this.lineTB = await this.thongBaoService.getById(firstChild.innerText);
+    }
 
     activeLine && activeLine.classList.remove('br-line-dblclick');
     parent.classList.add('br-line-dblclick');
   }
 
-  getAllThongBao() {
-    this.thongBaoService.getAll().subscribe((data) => {
-      this.listTB = data;
-      this.root = data;
-    });
+  async getAllThongBao() {
+    this.listTB = await this.thongBaoService.getAll();
+    this.root = this.listTB;
   }
 
   getSelectedLine(e: any) {

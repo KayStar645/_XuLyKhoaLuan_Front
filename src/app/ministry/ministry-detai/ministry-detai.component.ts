@@ -299,17 +299,15 @@ export class MinistryDetaiComponent implements OnInit {
     }
 
     this.DSDTComponent.selectedDT.forEach((maDT) => {
-      this.deTaiService.delete(maDT).subscribe(
-        (data) => {
-          this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-          this.DSDTComponent.lineDT = new DeTai();
-          this.DSDTComponent.getAllDeTai();
-          this.isSelectedDT = false;
-        },
-        (error) => {
-          this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-        }
-      );
+      try {
+        this.deTaiService.delete(maDT);
+        this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
+        this.DSDTComponent.lineDT = new DeTai();
+        this.DSDTComponent.getAllDeTai();
+        this.isSelectedDT = false;
+      } catch (error) {
+        this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
+      }
     });
   }
 

@@ -53,6 +53,7 @@ import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/
     MinistryComponent,
     MinistryMainComponent,
     MinistryThongbaoComponent,
+    MinistryDanhsachthongbaoComponent, // --
     MinistryKehoachComponent,
     MinistryGiangvienComponent,
     MinistryDanhsachgiangvienComponent, //--

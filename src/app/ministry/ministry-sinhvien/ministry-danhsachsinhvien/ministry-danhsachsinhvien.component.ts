@@ -76,8 +76,9 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
       '.br-line.br-line-dblclick'
     );
 
-    !parent.classList.contains('br-line-dblclick') &&
+    if(!parent.classList.contains('br-line-dblclick')) {
       this.lineSV = await this.sinhVienService.getById(firstChild.innerText);
+    }
 
     activeLine && activeLine.classList.remove('br-line-dblclick');
     parent.classList.add('br-line-dblclick');
@@ -99,38 +100,6 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
 
   getSinhVienByDotDk(namHoc: string, dot:  number) {
     this.listTg = this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
-  }
-
-  getSelectedLine(e: any) {
-    if (e.ctrlKey) {
-      this.returnIsSelectedSV.emit(true);
-      const activeDblClick = this.elementRef.nativeElement.querySelector(
-        '.br-line.br-line-dblclick'
-      );
-      const parent = getParentElement(e.target, '.br-line');
-      const firstChild = parent.firstChild;
-
-      if (activeDblClick) {
-        activeDblClick.classList.remove('.br-line-dblclick');
-        this.lineSV = new SinhVien();
-      }
-
-      if (parent.classList.contains('br-line-click')) {
-        let childIndex = this.selectedSV.findIndex(
-          (t) => t === firstChild.innerText
-        );
-
-        parent.classList.remove('br-line-click');
-        this.selectedSV.splice(childIndex, 1);
-      } else {
-        parent.classList.add('br-line-click');
-        this.selectedSV.push(firstChild.innerText);
-      }
-
-      if (this.selectedSV.length === 0) {
-        this.returnIsSelectedSV.emit(false);
-      }
-    }
   }
 
   getSelectedLine(e: any) {
