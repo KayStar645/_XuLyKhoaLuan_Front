@@ -18,20 +18,20 @@ export class loiMoiService {
   constructor(private http: HttpClient, private router: Router,
     private shareService: shareService) { }
 
-  getAll(): Observable<LoiMoi[]> {
-    return this.http.get<LoiMoi[]>(`${this.apiUrl}/api/Loimois`, this.shareService.httpOptions);
+  async getAll(): Promise<LoiMoi[]> {
+    return await this.http.get<LoiMoi[]>(`${this.apiUrl}/api/Loimois`, this.shareService.httpOptions).toPromise() ?? [];
   }
 
-  add(LoiMoi: LoiMoi): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/Loimois`, LoiMoi, this.shareService.httpOptions);
+  async add(LoiMoi: LoiMoi): Promise<any> {
+    return await this.http.post(`${this.apiUrl}/api/Loimois`, LoiMoi, this.shareService.httpOptions);
   }
 
-  update(LoiMoi: LoiMoi): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${LoiMoi.maNhom}&MaSV=${LoiMoi.maSv}&NamHoc=${LoiMoi.namHoc}&Dot=${LoiMoi.dot}`, LoiMoi, this.shareService.httpOptions);
+  async update(LoiMoi: LoiMoi): Promise<any> {
+    return await this.http.put<any>(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${LoiMoi.maNhom}&MaSV=${LoiMoi.maSv}&NamHoc=${LoiMoi.namHoc}&Dot=${LoiMoi.dot}`, LoiMoi, this.shareService.httpOptions);
   }
 
-  delete(MaNhom: number, MaSV: string, NamHoc: string, Dot: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${MaNhom}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+  async delete(MaNhom: string, MaSV: string, NamHoc: string, Dot: number): Promise<any> {
+    return await this.http.delete(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${MaNhom}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
   }
 
   //Tạm thời

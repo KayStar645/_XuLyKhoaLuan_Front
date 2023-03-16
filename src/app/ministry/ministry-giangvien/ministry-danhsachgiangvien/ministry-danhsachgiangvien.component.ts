@@ -24,14 +24,14 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
     private shareService: shareService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getAllGiangVien();
 
-    this.boMonService.getAll().subscribe((data) => (this.listBM = data));
+    this.listBM = await this.boMonService.getAll();
     
   }
 
-  clickLine(event: any) {
+  async clickLine(event: any) {
     const element = event.target.parentNode;
     if (this.elementOld == element && this.lineGV.maGv != null) {
       this.elementOld.classList.remove('br-line-hover');
@@ -45,26 +45,20 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
       this.elementOld = element;
 
       const mgv = element.firstElementChild.innerHTML;
-      this.giangVienService.getById(mgv).subscribe((data) => {
-        this.lineGV = data;
-      });
+      this.lineGV = await this.giangVienService.getById(mgv);
     }
   }
 
-  getAllGiangVien() {
-    this.giangVienService.getAll().subscribe((data) => {
-      this.listGV = data;
-      this.root = data;
-    });
+  async getAllGiangVien() {
+    this.listGV = await this.giangVienService.getAll();
+    this.root = this.listGV;
   }
 
-  getGiangVienByMaBM(maBM: string) {
-    this.giangVienService.getByBoMon(maBM).subscribe((data) => {
-      this.listGV = data;
-    });
+  async getGiangVienByMaBM(maBM: string) {
+    this.listGV = await this.giangVienService.getByBoMon(maBM);
   }
 
-  sortGiangVien(sort: string) {
+  async sortGiangVien(sort: string) {
     if (sort == 'asc-id') {
       this.listGV.sort((a, b) => a.maGv.localeCompare(b.maGv));
     } else if (sort == 'desc-id') {
@@ -78,9 +72,7 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
     } else if (sort == 'desc-subject') {
       this.listGV.sort((a, b) => b.maBm.localeCompare(a.maBm));
     } else {
-      this.giangVienService.getAll().subscribe((data) => {
-        this.listGV = data;
-      });
+      this.listGV = await this.giangVienService.getAll();
     }
   }
 

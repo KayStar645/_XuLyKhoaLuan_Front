@@ -17,11 +17,11 @@ export class binhLuanService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<BinhLuan[]> {
-      return this.http.get<BinhLuan[]>(`${this.apiUrl}/api/Binhluans`, this.shareService.httpOptions);
+    async getAll(): Promise<BinhLuan[]> {
+      return await this.http.get<BinhLuan[]>(`${this.apiUrl}/api/Binhluans`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    add(BinhLuan: BinhLuan): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Binhluans`, BinhLuan, this.shareService.httpOptions);
+    async add(BinhLuan: BinhLuan): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Binhluans`, BinhLuan, this.shareService.httpOptions);
     }
 }

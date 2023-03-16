@@ -17,23 +17,33 @@ export class vaiTroService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<VaiTro[]> {
-      return this.http.get<VaiTro[]>(`${this.apiUrl}/api/Vaitros`, this.shareService.httpOptions);
+    async getAll(): Promise<VaiTro[]> {
+      return await this.http.get<VaiTro[]>(`${this.apiUrl}/api/Vaitros`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<VaiTro> {
-      return this.http.get<VaiTro>(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${id}`, this.shareService.httpOptions);
+    async getById(id: string):Promise<VaiTro> {
+      try {
+        var response = new VaiTro();
+        response = await this.http.get<VaiTro>(
+          `${this.apiUrl}/api/Vaitros/MaVT?MaVT=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as VaiTro;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(vaiTro: VaiTro): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Vaitros`, vaiTro, this.shareService.httpOptions);
+    async add(vaiTro: VaiTro): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Vaitros`, vaiTro, this.shareService.httpOptions);
     }
 
-    update(vaiTro: VaiTro): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${vaiTro.maVt}`, vaiTro, this.shareService.httpOptions);
+    async update(vaiTro: VaiTro): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${vaiTro.maVt}`, vaiTro, this.shareService.httpOptions);
     }
 
-    delete(MaVT: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${MaVT}`, this.shareService.httpOptions);
+    async delete(MaVT: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${MaVT}`, this.shareService.httpOptions);
     }
 }

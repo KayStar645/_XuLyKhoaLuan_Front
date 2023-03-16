@@ -17,23 +17,29 @@ export class baoCaoService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<BaoCao[]> {
-      return this.http.get<BaoCao[]>(`${this.apiUrl}/api/Baocaos`, this.shareService.httpOptions);
+    async getAll(): Promise<BaoCao[]> {
+      return await this.http.get<BaoCao[]>(`${this.apiUrl}/api/Baocaos`, this.shareService.httpOptions).toPromise() ?? [];
+    }
+    
+
+    async getById(MaCv: string, MaSv: string, NamHoc: string, Dot: number, LanNop: number): Promise<BaoCao> {
+      var response = new BaoCao();
+        response = await this.http.get<BaoCao>(
+          `${this.apiUrl}/api/Baocaos/MaCv, MaSv, NamHoc, Dot, LanNop?MaCv=${MaCv}&MaSv=${MaSv}&NamHoc=${NamHoc}&Dot=${Dot}&LanNop=${LanNop}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as BaoCao;
+        return response;
+    }    
+
+    async add(BaoCao: BaoCao): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Baocaos`, BaoCao, this.shareService.httpOptions);
     }
 
-    getById(MaCv: string, MaSv: string, NamHoc: string, Dot: number, LanNop: number):Observable<BaoCao> {
-      return this.http.get<BaoCao>(`${this.apiUrl}/api/Baocaos/MaCv, MaSv, NamHoc, Dot, LanNop?MaCv=${MaCv}&MaSv=${MaSv}&NamHoc=${NamHoc}&Dot=${Dot}&LanNop=${LanNop}`, this.shareService.httpOptions);
+    async update(BaoCao: BaoCao): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Baocaos/MaCv, MaSv, NamHoc, Dot, LanNop?MaCv=${BaoCao.maCv}&MaSv=${BaoCao.maSv}&NamHoc=${BaoCao.namHoc}&Dot=${BaoCao.dot}&LanNop=${BaoCao.lanNop}`, BaoCao, this.shareService.httpOptions);
     }
 
-    add(BaoCao: BaoCao): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Baocaos`, BaoCao, this.shareService.httpOptions);
-    }
-
-    update(BaoCao: BaoCao): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Baocaos/MaCv, MaSv, NamHoc, Dot, LanNop?MaCv=${BaoCao.maCv}&MaSv=${BaoCao.maSv}&NamHoc=${BaoCao.namHoc}&Dot=${BaoCao.dot}&LanNop=${BaoCao.lanNop}`, BaoCao, this.shareService.httpOptions);
-    }
-
-    delete(MaCv: string, MaSv: string, NamHoc: string, Dot: number, LanNop: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Baocaos/MaCv, MaSv, NamHoc, Dot, LanNop?MaCv=${MaCv}&MaSv=${MaSv}&NamHoc=${NamHoc}&Dot=${Dot}&LanNop=${LanNop}`, this.shareService.httpOptions);
+    async delete(MaCv: string, MaSv: string, NamHoc: string, Dot: number, LanNop: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Baocaos/MaCv, MaSv, NamHoc, Dot, LanNop?MaCv=${MaCv}&MaSv=${MaSv}&NamHoc=${NamHoc}&Dot=${Dot}&LanNop=${LanNop}`, this.shareService.httpOptions);
     }
 }

@@ -1,3 +1,9 @@
+import { Nhom } from 'src/app/models/Nhom.model';
+import { nhomService } from 'src/app/services/nhom.service';
+import { ThamGia } from 'src/app/models/ThamGia.model';
+import { thamGiaService } from './../../services/thamGia.service';
+import { dotDkService } from './../../services/dotDk.service';
+import { DotDk } from './../../models/DotDk.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -21,8 +27,14 @@ export class MinistrySinhvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachsinhvienComponent)
   private DSSVComponent!: MinistryDanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
+  listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
+  // selectedDotDk!: string;
+
+  namHoc!: string;
+  dot!: number;
+
   sinhVienFile: any;
 
   svAddForm: any;
@@ -46,20 +58,26 @@ export class MinistrySinhvienComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
-    private userService: userService
+    private userService: userService,
+    private dotDkService: dotDkService,
+    private thamGiaService: thamGiaService,
+    private nhomService: nhomService,
   ) {
     this.svAddForm = this.svForm.form;
     this.svUpdateForm = this.svForm.form;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.titleService.setTitle('Danh sách sinh viên');
-    this.chuyenNganhService.getAll().subscribe((data) => {
-      this.listChuyenNganh = data;
-      if (data.length > 0) {
-        this.selectedChuyenNganh = data[0].maCn;
-      }
-    });
+    this.listChuyenNganh = await this.chuyenNganhService.getAll();
+    if (this.listChuyenNganh.length > 0) {
+      this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
+    }
+    this.listDotDk = await this.dotDkService.getAll();
+    if(this.listDotDk.length > 0) {
+      this.namHoc = this.listDotDk[0].namHoc;
+      this.dot = this.listDotDk[0].dot;
+    }
   }
 
   onShowFormAdd() {
@@ -232,33 +250,13 @@ export class MinistrySinhvienComponent implements OnInit {
           data[6] ? data[6] : '',
           data[7] ? data[7] : ''
         );
-
-        this.sinhVienService.add(sinhVien).subscribe(
-          (data) => {
-            // Add tai khoan
-            this.userService
-              .addStudent(new User(sinhVien.maSv, sinhVien.maSv))
-              .subscribe(
-                (success) => {},
-                (error) => {
-                  console.log(error);
-                }
-              );
-            this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        this.f_AddSinhVien(sinhVien);
       });
       this.DSSVComponent.getAllSinhVien();
     }
   }
 
-  clickDelete() {
+  async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
 
     if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
@@ -274,25 +272,18 @@ export class MinistrySinhvienComponent implements OnInit {
       });
 
       option.agree(() => {
-        this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
-          (data) => {
-            this.userService.delete(this.DSSVComponent.lineSV.maSv).subscribe(
-              (success) => {},
-              (error) => {
-                console.log(error);
-              }
-            );
-            this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
-            this.DSSVComponent.lineSV = new SinhVien();
-            this.DSSVComponent.getAllSinhVien();
-          },
-          (error) => {
-            this.toastr.error(
-              'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
-              'Thông báo !'
-            );
-          }
-        );
+        // Xóa tham gia trước -- Chưa làm
+        try {
+          const result = this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv);
+          this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+          this.DSSVComponent.lineSV = new SinhVien();
+          this.DSSVComponent.getAllSinhVien();
+        } catch (error) {
+          this.toastr.error(
+            'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
+            'Thông báo !'
+          );
+        }
         _delete.classList.remove('active');
       });
     } else {
@@ -314,35 +305,57 @@ export class MinistrySinhvienComponent implements OnInit {
         this.svAddForm.value['email'],
         this.svAddForm.value['maCn']
       );
-
-      this.sinhVienService.add(sinhVien).subscribe(
-        (data) => {
-          this.svForm.resetForm('#create_box');
-          // Add tai khoan
-          this.userService
-            .addStudent(new User(sinhVien.maSv, sinhVien.maSv))
-            .subscribe(
-              (success) => {
-                // console.log("Thành công!");
-                // console.log(success);
-              },
-              (error) => {
-                // console.log("Thất bại!");
-                console.log(error);
-              }
-            );
-          this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
-          this.DSSVComponent.getAllSinhVien();
-        },
-        (error) => {
-          this.toastr.error(
-            'Thông tin bạn cung cấp không hợp lệ.',
-            'Thông báo !'
-          );
-        }
-      );
+      this.f_AddSinhVien(sinhVien);
+      
     } else {
       this.svForm.validate('#create_box');
+    }
+  }
+
+  async f_AddSinhVien(sv: SinhVien) {
+    // Kiểm tra sinh viên đã tồn tại chưa 
+    const flag = await this.sinhVienService.getById(sv.maSv);
+    const nhom = new Nhom();
+    nhom.init(sv.maSv + this.namHoc + this.dot, sv.tenSv, sv.maSv);
+
+    const thamgia = new ThamGia();
+    thamgia.init(sv.maSv, this.namHoc, this.dot, sv.maSv + this.namHoc + this.dot, 0);
+
+    if(flag != null) {
+      // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
+      this.f_CreateGroup_ThamGia(nhom, thamgia);
+
+      this.toastr.success('Thêm sinh viên vào đợt đợt đăng ký thành công', 'Thông báo !');
+      this.DSSVComponent.getAllSinhVienByDotdk();
+    }
+    else {
+      try {
+        await this.sinhVienService.add(sv);
+        this.svForm.resetForm('#create_box');
+          // Add tai khoan
+          await this.userService.addStudent(new User(sv.maSv, sv.maSv));
+          // Add: Đưa sinh viên vào đợt tham gia và tạo nhóm lần đầu
+          this.f_CreateGroup_ThamGia(nhom, thamgia);
+  
+          this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
+          this.DSSVComponent.getAllSinhVienByDotdk();
+      }
+      catch {
+        this.toastr.error(
+          'Thông tin bạn cung cấp không hợp lệ.',
+          'Thông báo !'
+        );
+      }
+    }
+  }
+
+  async f_CreateGroup_ThamGia(nhom: Nhom, thamgia: ThamGia) {
+    try {
+      await this.nhomService.add(nhom);
+      await this.thamGiaService.add(thamgia);
+    } 
+    catch (error) {
+      console.log(error);
     }
   }
 
@@ -387,24 +400,22 @@ export class MinistrySinhvienComponent implements OnInit {
           this.svUpdateForm.value['maCn']
         );
 
-        this.sinhVienService.update(sinhVien).subscribe(
-          (data) => {
-            update.classList.remove('active');
-            updateBox.classList.remove('active');
-            this.DSSVComponent.getAllSinhVien();
-            this.resetLineActive();
-            this.toastr.success(
-              'Cập nhập thông tin sinh viên thành công',
-              'Thông báo !'
-            );
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        try {
+          const result = this.sinhVienService.update(sinhVien);
+          update.classList.remove('active');
+          updateBox.classList.remove('active');
+          this.DSSVComponent.getAllSinhVien();
+          this.resetLineActive();
+          this.toastr.success(
+            'Cập nhập thông tin sinh viên thành công',
+            'Thông báo !'
+          );
+        } catch (error) {
+          this.toastr.error(
+            'Thông tin bạn cung cấp không hợp lệ.',
+            'Thông báo !'
+          );
+        }
       }
     } else {
       this.svForm.validate('#update_box');
@@ -416,14 +427,22 @@ export class MinistrySinhvienComponent implements OnInit {
   getSinhVienByMaCN(event: any) {
     const maCn = event.target.value;
     if (maCn == '') {
-      this.DSSVComponent.getAllSinhVien();
+      this.DSSVComponent.getAllSinhVienByDotdk();
     } else {
       this.DSSVComponent.getSinhVienByMaCN(maCn);
     }
   }
 
-  sortSinhVien(event: any) {
-    const sort = event.target.value;
-    this.DSSVComponent.sortSinhVien(sort);
+  getSinhVienByDotDk(event: any) {
+    const dotdk = event.target.value;
+    if (dotdk == '') {
+      this.DSSVComponent.getAllSinhVienByDotdk();
+    } else {
+      this.namHoc = dotdk.slice(0, dotdk.length - 1);
+      this.dot = dotdk.slice(dotdk.length - 1);
+      console.log(this.namHoc);
+      console.log(this.dot);
+      this.DSSVComponent.getSinhVienByDotDk(this.namHoc, this.dot);
+    }
   }
 }

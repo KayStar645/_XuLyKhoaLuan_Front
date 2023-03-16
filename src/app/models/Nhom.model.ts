@@ -1,10 +1,14 @@
 export class Nhom {
-    public maNhom!: number;
+    public maNhom!: string;
     public tenNhom!: string;
-    public soLuong!: number;
-    public slmax!: number;
     public truongNhom!: string;
 
 
     constructor(){}
+
+    public init(maNhom: string, tenNhom: string, truongNhom: string) {
+        this.maNhom = maNhom;
+        this.tenNhom = tenNhom;
+        this.truongNhom = truongNhom;
+    }
 }

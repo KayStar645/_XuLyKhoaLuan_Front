@@ -17,23 +17,33 @@ export class boMonService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<BoMon[]> {
-      return this.http.get<BoMon[]>(`${this.apiUrl}/api/Bomons`, this.shareService.httpOptions);
+    async getAll(): Promise<BoMon[]> {
+      return await this.http.get<BoMon[]>(`${this.apiUrl}/api/Bomons`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<BoMon> {
-      return this.http.get<BoMon>(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${id}`, this.shareService.httpOptions);
+    async getById(id: string):Promise<BoMon> {
+      try {
+        var response = new BoMon();
+        response = await this.http.get<BoMon>(
+          `${this.apiUrl}/api/Bomons/MaBM?MaBM=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as BoMon;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(boMon: BoMon): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Bomons`, boMon, this.shareService.httpOptions);
+    async add(boMon: BoMon): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Bomons`, boMon, this.shareService.httpOptions);
     }
 
-    update(boMon: BoMon): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${boMon.maBm}`, boMon, this.shareService.httpOptions);
+    async update(boMon: BoMon): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${boMon.maBm}`, boMon, this.shareService.httpOptions);
     }
 
-    delete(MaBM: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${MaBM}`, this.shareService.httpOptions);
+    async delete(MaBM: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${MaBM}`, this.shareService.httpOptions);
     }
 }

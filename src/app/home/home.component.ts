@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     private giangVienService: giangVienService,
     ) { }
 
-  public ngOnInit(): void {
+  public async ngOnInit() {
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
@@ -36,11 +36,7 @@ export class HomeComponent implements OnInit {
     }
 
      // Get dữ liệu của giảng viên
-     this.giangVienService
-     .getById('' + localStorage.getItem('Id')?.toString())
-     .subscribe((data) => {
-       this.data = data;
-     });
+     this.data = await this.giangVienService.getById('' + localStorage.getItem('Id')?.toString());
   }
 
   clickAccount() {

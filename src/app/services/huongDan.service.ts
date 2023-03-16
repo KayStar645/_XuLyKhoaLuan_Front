@@ -17,23 +17,33 @@ export class huongDanService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<HuongDan[]> {
-      return this.http.get<HuongDan[]>(`${this.apiUrl}/api/Huongdans`, this.shareService.httpOptions);
+    async getAll(): Promise<HuongDan[]> {
+      return await this.http.get<HuongDan[]>(`${this.apiUrl}/api/Huongdans`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(MaGV: string, MaDT: string):Observable<HuongDan> {
-      return this.http.get<HuongDan>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+    async getById(MaGV: string, MaDT: string):Promise<HuongDan> {
+      try {
+        var response = new HuongDan();
+        response = await this.http.get<HuongDan>(
+          `${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as HuongDan;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(huongDan: HuongDan): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Huongdans`, huongDan, this.shareService.httpOptions);
+    async add(huongDan: HuongDan): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Huongdans`, huongDan, this.shareService.httpOptions);
     }
 
-    update(huongDan: HuongDan): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`, huongDan, this.shareService.httpOptions);
+    async update(huongDan: HuongDan): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`, huongDan, this.shareService.httpOptions);
     }
 
-    delete(MaGV: string, MaDT: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+    async delete(MaGV: string, MaDT: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
     }
 }

@@ -10,19 +10,22 @@
         <th>SĐT</th>
         <th>Lớp</th>
         <th>Chuyên ngành</th>
+        <th>Đợt</th>
       </tr>
-      <tbody *ngFor="let sv of listSV">
+      <tbody *ngFor="let tg of listTg">
         <tr class="br-line" (dblclick)="clickLine($event)">
-          <td class="text-center">{{ sv?.maSv }}</td>
+          <td class="text-center">{{ tg?.maSv }}</td>
+          {{getSinhVienById(tg.maSv)}}
           <td class="text-left">
-            {{ sv?.tenSv }}
+            {{ sinhVien.tenSv }}
           </td>
-          <td class="text-left">{{ sv?.email }}</td>
-          <td class="text-center">{{ dateFormat(sv.ngaySinh) }}</td>
-          <td class="text-center">{{ sv?.gioiTinh }}</td>
-          <td class="text-center">{{ sv?.sdt }}</td>
-          <td class="text-center">{{ sv?.lop }}</td>
-          <td class="text-left">{{ getTenCNById(sv.maCn) }}</td>
+          <td class="text-left">{{ sinhVien.email }}</td>
+          <td class="text-center">{{ dateFormat(sinhVien.ngaySinh) }}</td>
+          <td class="text-center">{{ sinhVien.gioiTinh }}</td>
+          <td class="text-center">{{ sinhVien.sdt }}</td>
+          <td class="text-center">{{ sinhVien.lop }}</td>
+          <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
+          <td class="text-left">{{ tg.namHoc }} - Đợt {{ tg.dot }}</td>
         </tr>
       </tbody>
     </table>

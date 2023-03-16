@@ -17,23 +17,34 @@ export class hdGopYService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<HdGopi[]> {
-      return this.http.get<HdGopi[]>(`${this.apiUrl}/api/Hdgopies`, this.shareService.httpOptions);
+    async getAll(): Promise<HdGopi[]> {
+      return await this.http.get<HdGopi[]>(`${this.apiUrl}/api/Hdgopies`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: number):Observable<HdGopi> {
-      return this.http.get<HdGopi>(`${this.apiUrl}/api/Hdgopies/id?id=${id}`, this.shareService.httpOptions);
+    async getById(id: number):Promise<HdGopi> {
+      try {
+        var response = new HdGopi();
+        response = await this.http.get<HdGopi>(
+          `${this.apiUrl}/api/Hdgopies/id?id=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as HdGopi;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(HdGopi: HdGopi): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Hdgopies`, HdGopi, this.shareService.httpOptions);
+    async add(HdGopi: HdGopi): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Hdgopies`, HdGopi, this.shareService.httpOptions);
     }
 
-    update(HdGopi: HdGopi): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Hdgopies/id?id=${HdGopi.id}`, HdGopi, this.shareService.httpOptions);
+    async update(HdGopi: HdGopi): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Hdgopies/id?id=${HdGopi.id}`, HdGopi, this.shareService.httpOptions);
     }
 
-    delete(id: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Hdgopies/id?id=${id}`, this.shareService.httpOptions);
+    async delete(id: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Hdgopies/id?id=${id}`, this.shareService.httpOptions);
     }
 }

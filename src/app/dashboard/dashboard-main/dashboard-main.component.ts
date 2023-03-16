@@ -30,7 +30,7 @@ export class DashboardMainComponent implements OnInit{
     private chuyenNganhService: chuyenNganhService,
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit() {
     this.titleService.setTitle('Sinh viên');
 
     // Kiểm tra đăng nhập để điều hướng
@@ -43,13 +43,8 @@ export class DashboardMainComponent implements OnInit{
     }
 
     // Get dữ liệu của giáo vụ
-    this.sinhVienService
-      .getById('' + localStorage.getItem('Id')?.toString())
-      .subscribe((data) => {
-        this.data = data;
-        console.log(data);
-        this.chuyenNganhService.getById(data.maCn).subscribe((data) => this.chuyenNganh = data.tenCn);
-      });
+    this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString())
+    this.chuyenNganh = (await this.chuyenNganhService.getById(this.data.maCn)).tenCn;
   }
 
   dateFormat(str: any): string {

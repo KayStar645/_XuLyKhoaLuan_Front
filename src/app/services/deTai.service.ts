@@ -17,36 +17,77 @@ export class deTaiService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<DeTai[]> {
-      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais`, this.shareService.httpOptions);
+    async getAll(): Promise<DeTai[]> {
+      return await this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<DeTai> {
-      return this.http.get<DeTai>(`${this.apiUrl}/api/Detais/maDT?maDT=${id}`, this.shareService.httpOptions);
+    async getById(id: string):Promise<DeTai> {
+      try {
+        var response = new DeTai();
+        response = await this.http.get<DeTai>(
+          `${this.apiUrl}/api/Detais/maDT?maDT=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as DeTai;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    getByChuyenNganh(maCN: string):Observable<DeTai[]> {
-      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais/MaCN?MaCN=${maCN}`, this.shareService.httpOptions);
+    async getByChuyenNganh(maCN: string):Promise<DeTai[]> {
+      try {
+        var response : DeTai[] = [];
+        response = await this.http.get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/MaCN?MaCN=${maCN}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as DeTai[];
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    getChuyennganhOfDetai(maDT: string) {
-      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais/MaDeTai?MaDeTai=${maDT}`, this.shareService.httpOptions);
+    async getChuyennganhOfDetai(maDT: string) {
+      try {
+        var response : DeTai[] = [];
+        response = await this.http.get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/MaDeTai?MaDeTai=${maDT}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as DeTai[];
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    searchByName(tenGV: string):Observable<DeTai[]> {
-      return this.http.get<DeTai[]>(`${this.apiUrl}/api/Detais/tenDT?tenDT=${tenGV}`, this.shareService.httpOptions);
+    async searchByName(tenGV: string):Promise<DeTai[]> {
+      try {
+        var response : DeTai[] = [];
+        response = await this.http.get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/tenDT?tenDT=${tenGV}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as DeTai[];
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(deTai: DeTai): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions);
+    async add(deTai: DeTai): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions);
     }
 
     //Tóm tắt không được để trống
-    update(deTai: DeTai): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Detais/maDT?maDT=${deTai.maDT}`, deTai, this.shareService.httpOptions);
+    async update(deTai: DeTai): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Detais/maDT?maDT=${deTai.maDT}`, deTai, this.shareService.httpOptions);
     }
 
-    delete(maDT: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Detais/maDT?maDT=${maDT}`, this.shareService.httpOptions);
+    async delete(maDT: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Detais/maDT?maDT=${maDT}`, this.shareService.httpOptions);
     }
 }

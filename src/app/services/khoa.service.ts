@@ -17,23 +17,33 @@ export class khoaService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<Khoa[]> {
-      return this.http.get<Khoa[]>(`${this.apiUrl}/api/Khoas`, this.shareService.httpOptions);
+    async getAll(): Promise<Khoa[]> {
+      return await this.http.get<Khoa[]>(`${this.apiUrl}/api/Khoas`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<Khoa> {
-      return this.http.get<Khoa>(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${id}`, this.shareService.httpOptions);
+    async getById(id: string):Promise<Khoa> {
+      try {
+        var response = new Khoa();
+        response = await this.http.get<Khoa>(
+          `${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as Khoa;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(khoa: Khoa): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Khoas`, khoa, this.shareService.httpOptions);
+    async add(khoa: Khoa): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Khoas`, khoa, this.shareService.httpOptions);
     }
 
-    update(khoa: Khoa): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${khoa.maKhoa}`, khoa, this.shareService.httpOptions);
+    async update(khoa: Khoa): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${khoa.maKhoa}`, khoa, this.shareService.httpOptions);
     }
 
-    delete(maKhoa: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${maKhoa}`, this.shareService.httpOptions);
+    async delete(maKhoa: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${maKhoa}`, this.shareService.httpOptions);
     }
 }

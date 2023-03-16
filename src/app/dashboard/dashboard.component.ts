@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
     private shareService: shareService,
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit() {
 
     // Kiểm tra đăng nhập để điều hướng
     //this.isLoggedIn$ = this.authService.isLoggedIn(); [Tạm thời]
@@ -43,11 +43,7 @@ export class DashboardComponent implements OnInit {
     }
 
     // Get dữ liệu của sinh viên
-    this.sinhVienService
-      .getById('' + localStorage.getItem('Id')?.toString())
-      .subscribe((data) => {
-        this.data = data;
-      });
+    this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString());
   }
 
   clickAccount() {

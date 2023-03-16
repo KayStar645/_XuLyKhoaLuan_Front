@@ -89,7 +89,7 @@
               type="number"
               formControlName="slMin"
               (blur)="dtForm.inputBlur($event)"
-              min="1"
+              [min]="1"
               [max]="slMax"
             />
             <p class="error-mess"></p>
@@ -100,12 +100,15 @@
           <p class="label">Tối đa</p>
           <div class="form-value">
             <input
+              id="add-min"
               class="form-input"
               type="number"
               formControlName="slMax"
               (blur)="dtForm.inputBlur($event)"
               [defaultValue]="slMax"
               (change)="setSlMax($event)"
+              [min]="slMin"
+              [max]="5"
             />
             <p class="error-mess"></p>
           </div>

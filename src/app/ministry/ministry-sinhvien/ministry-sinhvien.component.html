@@ -23,16 +23,13 @@
       <li class="search-item">
         <select
           class="search-select"
-          id="sort-select"
-          (change)="sortSinhVien($event)"
+          id="search-select"
+          (change)="getSinhVienByDotDk($event)"
         >
-          <option value="">Mặc định</option>
-          <option value="asc-id">Tăng theo mã</option>
-          <option value="desc-id">Giảm theo mã</option>
-          <option value="asc-name">Tăng theo tên</option>
-          <option value="desc-name">Giảm theo tên</option>
-          <option value="asc-subject">Tăng theo chuyên ngành</option>
-          <option value="desc-subject">Giảm theo chuyên ngành</option>
+          <option value="">Tất cả</option>
+          <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
+            {{ dk?.namHoc }} ^ Đợt {{dk?.dot}}
+          </option>
         </select>
       </li>
       <li class="search-item row ali-center jus-end flex-1">
@@ -44,6 +41,7 @@
         </button>
       </li>
     </ul>
+    
   </div>
 
   <app-danhsachsinhvien [searchName]="searchName"></app-danhsachsinhvien>

@@ -16,23 +16,40 @@ export class nhomService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<Nhom[]> {
-      return this.http.get<Nhom[]>(`${this.apiUrl}/api/Nhoms`, this.shareService.httpOptions);
+    async getAll(): Promise<Nhom[]> {
+      return await this.http.get<Nhom[]>(`${this.apiUrl}/api/Nhoms`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(MaNhom: number):Observable<Nhom> {
-      return this.http.get<Nhom>(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`, this.shareService.httpOptions);
+    async getById(MaNhom: number):Promise<Nhom> {
+      try {
+        var response = new Nhom();
+        response = await this.http.get<Nhom>(
+          `${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as Nhom;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(nhom: Nhom): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Nhoms`, nhom, this.shareService.httpOptions);
+    async add(nhom: Nhom): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Nhoms`, nhom, this.shareService.httpOptions);
     }
 
-    update(nhom: Nhom): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${nhom.maNhom}`, nhom, this.shareService.httpOptions);
+    async update(nhom: Nhom): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${nhom.maNhom}`, nhom, this.shareService.httpOptions);
     }
 
-    delete(MaNhom: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`, this.shareService.httpOptions);
+    async delete(MaNhom: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`, this.shareService.httpOptions);
+    }
+
+    async createNhom(maNhom: string, tenNhom: string, truongNhom: string) {
+      const nhom = new Nhom();
+      nhom.init(maNhom, tenNhom, truongNhom);
+      await this.add(nhom);
+      return nhom;
     }
 }

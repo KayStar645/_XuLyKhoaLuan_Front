@@ -18,23 +18,33 @@ export class dangKyService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<DangKy[]> {
-      return this.http.get<DangKy[]>(`${this.apiUrl}/api/Dangkys`, this.shareService.httpOptions);
+    async getAll(): Promise<DangKy[]> {
+      return await this.http.get<DangKy[]>(`${this.apiUrl}/api/Dangkys`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(maDT: string, maNhom: number):Observable<DangKy> {
-      return this.http.get<DangKy>(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`, this.shareService.httpOptions);
+    async getById(maDT: string, maNhom: number):Promise<DangKy> {
+      try {
+        var response = new DangKy();
+        response = await this.http.get<DangKy>(
+          `${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as DangKy;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(DangKy: DangKy): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Dangkys`, DangKy, this.shareService.httpOptions);
+    async add(DangKy: DangKy): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Dangkys`, DangKy, this.shareService.httpOptions);
     }
 
-    update(DangKy: DangKy): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${DangKy.maDt}&maNhom=${DangKy.maNhom}`, DangKy, this.shareService.httpOptions);
+    async update(DangKy: DangKy): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${DangKy.maDt}&maNhom=${DangKy.maNhom}`, DangKy, this.shareService.httpOptions);
     }
 
-    delete(maDT: string, maNhom: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`, this.shareService.httpOptions);
+    async delete(maDT: string, maNhom: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`, this.shareService.httpOptions);
     }
 }

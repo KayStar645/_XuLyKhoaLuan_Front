@@ -45,7 +45,7 @@ export class HomeMainComponent {
     private hoiDongService: hoiDongService,
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit() {
     this.titleService.setTitle('Quản lý');
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
 
@@ -59,31 +59,22 @@ export class HomeMainComponent {
     }
 
     // Get dữ liệu của giáo viên
-    this.giangVienService
-      .getById(this.maGV)
-      .subscribe((data) => {
-        this.data = data;
-        this.boMonService.getById(data.maBm).subscribe(data => this.boMon = data.tenBm);
-        // Test nè nha
-        this.itemNumber -= 4;
-        
-      });
+    this.data = await this.giangVienService.getById(this.maGV);
+    this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
     // Lấy chức vụ trưởng khoa
-    this.truongKhoaService.getByMaGV(this.maGV)
-      .subscribe((data) => {
-        if(data.ngayNghi == null) {
-          this.truongKhoa = data;
-        }
-      });
+    try {
+      this.truongKhoa = await this.truongKhoaService.getByMaGV(this.maGV);  
+    } catch (error) {
+     console.log(error); 
+    }
 
     // Lấy chức vụ trưởng bộ môn
-    this.truongBmService.getByMaGv(this.maGV)
-      .subscribe((data) => {
-        if(data.ngayNghi == null) {
-          this.truongBm = data;
-        }
-      });
+    try {
+      this.truongBm = await this.truongBmService.getByMaGv(this.maGV);  
+    } catch (error) {
+     console.log(error); 
+    }
   }
 
   dateFormat(str: any): string {

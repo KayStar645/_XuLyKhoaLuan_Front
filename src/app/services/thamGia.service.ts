@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { catchError, map } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
@@ -17,23 +18,67 @@ export class thamGiaService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<ThamGia[]> {
-      return this.http.get<ThamGia[]>(`${this.apiUrl}/api/Thamgias`, this.shareService.httpOptions);
+    async getAll(): Promise<ThamGia[]> {
+      return await this.http.get<ThamGia[]>(`${this.apiUrl}/api/Thamgias`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(MaSV: string, NamHoc: string, Dot: number):Observable<ThamGia> {
-      return this.http.get<ThamGia>(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+    async getById(MaSV: string, NamHoc: string, Dot: number):Promise<ThamGia> {
+      try {
+        var response = new ThamGia();
+        response = await this.http.get<ThamGia>(
+          `${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as ThamGia;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    update(ThamGia: ThamGia): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${ThamGia.maSv}&NamHoc=${ThamGia.namHoc}&Dot=${ThamGia.dot}`, ThamGia, this.shareService.httpOptions);
+    async getByCn(maCn: string) {
+      try {
+        var response: ThamGia[] = [];
+        response = await this.http.get<ThamGia[]>(
+          `${this.apiUrl}/api/Thamgias/maCN?maCN=${maCn}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as ThamGia[];
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    delete(MaSV: string, NamHoc: string, Dot: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+    async update(ThamGia: ThamGia): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${ThamGia.maSv}&NamHoc=${ThamGia.namHoc}&Dot=${ThamGia.dot}`, ThamGia, this.shareService.httpOptions);
     }
 
-    add(ThamGia: ThamGia): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Thamgias`, ThamGia, this.shareService.httpOptions);
+    async delete(MaSV: string, NamHoc: string, Dot: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
     }
+
+    async add(ThamGia: ThamGia): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Thamgias`, ThamGia, this.shareService.httpOptions);
+    }
+
+    // async createThamgia(namHoc: string, dot: number, maSv: string, maNhom: string) {
+    //   const thamgia = new ThamGia();
+    //   thamgia.init(maSv, namHoc, dot, maNhom, 0);
+    //   await this.add(thamgia);
+    //   return thamgia;
+    // }
+
+    // async getMaNhomBySinhVienId(MaSV: string, NamHoc: string, Dot: number) {
+    //   let maNhom = ""; 
+    //   await this.getById(MaSV, NamHoc, Dot).subscribe(
+    //     (success) => {
+    //       maNhom = success.maNhom;
+    //     },
+    //     (error) => {
+    //     }
+    //   )
+    //   return maNhom;
+    // }
 }

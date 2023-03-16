@@ -17,27 +17,47 @@ export class truongBmService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<TruongBm[]> {
-      return this.http.get<TruongBm[]>(`${this.apiUrl}/api/Truongbms`, this.shareService.httpOptions);
+    async getAll(): Promise<TruongBm[]> {
+      return await this.http.get<TruongBm[]>(`${this.apiUrl}/api/Truongbms`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getByMaGvMaBm(MaGV: string, MaBM: string):Observable<TruongBm> {
-      return this.http.get<TruongBm>(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`, this.shareService.httpOptions);
+    async getByMaGvMaBm(MaGV: string, MaBM: string):Promise<TruongBm> {
+      try {
+        var response = new TruongBm();
+        response = await this.http.get<TruongBm>(
+          `${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as TruongBm;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    getByMaGv(MaGV: string):Observable<TruongBm> {
-      return this.http.get<TruongBm>(`${this.apiUrl}/api/Truongbms/MaGV?MaGV=${MaGV}`, this.shareService.httpOptions);
+    async getByMaGv(MaGV: string):Promise<TruongBm> {
+      try {
+        var response = new TruongBm();
+        response = await this.http.get<TruongBm>(
+          `${this.apiUrl}/api/Truongbms/MaGV?MaGV=${MaGV}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as TruongBm;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(TruongBm: TruongBm): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Truongbms`, TruongBm, this.shareService.httpOptions);
+    async add(TruongBm: TruongBm): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Truongbms`, TruongBm, this.shareService.httpOptions);
     }
 
-    update(TruongBm: TruongBm): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${TruongBm.maGv}&MaBM=${TruongBm.maBm}`, TruongBm, this.shareService.httpOptions);
+    async update(TruongBm: TruongBm): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${TruongBm.maGv}&MaBM=${TruongBm.maBm}`, TruongBm, this.shareService.httpOptions);
     }
 
-    delete(MaGV: string, MaBM: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`, this.shareService.httpOptions);
+    async delete(MaGV: string, MaBM: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`, this.shareService.httpOptions);
     }
 }

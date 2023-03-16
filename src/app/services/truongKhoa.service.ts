@@ -17,27 +17,47 @@ export class truongKhoaService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<TruongKhoa[]> {
-      return this.http.get<TruongKhoa[]>(`${this.apiUrl}/api/Truongkhoas`, this.shareService.httpOptions);
+    async getAll(): Promise<TruongKhoa[]> {
+      return await this.http.get<TruongKhoa[]>(`${this.apiUrl}/api/Truongkhoas`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getByMaKhoaMaGV(MaKhoa: string, MaGV: string):Observable<TruongKhoa> {
-      return this.http.get<TruongKhoa>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, this.shareService.httpOptions);
+    async getByMaKhoaMaGV(MaKhoa: string, MaGV: string):Promise<TruongKhoa> {
+      try {
+        var response = new TruongKhoa();
+        response = await this.http.get<TruongKhoa>(
+          `${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as TruongKhoa;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    getByMaGV(MaGV: string):Observable<TruongKhoa> {
-      return this.http.get<TruongKhoa>(`${this.apiUrl}/api/Truongkhoas/MaGV?MaGV=${MaGV}`, this.shareService.httpOptions);
+    async getByMaGV(MaGV: string):Promise<TruongKhoa> {
+      try {
+        var response = new TruongKhoa();
+        response = await this.http.get<TruongKhoa>(
+          `${this.apiUrl}/api/Truongkhoas/MaGV?MaGV=${MaGV}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as TruongKhoa;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(TruongKhoa: TruongKhoa): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Truongkhoas`, TruongKhoa, this.shareService.httpOptions);
+    async add(TruongKhoa: TruongKhoa): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Truongkhoas`, TruongKhoa, this.shareService.httpOptions);
     }
 
-    update(TruongKhoa: TruongKhoa): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${TruongKhoa.maKhoa}&MaGV=${TruongKhoa.maGv}`, TruongKhoa, this.shareService.httpOptions);
+    async update(TruongKhoa: TruongKhoa): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${TruongKhoa.maKhoa}&MaGV=${TruongKhoa.maGv}`, TruongKhoa, this.shareService.httpOptions);
     }
 
-    delete(MaKhoa: string, MaGV: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, this.shareService.httpOptions);
+    async delete(MaKhoa: string, MaGV: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, this.shareService.httpOptions);
     }
 }

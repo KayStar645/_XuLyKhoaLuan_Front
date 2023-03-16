@@ -17,23 +17,33 @@ export class thongBaoService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<ThongBao[]> {
-      return this.http.get<ThongBao[]>(`${this.apiUrl}/api/Thongbaos`, this.shareService.httpOptions);
+    async getAll(): Promise<ThongBao[]> {
+      return await this.http.get<ThongBao[]>(`${this.apiUrl}/api/Thongbaos`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(MaTB: number):Observable<ThongBao> {
-      return this.http.get<ThongBao>(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${MaTB}`, this.shareService.httpOptions);
+    async getById(MaTB: number):Promise<ThongBao> {
+      try {
+        var response = new ThongBao();
+        response = await this.http.get<ThongBao>(
+          `${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${MaTB}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as ThongBao;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(ThongBao: ThongBao): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Thongbaos`, ThongBao, this.shareService.httpOptions);
+    async add(ThongBao: ThongBao): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Thongbaos`, ThongBao, this.shareService.httpOptions);
     }
 
-    update(ThongBao: ThongBao): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${ThongBao.maTb}`, ThongBao, this.shareService.httpOptions);
+    async update(ThongBao: ThongBao): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${ThongBao.maTb}`, ThongBao, this.shareService.httpOptions);
     }
 
-    delete(MaTB: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${MaTB}`, this.shareService.httpOptions);
+    async delete(MaTB: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${MaTB}`, this.shareService.httpOptions);
     }
 }

@@ -45,59 +45,55 @@ export class MinistryDanhsachdetaiComponent {
     private deTai_chuyenNganhService: deTai_chuyenNganhService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getAllDeTai();
 
-    this.raDeService.getAll().subscribe((data) => (this.listRade = data));
-    this.duyetDtService.getAll().subscribe((data) => (this.listDuyetDt = data));
-    this.giangVienService
-      .getAll()
-      .subscribe((data) => (this.listGiangvien = data));
-    this.deTai_chuyenNganhService
-      .getAll()
-      .subscribe((data) => (this.listDeta_Chuyennganh = data));
-    this.chuyenNganhService
-      .getAll()
-      .subscribe((data) => (this.listChuyennganh = data));
+    this.listRade = await this.raDeService.getAll();
+    this.listDuyetDt = await this.duyetDtService.getAll();
+    this.listGiangvien = await this.giangVienService.getAll();
+    this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
+    this.listChuyennganh = await this.chuyenNganhService.getAll();
   }
 
-  clickLine(event: any) {
+  async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
     const activeLine = this.elementRef.nativeElement.querySelector(
       '.br-line.br-line-hover'
     );
 
-    !parent.classList.contains('br-line-hover') &&
-      this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
-        this.lineDT = data;
-      });
+    // !parent.classList.contains('br-line-hover') &&
+    //   this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
+    //     this.lineDT = data;
+    //   });
+    this.lineDT = await this.deTaiService.getById(firstChild.innerText);
 
     activeLine && activeLine.classList.remove('br-line-hover');
     parent.classList.add('br-line-hover');
   }
 
-  onShowDetail(event: MouseEvent) {
+  async onShowDetail(event: MouseEvent) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
     const activeLine = this.elementRef.nativeElement.querySelector(
       '.br-line.br-line-hover'
     );
 
-    this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
-      this.lineDT = data;
+    try {
+      this.lineDT = await this.deTaiService.getById(firstChild.innerText);
       document.querySelector('.update-btn')?.dispatchEvent(new Event('click'));
-    });
+    } catch (error) {
+     console.log(error); 
+    }
 
     activeLine && activeLine.classList.remove('br-line-hover');
     parent.classList.add('br-line-hover');
   }
 
-  getAllDeTai() {
-    this.deTaiService.getAll().subscribe((data) => {
-      this.listDT = data;
-      this.root = data;
-
+  async getAllDeTai() {
+    try {
+      this.listDT = await this.deTaiService.getAll();
+      this.root = this.listDT;
       this.listDT.forEach((info) => {
         let topicSummary = document.createElement('div');
         let topicName = document.createElement('div');
@@ -111,17 +107,18 @@ export class MinistryDanhsachdetaiComponent {
         info.tomTat = firstSummary;
         info.tenDT = firstName;
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  getGiangVienByMaCn(maCn: string) {
+  async getGiangVienByMaCn(maCn: string) {
     for (let item of this.listDT) {
-      if (this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
+      if (await this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
+
       }
     }
-    this.deTaiService.getByChuyenNganh(maCn).subscribe((data) => {
-      this.listDT = data;
-    });
+    this.listDT = await this.deTaiService.getByChuyenNganh(maCn);
   }
 
   getTenChuyennganhByMaDT(maDT: string) {
@@ -167,7 +164,7 @@ export class MinistryDanhsachdetaiComponent {
     return 'Chưa duyệt!';
   }
 
-  sortGiangVien(sort: string) {
+  async sortGiangVien(sort: string) {
     if (sort == 'asc-id') {
       this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
     } else if (sort == 'desc-id') {
@@ -177,9 +174,7 @@ export class MinistryDanhsachdetaiComponent {
     } else if (sort == 'desc-name') {
       this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
     } else {
-      this.deTaiService.getAll().subscribe((data) => {
-        this.listDT = data;
-      });
+      this.listDT = await this.deTaiService.getAll();
     }
   }
 

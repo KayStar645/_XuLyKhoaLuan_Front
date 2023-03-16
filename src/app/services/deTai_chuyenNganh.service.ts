@@ -17,20 +17,30 @@ export class deTai_chuyenNganhService {
         private shareService: shareService
         ){}
 
-    getAll(): Observable<DeTai_ChuyenNganh[]>{
-        return this.http.get<DeTai_ChuyenNganh[]>(`${this.apiUrl}/api/DetaiChuyennganh`, this.shareService.httpOptions);
+    async getAll(): Promise<DeTai_ChuyenNganh[]>{
+        return await this.http.get<DeTai_ChuyenNganh[]>(`${this.apiUrl}/api/DetaiChuyennganh`, 
+        this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getByMaDtMaCn(MaDT: string, MaCN:string):Observable<DeTai_ChuyenNganh[]> {
-        return this.http.get<DeTai_ChuyenNganh[]>(`${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`,
-         this.shareService.httpOptions);
+    async getByMaDtMaCn(MaDT: string, MaCN:string):Promise<DeTai_ChuyenNganh[]> {
+         try {
+            var response : DeTai_ChuyenNganh[] = [];
+            response = await this.http.get<DeTai_ChuyenNganh[]>(
+              `${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`,
+              this.shareService.httpOptions
+            ).toPromise() ?? response as DeTai_ChuyenNganh[];
+            return response;
+          } catch (error) {
+            console.error(error);
+            throw error;
+          }
     }
 
-    add(deTai_chuyenNganh: DeTai_ChuyenNganh): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/DetaiChuyennganh`, deTai_chuyenNganh, this.shareService.httpOptions);
+    async add(deTai_chuyenNganh: DeTai_ChuyenNganh): Promise<any> {
+    return await this.http.post(`${this.apiUrl}/api/DetaiChuyennganh`, deTai_chuyenNganh, this.shareService.httpOptions);
     }
 
-    delete(MaDT: string, MaCN:string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`, this.shareService.httpOptions);
+    async delete(MaDT: string, MaCN:string): Promise<any> {
+    return await this.http.delete(`${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`, this.shareService.httpOptions);
     }
 }

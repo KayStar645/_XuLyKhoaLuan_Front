@@ -19,24 +19,35 @@ export class dotDkService {
       private shareService: shareService) {}
 
     //Được
-    getAll(): Observable<DotDk[]> {
-      return this.http.get<DotDk[]>(`${this.apiUrl}/api/Dotdks`, this.shareService.httpOptions);
+    async getAll(): Promise<DotDk[]> {
+      return await this.http.get<DotDk[]>(`${this.apiUrl}/api/Dotdks`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(namhoc: string, dot:number):Observable<DotDk> {
-      return this.http.get<DotDk>(`${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${namhoc}&Dot=${dot}`, this.shareService.httpOptions);
+    async getById(namhoc: string, dot:number):Promise<DotDk> {
+      try {
+        var response = new DotDk();
+        response = await this.http.get<DotDk>(
+          `${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${namhoc}&Dot=${dot}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as DotDk;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(dotDk: DotDk): Observable<any> {
+    async add(dotDk: DotDk): Promise<any> {
       return this.http.post(`${this.apiUrl}/api/Dotdks`, dotDk, this.shareService.httpOptions);
     }
 
     //Không update được do cả 2 đều là khóa chính
-    update(dotDk: DotDk): Observable<any> {
+    async update(dotDk: DotDk): Promise<any> {
       return this.http.put<any>(`${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${dotDk.namHoc}&Dot=${dotDk.dot}`, dotDk, this.shareService.httpOptions);
     }
 
-    delete(namhoc: string, dot:number): Observable<any> {
+    async delete(namhoc: string, dot:number): Promise<any> {
       return this.http.delete(`${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${namhoc}&Dot=${dot}`, this.shareService.httpOptions);
     }
 }

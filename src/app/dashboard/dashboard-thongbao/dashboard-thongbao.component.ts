@@ -43,20 +43,24 @@ export class DashboardThongbaoComponent {
   }
 
   async acceptInvitation(loiMoi: LoiMoi){
-    var thamGia = await this.thamGiaService.getById(loiMoi.maSv, this.namHoc, this.dot).toPromise();
-    thamGia.maNhom = loiMoi.maNhom;
-
-    this.thamGiaService.update(thamGia).subscribe(
-      (sucess) => {this.isAccept = true; this.cd.detectChanges(); console.log(sucess)},
-      (error) => {console.log('Không oke rồi'); console.log(error);}
-    );
+    var thamGia = await this.thamGiaService.getById(loiMoi.maSv, this.namHoc, this.dot);
+    if(thamGia != null) {
+      thamGia.maNhom = loiMoi.maNhom;
+      try {
+        await this.thamGiaService.update(thamGia);
+        this.isAccept = true; 
+        this.cd.detectChanges(); 
+      } catch (error) {
+        console.log('Không oke rồi'); 
+        console.log(error);
+      }
+    }
   }
 
   //Phải click 2 lần mới cập nhật được phần đã xóa
   async rejectInvitation(loiMoi: LoiMoi){
-    await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot).subscribe(
-      data => console.log(data)
-    );
+    var result = await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot);
+    console.log(result);
     this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
     this.cd.detectChanges(); 
   }

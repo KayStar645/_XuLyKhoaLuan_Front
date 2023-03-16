@@ -26,7 +26,7 @@ export class MinistryMainComponent implements OnInit {
     private shareService: shareService
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit() {
     this.titleService.setTitle('Quản lý');
 
     // Kiểm tra đăng nhập để điều hướng
@@ -39,11 +39,7 @@ export class MinistryMainComponent implements OnInit {
     }
 
     // Get dữ liệu của giáo vụ
-    this.giaoVuService
-      .getById('' + localStorage.getItem('Id')?.toString())
-      .subscribe((data) => {
-        this.data = data;
-      });
+    this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
   }
 
   dateFormat(str: any): string {

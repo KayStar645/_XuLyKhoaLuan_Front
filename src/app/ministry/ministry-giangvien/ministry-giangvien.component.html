@@ -8,7 +8,7 @@
           (change)="getGiangVienByMaBM($event)"
         >
           <option value="">Tất cả</option>
-          <option *ngFor="let bm of listBoMon" value="{{ bm.maBm }}">
+          <option *ngFor="let bm of listBoMon" value="{{bm.maBm}}">
             {{ bm.tenBm }}
           </option>
         </select>

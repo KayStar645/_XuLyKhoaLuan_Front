@@ -18,28 +18,30 @@ export class chuyenNganhService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<ChuyenNganh[]> {
-      return this.http.get<ChuyenNganh[]>(`${this.apiUrl}/api/Chuyennganhs`, this.shareService.httpOptions);
+    async getAll(): Promise<ChuyenNganh[]> {
+      return await this.http.get<ChuyenNganh[]>(`${this.apiUrl}/api/Chuyennganhs`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<ChuyenNganh> {
-      return this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions);
+    async getById(id: string): Promise<ChuyenNganh> {
+      try {
+        var chuyenNganh = new ChuyenNganh();
+        chuyenNganh = await this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, 
+        this.shareService.httpOptions).toPromise() ?? chuyenNganh as ChuyenNganh;
+        return chuyenNganh;
+      } catch (error) {
+        throw error;
+      }
     }
 
-    // getTenChuyenNganhById(id: string):string {
-    //   this.http.get<ChuyenNganh>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${id}`, this.shareService.httpOptions).subscribe(nhom => this.tenCn = nhom.tenCn);
-    //   return this.tenCn;
-    // }
-
-    add(chuyenNganh: ChuyenNganh): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Chuyennganhs`, chuyenNganh, this.shareService.httpOptions);
+    async add(chuyenNganh: ChuyenNganh): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Chuyennganhs`, chuyenNganh, this.shareService.httpOptions);
     }
 
-    update(chuyenNganh: ChuyenNganh): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${chuyenNganh.maCn}`, chuyenNganh, this.shareService.httpOptions);
+    async update(chuyenNganh: ChuyenNganh): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${chuyenNganh.maCn}`, chuyenNganh, this.shareService.httpOptions);
     }
 
-    delete(maCN: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${maCN}`, this.shareService.httpOptions);
+    async delete(maCN: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${maCN}`, this.shareService.httpOptions);
     }
 }

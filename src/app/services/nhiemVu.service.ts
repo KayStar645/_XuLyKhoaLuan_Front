@@ -17,23 +17,33 @@ export class nhiemVuService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<NhiemVu[]> {
-      return this.http.get<NhiemVu[]>(`${this.apiUrl}/api/Nhiemvus`, this.shareService.httpOptions);
+    async getAll(): Promise<NhiemVu[]> {
+      return await this.http.get<NhiemVu[]>(`${this.apiUrl}/api/Nhiemvus`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(MaNV: number):Observable<NhiemVu> {
-      return this.http.get<NhiemVu>(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`, this.shareService.httpOptions);
+    async getById(MaNV: number):Promise<NhiemVu> {
+      try {
+        var response = new NhiemVu();
+        response = await this.http.get<NhiemVu>(
+          `${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as NhiemVu;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(nhiemVu: NhiemVu): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Nhiemvus`, nhiemVu, this.shareService.httpOptions);
+    async add(nhiemVu: NhiemVu): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Nhiemvus`, nhiemVu, this.shareService.httpOptions);
     }
 
-    update(nhiemVu: NhiemVu): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${nhiemVu.maNv}`, nhiemVu, this.shareService.httpOptions);
+    async update(nhiemVu: NhiemVu): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${nhiemVu.maNv}`, nhiemVu, this.shareService.httpOptions);
     }
 
-    delete(MaNV: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`, this.shareService.httpOptions);
+    async delete(MaNV: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`, this.shareService.httpOptions);
     }
 }

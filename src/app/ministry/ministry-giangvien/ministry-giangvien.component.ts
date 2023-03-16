@@ -57,14 +57,12 @@ export class MinistryGiangvienComponent implements OnInit {
     this.gvUpdateForm = this.gvForm.form;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.titleService.setTitle('Danh sách giảng viên');
-    this.boMonService.getAll().subscribe((data) => {
-      this.listBoMon = data;
-      if (data.length > 0) {
-        this.selectedBomon = data[0].maBm;
-      }
-    });
+    this.listBoMon = await this.boMonService.getAll();
+    if (this.listBoMon.length > 0) {
+      this.selectedBomon = this.listBoMon[0].maBm;
+    }
   }
 
   onShowFormAdd() {
@@ -246,24 +244,7 @@ export class MinistryGiangvienComponent implements OnInit {
           data[9] ? data[9] : '',
           data[10] ? data[10] : ''
         );
-        this.giangVienService.add(gv).subscribe(
-          (data) => {
-            // Add tai khoan
-            this.userService.addTeacher(new User(gv.maGv, gv.maGv)).subscribe(
-              (success) => {},
-              (error) => {
-                console.log(error);
-              }
-            );
-            this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        this.f_AddGiangVien(gv);
       });
 
       this.DSGVComponent.getAllGiangVien();
@@ -286,25 +267,7 @@ export class MinistryGiangvienComponent implements OnInit {
       });
 
       option.agree(() => {
-        this.giangVienService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
-          (data) => {
-            this.userService.delete(this.DSGVComponent.lineGV.maGv).subscribe(
-              (success) => {},
-              (error) => {
-                console.log(error);
-              }
-            );
-            this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
-            this.DSGVComponent.lineGV = new GiangVien();
-            this.DSGVComponent.getAllGiangVien();
-          },
-          (error) => {
-            this.toastr.error(
-              'Xóa giảng viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
-              'Thông báo !'
-            );
-          }
-        );
+        this.f_DeleteGiangVien(this.DSGVComponent.lineGV.maGv);
         _delete.classList.remove('active');
       });
     } else {
@@ -334,28 +297,7 @@ export class MinistryGiangvienComponent implements OnInit {
         this.gvAddForm.value['maBm']
       );
 
-      this.giangVienService.add(giangVien).subscribe(
-        (data) => {
-          this.gvForm.resetForm('#create_box');
-          // Add tai khoan
-          this.userService
-            .addTeacher(new User(giangVien.maGv, giangVien.maGv))
-            .subscribe(
-              (success) => {},
-              (error) => {
-                console.log(error);
-              }
-            );
-          this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
-          this.DSGVComponent.getAllGiangVien();
-        },
-        (error) => {
-          this.toastr.error(
-            'Thông tin bạn cung cấp không hợp lệ.',
-            'Thông báo !'
-          );
-        }
-      );
+      this.f_AddGiangVien(giangVien);
     } else {
       this.gvForm.validate('#create_box');
     }
@@ -405,24 +347,23 @@ export class MinistryGiangvienComponent implements OnInit {
           this.gvUpdateForm.value['maBm']
         );
 
-        this.giangVienService.update(giangVien).subscribe(
-          (data) => {
-            update.classList.remove('active');
-            updateBox.classList.remove('active');
-            this.DSGVComponent.getAllGiangVien();
-            this.resetLineActive();
-            this.toastr.success(
-              'Cập nhập thông tin giảng viên viên thành công',
-              'Thông báo !'
-            );
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        try {
+          this.f_UpdateGiangVien(giangVien);
+          update.classList.remove('active');
+          updateBox.classList.remove('active');
+          this.DSGVComponent.getAllGiangVien();
+          this.resetLineActive();
+          this.toastr.success(
+            'Cập nhập thông tin giảng viên viên thành công',
+            'Thông báo !'
+          );
+        }
+        catch {
+          this.toastr.error(
+            'Thông tin bạn cung cấp không hợp lệ.',
+            'Thông báo !'
+          );
+        }
       }
     } else {
       this.gvForm.validate('#update_box');
@@ -441,5 +382,38 @@ export class MinistryGiangvienComponent implements OnInit {
   sortGiangVien(event: any) {
     const sort = event.target.value;
     this.DSGVComponent.sortGiangVien(sort);
+  }
+
+  async f_AddGiangVien(gv: GiangVien) {
+    try {
+      await this.giangVienService.add(gv);
+      await this.userService.addTeacher(new User(gv.maGv, gv.maGv)); 
+      this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
+    } catch {
+      this.toastr.error(
+        'Thông tin bạn cung cấp không hợp lệ.',
+        'Thông báo !'
+      );
+    }
+  }
+
+  async f_DeleteGiangVien(maGV: string) {
+    try {
+      await this.giangVienService.delete(this.DSGVComponent.lineGV.maGv);
+      await this.userService.delete(this.DSGVComponent.lineGV.maGv);
+
+      this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
+      this.DSGVComponent.lineGV = new GiangVien();
+      this.DSGVComponent.getAllGiangVien();
+    } catch {
+      this.toastr.error(
+        'Xóa giảng viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
+        'Thông báo !'
+      );
+    }
+  }
+
+  async f_UpdateGiangVien(gv: GiangVien) {
+    await this.giangVienService.update(gv);
   }
 }

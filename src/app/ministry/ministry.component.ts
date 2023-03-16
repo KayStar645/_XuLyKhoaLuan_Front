@@ -30,7 +30,7 @@ export class MinistryComponent implements OnInit {
     private shareService: shareService
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit() {
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Ministry')) {
@@ -41,11 +41,7 @@ export class MinistryComponent implements OnInit {
     }
 
     // Get dữ liệu của giáo vụ
-    this.giaoVuService
-      .getById('' + localStorage.getItem('Id')?.toString())
-      .subscribe((data) => {
-        this.data = data;
-      });
+    this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
   }
 
   clickAccount() {

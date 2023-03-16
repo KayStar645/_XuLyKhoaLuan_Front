@@ -17,23 +17,34 @@ export class giaoVuService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<GiaoVu[]> {
-      return this.http.get<GiaoVu[]>(`${this.apiUrl}/api/Giaovus`, this.shareService.httpOptions);
+    async getAll(): Promise<GiaoVu[]> {
+      return await this.http.get<GiaoVu[]>(`${this.apiUrl}/api/Giaovus`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<GiaoVu> {
-      return this.http.get<GiaoVu>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${id}`, this.shareService.httpOptions);
+    async getById(id: string):Promise<GiaoVu> {
+      try {
+        var response = new GiaoVu();
+        response = await this.http.get<GiaoVu>(
+          `${this.apiUrl}/api/Giaovus/MaGV?MaGV=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as GiaoVu;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(giaoVu: GiaoVu): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Giaovus`, giaoVu, this.shareService.httpOptions);
+    async add(giaoVu: GiaoVu): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Giaovus`, giaoVu, this.shareService.httpOptions);
     }
 
-    update(giaoVu: GiaoVu): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${giaoVu.maGv}`, giaoVu, this.shareService.httpOptions);
+    async update(giaoVu: GiaoVu): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${giaoVu.maGv}`, giaoVu, this.shareService.httpOptions);
     }
 
-    delete(maGV: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${maGV}`, this.shareService.httpOptions);
+    async delete(maGV: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${maGV}`, this.shareService.httpOptions);
     }
 }

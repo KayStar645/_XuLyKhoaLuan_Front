@@ -11,35 +11,35 @@
             <h3 *ngIf="data">Thông tin sinh viên</h3>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Mã sinh viên:</span>
-              <span class="property-value">{{ data?.maSv }}</span>
+              <span class="property-value">{{ data.maSv }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Họ tên:</span>
-              <span class="property-value">{{ data?.tenSv }}</span>
+              <span class="property-value">{{ data.tenSv }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Ngày sinh:</span>
-              <span class="property-value">{{ dateFormat(data?.ngaySinh) }}</span>
+              <span class="property-value">{{ dateFormat(data.ngaySinh) }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Giới tính:</span>
-              <span class="property-value">{{ data?.gioiTinh }}</span>
+              <span class="property-value">{{ data.gioiTinh }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Lớp:</span>
-              <span class="property-value">{{ data?.lop }}</span>
+              <span class="property-value">{{ data.lop }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Số điện thoại:</span>
-              <span class="property-value">{{ data?.sdt }}</span>
+              <span class="property-value">{{ data.sdt }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Email:</span>
-              <span class="property-value">{{ data?.email }}</span>
+              <span class="property-value">{{ data.email }}</span>
             </div>
             <div *ngIf="data" class="result-property">
               <span class="property-name">Mã chuyên ngành:</span>
-              <span class="property-value">{{ data?.maCn }}</span>
+              <span class="property-value">{{ data.maCn }}</span>
             </div>
         </div>
         <div class="result-none-element">

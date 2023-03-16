@@ -17,19 +17,29 @@ export class raDeService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<RaDe[]> {
-      return this.http.get<RaDe[]>(`${this.apiUrl}/api/Rade`, this.shareService.httpOptions);
+    async getAll(): Promise<RaDe[]> {
+      return await this.http.get<RaDe[]>(`${this.apiUrl}/api/Rade`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getByMaGvMaDt(MaGV: string, MaDT:string):Observable<RaDe[]> {
-      return this.http.get<RaDe[]>(`${this.apiUrl}/api/Rade/maGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, this.shareService.httpOptions);
+    async getByMaGvMaDt(MaGV: string, MaDT:string):Promise<RaDe[]> {
+      try {
+        var response: RaDe[] = [];
+        response = await this.http.get<RaDe[]>(
+          `${this.apiUrl}/api/Rade/maGV, maDT?maGV=${MaGV}&maDT=${MaDT}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as RaDe[];
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(raDe: RaDe): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Rade`, raDe, this.shareService.httpOptions);
+    async add(raDe: RaDe): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Rade`, raDe, this.shareService.httpOptions);
     }
 
-    delete(MaGV: string, MaDT:string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Rade/MaGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, this.shareService.httpOptions);
+    async delete(MaGV: string, MaDT:string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Rade/MaGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, this.shareService.httpOptions);
     }
 }

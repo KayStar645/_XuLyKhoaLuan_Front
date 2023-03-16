@@ -17,23 +17,32 @@ export class congViecService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<CongViec[]> {
-      return this.http.get<CongViec[]>(`${this.apiUrl}/api/Congviecs`, this.shareService.httpOptions);
+    async getAll(): Promise<CongViec[]> {
+      return await this.http.get<CongViec[]>(`${this.apiUrl}/api/Congviecs`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(maCV: string):Observable<CongViec> {
-      return this.http.get<CongViec>(`${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, this.shareService.httpOptions);
+    async getById(maCV: string):Promise<CongViec> {
+      try {
+        var response = new CongViec();
+        response = await this.http.get<CongViec>(
+          `${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, this.shareService.httpOptions)
+          .toPromise() ?? response as CongViec;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(CongViec: CongViec): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Congviecs`, CongViec, this.shareService.httpOptions);
+    async add(CongViec: CongViec): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Congviecs`, CongViec, this.shareService.httpOptions);
     }
 
-    update(CongViec: CongViec): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Congviecs/maCV?maCV=${CongViec.maCv}`, CongViec, this.shareService.httpOptions);
+    async update(CongViec: CongViec): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Congviecs/maCV?maCV=${CongViec.maCv}`, CongViec, this.shareService.httpOptions);
     }
 
-    delete(maCV: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, this.shareService.httpOptions);
+    async delete(maCV: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, this.shareService.httpOptions);
     }
 }

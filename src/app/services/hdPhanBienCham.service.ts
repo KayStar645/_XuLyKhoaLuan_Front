@@ -17,23 +17,34 @@ export class hdPhanBienChamService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<HdPhanBienCham[]> {
-      return this.http.get<HdPhanBienCham[]>(`${this.apiUrl}/api/Hdpbchams`, this.shareService.httpOptions);
+    async getAll(): Promise<HdPhanBienCham[]> {
+      return await this.http.get<HdPhanBienCham[]>(`${this.apiUrl}/api/Hdpbchams`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(MaGV: string, MaHD: string, MaDT: string, MaSV: string, NamHoc: string, Dot: number):Observable<HdPhanBienCham> {
-      return this.http.get<HdPhanBienCham>(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+    async getById(MaGV: string, MaHD: string, MaDT: string, MaSV: string, NamHoc: string, Dot: number):Promise<HdPhanBienCham> {
+      try {
+        var response = new HdPhanBienCham();
+        response = await this.http.get<HdPhanBienCham>(
+          `${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as HdPhanBienCham;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(HdPhanBienCham: HdPhanBienCham): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Hdpbchams`, HdPhanBienCham, this.shareService.httpOptions);
+    async add(HdPhanBienCham: HdPhanBienCham): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Hdpbchams`, HdPhanBienCham, this.shareService.httpOptions);
     }
 
-    update(HdPhanBienCham: HdPhanBienCham): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${HdPhanBienCham.maGv}&MaHD=${HdPhanBienCham.maHd}&MaDT=${HdPhanBienCham.maDt}&MaSV=${HdPhanBienCham.maSv}&NamHoc=${HdPhanBienCham.namHoc}&Dot=${HdPhanBienCham.dot}`, HdPhanBienCham, this.shareService.httpOptions);
+    async update(HdPhanBienCham: HdPhanBienCham): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${HdPhanBienCham.maGv}&MaHD=${HdPhanBienCham.maHd}&MaDT=${HdPhanBienCham.maDt}&MaSV=${HdPhanBienCham.maSv}&NamHoc=${HdPhanBienCham.namHoc}&Dot=${HdPhanBienCham.dot}`, HdPhanBienCham, this.shareService.httpOptions);
     }
 
-    delete(MaGV: string, MaHD: string, MaDT: string, MaSV: string, NamHoc: string, Dot: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+    async delete(MaGV: string, MaHD: string, MaDT: string, MaSV: string, NamHoc: string, Dot: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
     }
 }

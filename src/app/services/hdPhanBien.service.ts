@@ -17,19 +17,20 @@ export class hdPhanBienService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<HdPhanBien[]> {
-      return this.http.get<HdPhanBien[]>(`${this.apiUrl}/api/Hdphanbiens`, this.shareService.httpOptions);
+    async getAll(): Promise<HdPhanBien[]> {
+      return await this.http.get<HdPhanBien[]>(`${this.apiUrl}/api/Hdphanbiens`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    add(HdPhanBien: HdPhanBien): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Hdphanbiens`, HdPhanBien, this.shareService.httpOptions);
+    async add(HdPhanBien: HdPhanBien): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Hdphanbiens`, HdPhanBien, this.shareService.httpOptions);
     }
 
-    update(HdPhanBien: HdPhanBien): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Hdphanbiens/MaGV, MaHD, MaDT?MaGV=${HdPhanBien.maGv}&MaHD=${HdPhanBien.maHd}&MaDT=${HdPhanBien.maDt}`, HdPhanBien, this.shareService.httpOptions);
+    async update(HdPhanBien: HdPhanBien): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Hdphanbiens/MaGV, MaHD, MaDT?MaGV=${HdPhanBien.maGv}&MaHD=${HdPhanBien.maHd}&MaDT=${HdPhanBien.maDt}`, HdPhanBien, this.shareService.httpOptions);
     }
 
-    delete(MaGV: string, MaHD: string, MaDT:string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Hdphanbiens/MaGV, MaHD, MaDT?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}`, this.shareService.httpOptions);
+    async delete(MaGV: string, MaHD: string, MaDT:string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Hdphanbiens/MaGV, MaHD, MaDT?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}`, this.shareService.httpOptions);
     }
 }

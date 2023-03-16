@@ -17,23 +17,33 @@ export class hoiDongService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    getAll(): Observable<HoiDong[]> {
-      return this.http.get<HoiDong[]>(`${this.apiUrl}/api/Hoidongs`, this.shareService.httpOptions);
+    async getAll(): Promise<HoiDong[]> {
+      return await this.http.get<HoiDong[]>(`${this.apiUrl}/api/Hoidongs`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    getById(id: string):Observable<HoiDong> {
-      return this.http.get<HoiDong>(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${id}`, this.shareService.httpOptions);
+    async getById(id: string):Promise<HoiDong> {
+      try {
+        var response = new HoiDong();
+        response = await this.http.get<HoiDong>(
+          `${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${id}`,
+          this.shareService.httpOptions
+        ).toPromise() ?? response as HoiDong;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
-    add(hoidong: HoiDong): Observable<any> {
-      return this.http.post(`${this.apiUrl}/api/Hoidongs`, hoidong, this.shareService.httpOptions);
+    async add(hoidong: HoiDong): Promise<any> {
+      return await this.http.post(`${this.apiUrl}/api/Hoidongs`, hoidong, this.shareService.httpOptions);
     }
 
-    update(hoidong: HoiDong): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${hoidong.maHd}`, hoidong, this.shareService.httpOptions);
+    async update(hoidong: HoiDong): Promise<any> {
+      return await this.http.put<any>(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${hoidong.maHd}`, hoidong, this.shareService.httpOptions);
     }
 
-    delete(maHD: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${maHD}`, this.shareService.httpOptions);
+    async delete(maHD: string): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${maHD}`, this.shareService.httpOptions);
     }
 }

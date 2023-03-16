@@ -20,6 +20,7 @@ export class MinistryDetaiComponent implements OnInit {
   dtUpdate: any = DeTai;
   searchName = '';
   selectedBomon!: string;
+  slMin: number = 1;
   slMax: number = 3;
   deTaiFile: any;
 
@@ -250,8 +251,8 @@ export class MinistryDetaiComponent implements OnInit {
       const datas = this.deTaiFile.data;
 
       datas.forEach((data: any) => {
-        let gv = new DeTai();
-        gv.init(
+        let dt = new DeTai();
+        dt.init(
           data[0] ? data[0] : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
@@ -259,20 +260,7 @@ export class MinistryDetaiComponent implements OnInit {
           data[4] ? data[4] : '',
           data[5] === 1 ? true : false
         );
-
-        console.log(gv);
-
-        this.deTaiService.add(gv).subscribe(
-          (data) => {
-            this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        this.f_AddDetai(dt);
       });
 
       this.DSDTComponent.getAllDeTai();
@@ -295,16 +283,7 @@ export class MinistryDetaiComponent implements OnInit {
       });
 
       option.agree(() => {
-        this.deTaiService.delete(this.DSDTComponent.lineDT.maDT).subscribe(
-          (data) => {
-            this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-            this.DSDTComponent.lineDT = new DeTai();
-            this.DSDTComponent.getAllDeTai();
-          },
-          (error) => {
-            this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-          }
-        );
+        this.f_DeleteDetai(this.DSDTComponent.lineDT.maDT);
         _delete.classList.remove('active');
       });
     } else {
@@ -328,20 +307,7 @@ export class MinistryDetaiComponent implements OnInit {
         this.dtAddForm.value['slMax'],
         false
       );
-
-      this.deTaiService.add(deTai).subscribe(
-        (data) => {
-          this.resetForm('#create_box');
-          this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
-          this.DSDTComponent.getAllDeTai();
-        },
-        (error) => {
-          this.toastr.error(
-            'Thông tin bạn cung cấp không hợp lệ.',
-            'Thông báo !'
-          );
-        }
-      );
+      this.f_AddDetai(deTai);
     } else {
       this.dtForm.validate('#create_box');
     }
@@ -385,25 +351,22 @@ export class MinistryDetaiComponent implements OnInit {
           this.dtUpdateForm.value['slMax'],
           this.dtUpdateForm.value['trangThai'] === 'false' ? false : true
         );
-
-        this.deTaiService.update(deTai).subscribe(
-          (data) => {
-            update.classList.remove('active');
-            updateBox.classList.remove('active');
-            this.DSDTComponent.getAllDeTai();
-            this.resetLineActive();
-            this.toastr.success(
-              'Cập nhập thông tin đề tài viên thành công',
-              'Thông báo !'
-            );
-          },
-          (error) => {
-            this.toastr.error(
-              'Thông tin bạn cung cấp không hợp lệ.',
-              'Thông báo !'
-            );
-          }
-        );
+        try {
+          this.f_UpdateDetai(deTai);
+          update.classList.remove('active');
+          updateBox.classList.remove('active');
+          this.DSDTComponent.getAllDeTai();
+          this.resetLineActive();
+          this.toastr.success(
+            'Cập nhập thông tin đề tài viên thành công',
+            'Thông báo !'
+          );
+        } catch {
+          this.toastr.error(
+            'Thông tin bạn cung cấp không hợp lệ.',
+            'Thông báo !'
+          ); 
+        }
       }
     } else {
       this.dtForm.validate('#update_box');
@@ -422,5 +385,38 @@ export class MinistryDetaiComponent implements OnInit {
   sortGiangVien(event: any) {
     const sort = event.target.value;
     this.DSDTComponent.sortGiangVien(sort);
+  }
+
+  addMinMax() {
+    
+  }
+
+  async f_AddDetai(dt: DeTai) {
+    try {
+      await this.deTaiService.add(dt);
+      this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
+    }
+    catch {
+      this.toastr.error(
+        'Thông tin bạn cung cấp không hợp lệ.',
+        'Thông báo !'
+      );
+    }
+  }
+
+  async f_UpdateDetai(dt: DeTai) {
+    await this.deTaiService.update(dt);
+  }
+
+  async f_DeleteDetai(maDT: string) {
+    try {
+      await this.deTaiService.delete(this.DSDTComponent.lineDT.maDT);
+      this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
+      this.DSDTComponent.lineDT = new DeTai();
+      this.DSDTComponent.getAllDeTai();
+    }
+    catch {
+      this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
+    }
   }
 }
