@@ -12,7 +12,11 @@
         <th>Chuyên ngành</th>
       </tr>
       <tbody *ngFor="let sv of listSV">
-        <tr class="br-line" (dblclick)="clickLine($event)">
+        <tr
+          class="br-line"
+          (dblclick)="clickLine($event)"
+          (mousedown)="getSelectedLine($event)"
+        >
           <td class="text-center">{{ sv?.maSv }}</td>
           <td class="text-left">
             {{ sv?.tenSv }}

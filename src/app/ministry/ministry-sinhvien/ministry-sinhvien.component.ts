@@ -19,10 +19,11 @@ import { MinistryDanhsachsinhvienComponent } from './ministry-danhsachsinhvien/m
 })
 export class MinistrySinhvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachsinhvienComponent)
-  private DSSVComponent!: MinistryDanhsachsinhvienComponent;
+  protected DSSVComponent!: MinistryDanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
+  isSelectedSV: boolean = false;
   sinhVienFile: any;
 
   svAddForm: any;
@@ -60,6 +61,10 @@ export class MinistrySinhvienComponent implements OnInit {
         this.selectedChuyenNganh = data[0].maCn;
       }
     });
+  }
+
+  setIsSelectedSv(event: any) {
+    this.isSelectedSV = event;
   }
 
   onShowFormAdd() {
@@ -287,18 +292,36 @@ export class MinistrySinhvienComponent implements OnInit {
             this.DSSVComponent.getAllSinhVien();
           },
           (error) => {
-            this.toastr.error(
-              'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
-              'Thông báo !'
-            );
+            this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
           }
         );
         _delete.classList.remove('active');
       });
-    } else {
+    } else if (
+      Object.entries(this.DSSVComponent.lineSV).length === 0 &&
+      this.DSSVComponent.selectedSV.length === 0
+    ) {
       this.toastr.warning('Vui lòng chọn sinh viên để xóa', 'Thông báo !');
     }
-    this.toastr.clear();
+
+    this.DSSVComponent.selectedSV.forEach((maSV) => {
+      this.sinhVienService.delete(maSV).subscribe(
+        (data) => {
+          this.userService.delete(maSV).subscribe(
+            (success) => {},
+            (error) => {
+              console.log(error);
+            }
+          );
+          this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+          this.DSSVComponent.lineSV = new SinhVien();
+          this.DSSVComponent.getAllSinhVien();
+        },
+        (error) => {
+          this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
+        }
+      );
+    });
   }
 
   addSinhVien() {

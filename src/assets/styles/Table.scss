@@ -33,7 +33,8 @@
   cursor: pointer;
 }
 
-.table tr.br-line-hover {
+.table tr.br-line-dblclick,
+.table tr.br-line-click {
   background: #2a7ac1;
   color: #fff;
 }
