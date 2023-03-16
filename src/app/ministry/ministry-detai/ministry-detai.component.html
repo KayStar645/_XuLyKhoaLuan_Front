@@ -45,8 +45,21 @@
         </button>
       </li>
     </ul>
+
+    <div class="p-t-12">
+      <p class="notify" *ngIf="!isSelectedDT">
+        (⁎) Giữ CRT + Click để chọn nhiều
+      </p>
+      <p class="notify" *ngIf="isSelectedDT">
+        (⁎) Nhấn Esc để thoát chọn nhiều
+      </p>
+    </div>
   </div>
-  <app-danhsachdetai [searchName]="searchName"></app-danhsachdetai>
+  <app-danhsachdetai
+    [searchName]="searchName"
+    [isSelectedDT]="isSelectedDT"
+    (returnIsSelectedDT)="setIsSelectedDT($event)"
+  ></app-danhsachdetai>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <div id="create_box" [formGroup]="dtAddForm" class="form">

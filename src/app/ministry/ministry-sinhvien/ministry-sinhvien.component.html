@@ -41,10 +41,22 @@
         </button>
       </li>
     </ul>
-    
+
+    <div class="p-t-12">
+      <p class="notify" *ngIf="!isSelectedSV">
+        (⁎) Giữ CRT + Click để chọn nhiều
+      </p>
+      <p class="notify" *ngIf="isSelectedSV">
+        (⁎) Nhấn Esc để thoát chọn nhiều
+      </p>
+    </div>
   </div>
 
-  <app-danhsachsinhvien [searchName]="searchName"></app-danhsachsinhvien>
+  <app-danhsachsinhvien
+    [searchName]="searchName"
+    [isSelectedSV]="isSelectedSV"
+    (returnIsSelectedSV)="setIsSelectedSv($event)"
+  ></app-danhsachsinhvien>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" [formGroup]="svAddForm" class="form">

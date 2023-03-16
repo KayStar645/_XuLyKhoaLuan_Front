@@ -2,12 +2,21 @@ import { thamGiaService } from './../../../services/thamGia.service';
 import { thamGiaHdService } from './../../../services/thamGiaHD.service';
 import { ThamGia } from './../../../models/ThamGia.model';
 import { dotDkService } from './../../../services/dotDk.service';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
+import { getParentElement } from 'src/assets/utils';
 
 @Component({
   selector: 'app-danhsachsinhvien',
@@ -16,18 +25,22 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 })
 export class MinistryDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
+  @Input() isSelectedSV = false;
+  @Output() returnIsSelectedSV = new EventEmitter<boolean>();
   listTg: ThamGia[] = [];
   root: ThamGia[] = [];
   sinhVien = new SinhVien();
 
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
+  selectedSV: string[] = [];
   //root: SinhVien[] = [];
   lineSV = new SinhVien();
   elementOld: any;
 
   constructor(
     private sinhVienService: sinhVienService,
+    private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
     private dotDkService: dotDkService,
@@ -38,24 +51,36 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
     this.getAllSinhVien();
     this.getAllSinhVienByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.selectedSV = [];
+        this.returnIsSelectedSV.emit(false);
+        let activeLine = this.elementRef.nativeElement.querySelectorAll(
+          '.br-line.br-line-click'
+        );
+
+        if (activeLine) {
+          activeLine.forEach((line: any) => {
+            line.classList.remove('br-line-click');
+          });
+        }
+      }
+    });
   }
 
   async clickLine(event: any) {
-    const element = event.target.parentNode;
-    if (this.elementOld == element && this.lineSV.maSv != null) {
-      this.elementOld.classList.remove('br-line-hover');
-      this.lineSV = new SinhVien();
-    } else {
-      if (this.elementOld != null) {
-        this.elementOld.classList.remove('br-line-hover');
-      }
+    const parent = getParentElement(event.target, '.br-line');
+    const firstChild = parent.firstChild;
+    const activeLine = this.elementRef.nativeElement.querySelector(
+      '.br-line.br-line-dblclick'
+    );
 
-      element.classList.add('br-line-hover');
-      this.elementOld = element;
+    !parent.classList.contains('br-line-dblclick') &&
+      this.lineSV = await this.sinhVienService.getById(firstChild.innerText);
 
-      const mgv = element.firstElementChild.innerHTML;
-      this.lineSV = await this.sinhVienService.getById(mgv);
-    }
+    activeLine && activeLine.classList.remove('br-line-dblclick');
+    parent.classList.add('br-line-dblclick');
   }
 
   async getAllSinhVien() {
@@ -74,6 +99,70 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
 
   getSinhVienByDotDk(namHoc: string, dot:  number) {
     this.listTg = this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
+  }
+
+  getSelectedLine(e: any) {
+    if (e.ctrlKey) {
+      this.returnIsSelectedSV.emit(true);
+      const activeDblClick = this.elementRef.nativeElement.querySelector(
+        '.br-line.br-line-dblclick'
+      );
+      const parent = getParentElement(e.target, '.br-line');
+      const firstChild = parent.firstChild;
+
+      if (activeDblClick) {
+        activeDblClick.classList.remove('.br-line-dblclick');
+        this.lineSV = new SinhVien();
+      }
+
+      if (parent.classList.contains('br-line-click')) {
+        let childIndex = this.selectedSV.findIndex(
+          (t) => t === firstChild.innerText
+        );
+
+        parent.classList.remove('br-line-click');
+        this.selectedSV.splice(childIndex, 1);
+      } else {
+        parent.classList.add('br-line-click');
+        this.selectedSV.push(firstChild.innerText);
+      }
+
+      if (this.selectedSV.length === 0) {
+        this.returnIsSelectedSV.emit(false);
+      }
+    }
+  }
+
+  getSelectedLine(e: any) {
+    if (e.ctrlKey) {
+      this.returnIsSelectedSV.emit(true);
+      const activeDblClick = this.elementRef.nativeElement.querySelector(
+        '.br-line.br-line-dblclick'
+      );
+      const parent = getParentElement(e.target, '.br-line');
+      const firstChild = parent.firstChild;
+
+      if (activeDblClick) {
+        activeDblClick.classList.remove('.br-line-dblclick');
+        this.lineSV = new SinhVien();
+      }
+
+      if (parent.classList.contains('br-line-click')) {
+        let childIndex = this.selectedSV.findIndex(
+          (t) => t === firstChild.innerText
+        );
+
+        parent.classList.remove('br-line-click');
+        this.selectedSV.splice(childIndex, 1);
+      } else {
+        parent.classList.add('br-line-click');
+        this.selectedSV.push(firstChild.innerText);
+      }
+
+      if (this.selectedSV.length === 0) {
+        this.returnIsSelectedSV.emit(false);
+      }
+    }
   }
 
   async sortSinhVien(sort: string) {

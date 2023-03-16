@@ -25,11 +25,12 @@ import { MinistryDanhsachsinhvienComponent } from './ministry-danhsachsinhvien/m
 })
 export class MinistrySinhvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachsinhvienComponent)
-  private DSSVComponent!: MinistryDanhsachsinhvienComponent;
+  protected DSSVComponent!: MinistryDanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
   listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
+  isSelectedSV: boolean = false;
   // selectedDotDk!: string;
 
   namHoc!: string;
@@ -78,6 +79,14 @@ export class MinistrySinhvienComponent implements OnInit {
       this.namHoc = this.listDotDk[0].namHoc;
       this.dot = this.listDotDk[0].dot;
     }
+  }
+
+  setIsSelectedSv(event: any) {
+    this.isSelectedSV = event;
+  }
+
+  setIsSelectedSv(event: any) {
+    this.isSelectedSV = event;
   }
 
   onShowFormAdd() {
@@ -286,10 +295,32 @@ export class MinistrySinhvienComponent implements OnInit {
         }
         _delete.classList.remove('active');
       });
-    } else {
+    } else if (
+      Object.entries(this.DSSVComponent.lineSV).length === 0 &&
+      this.DSSVComponent.selectedSV.length === 0
+    ) {
       this.toastr.warning('Vui lòng chọn sinh viên để xóa', 'Thông báo !');
     }
-    this.toastr.clear();
+
+    this.DSSVComponent.selectedSV.forEach((maSV) => {
+      this.sinhVienService.delete(maSV).subscribe(
+        (data) => {
+          this.userService.delete(maSV).subscribe(
+            (success) => {},
+            (error) => {
+              console.log(error);
+            }
+          );
+          this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+          this.DSSVComponent.lineSV = new SinhVien();
+          this.DSSVComponent.getAllSinhVien();
+          this.isSelectedSV = false;
+        },
+        (error) => {
+          this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
+        }
+      );
+    });
   }
 
   addSinhVien() {

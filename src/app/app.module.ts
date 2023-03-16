@@ -43,6 +43,7 @@ import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvie
 import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
 import { MinistryDanhsachdetaiComponent } from './ministry/ministry-detai/ministry-danhsachdetai/ministry-danhsachdetai.component';
 import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
+import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/ministry-danhsachthongbao/ministry-danhsachthongbao.component';
 
 @NgModule({
   declarations: [
@@ -74,8 +75,6 @@ import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component
     // PhancongComponent,
     // QuanlychungComponent,
     TestComponent,
-    // DanhsachgiangvienComponent,
-    // DanhsachsinhvienComponent,
   ],
 
   imports: [

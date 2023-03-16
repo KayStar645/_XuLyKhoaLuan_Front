@@ -13,7 +13,11 @@
         <th>Đợt</th>
       </tr>
       <tbody *ngFor="let tg of listTg">
-        <tr class="br-line" (dblclick)="clickLine($event)">
+        <tr
+          class="br-line"
+          (dblclick)="clickLine($event)"
+          (mousedown)="getSelectedLine($event)"
+        >
           <td class="text-center">{{ tg?.maSv }}</td>
           {{getSinhVienById(tg.maSv)}}
           <td class="text-left">

@@ -13,7 +13,11 @@
         <th>Trạng thái</th>
       </tr>
       <tbody *ngFor="let dt of listDT">
-        <tr class="br-line" (dblclick)="clickLine($event)">
+        <tr
+          class="br-line"
+          (dblclick)="clickLine($event)"
+          (mousedown)="getSelectedLine($event)"
+        >
           <td class="text-center">{{ dt.maDT }}</td>
           <td class="text-left">
             <p class="cell-limit">

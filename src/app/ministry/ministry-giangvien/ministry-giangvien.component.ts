@@ -29,6 +29,7 @@ export class MinistryGiangvienComponent implements OnInit {
   gvAddForm: any;
   gvUpdateForm: any;
   gvOldForm: any;
+  isSelectedGV: boolean = false;
 
   gvForm = new Form({
     maGv: ['', Validators.required],
@@ -63,6 +64,10 @@ export class MinistryGiangvienComponent implements OnInit {
     if (this.listBoMon.length > 0) {
       this.selectedBomon = this.listBoMon[0].maBm;
     }
+  }
+
+  setIsSelectedGv(event: any) {
+    this.isSelectedGV = event;
   }
 
   onShowFormAdd() {
@@ -270,10 +275,32 @@ export class MinistryGiangvienComponent implements OnInit {
         this.f_DeleteGiangVien(this.DSGVComponent.lineGV.maGv);
         _delete.classList.remove('active');
       });
-    } else {
+    } else if (
+      Object.entries(this.DSGVComponent.lineGV).length === 0 &&
+      this.DSGVComponent.selectedGV.length === 0
+    ) {
       this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');
     }
-    this.toastr.clear();
+
+    this.DSGVComponent.selectedGV.forEach((maGV) => {
+      this.giangVienService.delete(maGV).subscribe(
+        (data) => {
+          this.userService.delete(maGV).subscribe(
+            (success) => {},
+            (error) => {
+              console.log(error);
+            }
+          );
+          this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
+          this.DSGVComponent.lineGV = new GiangVien();
+          this.DSGVComponent.getAllGiangVien();
+          this.isSelectedGV = false;
+        },
+        (error) => {
+          this.toastr.error('Xóa giảng viên thất bại', 'Thông báo !');
+        }
+      );
+    });
   }
 
   addGiangVien() {

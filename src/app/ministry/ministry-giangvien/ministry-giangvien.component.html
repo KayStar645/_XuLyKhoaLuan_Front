@@ -44,9 +44,22 @@
         </button>
       </li>
     </ul>
+
+    <div class="p-t-12">
+      <p class="notify" *ngIf="!isSelectedGV">
+        (⁎) Giữ CRT + Click để chọn nhiều
+      </p>
+      <p class="notify" *ngIf="isSelectedGV">
+        (⁎) Nhấn Esc để thoát chọn nhiều
+      </p>
+    </div>
   </div>
   <!-- <router-outlet></router-outlet> -->
-  <app-danhsachgiangvien [searchName]="searchName"></app-danhsachgiangvien>
+  <app-danhsachgiangvien
+    [searchName]="searchName"
+    [isSelectedGV]="isSelectedGV"
+    (returnIsSelectedGV)="setIsSelectedGv($event)"
+  ></app-danhsachgiangvien>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" [formGroup]="gvAddForm" class="form">
