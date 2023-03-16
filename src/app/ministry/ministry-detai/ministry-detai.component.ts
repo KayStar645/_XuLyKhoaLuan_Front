@@ -21,6 +21,7 @@ export class MinistryDetaiComponent implements OnInit {
   searchName = '';
   selectedBomon!: string;
   slMax: number = 3;
+  isSelectedDT: boolean = false;
   deTaiFile: any;
 
   dtAddForm: any;
@@ -63,6 +64,10 @@ export class MinistryDetaiComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Danh sách đề tài');
+  }
+
+  setIsSelectedDT(event: any) {
+    this.isSelectedDT = event;
   }
 
   setSlMax(event: any) {
@@ -307,10 +312,26 @@ export class MinistryDetaiComponent implements OnInit {
         );
         _delete.classList.remove('active');
       });
-    } else {
+    } else if (
+      Object.entries(this.DSDTComponent.lineDT).length === 0 &&
+      this.DSDTComponent.selectedDT.length === 0
+    ) {
       this.toastr.warning('Vui lòng chọn đề tài để xóa', 'Thông báo !');
     }
-    this.toastr.clear();
+
+    this.DSDTComponent.selectedDT.forEach((maDT) => {
+      this.deTaiService.delete(maDT).subscribe(
+        (data) => {
+          this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
+          this.DSDTComponent.lineDT = new DeTai();
+          this.DSDTComponent.getAllDeTai();
+          this.isSelectedDT = false;
+        },
+        (error) => {
+          this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
+        }
+      );
+    });
   }
 
   addDeTai() {

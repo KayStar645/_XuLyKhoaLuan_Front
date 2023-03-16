@@ -1,9 +1,18 @@
 import { shareService } from '../../../services/share.service';
 import { giangVienService } from '../../../services/giangVien.service';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { boMonService } from 'src/app/services/boMon.service';
 import { BoMon } from 'src/app/models/BoMon.model';
+import { getParentElement } from 'src/assets/utils';
 
 @Component({
   selector: 'app-danhsachgiangvien',
@@ -12,23 +21,74 @@ import { BoMon } from 'src/app/models/BoMon.model';
 })
 export class MinistryDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
-  listGV: GiangVien[] = [];
+  @Input() isSelectedGV = false;
+  @Output() returnIsSelectedGV = new EventEmitter<boolean>();
   listBM: BoMon[] = [];
   root: GiangVien[] = [];
   lineGV = new GiangVien();
   elementOld: any;
+  selectedGV: string[] = [];
+  listGV: GiangVien[] = [];
 
   constructor(
     private giangVienService: giangVienService,
     private boMonService: boMonService,
-    private shareService: shareService
+    private shareService: shareService,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
     this.getAllGiangVien();
 
     this.boMonService.getAll().subscribe((data) => (this.listBM = data));
-    
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.selectedGV = [];
+        this.returnIsSelectedGV.emit(false);
+        let activeLine = this.elementRef.nativeElement.querySelectorAll(
+          '.br-line.br-line-click'
+        );
+
+        if (activeLine) {
+          activeLine.forEach((line: any) => {
+            line.classList.remove('br-line-click');
+          });
+        }
+      }
+    });
+  }
+
+  getSelectedLine(event: any) {
+    if (event.ctrlKey) {
+      this.returnIsSelectedGV.emit(true);
+      const activeDblClick = this.elementRef.nativeElement.querySelector(
+        '.br-line.br-line-dblclick'
+      );
+      const parent = getParentElement(event.target, '.br-line');
+      const firstChild = parent.firstChild;
+
+      if (activeDblClick) {
+        activeDblClick.classList.remove('.br-line-dblclick');
+        this.lineGV = new GiangVien();
+      }
+
+      if (parent.classList.contains('br-line-click')) {
+        let childIndex = this.selectedGV.findIndex(
+          (t) => t === firstChild.innerText
+        );
+
+        parent.classList.remove('br-line-click');
+        this.selectedGV.splice(childIndex, 1);
+      } else {
+        parent.classList.add('br-line-click');
+        this.selectedGV.push(firstChild.innerText);
+      }
+
+      if (this.selectedGV.length === 0) {
+        this.returnIsSelectedGV.emit(false);
+      }
+    }
   }
 
   clickLine(event: any) {

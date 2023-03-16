@@ -8,12 +8,17 @@ import { giangVienService } from '../../../services/giangVien.service';
 import { RaDe } from '../../../models/RaDe.model';
 import { duyetDtService } from '../../../services/duyetDt.service';
 import { raDeService } from '../../../services/raDe.service';
-import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
-import { forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
@@ -23,8 +28,11 @@ import { getParentElement } from 'src/assets/utils';
 })
 export class MinistryDanhsachdetaiComponent {
   @Input() searchName = '';
+  @Input() isSelectedDT = false;
+  @Output() returnIsSelectedDT = new EventEmitter<boolean>();
   listDT: DeTai[] = [];
   root: DeTai[] = [];
+  selectedDT: string[] = [];
   lineDT = new DeTai();
   elementOld: any;
 
@@ -59,29 +67,85 @@ export class MinistryDanhsachdetaiComponent {
     this.chuyenNganhService
       .getAll()
       .subscribe((data) => (this.listChuyennganh = data));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.selectedDT = [];
+        this.returnIsSelectedDT.emit(false);
+        let activeLine = this.elementRef.nativeElement.querySelectorAll(
+          '.br-line.br-line-click'
+        );
+        const activeLine2 = this.elementRef.nativeElement.querySelector(
+          '.br-line.br-line-dblclick'
+        );
+
+        if (activeLine) {
+          activeLine.forEach((line: any) => {
+            line.classList.remove('br-line-click');
+          });
+        }
+
+        if (activeLine2) {
+          activeLine2.classList.remove('br-line-dblclick');
+          this.lineDT = new DeTai();
+        }
+      }
+    });
   }
 
   clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
     const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-hover'
+      '.br-line.br-line-dblclick'
     );
 
-    !parent.classList.contains('br-line-hover') &&
+    !parent.classList.contains('br-line-dblclick') &&
       this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
         this.lineDT = data;
       });
 
-    activeLine && activeLine.classList.remove('br-line-hover');
-    parent.classList.add('br-line-hover');
+    activeLine && activeLine.classList.remove('br-line-dblclick');
+    parent.classList.add('br-line-dblclick');
+  }
+
+  getSelectedLine(e: any) {
+    if (e.ctrlKey) {
+      this.returnIsSelectedDT.emit(true);
+      const activeDblClick = this.elementRef.nativeElement.querySelector(
+        '.br-line.br-line-dblclick'
+      );
+      const parent = getParentElement(e.target, '.br-line');
+      const firstChild = parent.firstChild;
+
+      if (activeDblClick) {
+        activeDblClick.classList.remove('.br-line-dblclick');
+        this.lineDT = new DeTai();
+      }
+
+      if (parent.classList.contains('br-line-click')) {
+        let childIndex = this.selectedDT.findIndex(
+          (t) => t === firstChild.innerText
+        );
+
+        parent.classList.remove('br-line-click');
+        this.selectedDT.splice(childIndex, 1);
+      } else {
+        parent.classList.add('br-line-click');
+        this.selectedDT.push(firstChild.innerText);
+      }
+
+      if (this.selectedDT.length === 0) {
+        this.returnIsSelectedDT.emit(false);
+      }
+    }
   }
 
   onShowDetail(event: MouseEvent) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
     const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-hover'
+      '.br-line.br-line-dblclick'
     );
 
     this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
@@ -89,8 +153,8 @@ export class MinistryDanhsachdetaiComponent {
       document.querySelector('.update-btn')?.dispatchEvent(new Event('click'));
     });
 
-    activeLine && activeLine.classList.remove('br-line-hover');
-    parent.classList.add('br-line-hover');
+    activeLine && activeLine.classList.remove('br-line-dblclick');
+    parent.classList.add('br-line-dblclick');
   }
 
   getAllDeTai() {

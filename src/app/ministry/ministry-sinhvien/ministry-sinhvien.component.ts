@@ -316,6 +316,7 @@ export class MinistrySinhvienComponent implements OnInit {
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
           this.DSSVComponent.lineSV = new SinhVien();
           this.DSSVComponent.getAllSinhVien();
+          this.isSelectedSV = false;
         },
         (error) => {
           this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
