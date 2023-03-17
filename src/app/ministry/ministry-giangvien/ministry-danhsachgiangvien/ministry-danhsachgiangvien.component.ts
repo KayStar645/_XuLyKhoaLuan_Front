@@ -92,20 +92,20 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   }
 
   async clickLine(event: any) {
-    const element = event.target.parentNode;
-    if (this.elementOld == element && this.lineGV.maGv != null) {
-      this.elementOld.classList.remove('br-line-dblclick');
-      this.lineGV = new GiangVien();
+    const parent = getParentElement(event.target, '.br-line');
+    const firstChild = parent.firstChild;
+    const activeLine = this.elementRef.nativeElement.querySelector(
+      '.br-line.br-line-dblclick'
+    );
+
+    if (!parent.classList.contains('br-line-dblclick')) {
+      this.lineGV = await this.giangVienService.getById(firstChild.innerText);
+
+      activeLine && activeLine.classList.remove('br-line-dblclick');
+      parent.classList.add('br-line-dblclick');
     } else {
-      if (this.elementOld != null) {
-        this.elementOld.classList.remove('br-line-dblclick');
-      }
-
-      element.classList.add('br-line-dblclick');
-      this.elementOld = element;
-
-      const mgv = element.firstElementChild.innerHTML;
-      this.lineGV = await this.giangVienService.getById(mgv);
+      parent.classList.remove('br-line-dblclick');
+      this.lineGV = new GiangVien();
     }
   }
 

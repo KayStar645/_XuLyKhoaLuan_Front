@@ -30,6 +30,7 @@ export class MinistryThongbaoComponent implements OnInit {
     hinhAnh: ['', Validators.required],
     fileTb: [''],
     maKhoa: ['', Validators.required],
+    ngayTb: ['', Validators.required],
   });
 
   constructor(
@@ -152,9 +153,8 @@ export class MinistryThongbaoComponent implements OnInit {
           this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
           this.DSTBComponent.lineTB = new ThongBao();
           this.DSTBComponent.getAllThongBao();
-
         } catch (error) {
-          this.toastr.error('Xóa đề tài thất bại', 'Thông báo !'); 
+          this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
         }
         _delete.classList.remove('active');
       });
@@ -188,7 +188,8 @@ export class MinistryThongbaoComponent implements OnInit {
         this.tbAddForm.value['noiDung'],
         this.tbAddForm.value['hinhAnh'],
         this.tbAddForm.value['fileTb'],
-        this.tbAddForm.value['maKhoa']
+        this.tbAddForm.value['maKhoa'],
+        this.tbAddForm.value['ngayTb']
       );
 
       try {
@@ -236,7 +237,8 @@ export class MinistryThongbaoComponent implements OnInit {
           this.tbUpdateForm.value['noiDung'],
           this.tbUpdateForm.value['hinhAnh'],
           this.tbUpdateForm.value['fileTb'],
-          this.tbUpdateForm.value['maKhoa']
+          this.tbUpdateForm.value['maKhoa'],
+          this.tbUpdateForm.value['ngayTb']
         );
         try {
           await this.thongBaoService.update(sinhVien);
@@ -252,7 +254,7 @@ export class MinistryThongbaoComponent implements OnInit {
           this.toastr.error(
             'Thông tin bạn cung cấp không hợp lệ.',
             'Thông báo !'
-          ); 
+          );
         }
       }
     } else {

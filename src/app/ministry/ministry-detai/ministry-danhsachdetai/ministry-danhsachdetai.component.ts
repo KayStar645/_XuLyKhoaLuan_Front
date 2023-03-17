@@ -70,14 +70,15 @@ export class MinistryDanhsachdetaiComponent {
       '.br-line.br-line-dblclick'
     );
 
-    // !parent.classList.contains('br-line-hover') &&
-    //   this.deTaiService.getById(firstChild.innerText).subscribe((data) => {
-    //     this.lineDT = data;
-    //   });
-    this.lineDT = await this.deTaiService.getById(firstChild.innerText);
+    if (!parent.classList.contains('br-line-dblclick')) {
+      this.lineDT = await this.deTaiService.getById(firstChild.innerText);
 
-    activeLine && activeLine.classList.remove('br-line-dblclick');
-    parent.classList.add('br-line-dblclick');
+      activeLine && activeLine.classList.remove('br-line-dblclick');
+      parent.classList.add('br-line-dblclick');
+    } else {
+      parent.classList.remove('br-line-dblclick');
+      this.lineDT = new DeTai();
+    }
   }
 
   getSelectedLine(e: any) {
@@ -123,7 +124,7 @@ export class MinistryDanhsachdetaiComponent {
       this.lineDT = await this.deTaiService.getById(firstChild.innerText);
       document.querySelector('.update-btn')?.dispatchEvent(new Event('click'));
     } catch (error) {
-     console.log(error); 
+      console.log(error);
     }
 
     activeLine && activeLine.classList.remove('br-line-dblclick');
@@ -155,7 +156,6 @@ export class MinistryDanhsachdetaiComponent {
   async getGiangVienByMaCn(maCn: string) {
     for (let item of this.listDT) {
       if (await this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
-
       }
     }
     this.listDT = await this.deTaiService.getByChuyenNganh(maCn);

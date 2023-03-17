@@ -6,10 +6,12 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import axios from 'axios';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { shareService } from 'src/app/services/share.service';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { getParentElement } from 'src/assets/utils';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ministry-danhsachthongbao',
@@ -59,7 +61,7 @@ export class MinistryDanhsachthongbaoComponent {
       '.br-line.br-line-dblclick'
     );
 
-    if(!parent.classList.contains('br-line-dblclick')) {
+    if (!parent.classList.contains('br-line-dblclick')) {
       this.lineTB = await this.thongBaoService.getById(firstChild.innerText);
     }
 
@@ -70,6 +72,16 @@ export class MinistryDanhsachthongbaoComponent {
   async getAllThongBao() {
     this.listTB = await this.thongBaoService.getAll();
     this.root = this.listTB;
+
+    this.listTB.forEach((tb) => {
+      axios.get(environment.githubAPI + tb.fileTb).then((response) => {
+        tb.fileTb = response.data.download_url;
+      });
+
+      axios.get(environment.githubAPI + tb.hinhAnh).then((response) => {
+        tb.hinhAnh = response.data.download_url;
+      });
+    });
   }
 
   getSelectedLine(e: any) {

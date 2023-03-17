@@ -6,6 +6,7 @@ export class ThongBao {
   public hinhAnh!: string;
   public fileTb!: string;
   public maKhoa!: string;
+  public ngayTb!: string;
 
   constructor() {}
 
@@ -16,7 +17,8 @@ export class ThongBao {
     noiDung: string,
     hinhAnh: string,
     fileTb: string,
-    maKhoa: string
+    maKhoa: string,
+    ngayTb: string
   ) {
     this.maTb = maTb;
     this.tenTb = tenTb;
@@ -25,5 +27,6 @@ export class ThongBao {
     this.hinhAnh = hinhAnh;
     this.fileTb = fileTb;
     this.maKhoa = maKhoa;
+    this.ngayTb = ngayTb;
   }
 }

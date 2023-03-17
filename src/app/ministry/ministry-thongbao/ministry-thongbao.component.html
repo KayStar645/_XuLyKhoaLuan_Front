@@ -2,21 +2,9 @@
   <div class="search-list">
     <ul class="search-container row ali-center">
       <li class="search-item">
-        <!-- <select
-          class="search-select"
-          id="search-select"
-          (change)="getSinhVienByMaCN($event)"
-        >
-          <option value="">Tất cả</option>
-          <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-            {{ cn?.tenCn }}
-          </option>
-        </select> -->
-      </li>
-      <li class="search-item">
         <input
           type="text"
-          placeholder="Tìm theo tên..."
+          placeholder="Tìm theo tiêu đề..."
           [(ngModel)]="searchName"
         />
       </li>
@@ -27,10 +15,8 @@
           (change)="sortThongBao($event)"
         >
           <option value="">Mặc định</option>
-          <option value="asc-id">Tăng theo mã</option>
-          <option value="desc-id">Giảm theo mã</option>
-          <option value="asc-name">Tăng theo tên</option>
-          <option value="desc-name">Giảm theo tên</option>
+          <option value="asc-name">Tăng theo tiêu đề</option>
+          <option value="desc-name">Giảm theo tiêu đề</option>
         </select>
       </li>
       <li class="search-item row ali-center jus-end flex-1">
@@ -54,9 +40,9 @@
     [searchName]="searchName"
     [isSelectedTB]="isSelectedTB"
     (returnIsSelectedSV)="setIsSelectedTB($event)"
-  ></app-ministry-danhsachthongbao>  
+  ></app-ministry-danhsachthongbao>
 
-  <div id="create" (click)="handleToggleAdd()"></div>
+  <!-- <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" [formGroup]="tbAddForm" class="form">
     <div class="form-notify">
       <div class="notify-container">
@@ -129,19 +115,6 @@
       </div>
 
       <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Chuyên ngành</p>
-          <!-- <div class="form-value">
-            <select formControlName="maCn" (blur)="tbForm.inputBlur($event)">
-              <option value="">Không có</option>
-              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                {{ cn?.tenCn }}
-              </option>
-            </select>
-            <p class="error-mess"></p>
-          </div> -->
-        </label>
-
         <label class="input row ali-center form-control">
           <p class="label">Lớp</p>
           <div class="form-value">
@@ -264,19 +237,6 @@
 
       <div class="h-6 p-l-12 p-r-12">
         <label class="input row ali-center form-control">
-          <p class="label">Chuyên ngành</p>
-          <!-- <div class="form-value">
-            <select formControlName="maCn" (blur)="tbForm.inputBlur($event)">
-              <option value="">Không có</option>
-              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                {{ cn?.tenCn }}
-              </option>
-            </select>
-            <p class="error-mess"></p>
-          </div> -->
-        </label>
-
-        <label class="input row ali-center form-control">
           <p class="label">Lớp</p>
           <div class="form-value">
             <input
@@ -320,7 +280,7 @@
         Cập nhật thông tin
       </button>
     </div>
-  </form>
+  </form> -->
 
   <div id="delete">
     <div class="form-notify">

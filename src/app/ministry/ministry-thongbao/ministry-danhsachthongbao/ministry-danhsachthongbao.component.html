@@ -1,32 +1,21 @@
 <div id="container">
-  <div>
-    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-      <tr>
-        <th>Mã TB</th>
-        <th>Tiêu đề</th>
-        <th>Mô tả</th>
-        <th>Nội dung</th>
-        <th>Hình ảnh</th>
-        <th>Tên file</th>
-        <th>Khoa</th>
-      </tr>
-      <tbody *ngFor="let sv of listTB">
-        <tr
-          class="br-line"
-          (dblclick)="clickLine($event)"
-          (mousedown)="getSelectedLine($event)"
-        >
-          <td class="text-center">{{ sv?.maTb }}</td>
-          <td class="text-left">
-            {{ sv?.tenTb }}
-          </td>
-          <td class="text-left">{{ sv?.moTa }}</td>
-          <td class="text-center">{{ dateFormat(sv.noiDung) }}</td>
-          <td class="text-center">{{ sv?.hinhAnh }}</td>
-          <td class="text-center">{{ sv?.fileTb }}</td>
-          <td class="text-center">{{ sv?.maKhoa }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="row ali-center notify-list">
+    <div class="h-3 list-item" *ngFor="let thongBao of listTB">
+      <div class="item-container">
+        <img [src]="thongBao.hinhAnh" alt="" />
+
+        <div class="info flex-1">
+          <div class="row flex-column jus-between">
+            <div class="name">
+              <p>{{ thongBao.tenTb }}</p>
+            </div>
+            <p class="date row ali-center jus-end">
+              <i class="icon-cal fa-regular fa-calendar"></i>
+              {{ dateFormat(thongBao.ngayTb) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
