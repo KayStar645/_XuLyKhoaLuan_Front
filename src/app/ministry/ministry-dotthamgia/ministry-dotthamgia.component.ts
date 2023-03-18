@@ -1,5 +1,9 @@
+import { MinistryDanhsachthamgiaComponent } from './ministry-danhsachthamgia/ministry-danhsachthamgia.component';
 import { Nhom } from 'src/app/models/Nhom.model';
+import { nhomService } from 'src/app/services/nhom.service';
 import { ThamGia } from 'src/app/models/ThamGia.model';
+import { thamGiaService } from './../../services/thamGia.service';
+import { dotDkService } from './../../services/dotDk.service';
 import { DotDk } from './../../models/DotDk.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
@@ -13,20 +17,21 @@ import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { User } from 'src/app/models/User.model';
-import { MinistryDanhsachsinhvienComponent } from './ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
 
 @Component({
-  selector: 'app-ministry-sinhvien',
-  templateUrl: './ministry-sinhvien.component.html',
-  // styleUrls: ['./ministry-sinhvien.component.scss'],
+  selector: 'app-ministry-dotthamgia',
+  templateUrl: './ministry-dotthamgia.component.html',
+  // styleUrls: ['./ministry-dotthamgia.component.scss']
 })
-export class MinistrySinhvienComponent implements OnInit {
-  @ViewChild(MinistryDanhsachsinhvienComponent)
-  protected DSSVComponent!: MinistryDanhsachsinhvienComponent;
+export class MinistryDotthamgiaComponent implements OnInit {
+  @ViewChild(MinistryDanhsachthamgiaComponent)
+  protected DSTGComponent!: MinistryDanhsachthamgiaComponent;
   listChuyenNganh: ChuyenNganh[] = [];
+  listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
   isSelectedSV: boolean = false;
+  // selectedDotDk!: string;
 
   namHoc!: string;
   dot!: number;
@@ -55,6 +60,9 @@ export class MinistrySinhvienComponent implements OnInit {
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
     private userService: userService,
+    private dotDkService: dotDkService,
+    private thamGiaService: thamGiaService,
+    private nhomService: nhomService,
   ) {
     this.svAddForm = this.svForm.form;
     this.svUpdateForm = this.svForm.form;
@@ -65,6 +73,11 @@ export class MinistrySinhvienComponent implements OnInit {
     this.listChuyenNganh = await this.chuyenNganhService.getAll();
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
+    }
+    this.listDotDk = await this.dotDkService.getAll();
+    if(this.listDotDk.length > 0) {
+      this.namHoc = this.listDotDk[0].namHoc;
+      this.dot = this.listDotDk[0].dot;
     }
   }
 
@@ -85,10 +98,10 @@ export class MinistrySinhvienComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
+    if (Object.entries(this.DSTGComponent.lineSV).length > 0) {
       this.svForm.form.setValue({
-        ...this.DSSVComponent.lineSV,
-        ngaySinh: this.DSSVComponent.lineSV.ngaySinh.substring(0, 10),
+        ...this.DSTGComponent.lineSV,
+        ngaySinh: this.DSTGComponent.lineSV.ngaySinh.substring(0, 10),
       });
 
       updateBox.classList.add('active');
@@ -175,42 +188,6 @@ export class MinistrySinhvienComponent implements OnInit {
     event.target.classList.remove('active');
   }
 
-  onDropFile(event: any) {
-    event.preventDefault();
-    let file = event.dataTransfer.files[0];
-    this.readExcelFile(file);
-  }
-
-  onFileInput(event: any) {
-    let file = event.target.files[0];
-
-    this.readExcelFile(file);
-  }
-
-  readExcelFile(file: any) {
-    const fileReader = new FileReader();
-
-    fileReader.readAsArrayBuffer(file);
-    fileReader.onload = (event) => {
-      const arrayBuffer: any = fileReader.result;
-      const data = new Uint8Array(arrayBuffer);
-      const workBook = XLSX.read(data, { type: 'array' });
-      const workSheet = workBook.Sheets[workBook.SheetNames[0]];
-      const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-      const datas = excelData
-        .slice(1, excelData.length)
-        .filter((data: any) => data.length > 0);
-      datas.forEach((data: any, i) => {
-        data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-      });
-      this.sinhVienFile = {
-        name: file.name,
-        size: (file.size / 1024).toFixed(2) + 'MB',
-        data: datas,
-      };
-    };
-  }
-
   onSelect() {
     let input = this.elementRef.nativeElement.querySelector(
       '#drag-file_box input[type=file]'
@@ -226,55 +203,10 @@ export class MinistrySinhvienComponent implements OnInit {
     dragBox.classList.remove('active');
   }
 
-  // async onReadFile() {
-  //   if (this.sinhVienFile.data.length > 0) {
-  //     const datas = this.sinhVienFile.data;
-
-  //     datas.forEach((data: any) => {
-  //       let sinhVien = new SinhVien();
-  //       sinhVien.init(
-  //         data[0] ? JSON.stringify(data[0]) : '',
-  //         data[1] ? data[1] : '',
-  //         data[2] ? data[2] : '',
-  //         data[3] ? data[3] : '',
-  //         data[4] ? data[4] : '',
-  //         data[5] ? data[5] : '',
-  //         data[6] ? data[6] : '',
-  //         data[7] ? data[7] : ''
-  //       );
-  //       this.f_AddSinhVien(sinhVien);
-  //     });
-  //     this.DSSVComponent.getAllSinhVien();
-  //   }
-  // }
-
-  async onReadFile() {
-    if (this.sinhVienFile.data.length > 0) {
-      const datas = this.sinhVienFile.data;
-  
-      for (let data of datas) {
-        let sinhVien = new SinhVien();
-        sinhVien.init(
-          data[0] ? JSON.stringify(data[0]) : '',
-          data[1] ? data[1] : '',
-          data[2] ? data[2] : '',
-          data[3] ? data[3] : '',
-          data[4] ? data[4] : '',
-          data[5] ? data[5] : '',
-          data[6] ? data[6] : '',
-          data[7] ? data[7] : ''
-        );
-        await this.f_AddSinhVien(sinhVien);
-      }
-      this.DSSVComponent.getAllSinhVien();
-    }
-  }
-  
-
   async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
 
-    if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
+    if (Object.entries(this.DSTGComponent.lineSV).length > 0) {
       _delete.classList.add('active');
       let option = new Option('#delete');
 
@@ -287,11 +219,12 @@ export class MinistrySinhvienComponent implements OnInit {
       });
 
       option.agree(() => {
+        // Xóa tham gia trước -- Chưa làm
         try {
-          const result = this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv);
+          const result = this.sinhVienService.delete(this.DSTGComponent.lineSV.maSv);
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
-          this.DSSVComponent.lineSV = new SinhVien();
-          this.DSSVComponent.getAllSinhVien();
+          this.DSTGComponent.lineSV = new SinhVien();
+          this.DSTGComponent.getAllSinhVien();
         } catch (error) {
           this.toastr.error(
             'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
@@ -301,19 +234,19 @@ export class MinistrySinhvienComponent implements OnInit {
         _delete.classList.remove('active');
       });
     } else if (
-      Object.entries(this.DSSVComponent.lineSV).length === 0 &&
-      this.DSSVComponent.selectedSV.length === 0
+      Object.entries(this.DSTGComponent.lineSV).length === 0 &&
+      this.DSTGComponent.selectedSV.length === 0
     ) {
       this.toastr.warning('Vui lòng chọn sinh viên để xóa', 'Thông báo !');
     }
 
-    this.DSSVComponent.selectedSV.forEach((maSV) => {
+    this.DSTGComponent.selectedSV.forEach((maSV) => {
       try {
         this.sinhVienService.delete(maSV);
         this.userService.delete(maSV);
         this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
-        this.DSSVComponent.lineSV = new SinhVien();
-        this.DSSVComponent.getAllSinhVien();
+        this.DSTGComponent.lineSV = new SinhVien();
+        this.DSTGComponent.getAllSinhVien();
         this.isSelectedSV = false;
       } catch (error) {
         this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !'); 
@@ -335,7 +268,6 @@ export class MinistrySinhvienComponent implements OnInit {
         this.svAddForm.value['maCn']
       );
       this.f_AddSinhVien(sinhVien);
-      this.DSSVComponent.getAllSinhVien();
       
     } else {
       this.svForm.validate('#create_box');
@@ -343,37 +275,60 @@ export class MinistrySinhvienComponent implements OnInit {
   }
 
   async f_AddSinhVien(sv: SinhVien) {
-    try {
-      await this.sinhVienService.add(sv);
-      this.svForm.resetForm('#create_box');
-        // Add tai khoan
-        await this.userService.addStudent(new User(sv.maSv, sv.maSv));
-        this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
+    // Kiểm tra sinh viên đã tồn tại chưa 
+    const flag = await this.sinhVienService.getById(sv.maSv);
+    const nhom = new Nhom();
+    nhom.init(sv.maSv + this.namHoc + this.dot, sv.tenSv, sv.maSv);
+
+    const thamgia = new ThamGia();
+    thamgia.init(sv.maSv, this.namHoc, this.dot, sv.maSv + this.namHoc + this.dot, 0);
+
+    if(flag != null) {
+      // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
+      this.f_CreateGroup_ThamGia(nhom, thamgia);
+
+      this.toastr.success('Thêm sinh viên vào đợt đợt đăng ký thành công', 'Thông báo !');
+      this.DSTGComponent.getAllSinhVienByDotdk();
     }
-    catch {
-      this.toastr.error(
-        'Thông tin bạn cung cấp không hợp lệ.',
-        'Thông báo !'
-      );
+    else {
+      try {
+        await this.sinhVienService.add(sv);
+        this.svForm.resetForm('#create_box');
+          // Add tai khoan
+          await this.userService.addStudent(new User(sv.maSv, sv.maSv));
+          // Add: Đưa sinh viên vào đợt tham gia và tạo nhóm lần đầu
+          this.f_CreateGroup_ThamGia(nhom, thamgia);
+  
+          this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
+          this.DSTGComponent.getAllSinhVienByDotdk();
+      }
+      catch {
+        this.toastr.error(
+          'Thông tin bạn cung cấp không hợp lệ.',
+          'Thông báo !'
+        );
+      }
     }
   }
 
-  onShowFormDrag() {
-    let drag = this.elementRef.nativeElement.querySelector('#drag-file');
-    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
-
-    drag.classList.add('active');
-    dragBox.classList.add('active');
+  async f_CreateGroup_ThamGia(nhom: Nhom, thamgia: ThamGia) {
+    try {
+      await this.nhomService.add(nhom);
+      await this.thamGiaService.add(thamgia);
+    } 
+    catch (error) {
+      console.log(error);
+    }
   }
 
   resetLineActive() {
-    this.DSSVComponent.lineSV = new SinhVien();
+    this.DSTGComponent.lineSV = new SinhVien();
     this.elementRef.nativeElement
       .querySelector('.table tr.br-line-dblclick')
       .classList.remove('br-line-dblclick');
   }
 
-  async updateSinhVien() {
+  updateSinhVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
@@ -400,10 +355,10 @@ export class MinistrySinhvienComponent implements OnInit {
         );
 
         try {
-          const result = await this.sinhVienService.update(sinhVien);
+          const result = this.sinhVienService.update(sinhVien);
           update.classList.remove('active');
           updateBox.classList.remove('active');
-          this.DSSVComponent.getAllSinhVien();
+          this.DSTGComponent.getAllSinhVien();
           this.resetLineActive();
           this.toastr.success(
             'Cập nhập thông tin sinh viên thành công',
@@ -420,15 +375,28 @@ export class MinistrySinhvienComponent implements OnInit {
       this.svForm.validate('#update_box');
     }
 
-    this.DSSVComponent.lineSV = new SinhVien();
+    this.DSTGComponent.lineSV = new SinhVien();
   }
 
   getSinhVienByMaCN(event: any) {
     const maCn = event.target.value;
     if (maCn == '') {
-      this.DSSVComponent.getAllSinhVien();
+      this.DSTGComponent.getAllSinhVienByDotdk();
     } else {
-      this.DSSVComponent.getSinhVienByMaCN(maCn);
+      this.DSTGComponent.getSinhVienByMaCN(maCn);
+    }
+  }
+
+  getSinhVienByDotDk(event: any) {
+    const dotdk = event.target.value;
+    if (dotdk == '') {
+      this.DSTGComponent.getAllSinhVienByDotdk();
+    } else {
+      this.namHoc = dotdk.slice(0, dotdk.length - 1);
+      this.dot = dotdk.slice(dotdk.length - 1);
+      console.log(this.namHoc);
+      console.log(this.dot);
+      this.DSTGComponent.getSinhVienByDotDk(this.namHoc, this.dot);
     }
   }
 }

@@ -37,10 +37,11 @@ export class deTai_chuyenNganhService {
     }
 
     async add(deTai_chuyenNganh: DeTai_ChuyenNganh): Promise<any> {
-    return await this.http.post(`${this.apiUrl}/api/DetaiChuyennganh`, deTai_chuyenNganh, this.shareService.httpOptions);
+    return await this.http.post(`${this.apiUrl}/api/DetaiChuyennganh`, deTai_chuyenNganh, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaDT: string, MaCN:string): Promise<any> {
-    return await this.http.delete(`${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`, this.shareService.httpOptions);
+    return await this.http.delete(`${this.apiUrl}/api/DetaiChuyennganh/maDT, maCN?maDT=${MaDT}&maCN=${MaCN}`, 
+    this.shareService.httpOptions).toPromise();
     }
 }

@@ -1,3 +1,5 @@
+import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
+import { MinistryDotthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-dotthamgia.component';
 import { HomeGiaobaitapComponent } from './home/home-giaobaitap/home-giaobaitap.component';
 import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
 import { HomeMainComponent } from './home/home-main/home-main.component';
@@ -92,6 +94,19 @@ const routes: Routes = [
             path: 'danh-sach-sinh-vien',
             component:
             MinistryDanhsachsinhvienComponent, 
+              canActivate: [AuthGuard],
+          },
+        ], 
+        canActivate: [AuthGuard],
+      },
+      {
+        component: MinistryDotthamgiaComponent,
+        path: 'tham-gia',
+        children: [
+          {
+            path: 'danh-sach-tham-gia',
+            component:
+            MinistryDanhsachthamgiaComponent, 
               canActivate: [AuthGuard],
           },
         ], 

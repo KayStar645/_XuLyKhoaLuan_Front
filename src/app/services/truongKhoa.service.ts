@@ -50,14 +50,17 @@ export class truongKhoaService {
     }
 
     async add(TruongKhoa: TruongKhoa): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Truongkhoas`, TruongKhoa, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Truongkhoas`, 
+      TruongKhoa, this.shareService.httpOptions).toPromise();
     }
 
     async update(TruongKhoa: TruongKhoa): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${TruongKhoa.maKhoa}&MaGV=${TruongKhoa.maGv}`, TruongKhoa, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${TruongKhoa.maKhoa}&MaGV=${TruongKhoa.maGv}`, 
+      TruongKhoa, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaKhoa: string, MaGV: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

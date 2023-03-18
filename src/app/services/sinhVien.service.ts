@@ -34,15 +34,19 @@ export class sinhVienService {
     
 
     async add(sinhVien: SinhVien): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Sinhviens`, sinhVien, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Sinhviens`, 
+      sinhVien, this.shareService.httpOptions).toPromise();
     }
+    
 
     async update(sinhVien: SinhVien): Promise<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${sinhVien.maSv}`, sinhVien, this.shareService.httpOptions);
+      return this.http.put<any>(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${sinhVien.maSv}`, 
+      sinhVien, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maSV: string): Promise<any> {
-      return this.http.delete(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${maSV}`, this.shareService.httpOptions);
+      return this.http.delete(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${maSV}`,
+       this.shareService.httpOptions).toPromise();
     }
 
     async getByMaCn(maCN: string): Promise<SinhVien[]> {

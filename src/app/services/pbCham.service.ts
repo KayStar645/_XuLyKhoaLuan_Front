@@ -36,14 +36,17 @@ export class pbChamService {
     }
 
     async add(PbCham: PbCham): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Pbchams`, PbCham, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Pbchams`, 
+      PbCham, this.shareService.httpOptions).toPromise();
     }
 
     async update(PbCham: PbCham): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${PbCham.maGv}&MaDT=${PbCham.maDt}`, PbCham, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${PbCham.maGv}&MaDT=${PbCham.maDt}`, 
+      PbCham, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

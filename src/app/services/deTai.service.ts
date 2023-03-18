@@ -79,15 +79,15 @@ export class deTaiService {
     }
 
     async add(deTai: DeTai): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions).toPromise();
     }
 
     //Tóm tắt không được để trống
     async update(deTai: DeTai): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Detais/maDT?maDT=${deTai.maDT}`, deTai, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Detais/maDT?maDT=${deTai.maDT}`, deTai, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Detais/maDT?maDT=${maDT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Detais/maDT?maDT=${maDT}`, this.shareService.httpOptions).toPromise();
     }
 }

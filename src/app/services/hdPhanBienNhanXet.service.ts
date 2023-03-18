@@ -37,14 +37,17 @@ export class hdPhanBienNhanXetService {
     }
 
     async add(HdpbNhanXet: HdpbNhanXet): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Hdpbnhanxets`, HdpbNhanXet, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Hdpbnhanxets`, HdpbNhanXet, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(HdpbNhanXet: HdpbNhanXet): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Hdpbnhanxets/id?id=${HdpbNhanXet.id}`, HdpbNhanXet, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Hdpbnhanxets/id?id=${HdpbNhanXet.id}`, 
+      HdpbNhanXet, this.shareService.httpOptions).toPromise();
     }
 
     async delete(id: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Hdpbnhanxets/id?id=${id}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Hdpbnhanxets/id?id=${id}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

@@ -64,14 +64,17 @@ export class giangVienService {
     }
 
     async add(giangVien: GiangVien): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(giangVien: GiangVien): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${giangVien.maGv}`, giangVien, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${giangVien.maGv}`, 
+      giangVien, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maGV: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${maGV}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${maGV}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

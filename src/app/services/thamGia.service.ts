@@ -52,33 +52,17 @@ export class thamGiaService {
     }
 
     async update(ThamGia: ThamGia): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${ThamGia.maSv}&NamHoc=${ThamGia.namHoc}&Dot=${ThamGia.dot}`, ThamGia, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${ThamGia.maSv}&NamHoc=${ThamGia.namHoc}&Dot=${ThamGia.dot}`, 
+      ThamGia, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaSV: string, NamHoc: string, Dot: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async add(ThamGia: ThamGia): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Thamgias`, ThamGia, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Thamgias`, 
+      ThamGia, this.shareService.httpOptions).toPromise();
     }
-
-    // async createThamgia(namHoc: string, dot: number, maSv: string, maNhom: string) {
-    //   const thamgia = new ThamGia();
-    //   thamgia.init(maSv, namHoc, dot, maNhom, 0);
-    //   await this.add(thamgia);
-    //   return thamgia;
-    // }
-
-    // async getMaNhomBySinhVienId(MaSV: string, NamHoc: string, Dot: number) {
-    //   let maNhom = ""; 
-    //   await this.getById(MaSV, NamHoc, Dot).subscribe(
-    //     (success) => {
-    //       maNhom = success.maNhom;
-    //     },
-    //     (error) => {
-    //     }
-    //   )
-    //   return maNhom;
-    // }
 }

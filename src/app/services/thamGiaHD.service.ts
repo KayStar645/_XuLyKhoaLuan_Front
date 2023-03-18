@@ -18,7 +18,8 @@ export class thamGiaHdService {
       private shareService: shareService) {}
 
     async getAll(): Promise<ThamGiaHd[]> {
-      return await this.http.get<ThamGiaHd[]>(`${this.apiUrl}/api/Thamgiahds`, this.shareService.httpOptions).toPromise() ?? [];
+      return await this.http.get<ThamGiaHd[]>(`${this.apiUrl}/api/Thamgiahds`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
     async getById(MaGV: string, MaHD: string):Promise<ThamGiaHd> {
@@ -36,14 +37,17 @@ export class thamGiaHdService {
     }
 
     async add(thamGiaHd: ThamGiaHd): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Thamgiahds`, thamGiaHd, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Thamgiahds`, 
+      thamGiaHd, this.shareService.httpOptions).toPromise();
     }
 
     async update(thamGiaHd: ThamGiaHd): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Thamgiahds/MaGV, MaHD?MaGV=${thamGiaHd.maGv}&MaHD=${thamGiaHd.maHd}`, thamGiaHd, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Thamgiahds/MaGV, MaHD?MaGV=${thamGiaHd.maGv}&MaHD=${thamGiaHd.maHd}`, 
+      thamGiaHd, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaHD: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Thamgiahds/MaGV, MaHD?MaGV=${MaGV}&MaHD=${MaHD}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Thamgiahds/MaGV, MaHD?MaGV=${MaGV}&MaHD=${MaHD}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

@@ -34,14 +34,15 @@ export class chuyenNganhService {
     }
 
     async add(chuyenNganh: ChuyenNganh): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Chuyennganhs`, chuyenNganh, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Chuyennganhs`, chuyenNganh, this.shareService.httpOptions).toPromise();
     }
 
     async update(chuyenNganh: ChuyenNganh): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${chuyenNganh.maCn}`, chuyenNganh, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${chuyenNganh.maCn}`, chuyenNganh,
+       this.shareService.httpOptions).toPromise();
     }
 
     async delete(maCN: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${maCN}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Chuyennganhs/maCN?maCN=${maCN}`, this.shareService.httpOptions).toPromise();
     }
 }

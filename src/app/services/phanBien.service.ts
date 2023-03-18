@@ -36,14 +36,17 @@ export class phanBienService {
     }
 
     async add(phanBien: PhanBien): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Phanbiens`, phanBien, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Phanbiens`, 
+      phanBien, this.shareService.httpOptions).toPromise();
     }
 
     async update(phanBien: PhanBien): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Phanbiens/MaGV, MaDT?MaGV=${phanBien.maGv}&MaDT=${phanBien.maDt}`, phanBien, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Phanbiens/MaGV, MaDT?MaGV=${phanBien.maGv}&MaDT=${phanBien.maDt}`, 
+      phanBien, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaDT:string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Phanbiens/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Phanbiens/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

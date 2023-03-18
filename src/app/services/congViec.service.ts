@@ -35,14 +35,16 @@ export class congViecService {
     }
 
     async add(CongViec: CongViec): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Congviecs`, CongViec, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Congviecs`, CongViec, this.shareService.httpOptions).toPromise();
     }
 
     async update(CongViec: CongViec): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Congviecs/maCV?maCV=${CongViec.maCv}`, CongViec, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Congviecs/maCV?maCV=${CongViec.maCv}`, CongViec, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async delete(maCV: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

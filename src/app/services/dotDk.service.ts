@@ -39,15 +39,11 @@ export class dotDkService {
     }
 
     async add(dotDk: DotDk): Promise<any> {
-      return this.http.post(`${this.apiUrl}/api/Dotdks`, dotDk, this.shareService.httpOptions);
-    }
-
-    //Không update được do cả 2 đều là khóa chính
-    async update(dotDk: DotDk): Promise<any> {
-      return this.http.put<any>(`${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${dotDk.namHoc}&Dot=${dotDk.dot}`, dotDk, this.shareService.httpOptions);
+      return this.http.post(`${this.apiUrl}/api/Dotdks`, dotDk, this.shareService.httpOptions).toPromise();
     }
 
     async delete(namhoc: string, dot:number): Promise<any> {
-      return this.http.delete(`${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${namhoc}&Dot=${dot}`, this.shareService.httpOptions);
+      return this.http.delete(`${this.apiUrl}/api/Dotdks/NamHoc, Dot?NamHoc=${namhoc}&Dot=${dot}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

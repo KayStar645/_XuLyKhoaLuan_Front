@@ -36,14 +36,17 @@ export class hoiDongService {
     }
 
     async add(hoidong: HoiDong): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Hoidongs`, hoidong, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Hoidongs`, hoidong, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(hoidong: HoiDong): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${hoidong.maHd}`, hoidong, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${hoidong.maHd}`, 
+      hoidong, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maHD: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${maHD}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${maHD}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

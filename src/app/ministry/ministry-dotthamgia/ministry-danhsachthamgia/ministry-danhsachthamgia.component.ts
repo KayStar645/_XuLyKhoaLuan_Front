@@ -1,4 +1,16 @@
-import { Component, ElementRef, Input, OnInit, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { thamGiaService } from './../../../services/thamGia.service';
+import { thamGiaHdService } from './../../../services/thamGiaHD.service';
+import { ThamGia } from './../../../models/ThamGia.model';
+import { dotDkService } from './../../../services/dotDk.service';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
@@ -7,20 +19,22 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
-  selector: 'app-danhsachsinhvien',
-  templateUrl: './ministry-danhsachsinhvien.component.html',
-  // styleUrls: ['./ministry-danhsachsinhvien.component.scss'],
+  selector: 'app-ministry-danhsachthamgia',
+  templateUrl: './ministry-danhsachthamgia.component.html',
+  // styleUrls: ['./ministry-danhsachthamgia.component.scss']
 })
-export class MinistryDanhsachsinhvienComponent implements OnInit {
+export class MinistryDanhsachthamgiaComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedSV = false;
   @Output() returnIsSelectedSV = new EventEmitter<boolean>();
-  root: SinhVien[] = [];
+  listTg: ThamGia[] = [];
+  root: ThamGia[] = [];
   sinhVien = new SinhVien();
 
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
   selectedSV: string[] = [];
+  //root: SinhVien[] = [];
   lineSV = new SinhVien();
   elementOld: any;
 
@@ -29,10 +43,13 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
+    private dotDkService: dotDkService,
+    private thamGiaService: thamGiaService,
   ) {}
 
   async ngOnInit() {
     this.getAllSinhVien();
+    this.getAllSinhVienByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
 
     window.addEventListener('keydown', (e) => {
@@ -42,6 +59,7 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
         let activeLine = this.elementRef.nativeElement.querySelectorAll(
           '.br-line.br-line-click'
         );
+
         if (activeLine) {
           activeLine.forEach((line: any) => {
             line.classList.remove('br-line-click');
@@ -68,10 +86,20 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
 
   async getAllSinhVien() {
     this.listSV = await this.sinhVienService.getAll();
+    console.log(this.listSV);
+  }
+
+  async getAllSinhVienByDotdk() {
+    this.listTg = await this.thamGiaService.getAll();
+    this.root = this.listTg;
   }
 
   async getSinhVienByMaCN(maCn: string) {
-    this.listSV = await this.sinhVienService.getByMaCn(maCn);
+    this.listTg = await this.thamGiaService.getByCn(maCn);
+  }
+
+  getSinhVienByDotDk(namHoc: string, dot:  number) {
+    this.listTg = this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
   }
 
   getSelectedLine(e: any) {
@@ -132,8 +160,9 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
 
   filterItems() {
     const searchName = this.searchName.trim().toLowerCase();
-    this.listSV = this.root.filter((item) => {
-        item.tenSv.toLowerCase().includes(searchName)
+    this.listTg = this.root.filter((item) => {
+      console.log("117 - danh sách sinh viên");
+        // item.tenSv.toLowerCase().includes(searchName)
     }
     );
   }
@@ -145,6 +174,10 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
       tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
     }
     return tencn;
+  }
+
+  getSinhVienById(maSV: string) {
+    this.sinhVien = this.listSV.find((t) => t.maSv === maSV) ?? this.sinhVien;
   }
 
   dateFormat(str: string) {
