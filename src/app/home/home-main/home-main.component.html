@@ -42,8 +42,9 @@
                     <li class="info-left-item row ali-center" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
                       <p>Chức vụ:</p>
                       <b>
-                        {{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : ""  }},
-                        {{ truongBm.maBm != null ? "Trưởng BM " + truongBm.maBm : "" }}
+                        {{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : ""  }}
+                        <span *ngIf="truongKhoa.maGv != null && truongBm.maGv != null">,</span>
+                        {{ truongBm.maBm != null ? "Trưởng bộ môn" : ""}}
                       </b>
                     </li>
                   </ul>

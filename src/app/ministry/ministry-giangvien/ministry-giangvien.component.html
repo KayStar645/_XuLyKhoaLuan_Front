@@ -55,11 +55,11 @@
     </div>
   </div>
   <!-- <router-outlet></router-outlet> -->
-  <app-danhsachgiangvien
+  <app-ministry-danhsachgiangvien
     [searchName]="searchName"
     [isSelectedGV]="isSelectedGV"
     (returnIsSelectedGV)="setIsSelectedGv($event)"
-  ></app-danhsachgiangvien>
+  ></app-ministry-danhsachgiangvien>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" [formGroup]="gvAddForm" class="form">

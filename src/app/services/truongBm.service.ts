@@ -22,30 +22,28 @@ export class truongBmService {
     }
 
     async getByMaGvMaBm(MaGV: string, MaBM: string):Promise<TruongBm> {
+      var response = new TruongBm();
       try {
-        var response = new TruongBm();
         response = await this.http.get<TruongBm>(
           `${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`,
           this.shareService.httpOptions
         ).toPromise() ?? response as TruongBm;
         return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
+      } catch {
+        return response;
       }
     }
 
     async getByMaGv(MaGV: string):Promise<TruongBm> {
+      var response = new TruongBm();
       try {
-        var response = new TruongBm();
         response = await this.http.get<TruongBm>(
           `${this.apiUrl}/api/Truongbms/MaGV?MaGV=${MaGV}`,
           this.shareService.httpOptions
         ).toPromise() ?? response as TruongBm;
         return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
+      } catch {
+        return response;
       }
     }
 

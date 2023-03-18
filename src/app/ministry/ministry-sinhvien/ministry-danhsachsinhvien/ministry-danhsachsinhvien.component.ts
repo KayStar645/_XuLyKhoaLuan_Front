@@ -7,7 +7,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
-  selector: 'app-danhsachsinhvien',
+  selector: 'app-ministry-danhsachsinhvien',
   templateUrl: './ministry-danhsachsinhvien.component.html',
   // styleUrls: ['./ministry-danhsachsinhvien.component.scss'],
 })

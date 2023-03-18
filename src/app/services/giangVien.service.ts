@@ -37,16 +37,13 @@ export class giangVienService {
     }
 
     async getByBoMon(maBM: string):Promise<GiangVien[]> {
-      try {
-        var response : GiangVien[] = [];
-        response = await this.http.get<GiangVien[]>(
-          `${this.apiUrl}/api/Giangviens/MaBM?MaBM=${maBM}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as GiangVien[];
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      return await this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens/MaBM?MaBM=${maBM}`,
+       this.shareService.httpOptions).toPromise() ?? [];
+    }
+
+    async getByMaKhoa(maKhoa: string): Promise<GiangVien[]> {
+      return await this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens/MaKhoa?MaKhoa=${maKhoa}`,
+       this.shareService.httpOptions).toPromise() ?? [];
     }
 
     async searchByName(tenGV: string):Promise<GiangVien[]> {

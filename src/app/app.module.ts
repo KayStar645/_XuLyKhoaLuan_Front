@@ -1,3 +1,6 @@
+import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
+import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
+import { HomeDanhsachgiangvienComponent } from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
 import { MinistryDetaiComponent } from './ministry/ministry-detai/ministry-detai.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -66,6 +69,15 @@ import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia
 
     HomeComponent,
     HomeMainComponent,
+    HomeDetaiComponent, HomeDanhsachdetaiComponent,
+    HomeGiangvienComponent, HomeDanhsachgiangvienComponent,
+    HomeGiaobaitapComponent,
+    HomeHoidongComponent,
+    HomeKehoachComponent,
+    HomeLichphanbienComponent,
+    HomeNhiemvuComponent,
+    HomeSinhvienComponent, HomeDanhsachsinhvienComponent,
+    HomeThongbaoComponent,
 
 
     DashboardComponent,
@@ -102,6 +114,7 @@ import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia
     FormBuilder,
     BrowserModule,
     AppRoutingModule,
+    HomeMainComponent
     // DanhsachgiangvienComponent,
   ],
 

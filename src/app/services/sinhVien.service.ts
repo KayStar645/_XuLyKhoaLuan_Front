@@ -54,6 +54,11 @@ export class sinhVienService {
        this.shareService.httpOptions).toPromise() ?? [];
     }
 
+    async getByMaKhoa(maKhoa: string): Promise<SinhVien[]> {
+      return await this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/maKhoa?maKhoa=${maKhoa}`,
+       this.shareService.httpOptions).toPromise() ?? [];
+    }
+
     async getByTenSv(tenSV: string):Promise<SinhVien[]> {
       return await this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/tenSV?tenSV=${tenSV}`,
        this.shareService.httpOptions).toPromise() ?? [];

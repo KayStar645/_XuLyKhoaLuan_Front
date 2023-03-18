@@ -52,11 +52,11 @@
     </div>
   </div>
 
-  <app-danhsachsinhvien
+  <app-ministry-danhsachsinhvien
     [searchName]="searchName"
     [isSelectedSV]="isSelectedSV"
     (returnIsSelectedSV)="setIsSelectedSv($event)"
-  ></app-danhsachsinhvien>
+  ></app-ministry-danhsachsinhvien>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" [formGroup]="svAddForm" class="form">
