@@ -22,7 +22,7 @@ export class MinistryDanhsachthongbaoComponent {
   @Input() searchName = '';
   @Input() isSelectedTB = false;
   @Output() returnIsSelectedTB = new EventEmitter<boolean>();
-  listTB: ThongBao[] = [];
+  listTB: any = [];
   selectedTB: number[] = [];
   root: ThongBao[] = [];
   lineTB = new ThongBao();
@@ -34,8 +34,8 @@ export class MinistryDanhsachthongbaoComponent {
     private shareService: shareService
   ) {}
 
-  ngOnInit(): void {
-    this.getAllThongBao();
+  async ngOnInit() {
+    await this.getAllThongBao();
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -72,17 +72,16 @@ export class MinistryDanhsachthongbaoComponent {
   async getAllThongBao() {
     this.listTB = await this.thongBaoService.getAll();
     this.root = this.listTB;
-
-    this.listTB.forEach((tb) => {
-      axios.get(environment.githubAPI + tb.fileTb).then((response) => {
-        tb.fileTb = response.data.download_url;
-      });
-
-      axios.get(environment.githubAPI + tb.hinhAnh).then((response) => {
-        tb.hinhAnh = response.data.download_url;
-      });
-    });
+  
+    await Promise.all(this.listTB.map(async (tb:any) => {
+      const fileTbResponse = await axios.get(environment.githubAPI + tb.fileTb);
+      tb.fileTb = fileTbResponse.data.download_url;
+  
+      const hinhAnhResponse = await axios.get(environment.githubAPI + tb.hinhAnh);
+      tb.hinhAnh = hinhAnhResponse.data.download_url;
+    }));
   }
+  
 
   getSelectedLine(e: any) {
     if (e.ctrlKey) {

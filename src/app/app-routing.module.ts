@@ -32,6 +32,8 @@ import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/
 import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
 import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
 import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
+import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/ministry-danhsachthongbao/ministry-danhsachthongbao.component';
+import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -50,6 +52,18 @@ const routes: Routes = [
         path: 'thong-bao',
         component: MinistryThongbaoComponent, 
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: MinistryDanhsachthongbaoComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: MinistryChitietthongbaoComponent,
+            canActivate: [AuthGuard],
+          }
+        ]
       },
       {
         path: 'ke-hoach',
