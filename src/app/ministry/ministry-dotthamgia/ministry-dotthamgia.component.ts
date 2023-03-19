@@ -15,23 +15,23 @@ import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
-import * as XLSX from 'xlsx';
 import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-ministry-dotthamgia',
   templateUrl: './ministry-dotthamgia.component.html',
-  // styleUrls: ['./ministry-dotthamgia.component.scss']
 })
 export class MinistryDotthamgiaComponent implements OnInit {
   @ViewChild(MinistryDanhsachthamgiaComponent)
   protected DSTGComponent!: MinistryDanhsachthamgiaComponent;
   listChuyenNganh: ChuyenNganh[] = [];
+  listHoTen: ChuyenNganh[] = [];
+  listLop: ChuyenNganh[] = [];
+  listMSSV: ChuyenNganh[] = [];
   listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
   isSelectedSV: boolean = false;
-  // selectedDotDk!: string;
 
   namHoc!: string;
   dot!: number;
@@ -45,10 +45,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
   svForm = new Form({
     maSv: ['', Validators.required],
     tenSv: ['', Validators.required],
-    email: ['', Validators.email],
-    ngaySinh: [''],
-    gioiTinh: ['', Validators.required],
-    sdt: [''],
     lop: ['', Validators.required],
     maCn: ['', Validators.required],
   });
@@ -62,7 +58,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
     private userService: userService,
     private dotDkService: dotDkService,
     private thamGiaService: thamGiaService,
-    private nhomService: nhomService,
+    private nhomService: nhomService
   ) {
     this.svAddForm = this.svForm.form;
     this.svUpdateForm = this.svForm.form;
@@ -75,7 +71,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
     this.listDotDk = await this.dotDkService.getAll();
-    if(this.listDotDk.length > 0) {
+    if (this.listDotDk.length > 0) {
       this.namHoc = this.listDotDk[0].namHoc;
       this.dot = this.listDotDk[0].dot;
     }
@@ -132,6 +128,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
         create.classList.remove('active');
       });
     } else {
+      this.svForm.resetForm('#create_box');
       createBox.classList.remove('active');
       create.classList.remove('active');
     }
@@ -221,7 +218,9 @@ export class MinistryDotthamgiaComponent implements OnInit {
       option.agree(() => {
         // Xóa tham gia trước -- Chưa làm
         try {
-          const result = this.sinhVienService.delete(this.DSTGComponent.lineSV.maSv);
+          const result = this.sinhVienService.delete(
+            this.DSTGComponent.lineSV.maSv
+          );
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
           this.DSTGComponent.lineSV = new SinhVien();
           this.DSTGComponent.getAllSinhVien();
@@ -249,7 +248,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
         this.DSTGComponent.getAllSinhVien();
         this.isSelectedSV = false;
       } catch (error) {
-        this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !'); 
+        this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
       }
     });
   }
@@ -268,41 +267,47 @@ export class MinistryDotthamgiaComponent implements OnInit {
         this.svAddForm.value['maCn']
       );
       this.f_AddSinhVien(sinhVien);
-      
     } else {
       this.svForm.validate('#create_box');
     }
   }
 
   async f_AddSinhVien(sv: SinhVien) {
-    // Kiểm tra sinh viên đã tồn tại chưa 
+    // Kiểm tra sinh viên đã tồn tại chưa
     const flag = await this.sinhVienService.getById(sv.maSv);
     const nhom = new Nhom();
     nhom.init(sv.maSv + this.namHoc + this.dot, sv.tenSv, sv.maSv);
 
     const thamgia = new ThamGia();
-    thamgia.init(sv.maSv, this.namHoc, this.dot, sv.maSv + this.namHoc + this.dot, 0);
+    thamgia.init(
+      sv.maSv,
+      this.namHoc,
+      this.dot,
+      sv.maSv + this.namHoc + this.dot,
+      0
+    );
 
-    if(flag != null) {
+    if (flag != null) {
       // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
       this.f_CreateGroup_ThamGia(nhom, thamgia);
 
-      this.toastr.success('Thêm sinh viên vào đợt đợt đăng ký thành công', 'Thông báo !');
+      this.toastr.success(
+        'Thêm sinh viên vào đợt đợt đăng ký thành công',
+        'Thông báo !'
+      );
       this.DSTGComponent.getAllSinhVienByDotdk();
-    }
-    else {
+    } else {
       try {
         await this.sinhVienService.add(sv);
         this.svForm.resetForm('#create_box');
-          // Add tai khoan
-          await this.userService.addStudent(new User(sv.maSv, sv.maSv));
-          // Add: Đưa sinh viên vào đợt tham gia và tạo nhóm lần đầu
-          this.f_CreateGroup_ThamGia(nhom, thamgia);
-  
-          this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
-          this.DSTGComponent.getAllSinhVienByDotdk();
-      }
-      catch {
+        // Add tai khoan
+        await this.userService.addStudent(new User(sv.maSv, sv.maSv));
+        // Add: Đưa sinh viên vào đợt tham gia và tạo nhóm lần đầu
+        this.f_CreateGroup_ThamGia(nhom, thamgia);
+
+        this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
+        this.DSTGComponent.getAllSinhVienByDotdk();
+      } catch {
         this.toastr.error(
           'Thông tin bạn cung cấp không hợp lệ.',
           'Thông báo !'
@@ -315,8 +320,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
     try {
       await this.nhomService.add(nhom);
       await this.thamGiaService.add(thamgia);
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
