@@ -36,14 +36,17 @@ export class thongBaoService {
     }
 
     async add(ThongBao: ThongBao): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Thongbaos`, ThongBao, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Thongbaos`, 
+      ThongBao, this.shareService.httpOptions).toPromise();
     }
 
     async update(ThongBao: ThongBao): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${ThongBao.maTb}`, ThongBao, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${ThongBao.maTb}`, 
+      ThongBao, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaTB: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${MaTB}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Thongbaos/MaTB?MaTB=${MaTB}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

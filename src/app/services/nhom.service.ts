@@ -39,17 +39,12 @@ export class nhomService {
     }
 
     async update(nhom: Nhom): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${nhom.maNhom}`, nhom, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${nhom.maNhom}`, 
+      nhom, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaNhom: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`, this.shareService.httpOptions);
-    }
-
-    async createNhom(maNhom: string, tenNhom: string, truongNhom: string) {
-      const nhom = new Nhom();
-      nhom.init(maNhom, tenNhom, truongNhom);
-      await this.add(nhom);
-      return nhom;
+      return await this.http.delete(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

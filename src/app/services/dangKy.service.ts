@@ -37,14 +37,16 @@ export class dangKyService {
     }
 
     async add(DangKy: DangKy): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Dangkys`, DangKy, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Dangkys`, DangKy, this.shareService.httpOptions).toPromise();
     }
 
     async update(DangKy: DangKy): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${DangKy.maDt}&maNhom=${DangKy.maNhom}`, DangKy, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${DangKy.maDt}&maNhom=${DangKy.maNhom}`, DangKy, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async delete(maDT: string, maNhom: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

@@ -22,7 +22,7 @@ import { shareService } from 'src/app/services/share.service';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
-  selector: 'app-danhsachdetai',
+  selector: 'app-ministry-danhsachdetai',
   templateUrl: './ministry-danhsachdetai.component.html',
   styleUrls: ['./ministry-danhsachdetai.component.scss'],
 })

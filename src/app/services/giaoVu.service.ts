@@ -37,14 +37,17 @@ export class giaoVuService {
     }
 
     async add(giaoVu: GiaoVu): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Giaovus`, giaoVu, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Giaovus`, 
+      giaoVu, this.shareService.httpOptions).toPromise();
     }
 
     async update(giaoVu: GiaoVu): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${giaoVu.maGv}`, giaoVu, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${giaoVu.maGv}`, 
+      giaoVu, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maGV: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${maGV}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Giaovus/MaGV?MaGV=${maGV}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

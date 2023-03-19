@@ -23,15 +23,18 @@ export class loiMoiService {
   }
 
   async add(LoiMoi: LoiMoi): Promise<any> {
-    return await this.http.post(`${this.apiUrl}/api/Loimois`, LoiMoi, this.shareService.httpOptions);
+    return await this.http.post(`${this.apiUrl}/api/Loimois`, 
+    LoiMoi, this.shareService.httpOptions).toPromise();
   }
 
   async update(LoiMoi: LoiMoi): Promise<any> {
-    return await this.http.put<any>(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${LoiMoi.maNhom}&MaSV=${LoiMoi.maSv}&NamHoc=${LoiMoi.namHoc}&Dot=${LoiMoi.dot}`, LoiMoi, this.shareService.httpOptions);
+    return await this.http.put<any>(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${LoiMoi.maNhom}&MaSV=${LoiMoi.maSv}&NamHoc=${LoiMoi.namHoc}&Dot=${LoiMoi.dot}`, 
+    LoiMoi, this.shareService.httpOptions).toPromise();
   }
 
   async delete(MaNhom: string, MaSV: string, NamHoc: string, Dot: number): Promise<any> {
-    return await this.http.delete(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${MaNhom}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+    return await this.http.delete(`${this.apiUrl}/api/Loimois/MaNhom, MaSV, NamHoc, Dot?MaNhom=${MaNhom}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, 
+    this.shareService.httpOptions).toPromise();
   }
 
   //Tạm thời

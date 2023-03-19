@@ -37,14 +37,17 @@ export class hdGopYService {
     }
 
     async add(HdGopi: HdGopi): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Hdgopies`, HdGopi, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Hdgopies`, 
+      HdGopi, this.shareService.httpOptions).toPromise();
     }
 
     async update(HdGopi: HdGopi): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Hdgopies/id?id=${HdGopi.id}`, HdGopi, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Hdgopies/id?id=${HdGopi.id}`, 
+      HdGopi, this.shareService.httpOptions).toPromise();
     }
 
     async delete(id: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Hdgopies/id?id=${id}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Hdgopies/id?id=${id}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

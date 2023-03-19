@@ -16,7 +16,7 @@ import { MinistryDanhsachgiangvienComponent } from './ministry-danhsachgiangvien
 @Component({
   selector: 'app-ministry-giangvien',
   templateUrl: './ministry-giangvien.component.html',
-  styleUrls: ['./ministry-giangvien.component.scss'],
+  // styleUrls: ['./ministry-giangvien.component.scss'],
 })
 export class MinistryGiangvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachgiangvienComponent)

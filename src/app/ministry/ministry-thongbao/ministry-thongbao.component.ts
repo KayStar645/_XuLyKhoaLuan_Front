@@ -10,7 +10,7 @@ import { ThongBao } from '../../models/ThongBao.model';
 @Component({
   selector: 'app-ministry-thongbao',
   templateUrl: './ministry-thongbao.component.html',
-  styleUrls: ['./ministry-thongbao.component.scss'],
+  // styleUrls: ['./ministry-thongbao.component.scss'],
 })
 export class MinistryThongbaoComponent implements OnInit {
   @ViewChild(MinistryDanhsachthongbaoComponent)

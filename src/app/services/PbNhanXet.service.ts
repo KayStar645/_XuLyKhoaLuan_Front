@@ -36,14 +36,17 @@ export class pbNhanXetService {
     }
 
     async add(PbNhanXet: PbNhanXet): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Pbnhanxets`, PbNhanXet, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Pbnhanxets`, 
+      PbNhanXet, this.shareService.httpOptions).toPromise();
     }
 
     async update(PbNhanXet: PbNhanXet): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Pbnhanxets/id?id=${PbNhanXet.id}`, PbNhanXet, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Pbnhanxets/id?id=${PbNhanXet.id}`, 
+      PbNhanXet, this.shareService.httpOptions).toPromise();
     }
 
     async delete(id: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Pbnhanxets/id?id=${id}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Pbnhanxets/id?id=${id}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

@@ -38,14 +38,16 @@ export class duyetDtService {
 
     //Ngày duyệt phải theo chuẩn ngày tháng năm
     async add(duyetDt: DuyetDt): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Duyetdts`, duyetDt, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Duyetdts`, duyetDt, this.shareService.httpOptions).toPromise();
     }
 
     async update(duyetDt: DuyetDt): Promise<any> {
-        return await this.http.put<any>(`${this.apiUrl}/api/Duyetdts/MaGV, MaDT, LanDuyet?MaGV=${duyetDt.maGv}&MaDT=${duyetDt.maDt}&LanDuyet=${duyetDt.lanDuyet}`, duyetDt, this.shareService.httpOptions);
+        return await this.http.put<any>(`${this.apiUrl}/api/Duyetdts/MaGV, MaDT, LanDuyet?MaGV=${duyetDt.maGv}&MaDT=${duyetDt.maDt}&LanDuyet=${duyetDt.lanDuyet}`, 
+        duyetDt, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaDT: string, LanDuyet:number):Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Duyetdts/MaGV, MaDT, LanDuyet?MaGV=${MaGV}&MaDT=${MaDT}&LanDuyet=${LanDuyet}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Duyetdts/MaGV, MaDT, LanDuyet?MaGV=${MaGV}&MaDT=${MaDT}&LanDuyet=${LanDuyet}`,
+       this.shareService.httpOptions).toPromise();
     }
 }

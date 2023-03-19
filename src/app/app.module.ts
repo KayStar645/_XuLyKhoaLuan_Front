@@ -1,3 +1,6 @@
+import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
+import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
+import { HomeDanhsachgiangvienComponent } from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
 import { MinistryDetaiComponent } from './ministry/ministry-detai/ministry-detai.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -44,7 +47,6 @@ import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/
 import { MinistryDanhsachdetaiComponent } from './ministry/ministry-detai/ministry-danhsachdetai/ministry-danhsachdetai.component';
 import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
 import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/ministry-danhsachthongbao/ministry-danhsachthongbao.component';
-import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
 
 @NgModule({
   declarations: [
@@ -53,29 +55,33 @@ import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/m
 
     MinistryComponent,
     MinistryMainComponent,
-    MinistryThongbaoComponent,
-    MinistryDanhsachthongbaoComponent, // --
+    MinistryThongbaoComponent, MinistryDanhsachthongbaoComponent,
     MinistryKehoachComponent,
-    MinistryGiangvienComponent,
-    MinistryDanhsachgiangvienComponent, //--
+    MinistryGiangvienComponent, MinistryDanhsachgiangvienComponent,
     MinistryNhiemvuComponent,
-    MinistryDetaiComponent,
-    MinistryDanhsachdetaiComponent, //--
-    MinistrySinhvienComponent,
-    MinistryDanhsachsinhvienComponent, //--
+    MinistryDetaiComponent, MinistryDanhsachdetaiComponent, 
+    MinistrySinhvienComponent, MinistryDanhsachsinhvienComponent,
+    MinistryDotthamgiaComponent, MinistryDanhsachthamgiaComponent,
     MinistryHoidongComponent,
     MinistryQuanlychungComponent,
 
     HomeComponent,
     HomeMainComponent,
+    HomeDetaiComponent, HomeDanhsachdetaiComponent,
+    HomeGiangvienComponent, HomeDanhsachgiangvienComponent,
+    HomeGiaobaitapComponent,
+    HomeHoidongComponent,
+    HomeKehoachComponent,
+    HomeLichphanbienComponent,
+    HomeNhiemvuComponent,
+    HomeSinhvienComponent, HomeDanhsachsinhvienComponent,
+    HomeThongbaoComponent,
 
 
     DashboardComponent,
     DashboardMainComponent,
     DashboardThongbaoComponent,
     DashboardLoimoiComponent,
-    // PhancongComponent,
-    // QuanlychungComponent,
     TestComponent,
     MinistryChitietthongbaoComponent,
   ],
@@ -107,6 +113,7 @@ import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/m
     FormBuilder,
     BrowserModule,
     AppRoutingModule,
+    HomeMainComponent
     // DanhsachgiangvienComponent,
   ],
 

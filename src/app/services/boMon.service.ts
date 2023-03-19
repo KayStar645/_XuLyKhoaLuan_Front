@@ -36,14 +36,14 @@ export class boMonService {
     }
 
     async add(boMon: BoMon): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Bomons`, boMon, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Bomons`, boMon, this.shareService.httpOptions).toPromise();
     }
 
     async update(boMon: BoMon): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${boMon.maBm}`, boMon, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${boMon.maBm}`, boMon, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaBM: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${MaBM}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Bomons/MaBM?MaBM=${MaBM}`, this.shareService.httpOptions).toPromise();
     }
 }

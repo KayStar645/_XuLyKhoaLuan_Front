@@ -37,16 +37,13 @@ export class giangVienService {
     }
 
     async getByBoMon(maBM: string):Promise<GiangVien[]> {
-      try {
-        var response : GiangVien[] = [];
-        response = await this.http.get<GiangVien[]>(
-          `${this.apiUrl}/api/Giangviens/MaBM?MaBM=${maBM}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as GiangVien[];
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      return await this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens/MaBM?MaBM=${maBM}`,
+       this.shareService.httpOptions).toPromise() ?? [];
+    }
+
+    async getByMaKhoa(maKhoa: string): Promise<GiangVien[]> {
+      return await this.http.get<GiangVien[]>(`${this.apiUrl}/api/Giangviens/MaKhoa?MaKhoa=${maKhoa}`,
+       this.shareService.httpOptions).toPromise() ?? [];
     }
 
     async searchByName(tenGV: string):Promise<GiangVien[]> {
@@ -64,14 +61,17 @@ export class giangVienService {
     }
 
     async add(giangVien: GiangVien): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(giangVien: GiangVien): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${giangVien.maGv}`, giangVien, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${giangVien.maGv}`, 
+      giangVien, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maGV: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${maGV}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Giangviens/MaGV?MaGV=${maGV}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

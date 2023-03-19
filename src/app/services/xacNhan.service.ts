@@ -36,14 +36,17 @@ export class xacNhanService {
     }
 
     async add(XacNhan: XacNhan): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Xacnhans`, XacNhan, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Xacnhans`, 
+      XacNhan, this.shareService.httpOptions).toPromise();
     }
 
     async update(XacNhan: XacNhan): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Xacnhans/MaGV, MaDT?MaGV=${XacNhan.maGv}&MaDT=${XacNhan.maDt}`, XacNhan, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Xacnhans/MaGV, MaDT?MaGV=${XacNhan.maGv}&MaDT=${XacNhan.maDt}`, 
+      XacNhan, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Xacnhans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Xacnhans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

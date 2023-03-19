@@ -36,14 +36,17 @@ export class khoaService {
     }
 
     async add(khoa: Khoa): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Khoas`, khoa, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Khoas`, khoa, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(khoa: Khoa): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${khoa.maKhoa}`, khoa, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${khoa.maKhoa}`, 
+      khoa, this.shareService.httpOptions).toPromise();
     }
 
     async delete(maKhoa: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${maKhoa}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Khoas/MaKhoa?MaKhoa=${maKhoa}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

@@ -36,14 +36,16 @@ export class keHoachService {
     }
 
     async add(keHoach: KeHoach): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Kehoaches`, keHoach, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Kehoaches`, keHoach, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(keHoach: KeHoach): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Kehoaches/MaKH?MaKH=${keHoach.maKh}`, keHoach, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Kehoaches/MaKH?MaKH=${keHoach.maKh}`, 
+      keHoach, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaKH: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Kehoaches/MaKH?MaKH=${MaKH}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Kehoaches/MaKH?MaKH=${MaKH}`, this.shareService.httpOptions).toPromise();
     }
 }

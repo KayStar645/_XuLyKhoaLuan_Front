@@ -13,8 +13,10 @@
 
 // Main -- Role
 #main {
-  height: calc(100vh - 355px);
-  padding-top: 30px;
+  // height: calc(100vh - 355px);
+  height: 380px;
+  padding-top: 0px;
+  position: relative;
 }
 
 #form__role {
@@ -23,6 +25,10 @@
   border: 1px solid #ccc;
   background-color: #fff;
   padding: 24px 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .role-list {
@@ -82,7 +88,7 @@
 // Footer
 .footer {
   color: #fff;
-  height: 200px;
+  height: 179px;
   background-color: #0069d9;
   font-size: 1.3rem;
 }

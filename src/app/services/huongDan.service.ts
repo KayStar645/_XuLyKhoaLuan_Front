@@ -36,14 +36,17 @@ export class huongDanService {
     }
 
     async add(huongDan: HuongDan): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Huongdans`, huongDan, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Huongdans`, 
+      huongDan, this.shareService.httpOptions).toPromise();
     }
 
     async update(huongDan: HuongDan): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`, huongDan, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`, 
+      huongDan, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

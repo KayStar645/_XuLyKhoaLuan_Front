@@ -37,14 +37,17 @@ export class hdPhanBienChamService {
     }
 
     async add(HdPhanBienCham: HdPhanBienCham): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Hdpbchams`, HdPhanBienCham, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Hdpbchams`, HdPhanBienCham, 
+      this.shareService.httpOptions).toPromise();
     }
 
     async update(HdPhanBienCham: HdPhanBienCham): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${HdPhanBienCham.maGv}&MaHD=${HdPhanBienCham.maHd}&MaDT=${HdPhanBienCham.maDt}&MaSV=${HdPhanBienCham.maSv}&NamHoc=${HdPhanBienCham.namHoc}&Dot=${HdPhanBienCham.dot}`, HdPhanBienCham, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${HdPhanBienCham.maGv}&MaHD=${HdPhanBienCham.maHd}&MaDT=${HdPhanBienCham.maDt}&MaSV=${HdPhanBienCham.maSv}&NamHoc=${HdPhanBienCham.namHoc}&Dot=${HdPhanBienCham.dot}`, 
+      HdPhanBienCham, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaHD: string, MaDT: string, MaSV: string, NamHoc: string, Dot: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Hdpbchams/MaGV, MaHD, MaDT, MaSV, NamHoc, Dot?MaGV=${MaGV}&MaHD=${MaHD}&MaDT=${MaDT}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

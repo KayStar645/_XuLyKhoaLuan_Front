@@ -55,11 +55,11 @@
       </p>
     </div>
   </div>
-  <app-danhsachdetai
+  <app-ministry-danhsachdetai
     [searchName]="searchName"
     [isSelectedDT]="isSelectedDT"
     (returnIsSelectedDT)="setIsSelectedDT($event)"
-  ></app-danhsachdetai>
+  ></app-ministry-danhsachdetai>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <div id="create_box" [formGroup]="dtAddForm" class="form">

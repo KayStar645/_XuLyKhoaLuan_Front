@@ -36,14 +36,17 @@ export class nhiemVuService {
     }
 
     async add(nhiemVu: NhiemVu): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Nhiemvus`, nhiemVu, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Nhiemvus`, 
+      nhiemVu, this.shareService.httpOptions).toPromise();
     }
 
     async update(nhiemVu: NhiemVu): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${nhiemVu.maNv}`, nhiemVu, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${nhiemVu.maNv}`, 
+      nhiemVu, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaNV: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

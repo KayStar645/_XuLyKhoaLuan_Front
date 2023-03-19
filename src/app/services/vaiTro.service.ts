@@ -36,14 +36,17 @@ export class vaiTroService {
     }
 
     async add(vaiTro: VaiTro): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Vaitros`, vaiTro, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Vaitros`, 
+      vaiTro, this.shareService.httpOptions).toPromise();
     }
 
     async update(vaiTro: VaiTro): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${vaiTro.maVt}`, vaiTro, this.shareService.httpOptions);
+      return await this.http.put<any>(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${vaiTro.maVt}`, 
+      vaiTro, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaVT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${MaVT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Vaitros/MaVT?MaVT=${MaVT}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

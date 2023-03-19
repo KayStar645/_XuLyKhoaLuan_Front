@@ -15,9 +15,9 @@ import { BoMon } from 'src/app/models/BoMon.model';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
-  selector: 'app-danhsachgiangvien',
+  selector: 'app-ministry-danhsachgiangvien',
   templateUrl: './ministry-danhsachgiangvien.component.html',
-  styleUrls: ['./ministry-danhsachgiangvien.component.scss'],
+  // styleUrls: ['./ministry-danhsachgiangvien.component.scss'],
 })
 export class MinistryDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';

@@ -18,7 +18,8 @@ import { of } from 'rxjs/internal/observable/of';
 @Component({
   selector: 'app-home-main',
   templateUrl: './home-main.component.html',
-  styleUrls: ['./home-main.component.scss']
+  styleUrls: ['./home-main.component.scss'],
+  providers: [HomeMainComponent]
 })
 export class HomeMainComponent {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
@@ -42,7 +43,6 @@ export class HomeMainComponent {
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
     private boMonService: boMonService,
-    private hoiDongService: hoiDongService,
   ) {}
 
   public async ngOnInit() {
@@ -62,18 +62,15 @@ export class HomeMainComponent {
     this.data = await this.giangVienService.getById(this.maGV);
     this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
-    // Lấy chức vụ trưởng khoa
     try {
-      this.truongKhoa = await this.truongKhoaService.getByMaGV(this.maGV);  
-    } catch (error) {
-     console.log(error); 
+      this.truongKhoa = await this.truongKhoaService.getByMaGV(this.maGV);
+    } catch {
+      
     }
-
-    // Lấy chức vụ trưởng bộ môn
     try {
-      this.truongBm = await this.truongBmService.getByMaGv(this.maGV);  
-    } catch (error) {
-     console.log(error); 
+      this.truongBm = await this.truongBmService.getByMaGv(this.maGV);
+    } catch {
+      
     }
   }
 

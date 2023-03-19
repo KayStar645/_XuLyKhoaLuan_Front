@@ -24,11 +24,11 @@
         <select
           class="search-select"
           id="search-select"
-          (change)="getSinhVienByDotDk($event)"
+          (change)="getSinhVienByMaCN($event)"
         >
           <option value="">Tất cả</option>
-          <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
-            {{ dk?.namHoc }} ^ Đợt {{dk?.dot}}
+          <option *ngFor="let cn of listChuyenNganh" [value]="cn.maCn">
+            {{ cn?.tenCn }}
           </option>
         </select>
       </li>
@@ -52,11 +52,11 @@
     </div>
   </div>
 
-  <app-danhsachsinhvien
+  <app-ministry-danhsachsinhvien
     [searchName]="searchName"
     [isSelectedSV]="isSelectedSV"
     (returnIsSelectedSV)="setIsSelectedSv($event)"
-  ></app-danhsachsinhvien>
+  ></app-ministry-danhsachsinhvien>
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" [formGroup]="svAddForm" class="form">

@@ -36,10 +36,12 @@ export class raDeService {
     }
 
     async add(raDe: RaDe): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Rade`, raDe, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Rade`, 
+      raDe, this.shareService.httpOptions).toPromise();
     }
 
     async delete(MaGV: string, MaDT:string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Rade/MaGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, this.shareService.httpOptions);
+      return await this.http.delete(`${this.apiUrl}/api/Rade/MaGV, maDT?maGV=${MaGV}&maDT=${MaDT}`, 
+      this.shareService.httpOptions).toPromise();
     }
 }

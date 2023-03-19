@@ -22,6 +22,6 @@ export class binhLuanService {
     }
 
     async add(BinhLuan: BinhLuan): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Binhluans`, BinhLuan, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Binhluans`, BinhLuan, this.shareService.httpOptions).toPromise();
     }
 }
