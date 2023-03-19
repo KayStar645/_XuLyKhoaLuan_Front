@@ -8,7 +8,7 @@ import { truongKhoaService } from './../../services/truongKhoa.service';
 import { shareService } from './../../services/share.service';
 import { giangVienService } from './../../services/giangVien.service';
 import { GiangVien } from './../../models/GiangVien.model';
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -43,12 +43,12 @@ export class HomeMainComponent {
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
     private boMonService: boMonService,
+    private el: ElementRef,
+    private renderer: Renderer2,
   ) {}
 
   public async ngOnInit() {
     this.titleService.setTitle('Quản lý');
-    // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
-
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
     if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
@@ -63,15 +63,28 @@ export class HomeMainComponent {
     this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
     try {
-      this.truongKhoa = await this.truongKhoaService.getByMaGV(this.maGV);
-    } catch {
-      
-    }
-    try {
       this.truongBm = await this.truongBmService.getByMaGv(this.maGV);
-    } catch {
-      
-    }
+    } catch { }
+    try {
+      this.truongKhoa = await this.truongKhoaService.getByMaGV(this.maGV);
+    } catch { }
+    // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
+    this.resetNavbar();
+  }
+
+  resetNavbar() {
+    var navbar = this.el.nativeElement.querySelector('#navbar');
+    console.log(navbar)
+    console.log(navbar.querySelectorAll('li'))
+    var number = navbar.querySelectorAll('li').length;
+
+    var navbar_items = this.el.nativeElement.querySelectorAll('.navbar-item');
+    navbar_items.forEach((item: { style: { flexBasis: string; }; }) => {
+      item.style.flexBasis = 'calc(100% / '+ number +')';
+    });
+
+
+    
   }
 
   dateFormat(str: any): string {
