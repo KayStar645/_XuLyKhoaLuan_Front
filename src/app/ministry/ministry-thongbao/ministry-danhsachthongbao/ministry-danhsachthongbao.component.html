@@ -20,7 +20,13 @@
 
     <div class="h-7 p-l-12 p-r-12">
       <div class="list-item" *ngFor="let thongBao of listTB">
-        <div class="row item-container" routerLink="/ministry/thong-bao/chi-tiet">
+        <a
+          class="row item-container"
+          [routerLink]="[
+            '/ministry/thong-bao/chi-tiet',
+            { maTb: thongBao.maTb }
+          ]"
+        >
           <img [src]="thongBao.hinhAnh" alt="" />
 
           <div class="info flex-1">
@@ -34,7 +40,7 @@
               </p>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>

@@ -19,19 +19,19 @@ import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-ministry-dotthamgia',
+  styleUrls: ['./ministry-dotthamgia.component.scss'],
   templateUrl: './ministry-dotthamgia.component.html',
 })
 export class MinistryDotthamgiaComponent implements OnInit {
   @ViewChild(MinistryDanhsachthamgiaComponent)
   protected DSTGComponent!: MinistryDanhsachthamgiaComponent;
   listChuyenNganh: ChuyenNganh[] = [];
-  listHoTen: ChuyenNganh[] = [];
-  listLop: ChuyenNganh[] = [];
-  listMSSV: ChuyenNganh[] = [];
+  listSinhVien: SinhVien[] = [];
   listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
   isSelectedSV: boolean = false;
+  selectedSV: string[] = [];
 
   namHoc!: string;
   dot!: number;
@@ -67,6 +67,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
   async ngOnInit() {
     this.titleService.setTitle('Danh sách sinh viên');
     this.listChuyenNganh = await this.chuyenNganhService.getAll();
+    this.listSinhVien = await this.sinhVienService.getAll();
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
@@ -77,8 +78,49 @@ export class MinistryDotthamgiaComponent implements OnInit {
     }
   }
 
-  setIsSelectedSv(event: any) {
-    this.isSelectedSV = event;
+  toggleAddAll(event: any) {
+    const element = event.target;
+    const parent = getParentElement(element, '.table');
+    const child = parent.querySelectorAll('.add-btn');
+
+    if (element.classList.contains('active')) {
+      child.forEach((item: any) => {
+        item.classList.remove('active');
+        this.selectedSV = [];
+      });
+      element.classList.remove('active');
+    } else {
+      child.forEach((item: any) => {
+        const parent = getParentElement(item, '.br-line');
+        const firstElememt = parent.firstChild;
+
+        if (!item.classList.contains('active')) {
+          item.classList.add('active');
+        }
+
+        if (!this.selectedSV.includes(firstElememt.innerHTML)) {
+          this.selectedSV.push(firstElememt.innerHTML);
+        }
+      });
+      element.classList.add('active');
+    }
+  }
+
+  toggleAdd(event: any) {
+    const element = event.target;
+    const parent = getParentElement(element, '.br-line');
+    const firstElememt = parent.firstChild;
+
+    if (element.classList.contains('active')) {
+      let index = this.selectedSV.findIndex(
+        (t) => t === firstElememt.innerHTML
+      );
+      this.selectedSV.splice(index, 1);
+      element.classList.remove('active');
+    } else {
+      this.selectedSV.push(firstElememt.innerHTML);
+      element.classList.add('active');
+    }
   }
 
   onShowFormAdd() {
@@ -162,42 +204,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
       update.classList.remove('active');
       updateBox.classList.remove('active');
     }
-  }
-
-  onBlur(event: any) {
-    this.svForm.inputBlur(event);
-  }
-
-  onDragFileEnter(event: any) {
-    event.preventDefault();
-    const parent = getParentElement(event.target, '.drag-form');
-
-    parent.classList.add('active');
-  }
-
-  onDragFileOver(event: any) {
-    event.preventDefault();
-    event.target.classList.add('active');
-  }
-
-  onDragFileLeave(event: any) {
-    event.preventDefault();
-    event.target.classList.remove('active');
-  }
-
-  onSelect() {
-    let input = this.elementRef.nativeElement.querySelector(
-      '#drag-file_box input[type=file]'
-    );
-
-    input.click();
-  }
-
-  onCloseDrag(event: any) {
-    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
-
-    event.target.classList.remove('active');
-    dragBox.classList.remove('active');
   }
 
   async clickDelete() {

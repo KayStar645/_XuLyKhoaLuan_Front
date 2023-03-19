@@ -1,0 +1,27 @@
+.list {
+  height: 400px;
+  overflow: auto;
+
+  .table {
+    overflow: auto;
+  }
+}
+
+.list-header {
+  position: sticky;
+  top: -1px;
+}
+
+.add-all {
+  background: #fff;
+  color: #333;
+}
+
+.add-all.active {
+  background: dodgerblue;
+  color: #fff;
+}
+
+.add-btn.active {
+  background: dodgerblue;
+}

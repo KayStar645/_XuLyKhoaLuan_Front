@@ -158,24 +158,9 @@ export class MinistryThongbaoComponent implements OnInit {
         }
         _delete.classList.remove('active');
       });
-    } else if (
-      Object.entries(this.DSTBComponent.lineTB).length === 0 &&
-      this.DSTBComponent.selectedTB.length === 0
-    ) {
+    } else {
       this.toastr.warning('Vui lòng chọn đề tài để xóa', 'Thông báo !');
     }
-
-    this.DSTBComponent.selectedTB.forEach((maTB) => {
-      try {
-        this.thongBaoService.delete(maTB);
-        this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-        this.DSTBComponent.lineTB = new ThongBao();
-        this.DSTBComponent.getAllThongBao();
-        this.isSelectedTB = false;
-      } catch (error) {
-        this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-      }
-    });
   }
 
   addSinhVien() {
@@ -262,19 +247,5 @@ export class MinistryThongbaoComponent implements OnInit {
     }
 
     this.DSTBComponent.lineTB = new ThongBao();
-  }
-
-  getSinhVienByMaCN(event: any) {
-    // const maCn = event.target.value;
-    // if (maCn == '') {
-    //   this.DSTBComponent.getAllThongBao();
-    // } else {
-    //   this.DSTBComponent.getSinhVienByMaCN(maCn);
-    // }
-  }
-
-  sortThongBao(event: any) {
-    const sort = event.target.value;
-    this.DSTBComponent.sortThongBao(sort);
   }
 }

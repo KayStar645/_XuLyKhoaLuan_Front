@@ -51,8 +51,6 @@
 
   <app-ministry-danhsachthamgia
     [searchName]="searchName"
-    [isSelectedSV]="isSelectedSV"
-    (returnIsSelectedSV)="setIsSelectedSv($event)"
   ></app-ministry-danhsachthamgia>
 
   <div id="create" (click)="handleToggleAdd()"></div>
@@ -73,78 +71,29 @@
 
     <h2 class="title">THÊM SINH VIÊN VÀO ĐỢT ĐĂNG KÝ MỚI</h2>
 
-    <div class="row form-list form">
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="form-control row ali-center form-control">
-          <p class="label">Mã sinh viên</p>
-          <div class="form-value">
-            <select
-              formControlName="maSv"
-              (blur)="svForm.inputBlur($event)"
-              class="form-input"
-            >
-              <option value="">Không có</option>
-              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                {{ cn?.tenCn }}
-              </option>
-            </select>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-
-        <label class="form-control row ali-center form-control">
-          <p class="label">Tên sinh viên</p>
-          <div class="form-value">
-            <select
-              formControlName="tenSv"
-              (blur)="svForm.inputBlur($event)"
-              class="form-input"
-            >
-              <option value="">Không có</option>
-              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                {{ cn?.tenCn }}
-              </option>
-            </select>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-      </div>
-
-      <div class="h-6 p-l-12 p-r-12">
-        <label class="input row ali-center form-control">
-          <p class="label">Chuyên ngành</p>
-          <div class="form-value">
-            <select
-              formControlName="maCn"
-              (blur)="svForm.inputBlur($event)"
-              class="form-input"
-            >
-              <option value="">Không có</option>
-              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                {{ cn?.tenCn }}
-              </option>
-            </select>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-
-        <label class="input row ali-center form-control">
-          <p class="label">Lớp</p>
-          <div class="form-value">
-            <select
-              formControlName="lop"
-              (blur)="svForm.inputBlur($event)"
-              class="form-input"
-            >
-              <option value="">Không có</option>
-              <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                {{ cn?.tenCn }}
-              </option>
-            </select>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-      </div>
+    <div class="list">
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+        <tr class="list-header">
+          <th>Mã SV</th>
+          <th>Họ và tên</th>
+          <th>Lớp</th>
+          <th>Chuyên ngành</th>
+          <th class="add-all" (click)="toggleAddAll($event)">Thêm</th>
+        </tr>
+        
+        <tbody *ngFor="let sv of listSinhVien">
+          <tr class="br-line">
+            <td class="text-center">{{ sv?.maSv }}</td>
+            <td class="text-left">
+              {{ sv.tenSv }}
+            </td>
+            <td class="text-left">{{ sv.email }}</td>
+            <td class="text-center">{{ sv.lop }}</td>
+            <td class="text-center add-btn" (click)="toggleAdd($event)"></td>
+            <!-- <td class="text-left">{{ getTenCNById(sv.maCn) }}</td> -->
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="submit-btn text-right">

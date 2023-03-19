@@ -8,32 +8,12 @@
           [(ngModel)]="searchName"
         />
       </li>
-      <li class="search-item">
-        <select
-          class="search-select"
-          id="sort-select"
-          (change)="sortThongBao($event)"
-        >
-          <option value="">Mặc định</option>
-          <option value="asc-name">Tăng theo tiêu đề</option>
-          <option value="desc-name">Giảm theo tiêu đề</option>
-        </select>
-      </li>
       <li class="search-item row ali-center jus-end flex-1">
         <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
         <button class="search-button" (click)="onShowFormUpdate()">Sửa</button>
         <button class="search-button" (click)="clickDelete()">Xóa</button>
       </li>
     </ul>
-
-    <div class="p-t-12">
-      <p class="notify" *ngIf="!isSelectedTB">
-        (⁎) Giữ CRT + Click để chọn nhiều
-      </p>
-      <p class="notify" *ngIf="isSelectedTB">
-        (⁎) Nhấn Esc để thoát chọn nhiều
-      </p>
-    </div>
   </div>
 
   <!-- <app-ministry-danhsachthongbao

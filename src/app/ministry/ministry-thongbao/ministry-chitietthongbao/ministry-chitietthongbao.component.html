@@ -1,1 +1,33 @@
-<p>ministry-chitietthongbao works!</p>
+<form class="container" [formGroup]="tbForm.form">
+  <div class="form-control">
+    <p class="label p-b-8">Tiêu đề thông báo</p>
+
+    <div class="form-value">
+      <quill-editor
+        class="form-input title"
+        spellcheck="false"
+        placeholder=""
+        formControlName="tenTb"
+        [modules]="notifyNameConfig"
+      >
+      </quill-editor>
+      <p class="error-mess"></p>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <p class="label p-b-8">Nội dung</p>
+
+    <div class="form-value">
+      <quill-editor
+        class="form-input title"
+        spellcheck="false"
+        placeholder=""
+        formControlName="noiDung"
+        [modules]="notifyContentConfig"
+      >
+      </quill-editor>
+      <p class="error-mess"></p>
+    </div>
+  </div>
+</form>
