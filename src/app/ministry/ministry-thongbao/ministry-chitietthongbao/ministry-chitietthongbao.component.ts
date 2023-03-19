@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import axios from 'axios';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { Form } from 'src/assets/utils';
+import { environment } from 'src/environments/environment';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -29,25 +31,14 @@ export class MinistryChitietthongbaoComponent implements OnInit {
 
   notifyContentConfig = {
     toolbar: [
-      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-      ['blockquote', 'code-block'],
-
-      [{ header: 1 }, { header: 2 }], // custom button values
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-      [{ direction: 'rtl' }], // text direction
-
-      [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-      [{ font: [] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ color: [] }],
       [{ align: [] }],
-
-      ['clean'], // remove formatting button
-
-      ['link', 'image', 'video'], // link and image, video
+      ['link'],
+      ['clean'],
     ],
   };
 
@@ -61,9 +52,19 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       this.maTb = parseInt(params['maTb']);
     });
 
-    await this.thongBaoService.getById(this.maTb).then((data) => {
-      this.thongBao = data;
-    });
+    await this.thongBaoService
+      .getById(this.maTb)
+      .then((data) => {
+        this.thongBao = data;
+        return data;
+      })
+      .then((response) => {
+        axios.get(environment.githubAPI + response.fileTb).then((response) => {
+          this.thongBao.fileTb = response.data.download_url;
+        });
+      });
+
+    console.log(this.thongBao);
 
     this.tbForm.form.patchValue({
       tenTb: this.thongBao.tenTb,
