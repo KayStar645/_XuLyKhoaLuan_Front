@@ -30,7 +30,6 @@ export class thongBaoService {
         ).toPromise() ?? response as ThongBao;
         return response;
       } catch (error) {
-        console.error(error);
         throw error;
       }
     }

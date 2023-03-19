@@ -31,7 +31,6 @@ export class thamGiaHdService {
         ).toPromise() ?? response as ThamGiaHd;
         return response;
       } catch (error) {
-        console.error(error);
         throw error;
       }
     }
