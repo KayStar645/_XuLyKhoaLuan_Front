@@ -20,13 +20,22 @@
 
     <div class="form-value">
       <quill-editor
-        class="form-input title"
+        class="form-input content"
         spellcheck="false"
         placeholder=""
         formControlName="noiDung"
         [modules]="notifyContentConfig"
       >
       </quill-editor>
+      <p class="error-mess"></p>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <p class="label p-b-8">File đi kèm:</p>
+
+    <div class="form-value">
+      <input type="file" name="" id="" />
       <p class="error-mess"></p>
     </div>
   </div>
