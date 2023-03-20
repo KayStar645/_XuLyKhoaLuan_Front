@@ -2,6 +2,8 @@ import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import axios from 'axios';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +25,40 @@ export class shareService {
       return formattedDate == null ? '---' : formattedDate.toString();
     }
     return date;
+  }
+
+  public uploadFile(files: any) {
+    let file = files.files[0];
+    const fileReader = new FileReader();
+    const apiUrl = environment.githubNotifyFilesAPI + file.name;
+
+    this.http.get(apiUrl).subscribe(
+      (res) => {},
+      (err) => {
+        fileReader.onload = () => {
+          const fileDataUrl = fileReader.result as string;
+          const fileContent = fileDataUrl.split(',')[1];
+
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${environment.githubToken}`,
+            }),
+          };
+          const body = {
+            message: `Add ${file.name}`,
+            content: fileContent,
+            branch: 'main',
+          };
+
+          this.http.put(apiUrl, body, httpOptions).subscribe(
+            (response) => {},
+            (error) => {}
+          );
+        };
+        fileReader.readAsDataURL(file);
+      }
+    );
   }
 
   public getDay(date: string) {

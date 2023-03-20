@@ -10,6 +10,7 @@ export class ThongBao {
   constructor() {}
 
   init(
+    maTb: number,
     tenTb: string,
     noiDung: string,
     hinhAnh: string,
@@ -17,6 +18,7 @@ export class ThongBao {
     maKhoa: string,
     ngayTb: string
   ) {
+    this.maTb = maTb;
     this.tenTb = tenTb;
     this.noiDung = noiDung;
     this.hinhAnh = hinhAnh;

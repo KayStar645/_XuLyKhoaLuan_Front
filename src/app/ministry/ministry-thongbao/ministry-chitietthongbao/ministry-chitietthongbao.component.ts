@@ -8,6 +8,7 @@ import { thongBaoService } from 'src/app/services/thongBao.service';
 import { Form } from 'src/assets/utils';
 import { environment } from 'src/environments/environment';
 import { format } from 'date-fns';
+import { shareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-ministry-chitietthongbao',
@@ -24,7 +25,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     hinhAnh: ['man_with_tab.png', Validators.required],
     fileTb: [''],
     maKhoa: ['CNTT', Validators.required],
-    ngayTb: [format(new Date(), 'dd/MM/yyyy')],
+    ngayTb: [format(new Date(), 'yyyy-MM-dd')],
   });
   notifyNameConfig = {
     toolbar: [['bold', 'italic', 'underline'], [{ color: [] }], ['clean']],
@@ -45,6 +46,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private sharedService: shareService,
     private thongBaoService: thongBaoService,
     private toastr: ToastrService
   ) {}
@@ -98,8 +100,10 @@ export class MinistryChitietthongbaoComponent implements OnInit {
   async onAdd() {
     if (this.tbForm.form.valid) {
       let thongBao = new ThongBao();
+      let file: any = document.querySelector('.attach-file');
       let formValue: any = this.tbForm.form.value;
       thongBao.init(
+        0,
         formValue.tenTb,
         formValue.noiDung,
         formValue.hinhAnh,
@@ -107,12 +111,13 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         formValue.maKhoa,
         formValue.ngayTb
       );
-      console.log(thongBao);
       try {
         await this.thongBaoService.add(thongBao);
+        this.sharedService.uploadFile(file);
         this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
       } catch (error) {
         this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
+        console.log(error);
       }
     } else {
       this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');

@@ -9,6 +9,7 @@ export const environment = {
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Files/',
   githubNotifyImagesAPI:
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Images/',
+  githubToken: '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',
 };
 
 /*
