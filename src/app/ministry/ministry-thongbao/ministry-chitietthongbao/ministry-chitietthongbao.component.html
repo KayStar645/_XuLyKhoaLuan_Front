@@ -57,7 +57,12 @@
     <p class="label p-b-8">File đi kèm:</p>
 
     <div class="form-value">
-      <input type="file" (change)="onChange($event)" class="attach-file"/>
+      <input
+        type="file"
+        (change)="onChange($event)"
+        class="attach-file"
+        value="test.pdf"
+      />
       <p class="error-mess"></p>
     </div>
   </div>

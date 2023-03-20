@@ -17,6 +17,7 @@ import { shareService } from 'src/app/services/share.service';
 })
 export class MinistryChitietthongbaoComponent implements OnInit {
   maTb: number = -1;
+  oldForm: any;
   pdfSrc: any;
   thongBao: ThongBao = new ThongBao();
   tbForm = new Form({
@@ -74,6 +75,8 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       this.tbForm.form.patchValue({
         ...this.thongBao,
       });
+
+      this.oldForm = this.tbForm.form.value;
     }
   }
 
@@ -95,8 +98,6 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     }
   }
 
-  onShowFormUpdate() {}
-
   async onAdd() {
     if (this.tbForm.form.valid) {
       let thongBao = new ThongBao();
@@ -114,9 +115,9 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       try {
         await this.thongBaoService.add(thongBao);
         this.sharedService.uploadFile(file);
-        this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
+        this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
       } catch (error) {
-        this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
+        this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');
         console.log(error);
       }
     } else {
@@ -124,7 +125,43 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     }
   }
 
-  onUpdate() {}
+  async onUpdate() {
+    if (this.tbForm.form.valid) {
+      if (
+        JSON.stringify(this.oldForm) !== JSON.stringify(this.tbForm.form.value)
+      ) {
+        let thongBao = new ThongBao();
+        let file: any = document.querySelector('.attach-file');
+        let formValue: any = this.tbForm.form.value;
+        thongBao.init(
+          this.maTb,
+          formValue.tenTb,
+          formValue.noiDung,
+          formValue.hinhAnh,
+          formValue.fileTb,
+          formValue.maKhoa,
+          formValue.ngayTb
+        );
+        console.log(formValue.fileTb);
+        try {
+          await this.thongBaoService.update(thongBao);
+          if (file.files[0]) {
+            this.sharedService.uploadFile(file);
+          }
+          this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
+        } catch (error) {
+          this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
+        }
+      } else {
+        this.toastr.info(
+          'Thông tin của bạn không thay đổi kể từ lần cuối',
+          'Thông báo !'
+        );
+      }
+    } else {
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+    }
+  }
 
   onDelete() {}
 
