@@ -50,6 +50,7 @@ import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/
 import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
 import { MinistryDotthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-dotthamgia.component';
 import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia
 
     NgProgressModule,
     NgProgressHttpModule,
+    PdfViewerModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot({

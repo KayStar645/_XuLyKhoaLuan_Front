@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
+import { ToastrService } from 'ngx-toastr';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { Form } from 'src/assets/utils';
 import { environment } from 'src/environments/environment';
-import { v4 as uuidv4 } from 'uuid';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-ministry-chitietthongbao',
@@ -15,15 +16,15 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class MinistryChitietthongbaoComponent implements OnInit {
   maTb: number = -1;
+  pdfSrc: any;
   thongBao: ThongBao = new ThongBao();
   tbForm = new Form({
-    maTb: ['', Validators.required],
     tenTb: ['', Validators.required],
     noiDung: [''],
-    hinhAnh: ['', Validators.required],
+    hinhAnh: ['man_with_tab.png', Validators.required],
     fileTb: [''],
-    maKhoa: ['', Validators.required],
-    ngayTb: ['', Validators.required],
+    maKhoa: ['CNTT', Validators.required],
+    ngayTb: [format(new Date(), 'dd/MM/yyyy')],
   });
   notifyNameConfig = {
     toolbar: [['bold', 'italic', 'underline'], [{ color: [] }], ['clean']],
@@ -44,7 +45,8 @@ export class MinistryChitietthongbaoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private thongBaoService: thongBaoService
+    private thongBaoService: thongBaoService,
+    private toastr: ToastrService
   ) {}
 
   async ngOnInit() {
@@ -52,26 +54,76 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       this.maTb = parseInt(params['maTb']);
     });
 
-    await this.thongBaoService
-      .getById(this.maTb)
-      .then((data) => {
-        this.thongBao = data;
-        return data;
-      })
-      .then((response) => {
-        axios.get(environment.githubAPI + response.fileTb).then((response) => {
-          this.thongBao.fileTb = response.data.download_url;
+    if (this.maTb > 0) {
+      await this.thongBaoService
+        .getById(this.maTb)
+        .then((data) => {
+          this.thongBao = data;
+          return data;
+        })
+        .then((response) => {
+          axios
+            .get(environment.githubNotifyFilesAPI + response.fileTb)
+            .then((response) => {
+              this.pdfSrc = response.data.download_url;
+            });
         });
+
+      this.tbForm.form.patchValue({
+        ...this.thongBao,
       });
-
-    console.log(this.thongBao);
-
-    this.tbForm.form.patchValue({
-      tenTb: this.thongBao.tenTb,
-    });
+    }
   }
 
-  randomeNumber(length: number): number {
+  onChange(event: any) {
+    let $img: any = event.target;
+
+    this.tbForm.form.patchValue({
+      fileTb: event.target.files[0].name,
+    });
+
+    if (typeof FileReader !== 'undefined') {
+      let reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.pdfSrc = e.target.result;
+      };
+
+      reader.readAsArrayBuffer($img.files[0]);
+    }
+  }
+
+  onShowFormUpdate() {}
+
+  async onAdd() {
+    if (this.tbForm.form.valid) {
+      let thongBao = new ThongBao();
+      let formValue: any = this.tbForm.form.value;
+      thongBao.init(
+        formValue.tenTb,
+        formValue.noiDung,
+        formValue.hinhAnh,
+        formValue.fileTb,
+        formValue.maKhoa,
+        formValue.ngayTb
+      );
+      console.log(thongBao);
+      try {
+        await this.thongBaoService.add(thongBao);
+        this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
+      } catch (error) {
+        this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
+      }
+    } else {
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+    }
+  }
+
+  onUpdate() {}
+
+  onDelete() {}
+
+  randomNumber(length: number): number {
     let result = '';
     const characters = '0123456789';
     const charactersLength = characters.length;

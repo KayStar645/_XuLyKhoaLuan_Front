@@ -1,4 +1,25 @@
-<div id="container">
+<div id="functional-container">
+  <div class="search-list">
+    <ul class="search-container row ali-center">
+      <li class="search-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tiêu đề..."
+          [(ngModel)]="searchName"
+        />
+      </li>
+      <li class="search-item row ali-center jus-end flex-1">
+        <a
+          [routerLink]="['/ministry/thong-bao/chi-tiet', { maTb: -1 }]"
+          class="search-button row ali-center jus-center"
+          >Thêm</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="container" *ngIf="listTB.length > 0">
   <div class="row notify-list">
     <div class="h-5 p-l-12 p-r-12 p-t-8 first-info">
       <div class="item-container">
@@ -7,7 +28,7 @@
         <div class="info flex-1">
           <div class="row flex-column jus-between">
             <div class="name">
-              <p>{{ listTB[0]?.tenTb }}</p>
+              <p [innerHTML]="listTB[0]?.tenTb"></p>
             </div>
             <p class="date row ali-center jus-end">
               <i class="icon-cal fa-regular fa-calendar"></i>
@@ -32,7 +53,7 @@
           <div class="info flex-1">
             <div class="row flex-column jus-between">
               <div class="name">
-                <p>{{ thongBao.tenTb }}</p>
+                <p [innerHTML]="thongBao.tenTb"></p>
               </div>
               <p class="date row ali-center jus-end">
                 <i class="icon-cal fa-regular fa-calendar"></i>

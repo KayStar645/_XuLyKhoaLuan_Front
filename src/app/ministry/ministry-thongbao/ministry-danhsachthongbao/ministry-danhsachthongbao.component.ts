@@ -43,9 +43,9 @@ export class MinistryDanhsachthongbaoComponent {
     this.root = this.listTB;
 
     await Promise.all(
-      this.listTB.map(async (tb: any) => {
+      this.listTB.map(async (tb: ThongBao) => {
         const hinhAnhResponse = await axios.get(
-          environment.githubAPI + tb.hinhAnh
+          environment.githubNotifyImagesAPI + tb.hinhAnh
         );
         tb.hinhAnh = hinhAnhResponse.data.download_url;
       })

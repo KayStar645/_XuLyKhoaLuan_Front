@@ -1,3 +1,25 @@
+<div id="functional-container">
+  <div class="search-list">
+    <ul class="search-container row ali-center">
+      <li class="search-item row ali-center jus-end flex-1">
+        <button class="search-button" (click)="onAdd()" *ngIf="maTb == -1">
+          Thêm
+        </button>
+        <button
+          class="search-button update-btn"
+          (click)="onUpdate()"
+          *ngIf="maTb > -1"
+        >
+          Sửa
+        </button>
+        <button class="search-button" *ngIf="maTb > -1" (click)="onDelete()">
+          Xóa
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <form class="container" [formGroup]="tbForm.form">
   <div class="form-control">
     <p class="label p-b-8">Tiêu đề thông báo</p>
@@ -35,8 +57,15 @@
     <p class="label p-b-8">File đi kèm:</p>
 
     <div class="form-value">
-      <input type="file" name="" id="" />
+      <input type="file" (change)="onChange($event)" />
       <p class="error-mess"></p>
     </div>
   </div>
+
+  <pdf-viewer
+    [src]="pdfSrc"
+    [render-text]="true"
+    [original-size]="false"
+    style="width: 60%; height: 100vh; margin: 0 auto; overflow: hidden"
+  ></pdf-viewer>
 </form>

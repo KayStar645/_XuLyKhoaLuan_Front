@@ -5,8 +5,10 @@
 export const environment = {
   production: false,
   api: 'https://localhost:7139',
-  githubAPI:
-    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/',
+  githubNotifyFilesAPI:
+    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Files/',
+  githubNotifyImagesAPI:
+    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Images/',
 };
 
 /*
