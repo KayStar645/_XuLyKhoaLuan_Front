@@ -38,10 +38,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   sinhVienFile: any;
 
-  svAddForm: any;
-  svUpdateForm: any;
-  svOldForm: any;
-
   svForm = new Form({
     maSv: ['', Validators.required],
     tenSv: ['', Validators.required],
@@ -59,10 +55,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
     private dotDkService: dotDkService,
     private thamGiaService: thamGiaService,
     private nhomService: nhomService
-  ) {
-    this.svAddForm = this.svForm.form;
-    this.svUpdateForm = this.svForm.form;
-  }
+  ) { }
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách sinh viên');
@@ -83,43 +76,50 @@ export class MinistryDotthamgiaComponent implements OnInit {
     const parent = getParentElement(element, '.table');
     const child = parent.querySelectorAll('.add-btn');
 
-    if (element.classList.contains('active')) {
-      child.forEach((item: any) => {
-        item.classList.remove('active');
-        this.selectedSV = [];
-      });
-      element.classList.remove('active');
-    } else {
+    if (!element.classList.contains('active')) {
+      this.selectedSV = [];
       child.forEach((item: any) => {
         const parent = getParentElement(item, '.br-line');
         const firstElememt = parent.firstChild;
 
-        if (!item.classList.contains('active')) {
-          item.classList.add('active');
-        }
-
-        if (!this.selectedSV.includes(firstElememt.innerHTML)) {
-          this.selectedSV.push(firstElememt.innerHTML);
+        this.selectedSV.push(firstElememt.innerHTML);
+        item.firstChild.classList.remove('none');
+      });
+      element.classList.add('active');  
+    } else {
+      this.selectedSV = [];
+      child.forEach((item: any) => {
+        if (!item.firstChild.classList.contains('none')) {
+          item.firstChild.classList.add('none');
         }
       });
-      element.classList.add('active');
+      element.classList.remove('active');
     }
   }
 
   toggleAdd(event: any) {
-    const element = event.target;
-    const parent = getParentElement(element, '.br-line');
-    const firstElememt = parent.firstChild;
+    try {
+      const element = event.target;
+      const parent = getParentElement(element, '.br-line');
+      const firstElememt = parent.firstChild;
+      
+      // Câu này để văng lỗi
+      element.firstChild.classList.contains('none');
+      
+      this.selectedSV.push(firstElememt.innerHTML);
 
-    if (element.classList.contains('active')) {
+      element.firstChild.classList.remove('none');
+    } catch {
+      const element = getParentElement(event.target, '.add-btn');
+      const parent = getParentElement(element, '.br-line');
+      const firstElememt = parent.firstChild;
+      
       let index = this.selectedSV.findIndex(
         (t) => t === firstElememt.innerHTML
       );
       this.selectedSV.splice(index, 1);
-      element.classList.remove('active');
-    } else {
-      this.selectedSV.push(firstElememt.innerHTML);
-      element.classList.add('active');
+
+      element.firstChild.classList.add('none');
     }
   }
 
@@ -144,7 +144,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
       updateBox.classList.add('active');
       update.classList.add('active');
-      this.svOldForm = this.svForm.form.value;
+      
     } else {
       this.toastr.warning(
         'Vui lòng chọn sinh viên để cập nhập thông tin',
@@ -180,10 +180,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (
-      JSON.stringify(this.svOldForm) !== JSON.stringify(this.svForm.form.value)
-    ) {
-      let option = new Option('#update_box');
+    let option = new Option('#update_box');
 
       option.show('warning');
 
@@ -200,10 +197,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
         update.classList.remove('active');
         updateBox.classList.remove('active');
       });
-    } else {
-      update.classList.remove('active');
-      updateBox.classList.remove('active');
-    }
   }
 
   async clickDelete() {
@@ -260,22 +253,8 @@ export class MinistryDotthamgiaComponent implements OnInit {
   }
 
   addSinhVien() {
-    if (this.svAddForm.valid) {
-      const sinhVien = new SinhVien();
-      sinhVien.init(
-        this.svAddForm.value['maSv'],
-        this.svAddForm.value['tenSv'],
-        this.svAddForm.value['ngaySinh'],
-        this.svAddForm.value['gioiTinh'],
-        this.svAddForm.value['lop'],
-        this.svAddForm.value['sdt'],
-        this.svAddForm.value['email'],
-        this.svAddForm.value['maCn']
-      );
-      this.f_AddSinhVien(sinhVien);
-    } else {
-      this.svForm.validate('#create_box');
-    }
+    const sinhVien = new SinhVien();
+    this.f_AddSinhVien(sinhVien);
   }
 
   async f_AddSinhVien(sv: SinhVien) {
@@ -326,9 +305,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
     try {
       await this.nhomService.add(nhom);
       await this.thamGiaService.add(thamgia);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) { }
   }
 
   resetLineActive() {
@@ -341,49 +318,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
   updateSinhVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-
-    if (this.svUpdateForm.valid) {
-      if (
-        JSON.stringify(this.svOldForm) ===
-        JSON.stringify(this.svForm.form.value)
-      ) {
-        this.toastr.warning(
-          'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
-          'Thông báo !'
-        );
-      } else {
-        const sinhVien = new SinhVien();
-        sinhVien.init(
-          this.svUpdateForm.value['maSv'],
-          this.svUpdateForm.value['tenSv'],
-          this.svUpdateForm.value['ngaySinh'],
-          this.svUpdateForm.value['gioiTinh'],
-          this.svUpdateForm.value['lop'],
-          this.svUpdateForm.value['sdt'],
-          this.svUpdateForm.value['email'],
-          this.svUpdateForm.value['maCn']
-        );
-
-        try {
-          const result = this.sinhVienService.update(sinhVien);
-          update.classList.remove('active');
-          updateBox.classList.remove('active');
-          this.DSTGComponent.getAllSinhVien();
-          this.resetLineActive();
-          this.toastr.success(
-            'Cập nhập thông tin sinh viên thành công',
-            'Thông báo !'
-          );
-        } catch (error) {
-          this.toastr.error(
-            'Thông tin bạn cung cấp không hợp lệ.',
-            'Thông báo !'
-          );
-        }
-      }
-    } else {
-      this.svForm.validate('#update_box');
-    }
 
     this.DSTGComponent.lineSV = new SinhVien();
   }
@@ -404,8 +338,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
     } else {
       this.namHoc = dotdk.slice(0, dotdk.length - 1);
       this.dot = dotdk.slice(dotdk.length - 1);
-      console.log(this.namHoc);
-      console.log(this.dot);
       this.DSTGComponent.getSinhVienByDotDk(this.namHoc, this.dot);
     }
   }

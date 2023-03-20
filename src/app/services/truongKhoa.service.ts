@@ -23,28 +23,16 @@ export class truongKhoaService {
 
     async getByMaKhoaMaGV(MaKhoa: string, MaGV: string):Promise<TruongKhoa> {
       var response = new TruongKhoa();
-      try {
-        response = await this.http.get<TruongKhoa>(
-          `${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as TruongKhoa;
-        return response;
-      } catch {
-        return response;
-      }
+      return await this.http.get<TruongKhoa>(
+        `${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`,
+      this.shareService.httpOptions).toPromise()?? response as TruongKhoa;
     }
 
     async getByMaGV(MaGV: string):Promise<TruongKhoa> {
       var response = new TruongKhoa();
-      try {
-        response = await this.http.get<TruongKhoa>(
-          `${this.apiUrl}/api/Truongkhoas/MaGV?MaGV=${MaGV}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as TruongKhoa;
-        return response;
-      } catch {
-        return response;
-      }
+      return await this.http.get<TruongKhoa>(
+        `${this.apiUrl}/api/Truongkhoas/MaGV?MaGV=${MaGV}`,
+      this.shareService.httpOptions).toPromise()?? response as TruongKhoa;
     }
 
     async add(TruongKhoa: TruongKhoa): Promise<any> {

@@ -54,23 +54,35 @@
   ></app-ministry-danhsachthamgia>
 
   <div id="create" (click)="handleToggleAdd()"></div>
-  <form id="create_box" [formGroup]="svAddForm" class="form">
-    <div class="form-notify">
-      <div class="notify-container">
-        <p class="notify-title">Thông báo !</p>
-        <p class="notify-content">
-          Việc tắt Form sẽ xóa tất cả thông tin hiện đang có trên Form.
-        </p>
-        <div class="row ali-center jus-end">
-          <button class="cancel">Hủy</button>
-          <button class="agree">Đồng ý</button>
-        </div>
-        <div class="progress-bar"></div>
-      </div>
-    </div>
+  <form id="create_box" class="form">
 
     <h2 class="title">THÊM SINH VIÊN VÀO ĐỢT ĐĂNG KÝ MỚI</h2>
-
+    <ul class="search-container row ali-center">
+      <li class="search-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="getSinhVienByMaCN($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
+            {{ cn?.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class="search-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="getSinhVienByDotDk($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
+            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
+          </option>
+        </select>
+      </li>
+    </ul>
     <div class="list">
       <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
         <tr class="list-header">
@@ -78,7 +90,7 @@
           <th>Họ và tên</th>
           <th>Lớp</th>
           <th>Chuyên ngành</th>
-          <th class="add-all" (click)="toggleAddAll($event)">Thêm</th>
+          <th class="add-all" (click)="toggleAddAll($event)">Tham gia</th>
         </tr>
         
         <tbody *ngFor="let sv of listSinhVien">
@@ -89,7 +101,9 @@
             </td>
             <td class="text-left">{{ sv.email }}</td>
             <td class="text-center">{{ sv.lop }}</td>
-            <td class="text-center add-btn" (click)="toggleAdd($event)"></td>
+            <td class="text-center add-btn" (click)="toggleAdd($event)">
+              <img src="../../../assets/Images/tich-xanh.png" style="width: 30%;" class="none" />
+            </td>
             <!-- <td class="text-left">{{ getTenCNById(sv.maCn) }}</td> -->
           </tr>
         </tbody>
@@ -97,9 +111,6 @@
     </div>
 
     <div class="submit-btn text-right">
-      <button class="ma-r-12" (click)="svForm.resetForm('#create_box')">
-        Làm mới
-      </button>
       <button class="btn-add" (click)="addSinhVien()">Thêm sinh viên</button>
     </div>
   </form>

@@ -86,12 +86,10 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
   async getAllSinhVien() {
     this.listSV = await this.sinhVienService.getAll();
-    console.log(this.listSV);
   }
 
   async getAllSinhVienByDotdk() {
     this.listTg = await this.thamGiaService.getAll();
-    this.root = this.listTg;
   }
 
   async getSinhVienByMaCN(maCn: string) {

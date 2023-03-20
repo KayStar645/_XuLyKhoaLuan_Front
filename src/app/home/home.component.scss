@@ -73,8 +73,10 @@
     right: 0;
     border-radius: 4px;
     display: none;
+    z-index: 9999;
   }
   
+  #box-body.active,
   #box-account.active {
     display: block;
   }
@@ -101,4 +103,3 @@
   .body {
     margin-top: 60px;
   }
-  
