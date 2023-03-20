@@ -1,5 +1,5 @@
 .list {
-  height: 400px;
+  height: calc(100vh - 260px);
   overflow: auto;
 
   .table {
@@ -12,16 +12,20 @@
   top: -1px;
 }
 
+.add-btn {
+  width: 4px;
+  padding: 0;
+}
+
 .add-all {
-  background: #fff;
-  color: #333;
+  width: 70px;
 }
 
-.add-all.active {
-  background: dodgerblue;
-  color: #fff;
+.none {
+  display: none;
 }
 
-.add-btn.active {
-  background: dodgerblue;
+.search__item select {
+  width: 230px;
+  height: 40px;
 }

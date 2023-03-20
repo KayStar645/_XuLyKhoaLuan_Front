@@ -226,28 +226,6 @@ export class MinistrySinhvienComponent implements OnInit {
     dragBox.classList.remove('active');
   }
 
-  // async onReadFile() {
-  //   if (this.sinhVienFile.data.length > 0) {
-  //     const datas = this.sinhVienFile.data;
-
-  //     datas.forEach((data: any) => {
-  //       let sinhVien = new SinhVien();
-  //       sinhVien.init(
-  //         data[0] ? JSON.stringify(data[0]) : '',
-  //         data[1] ? data[1] : '',
-  //         data[2] ? data[2] : '',
-  //         data[3] ? data[3] : '',
-  //         data[4] ? data[4] : '',
-  //         data[5] ? data[5] : '',
-  //         data[6] ? data[6] : '',
-  //         data[7] ? data[7] : ''
-  //       );
-  //       this.f_AddSinhVien(sinhVien);
-  //     });
-  //     this.DSSVComponent.getAllSinhVien();
-  //   }
-  // }
-
   async onReadFile() {
     if (this.sinhVienFile.data.length > 0) {
       const datas = this.sinhVienFile.data;

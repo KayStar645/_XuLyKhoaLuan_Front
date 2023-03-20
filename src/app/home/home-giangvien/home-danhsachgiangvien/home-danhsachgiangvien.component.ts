@@ -17,13 +17,8 @@ import { BoMon } from 'src/app/models/BoMon.model';
 })
 export class HomeDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
-  @Input() isSelectedGV = false;
-  @Output() returnIsSelectedGV = new EventEmitter<boolean>();
-  listBM: BoMon[] = [];
+
   root: GiangVien[] = [];
-  lineGV = new GiangVien();
-  elementOld: any;
-  selectedGV: string[] = [];
   listGV: GiangVien[] = [];
 
   constructor(
@@ -37,7 +32,6 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
 
   async ngOnInit() {
     this.getAllGiangVien();
-    this.listBM = await this.boMonService.getAll();
 
   }
 
@@ -65,28 +59,6 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
     }
   }
 
-  async getGiangVienByMaBM(maBM: string) {
-    this.listGV = await this.giangVienService.getByBoMon(maBM);
-  }
-
-  async sortGiangVien(sort: string) {
-    if (sort == 'asc-id') {
-      this.listGV.sort((a, b) => a.maGv.localeCompare(b.maGv));
-    } else if (sort == 'desc-id') {
-      this.listGV.sort((a, b) => b.maGv.localeCompare(a.maGv));
-    } else if (sort == 'asc-name') {
-      this.listGV.sort((a, b) => a.tenGv.localeCompare(b.tenGv));
-    } else if (sort == 'desc-name') {
-      this.listGV.sort((a, b) => b.tenGv.localeCompare(a.tenGv));
-    } else if (sort == 'asc-subject') {
-      this.listGV.sort((a, b) => a.maBm.localeCompare(b.maBm));
-    } else if (sort == 'desc-subject') {
-      this.listGV.sort((a, b) => b.maBm.localeCompare(a.maBm));
-    } else {
-      this.listGV = await this.giangVienService.getAll();
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       this.filterItems();
@@ -98,15 +70,6 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
     this.listGV = this.root.filter((item) =>
       item.tenGv.toLowerCase().includes(searchName)
     );
-  }
-
-  getTenBMById(maBM: string): string {
-    let tenbbm: any = '';
-    if (this.listBM) {
-      tenbbm = this.listBM.find((t) => t.maBm === maBM)?.tenBm;
-    }
-
-    return tenbbm;
   }
 
   dateFormat(str: string): string {

@@ -123,7 +123,7 @@
             <p>Thông báo</p>
           </a>
         </li>
-        <li class="navbar-item">
+        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
           <a routerLink="/home/ke-hoach" class="navbar-link">
             <img
               class="navbar-icon"
@@ -156,7 +156,7 @@
               <p>Giảng viên</p>
             </a>
         </li>
-        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
+        <li class="navbar-item">
           <a routerLink="/home/de-tai" class="navbar-link">
             <img
               class="navbar-icon"

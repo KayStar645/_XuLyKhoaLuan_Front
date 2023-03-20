@@ -10,7 +10,6 @@
           <th>SĐT</th>
           <th>Ngày nhận việc</th>
           <th>Ngày nghỉ</th>
-          <th>Bộ môn công tác</th>
         </tr>
         <tbody *ngFor="let gv of listGV">
           <tr>
@@ -24,7 +23,6 @@
             <td class="text-center">{{ gv?.sdt }}</td>
             <td class="text-center">{{ dateFormat(gv.ngayNhanViec) }}</td>
             <td class="text-center">{{ dateFormat(gv.ngayNghi) }}</td>
-            <td class="text-left">{{ getTenBMById(gv.maBm) }}</td>
           </tr>
         </tbody>
       </table>

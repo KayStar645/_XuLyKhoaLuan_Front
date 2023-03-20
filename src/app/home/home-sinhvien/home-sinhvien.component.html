@@ -1,1 +1,30 @@
-<p>home-sinhvien works!</p>
+<div id="functional-container">
+    <div class="search-list">
+      <ul class="search-container row ali-center">
+        <li class="search-item">
+          <select
+            class="search-select"
+            id="search-select"
+            (change)="getSinhVienByMaCN($event)"
+          >
+            <option value="">Tất cả</option>
+            <option *ngFor="let cn of listChuyenNganh" [value]="cn.maCn">
+              {{ cn?.tenCn }}
+            </option>
+          </select>
+        </li>
+        <li class="search-item">
+          <input
+            type="text"
+            placeholder="Tìm theo tên..."
+            [(ngModel)]="searchName"
+          />
+        </li>
+      </ul>
+    </div>
+  
+    <app-home-danhsachsinhvien
+      [searchName]="searchName">
+    </app-home-danhsachsinhvien>   
+  </div>
+  

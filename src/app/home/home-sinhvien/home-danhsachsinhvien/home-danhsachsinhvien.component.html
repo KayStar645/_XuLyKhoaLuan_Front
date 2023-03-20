@@ -1,1 +1,29 @@
-<p>danhsachsinhvien works!</p>
+<div id="container">
+    <div>
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+        <tr>
+          <th>Mã SV</th>
+          <th>Họ và tên</th>
+          <th>Email</th>
+          <th>Ngày sinh</th>
+          <th>Giới tính</th>
+          <th>SĐT</th>
+          <th>Lớp</th>
+          <th>Chuyên ngành</th>
+        </tr>
+        <tbody *ngFor="let sv of listSV">
+          <tr class="br-line">
+            <td class="text-center">{{ sv?.maSv }}</td>
+            <td class="text-left">{{ sv.tenSv }}</td>
+            <td class="text-left">{{ sv.email }}</td>
+            <td class="text-center">{{ dateFormat(sv.ngaySinh) }}</td>
+            <td class="text-center">{{ sv.gioiTinh }}</td>
+            <td class="text-center">{{ sv.sdt }}</td>
+            <td class="text-center">{{ sv.lop }}</td>
+            <td class="text-center">{{ getTenCNById(sv.maCn) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

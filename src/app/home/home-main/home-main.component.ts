@@ -74,17 +74,12 @@ export class HomeMainComponent {
 
   resetNavbar() {
     var navbar = this.el.nativeElement.querySelector('#navbar');
-    console.log(navbar)
-    console.log(navbar.querySelectorAll('li'))
     var number = navbar.querySelectorAll('li').length;
 
     var navbar_items = this.el.nativeElement.querySelectorAll('.navbar-item');
     navbar_items.forEach((item: { style: { flexBasis: string; }; }) => {
       item.style.flexBasis = 'calc(100% / '+ number +')';
-    });
-
-
-    
+    });    
   }
 
   dateFormat(str: any): string {
