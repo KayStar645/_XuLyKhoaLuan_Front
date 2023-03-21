@@ -1,26 +1,23 @@
 <div id="functional-container">
   <div class="search-list">
-    <ul class="search-container row ali-center">
-      <li class="search-item row ali-center jus-end flex-1">
-        <button class="search-button" (click)="onAdd()" *ngIf="maTb == -1">
-          Thêm
-        </button>
-        <button
-          class="search-button update-btn"
-          (click)="onUpdate()"
-          *ngIf="maTb > -1"
-        >
+    <div class="search-container row ali-center jus-end">
+      <div class="search-item" *ngIf="maTb == -1">
+        <button class="search-button" (click)="onAdd()">Thêm</button>
+      </div>
+
+      <div class="search-item" *ngIf="maTb > -1">
+        <button class="search-button update-btn" (click)="onUpdate()">
           Sửa
         </button>
-        <button class="search-button" *ngIf="maTb > -1" (click)="onDelete()">
-          Xóa
-        </button>
-      </li>
-    </ul>
+      </div>
+      <div class="search-item" *ngIf="maTb > -1">
+        <button class="search-button" (click)="onDelete()">Xóa</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<form class="container" [formGroup]="tbForm.form">
+<form class="container tb-form" [formGroup]="tbForm.form">
   <div class="form-control">
     <p class="label p-b-8">Tiêu đề thông báo</p>
 
@@ -74,3 +71,21 @@
     style="width: 60%; height: 100vh; margin: 0 auto; overflow: hidden"
   ></pdf-viewer>
 </form>
+
+<div id="delete">
+  <div class="form-notify">
+    <div class="notify-container">
+      <p class="notify-title">Thông báo !</p>
+      <p class="notify-content">
+        Việc xóa sẽ làm tất cả thông tin có liên quan đến thông báo sẽ biến mất.
+        Bạn có chắc chắn muốn xóa ?
+      </p>
+      <div class="row ali-center jus-end">
+        <button class="cancel">Hủy</button>
+        <button class="agree">Đồng ý</button>
+      </div>
+
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+</div>

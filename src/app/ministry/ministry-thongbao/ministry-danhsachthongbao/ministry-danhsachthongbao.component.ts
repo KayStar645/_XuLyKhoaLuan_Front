@@ -4,19 +4,20 @@ import {
   EventEmitter,
   Input,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import axios from 'axios';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { shareService } from 'src/app/services/share.service';
 import { thongBaoService } from 'src/app/services/thongBao.service';
-import { getParentElement } from 'src/assets/utils';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ministry-danhsachthongbao',
   templateUrl: './ministry-danhsachthongbao.component.html',
-  styleUrls: ['./ministry-danhsachthongbao.component.scss'],
+  styleUrls: [
+    './ministry-danhsachthongbao.component.scss',
+    '../ministry-thongbao.component.scss',
+  ],
 })
 export class MinistryDanhsachthongbaoComponent {
   @Input() searchName = '';
@@ -49,19 +50,6 @@ export class MinistryDanhsachthongbaoComponent {
         );
         tb.hinhAnh = hinhAnhResponse.data.download_url;
       })
-    );
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      this.filterItems();
-    }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listTB = this.root.filter((item) =>
-      item.tenTb.toLowerCase().includes(searchName)
     );
   }
 

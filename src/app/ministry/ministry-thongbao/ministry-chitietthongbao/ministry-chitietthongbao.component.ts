@@ -5,15 +5,19 @@ import axios from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { thongBaoService } from 'src/app/services/thongBao.service';
-import { Form } from 'src/assets/utils';
+import { Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment';
 import { format } from 'date-fns';
 import { shareService } from 'src/app/services/share.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-ministry-chitietthongbao',
   templateUrl: './ministry-chitietthongbao.component.html',
-  styleUrls: ['./ministry-chitietthongbao.component.scss'],
+  styleUrls: [
+    './ministry-chitietthongbao.component.scss',
+    '../ministry-thongbao.component.scss',
+  ],
 })
 export class MinistryChitietthongbaoComponent implements OnInit {
   maTb: number = -1;
@@ -49,14 +53,18 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     private route: ActivatedRoute,
     private sharedService: shareService,
     private thongBaoService: thongBaoService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _location: Location
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.route.params.subscribe((params) => {
       this.maTb = parseInt(params['maTb']);
+      this.setForm();
     });
+  }
 
+  async setForm() {
     if (this.maTb > 0) {
       await this.thongBaoService
         .getById(this.maTb)
@@ -77,6 +85,10 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       });
 
       this.oldForm = this.tbForm.form.value;
+    } else {
+      this.maTb = -1;
+      this.tbForm.resetForm('.tb-form');
+      this.pdfSrc = 'https:/error.pdf';
     }
   }
 
@@ -116,6 +128,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         await this.thongBaoService.add(thongBao);
         this.sharedService.uploadFile(file);
         this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
+        this.setForm();
       } catch (error) {
         this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');
         console.log(error);
@@ -163,7 +176,32 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     }
   }
 
-  onDelete() {}
+  onDelete() {
+    const _delete = document.querySelector('#delete')!;
+
+    _delete.classList.add('active');
+    let option = new Option('#delete');
+
+    option.show('error', () => {
+      _delete.classList.remove('active');
+    });
+
+    option.cancel(() => {
+      _delete.classList.remove('active');
+    });
+
+    option.agree(async () => {
+      try {
+        await this.thongBaoService.delete(this.maTb);
+        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
+        this.setForm();
+        this.toastr.success('Xóa thông báo thành công', 'Thông báo!');
+      } catch (error) {
+        this.toastr.error('Xóa thông báo thất bại', 'Thông báo!');
+      }
+      _delete.classList.remove('active');
+    });
+  }
 
   randomNumber(length: number): number {
     let result = '';

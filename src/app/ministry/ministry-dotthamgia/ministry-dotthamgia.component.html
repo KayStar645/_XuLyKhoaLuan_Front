@@ -55,34 +55,51 @@
 
   <div id="create" (click)="handleToggleAdd()"></div>
   <form id="create_box" class="form">
-
     <h2 class="title">THÊM SINH VIÊN VÀO ĐỢT ĐĂNG KÝ MỚI</h2>
-    <ul class="search-container row ali-center">
-      <li class="search-item">
-        <select
-          class="search-select"
-          id="search-select"
-          (change)="getSinhVienByMaCN($event)"
-        >
-          <option value="">Tất cả</option>
-          <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-            {{ cn?.tenCn }}
-          </option>
-        </select>
-      </li>
-      <li class="search-item">
-        <select
-          class="search-select"
-          id="search-select"
-          (change)="getSinhVienByDotDk($event)"
-        >
-          <option value="">Tất cả</option>
-          <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
-            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
-          </option>
-        </select>
-      </li>
-    </ul>
+    <div class="row ma-b-4 jus-between">
+      <div class="row h-8">
+        <div class="h-6 p-r-8">
+          <div class="form-control">
+            <div class="form-value">
+              <select
+                class="search-select form-input"
+                id="search-select"
+                (change)="getSinhVienByMaCN($event)"
+              >
+                <option value="">Tất cả</option>
+                <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
+                  {{ cn?.tenCn }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="h-6 p-l-8">
+          <div class="form-control">
+            <div class="form-value">
+              <select
+                class="search-select form-input"
+                id="search-select"
+                (change)="getSinhVienByDotDk($event)"
+              >
+                <option value="">Tất cả</option>
+                <option
+                  *ngFor="let dk of listDotDk"
+                  [value]="dk.namHoc + dk.dot"
+                >
+                  {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-btn text-right">
+        <button class="btn-add" (click)="addSinhVien()">Thêm sinh viên</button>
+      </div>
+    </div>
     <div class="list">
       <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
         <tr class="list-header">
@@ -92,7 +109,7 @@
           <th>Chuyên ngành</th>
           <th class="add-all" (click)="toggleAddAll($event)">Tham gia</th>
         </tr>
-        
+
         <tbody *ngFor="let sv of listSinhVien">
           <tr class="br-line">
             <td class="text-center">{{ sv?.maSv }}</td>
@@ -102,16 +119,16 @@
             <td class="text-left">{{ sv.email }}</td>
             <td class="text-center">{{ sv.lop }}</td>
             <td class="text-center add-btn" (click)="toggleAdd($event)">
-              <img src="../../../assets/Images/tich-xanh.png" style="width: 30%;" class="none" />
+              <img
+                src="../../../assets/Images/tich-xanh.png"
+                style="width: 30%"
+                class="none"
+              />
             </td>
             <!-- <td class="text-left">{{ getTenCNById(sv.maCn) }}</td> -->
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="submit-btn text-right">
-      <button class="btn-add" (click)="addSinhVien()">Thêm sinh viên</button>
     </div>
   </form>
 

@@ -51,6 +51,7 @@ import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/m
 import { MinistryDotthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-dotthamgia.component';
 import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { Location } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     BrowserModule,
     AppRoutingModule,
     HomeMainComponent,
+    Location,
     // DanhsachgiangvienComponent,
   ],
 

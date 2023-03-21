@@ -1,21 +1,14 @@
 <div id="functional-container">
   <div class="search-list">
-    <ul class="search-container row ali-center">
-      <li class="search-item">
-        <input
-          type="text"
-          placeholder="Tìm theo tiêu đề..."
-          [(ngModel)]="searchName"
-        />
-      </li>
-      <li class="search-item row ali-center jus-end flex-1">
+    <div class="search-container row jus-end">
+      <div class="search-item">
         <a
           [routerLink]="['/ministry/thong-bao/chi-tiet', { maTb: -1 }]"
           class="search-button row ali-center jus-center"
           >Thêm</a
         >
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -25,8 +18,8 @@
       <div class="item-container">
         <img [src]="listTB[0]?.hinhAnh" alt="" />
 
-        <div class="info flex-1">
-          <div class="row flex-column jus-between">
+        <div class="flex-1">
+          <div class="info row flex-column jus-between">
             <div class="name">
               <p [innerHTML]="listTB[0]?.tenTb"></p>
             </div>
@@ -50,8 +43,8 @@
         >
           <img [src]="thongBao.hinhAnh" alt="" />
 
-          <div class="info flex-1">
-            <div class="row flex-column jus-between">
+          <div class="flex-1">
+            <div class="info row flex-column jus-between">
               <div class="name">
                 <p [innerHTML]="thongBao.tenTb"></p>
               </div>

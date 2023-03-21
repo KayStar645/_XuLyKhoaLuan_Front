@@ -4,7 +4,7 @@
   padding: 16px 24px;
 }
 
-.item-container{
+.item-container {
   cursor: pointer;
 }
 
@@ -18,6 +18,10 @@
 
 .list-item img {
   width: 120px;
+}
+
+.info {
+  min-height: 100%;
 }
 
 .list-item .info {
