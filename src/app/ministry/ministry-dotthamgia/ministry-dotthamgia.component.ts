@@ -15,7 +15,6 @@ import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
-import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-ministry-dotthamgia',
@@ -26,7 +25,9 @@ export class MinistryDotthamgiaComponent implements OnInit {
   @ViewChild(MinistryDanhsachthamgiaComponent)
   protected DSTGComponent!: MinistryDanhsachthamgiaComponent;
   listChuyenNganh: ChuyenNganh[] = [];
+
   listSinhVien: SinhVien[] = [];
+
   listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
@@ -35,15 +36,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   namHoc!: string;
   dot!: number;
-
-  sinhVienFile: any;
-
-  svForm = new Form({
-    maSv: ['', Validators.required],
-    tenSv: ['', Validators.required],
-    lop: ['', Validators.required],
-    maCn: ['', Validators.required],
-  });
 
   constructor(
     private titleService: Title,
@@ -60,7 +52,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
   async ngOnInit() {
     this.titleService.setTitle('Danh sách sinh viên');
     this.listChuyenNganh = await this.chuyenNganhService.getAll();
-    this.listSinhVien = await this.sinhVienService.getAll();
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
@@ -69,6 +60,9 @@ export class MinistryDotthamgiaComponent implements OnInit {
       this.namHoc = this.listDotDk[0].namHoc;
       this.dot = this.listDotDk[0].dot;
     }
+
+
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
   }
 
   toggleAddAll(event: any) {
@@ -129,74 +123,23 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
     createBox.classList.add('active');
     create.classList.add('active');
-    this.svForm.resetForm('#create_box');
   }
 
   onShowFormUpdate() {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (Object.entries(this.DSTGComponent.lineSV).length > 0) {
-      this.svForm.form.setValue({
-        ...this.DSTGComponent.lineSV,
-        ngaySinh: this.DSTGComponent.lineSV.ngaySinh.substring(0, 10),
-      });
 
       updateBox.classList.add('active');
       update.classList.add('active');
-      
-    } else {
-      this.toastr.warning(
-        'Vui lòng chọn sinh viên để cập nhập thông tin',
-        'Thông báo !'
-      );
-    }
   }
 
   handleToggleAdd() {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
-    if (this.svForm.isHaveValue()) {
-      let option = new Option('#create_box');
-
-      option.show('warning');
-
-      option.cancel();
-
-      option.agree(() => {
-        this.svForm.resetForm('#create_box');
-        createBox.classList.remove('active');
-        create.classList.remove('active');
-      });
-    } else {
-      this.svForm.resetForm('#create_box');
-      createBox.classList.remove('active');
-      create.classList.remove('active');
-    }
-  }
-
-  handleToggleUpdate() {
-    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-    let update = this.elementRef.nativeElement.querySelector('#update');
-
-    let option = new Option('#update_box');
-
-      option.show('warning');
-
-      option.cancel();
-
-      option.agree(() => {
-        updateBox.classList.remove('active');
-        update.classList.remove('active');
-        this.svForm.resetValidte('#update_box');
-      });
-
-      option.save(() => {
-        this.updateSinhVien();
-        update.classList.remove('active');
-        updateBox.classList.remove('active');
-      });
+    createBox.classList.remove('active');
+    create.classList.remove('active');
   }
 
   async clickDelete() {
@@ -222,7 +165,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
           );
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
           this.DSTGComponent.lineSV = new SinhVien();
-          this.DSTGComponent.getAllSinhVien();
+          // this.DSTGComponent.getAllSinhVien();
         } catch (error) {
           this.toastr.error(
             'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
@@ -244,7 +187,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
         this.userService.delete(maSV);
         this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
         this.DSTGComponent.lineSV = new SinhVien();
-        this.DSTGComponent.getAllSinhVien();
+        // this.DSTGComponent.getAllSinhVien();
         this.isSelectedSV = false;
       } catch (error) {
         this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
@@ -252,60 +195,40 @@ export class MinistryDotthamgiaComponent implements OnInit {
     });
   }
 
-  addSinhVien() {
-    const sinhVien = new SinhVien();
-    this.f_AddSinhVien(sinhVien);
+  async addThamgia() {
+    for (var maSv of this.selectedSV) {
+      var sv = await this.sinhVienService.getById(maSv);
+      console.log(maSv);
+      console.log(sv);
+      this.f_AddThamgia(sv);
+    }
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+
   }
 
-  async f_AddSinhVien(sv: SinhVien) {
-    // Kiểm tra sinh viên đã tồn tại chưa
-    const flag = await this.sinhVienService.getById(sv.maSv);
-    const nhom = new Nhom();
-    nhom.init(sv.maSv + this.namHoc + this.dot, sv.tenSv, sv.maSv);
-
-    const thamgia = new ThamGia();
-    thamgia.init(
-      sv.maSv,
-      this.namHoc,
-      this.dot,
-      sv.maSv + this.namHoc + this.dot,
-      0
-    );
-
-    if (flag != null) {
+  async f_AddThamgia(sv: SinhVien) {
+    try {
+      const nhom = new Nhom();
+      const maNhom = sv.maSv + this.namHoc + this.dot;
+      nhom.init(maNhom, sv.tenSv, sv.maSv);
+  
+      const thamgia = new ThamGia();
+      thamgia.init(sv.maSv, this.namHoc, this.dot, maNhom, 0);
+  
       // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
-      this.f_CreateGroup_ThamGia(nhom, thamgia);
-
+      await this.nhomService.add(nhom);
+      await this.thamGiaService.add(thamgia);
+  
       this.toastr.success(
         'Thêm sinh viên vào đợt đợt đăng ký thành công',
         'Thông báo !'
+      ); 
+    } catch (error) {
+      this.toastr.error(
+        'Thêm sinh viên vào đợt đợt đăng ký thất bại',
+        'Thông báo !'
       );
-      this.DSTGComponent.getAllSinhVienByDotdk();
-    } else {
-      try {
-        await this.sinhVienService.add(sv);
-        this.svForm.resetForm('#create_box');
-        // Add tai khoan
-        await this.userService.addStudent(new User(sv.maSv, sv.maSv));
-        // Add: Đưa sinh viên vào đợt tham gia và tạo nhóm lần đầu
-        this.f_CreateGroup_ThamGia(nhom, thamgia);
-
-        this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
-        this.DSTGComponent.getAllSinhVienByDotdk();
-      } catch {
-        this.toastr.error(
-          'Thông tin bạn cung cấp không hợp lệ.',
-          'Thông báo !'
-        );
-      }
     }
-  }
-
-  async f_CreateGroup_ThamGia(nhom: Nhom, thamgia: ThamGia) {
-    try {
-      await this.nhomService.add(nhom);
-      await this.thamGiaService.add(thamgia);
-    } catch (error) { }
   }
 
   resetLineActive() {
@@ -318,27 +241,52 @@ export class MinistryDotthamgiaComponent implements OnInit {
   updateSinhVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-
     this.DSTGComponent.lineSV = new SinhVien();
   }
 
-  getSinhVienByMaCN(event: any) {
+  getThamgiaByMaCN(event: any) {
     const maCn = event.target.value;
     if (maCn == '') {
-      this.DSTGComponent.getAllSinhVienByDotdk();
+      this.DSTGComponent.getAllThamgiaByDotdk();
     } else {
-      this.DSTGComponent.getSinhVienByMaCN(maCn);
+      this.DSTGComponent.getThamgiaByMaCN(maCn);
     }
   }
 
-  getSinhVienByDotDk(event: any) {
+  getTenCnById(maCn: string) {
+    return this.DSTGComponent.getTenCNById(maCn);
+  }
+
+  getThamgiaByDotDk(event: any) {
     const dotdk = event.target.value;
     if (dotdk == '') {
-      this.DSTGComponent.getAllSinhVienByDotdk();
+      this.DSTGComponent.getAllThamgiaByDotdk();
     } else {
       this.namHoc = dotdk.slice(0, dotdk.length - 1);
       this.dot = dotdk.slice(dotdk.length - 1);
-      this.DSTGComponent.getSinhVienByDotDk(this.namHoc, this.dot);
+      this.DSTGComponent.getThamgiaByDotDk(this.namHoc, this.dot);
     }
+  }
+
+  async getSinhvienByMaCN(event: any) {
+    const maCn = event.target.value;
+    if(maCn == '') {
+      this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+    }
+    else {
+
+      this.listSinhVien = await this.sinhVienService.getByMaCn(maCn);
+    }
+  }
+
+  async getSinhvienByMaCNToListSV(event: any) {
+    
+  }
+
+  async getSinhvienByNotDotDk(event: any) {
+    const dotdk = event.target.value;
+    this.namHoc = dotdk.slice(0, dotdk.length - 1);
+    this.dot = dotdk.slice(dotdk.length - 1);
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
   }
 }

@@ -24,31 +24,23 @@ export class thamGiaService {
     }
 
     async getById(MaSV: string, NamHoc: string, Dot: number):Promise<ThamGia> {
-      try {
-        var response = new ThamGia();
-        response = await this.http.get<ThamGia>(
+      var response = new ThamGia();
+        return await this.http.get<ThamGia>(
           `${this.apiUrl}/api/Thamgias/MaSV, NamHoc, Dot?MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`,
           this.shareService.httpOptions
         ).toPromise() ?? response as ThamGia;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
     }
 
     async getByCn(maCn: string) {
-      try {
-        var response: ThamGia[] = [];
-        response = await this.http.get<ThamGia[]>(
-          `${this.apiUrl}/api/Thamgias/maCN?maCN=${maCn}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as ThamGia[];
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+      return await this.http.get<ThamGia[]>(
+        `${this.apiUrl}/api/Thamgias/maCN?maCN=${maCn}`,
+        this.shareService.httpOptions
+      ).toPromise() ?? [];
+    }
+
+    async searchThamgiaByName(name: string): Promise<ThamGia[]> {
+      return await this.http.get<ThamGia[]>(`${this.apiUrl}/api/Thamgias/name?name=${name}`, 
+      this.shareService.httpOptions).toPromise() ?? [];
     }
 
     async update(ThamGia: ThamGia): Promise<any> {

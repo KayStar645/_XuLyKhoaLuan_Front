@@ -34,7 +34,6 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
   selectedSV: string[] = [];
-  //root: SinhVien[] = [];
   lineSV = new SinhVien();
   elementOld: any;
 
@@ -43,13 +42,12 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
-    private dotDkService: dotDkService,
     private thamGiaService: thamGiaService,
   ) {}
 
   async ngOnInit() {
-    this.getAllSinhVien();
-    this.getAllSinhVienByDotdk();
+    this.listSV = await this.sinhVienService.getAll();
+    this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
 
     window.addEventListener('keydown', (e) => {
@@ -84,19 +82,16 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     parent.classList.add('br-line-dblclick');
   }
 
-  async getAllSinhVien() {
-    this.listSV = await this.sinhVienService.getAll();
-  }
-
-  async getAllSinhVienByDotdk() {
+  async getAllThamgiaByDotdk() {
     this.listTg = await this.thamGiaService.getAll();
+    this.root = this.listTg;
   }
 
-  async getSinhVienByMaCN(maCn: string) {
+  async getThamgiaByMaCN(maCn: string) {
     this.listTg = await this.thamGiaService.getByCn(maCn);
   }
 
-  getSinhVienByDotDk(namHoc: string, dot:  number) {
+  getThamgiaByDotDk(namHoc: string, dot:  number) {
     this.listTg = this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
   }
 
@@ -132,37 +127,16 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     }
   }
 
-  async sortSinhVien(sort: string) {
-    if (sort == 'asc-id') {
-      this.listSV.sort((a, b) => a.maSv.localeCompare(b.maSv));
-    } else if (sort == 'desc-id') {
-      this.listSV.sort((a, b) => b.maSv.localeCompare(a.maSv));
-    } else if (sort == 'asc-name') {
-      this.listSV.sort((a, b) => a.tenSv.localeCompare(b.tenSv));
-    } else if (sort == 'desc-name') {
-      this.listSV.sort((a, b) => b.tenSv.localeCompare(a.tenSv));
-    } else if (sort == 'asc-subject') {
-      this.listSV.sort((a, b) => a.maCn.localeCompare(b.maCn));
-    } else if (sort == 'desc-subject') {
-      this.listSV.sort((a, b) => b.maCn.localeCompare(a.maCn));
-    } else {
-      this.listSV = await this.sinhVienService.getAll();
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      this.filterItems();
+      const name = this.searchName.trim().toLowerCase();
+      if(name == "") {
+        this.listTg = this.root;
+      }
+      else {
+        this.listTg = await this.thamGiaService.searchThamgiaByName(name);
+      }
     }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listTg = this.root.filter((item) => {
-      console.log("117 - danh sách sinh viên");
-        // item.tenSv.toLowerCase().includes(searchName)
-    }
-    );
   }
 
   getTenCNById(maCn: string): string {

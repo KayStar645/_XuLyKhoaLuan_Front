@@ -5,7 +5,7 @@
         <select
           class="search-select"
           id="search-select"
-          (change)="getSinhVienByMaCN($event)"
+          (change)="getThamgiaByMaCN($event)"
         >
           <option value="">Tất cả</option>
           <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
@@ -24,7 +24,7 @@
         <select
           class="search-select"
           id="search-select"
-          (change)="getSinhVienByDotDk($event)"
+          (change)="getThamgiaByDotDk($event)"
         >
           <option value="">Tất cả</option>
           <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
@@ -64,7 +64,7 @@
               <select
                 class="search-select form-input"
                 id="search-select"
-                (change)="getSinhVienByMaCN($event)"
+                (change)="getSinhvienByMaCN($event)"
               >
                 <option value="">Tất cả</option>
                 <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
@@ -81,9 +81,8 @@
               <select
                 class="search-select form-input"
                 id="search-select"
-                (change)="getSinhVienByDotDk($event)"
+                (change)="getSinhvienByNotDotDk($event)"
               >
-                <option value="">Tất cả</option>
                 <option
                   *ngFor="let dk of listDotDk"
                   [value]="dk.namHoc + dk.dot"
@@ -97,7 +96,7 @@
       </div>
 
       <div class="submit-btn text-right">
-        <button class="btn-add" (click)="addSinhVien()">Thêm sinh viên</button>
+        <button class="btn-add" (click)="addThamgia()">Thêm sinh viên</button>
       </div>
     </div>
     <div class="list">
@@ -116,8 +115,8 @@
             <td class="text-left">
               {{ sv.tenSv }}
             </td>
-            <td class="text-left">{{ sv.email }}</td>
-            <td class="text-center">{{ sv.lop }}</td>
+            <td class="text-left">{{ sv.lop }}</td>
+            <td class="text-center">{{ getTenCnById(sv.maCn) }}</td>
             <td class="text-center add-btn" (click)="toggleAdd($event)">
               <img
                 src="../../../assets/Images/tich-xanh.png"
@@ -125,161 +124,9 @@
                 class="none"
               />
             </td>
-            <!-- <td class="text-left">{{ getTenCNById(sv.maCn) }}</td> -->
           </tr>
         </tbody>
       </table>
     </div>
   </form>
-
-  <!-- <div id="update" (click)="handleToggleUpdate()"></div>
-    <form id="update_box" [formGroup]="svUpdateForm" class="form">
-      <div class="form-notify">
-        <div class="notify-container">
-          <p class="notify-title">Thông báo !</p>
-          <p class="notify-content">
-            Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
-          </p>
-          <div class="row ali-center jus-end">
-            <button class="cancel">Hủy</button>
-            <button class="agree">Đồng ý</button>
-            <button class="save">Lưu thay đổi và thoát</button>
-          </div>
-  
-          <div class="progress-bar"></div>
-        </div>
-      </div>
-  
-      <h2 class="title">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
-      <div class="row form-list form">
-        <div class="h-6 p-l-12 p-r-12">
-          <label class="form-control row ali-center form-control">
-            <p class="label">Mã sinh viên</p>
-            <div class="form-value">
-              <input
-                type="text"
-                formControlName="maSv"
-                (blur)="svForm.inputBlur($event)"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="form-control row ali-center form-control">
-            <p class="label">Tên sinh viên</p>
-            <div class="form-value">
-              <input
-                type="text"
-                formControlName="tenSv"
-                (blur)="svForm.inputBlur($event)"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="form-control row ali-center form-control">
-            <p class="label">Ngày sinh</p>
-            <div class="form-value">
-              <input
-                type="date"
-                formControlName="ngaySinh"
-                (blur)="svForm.inputBlur($event)"
-              />
-  
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="form-control row ali-center form-control">
-            <p class="label">Giới tính</p>
-            <div class="form-value">
-              <select
-                formControlName="gioiTinh"
-                (blur)="svForm.inputBlur($event)"
-              >
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-              </select>
-              <p class="error-mess"></p>
-            </div>
-          </label>
-        </div>
-  
-        <div class="h-6 p-l-12 p-r-12">
-          <label class="input row ali-center form-control">
-            <p class="label">Chuyên ngành</p>
-            <div class="form-value">
-              <select formControlName="maCn" (blur)="svForm.inputBlur($event)">
-                <option value="">Không có</option>
-                <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
-                  {{ cn?.tenCn }}
-                </option>
-              </select>
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="input row ali-center form-control">
-            <p class="label">Lớp</p>
-            <div class="form-value">
-              <input
-                type="text"
-                formControlName="lop"
-                (blur)="svForm.inputBlur($event)"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="input row ali-center form-control">
-            <p class="label">Email</p>
-            <div class="form-value">
-              <input
-                type="text"
-                formControlName="email"
-                (blur)="svForm.inputBlur($event)"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="input row ali-center form-control">
-            <p class="label">Số điện thoại</p>
-            <div class="form-value">
-              <input
-                type="text"
-                formControlName="sdt"
-                maxlength="10"
-                (blur)="svForm.inputBlur($event)"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-        </div>
-      </div>
-  
-      <div class="submit-btn text-right">
-        <button class="btn-update" (click)="updateSinhVien()">
-          Cập nhật thông tin
-        </button>
-      </div>
-    </form>
-      
-    <div id="delete">
-      <div class="form-notify">
-        <div class="notify-container">
-          <p class="notify-title">Thông báo !</p>
-          <p class="notify-content">
-            Việc xóa sẽ làm tất cả thông tin có liên quan đến sinh viên sẽ biến
-            mất. Bạn có chắc chắn muốn xóa ?
-          </p>
-          <div class="row ali-center jus-end">
-            <button class="cancel">Hủy</button>
-            <button class="agree">Đồng ý</button>
-          </div>
-  
-          <div class="progress-bar"></div>
-        </div>
-      </div>
-    </div> -->
 </div>

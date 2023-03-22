@@ -1,3 +1,4 @@
+import { khoaService } from './../../services/khoa.service';
 import { HoiDong } from './../../models/HoiDong.model';
 import { hoiDongService } from './../../services/hoiDong.service';
 import { boMonService } from './../../services/boMon.service';
@@ -24,8 +25,8 @@ import { of } from 'rxjs/internal/observable/of';
 export class HomeMainComponent {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiangVien;
-  truongKhoa: any = TruongKhoa;
-  truongBm: any = TruongBm;
+  maBm!: string;
+  maKhoa!: string;
   hoiDong: any = HoiDong;
   itemNumber = 9;
 
@@ -43,8 +44,8 @@ export class HomeMainComponent {
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
     private boMonService: boMonService,
+    private khoaService: khoaService,
     private el: ElementRef,
-    private renderer: Renderer2,
   ) {}
 
   public async ngOnInit() {
@@ -63,11 +64,12 @@ export class HomeMainComponent {
     this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
     try {
-      this.truongBm = await this.truongBmService.getByMaGv(this.maGV);
+      this.maBm = await (await this.truongBmService.CheckTruongBomonByMaGV(this.maGV)).maBm;
     } catch { }
     try {
-      this.truongKhoa = await this.truongKhoaService.getByMaGV(this.maGV);
+      this.maKhoa = await (await this.truongKhoaService.CheckTruongKhoaByMaGV(this.maGV)).maKhoa;
     } catch { }
+
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
     this.resetNavbar();
   }

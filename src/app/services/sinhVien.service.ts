@@ -22,14 +22,9 @@ export class sinhVienService {
     }
 
     async getById(maSV: string): Promise<SinhVien> {
-      try {
-        var response = new SinhVien();
-        response = await this.http.get<SinhVien>(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${maSV}`, 
-        this.shareService.httpOptions).toPromise() ?? response as SinhVien;
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      var response = new SinhVien();
+      return await this.http.get<SinhVien>(`${this.apiUrl}/api/Sinhviens/maSV?maSV=${maSV}`, 
+      this.shareService.httpOptions).toPromise() ?? response as SinhVien;
     }
     
 
@@ -64,8 +59,8 @@ export class sinhVienService {
        this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    async getByDotDk(namHoc: string, dot: number):Promise<SinhVien[]> {
-      return await this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/namHoc, dot?namHoc=${namHoc}&dot=${dot}`,
+    async getByDotDk(namHoc: string, dot: number, flag: boolean):Promise<SinhVien[]> {
+      return await this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/namHoc, dot, flag?namHoc=${namHoc}&dot=${dot}&flag=${flag}`,
        this.shareService.httpOptions).toPromise() ?? [];
     }
 }

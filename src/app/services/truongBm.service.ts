@@ -21,30 +21,20 @@ export class truongBmService {
       return await this.http.get<TruongBm[]>(`${this.apiUrl}/api/Truongbms`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    async getByMaGvMaBm(MaGV: string, MaBM: string):Promise<TruongBm> {
+    async getById(maTbm: number):Promise<TruongBm> {
       var response = new TruongBm();
-      try {
-        response = await this.http.get<TruongBm>(
-          `${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as TruongBm;
-        return response;
-      } catch {
-        return response;
-      }
+      return await this.http.get<TruongBm>(
+        `${this.apiUrl}/api/Truongbms/maTbm?maTbm=${maTbm}`,
+        this.shareService.httpOptions
+      ).toPromise() ?? response;
     }
 
-    async getByMaGv(MaGV: string):Promise<TruongBm> {
+    async CheckTruongBomonByMaGV(MaGV: string):Promise<TruongBm> {
       var response = new TruongBm();
-      try {
-        response = await this.http.get<TruongBm>(
-          `${this.apiUrl}/api/Truongbms/MaGV?MaGV=${MaGV}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as TruongBm;
-        return response;
-      } catch {
-        return response;
-      }
+      return await this.http.get<TruongBm>(
+        `${this.apiUrl}/api/Truongbms/MaGV?MaGV=${MaGV}`,
+        this.shareService.httpOptions
+      ).toPromise() ?? response;
     }
 
     async add(TruongBm: TruongBm): Promise<any> {
@@ -53,12 +43,12 @@ export class truongBmService {
     }
 
     async update(TruongBm: TruongBm): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${TruongBm.maGv}&MaBM=${TruongBm.maBm}`, 
+      return await this.http.put<any>(`${this.apiUrl}/api/Truongbms/maTbm?maTbm=${TruongBm.maTbm}`, 
       TruongBm, this.shareService.httpOptions).toPromise();
     }
 
-    async delete(MaGV: string, MaBM: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Truongbms/MaGV, MaBM?MaGV=${MaGV}&MaBM=${MaBM}`, 
+    async delete(maTbm: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Truongbms/maTbm?maTbm=${maTbm}`, 
       this.shareService.httpOptions).toPromise();
     }
 }

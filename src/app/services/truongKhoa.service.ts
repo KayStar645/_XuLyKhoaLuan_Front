@@ -21,18 +21,22 @@ export class truongKhoaService {
       return await this.http.get<TruongKhoa[]>(`${this.apiUrl}/api/Truongkhoas`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    async getByMaKhoaMaGV(MaKhoa: string, MaGV: string):Promise<TruongKhoa> {
+    async getById(maTk: number):Promise<TruongKhoa> {
       var response = new TruongKhoa();
       return await this.http.get<TruongKhoa>(
-        `${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`,
-      this.shareService.httpOptions).toPromise()?? response as TruongKhoa;
+        `${this.apiUrl}/api/Truongkhoas/maTk?maTk=${maTk}`,
+      this.shareService.httpOptions).toPromise()?? response;
     }
 
-    async getByMaGV(MaGV: string):Promise<TruongKhoa> {
-      var response = new TruongKhoa();
+    async CheckTruongKhoaByMaGV(MaGV: string):Promise<TruongKhoa> {
+      try {
+        var response = new TruongKhoa();
       return await this.http.get<TruongKhoa>(
-        `${this.apiUrl}/api/Truongkhoas/MaGV?MaGV=${MaGV}`,
-      this.shareService.httpOptions).toPromise()?? response as TruongKhoa;
+        `${this.apiUrl}/api/Truongkhoas/maGV?maGV=${MaGV}`,
+      this.shareService.httpOptions).toPromise() ?? response;
+      } catch (error) {
+        throw error;
+      }
     }
 
     async add(TruongKhoa: TruongKhoa): Promise<any> {
@@ -41,12 +45,12 @@ export class truongKhoaService {
     }
 
     async update(TruongKhoa: TruongKhoa): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${TruongKhoa.maKhoa}&MaGV=${TruongKhoa.maGv}`, 
+      return await this.http.put<any>(`${this.apiUrl}/api/Truongkhoas/maTK?maTK=${TruongKhoa.maTk}`, 
       TruongKhoa, this.shareService.httpOptions).toPromise();
     }
 
-    async delete(MaKhoa: string, MaGV: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Truongkhoas/MaKhoa, MaGV?MaKhoa=${MaKhoa}&MaGV=${MaGV}`, 
+    async delete(maTk: number): Promise<any> {
+      return await this.http.delete(`${this.apiUrl}/api/Truongkhoas/maTK?maTK=${maTk}`, 
       this.shareService.httpOptions).toPromise();
     }
 }

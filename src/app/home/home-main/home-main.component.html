@@ -39,12 +39,12 @@
                       <p>Ngày sinh:</p>
                       <b>{{ dateFormat(data?.ngaySinh) }}</b>
                     </li>
-                    <li class="info-left-item row ali-center" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
+                    <li class="info-left-item row ali-center" *ngIf="maBm != null || maKhoa!= null">
                       <p>Chức vụ:</p>
                       <b>
-                        {{ truongKhoa.maKhoa != null ? "Trưởng khoa " + truongKhoa.maKhoa : ""  }}
-                        <span *ngIf="truongKhoa.maGv != null && truongBm.maGv != null">,</span>
-                        {{ truongBm.maBm != null ? "Trưởng bộ môn" : ""}}
+                        {{ maKhoa != null ? "Trưởng khoa " : ""  }}
+                        <span *ngIf="maBm != null && maKhoa!= null">,</span>
+                        {{ maBm != null ? "Trưởng bộ môn" : "" }}
                       </b>
                     </li>
                   </ul>
@@ -66,7 +66,7 @@
                     <p>Bộ môn:</p>
                     <b>{{ boMon }}</b>
                   </li>
-                  <!-- <li class="info-left-item row ali-center" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
+                  <!-- <li class="info-left-item row ali-center" *ngIf="maBm != null || maKhoa!= null">
                     <p>Ngày nhận chức:</p>
                     <b>{{ dateFormat(truongKhoa.ngayNhanChuc) }}</b>
                   </li> -->
@@ -123,7 +123,7 @@
             <p>Thông báo</p>
           </a>
         </li>
-        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
+        <li class="navbar-item" *ngIf="maBm != null || maKhoa!= null">
           <a routerLink="/home/ke-hoach" class="navbar-link">
             <img
               class="navbar-icon"
@@ -145,7 +145,7 @@
             <p>Nhiệm vụ</p>
           </a>
         </li>
-        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
+        <li class="navbar-item" *ngIf="maBm != null || maKhoa!= null">
             <a routerLink="/home/giang-vien" class="navbar-link">
               <img
                 class="navbar-icon"
@@ -167,7 +167,7 @@
             <p>Đề tài</p>
           </a>
         </li>
-        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null">
+        <li class="navbar-item" *ngIf="maBm != null || maKhoa!= null">
           <a routerLink="/home/sinh-vien" class="navbar-link">
             <img
               class="navbar-icon"
@@ -178,7 +178,7 @@
             <p>Sinh viên</p>
           </a>
         </li>
-        <li class="navbar-item" *ngIf="truongKhoa.maGv != null || truongBm.maGv != null || hoiDong.maGv != null">
+        <li class="navbar-item" *ngIf="maKhoa != null || maBm != null || hoiDong.maGv != null">
           <a routerLink="/home/hoi-dong" class="navbar-link">
             <img
               class="navbar-icon"
