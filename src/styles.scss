@@ -11,10 +11,6 @@
 @import url("./assets/styles/CustomeQuill.scss");
 @import url("~quill/dist/quill.snow.css");
 
-body {
-  background: #e7ecf0;
-}
-
-a {
-  text-decoration: none !important;
+.ng-bar-placeholder {
+  height: 4px !important;
 }

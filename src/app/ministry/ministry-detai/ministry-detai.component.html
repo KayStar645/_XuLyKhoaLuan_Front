@@ -1,7 +1,7 @@
 <div id="functional-container">
-  <div class="search-list">
-    <ul class="search-container row ali-center">
-      <li class="search-item">
+  <div class="functional-list">
+    <ul class="functional-container row ali-center">
+      <li class="functional-item">
         <select
           class="search-select"
           id="search-select"
@@ -14,14 +14,14 @@
           <option value="MMT">Mạng máy tính</option>
         </select>
       </li>
-      <li class="search-item">
+      <li class="functional-item">
         <input
           type="text"
           placeholder="Tìm theo tên..."
           [(ngModel)]="searchName"
         />
       </li>
-      <li class="search-item">
+      <li class="functional-item">
         <select
           class="search-select"
           id="sort-select"
@@ -34,15 +34,24 @@
           <option value="desc-name">Giảm theo tên</option>
         </select>
       </li>
-      <li class="search-item row ali-center jus-end flex-1">
-        <button class="search-button" (click)="onShowFormAdd()">Thêm</button>
-        <button class="search-button update-btn" (click)="onShowFormUpdate()">
-          Sửa
-        </button>
-        <button class="search-button" (click)="clickDelete()">Xóa</button>
-        <button class="search-button" (click)="onShowFormDrag()">
-          Nhập DS
-        </button>
+      <li
+        class="functional-item function-wrapper row ali-center jus-end flex-1"
+      >
+        <div class="functional-button">
+          <button (click)="onShowFormAdd()">Thêm</button>
+        </div>
+
+        <div class="functional-button">
+          <button class="update-btn" (click)="onShowFormUpdate()">Sửa</button>
+        </div>
+
+        <div class="functional-button">
+          <button (click)="clickDelete()">Xóa</button>
+        </div>
+
+        <div class="functional-button">
+          <button (click)="onShowFormDrag()">Nhập DS</button>
+        </div>
       </li>
     </ul>
 

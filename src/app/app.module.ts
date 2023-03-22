@@ -52,6 +52,7 @@ import { MinistryDotthamgiaComponent } from './ministry/ministry-dotthamgia/mini
 import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Location } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { Location } from '@angular/common';
     NgProgressModule,
     NgProgressHttpModule,
     PdfViewerModule,
+    NgxPaginationModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot({
