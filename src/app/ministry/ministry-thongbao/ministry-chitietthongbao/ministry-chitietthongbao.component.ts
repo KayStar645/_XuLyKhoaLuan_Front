@@ -139,6 +139,10 @@ export class MinistryChitietthongbaoComponent implements OnInit {
   }
 
   async onUpdate() {
+    this.tbForm.form.patchValue({
+      ngayTb: format(new Date(), 'yyyy-MM-dd'),
+    });
+    
     if (this.tbForm.form.valid) {
       if (
         JSON.stringify(this.oldForm) !== JSON.stringify(this.tbForm.form.value)

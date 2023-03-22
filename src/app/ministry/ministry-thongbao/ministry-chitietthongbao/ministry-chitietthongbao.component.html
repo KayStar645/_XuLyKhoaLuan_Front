@@ -1,17 +1,15 @@
 <div id="functional-container">
-  <div class="search-list">
-    <div class="search-container row ali-center jus-end">
-      <div class="search-item" *ngIf="maTb == -1">
-        <button class="search-button" (click)="onAdd()">Thêm</button>
+  <div class="functional-list">
+    <div class="functional-container row ali-center jus-end">
+      <div class="functional-button" *ngIf="maTb == -1">
+        <button (click)="onAdd()">Thêm</button>
       </div>
 
-      <div class="search-item" *ngIf="maTb > -1">
-        <button class="search-button update-btn" (click)="onUpdate()">
-          Sửa
-        </button>
+      <div class="functional-button" *ngIf="maTb > -1">
+        <button (click)="onUpdate()">Sửa</button>
       </div>
-      <div class="search-item" *ngIf="maTb > -1">
-        <button class="search-button" (click)="onDelete()">Xóa</button>
+      <div class="functional-button" *ngIf="maTb > -1">
+        <button (click)="onDelete()">Xóa</button>
       </div>
     </div>
   </div>
