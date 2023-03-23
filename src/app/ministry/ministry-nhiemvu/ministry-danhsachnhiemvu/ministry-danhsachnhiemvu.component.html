@@ -1,0 +1,78 @@
+<div id="container" *ngIf="listNV.length > 0">
+  <div class="row">
+    <div class="h-3 p-l-8 p-r-8 first-info">
+      <div class="time-out">
+        <p class="title">Sắp đến hạn</p>
+
+        <div
+          class="time-out-list"
+          *ngIf="nearTimeOutMS.length > 0; else noMission"
+        >
+          <div
+            class="list-item row ali-center"
+            *ngFor="let nv of nearTimeOutMS"
+          >
+            <div class="item-img ma-r-12">
+              <img src="../../../../assets/Images/mission.svg" alt="" />
+            </div>
+            <div class="flex-1 item-info">
+              <p class="item-time">Đến hạn {{ nv.thu }}</p>
+              <a
+                [routerLink]="[
+                  '/ministry/nhiem-vu/chi-tiet',
+                  { maNv: nv.maNv   }
+                ]"
+                class="item-title"
+                >{{ nv.tenNv }}</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noMission>
+          <p class="no-missioin">
+            Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!
+          </p>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="h-9 p-l-8 p-r-8">
+      <div class="mission-list">
+        <div class="row ali-center jus-end ma-b-16">
+          <div class="functional-list">
+            <div class="functional-container row jus-end">
+              <div class="functional-button">
+                <button>
+                  <a
+                    [routerLink]="['/ministry/nhiem-vu/chi-tiet', { maNv: -1 }]"
+                    >Thêm</a
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngFor="let nv of listNV">
+          <a
+            class="row ali-center list-item"
+            [routerLink]="['/ministry/nhiem-vu/chi-tiet', { maNv: nv.maNv }]"
+          >
+            <div class="item-img ma-r-12">
+              <img src="../../../../assets/Images/mission.svg" alt="" />
+            </div>
+
+            <div class="mission-info">
+              <p class="mission-title">{{ nv.tenNv }}</p>
+              <p class="misstion-time row ali-center">
+                <i class="icon-cal fa-regular fa-calendar ma-r-4"></i
+                >{{ dateFormat(nv.thoiGianBd) }}
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

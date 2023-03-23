@@ -1,12 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ToastrService } from 'ngx-toastr';
-import { thongBaoService } from 'src/app/services/thongBao.service';
-import { Form, getParentElement, Option } from 'src/assets/utils';
+import { Form } from 'src/assets/utils';
 import { MinistryDanhsachthongbaoComponent } from './ministry-danhsachthongbao/ministry-danhsachthongbao.component';
-import { ThongBao } from '../../models/ThongBao.model';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ministry-thongbao',

@@ -53,6 +53,9 @@ import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Location } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
+import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @NgModule({
   declarations: [
@@ -97,6 +100,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DashboardLoimoiComponent,
     TestComponent,
     MinistryChitietthongbaoComponent,
+    MinistryDanhsachnhiemvuComponent,
+    MinistryChitietnhiemvuComponent,
   ],
 
   imports: [
@@ -111,6 +116,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgProgressHttpModule,
     PdfViewerModule,
     NgxPaginationModule,
+    DpDatePickerModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot({

@@ -36,6 +36,8 @@ import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsac
 import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
 import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/ministry-danhsachthongbao/ministry-danhsachthongbao.component';
 import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
+import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
+import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -52,7 +54,7 @@ const routes: Routes = [
       },
       {
         path: 'thong-bao',
-        component: MinistryThongbaoComponent, 
+        component: MinistryThongbaoComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -64,27 +66,39 @@ const routes: Routes = [
             path: 'chi-tiet',
             component: MinistryChitietthongbaoComponent,
             canActivate: [AuthGuard],
-          }
-        ]
+          },
+        ],
       },
       {
         path: 'ke-hoach',
-        component: MinistryKehoachComponent, 
+        component: MinistryKehoachComponent,
         canActivate: [AuthGuard],
       },
       {
         path: 'nhiem-vu',
-        component: MinistryNhiemvuComponent, 
+        component: MinistryNhiemvuComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: MinistryDanhsachnhiemvuComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: MinistryChitietnhiemvuComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'hoi-dong',
-        component: MinistryHoidongComponent, 
+        component: MinistryHoidongComponent,
         canActivate: [AuthGuard],
       },
       {
         path: 'de-tai',
-        component: MinistryDetaiComponent, 
+        component: MinistryDetaiComponent,
         canActivate: [AuthGuard],
       },
       {
@@ -94,9 +108,8 @@ const routes: Routes = [
         children: [
           {
             path: 'danh-sach-giang-vien',
-            component:
-            MinistryDanhsachgiangvienComponent, 
-              canActivate: [AuthGuard],
+            component: MinistryDanhsachgiangvienComponent,
+            canActivate: [AuthGuard],
           },
         ],
       },
@@ -106,11 +119,10 @@ const routes: Routes = [
         children: [
           {
             path: 'danh-sach-sinh-vien',
-            component:
-            MinistryDanhsachsinhvienComponent, 
-              canActivate: [AuthGuard],
+            component: MinistryDanhsachsinhvienComponent,
+            canActivate: [AuthGuard],
           },
-        ], 
+        ],
         canActivate: [AuthGuard],
       },
       {
@@ -119,23 +131,22 @@ const routes: Routes = [
         children: [
           {
             path: 'danh-sach-tham-gia',
-            component:
-            MinistryDanhsachthamgiaComponent, 
-              canActivate: [AuthGuard],
+            component: MinistryDanhsachthamgiaComponent,
+            canActivate: [AuthGuard],
           },
-        ], 
+        ],
         canActivate: [AuthGuard],
       },
       {
         path: 'quan-ly-chung',
-        component: MinistryQuanlychungComponent, 
+        component: MinistryQuanlychungComponent,
         canActivate: [AuthGuard],
       },
     ],
   },
 
-  { 
-    path: 'home', 
+  {
+    path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard],
     children: [
@@ -167,9 +178,9 @@ const routes: Routes = [
           {
             path: 'danh-sach-giang-vien',
             component: HomeDanhsachgiangvienComponent,
-            canActivate: [AuthGuard], 
-          }
-        ]
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'thong-bao',
@@ -184,9 +195,9 @@ const routes: Routes = [
           {
             path: 'danh-sach-de-tai',
             component: HomeDanhsachdetaiComponent,
-            canActivate: [AuthGuard], 
-          }
-        ]
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'sinh-vien',
@@ -196,9 +207,9 @@ const routes: Routes = [
           {
             path: 'danh-sach-sinh-vien',
             component: HomeDanhsachsinhvienComponent,
-            canActivate: [AuthGuard], 
-          }
-        ]
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'hoi-dong',
@@ -225,17 +236,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardMainComponent, 
+        component: DashboardMainComponent,
         canActivate: [AuthGuard],
       },
       {
         path: 'loi-moi',
-        component: DashboardLoimoiComponent, 
+        component: DashboardLoimoiComponent,
         canActivate: [AuthGuard],
       },
       {
         path: 'thong-bao',
-        component: DashboardThongbaoComponent, 
+        component: DashboardThongbaoComponent,
         canActivate: [AuthGuard],
       },
     ],
@@ -245,6 +256,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
