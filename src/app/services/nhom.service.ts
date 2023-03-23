@@ -35,7 +35,7 @@ export class nhomService {
     }
 
     async add(nhom: Nhom): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Nhoms`, nhom, this.shareService.httpOptions);
+      return await this.http.post(`${this.apiUrl}/api/Nhoms`, nhom, this.shareService.httpOptions).toPromise();
     }
 
     async update(nhom: Nhom): Promise<any> {
@@ -46,5 +46,10 @@ export class nhomService {
     async delete(MaNhom: string): Promise<any> {
       return await this.http.delete(`${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaNhom}`, 
       this.shareService.httpOptions).toPromise();
+    }
+
+    async countThanhVien(MaNhom: string): Promise<number> {
+      return await this.http.get<number>(`${this.apiUrl}/api/Nhoms/ma?ma=${MaNhom}`, 
+      this.shareService.httpOptions).toPromise() ?? 0;
     }
 }

@@ -20,19 +20,6 @@
           [(ngModel)]="searchName"
         />
       </li>
-      <li class="functional-item">
-        <select
-          class="functional-select"
-          id="functional-select"
-          (change)="getSinhVienByMaCN($event)"
-        >
-          <option value="">Tất cả</option>
-          <option *ngFor="let cn of listChuyenNganh" [value]="cn.maCn">
-            {{ cn?.tenCn }}
-          </option>
-        </select>
-      </li>
-
       <li class="functional-item row ali-center jus-end flex-1">
         <div class="functional-button">
           <button (click)="onShowFormAdd()">Thêm</button>

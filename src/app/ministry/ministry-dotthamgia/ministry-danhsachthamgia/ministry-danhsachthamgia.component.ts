@@ -1,7 +1,5 @@
 import { thamGiaService } from './../../../services/thamGia.service';
-import { thamGiaHdService } from './../../../services/thamGiaHD.service';
 import { ThamGia } from './../../../models/ThamGia.model';
-import { dotDkService } from './../../../services/dotDk.service';
 import {
   Component,
   ElementRef,
@@ -25,16 +23,16 @@ import { getParentElement } from 'src/assets/utils';
 })
 export class MinistryDanhsachthamgiaComponent implements OnInit {
   @Input() searchName = '';
-  @Input() isSelectedSV = false;
-  @Output() returnIsSelectedSV = new EventEmitter<boolean>();
+  @Input() isSelectedTG = false;
+  @Output() returnIsSelectedTG = new EventEmitter<boolean>();
   listTg: ThamGia[] = [];
   root: ThamGia[] = [];
   sinhVien = new SinhVien();
 
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
-  selectedSV: string[] = [];
-  lineSV = new SinhVien();
+  selectedTG: any[] = [];
+  lineTG = new ThamGia();
   elementOld: any;
 
   constructor(
@@ -52,8 +50,8 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        this.selectedSV = [];
-        this.returnIsSelectedSV.emit(false);
+        this.selectedTG = [];
+        this.returnIsSelectedTG.emit(false);
         let activeLine = this.elementRef.nativeElement.querySelectorAll(
           '.br-line.br-line-click'
         );
@@ -70,12 +68,13 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
-    const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-dblclick'
-    );
+    const namHoc_Dot:string = parent.querySelector('.namhoc_dot').innerText;
+    const namHoc = namHoc_Dot.substring(0, 9);
+    const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
+    const activeLine = this.elementRef.nativeElement.querySelector('.br-line.br-line-dblclick');
 
     if(!parent.classList.contains('br-line-dblclick')) {
-      this.lineSV = await this.sinhVienService.getById(firstChild.innerText);
+      this.lineTG = await this.thamGiaService.getById(firstChild.innerText, namHoc, dot);
     }
 
     activeLine && activeLine.classList.remove('br-line-dblclick');
@@ -97,32 +96,41 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
   getSelectedLine(e: any) {
     if (e.ctrlKey) {
-      this.returnIsSelectedSV.emit(true);
+      this.returnIsSelectedTG.emit(true);
       const activeDblClick = this.elementRef.nativeElement.querySelector(
         '.br-line.br-line-dblclick'
       );
       const parent = getParentElement(e.target, '.br-line');
       const firstChild = parent.firstChild;
+      const namHoc_Dot:string = parent.querySelector('.namhoc_dot').innerText;
+      const namHoc = namHoc_Dot.substring(0, 9);
+      const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
 
       if (activeDblClick) {
         activeDblClick.classList.remove('.br-line-dblclick');
-        this.lineSV = new SinhVien();
+        this.lineTG = new ThamGia();
       }
 
       if (parent.classList.contains('br-line-click')) {
-        let childIndex = this.selectedSV.findIndex(
+        let childIndex = this.selectedTG.findIndex(
           (t) => t === firstChild.innerText
         );
 
         parent.classList.remove('br-line-click');
-        this.selectedSV.splice(childIndex, 1);
+        this.selectedTG.splice(childIndex, 1);
       } else {
         parent.classList.add('br-line-click');
-        this.selectedSV.push(firstChild.innerText);
+        var idTg = {
+          maSv: firstChild.innerText,
+          namHoc: namHoc,
+          dot: dot
+        }
+        this.selectedTG.push(idTg);
       }
+      console.log(this.selectedTG);
 
-      if (this.selectedSV.length === 0) {
-        this.returnIsSelectedSV.emit(false);
+      if (this.selectedTG.length === 0) {
+        this.returnIsSelectedTG.emit(false);
       }
     }
   }

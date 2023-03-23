@@ -31,8 +31,8 @@ export class MinistryDotthamgiaComponent implements OnInit {
   listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
-  isSelectedSV: boolean = false;
-  selectedSV: string[] = [];
+  isSelectedTG: boolean = false;
+  selectedSV: any[] = [];
 
   namHoc!: string;
   dot!: number;
@@ -60,14 +60,17 @@ export class MinistryDotthamgiaComponent implements OnInit {
       this.namHoc = this.listDotDk[0].namHoc;
       this.dot = this.listDotDk[0].dot;
     }
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+  }
 
-
+  async resetList() {
+    this.listDotDk = await this.dotDkService.getAll();
     this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
   }
 
   toggleAddAll(event: any) {
     const element = event.target;
-    const parent = getParentElement(element, '.table');
+    const parent:any = getParentElement(element, '.table');
     const child = parent.querySelectorAll('.add-btn');
 
     if (!element.classList.contains('active')) {
@@ -144,8 +147,8 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
-
-    if (Object.entries(this.DSTGComponent.lineSV).length > 0) {
+    console.log(this.DSTGComponent.lineTG);
+    if (Object.entries(this.DSTGComponent.lineTG).length > 0) {
       _delete.classList.add('active');
       let option = new Option('#delete');
 
@@ -158,14 +161,15 @@ export class MinistryDotthamgiaComponent implements OnInit {
       });
 
       option.agree(() => {
-        // Xóa tham gia trước -- Chưa làm
         try {
-          const result = this.sinhVienService.delete(
-            this.DSTGComponent.lineSV.maSv
+          this.thamGiaService.delete(
+            this.DSTGComponent.lineTG.maSv,
+            this.DSTGComponent.lineTG.namHoc,
+            this.DSTGComponent.lineTG.dot
           );
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
-          this.DSTGComponent.lineSV = new SinhVien();
-          // this.DSTGComponent.getAllSinhVien();
+          this.DSTGComponent.lineTG = new ThamGia();
+          this.DSTGComponent.getAllThamgiaByDotdk();
         } catch (error) {
           this.toastr.error(
             'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
@@ -175,45 +179,41 @@ export class MinistryDotthamgiaComponent implements OnInit {
         _delete.classList.remove('active');
       });
     } else if (
-      Object.entries(this.DSTGComponent.lineSV).length === 0 &&
-      this.DSTGComponent.selectedSV.length === 0
+      Object.entries(this.DSTGComponent.lineTG).length === 0 &&
+      this.DSTGComponent.selectedTG.length === 0
     ) {
       this.toastr.warning('Vui lòng chọn sinh viên để xóa', 'Thông báo !');
     }
 
-    this.DSTGComponent.selectedSV.forEach((maSV) => {
+    this.DSTGComponent.selectedTG.forEach((item) => {
       try {
-        this.sinhVienService.delete(maSV);
-        this.userService.delete(maSV);
+        this.thamGiaService.delete(item.maSv, item.namHoc, item.dot);
         this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
-        this.DSTGComponent.lineSV = new SinhVien();
-        // this.DSTGComponent.getAllSinhVien();
-        this.isSelectedSV = false;
+        this.DSTGComponent.getAllThamgiaByDotdk();
+        this.isSelectedTG = false;
       } catch (error) {
         this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
       }
     });
+    this.DSTGComponent.selectedTG = [];
   }
 
   async addThamgia() {
     for (var maSv of this.selectedSV) {
       var sv = await this.sinhVienService.getById(maSv);
-      console.log(maSv);
-      console.log(sv);
       this.f_AddThamgia(sv);
     }
-    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
-
+    this.resetList();
   }
 
   async f_AddThamgia(sv: SinhVien) {
     try {
       const nhom = new Nhom();
       const maNhom = sv.maSv + this.namHoc + this.dot;
-      nhom.init(maNhom, sv.tenSv, sv.maSv);
+      nhom.init(maNhom, sv.tenSv);
   
       const thamgia = new ThamGia();
-      thamgia.init(sv.maSv, this.namHoc, this.dot, maNhom, 0);
+      thamgia.init(sv.maSv, this.namHoc, this.dot, maNhom, 0, true);
   
       // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
       await this.nhomService.add(nhom);
@@ -232,7 +232,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
   }
 
   resetLineActive() {
-    this.DSTGComponent.lineSV = new SinhVien();
+    this.DSTGComponent.lineTG = new ThamGia();
     this.elementRef.nativeElement
       .querySelector('.table tr.br-line-dblclick')
       .classList.remove('br-line-dblclick');
@@ -241,7 +241,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
   updateSinhVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-    this.DSTGComponent.lineSV = new SinhVien();
+    this.DSTGComponent.lineTG = new ThamGia();
   }
 
   getThamgiaByMaCN(event: any) {
@@ -271,10 +271,9 @@ export class MinistryDotthamgiaComponent implements OnInit {
   async getSinhvienByMaCN(event: any) {
     const maCn = event.target.value;
     if(maCn == '') {
-      this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+      this.resetList();
     }
     else {
-
       this.listSinhVien = await this.sinhVienService.getByMaCn(maCn);
     }
   }

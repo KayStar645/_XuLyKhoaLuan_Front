@@ -20,16 +20,14 @@
           >
             <td class="text-center">{{ tg?.maSv }}</td>
             {{getSinhVienById(tg.maSv)}}
-            <td class="text-left">
-              {{ sinhVien.tenSv }}
-            </td>
+            <td class="text-left">{{ sinhVien.tenSv }}</td>
             <td class="text-left">{{ sinhVien.email }}</td>
             <td class="text-center">{{ dateFormat(sinhVien.ngaySinh) }}</td>
             <td class="text-center">{{ sinhVien.gioiTinh }}</td>
             <td class="text-center">{{ sinhVien.sdt }}</td>
             <td class="text-center">{{ sinhVien.lop }}</td>
             <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
-            <td class="text-left">{{ tg.namHoc }} - Đợt {{ tg.dot }}</td>
+            <td class="text-left namhoc_dot">{{ tg.namHoc }} - Đợt {{ tg.dot }}</td>
           </tr>
         </tbody>
       </table>
