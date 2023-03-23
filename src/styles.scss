@@ -10,6 +10,7 @@
 @import url("./assets/styles/Functional.scss");
 @import url("./assets/styles/CustomeQuill.scss");
 @import url("~quill/dist/quill.snow.css");
+@import url("~@angular/cdk/overlay-prebuilt.css");
 
 .ng-bar-placeholder {
   height: 4px !important;

@@ -17,7 +17,6 @@ export class NhiemVu {
     soLuongDt: number,
     thoiGianBd: string,
     thoiGianKt: string,
-    hinhAnh: string,
     fileNv: string,
     maBm: string,
     maGv: string
@@ -27,7 +26,6 @@ export class NhiemVu {
     this.soLuongDt = soLuongDt;
     this.thoiGianBd = thoiGianBd;
     this.thoiGianKt = thoiGianKt;
-    this.hinhAnh = hinhAnh;
     this.fileNv = fileNv;
     this.maBm = maBm;
     this.maGv = maGv;

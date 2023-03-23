@@ -55,6 +55,7 @@ import { Location } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
 import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/min
     NgProgressHttpModule,
     PdfViewerModule,
     NgxPaginationModule,
+    DpDatePickerModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot({

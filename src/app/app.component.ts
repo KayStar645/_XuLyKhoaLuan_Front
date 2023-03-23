@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import * as dayjs from 'dayjs';
+import 'dayjs/locale/vi';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +13,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.router.navigate(['/login']);
+    dayjs.locale('vi');
     // this.router.navigate(['/dashboard', 'dashboard-main']);
   }
 }

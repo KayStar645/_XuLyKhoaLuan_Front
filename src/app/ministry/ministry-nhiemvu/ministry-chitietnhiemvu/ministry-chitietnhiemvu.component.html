@@ -1,1 +1,118 @@
-<p>ministry-chitietnhiemvu works!</p>
+<!-- <div id="functional-container">
+  <div class="functional-list">
+    <div class="functional-container row ali-center jus-end">
+      <div class="functional-button" *ngIf="maNv == -1">
+        <button (click)="onAdd()">Thêm</button>
+      </div>
+
+      <div class="functional-button" *ngIf="maNv > -1">
+        <button (click)="onUpdate()">Sửa</button>
+      </div>
+
+      <div class="functional-button" *ngIf="maNv > -1">
+        <button (click)="onDelete()">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<form class="tb-form p-t-16" [formGroup]="tbForm.form">
+  <div class="container row">
+    <div class="h-8 p-l-8 p-r-8">
+      <div class="form-item">
+        <div class="form-control">
+          <p class="label p-b-8">Tiêu đề nhiệm vụ</p>
+
+          <div class="form-value">
+            <input
+              type="text"
+              class="form-input title"
+              formControlName="tenNv"
+              spellcheck="false"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <p class="label p-b-8">File đi kèm:</p>
+
+          <div class="form-value">
+            <input
+              type="file"
+              (change)="onChange($event)"
+              class="attach-file"
+              value="test.pdf"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <pdf-viewer
+          [src]="pdfSrc"
+          [render-text]="true"
+          [original-size]="false"
+          style="width: 100%; height: 100vh; overflow: hidden"
+        ></pdf-viewer>
+      </div>
+    </div>
+
+    <div class="h-4 p-l-8 p-r-8">
+      <div class="form-item">
+        <div class="form-control">
+          <p class="label p-b-8">Dành cho giảng viên</p>
+
+          <div class="form-value">
+            <input
+              type="text"
+              class="form-input title"
+              formControlName="tenNv"
+              spellcheck="false"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </div>
+        <div class="form-control">
+          <p class="label p-b-8">Hạn hoàn thành</p>
+
+          <div class="form-value">
+            <dp-date-picker mode="daytime"></dp-date-picker>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+        <div class="form-control">
+          <p class="label p-b-8">Số lượng đề tài tối thiểu</p>
+
+          <div class="form-value">
+            <input
+              type="number"
+              class="form-input title"
+              formControlName="soLuongDt"
+              min="3"
+              spellcheck="false"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div id="delete">
+  <div class="form-notify">
+    <div class="notify-container">
+      <p class="notify-title">Thông báo !</p>
+      <p class="notify-content">
+        Việc xóa sẽ làm tất cả thông tin có liên quan đến nhiệm vụ sẽ biến mất.
+        Bạn có chắc chắn muốn xóa ?
+      </p>
+      <div class="row ali-center jus-end">
+        <button class="cancel">Hủy</button>
+        <button class="agree">Đồng ý</button>
+      </div>
+
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+</div>
