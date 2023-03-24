@@ -1,1 +1,48 @@
-<p>danhsachdetai works!</p>
+<div id="container">
+    <div>
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+        <tr>
+          <th>Mã ĐT</th>
+          <th>Tên đề tài</th>
+          <th>Tóm tắt</th>
+          <th>Số lượng</th>
+          <th>Chuyên ngành</th>
+          <th>Giảng viên ra đề</th>
+          <th>Giảng viên duyệt</th>
+          <th>Lần cuối duyệt</th>
+          <th>Trạng thái</th>
+        </tr>
+        <tbody *ngFor="let dt of listDT">
+          <tr
+            class="br-line"
+            (dblclick)="clickLine($event)"
+            (mousedown)="getSelectedLine($event)"
+          >
+            <td class="text-center">{{ dt.maDT }}</td>
+            <td class="text-left">
+              <p class="cell-limit">
+                {{ dt?.tenDT }}
+              </p>
+            </td>
+            <td class="text-left relative">
+              <p class="topic-summary cell-limit">
+                {{ dt?.tomTat }}
+              </p>
+              <span class="show-more" (click)="onShowDetail($event)"
+                >[Chi tiết]</span
+              >
+            </td>
+            <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
+            <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
+            <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
+            <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td>
+            <td class="text-center">{{ getThoiGianDuyetByMaDT(dt.maDT) }}</td>
+            <td class="text-center">
+              {{ dt?.trangThai ? "Xác nhận!" : "Chưa duyệt!" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

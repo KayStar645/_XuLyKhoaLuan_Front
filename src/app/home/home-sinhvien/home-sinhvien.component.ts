@@ -1,19 +1,12 @@
-import { HomeDanhsachsinhvienComponent } from './home-danhsachsinhvien/home-danhsachsinhvien.component';
-import { Nhom } from 'src/app/models/Nhom.model';
-import { ThamGia } from 'src/app/models/ThamGia.model';
+import { dotDkService } from './../../services/dotDk.service';
 import { DotDk } from './../../models/DotDk.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ToastrService } from 'ngx-toastr';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { userService } from 'src/app/services/user.service';
-import { Form, getParentElement, Option } from 'src/assets/utils';
-import * as XLSX from 'xlsx';
-import { User } from 'src/app/models/User.model';
+import { HomeDanhsachsinhvienComponent } from './home-danhsachsinhvien/home-danhsachsinhvien.component';
 
 @Component({
   selector: 'app-home-sinhvien',
@@ -21,20 +14,25 @@ import { User } from 'src/app/models/User.model';
 })
 export class HomeSinhvienComponent implements OnInit {
   @ViewChild(HomeDanhsachsinhvienComponent)
-  protected DSSVComponent!: HomeDanhsachsinhvienComponent;
+  protected DSTGComponent!: HomeDanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
+
+  listSinhVien: SinhVien[] = [];
+
+  listDotDk: DotDk[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
-  isSelectedSV: boolean = false;
+  isSelectedTG: boolean = false;
+  selectedSV: any[] = [];
 
   namHoc!: string;
   dot!: number;
 
-  sinhVienFile: any;
-
   constructor(
     private titleService: Title,
     private chuyenNganhService: chuyenNganhService,
+    private sinhVienService: sinhVienService,
+    private dotDkService: dotDkService,
   ) { }
 
   async ngOnInit() {
@@ -43,19 +41,61 @@ export class HomeSinhvienComponent implements OnInit {
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
-  }
-  
-  setIsSelectedSv(event: any) {
-    this.isSelectedSV = event;
+    this.listDotDk = await this.dotDkService.getAll();
+    if (this.listDotDk.length > 0) {
+      this.namHoc = this.listDotDk[0].namHoc;
+      this.dot = this.listDotDk[0].dot;
+    }
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
   }
 
-  getSinhVienByMaCN(event: any) {
+  async resetList() {
+    this.listDotDk = await this.dotDkService.getAll();
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+  }
+
+  getThamgiaByMaCN(event: any) {
     const maCn = event.target.value;
     if (maCn == '') {
-      this.DSSVComponent.getAllSinhVien();
+      this.DSTGComponent.getAllThamgiaByDotdk();
     } else {
-      this.DSSVComponent.getSinhVienByMaCN(maCn);
+      this.DSTGComponent.getThamgiaByMaCN(maCn);
     }
   }
-}
 
+  getTenCnById(maCn: string) {
+    return this.DSTGComponent.getTenCNById(maCn);
+  }
+
+  getThamgiaByDotDk(event: any) {
+    const dotdk = event.target.value;
+    if (dotdk == '') {
+      this.DSTGComponent.getAllThamgiaByDotdk();
+    } else {
+      this.namHoc = dotdk.slice(0, dotdk.length - 1);
+      this.dot = dotdk.slice(dotdk.length - 1);
+      this.DSTGComponent.getThamgiaByDotDk(this.namHoc, this.dot);
+    }
+  }
+
+  async getSinhvienByMaCN(event: any) {
+    const maCn = event.target.value;
+    if(maCn == '') {
+      this.resetList();
+    }
+    else {
+      this.listSinhVien = await this.sinhVienService.getByMaCn(maCn);
+    }
+  }
+
+  async getSinhvienByMaCNToListSV(event: any) {
+    
+  }
+
+  async getSinhvienByNotDotDk(event: any) {
+    const dotdk = event.target.value;
+    this.namHoc = dotdk.slice(0, dotdk.length - 1);
+    this.dot = dotdk.slice(dotdk.length - 1);
+    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+  }
+}

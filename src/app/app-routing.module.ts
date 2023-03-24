@@ -38,6 +38,8 @@ import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/
 import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
 import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
 import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
+import { HomeDanhsachnhiemvuComponent } from './home/home-nhiemvu/home-danhsachnhiemvu/home-danhsachnhiemvu.component';
+import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhiemvu/home-chitietnhiemvu.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -169,6 +171,18 @@ const routes: Routes = [
         path: 'nhiem-vu',
         component: HomeNhiemvuComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: HomeDanhsachnhiemvuComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: HomeChitietnhiemvuComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'giang-vien',

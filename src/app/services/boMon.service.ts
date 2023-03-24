@@ -22,17 +22,11 @@ export class boMonService {
     }
 
     async getById(id: string):Promise<BoMon> {
-      try {
-        var response = new BoMon();
-        response = await this.http.get<BoMon>(
+      var response = new BoMon();
+        return await this.http.get<BoMon>(
           `${this.apiUrl}/api/Bomons/MaBM?MaBM=${id}`,
           this.shareService.httpOptions
-        ).toPromise() ?? response as BoMon;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+        ).toPromise() ?? response;
     }
 
     async add(boMon: BoMon): Promise<any> {

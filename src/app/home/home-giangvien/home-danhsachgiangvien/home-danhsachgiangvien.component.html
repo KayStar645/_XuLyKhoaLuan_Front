@@ -8,6 +8,7 @@
           <th>Ngày sinh</th>
           <th>Giới tính</th>
           <th>SĐT</th>
+          <th>Bộ môn công tác</th>
           <th>Ngày nhận việc</th>
           <th>Ngày nghỉ</th>
         </tr>
@@ -15,12 +16,13 @@
           <tr>
             <td class="text-center">{{ gv.maGv }}</td>
             <td class="text-left">
-              {{ gv?.hocHam }} {{ gv?.hocVi }} {{ gv?.tenGv }}
+              <i>{{ gv?.hocHam }} {{ gv?.hocVi }}</i> {{ gv?.tenGv }}
             </td>
             <td class="text-left">{{ gv?.email }}</td>
             <td class="text-center">{{ dateFormat(gv.ngaySinh) }}</td>
             <td class="text-center">{{ gv?.gioiTinh }}</td>
             <td class="text-center">{{ gv?.sdt }}</td>
+            <td class="text-center">{{ getNameBomonById(gv.maBm) }}</td>
             <td class="text-center">{{ dateFormat(gv.ngayNhanViec) }}</td>
             <td class="text-center">{{ dateFormat(gv.ngayNghi) }}</td>
           </tr>

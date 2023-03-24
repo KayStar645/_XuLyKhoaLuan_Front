@@ -132,7 +132,6 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
         };
         this.selectedTG.push(idTg);
       }
-      console.log(this.selectedTG);
 
       if (this.selectedTG.length === 0) {
         this.returnIsSelectedTG.emit(false);

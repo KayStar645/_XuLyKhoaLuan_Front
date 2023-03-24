@@ -44,7 +44,6 @@ export class HomeMainComponent {
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
     private boMonService: boMonService,
-    private khoaService: khoaService,
     private el: ElementRef,
   ) {}
 

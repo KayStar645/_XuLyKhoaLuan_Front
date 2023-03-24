@@ -1,4 +1,14 @@
-import { Component, ElementRef, Input, OnInit, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { thamGiaService } from './../../../services/thamGia.service';
+import { ThamGia } from './../../../models/ThamGia.model';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
@@ -12,15 +22,16 @@ import { getParentElement } from 'src/assets/utils';
 })
 export class HomeDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
-  @Input() isSelectedSV = false;
-  @Output() returnIsSelectedSV = new EventEmitter<boolean>();
-  root: SinhVien[] = [];
+  @Input() isSelectedTG = false;
+  @Output() returnIsSelectedTG = new EventEmitter<boolean>();
+  listTg: ThamGia[] = [];
+  root: ThamGia[] = [];
   sinhVien = new SinhVien();
 
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
-  selectedSV: string[] = [];
-  lineSV = new SinhVien();
+  selectedTG: any[] = [];
+  lineTG = new ThamGia();
   elementOld: any;
 
   constructor(
@@ -28,19 +39,22 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
+    private thamGiaService: thamGiaService
   ) {}
 
   async ngOnInit() {
-    this.getAllSinhVien();
+    this.listSV = await this.sinhVienService.getAll();
+    this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        this.selectedSV = [];
-        this.returnIsSelectedSV.emit(false);
+        this.selectedTG = [];
+        this.returnIsSelectedTG.emit(false);
         let activeLine = this.elementRef.nativeElement.querySelectorAll(
           '.br-line.br-line-click'
         );
+
         if (activeLine) {
           activeLine.forEach((line: any) => {
             line.classList.remove('br-line-click');
@@ -50,41 +64,93 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
     });
   }
 
+  async getAllSinhVien() {
+    
+  }
+
   async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
-    const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-dblclick'
-    );
+    const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
+    const namHoc = namHoc_Dot.substring(0, 9);
+    const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
 
-    if(!parent.classList.contains('br-line-dblclick')) {
-      this.lineSV = await this.sinhVienService.getById(firstChild.innerText);
+    if (!parent.classList.contains('br-line-dblclick')) {
+      this.lineTG = await this.thamGiaService.getById(
+        firstChild.innerText,
+        namHoc,
+        dot
+      );
+      parent.classList.add('br-line-dblclick');
+    } else {
+      this.lineTG = new ThamGia();
+      parent.classList.remove('br-line-dblclick');
     }
-
-    activeLine && activeLine.classList.remove('br-line-dblclick');
-    parent.classList.add('br-line-dblclick');
   }
 
-  async getAllSinhVien() {
-    this.listSV = await this.sinhVienService.getAll();
+  async getAllThamgiaByDotdk() {
+    this.listTg = await this.thamGiaService.getAll();
+    this.root = this.listTg;
   }
 
-  async getSinhVienByMaCN(maCn: string) {
-    this.listSV = await this.sinhVienService.getByMaCn(maCn);
+  async getThamgiaByMaCN(maCn: string) {
+    this.listTg = await this.thamGiaService.getByCn(maCn);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  getThamgiaByDotDk(namHoc: string, dot: number) {
+    this.listTg =
+      this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
+  }
+
+  getSelectedLine(e: any) {
+    if (e.ctrlKey) {
+      this.returnIsSelectedTG.emit(true);
+      const activeDblClick = this.elementRef.nativeElement.querySelector(
+        '.br-line.br-line-dblclick'
+      );
+      const parent = getParentElement(e.target, '.br-line');
+      const firstChild = parent.firstChild;
+      const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
+      const namHoc = namHoc_Dot.substring(0, 9);
+      const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
+
+      if (activeDblClick) {
+        activeDblClick.classList.remove('.br-line-dblclick');
+        this.lineTG = new ThamGia();
+      }
+
+      if (parent.classList.contains('br-line-click')) {
+        let childIndex = this.selectedTG.findIndex(
+          (t) => t === firstChild.innerText
+        );
+
+        parent.classList.remove('br-line-click');
+        this.selectedTG.splice(childIndex, 1);
+      } else {
+        parent.classList.add('br-line-click');
+        var idTg = {
+          maSv: firstChild.innerText,
+          namHoc: namHoc,
+          dot: dot,
+        };
+        this.selectedTG.push(idTg);
+      }
+
+      if (this.selectedTG.length === 0) {
+        this.returnIsSelectedTG.emit(false);
+      }
+    }
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      this.filterItems();
+      const name = this.searchName.trim().toLowerCase();
+      if (name == '') {
+        this.listTg = this.root;
+      } else {
+        this.listTg = await this.thamGiaService.searchThamgiaByName(name);
+      }
     }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listSV = this.root.filter((item) => {
-        item.tenSv.toLowerCase().includes(searchName)
-    }
-    );
   }
 
   getTenCNById(maCn: string): string {
@@ -96,8 +162,11 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
     return tencn;
   }
 
+  getSinhVienById(maSV: string) {
+    this.sinhVien = this.listSV.find((t) => t.maSv === maSV) ?? this.sinhVien;
+  }
+
   dateFormat(str: string) {
     return this.shareService.dateFormat(str);
   }
 }
-

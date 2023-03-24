@@ -56,6 +56,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
 import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { HomeDanhsachnhiemvuComponent } from './home/home-nhiemvu/home-danhsachnhiemvu/home-danhsachnhiemvu.component';
+import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhiemvu/home-chitietnhiemvu.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,9 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     MinistryMainComponent,
     MinistryThongbaoComponent,
     MinistryDanhsachthongbaoComponent,
+    MinistryChitietthongbaoComponent,
+    MinistryDanhsachnhiemvuComponent,
+    MinistryChitietnhiemvuComponent,
     MinistryKehoachComponent,
     MinistryGiangvienComponent,
     MinistryDanhsachgiangvienComponent,
@@ -90,6 +95,8 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     HomeKehoachComponent,
     HomeLichphanbienComponent,
     HomeNhiemvuComponent,
+    HomeDanhsachnhiemvuComponent,
+    HomeChitietnhiemvuComponent,
     HomeSinhvienComponent,
     HomeDanhsachsinhvienComponent,
     HomeThongbaoComponent,
@@ -99,9 +106,6 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     DashboardThongbaoComponent,
     DashboardLoimoiComponent,
     TestComponent,
-    MinistryChitietthongbaoComponent,
-    MinistryDanhsachnhiemvuComponent,
-    MinistryChitietnhiemvuComponent,
   ],
 
   imports: [
