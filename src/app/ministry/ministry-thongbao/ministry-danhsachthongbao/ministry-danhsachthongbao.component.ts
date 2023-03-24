@@ -42,15 +42,6 @@ export class MinistryDanhsachthongbaoComponent {
   async getAllThongBao() {
     this.listTB = await this.thongBaoService.getAll();
     this.root = this.listTB;
-
-    await Promise.all(
-      this.listTB.map(async (tb: ThongBao) => {
-        const hinhAnhResponse = await axios.get(
-          environment.githubNotifyImagesAPI + tb.hinhAnh
-        );
-        tb.hinhAnh = hinhAnhResponse.data.download_url;
-      })
-    );
   }
 
   dateFormat(str: string) {

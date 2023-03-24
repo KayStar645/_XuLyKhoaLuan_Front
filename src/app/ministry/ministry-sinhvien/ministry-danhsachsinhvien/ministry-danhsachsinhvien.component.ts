@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
@@ -28,7 +36,7 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
     private sinhVienService: sinhVienService,
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
-    private shareService: shareService,
+    private shareService: shareService
   ) {}
 
   async ngOnInit() {
@@ -54,16 +62,14 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
   async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
-    const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-dblclick'
-    );
 
-    if(!parent.classList.contains('br-line-dblclick')) {
+    if (!parent.classList.contains('br-line-dblclick')) {
       this.lineSV = await this.sinhVienService.getById(firstChild.innerText);
+      parent.classList.add('br-line-dblclick');
+    } else {
+      this.lineSV = new SinhVien();
+      parent.classList.remove('br-line-dblclick');
     }
-
-    activeLine && activeLine.classList.remove('br-line-dblclick');
-    parent.classList.add('br-line-dblclick');
   }
 
   async getAllSinhVien() {
@@ -133,9 +139,8 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
   filterItems() {
     const searchName = this.searchName.trim().toLowerCase();
     this.listSV = this.root.filter((item) => {
-        item.tenSv.toLowerCase().includes(searchName)
-    }
-    );
+      item.tenSv.toLowerCase().includes(searchName);
+    });
   }
 
   getTenCNById(maCn: string): string {

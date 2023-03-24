@@ -54,7 +54,7 @@ export class MinistrySinhvienComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
-    private userService: userService,
+    private userService: userService
   ) {
     this.svAddForm = this.svForm.form;
     this.svUpdateForm = this.svForm.form;
@@ -229,7 +229,7 @@ export class MinistrySinhvienComponent implements OnInit {
   async onReadFile() {
     if (this.sinhVienFile.data.length > 0) {
       const datas = this.sinhVienFile.data;
-  
+
       for (let data of datas) {
         let sinhVien = new SinhVien();
         sinhVien.init(
@@ -247,7 +247,6 @@ export class MinistrySinhvienComponent implements OnInit {
       this.DSSVComponent.getAllSinhVien();
     }
   }
-  
 
   async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
@@ -266,7 +265,9 @@ export class MinistrySinhvienComponent implements OnInit {
 
       option.agree(() => {
         try {
-          const result = this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv);
+          const result = this.sinhVienService.delete(
+            this.DSSVComponent.lineSV.maSv
+          );
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
           this.DSSVComponent.lineSV = new SinhVien();
           this.DSSVComponent.getAllSinhVien();
@@ -294,9 +295,10 @@ export class MinistrySinhvienComponent implements OnInit {
         this.DSSVComponent.getAllSinhVien();
         this.isSelectedSV = false;
       } catch (error) {
-        this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !'); 
+        this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
       }
     });
+    this.DSSVComponent.selectedSV = [];
   }
 
   addSinhVien() {
@@ -314,7 +316,6 @@ export class MinistrySinhvienComponent implements OnInit {
       );
       this.f_AddSinhVien(sinhVien);
       this.DSSVComponent.getAllSinhVien();
-      
     } else {
       this.svForm.validate('#create_box');
     }
@@ -324,15 +325,11 @@ export class MinistrySinhvienComponent implements OnInit {
     try {
       await this.sinhVienService.add(sv);
       this.svForm.resetForm('#create_box');
-        // Add tai khoan
-        await this.userService.addStudent(new User(sv.maSv, sv.maSv));
-        this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
-    }
-    catch {
-      this.toastr.error(
-        'Thông tin bạn cung cấp không hợp lệ.',
-        'Thông báo !'
-      );
+      // Add tai khoan
+      await this.userService.addStudent(new User(sv.maSv, sv.maSv));
+      this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
+    } catch {
+      this.toastr.error('Thông tin bạn cung cấp không hợp lệ.', 'Thông báo !');
     }
   }
 

@@ -7,8 +7,8 @@ export const environment = {
   api: 'https://localhost:7139',
   githubNotifyFilesAPI:
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Files/',
-  githubNotifyImagesAPI:
-    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Images/',
+  githubMissionFilesAPI:
+    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Mission/Files/',
   githubToken: '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',
 };
 

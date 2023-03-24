@@ -1,4 +1,4 @@
-<div id="container" *ngIf="listNV.length > 0">
+<div id="container">
   <div class="row">
     <div class="h-3 p-l-8 p-r-8 first-info">
       <div class="time-out">
@@ -20,7 +20,7 @@
               <a
                 [routerLink]="[
                   '/ministry/nhiem-vu/chi-tiet',
-                  { maNv: nv.maNv   }
+                  { maNv: nv.maNv }
                 ]"
                 class="item-title"
                 >{{ nv.tenNv }}</a
@@ -54,8 +54,9 @@
           </div>
         </div>
 
-        <div *ngFor="let nv of listNV">
+        <div *ngIf="listNV.length > 0">
           <a
+            *ngFor="let nv of listNV"
             class="row ali-center list-item"
             [routerLink]="['/ministry/nhiem-vu/chi-tiet', { maNv: nv.maNv }]"
           >

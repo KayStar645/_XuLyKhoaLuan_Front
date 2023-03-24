@@ -281,28 +281,26 @@ export class MinistryGiangvienComponent implements OnInit {
     ) {
       this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');
     }
+
     this.DSGVComponent.selectedGV.forEach((maGV) => {
       try {
         this.giangVienService.delete(maGV);
         this.userService.delete(maGV);
 
         this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
-        this.DSGVComponent.lineGV = new GiangVien();
         this.DSGVComponent.getAllGiangVien();
         this.isSelectedGV = false;
       } catch (error) {
         this.toastr.error('Xóa giảng viên thất bại', 'Thông báo !');
       }
     });
+    this.DSGVComponent.selectedGV = [];
   }
 
   addGiangVien() {
     if (this.gvAddForm.valid) {
       const giangVien = new GiangVien();
-      const taiKhoan = new User(
-        this.gvAddForm.value['maGv'],
-        this.gvAddForm.value['maGv']
-      );
+      
       giangVien.init(
         this.gvAddForm.value['maGv'],
         this.gvAddForm.value['tenGv'],
@@ -377,8 +375,7 @@ export class MinistryGiangvienComponent implements OnInit {
             'Cập nhập thông tin giảng viên viên thành công',
             'Thông báo !'
           );
-        }
-        catch {
+        } catch {
           this.toastr.error(
             'Thông tin bạn cung cấp không hợp lệ.',
             'Thông báo !'
@@ -407,13 +404,10 @@ export class MinistryGiangvienComponent implements OnInit {
   async f_AddGiangVien(gv: GiangVien) {
     try {
       await this.giangVienService.add(gv);
-      await this.userService.addTeacher(new User(gv.maGv, gv.maGv)); 
+      await this.userService.addTeacher(new User(gv.maGv, gv.maGv));
       this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
     } catch {
-      this.toastr.error(
-        'Thông tin bạn cung cấp không hợp lệ.',
-        'Thông báo !'
-      );
+      this.toastr.error('Thông tin bạn cung cấp không hợp lệ.', 'Thông báo !');
     }
   }
 

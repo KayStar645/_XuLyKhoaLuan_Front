@@ -40,7 +40,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
-    private thamGiaService: thamGiaService,
+    private thamGiaService: thamGiaService
   ) {}
 
   async ngOnInit() {
@@ -68,17 +68,21 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
-    const namHoc_Dot:string = parent.querySelector('.namhoc_dot').innerText;
+    const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
     const namHoc = namHoc_Dot.substring(0, 9);
     const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
-    const activeLine = this.elementRef.nativeElement.querySelector('.br-line.br-line-dblclick');
 
-    if(!parent.classList.contains('br-line-dblclick')) {
-      this.lineTG = await this.thamGiaService.getById(firstChild.innerText, namHoc, dot);
+    if (!parent.classList.contains('br-line-dblclick')) {
+      this.lineTG = await this.thamGiaService.getById(
+        firstChild.innerText,
+        namHoc,
+        dot
+      );
+      parent.classList.add('br-line-dblclick');
+    } else {
+      this.lineTG = new ThamGia();
+      parent.classList.remove('br-line-dblclick');
     }
-
-    activeLine && activeLine.classList.remove('br-line-dblclick');
-    parent.classList.add('br-line-dblclick');
   }
 
   async getAllThamgiaByDotdk() {
@@ -90,8 +94,9 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     this.listTg = await this.thamGiaService.getByCn(maCn);
   }
 
-  getThamgiaByDotDk(namHoc: string, dot:  number) {
-    this.listTg = this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
+  getThamgiaByDotDk(namHoc: string, dot: number) {
+    this.listTg =
+      this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
   }
 
   getSelectedLine(e: any) {
@@ -102,7 +107,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       );
       const parent = getParentElement(e.target, '.br-line');
       const firstChild = parent.firstChild;
-      const namHoc_Dot:string = parent.querySelector('.namhoc_dot').innerText;
+      const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
       const namHoc = namHoc_Dot.substring(0, 9);
       const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
 
@@ -123,8 +128,8 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
         var idTg = {
           maSv: firstChild.innerText,
           namHoc: namHoc,
-          dot: dot
-        }
+          dot: dot,
+        };
         this.selectedTG.push(idTg);
       }
       console.log(this.selectedTG);
@@ -138,10 +143,9 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       const name = this.searchName.trim().toLowerCase();
-      if(name == "") {
+      if (name == '') {
         this.listTg = this.root;
-      }
-      else {
+      } else {
         this.listTg = await this.thamGiaService.searchThamgiaByName(name);
       }
     }

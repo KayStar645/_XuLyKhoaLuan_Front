@@ -1,62 +1,66 @@
-<div id="functional-container">
-  <div class="functional-list">
-    <div class="functional-container row jus-end">
-      <div class="functional-button">
-        <button>
-          <a
-            [routerLink]="['/ministry/thong-bao/chi-tiet', { maTb: -1 }]"
-            class=""
-            >Thêm</a
-          >
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div id="container" *ngIf="listTB.length > 0">
-  <div class="row notify-list">
-    <div class="h-5 p-l-12 p-r-12 p-t-8 first-info">
-      <div class="item-container">
-        <img [src]="listTB[0]?.hinhAnh" alt="" />
-
-        <div class="flex-1">
-          <div class="info row flex-column jus-between">
-            <div class="name">
-              <p [innerHTML]="listTB[0]?.tenTb"></p>
-            </div>
-            <p class="date row ali-center jus-end">
-              <i class="icon-cal fa-regular fa-calendar"></i>
-              {{ dateFormat(listTB[0]?.ngayTb) }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="h-7 p-l-12 p-r-12">
-      <div class="list-item" *ngFor="let thongBao of listTB">
+  <div class="notify-list">
+    <div class="wrapper row">
+      <div class="h-5 p-l-12 p-r-12 p-t-8 first-info">
         <a
-          class="row item-container"
+          class="item-container"
           [routerLink]="[
             '/ministry/thong-bao/chi-tiet',
-            { maTb: thongBao.maTb }
+            { maTb: listTB[0]?.maTb }
           ]"
         >
-          <img [src]="thongBao.hinhAnh" alt="" />
+          <img src="../../../../assets/Images/notify.png" alt="" />
 
           <div class="flex-1">
             <div class="info row flex-column jus-between">
               <div class="name">
-                <p [innerHTML]="thongBao.tenTb"></p>
+                <p [innerHTML]="listTB[0]?.tenTb"></p>
               </div>
               <p class="date row ali-center jus-end">
                 <i class="icon-cal fa-regular fa-calendar"></i>
-                {{ dateFormat(thongBao.ngayTb) }}
+                {{ dateFormat(listTB[0]?.ngayTb) }}
               </p>
             </div>
           </div>
         </a>
+      </div>
+
+      <div class="h-7 p-l-12 p-r-12">
+        <div class="functional-container row jus-end">
+          <div class="functional-button">
+            <button>
+              <a
+                [routerLink]="['/ministry/thong-bao/chi-tiet', { maTb: -1 }]"
+                class=""
+                >Thêm</a
+              >
+            </button>
+          </div>
+        </div>
+
+        <div class="list-item" *ngFor="let thongBao of listTB">
+          <a
+            class="row item-container"
+            [routerLink]="[
+              '/ministry/thong-bao/chi-tiet',
+              { maTb: thongBao.maTb }
+            ]"
+          >
+            <img src="../../../../assets/Images/notify.png" alt="" />
+
+            <div class="flex-1">
+              <div class="info row flex-column jus-between">
+                <div class="name">
+                  <p [innerHTML]="thongBao.tenTb"></p>
+                </div>
+                <p class="date row ali-center jus-end">
+                  <i class="icon-cal fa-regular fa-calendar"></i>
+                  {{ dateFormat(thongBao.ngayTb) }}
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
