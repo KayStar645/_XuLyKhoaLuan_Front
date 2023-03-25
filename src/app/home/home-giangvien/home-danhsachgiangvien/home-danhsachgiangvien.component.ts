@@ -20,6 +20,7 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
 
   root: GiangVien[] = [];
   listGV: GiangVien[] = [];
+  listBM: BoMon[] = [];
 
   constructor(
     private giangVienService: giangVienService,
@@ -32,7 +33,7 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
 
   async ngOnInit() {
     this.getAllGiangVien();
-
+    this.listBM = await this.boMonService.getAll();
   }
 
   async getAllGiangVien() {
@@ -63,6 +64,20 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
     if (changes.searchName) {
       this.filterItems();
     }
+  }
+
+  async getNameBomonById1(maBm: string) {
+    var bomon = await this.boMonService.getById(maBm);
+    return bomon.tenBm;
+  }
+
+  getNameBomonById(maBm: string): string {
+    let tenbm: any = '';
+
+    if (this.listBM) {
+      tenbm = this.listBM.find((t) => t.maBm === maBm)?.tenBm;
+    }
+    return tenbm;
   }
 
   filterItems() {

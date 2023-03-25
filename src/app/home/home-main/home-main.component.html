@@ -42,9 +42,8 @@
                     <li class="info-left-item row ali-center" *ngIf="maBm != null || maKhoa!= null">
                       <p>Chức vụ:</p>
                       <b>
-                        {{ maKhoa != null ? "Trưởng khoa " : ""  }}
-                        <span *ngIf="maBm != null && maKhoa!= null">,</span>
-                        {{ maBm != null ? "Trưởng bộ môn" : "" }}
+                        {{ maKhoa != null ? "Trưởng khoa" : ""  }}<span *ngIf="maBm != null && maKhoa!= null">,</span>
+                        {{ maBm != null ? "Trưởng BM" : "" }}
                       </b>
                     </li>
                   </ul>

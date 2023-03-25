@@ -1,17 +1,17 @@
 <div id="functional-container">
-    <div class="search-list" style="flex-basis: 25%">
-      <ul class="search-container row ali-center">
-        <li class="search-item">
-          <input
-            type="text"
-            placeholder="Tìm theo tên..."
-            [(ngModel)]="searchName"
-          />
-        </li>
-      </ul>
-    </div>
-    <app-home-danhsachgiangvien
-      [searchName]="searchName"
-    ></app-home-danhsachgiangvien>
+  <div class="functional-list">
+    <ul class="functional-container row ali-center">
+      <li class="functional-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tên..."
+          [(ngModel)]="searchName"
+        />
+      </li>
+    </ul>
   </div>
+  <app-home-danhsachgiangvien
+    [searchName]="searchName"
+  ></app-home-danhsachgiangvien>
+</div>
   
