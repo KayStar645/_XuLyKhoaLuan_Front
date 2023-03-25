@@ -56,9 +56,10 @@ export class MinistryChitietnhiemvuComponent {
         })
         .then((response) => {
           axios
-            .get(environment.githubNotifyFilesAPI + response.fileNv)
+            .get(environment.githubMissionFilesAPI + response.fileNv)
             .then((response) => {
               this.pdfSrc = response.data.download_url;
+              console.log(this.pdfSrc);
             });
         });
 
