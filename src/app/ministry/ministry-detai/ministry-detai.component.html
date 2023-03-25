@@ -5,13 +5,10 @@
         <select
           class="search-select"
           id="search-select"
-          (change)="getGiangVienByMaCn($event)"
+          (change)="getDetaiByMaCn($event)"
         >
           <option value="">Tất cả</option>
-          <option value="KTPM">Kỹ thuật phần mềm</option>
-          <option value="HTTT">Hệ thống thông tin</option>
-          <option value="KHPTDL">Khoa học phân tích dữ liệu</option>
-          <option value="MMT">Mạng máy tính</option>
+          <option *ngFor="let cn of listCn" value="{{cn.maCn}}">{{ cn.tenCn }}</option>
         </select>
       </li>
       <li class="functional-item">

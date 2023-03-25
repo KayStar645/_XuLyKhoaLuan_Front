@@ -1,17 +1,25 @@
 <div id="functional-container">
     <div class="functional-list">
       <ul class="functional-container row ali-center">
-        <li class="functional-item">
+        <li class="functional-item" *ngIf="isTKhoa">
           <select
             class="search-select"
             id="search-select"
-            (change)="getGiangVienByMaCn($event)"
+            (change)="getDetaiByMaCn($event)"
           >
             <option value="">Tất cả</option>
-            <option value="KTPM">Kỹ thuật phần mềm</option>
-            <option value="HTTT">Hệ thống thông tin</option>
-            <option value="KHPTDL">Khoa học phân tích dữ liệu</option>
-            <option value="MMT">Mạng máy tính</option>
+            <option *ngFor="let cn of listCn" value="{{cn.maCn}}">{{ cn.tenCn }}</option>
+          </select>
+        </li>
+
+        <li class="functional-item" *ngIf="!isTKhoa && isTBm">
+          <select
+            class="search-select"
+            id="search-select"
+            (change)="getGiangVienByMaGv($event)"
+          >
+            <option value="">Tất cả</option>
+            <option *ngFor="let gv of listGv" value="{{gv.maGv}}">{{gv.tenGv}}</option>
           </select>
         </li>
         <li class="functional-item">
@@ -29,7 +37,8 @@
           </div>
   
           <div class="functional-button">
-            <button class="update-btn" (click)="onShowFormUpdate()">Sửa</button>
+            <!-- <button class="update-btn" (click)="onShowFormUpdate()">Sửa</button> -->
+            <button class="update-btn">Duyệt</button>
           </div>
   
           <div class="functional-button">
@@ -51,11 +60,11 @@
         </p>
       </div>
     </div>
-    <app-ministry-danhsachdetai
+    <app-home-danhsachdetai
       [searchName]="searchName"
       [isSelectedDT]="isSelectedDT"
       (returnIsSelectedDT)="setIsSelectedDT($event)"
-    ></app-ministry-danhsachdetai>
+    ></app-home-danhsachdetai>
   
     <div id="create" (click)="handleToggleAdd()"></div>
     <div id="create_box" [formGroup]="dtAddForm" class="form">
@@ -171,7 +180,9 @@
             Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
           </p>
           <div class="row ali-center jus-end">
-            <button class="cancel">Hủy</button>
+            <button class="cancel">Hủy
+              
+            </button>
             <button class="agree">Đồng ý</button>
             <button class="save">Lưu thay đổi và thoát</button>
           </div>

@@ -1,13 +1,17 @@
-import { HomeDanhsachdetaiComponent } from './home-danhsachdetai/home-danhsachdetai.component';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { chuyenNganhService } from './../../services/chuyenNganh.service';
+import { ChuyenNganh } from './../../models/ChuyenNganh.model';
+import { GiangVien } from './../../models/GiangVien.model';
+import { giangVienService } from './../../services/giangVien.service';
+import { HomeMainComponent } from './../home-main/home-main.component';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
+import { HomeDanhsachdetaiComponent } from './home-danhsachdetai/home-danhsachdetai.component';
 
 @Component({
   selector: 'app-home-detai',
@@ -24,6 +28,11 @@ export class HomeDetaiComponent {
   slMax: number = 3;
   isSelectedDT: boolean = false;
   deTaiFile: any;
+  listGv: GiangVien[] = [];
+  listCn: ChuyenNganh[] = [];
+
+  isTKhoa!: boolean;
+  isTBm!: boolean;
 
   dtAddForm: any;
   dtUpdateForm: any;
@@ -57,14 +66,24 @@ export class HomeDetaiComponent {
     private titleService: Title,
     private elementRef: ElementRef,
     private deTaiService: deTaiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private giangVienService: giangVienService,
+    private chuyenNganhService: chuyenNganhService,
   ) {
     this.dtAddForm = this.dtForm.form;
     this.dtUpdateForm = this.dtForm.form;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài');
+
+    this.isTKhoa = HomeMainComponent.maKhoa == null ? false : true;
+    this.isTBm = HomeMainComponent.maBm == null ? false : true;
+    if(this.isTBm) {
+      this.listGv = await this.giangVienService.getByBoMon(HomeMainComponent.maBm);
+    }
+
+    this.listCn = await this.chuyenNganhService.getAll();
   }
 
   setIsSelectedDT(event: any) {
@@ -101,19 +120,31 @@ export class HomeDetaiComponent {
     create.classList.add('active');
   }
 
-  onShowFormUpdate() {
+  async onShowFormUpdate() {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
     if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
-      this.dtForm.form.setValue({
-        ...this.DSDTComponent.lineDT,
-        trangThai: JSON.stringify(this.DSDTComponent.lineDT.trangThai),
-      });
+      // Chỉ show form sửa khi đó là đề tài của mình
+      const flag = await this.deTaiService.CheckisDetaiOfGiangvien(
+        this.DSDTComponent.lineDT.maDT,
+        HomeMainComponent.maGV
+      );
+      if (flag) {
+        this.dtForm.form.setValue({
+          ...this.DSDTComponent.lineDT,
+          trangThai: JSON.stringify(this.DSDTComponent.lineDT.trangThai),
+        });
 
-      updateBox.classList.add('active');
-      update.classList.add('active');
-      this.dtOldForm = this.dtForm.form.value;
+        updateBox.classList.add('active');
+        update.classList.add('active');
+        this.dtOldForm = this.dtForm.form.value;
+      } else {
+        this.toastr.warning(
+          'Bạn không có quyền sửa đề tài này!',
+          'Thông báo !'
+        );
+      }
     } else {
       this.toastr.warning(
         'Vui lòng chọn đề tài để cập nhập thông tin',
@@ -148,9 +179,7 @@ export class HomeDetaiComponent {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-    if (
-      JSON.stringify(this.dtOldForm) !== JSON.stringify(this.dtForm.form.value)
-    ) {
+    if (JSON.stringify(this.dtOldForm) !== JSON.stringify(this.dtForm.form.value)) {
       let option = new Option('#update_box');
 
       option.show('warning');
@@ -392,12 +421,13 @@ export class HomeDetaiComponent {
     }
   }
 
-  getGiangVienByMaCn(event: any) {
+  getDetaiByMaCn(event: any) {
+    console.log(this.DSDTComponent)
     const maBM = event.target.value;
     if (maBM == '') {
       this.DSDTComponent.getAllDeTai();
     } else {
-      this.DSDTComponent.getGiangVienByMaCn(maBM);
+      this.DSDTComponent.getDetaiByMaCn(maBM);
     }
   }
 
@@ -431,6 +461,15 @@ export class HomeDetaiComponent {
     }
     catch {
       this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
+    }
+  }
+
+  getGiangVienByMaGv(event: any) {
+    const maGv = event.target.value;
+    if (maGv == '') {
+      this.DSDTComponent.getAllDeTai();
+    } else {
+      this.DSDTComponent.GetAllDeTaisByGiangvien(maGv);      
     }
   }
 }

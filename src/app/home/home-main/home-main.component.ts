@@ -1,15 +1,11 @@
-import { khoaService } from './../../services/khoa.service';
 import { HoiDong } from './../../models/HoiDong.model';
-import { hoiDongService } from './../../services/hoiDong.service';
 import { boMonService } from './../../services/boMon.service';
-import { TruongBm } from './../../models/TruongBm.model';
-import { TruongKhoa } from './../../models/TruongKhoa.model';
 import { truongBmService } from './../../services/truongBm.service';
 import { truongKhoaService } from './../../services/truongKhoa.service';
 import { shareService } from './../../services/share.service';
 import { giangVienService } from './../../services/giangVien.service';
 import { GiangVien } from './../../models/GiangVien.model';
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -25,15 +21,20 @@ import { of } from 'rxjs/internal/observable/of';
 export class HomeMainComponent {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiangVien;
+  static maBm: string;
+  static maKhoa: string;
+  static maGV: string;
+
   maBm!: string;
   maKhoa!: string;
+  maGV = '' + localStorage.getItem('Id')?.toString();
+
   hoiDong: any = HoiDong;
   itemNumber = 9;
 
   countTB = 0;
   countKH = 0;
   boMon = "";
-  maGV = '' + localStorage.getItem('Id')?.toString();
 
   constructor(
     private authService: AuthService,
@@ -57,16 +58,18 @@ export class HomeMainComponent {
     } else {
       this.isLoggedIn$ = of(true);
     }
-
+    HomeMainComponent.maGV = this.maGV;
     // Get dữ liệu của giáo viên
     this.data = await this.giangVienService.getById(this.maGV);
     this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
     try {
       this.maBm = await (await this.truongBmService.CheckTruongBomonByMaGV(this.maGV)).maBm;
+      HomeMainComponent.maBm = this.maBm;
     } catch { }
     try {
       this.maKhoa = await (await this.truongKhoaService.CheckTruongKhoaByMaGV(this.maGV)).maKhoa;
+      HomeMainComponent.maKhoa = this.maKhoa;
     } catch { }
 
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại

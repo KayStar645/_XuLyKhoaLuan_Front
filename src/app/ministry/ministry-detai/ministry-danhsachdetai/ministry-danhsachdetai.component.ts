@@ -133,6 +133,7 @@ export class MinistryDanhsachdetaiComponent {
 
   async getAllDeTai() {
     try {
+      // Lấy đề tài của khoa mình thôi nè
       this.listDT = await this.deTaiService.getAll();
       this.root = this.listDT;
       this.listDT.forEach((info) => {
@@ -153,11 +154,7 @@ export class MinistryDanhsachdetaiComponent {
     }
   }
 
-  async getGiangVienByMaCn(maCn: string) {
-    for (let item of this.listDT) {
-      if (await this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
-      }
-    }
+  async getDetaiByMaCn(maCn: string) {
     this.listDT = await this.deTaiService.getByChuyenNganh(maCn);
   }
 

@@ -1,3 +1,4 @@
+import { HomeMainComponent } from './../../home-main/home-main.component';
 import { DuyetDt } from '../../../models/DuyetDt.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
@@ -50,7 +51,7 @@ export class HomeDanhsachdetaiComponent {
     private duyetDtService: duyetDtService,
     private giangVienService: giangVienService,
     private chuyenNganhService: chuyenNganhService,
-    private deTai_chuyenNganhService: deTai_chuyenNganhService
+    private deTai_chuyenNganhService: deTai_chuyenNganhService,
   ) {}
 
   async ngOnInit() {
@@ -133,7 +134,18 @@ export class HomeDanhsachdetaiComponent {
 
   async getAllDeTai() {
     try {
-      this.listDT = await this.deTaiService.getAll();
+      const maKhoa = HomeMainComponent.maKhoa;
+      const maBm = HomeMainComponent.maBm;
+      const maGv = HomeMainComponent.maGV;
+      if(maKhoa != null) {
+        this.listDT = await this.deTaiService.GetAllDeTaisByMakhoa(maKhoa);
+      }
+      else if(maBm != null) {
+        this.listDT = await this.deTaiService.GetAllDeTaisByMaBomon(maBm);
+      }
+      else {
+        this.GetAllDeTaisByGiangvien(maGv);
+      }
       this.root = this.listDT;
       this.listDT.forEach((info) => {
         let topicSummary = document.createElement('div');
@@ -153,11 +165,11 @@ export class HomeDanhsachdetaiComponent {
     }
   }
 
-  async getGiangVienByMaCn(maCn: string) {
-    for (let item of this.listDT) {
-      if (await this.deTai_chuyenNganhService.getByMaDtMaCn(item.maDT, maCn)) {
-      }
-    }
+  async GetAllDeTaisByGiangvien(maGv: string) {
+    this.listDT = await this.deTaiService.GetAllDeTaisByGiangvien(maGv);
+  }
+
+  async getDetaiByMaCn(maCn: string) {
     this.listDT = await this.deTaiService.getByChuyenNganh(maCn);
   }
 

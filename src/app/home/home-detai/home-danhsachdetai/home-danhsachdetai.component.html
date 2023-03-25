@@ -9,7 +9,7 @@
           <th>Chuyên ngành</th>
           <th>Giảng viên ra đề</th>
           <th>Giảng viên duyệt</th>
-          <th>Lần cuối duyệt</th>
+          <!-- <th>Lần cuối duyệt</th> -->
           <th>Trạng thái</th>
         </tr>
         <tbody *ngFor="let dt of listDT">
@@ -36,7 +36,7 @@
             <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
             <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
             <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td>
-            <td class="text-center">{{ getThoiGianDuyetByMaDT(dt.maDT) }}</td>
+            <!-- <td class="text-center">{{ getThoiGianDuyetByMaDT(dt.maDT) }}</td> -->
             <td class="text-center">
               {{ dt?.trangThai ? "Xác nhận!" : "Chưa duyệt!" }}
             </td>

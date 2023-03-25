@@ -1,7 +1,8 @@
+import { chuyenNganhService } from './../../services/chuyenNganh.service';
+import { ChuyenNganh } from './../../models/ChuyenNganh.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
@@ -24,6 +25,7 @@ export class MinistryDetaiComponent implements OnInit {
   slMax: number = 3;
   isSelectedDT: boolean = false;
   deTaiFile: any;
+  listCn: ChuyenNganh[] = [];
 
   dtAddForm: any;
   dtUpdateForm: any;
@@ -57,14 +59,16 @@ export class MinistryDetaiComponent implements OnInit {
     private titleService: Title,
     private elementRef: ElementRef,
     private deTaiService: deTaiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private chuyenNganhService: chuyenNganhService,
   ) {
     this.dtAddForm = this.dtForm.form;
     this.dtUpdateForm = this.dtForm.form;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài');
+    this.listCn = await this.chuyenNganhService.getAll();
   }
 
   setIsSelectedDT(event: any) {
@@ -392,12 +396,12 @@ export class MinistryDetaiComponent implements OnInit {
     }
   }
 
-  getGiangVienByMaCn(event: any) {
+  getDetaiByMaCn(event: any) {
     const maBM = event.target.value;
     if (maBM == '') {
       this.DSDTComponent.getAllDeTai();
     } else {
-      this.DSDTComponent.getGiangVienByMaCn(maBM);
+      this.DSDTComponent.getDetaiByMaCn(maBM);
     }
   }
 
