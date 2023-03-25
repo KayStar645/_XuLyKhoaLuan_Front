@@ -1,0 +1,135 @@
+.cdk-overlay-pane dp-calendar-nav .dp-calendar-nav-left,
+.cdk-overlay-pane dp-calendar-nav .dp-calendar-nav-right {
+  background: none;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cdk-overlay-pane dp-calendar-nav .dp-current-location-btn {
+  width: 18px;
+  height: 18px;
+  margin-top: -2px;
+}
+
+.dp-nav-header-btn {
+  background: none;
+}
+
+.cdk-overlay-pane .dp-popup {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.cdk-overlay-pane .dp-day-calendar-container {
+  border: none;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-weekdays {
+  margin: 0;
+  font-size: 1.5rem;
+  color: rgb(150, 150, 150);
+}
+
+.cdk-overlay-pane dp-calendar-nav .dp-nav-header-btn {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.cdk-overlay-pane dp-calendar-nav .dp-nav-header-btn:hover {
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-calendar-weekday {
+  font-size: 1.4rem;
+  border-left: none;
+  border-bottom: none;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  margin: 2px;
+}
+
+.cdk-overlay-pane dp-calendar-nav .dp-calendar-nav-container {
+  border: none;
+  margin-bottom: 12px;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-calendar-wrapper {
+  border: none;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-calendar-day,
+.cdk-overlay-pane .dp-calendar-month {
+  width: 36px;
+  height: 36px;
+  font-size: 1.3rem;
+  background: none;
+  font-weight: 500;
+  border-radius: 5px;
+  margin: 2px;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-calendar-day:hover,
+.cdk-overlay-pane .dp-calendar-month:hover {
+  background: #e8f0fe;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-selected,
+.cdk-overlay-pane dp-month-calendar .dp-calendar-month.dp-selected {
+  background: dodgerblue;
+  color: #fff;
+}
+
+.cdk-overlay-pane dp-day-calendar .dp-selected:hover,
+.cdk-overlay-pane dp-month-calendar .dp-calendar-month.dp-selected:hover {
+  background: dodgerblue;
+}
+
+.cdk-overlay-pane .dp-calendar-month {
+  width: 52px;
+  height: 52px;
+  margin: 4px;
+}
+
+.dp-time-select-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cdk-overlay-pane .dp-time-select-display-hours,
+.cdk-overlay-pane .dp-time-select-display-minutes,
+.cdk-overlay-pane .dp-time-select-display-meridiem {
+  font-size: 1.3rem;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.cdk-overlay-pane dp-time-select .dp-time-select-control {
+  display: block;
+  width: auto;
+}
+
+.cdk-overlay-pane .dp-time-select-control.dp-time-select-separator {
+  display: none;
+}
+
+dp-time-select .dp-time-select-control-up,
+dp-time-select .dp-time-select-control-down {
+  background: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+dp-time-select .dp-time-select-control-up:hover,
+dp-time-select .dp-time-select-control-down:hover {
+  background: #e8f0fe;
+}

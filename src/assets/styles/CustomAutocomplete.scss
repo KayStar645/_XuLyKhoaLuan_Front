@@ -1,0 +1,23 @@
+ng-autocomplete .autocomplete-container {
+  border: none;
+  box-shadow: none;
+}
+
+ng-autocomplete .autocomplete-container .suggestions-container {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+ng-autocomplete .autocomplete-container .suggestions-container ul li:hover,
+.autocomplete-container .suggestions-container .complete-selected {
+  background: #e8f0fe;
+}
+
+ng-autocomplete .autocomplete-container .suggestions-container ul li a {
+  font-weight: 400;
+}
+
+ng-autocomplete .autocomplete-container .suggestions-container ul li b {
+  font-weight: 500;
+}

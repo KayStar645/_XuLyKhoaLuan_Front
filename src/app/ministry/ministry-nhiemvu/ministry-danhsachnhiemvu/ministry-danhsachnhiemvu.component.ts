@@ -12,7 +12,6 @@ import { shareService } from 'src/app/services/share.service';
 })
 export class MinistryDanhsachnhiemvuComponent {
   listNV: any[] = [];
-  selectedTB: string = 'adsad';
   root: NhiemVu[] = [];
   lineTB = new NhiemVu();
   elementOld: any;
@@ -37,12 +36,14 @@ export class MinistryDanhsachnhiemvuComponent {
   getNearTimeOutMission() {
     this.nearTimeOutMS = this.listNV
       .filter((nv: any) => {
-        let date = new Date(nv.thoiGianBd);
+        let date = new Date(nv.thoiGianKt);
         let dateBetween = parseInt(
           formatDistanceToNowStrict(date, {
             unit: 'day',
-          })[0]
+          }).split(' ')[0]
         );
+
+        nv['thoiGianKt'] = format(new Date(nv.thoiGianKt), 'HH:mm');
 
         let dayOfWeek = getDay(date) + 1;
 

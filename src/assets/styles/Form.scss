@@ -2,13 +2,15 @@
   min-width: 120px;
   font-size: 2rem;
   text-align: center;
-  padding: 12px 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
   font-weight: 700;
   color: #0a5999;
 }
 
 .form-control {
-  padding: 8px 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .form-control .label {
@@ -87,6 +89,11 @@
 .form-control select:focus,
 .form-control quill-editor:focus-within {
   box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);
+}
+
+.form-control.form-no-box-shadow
+  input:not([type="radio"]):not([type="checkbox"]):focus {
+  box-shadow: none;
 }
 
 .submit-btn {

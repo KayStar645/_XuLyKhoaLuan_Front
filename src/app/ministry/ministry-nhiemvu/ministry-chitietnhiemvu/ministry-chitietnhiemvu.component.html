@@ -16,7 +16,7 @@
   </div>
 </div> -->
 
-<form class="tb-form p-t-16" [formGroup]="tbForm.form">
+<form class="tb-form p-t-16" [formGroup]="nvForm.form">
   <div class="container row">
     <div class="h-8 p-l-8 p-r-8">
       <div class="form-item">
@@ -59,27 +59,72 @@
 
     <div class="h-4 p-l-8 p-r-8">
       <div class="form-item">
-        <div class="form-control">
+        <div class="form-control form-no-box-shadow">
           <p class="label p-b-8">Dành cho giảng viên</p>
 
           <div class="form-value">
-            <input
-              type="text"
+            <ng-autocomplete
+              [data]="GVInputConfig.data"
+              [searchKeyword]="GVInputConfig.keyword"
+              placeholder="Họ và tên giảng viên"
+              [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate"
               class="form-input title"
-              formControlName="tenNv"
+              formControlName="maGv"
               spellcheck="false"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </div>
-        <div class="form-control">
-          <p class="label p-b-8">Hạn hoàn thành</p>
+            >
+            </ng-autocomplete>
 
-          <div class="form-value">
-            <dp-date-picker mode="daytime"></dp-date-picker>
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.tenGv"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
             <p class="error-mess"></p>
           </div>
         </div>
+
+        <div class="row date-time">
+          <div class="p-l-8 p-r-8 h-6">
+            <div class="form-control form-no-box-shadow">
+              <p class="label p-b-8">Ngày đến hạn</p>
+
+              <div class="form-value">
+                <dp-date-picker
+                  mode="day"
+                  id="day"
+                  placeholder="Thời điểm"
+                  [displayDate]="ngayKt"
+                  formControlName="ngayKt"
+                  [config]="{
+                    firstDayOfWeek: 'mo',
+                    showNearMonthDays: false
+                  }"
+                ></dp-date-picker>
+                <p class="error-mess"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-l-8 p-r-8 h-6">
+            <div class="form-control">
+              <p class="label p-b-8">Thời gian</p>
+
+              <div class="form-value">
+                <dp-date-picker
+                  mode="time"
+                  placeholder="Thời gian"
+                  [displayDate]="thoiGianKt"
+                  formControlName="thoiGianKt"
+                ></dp-date-picker>
+                <p class="error-mess"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="form-control">
           <p class="label p-b-8">Số lượng đề tài tối thiểu</p>
 

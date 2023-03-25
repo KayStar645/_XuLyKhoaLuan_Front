@@ -22,6 +22,7 @@ import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { QuillModule } from 'ngx-quill';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { HomeMainComponent } from './home/home-main/home-main.component';
 import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
@@ -121,6 +122,7 @@ import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhi
     PdfViewerModule,
     NgxPaginationModule,
     DpDatePickerModule,
+    AutocompleteLibModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot({

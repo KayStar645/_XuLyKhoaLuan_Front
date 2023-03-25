@@ -4,13 +4,15 @@
 @import url("./assets/styles/GlobalStyles.scss");
 @import url("./assets/styles/Form.scss");
 @import url("./assets/styles/ToastMessage.scss");
-@import url("./assets/styles/CustomeToastMess.scss");
+@import url("./assets/styles/customToastMess.scss");
 @import url("./assets/styles/Notify.scss");
 @import url("./assets/styles/Table.scss");
 @import url("./assets/styles/Functional.scss");
-@import url("./assets/styles/CustomeQuill.scss");
+@import url("./assets/styles/customQuill.scss");
 @import url("~quill/dist/quill.snow.css");
 @import url("~@angular/cdk/overlay-prebuilt.css");
+@import url("./assets/styles/CustomAutocomplete.scss");
+@import url("./assets/styles/CustomDatePicker.scss");
 
 .ng-bar-placeholder {
   height: 4px !important;
