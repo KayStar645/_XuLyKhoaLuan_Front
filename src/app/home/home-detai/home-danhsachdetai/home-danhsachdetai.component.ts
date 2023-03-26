@@ -1,3 +1,5 @@
+import { Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { HomeMainComponent } from './../../home-main/home-main.component';
 import { DuyetDt } from '../../../models/DuyetDt.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
@@ -20,12 +22,12 @@ import {
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
-import { getParentElement } from 'src/assets/utils';
+import { Form, getParentElement, Option } from 'src/assets/utils';
 
 @Component({
   selector: 'app-home-danhsachdetai',
   templateUrl: './home-danhsachdetai.component.html',
-  styleUrls: ['./home-danhsachdetai.component.scss']
+  styleUrls: ['./home-danhsachdetai.component.scss'],
 })
 export class HomeDanhsachdetaiComponent {
   @Input() searchName = '';
@@ -43,16 +45,47 @@ export class HomeDanhsachdetaiComponent {
   listDeta_Chuyennganh: DeTai_ChuyenNganh[] = [];
   listChuyennganh: ChuyenNganh[] = [];
 
+  dtAddForm: any;
+  dtUpdateForm: any;
+  dtOldForm: any;
+  isSummary: boolean = false;
+
+  dtForm = new Form({
+    maDT: ['', Validators.required],
+    tenDT: ['', Validators.required],
+    tomTat: ['', Validators.required],
+    slMin: ['', Validators.required],
+    slMax: ['', Validators.required],
+    trangThai: ['', Validators.required],
+  });
+
+  exceptInput = ['slMin', 'slMax'];
+
+  quillConfig: any = {
+    toolbar: {
+      container: [
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ indent: '-1' }, { indent: '+1' }],
+        ['link'],
+        ['clean'],
+      ],
+    },
+  };
+
   constructor(
     private deTaiService: deTaiService,
+    private toastr: ToastrService,
     private elementRef: ElementRef,
     private shareService: shareService,
     private raDeService: raDeService,
     private duyetDtService: duyetDtService,
     private giangVienService: giangVienService,
     private chuyenNganhService: chuyenNganhService,
-    private deTai_chuyenNganhService: deTai_chuyenNganhService,
-  ) {}
+    private deTai_chuyenNganhService: deTai_chuyenNganhService
+  ) {
+    this.dtUpdateForm = this.dtForm.form;
+  }
 
   async ngOnInit() {
     this.getAllDeTai();
@@ -114,6 +147,84 @@ export class HomeDanhsachdetaiComponent {
     }
   }
 
+  async f_UpdateDetai(dt: DeTai) {
+    await this.deTaiService.update(dt);
+  }
+
+  updateDeTai() {
+    let update = this.elementRef.nativeElement.querySelector('#apply');
+    let updateBox = this.elementRef.nativeElement.querySelector('#apply_box');
+
+    if (this.dtUpdateForm.valid) {
+      if (
+        JSON.stringify(this.dtOldForm) ===
+        JSON.stringify(this.dtForm.form.value)
+      ) {
+        this.toastr.warning(
+          'Thông tin bạn cung cấp không thay đổi kể từ lần cuối cập nhập.',
+          'Thông báo !'
+        );
+      } else {
+        const deTai = new DeTai();
+        deTai.init(
+          this.dtUpdateForm.value['maDT'],
+          this.dtUpdateForm.value['tenDT'],
+          this.dtUpdateForm.value['tomTat'],
+          this.dtUpdateForm.value['slMin'],
+          this.dtUpdateForm.value['slMax'],
+          this.dtUpdateForm.value['trangThai'] === 'false' ? false : true
+        );
+        try {
+          this.f_UpdateDetai(deTai);
+          update.classList.remove('active');
+          updateBox.classList.remove('active');
+          this.getAllDeTai();
+          this.toastr.success(
+            'Cập nhập thông tin đề tài viên thành công',
+            'Thông báo !'
+          );
+        } catch {
+          this.toastr.error(
+            'Thông tin bạn cung cấp không hợp lệ.',
+            'Thông báo !'
+          );
+        }
+      }
+    } else {
+      this.dtForm.validate('#apply_box');
+    }
+  }
+
+  handleToggleUpdate() {
+    let updateBox = this.elementRef.nativeElement.querySelector('#apply_box');
+    let update = this.elementRef.nativeElement.querySelector('#apply');
+
+    if (
+      JSON.stringify(this.dtOldForm) !== JSON.stringify(this.dtForm.form.value)
+    ) {
+      let option = new Option('#apply_box');
+
+      option.show('warning');
+
+      option.cancel();
+
+      option.agree(() => {
+        updateBox.classList.remove('active');
+        update.classList.remove('active');
+        this.dtForm.resetValidte('#apply_box');
+      });
+
+      option.save(() => {
+        this.updateDeTai();
+        update.classList.remove('active');
+        updateBox.classList.remove('active');
+      });
+    } else {
+      update.classList.remove('active');
+      updateBox.classList.remove('active');
+    }
+  }
+
   async onShowDetail(event: MouseEvent) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
@@ -123,13 +234,35 @@ export class HomeDanhsachdetaiComponent {
 
     try {
       this.lineDT = await this.deTaiService.getById(firstChild.innerText);
-      document.querySelector('.update-btn')?.dispatchEvent(new Event('click'));
     } catch (error) {
       console.log(error);
     }
 
     activeLine && activeLine.classList.remove('br-line-dblclick');
     parent.classList.add('br-line-dblclick');
+
+    this.onShowFormUpdate();
+  }
+
+  async onShowFormUpdate() {
+    let updateBox: any = document.querySelector('#apply_box');
+    let update: any = document.querySelector('#apply');
+
+    if (Object.entries(this.lineDT).length > 0) {
+      this.dtForm.form.setValue({
+        ...this.lineDT,
+        trangThai: JSON.stringify(this.lineDT.trangThai),
+      });
+
+      updateBox.classList.add('active');
+      update.classList.add('active');
+      this.dtOldForm = this.dtForm.form.value;
+    } else {
+      this.toastr.warning(
+        'Vui lòng chọn đề tài để cập nhập thông tin',
+        'Thông báo !'
+      );
+    }
   }
 
   async getAllDeTai() {
@@ -137,13 +270,11 @@ export class HomeDanhsachdetaiComponent {
       const maKhoa = HomeMainComponent.maKhoa;
       const maBm = HomeMainComponent.maBm;
       const maGv = HomeMainComponent.maGV;
-      if(maKhoa != null) {
+      if (maKhoa != null) {
         this.listDT = await this.deTaiService.GetAllDeTaisByMakhoa(maKhoa);
-      }
-      else if(maBm != null) {
+      } else if (maBm != null) {
         this.listDT = await this.deTaiService.GetAllDeTaisByMaBomon(maBm);
-      }
-      else {
+      } else {
         this.GetAllDeTaisByGiangvien(maGv);
       }
       this.root = this.listDT;
@@ -227,6 +358,18 @@ export class HomeDanhsachdetaiComponent {
     this.listDT = this.root.filter((item) =>
       item.tenDT.toLowerCase().includes(searchName)
     );
+  }
+
+  async checkDtOfGv() {
+    if (this.lineDT.maDT != null) {
+      var result = await this.deTaiService.CheckisDetaiOfGiangvien(
+        this.lineDT.maDT,
+        HomeMainComponent.maGV
+      );
+      console.log(result);
+      return result;
+    }
+    return false;
   }
 
   dateFormat(str: string): string {
