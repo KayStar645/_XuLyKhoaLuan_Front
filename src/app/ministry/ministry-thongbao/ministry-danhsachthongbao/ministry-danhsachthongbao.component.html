@@ -1,3 +1,17 @@
+<div class="p-t-16">
+  <div class="functional-container functional-wrapper row jus-end">
+    <div class="functional-button">
+      <button>
+        <a
+          [routerLink]="['/ministry/thong-bao/chi-tiet', { maTb: -1 }]"
+          class=""
+          >Thêm</a
+        >
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="container" *ngIf="listTB.length > 0">
   <div class="notify-list">
     <div class="wrapper row">
@@ -26,18 +40,6 @@
       </div>
 
       <div class="h-7 p-l-12 p-r-12">
-        <div class="functional-container row jus-end">
-          <div class="functional-button">
-            <button>
-              <a
-                [routerLink]="['/ministry/thong-bao/chi-tiet', { maTb: -1 }]"
-                class=""
-                >Thêm</a
-              >
-            </button>
-          </div>
-        </div>
-
         <div class="list-item" *ngFor="let thongBao of listTB">
           <a
             class="row item-container"

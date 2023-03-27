@@ -42,7 +42,7 @@
 .form-control.invalid select,
 .form-control.invalid textarea,
 .form-control.invalid quill-editor {
-  box-shadow: 0 0 7px rgba(255, 0, 0, 0.3);
+  box-shadow: 0 0 7px rgba(255, 0, 0, 0.3) !important;
 }
 
 .form-control.invalid .error-mess {

@@ -6,13 +6,26 @@ function setErrors(errors, element, parentSelector, errorSelector) {
 
   if (parent) {
     if (errors) {
+      parent.classList.add("invalid");
+
       if (errors.required) {
-        parent.classList.add("invalid");
         errorMess && (errorMess.innerText = "Trường này là bắt buộc");
       }
       if (errors.email) {
-        parent.classList.add("invalid");
         errorMess && (errorMess.innerText = "Email không hợp lệ");
+      }
+
+      if (errors.min) {
+        console.log(errors.min);
+        errorMess &&
+          (errorMess.innerText = `Số lượng tối thiểu phải lớn ${
+            errors.min.min - 1
+          }`);
+      }
+
+      if (errors.smallerDay) {
+        errorMess &&
+          (errorMess.innerText = "Ngày kết thúc phải lớn hơn ngày bắt đầu");
       }
     } else {
       parent.classList.remove("invalid");

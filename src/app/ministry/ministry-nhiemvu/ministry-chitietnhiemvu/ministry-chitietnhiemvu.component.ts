@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -10,7 +10,7 @@ import { NhiemVu } from 'src/app/models/NhiemVu.model';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
-import { Form, Option } from 'src/assets/utils';
+import { dateVNConvert, Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -27,15 +27,17 @@ export class MinistryChitietnhiemvuComponent {
   GVInputConfig: any = {};
   nvForm = new Form({
     tenNv: ['', Validators.required],
-    soLuongDt: [''],
-    thoiDiemBd: [format(new Date(), 'yyyy-MM-dd'), Validators.required],
-    ngayKt: ['', Validators.required],
+    soLuongDt: ['', [Validators.required, Validators.min(1)]],
+    thoiDiemBd: [format(new Date(), 'yyyy-MM-dd')],
+    ngayKt: [''],
     thoiGianKt: ['23:59:00'],
     fileNv: [''],
     maBm: ['', Validators.required],
     maGv: ['', Validators.required],
+    hoTen: ['', Validators.required],
   });
 
+  ngayBd: string = '';
   ngayKt: string = format(new Date(), 'dd-MM-yyyy');
   thoiGianKt: string = '00:00:00';
 
@@ -64,13 +66,21 @@ export class MinistryChitietnhiemvuComponent {
     if (this.maNv > 0) {
       await this.nhiemVuService
         .getById(this.maNv)
-        .then((data) => {
+        .then(async (data) => {
           this.nhiemVu = data;
+          this.ngayBd = format(new Date(this.nhiemVu.thoiGianBd), 'dd-MM-yyyy');
           this.ngayKt = format(new Date(this.nhiemVu.thoiGianKt), 'dd-MM-yyyy');
           this.thoiGianKt = format(
             new Date(this.nhiemVu.thoiGianKt),
             'HH:mm:ss'
           );
+
+          this.nvForm.form.patchValue({
+            ...this.nhiemVu,
+            ngayKt: this.ngayKt,
+            thoiGianKt: this.thoiGianKt,
+            hoTen: (await this.getGVienById(this.nhiemVu.maGv)).tenGv,
+          });
 
           return this.nhiemVu;
         })
@@ -81,13 +91,6 @@ export class MinistryChitietnhiemvuComponent {
               this.pdfSrc = response.data.download_url;
             });
         });
-
-      this.nvForm.form.patchValue({
-        ...this.nhiemVu,
-        ngayKt: this.ngayKt,
-        thoiGianKt: this.thoiGianKt,
-        maGv: (await this.getGVienById(this.nhiemVu.maGv)).tenGv,
-      });
 
       this.oldForm = this.nvForm.form.value;
     } else {
@@ -101,7 +104,7 @@ export class MinistryChitietnhiemvuComponent {
     let $img: any = event.target;
 
     this.nvForm.form.patchValue({
-      thoiGianKt: event.target.files[0].name,
+      fileNv: event.target.files[0].name,
     });
 
     if (typeof FileReader !== 'undefined') {
@@ -125,7 +128,7 @@ export class MinistryChitietnhiemvuComponent {
         formValue.tenNv,
         formValue.soLuongDt,
         formValue.thoiDiemBd,
-        formValue.thoiGianKt,
+        formValue.thoiDiemKt,
         formValue.fileNv,
         formValue.maBm,
         formValue.maGv
@@ -143,11 +146,13 @@ export class MinistryChitietnhiemvuComponent {
     }
   }
 
-  async onUpdate() {
+  setSelectedNV(event: any) {
     this.nvForm.form.patchValue({
-      maBm: format(new Date(), 'yyyy-MM-dd'),
+      maGv: event.maGv,
     });
+  }
 
+  async onUpdate() {
     if (this.nvForm.form.valid) {
       if (
         JSON.stringify(this.oldForm) !== JSON.stringify(this.nvForm.form.value)
@@ -160,16 +165,24 @@ export class MinistryChitietnhiemvuComponent {
           formValue.tenNv,
           formValue.soLuongDt,
           formValue.thoiDiemBd,
-          formValue.thoiGianKt,
+          dateVNConvert(formValue.ngayKt) +
+            'T' +
+            formValue.thoiGianKt +
+            '.000Z',
           formValue.fileNv,
           formValue.maBm,
           formValue.maGv
         );
+
         try {
-          await this.nhiemVuService.update(nhiemVu);
-          if (file.files[0]) {
-            this.sharedService.uploadFile(file);
+          if (file && file.files[0]) {
+            await this.sharedService.uploadFile(
+              file.files[0],
+              environment.githubMissionFilesAPI
+            );
           }
+          await this.nhiemVuService.update(nhiemVu);
+
           this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
         } catch (error) {
           this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
@@ -182,6 +195,7 @@ export class MinistryChitietnhiemvuComponent {
       }
     } else {
       this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.nvForm.validate('.tb-form');
     }
   }
 
@@ -216,5 +230,32 @@ export class MinistryChitietnhiemvuComponent {
     return await this.giangVienService.getById(id).then((data) => {
       return data;
     });
+  }
+
+  checkDaySmaller() {
+    let formValue: any = this.nvForm.form.value;
+    let ngayKt: any = this.nvForm.form.get('ngayKt');
+
+    ngayKt.setValidators(
+      this.sharedService.customValidator(
+        'smallerDay',
+        / /,
+        formValue.ngayKt > this.ngayBd ? true : false
+      )
+    );
+    ngayKt.updateValueAndValidity();
+  }
+
+  onDateTimeChange() {
+    this.checkDaySmaller();
+    this.nvForm.validateSpecificControl(['ngayKt', 'thoiGianKt']);
+  }
+
+  onDateChange(event: any) {
+    this.onDateTimeChange();
+  }
+
+  onTimeChange(event: any) {
+    this.onDateTimeChange();
   }
 }

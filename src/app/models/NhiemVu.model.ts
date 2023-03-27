@@ -23,10 +23,11 @@ export class NhiemVu {
   ) {
     this.maNv = maNv;
     this.tenNv = tenNv;
+    this.hinhAnh = 'test.png';
     this.soLuongDt = soLuongDt;
     this.thoiGianBd = thoiGianBd;
     this.thoiGianKt = thoiGianKt;
-    this.fileNv = fileNv;
+    this.fileNv = fileNv ? fileNv : 'error.pdf';
     this.maBm = maBm;
     this.maGv = maGv;
   }

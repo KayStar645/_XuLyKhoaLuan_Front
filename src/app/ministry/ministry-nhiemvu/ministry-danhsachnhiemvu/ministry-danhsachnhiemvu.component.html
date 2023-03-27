@@ -1,3 +1,13 @@
+<div class="p-t-16">
+  <div class="functional-container row jus-end functional-wrapper">
+    <div class="functional-button">
+      <button>
+        <a [routerLink]="['/ministry/nhiem-vu/chi-tiet', { maNv: -1 }]">Thêm</a>
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="container">
   <div class="row">
     <div class="h-3 p-l-8 p-r-8 first-info">
@@ -39,21 +49,6 @@
 
     <div class="h-9 p-l-8 p-r-8">
       <div class="mission-list">
-        <div class="row ali-center jus-end ma-b-16">
-          <div class="functional-list">
-            <div class="functional-container row jus-end">
-              <div class="functional-button">
-                <button>
-                  <a
-                    [routerLink]="['/ministry/nhiem-vu/chi-tiet', { maNv: -1 }]"
-                    >Thêm</a
-                  >
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div *ngIf="listNV.length > 0">
           <a
             *ngFor="let nv of listNV"

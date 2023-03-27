@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-home-chitietnhiemvu',
   templateUrl: './home-chitietnhiemvu.component.html',
-  styleUrls: ['./home-chitietnhiemvu.component.scss']
+  styleUrls: ['./home-chitietnhiemvu.component.scss'],
 })
 export class HomeChitietnhiemvuComponent {
   maNv: number = -1;

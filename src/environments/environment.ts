@@ -9,7 +9,7 @@ export const environment = {
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Files/',
   githubMissionFilesAPI:
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Mission/Files/',
-  githubToken: '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',
+  githubToken: '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',
 };
 
 /*

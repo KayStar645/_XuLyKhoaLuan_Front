@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
@@ -27,38 +28,44 @@ export class shareService {
     return date;
   }
 
-  public uploadFile(files: any) {
-    let file = files.files[0];
+  public uploadFile(
+    file: any,
+    apiUrl: string = environment.githubNotifyFilesAPI
+  ) {
     const fileReader = new FileReader();
-    const apiUrl = environment.githubNotifyFilesAPI + file.name;
+    const url = apiUrl + file.name;
 
-    this.http.get(apiUrl).subscribe(
-      (res) => {},
-      (err) => {
-        fileReader.onload = () => {
-          const fileDataUrl = fileReader.result as string;
-          const fileContent = fileDataUrl.split(',')[1];
+    return new Promise<void>((resolve, reject) => {
+      this.http.get(url).subscribe(
+        (res) => {},
+        (err) => {
+          fileReader.onload = () => {
+            const fileDataUrl = fileReader.result as string;
+            const fileContent = fileDataUrl.split(',')[1];
 
-          const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${environment.githubToken}`,
-            }),
+            const httpOptions = {
+              headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${environment.githubToken}`,
+              }),
+            };
+            const body = {
+              message: `Add ${file.name}`,
+              content: fileContent,
+              branch: 'main',
+            };
+
+            this.http.put(url, body, httpOptions).subscribe(
+              (response) => {
+                resolve();
+              },
+              (error) => {}
+            );
           };
-          const body = {
-            message: `Add ${file.name}`,
-            content: fileContent,
-            branch: 'main',
-          };
-
-          this.http.put(apiUrl, body, httpOptions).subscribe(
-            (response) => {},
-            (error) => {}
-          );
-        };
-        fileReader.readAsDataURL(file);
-      }
-    );
+          fileReader.readAsDataURL(file);
+        }
+      );
+    });
   }
 
   public getDay(date: string) {
@@ -105,5 +112,23 @@ export class shareService {
   public removeSpace(str: string) {
     // Xóa khoảng trắng đầu, cuối và thừa
     return str.replace(/\s+/g, ' ').trim();
+  }
+
+  customValidator(
+    nameError: string,
+    regex: RegExp,
+    logicResult: boolean = false
+  ): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      let isValid = regex.test(control.value)
+        ? null
+        : { [nameError]: { value: control.value } };
+
+      if (logicResult) {
+        isValid = null;
+      }
+
+      return isValid;
+    };
   }
 }

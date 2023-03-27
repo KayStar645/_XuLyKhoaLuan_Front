@@ -26,6 +26,17 @@ class Form {
     }
   }
 
+  validateSpecificControl(controlNames = []) {
+    controlNames.forEach((errorName) => {
+      let errors = this.controls[errorName].errors;
+      let element = document.querySelector(
+        "dp-date-picker[formControlName='ngayKt']"
+      );
+
+      setErrors(errors, element);
+    });
+  }
+
   resetValidte(formSelector, except = {}) {
     let form = document.querySelector(formSelector);
     let formElement = form.querySelectorAll(".form-input");

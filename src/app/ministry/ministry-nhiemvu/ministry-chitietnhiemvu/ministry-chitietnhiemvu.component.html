@@ -1,6 +1,6 @@
-<!-- <div id="functional-container">
+<div id="functional-container">
   <div class="functional-list">
-    <div class="functional-container row ali-center jus-end">
+    <div class="functional-container row ali-center jus-end functional-wrapper">
       <div class="functional-button" *ngIf="maNv == -1">
         <button (click)="onAdd()">Thêm</button>
       </div>
@@ -14,9 +14,9 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
 
-<form class="tb-form p-t-16" [formGroup]="nvForm.form">
+<form class="tb-form" [formGroup]="nvForm.form">
   <div class="container row">
     <div class="h-8 p-l-8 p-r-8">
       <div class="form-item">
@@ -29,6 +29,7 @@
               class="form-input title"
               formControlName="tenNv"
               spellcheck="false"
+              (blur)="nvForm.inputBlur($event)"
             />
             <p class="error-mess"></p>
           </div>
@@ -66,11 +67,11 @@
             <ng-autocomplete
               [data]="GVInputConfig.data"
               [searchKeyword]="GVInputConfig.keyword"
-              placeholder="Họ và tên giảng viên"
               [itemTemplate]="itemTemplate"
               [notFoundTemplate]="notFoundTemplate"
               class="form-input title"
-              formControlName="maGv"
+              formControlName="hoTen"
+              (selected)="setSelectedNV($event)"
               spellcheck="false"
             >
             </ng-autocomplete>
@@ -86,42 +87,37 @@
           </div>
         </div>
 
-        <div class="row date-time">
-          <div class="p-l-8 p-r-8 h-6">
-            <div class="form-control form-no-box-shadow">
-              <p class="label p-b-8">Ngày đến hạn</p>
+        <div class="form-control form-no-box-shadow">
+          <p class="label p-b-8">Ngày đến hạn</p>
 
-              <div class="form-value">
-                <dp-date-picker
-                  mode="day"
-                  id="day"
-                  placeholder="Thời điểm"
-                  [displayDate]="ngayKt"
-                  formControlName="ngayKt"
-                  [config]="{
-                    firstDayOfWeek: 'mo',
-                    showNearMonthDays: false
-                  }"
-                ></dp-date-picker>
-                <p class="error-mess"></p>
-              </div>
-            </div>
+          <div class="form-value">
+            <dp-date-picker
+              mode="day"
+              id="day"
+              [displayDate]="ngayKt"
+              formControlName="ngayKt"
+              [config]="{
+                firstDayOfWeek: 'mo',
+                showNearMonthDays: false
+              }"
+              (onSelect)="onDateChange($event)"
+              class="form-input"
+            ></dp-date-picker>
+            <p class="error-mess"></p>
           </div>
+        </div>
 
-          <div class="p-l-8 p-r-8 h-6">
-            <div class="form-control">
-              <p class="label p-b-8">Thời gian</p>
+        <div class="form-control">
+          <p class="label p-b-8">Thời gian</p>
 
-              <div class="form-value">
-                <dp-date-picker
-                  mode="time"
-                  placeholder="Thời gian"
-                  [displayDate]="thoiGianKt"
-                  formControlName="thoiGianKt"
-                ></dp-date-picker>
-                <p class="error-mess"></p>
-              </div>
-            </div>
+          <div class="form-value">
+            <dp-date-picker
+              mode="time"
+              [displayDate]="thoiGianKt"
+              formControlName="thoiGianKt"
+              (onSelect)="onTimeChange($event)"
+            ></dp-date-picker>
+            <p class="error-mess"></p>
           </div>
         </div>
 
@@ -133,7 +129,7 @@
               type="number"
               class="form-input title"
               formControlName="soLuongDt"
-              min="3"
+              min="1"
               spellcheck="false"
             />
             <p class="error-mess"></p>
