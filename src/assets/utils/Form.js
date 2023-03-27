@@ -30,7 +30,7 @@ class Form {
     controlNames.forEach((errorName) => {
       let errors = this.controls[errorName].errors;
       let element = document.querySelector(
-        "dp-date-picker[formControlName='ngayKt']"
+        `dp-date-picker[formControlName='${errorName}']`
       );
 
       setErrors(errors, element);

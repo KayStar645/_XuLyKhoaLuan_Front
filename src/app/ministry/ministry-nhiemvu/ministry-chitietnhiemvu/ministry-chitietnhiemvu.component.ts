@@ -28,10 +28,10 @@ export class MinistryChitietnhiemvuComponent {
   nvForm = new Form({
     tenNv: ['', Validators.required],
     soLuongDt: ['', [Validators.required, Validators.min(1)]],
-    thoiDiemBd: [format(new Date(), 'yyyy-MM-dd')],
-    ngayKt: [''],
-    thoiGianKt: ['23:59:00'],
-    fileNv: [''],
+    thoiDiemBd: [''],
+    ngayKt: ['', Validators.required],
+    thoiGianKt: ['', Validators.required],
+    fileNv: ['error.pdf'],
     maBm: ['', Validators.required],
     maGv: ['', Validators.required],
     hoTen: ['', Validators.required],
@@ -94,9 +94,16 @@ export class MinistryChitietnhiemvuComponent {
 
       this.oldForm = this.nvForm.form.value;
     } else {
+      this.ngayBd = format(new Date(), 'dd-MM-yyyy');
       this.maNv = -1;
       this.nvForm.resetForm('.tb-form');
       this.pdfSrc = 'https:/error.pdf';
+      this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
+
+      this.nvForm.form.patchValue({
+        thoiGianKt: '23:59:00',
+        soLuongDt: 1,
+      });
     }
   }
 
@@ -127,15 +134,20 @@ export class MinistryChitietnhiemvuComponent {
         0,
         formValue.tenNv,
         formValue.soLuongDt,
-        formValue.thoiDiemBd,
-        formValue.thoiDiemKt,
+        format(new Date(), 'yyyy-MM-dd'),
+        dateVNConvert(formValue.ngayKt) + 'T' + formValue.thoiGianKt + '.000Z',
         formValue.fileNv,
         formValue.maBm,
         formValue.maGv
       );
       try {
+        if (file && file.files[0]) {
+          await this.sharedService.uploadFile(
+            file.files[0],
+            environment.githubMissionFilesAPI
+          );
+        }
         await this.nhiemVuService.add(nhiemVu);
-        this.sharedService.uploadFile(file);
         this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
         this.setForm();
       } catch (error) {
@@ -143,12 +155,14 @@ export class MinistryChitietnhiemvuComponent {
       }
     } else {
       this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.nvForm.validate('.tb-form');
     }
   }
 
   setSelectedNV(event: any) {
     this.nvForm.form.patchValue({
       maGv: event.maGv,
+      maBm: event.maBm,
     });
   }
 
@@ -236,19 +250,20 @@ export class MinistryChitietnhiemvuComponent {
     let formValue: any = this.nvForm.form.value;
     let ngayKt: any = this.nvForm.form.get('ngayKt');
 
-    ngayKt.setValidators(
+    ngayKt.setValidators([
       this.sharedService.customValidator(
         'smallerDay',
         / /,
         formValue.ngayKt > this.ngayBd ? true : false
-      )
-    );
+      ),
+      Validators.required,
+    ]);
     ngayKt.updateValueAndValidity();
+    this.nvForm.validateSpecificControl(['ngayKt', 'thoiGianKt']);
   }
 
   onDateTimeChange() {
     this.checkDaySmaller();
-    this.nvForm.validateSpecificControl(['ngayKt', 'thoiGianKt']);
   }
 
   onDateChange(event: any) {

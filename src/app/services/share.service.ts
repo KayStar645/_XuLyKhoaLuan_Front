@@ -28,44 +28,40 @@ export class shareService {
     return date;
   }
 
-  public uploadFile(
+  public async uploadFile(
     file: any,
     apiUrl: string = environment.githubNotifyFilesAPI
-  ) {
+  ): Promise<any> {
     const fileReader = new FileReader();
     const url = apiUrl + file.name;
 
-    return new Promise<void>((resolve, reject) => {
-      this.http.get(url).subscribe(
-        (res) => {},
-        (err) => {
-          fileReader.onload = () => {
-            const fileDataUrl = fileReader.result as string;
-            const fileContent = fileDataUrl.split(',')[1];
+    try {
+      await this.http.get(url).toPromise();
+    } catch (err) {
+      fileReader.onload = async () => {
+        const fileDataUrl = fileReader.result as string;
+        const fileContent = fileDataUrl.split(',')[1];
 
-            const httpOptions = {
-              headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${environment.githubToken}`,
-              }),
-            };
-            const body = {
-              message: `Add ${file.name}`,
-              content: fileContent,
-              branch: 'main',
-            };
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${environment.githubToken}`,
+          }),
+        };
+        const body = {
+          message: `Add ${file.name}`,
+          content: fileContent,
+          branch: 'main',
+        };
 
-            this.http.put(url, body, httpOptions).subscribe(
-              (response) => {
-                resolve();
-              },
-              (error) => {}
-            );
-          };
-          fileReader.readAsDataURL(file);
+        try {
+          await this.http.put(url, body, httpOptions).toPromise();
+        } catch (error) {
+          console.error(error);
         }
-      );
-    });
+      };
+      fileReader.readAsDataURL(file);
+    }
   }
 
   public getDay(date: string) {

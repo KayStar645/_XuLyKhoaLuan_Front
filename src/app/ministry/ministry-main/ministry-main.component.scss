@@ -118,7 +118,7 @@
   border-radius: 4px;
   padding: 16px 16px 0 16px;
 
-  .info-title{
+  .info-title {
     border: none;
   }
 }
@@ -148,7 +148,8 @@
   font-size: 1.3rem;
 }
 
-.bottom-notifi-link a:hover {
+.bottom-notifi-link a:hover,
+.notify-name:hover {
   color: #0056b3;
 }
 
@@ -161,7 +162,7 @@
   font-size: 1.2rem;
   padding-bottom: 2px;
 
-  i{
+  i {
     margin-right: 4px;
   }
 }
@@ -169,4 +170,15 @@
 .detail-link {
   color: #1da1f2;
   font-size: 1.3rem;
+}
+
+.notify-name {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  max-height: calc(1.6 * 1.5rem * 2);
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }

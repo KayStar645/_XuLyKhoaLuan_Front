@@ -203,46 +203,47 @@
       <div class="w-100 bottom-left">
         <h2 class="info-title p-b-8">Kế hoạch thực hiện</h2>
         <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
-            <li class="bottom-notifi-item row">
-              <div class="bottom-notifi-img-l">
-                <img src="../../../../assets/Images/notify.png" alt="" />
-              </div>
-              <div class="bottom-notifi-link flex-1">
-                <a [routerLink]="['/home/thong-bao/chi-tiet',
-                            { maTb: tb.maTb }]">
-                  <div class="date">
-                    <i class="icon-cal fa-regular fa-calendar"></i>
-                    <span>{{ dateFormat(tb.ngayTb) }}</span>
-                  </div>
-                  <b>{{ tb.tenTb }}</b
-                  >
-                </a>
-              </div>
-            </li>            
-          </ul>
+          <li class="bottom-notifi-item row">
+            <div class="bottom-notifi-img-l">
+              <img src="../../../../assets/Images/notify.png" alt="" />
+            </div>
+            <div class="bottom-notifi-link flex-1">
+              <a
+                [routerLink]="[
+                  '/ministry/thong-bao/chi-tiet',
+                  { maTb: tb.maTb }
+                ]"
+              >
+                <div class="date">
+                  <i class="icon-cal fa-regular fa-calendar"></i>
+                  <span>{{ dateFormat(tb.ngayTb) }}</span>
+                </div>
+                <b class="notify-name" [innerHTML]="tb.tenTb"></b>
+              </a>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="h-4 p-l-8 p-r-8">
       <div class="bottom-right w-100">
         <h2 class="info-title p-b-8">Thông báo</h2>
         <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
-            <li class="bottom-notifi-item row">
-              <div class="bottom-notifi-img-r">
-                <img src="../../../../assets/Images/notify.png" alt="" />
-              </div>
-              <div class="bottom-notifi-link flex-1">
-                <a [routerLink]="['/home/thong-bao/chi-tiet',
-                            { maTb: tb.maTb }]">
-                  <div class="date">
-                    <i class="icon-cal fa-regular fa-calendar"></i>
-                    <span>{{ dateFormat(tb.ngayTb) }}</span>
-                  </div>
-                  <b>{{ tb.tenTb }}</b
-                  >
-                </a>
-              </div>
-            </li>            
-          </ul>
+          <li class="bottom-notifi-item row">
+            <div class="bottom-notifi-img-r">
+              <img src="../../../../assets/Images/notify.png" alt="" />
+            </div>
+            <div class="bottom-notifi-link flex-1">
+              <a [routerLink]="['/home/thong-bao/chi-tiet', { maTb: tb.maTb }]">
+                <div class="date">
+                  <i class="icon-cal fa-regular fa-calendar"></i>
+                  <span>{{ dateFormat(tb.ngayTb) }}</span>
+                </div>
+                <b class="notify-name" [innerHTML]="tb.tenTb"></b>
+              </a>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

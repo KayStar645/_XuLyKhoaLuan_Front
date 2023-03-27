@@ -89,6 +89,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       this.maTb = -1;
       this.tbForm.resetForm('.tb-form');
       this.pdfSrc = 'https:/error.pdf';
+      this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
     }
   }
 
@@ -125,8 +126,10 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         formValue.ngayTb
       );
       try {
+        if (file && file.files[0]) {
+          await this.sharedService.uploadFile(file.files[0]);
+        }
         await this.thongBaoService.add(thongBao);
-        this.sharedService.uploadFile(file);
         this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
         this.setForm();
       } catch (error) {
@@ -142,7 +145,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     this.tbForm.form.patchValue({
       ngayTb: format(new Date(), 'yyyy-MM-dd'),
     });
-    
+
     if (this.tbForm.form.valid) {
       if (
         JSON.stringify(this.oldForm) !== JSON.stringify(this.tbForm.form.value)
@@ -161,10 +164,10 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         );
         console.log(formValue.fileTb);
         try {
-          await this.thongBaoService.update(thongBao);
-          if (file.files[0]) {
-            this.sharedService.uploadFile(file);
+          if (file && file.files[0]) {
+            await this.sharedService.uploadFile(file.files[0]);
           }
+          await this.thongBaoService.update(thongBao);
           this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
         } catch (error) {
           this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
@@ -197,7 +200,6 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     option.agree(async () => {
       try {
         await this.thongBaoService.delete(this.maTb);
-        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
         this.setForm();
         this.toastr.success('Xóa thông báo thành công', 'Thông báo!');
       } catch (error) {
