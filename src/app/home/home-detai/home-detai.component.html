@@ -33,12 +33,11 @@
           class="functional-item function-wrapper row ali-center jus-end flex-1"
         >
           <div class="functional-button">
-            <button (click)="onShowFormAdd()">Thêm</button>
+            <button (click)="onShowFormAdd()">Ra đề</button>
           </div>
   
           <div class="functional-button">
-            <!-- <button class="update-btn" (click)="onShowFormUpdate()">Sửa</button> -->
-            <button class="update-btn">Duyệt</button>
+            <button class="update-btn" (click)="onShowFormapply()">Duyệt</button>
           </div>
   
           <div class="functional-button">
@@ -171,8 +170,8 @@
       </div>
     </div>
   
-    <div id="update" (click)="handleToggleUpdate()"></div>
-    <div id="update_box" [formGroup]="dtUpdateForm" class="form">
+    <div id="update" class="update_parent" (click)="handleToggleUpdate()"></div>
+    <div id="update_box" [formGroup]="dtUpdateForm" class="form update_box_parent">
       <div class="form-notify">
         <div class="notify-container">
           <p class="notify-title">Thông báo !</p>
@@ -209,61 +208,31 @@
           </label>
   
           <label class="row ali-center form-control">
-            <p class="label">Tối thiểu</p>
+            <p class="label">GV ra đề</p>
             <div class="form-value">
               <input
                 class="form-input"
-                type="number"
-                formControlName="slMin"
                 (blur)="dtForm.inputBlur($event)"
-                min="1"
+                type="text"
+                formControlName="maDT"
               />
               <p class="error-mess"></p>
             </div>
           </label>
-  
+
           <label class="row ali-center form-control">
-            <p class="label">Tối đa</p>
+            <p class="label">Ngày duyệt</p>
             <div class="form-value">
               <input
                 class="form-input"
-                type="number"
-                formControlName="slMax"
                 (blur)="dtForm.inputBlur($event)"
-                [value]="3"
+                type="text"
+                formControlName="maDT"
               />
               <p class="error-mess"></p>
             </div>
           </label>
         </div>
-  
-        <label class="row ali-center form-control">
-          <p class="label">Trạng thái</p>
-          <div class="form-value">
-            <div class="row ali-center">
-              <label class="row ali-center">
-                <input
-                  type="radio"
-                  value="true"
-                  class="form-input"
-                  formControlName="trangThai"
-                />
-                <p class="label">Đã duyệt</p>
-              </label>
-  
-              <label class="row ali-center">
-                <input
-                  type="radio"
-                  value="false"
-                  class="form-input"
-                  formControlName="trangThai"
-                />
-                <p class="label">Chưa duyệt</p>
-              </label>
-            </div>
-            <p class="error-mess"></p>
-          </div>
-        </label>
   
         <div class="form-control">
           <p class="label p-b-8">Tên đề tài</p>
@@ -290,6 +259,21 @@
               class="form-input topic-summary"
               placeholder=""
               formControlName="tomTat"
+              [modules]="quillConfig"
+            ></quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+         <div class="form-control">
+          <p class="label p-b-8">Nhận xét</p>
+  
+          <div class="form-value">
+            <quill-editor
+              spellcheck="false"
+              class="form-input topic-summary"
+              placeholder=""
+              formControlName="nhanXet"
               [modules]="quillConfig"
             ></quill-editor>
             <p class="error-mess"></p>

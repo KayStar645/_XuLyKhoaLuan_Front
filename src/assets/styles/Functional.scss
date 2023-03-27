@@ -63,7 +63,8 @@
 #create,
 #update,
 #drag-file,
-#delete {
+#delete,
+#apply {
   background-color: rgb(127, 183, 220, 0.2);
   position: fixed;
   top: 0;
@@ -77,13 +78,15 @@
 #create.active,
 #update.active,
 #drag-file.active,
-#delete.active {
+#delete.active,
+#apply.active {
   display: block;
 }
 
 #create_box,
 #update_box,
-#drag-file_box {
+#drag-file_box,
+#apply_box {
   width: 750px;
   background-color: #fff;
   position: absolute;
@@ -102,7 +105,8 @@
 
 #update_box.active,
 #create_box.active,
-#drag-file_box.active {
+#drag-file_box.active,
+#apply_box.active {
   display: block;
 }
 

@@ -199,100 +199,50 @@
   </div>
 
   <div class="bottom row">
-    <div class="h-7 p-r-8 p-l-8">
+    <div class="h-8 p-r-8 p-l-8">
       <div class="w-100 bottom-left">
         <h2 class="info-title p-b-8">Kế hoạch thực hiện</h2>
-        <ul class="bottom-notifi-list">
-          <li class="bottom-notifi-item row">
-            <div class="bottom-notifi-img-l">
-              <img src="../../assets/Images/img-test.jpg" alt="" />
-            </div>
-            <div class="bottom-notifi-link flex-1">
-              <a href="">
-                <div class="date">
-                  <i class="icon-cal fa-regular fa-calendar"></i>
-                  <span>01/01/2022</span>
-                </div>
-                <b>Hội nghị Quốc tế FDSE năm 2023</b>
-              </a>
-            </div>
-          </li>
-          <li class="bottom-notifi-item row">
-            <div class="bottom-notifi-img-l">
-              <img src="../../assets/Images/img-test.jpg" alt="" />
-            </div>
-            <div class="bottom-notifi-link flex-1">
-              <a href="">
-                <div class="date">
-                  <i class="icon-cal fa-regular fa-calendar"></i>
-                  <span>01/01/2022</span>
-                </div>
-                <b
-                  >Thông báo về việc nộp giấy khám sức khỏe và tổ chức khám sức
-                  khỏe định kỳ năm học 2022-2023 (áp dụng cho khóa 11DH)</b
-                >
-              </a>
-            </div>
-          </li>
-          <li class="bottom-notifi-item row">
-            <div class="bottom-notifi-img-l">
-              <img src="../../assets/Images/img-test.jpg" alt="" />
-            </div>
-            <div class="bottom-notifi-link flex-1">
-              <a href="">
-                <div class="date">
-                  <i class="icon-cal fa-regular fa-calendar"></i>
-                  <span>01/01/2022</span>
-                </div>
-                <b
-                  >Thông báo về việc phản hồi điểm rèn luyện học kỳ 1 năm học
-                  2022-2023</b
-                >
-              </a>
-            </div>
-          </li>
-        </ul>
+        <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img-l">
+                <img src="../../../../assets/Images/notify.png" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a [routerLink]="['/home/thong-bao/chi-tiet',
+                            { maTb: tb.maTb }]">
+                  <div class="date">
+                    <i class="icon-cal fa-regular fa-calendar"></i>
+                    <span>{{ dateFormat(tb.ngayTb) }}</span>
+                  </div>
+                  <b>{{ tb.tenTb }}</b
+                  >
+                </a>
+              </div>
+            </li>            
+          </ul>
       </div>
     </div>
-    <div class="h-5 p-l-8 p-r-8">
+    <div class="h-4 p-l-8 p-r-8">
       <div class="bottom-right w-100">
         <h2 class="info-title p-b-8">Thông báo</h2>
-        <ul class="bottom-notifi-list">
-          <li class="bottom-notifi-item row">
-            <div class="bottom-notifi-img">
-              <img src="../../assets/Images/img-test.jpg" alt="" />
-            </div>
-            <div class="bottom-notifi-link flex-1 flex-1">
-              <a href=""><b>Hội nghị Quốc tế FDSE năm 2023</b></a>
-            </div>
-          </li>
-          <li class="bottom-notifi-item row">
-            <div class="bottom-notifi-img">
-              <img src="../../assets/Images/img-test.jpg" alt="" />
-            </div>
-            <div class="bottom-notifi-link flex-1">
-              <a href=""
-                ><b
-                  >Thông báo về việc nộp giấy khám sức khỏe và tổ chức khám sức
-                  khỏe định kỳ năm học 2022-2023 (áp dụng cho khóa 11DH)</b
-                ></a
-              >
-            </div>
-          </li>
-          <li class="bottom-notifi-item row">
-            <div class="bottom-notifi-img">
-              <img src="../../assets/Images/img-test.jpg" alt="" />
-            </div>
-            <div class="bottom-notifi-link flex-1">
-              <a href=""
-                ><b
-                  >Thông báo về việc phản hồi điểm rèn luyện học kỳ 1 năm học
-                  2022-2023</b
-                ></a
-              >
-            </div>
-          </li>
-        </ul>
+        <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
+            <li class="bottom-notifi-item row">
+              <div class="bottom-notifi-img-r">
+                <img src="../../../../assets/Images/notify.png" alt="" />
+              </div>
+              <div class="bottom-notifi-link flex-1">
+                <a [routerLink]="['/home/thong-bao/chi-tiet',
+                            { maTb: tb.maTb }]">
+                  <div class="date">
+                    <i class="icon-cal fa-regular fa-calendar"></i>
+                    <span>{{ dateFormat(tb.ngayTb) }}</span>
+                  </div>
+                  <b>{{ tb.tenTb }}</b
+                  >
+                </a>
+              </div>
+            </li>            
+          </ul>
       </div>
     </div>
   </div>

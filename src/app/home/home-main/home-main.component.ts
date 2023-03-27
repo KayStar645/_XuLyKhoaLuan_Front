@@ -1,3 +1,5 @@
+import { ThongBao } from 'src/app/models/ThongBao.model';
+import { thongBaoService } from 'src/app/services/thongBao.service';
 import { HoiDong } from './../../models/HoiDong.model';
 import { boMonService } from './../../services/boMon.service';
 import { truongBmService } from './../../services/truongBm.service';
@@ -21,6 +23,7 @@ import { of } from 'rxjs/internal/observable/of';
 export class HomeMainComponent {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiangVien;
+  listTB: ThongBao[] = [];
   static maBm: string;
   static maKhoa: string;
   static maGV: string;
@@ -46,6 +49,7 @@ export class HomeMainComponent {
     private truongBmService: truongBmService,
     private boMonService: boMonService,
     private el: ElementRef,
+    private thongBaoService: thongBaoService,
   ) {}
 
   public async ngOnInit() {
@@ -74,6 +78,8 @@ export class HomeMainComponent {
 
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
     this.resetNavbar();
+
+    this.listTB = await this.thongBaoService.getAll();
   }
 
   resetNavbar() {

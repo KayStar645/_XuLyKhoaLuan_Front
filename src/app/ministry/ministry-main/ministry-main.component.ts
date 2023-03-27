@@ -1,3 +1,4 @@
+import { thongBaoService } from 'src/app/services/thongBao.service';
 import { shareService } from '../../services/share.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -7,6 +8,7 @@ import { GiaoVu } from 'src/app/models/GiaoVu.model';
 import { giaoVuService } from 'src/app/services/giaoVu.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
+import { ThongBao } from 'src/app/models/ThongBao.model';
 
 @Component({
   selector: 'app-ministry-main',
@@ -16,6 +18,7 @@ import { Title } from '@angular/platform-browser';
 export class MinistryMainComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiaoVu;
+  listTB: ThongBao[] = [];
   countTB = 0;
   countKH = 0;
   constructor(
@@ -23,7 +26,8 @@ export class MinistryMainComponent implements OnInit {
     private router: Router,
     private giaoVuService: giaoVuService,
     private titleService: Title,
-    private shareService: shareService
+    private shareService: shareService,
+    private thongBaoService: thongBaoService,
   ) {}
 
   public async ngOnInit() {
@@ -39,7 +43,10 @@ export class MinistryMainComponent implements OnInit {
     }
 
     // Get dữ liệu của giáo vụ
-    this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
+    this.data = await this.giaoVuService.getById(
+      '' + localStorage.getItem('Id')?.toString()
+    );
+    this.listTB = await this.thongBaoService.getAll();
   }
 
   dateFormat(str: any): string {

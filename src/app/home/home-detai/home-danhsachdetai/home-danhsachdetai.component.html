@@ -9,7 +9,6 @@
           <th>Chuyên ngành</th>
           <th>Giảng viên ra đề</th>
           <th>Giảng viên duyệt</th>
-          <!-- <th>Lần cuối duyệt</th> -->
           <th>Trạng thái</th>
         </tr>
         <tbody *ngFor="let dt of listDT">
@@ -36,13 +35,117 @@
             <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
             <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
             <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td>
-            <!-- <td class="text-center">{{ getThoiGianDuyetByMaDT(dt.maDT) }}</td> -->
             <td class="text-center">
               {{ dt?.trangThai ? "Xác nhận!" : "Chưa duyệt!" }}
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+     <div id="apply" (click)="handleToggleUpdate()"></div>
+    <div id="apply_box" [formGroup]="dtUpdateForm" class="form ">
+      <div class="form-notify">
+        <div class="notify-container">
+          <p class="notify-title">Thông báo !</p>
+          <p class="notify-content">
+            Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
+          </p>
+          <div class="row ali-center jus-end">
+            <button class="cancel">Hủy
+              
+            </button>
+            <button class="agree">Đồng ý</button>
+            <button class="save">Lưu thay đổi và thoát</button>
+          </div>
+  
+          <div class="progress-bar"></div>
+        </div>
+      </div>
+  
+      <div>
+        <h2 class="title">CẬP NHẬT THÔNG TIN ĐỀ TÀI</h2>
+  
+        <div class="row ali-center custome-functional">
+          <label class="row ali-center form-control">
+            <p class="label">Mã đề tài</p>
+            <div class="form-value">
+              <input
+                class="form-input"
+                (blur)="dtForm.inputBlur($event)"
+                type="text"
+                formControlName="maDT"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+  
+          <label class="row ali-center form-control">
+            <p class="label">Tối thiểu</p>
+            <div class="form-value">
+              <input
+                class="form-input"
+                type="number"
+                formControlName="slMin"
+                (blur)="dtForm.inputBlur($event)"
+                min="1"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+  
+          <label class="row ali-center form-control">
+            <p class="label">Tối đa</p>
+            <div class="form-value">
+              <input
+                class="form-input"
+                type="number"
+                formControlName="slMax"
+                (blur)="dtForm.inputBlur($event)"
+                [value]="3"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </label>
+        </div>
+  
+        <div class="form-control">
+          <p class="label p-b-8">Tên đề tài</p>
+  
+          <div class="form-value">
+            <quill-editor
+              class="form-input topic-name"
+              spellcheck="false"
+              placeholder=""
+              formControlName="tenDT"
+              [modules]="{ toolbar: false }"
+            >
+            </quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+  
+        <div class="form-control">
+          <p class="label p-b-8">Tóm tắt</p>
+  
+          <div class="form-value">
+            <quill-editor
+              spellcheck="false"
+              class="form-input"
+              placeholder=""
+              formControlName="tomTat"
+              [modules]="quillConfig"
+            ></quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="submit-btn text-right">
+        <button class="btn-update" (click)="updateDeTai()">
+          Cập nhật thông tin
+        </button>
+      </div>
     </div>
   </div>
   

@@ -1,3 +1,5 @@
+import { thongBaoService } from 'src/app/services/thongBao.service';
+import { ThongBao } from 'src/app/models/ThongBao.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from './../../services/share.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
@@ -17,6 +19,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 export class DashboardMainComponent implements OnInit{
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = SinhVien;
+  listTB: ThongBao[] = [];
   countTB = 0;
   countKH = 0;
   chuyenNganh = "";
@@ -28,6 +31,7 @@ export class DashboardMainComponent implements OnInit{
     private titleService: Title,
     private shareService: shareService,
     private chuyenNganhService: chuyenNganhService,
+    private thongBaoService: thongBaoService,
   ) {}
 
   public async ngOnInit() {
@@ -45,6 +49,7 @@ export class DashboardMainComponent implements OnInit{
     // Get dữ liệu của giáo vụ
     this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString())
     this.chuyenNganh = (await this.chuyenNganhService.getById(this.data.maCn)).tenCn;
+    this.listTB = await this.thongBaoService.getAll();
   }
 
   dateFormat(str: any): string {
