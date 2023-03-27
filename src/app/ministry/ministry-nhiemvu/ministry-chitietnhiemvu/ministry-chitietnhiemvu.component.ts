@@ -98,7 +98,6 @@ export class MinistryChitietnhiemvuComponent {
       this.maNv = -1;
       this.nvForm.resetForm('.tb-form');
       this.pdfSrc = 'https:/error.pdf';
-      this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
 
       this.nvForm.form.patchValue({
         thoiGianKt: '23:59:00',
@@ -148,13 +147,14 @@ export class MinistryChitietnhiemvuComponent {
           );
         }
         await this.nhiemVuService.add(nhiemVu);
-        this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
+        this.toastr.success('Thêm nhiệm vụ thành công', 'nhiệm vụ !');
+        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
         this.setForm();
       } catch (error) {
-        this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');
+        this.toastr.error('Thêm nhiệm vụ thất bại', 'nhiệm vụ !');
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'nhiệm vụ!');
       this.nvForm.validate('.tb-form');
     }
   }
@@ -197,18 +197,18 @@ export class MinistryChitietnhiemvuComponent {
           }
           await this.nhiemVuService.update(nhiemVu);
 
-          this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
+          this.toastr.success('Cập nhập nhiệm vụ thành công', 'nhiệm vụ !');
         } catch (error) {
-          this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
+          this.toastr.error('Cập nhập nhiệm vụ thất bại', 'nhiệm vụ !');
         }
       } else {
         this.toastr.info(
           'Thông tin của bạn không thay đổi kể từ lần cuối',
-          'Thông báo !'
+          'nhiệm vụ !'
         );
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'nhiệm vụ!');
       this.nvForm.validate('.tb-form');
     }
   }
@@ -230,11 +230,11 @@ export class MinistryChitietnhiemvuComponent {
     option.agree(async () => {
       try {
         await this.nhiemVuService.delete(this.maNv);
-        this._location.go('/minitry/thong-bao/chi-tiet', 'maNv=-1');
         this.setForm();
-        this.toastr.success('Xóa thông báo thành công', 'Thông báo!');
+        this.toastr.success('Xóa nhiệm vụ thành công', 'nhiệm vụ!');
+        window.location.href = '/minitry/nhiem-vu/';
       } catch (error) {
-        this.toastr.error('Xóa thông báo thất bại', 'Thông báo!');
+        this.toastr.error('Xóa nhiệm vụ thất bại', 'nhiệm vụ!');
       }
       _delete.classList.remove('active');
     });

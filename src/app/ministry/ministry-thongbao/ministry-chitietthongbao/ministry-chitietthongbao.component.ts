@@ -89,7 +89,6 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       this.maTb = -1;
       this.tbForm.resetForm('.tb-form');
       this.pdfSrc = 'https:/error.pdf';
-      this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
     }
   }
 
@@ -130,6 +129,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
           await this.sharedService.uploadFile(file.files[0]);
         }
         await this.thongBaoService.add(thongBao);
+        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
         this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
         this.setForm();
       } catch (error) {
@@ -202,6 +202,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         await this.thongBaoService.delete(this.maTb);
         this.setForm();
         this.toastr.success('Xóa thông báo thành công', 'Thông báo!');
+        window.location.href = '/minitry/thong-bao/';
       } catch (error) {
         this.toastr.error('Xóa thông báo thất bại', 'Thông báo!');
       }
