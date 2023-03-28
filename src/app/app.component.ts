@@ -14,6 +14,6 @@ export class AppComponent {
   ngOnInit(): void {
     this.router.navigate(['/login']);
     dayjs.locale('vi');
-    // this.router.navigate(['/dashboard', 'dashboard-main']);
+    // this.router.navigate(['/dashboard', 'dashboard-main']);z
   }
 }

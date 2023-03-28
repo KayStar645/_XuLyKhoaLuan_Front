@@ -72,19 +72,16 @@ export class MinistryChitietkehoachComponent {
       this.KhoaInputConfig.notFound = 'Không tìm bộ môn';
     });
 
-    this.maKhoa
-      .pipe(debounceTime(800)) // debounce for 1s
-      .subscribe((tenKhoa) => {
-        let id: any;
+    this.maKhoa.pipe(debounceTime(800)).subscribe((tenKhoa) => {
+      let id: any;
 
-        this.khoaService.getAll().then((data) => {
-          id = data.find((t) => t.tenKhoa === tenKhoa)?.maKhoa;
-        });
-        // call your service with the search term
-        this.boMonService.getAll().then((data) => {
-          this.BMInputConfig.data = data.filter((item) => item.maKhoa === id);
-        });
+      this.khoaService.getAll().then((data) => {
+        id = data.find((t) => t.tenKhoa === tenKhoa)?.maKhoa;
       });
+      this.boMonService.getAll().then((data) => {
+        this.BMInputConfig.data = data.filter((item) => item.maKhoa === id);
+      });
+    });
   }
 
   onSearchKhoaChange(event: any) {
@@ -109,7 +106,7 @@ export class MinistryChitietkehoachComponent {
             ngayKt: this.ngayKt,
             thoiGianKt: this.thoiGianKt,
             tenKhoa: (await this.getKhoaById(this.keHoach.maKhoa)).tenKhoa,
-            tenBoMon: (await this.getBMById(this.keHoach.maBm)).tenBm,
+            tenBm: (await this.getBMById(this.keHoach.maBm)).tenBm,
           });
 
           return this.keHoach;

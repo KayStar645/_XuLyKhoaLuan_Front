@@ -10,6 +10,7 @@ import { NhiemVu } from 'src/app/models/NhiemVu.model';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { dateVNConvert, Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment.prod';
 
@@ -47,7 +48,8 @@ export class MinistryChitietnhiemvuComponent {
     private nhiemVuService: nhiemVuService,
     private giangVienService: giangVienService,
     private toastr: ToastrService,
-    private _location: Location
+    private _location: Location,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -60,6 +62,8 @@ export class MinistryChitietnhiemvuComponent {
       this.GVInputConfig.data = data;
       this.GVInputConfig.keyword = 'tenGv';
     });
+
+    this.websocketService.startConnection();
   }
 
   async setForm() {
@@ -125,6 +129,8 @@ export class MinistryChitietnhiemvuComponent {
   }
 
   async onAdd() {
+    this.websocketService.sendMessage('Duoc roi ne');
+
     if (this.nvForm.form.valid) {
       let nhiemVu = new NhiemVu();
       let file: any = document.querySelector('.attach-file');

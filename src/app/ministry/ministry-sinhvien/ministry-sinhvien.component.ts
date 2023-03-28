@@ -14,11 +14,12 @@ import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { User } from 'src/app/models/User.model';
 import { MinistryDanhsachsinhvienComponent } from './ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
+import { HubConnectionBuilder } from '@aspnet/signalr';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-ministry-sinhvien',
   templateUrl: './ministry-sinhvien.component.html',
-  // styleUrls: ['./ministry-sinhvien.component.scss'],
 })
 export class MinistrySinhvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachsinhvienComponent)
@@ -54,7 +55,8 @@ export class MinistrySinhvienComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
-    private userService: userService
+    private userService: userService,
+    private websocketService: WebsocketService
   ) {
     this.svAddForm = this.svForm.form;
     this.svUpdateForm = this.svForm.form;
@@ -66,6 +68,11 @@ export class MinistrySinhvienComponent implements OnInit {
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
+
+    this.websocketService.startConnection();
+    this.websocketService.addMessageListener((message: any) => {
+      console.log(message);
+    });
   }
 
   setIsSelectedSv(event: any) {
@@ -79,6 +86,7 @@ export class MinistrySinhvienComponent implements OnInit {
     createBox.classList.add('active');
     create.classList.add('active');
     this.svForm.resetForm('#create_box');
+    this.websocketService.sendMessage('hi');
   }
 
   onShowFormUpdate() {

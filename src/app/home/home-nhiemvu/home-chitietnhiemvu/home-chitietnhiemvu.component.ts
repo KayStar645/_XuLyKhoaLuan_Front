@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NhiemVu } from 'src/app/models/NhiemVu.model';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment.prod';
 
@@ -36,13 +37,19 @@ export class HomeChitietnhiemvuComponent {
     private sharedService: shareService,
     private nhiemVuService: nhiemVuService,
     private toastr: ToastrService,
-    private _location: Location
+    private _location: Location,
+    private websocketService: WebsocketService
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.maNv = parseInt(params['maNv']);
       this.setForm();
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.addMessageListener((message: any) => {
+      console.log(message);
     });
   }
 
