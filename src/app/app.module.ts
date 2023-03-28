@@ -59,6 +59,8 @@ import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/min
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { HomeDanhsachnhiemvuComponent } from './home/home-nhiemvu/home-danhsachnhiemvu/home-danhsachnhiemvu.component';
 import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhiemvu/home-chitietnhiemvu.component';
+import { MinistryDanhsachkehoachComponent } from './ministry/ministry-kehoach/ministry-danhsachkehoach/ministry-danhsachkehoach.component';
+import { MinistryChitietkehoachComponent } from './ministry/ministry-kehoach/ministry-chitietkehoach/ministry-chitietkehoach.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +109,8 @@ import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhi
     DashboardThongbaoComponent,
     DashboardLoimoiComponent,
     TestComponent,
+    MinistryDanhsachkehoachComponent,
+    MinistryChitietkehoachComponent,
   ],
 
   imports: [

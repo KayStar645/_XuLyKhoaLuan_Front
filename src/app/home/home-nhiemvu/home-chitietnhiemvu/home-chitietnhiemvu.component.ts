@@ -9,7 +9,7 @@ import { NhiemVu } from 'src/app/models/NhiemVu.model';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
 import { Form, Option } from 'src/assets/utils';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-home-chitietnhiemvu',

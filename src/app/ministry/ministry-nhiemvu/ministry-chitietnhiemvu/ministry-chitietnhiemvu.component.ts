@@ -11,7 +11,7 @@ import { giangVienService } from 'src/app/services/giangVien.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
 import { dateVNConvert, Form, Option } from 'src/assets/utils';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-ministry-chitietnhiemvu',

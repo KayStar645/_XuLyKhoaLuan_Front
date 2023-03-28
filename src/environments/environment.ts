@@ -5,11 +5,6 @@
 export const environment = {
   production: false,
   api: 'https://localhost:7139',
-  githubNotifyFilesAPI:
-    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Files/',
-  githubMissionFilesAPI:
-    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Mission/Files/',
-  githubToken: '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',
 };
 
 /*

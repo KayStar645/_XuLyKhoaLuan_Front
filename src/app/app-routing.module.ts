@@ -40,6 +40,8 @@ import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/mi
 import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
 import { HomeDanhsachnhiemvuComponent } from './home/home-nhiemvu/home-danhsachnhiemvu/home-danhsachnhiemvu.component';
 import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhiemvu/home-chitietnhiemvu.component';
+import { MinistryDanhsachkehoachComponent } from './ministry/ministry-kehoach/ministry-danhsachkehoach/ministry-danhsachkehoach.component';
+import { MinistryChitietkehoachComponent } from './ministry/ministry-kehoach/ministry-chitietkehoach/ministry-chitietkehoach.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -75,6 +77,18 @@ const routes: Routes = [
         path: 'ke-hoach',
         component: MinistryKehoachComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: MinistryDanhsachkehoachComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: MinistryChitietkehoachComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'nhiem-vu',

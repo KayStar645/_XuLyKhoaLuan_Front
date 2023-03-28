@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { Form, Option } from 'src/assets/utils';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import { format } from 'date-fns';
 import { shareService } from 'src/app/services/share.service';
 import { Location } from '@angular/common';
