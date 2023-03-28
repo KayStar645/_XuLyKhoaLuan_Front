@@ -34,7 +34,19 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "quill",
+              "dayjs/plugin/customParseFormat",
+              "dayjs/plugin/isBetween",
+              "dayjs/plugin/isSameOrAfter",
+              "dayjs/plugin/isSameOrBefore",
+              "dayjs/plugin/isoWeek",
+              "pdfjs-dist/build/pdf",
+              "pdfjs-dist/web/pdf_viewer",
+              "dayjs",
+              "dayjs/locale/vi"
+            ]
           },
           "configurations": {
             "production": {
