@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
-import { format } from 'date-fns';
+import { format, formatDistanceStrict, getMilliseconds } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, Subject } from 'rxjs';
 import { KeHoach } from 'src/app/models/KeHoach.model';
@@ -34,7 +34,7 @@ export class MinistryChitietkehoachComponent {
     thoiGianKt: ['', Validators.required],
     fileKh: ['error.pdf'],
     maBm: ['', Validators.required],
-    maKh: ['', Validators.required],
+    maKhoa: ['', Validators.required],
     tenKhoa: ['', Validators.required],
     tenBm: ['', Validators.required],
   });
@@ -163,8 +163,8 @@ export class MinistryChitietkehoachComponent {
         format(new Date(), 'yyyy-MM-dd'),
         dateVNConvert(formValue.ngayKt) + 'T' + formValue.thoiGianKt + '.000Z',
         formValue.fileKh,
-        formValue.maBm,
-        formValue.maKh
+        formValue.maKhoa,
+        formValue.maBm
       );
       try {
         if (file && file.files[0]) {
@@ -216,14 +216,14 @@ export class MinistryChitietkehoachComponent {
           this.maKh,
           formValue.tenKh,
           formValue.soLuongDt,
-          formValue.thoiDiemBd,
+          dateVNConvert(this.ngayBd),
           dateVNConvert(formValue.ngayKt) +
             'T' +
             formValue.thoiGianKt +
             '.000Z',
           formValue.fileKh,
-          formValue.maBm,
-          formValue.maKh
+          formValue.maKhoa,
+          formValue.maBm
         );
 
         try {
@@ -292,17 +292,19 @@ export class MinistryChitietkehoachComponent {
 
   checkDaySmaller() {
     let formValue: any = this.khForm.form.value;
-    let ngayKt: any = this.khForm.form.get('ngayKt');
+    let ngayKtControl: any = this.khForm.form.get('ngayKt');
+    let ngayBd = new Date(dateVNConvert(this.ngayBd));
+    let ngayKt = new Date(dateVNConvert(formValue.ngayKt));
 
-    ngayKt.setValidators([
+    ngayKtControl.setValidators([
       this.sharedService.customValidator(
         'smallerDay',
         / /,
-        formValue.ngayKt > this.ngayBd ? true : false
+        ngayKt.getTime() > ngayBd.getTime() ? true : false
       ),
       Validators.required,
     ]);
-    ngayKt.updateValueAndValidity();
+    ngayKtControl.updateValueAndValidity();
     this.khForm.validateSpecificControl(['ngayKt', 'thoiGianKt']);
   }
 

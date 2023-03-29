@@ -4,11 +4,12 @@ import format from 'date-fns/format';
 import { NhiemVu } from 'src/app/models/NhiemVu.model';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-home-danhsachnhiemvu',
   templateUrl: './home-danhsachnhiemvu.component.html',
-  styleUrls: ['./home-danhsachnhiemvu.component.scss']
+  styleUrls: ['./home-danhsachnhiemvu.component.scss'],
 })
 export class HomeDanhsachnhiemvuComponent {
   listNV: any[] = [];
@@ -21,15 +22,26 @@ export class HomeDanhsachnhiemvuComponent {
   constructor(
     private nhiemVuService: nhiemVuService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
-    await this.getAllThongBao();
+    await this.getAllNhiemVu();
     this.getNearTimeOutMission();
+
+    this.websocketService.startConnection();
+
+    this.websocketService.addMessageListener((message: any) => {
+      console.log(message);
+      
+      if (JSON.parse(message)) {
+        this.getAllNhiemVu();
+      }
+    });
   }
 
-  async getAllThongBao() {
+  async getAllNhiemVu() {
     this.listNV = await this.nhiemVuService.getAll();
     this.root = this.listNV;
   }
