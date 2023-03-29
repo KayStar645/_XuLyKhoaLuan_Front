@@ -254,17 +254,19 @@ export class MinistryChitietnhiemvuComponent {
 
   checkDaySmaller() {
     let formValue: any = this.nvForm.form.value;
-    let ngayKt: any = this.nvForm.form.get('ngayKt');
+    let ngayKtControl: any = this.nvForm.form.get('ngayKt');
+    let ngayBd = new Date(dateVNConvert(this.ngayBd));
+    let ngayKt = new Date(dateVNConvert(formValue.ngayKt));
 
-    ngayKt.setValidators([
+    ngayKtControl.setValidators([
       this.sharedService.customValidator(
         'smallerDay',
         / /,
-        formValue.ngayKt > this.ngayBd ? true : false
+        ngayKt.getTime() > ngayBd.getTime() ? true : false
       ),
       Validators.required,
     ]);
-    ngayKt.updateValueAndValidity();
+    ngayKtControl.updateValueAndValidity();
     this.nvForm.validateSpecificControl(['ngayKt', 'thoiGianKt']);
   }
 
