@@ -66,13 +66,13 @@
             <div class="form-group error-message" *ngIf="showSentToSelfError">
               Bạn không thể gửi lời mời cho chính mình
             </div>
-            <div class="form-group error-message" *ngIf="isSentToJoinedGroup">
-              Bạn không thể gửi lời mời cho người đã có nhóm
+            <div class="form-group error-message" *ngIf="showGroupMemberAlreadySent">
+              Nhóm bạn đã gửi lời mời cho sinh viên này
             </div>
             <div class="form-group success-message" *ngIf="showSuccessMessage">
               Lời mời đã được gửi thành công
             </div>
-            <button (click)="(showSentToSelfError||isSentToJoinedGroup) ? null : sendInvitation()" [disabled]="showSentToSelfError" [disabled]="isSentToJoinedGroup">Gửi lời mời</button>
+            <button (click)="(showSentToSelfError || showGroupMemberAlreadySent) ? null : sendInvitation()" [disabled]="showSentToSelfError" [disabled]="showGroupMemberAlreadySent">Gửi lời mời</button>
           </form>
     </div>
 </div>

@@ -20,7 +20,7 @@ export class DashboardThongbaoComponent {
   title = 'Thông báo';
   maSv: string = '';
   lstLoiMoi: LoiMoi[] = [];
-  namHoc = '2020-2024'; //tạm gán cứng
+  namHoc = '2023-2024'; //tạm gán cứng
   dot = 1; //tạm gán cứng
   isAccept = false;
 
@@ -50,6 +50,12 @@ export class DashboardThongbaoComponent {
       (sucess) => {this.isAccept = true; this.cd.detectChanges(); console.log(sucess)},
       (error) => {console.log('Không oke rồi'); console.log(error);}
     );
+
+    await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot).subscribe(
+      data => console.log(data)
+    );
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
+    this.cd.detectChanges(); 
   }
 
   //Phải click 2 lần mới cập nhật được phần đã xóa

@@ -1,10 +1,6 @@
 export class Nhom {
-    public maNhom!: number;
+    public maNhom!: string;
     public tenNhom!: string;
-    public soLuong!: number;
-    public slmax!: number;
-    public truongNhom!: string;
-
 
     constructor(){}
 }

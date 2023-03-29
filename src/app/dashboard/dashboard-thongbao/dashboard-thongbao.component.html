@@ -9,7 +9,7 @@
         <h5 class="card-title">{{ loiMoi.namHoc }} - Đợt {{ loiMoi.dot }} - Nhóm {{ loiMoi.maNhom }}</h5>
         <p class="card-text">{{ loiMoi.loiNhan }}</p>
         <p class="card-text">Thời gian: {{ dateFormat(loiMoi.thoiGian) }}</p>
-        <div *ngIf="!isAccept">
+        <div>
           <button class="btn btn-success accept-btn" (click)="acceptInvitation(loiMoi)">Accept</button>
           <button class="btn btn-danger reject-btn" (click)="rejectInvitation(loiMoi)">Reject</button>
         </div>
