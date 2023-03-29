@@ -12,7 +12,7 @@ export class WebsocketService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${environment.api}/TestSocket`)
+      .withUrl(`${environment.api}/websocket`)
       .build();
 
     this.hubConnection
