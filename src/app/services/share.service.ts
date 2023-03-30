@@ -9,6 +9,9 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class shareService {
+  namHoc:string = "";
+  dot: number = 0;
+
   public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -125,5 +128,21 @@ export class shareService {
 
       return isValid;
     };
+  }
+
+  setNamHoc(namHoc: string){
+    this.namHoc = namHoc;
+  }
+
+  getNamHoc(){
+    return this.namHoc;
+  }
+
+  setDot(dot: number){
+    this.dot = dot;
+  }
+
+  getDot(){
+    return this.dot;
   }
 }

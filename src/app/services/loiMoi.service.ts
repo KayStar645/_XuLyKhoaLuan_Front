@@ -49,4 +49,10 @@ export class loiMoiService {
       throw new Error('Invitation not found');
     }
   }
+
+  //Tạm thời
+  async getAllLoiMoiSinhVienByIdDotNamHocNhom(MaNhom: string, MaSV: string, NamHoc: string, Dot: number): Promise<LoiMoi[]> {
+    const lstLoiMoi = await this.getAll();
+    return lstLoiMoi.filter(lm => lm.maNhom == MaNhom && lm.maSv == MaSV && lm.namHoc == NamHoc && lm.dot == Dot);
+  }
 }

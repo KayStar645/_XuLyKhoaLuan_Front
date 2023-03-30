@@ -20,8 +20,8 @@ export class DashboardThongbaoComponent {
   title = 'Thông báo';
   maSv: string = '';
   lstLoiMoi: LoiMoi[] = [];
-  namHoc = '2020-2024'; //tạm gán cứng
-  dot = 1; //tạm gán cứng
+  namHoc: string = "";
+  dot: number = 1;
   isAccept = false;
 
   constructor(
@@ -39,33 +39,44 @@ export class DashboardThongbaoComponent {
     this.route.params.subscribe(params => {
       this.maSv = params['id']
     })
+    this.namHoc = this.shareService.getNamHoc();
+    this.dot = this.shareService.getDot();
     this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
   }
 
   async acceptInvitation(loiMoi: LoiMoi){
+    let groupIdCreated = await (await this.thamGiaService.getById(this.maSv, this.namHoc, this.dot)).maNhom;
     var thamGia = await this.thamGiaService.getById(loiMoi.maSv, this.namHoc, this.dot);
-    if(thamGia != null) {
-      thamGia.maNhom = loiMoi.maNhom;
-      try {
-        await this.thamGiaService.update(thamGia);
-        this.isAccept = true; 
-        this.cd.detectChanges(); 
-      } catch (error) {
-        console.log('Không oke rồi'); 
-        console.log(error);
+    if(groupIdCreated !== null){
+      const confirmed = confirm('Bạn đang trong một nhóm, Nhấn "OK" để thoát nhóm cũ và tham gia vào nhóm mới');
+      if(confirmed){
+        thamGia.maNhom = loiMoi.maNhom;
+        thamGia.truongNhom = false;
+        this.thamGiaService.update(thamGia);
       }
+    }else{
+      thamGia.maNhom = loiMoi.maNhom;
+      thamGia.truongNhom = false;
+      this.thamGiaService.update(thamGia);
     }
+
+    await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot);
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
+    this.cd.detectChanges(); 
   }
 
   //Phải click 2 lần mới cập nhật được phần đã xóa
   async rejectInvitation(loiMoi: LoiMoi){
-    var result = await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot);
-    console.log(result);
+    await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot);
     this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
     this.cd.detectChanges(); 
   }
 
   dateFormat(str: any): string {
     return this.shareService.dateFormat(str);
+  }
+
+  async confirm(){
+    
   }
 }
