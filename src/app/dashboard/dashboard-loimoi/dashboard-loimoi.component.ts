@@ -31,8 +31,8 @@ export class DashboardLoimoiComponent implements OnInit{
   lstNhom: Nhom[] = [];
   invitationForm: FormGroup;
   timSinhVienById: any;
-  @Input() namHoc: string = "";
-  @Input() dot: number = 1;
+  namHoc: string = "";
+  dot: number = 1;
   showSentToSelfError = false;
   showSuccessMessage = false;
   showGroupMemberAlreadySent = false;

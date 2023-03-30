@@ -37,10 +37,14 @@ export class loiMoiService {
     this.shareService.httpOptions).toPromise();
   }
 
+  getById(MaNhom: string, MaSV: string, NamHoc: string, Dot: number):Observable<LoiMoi[]> {
+    return this.http.get<LoiMoi[]>(`${this.apiUrl}/api/Khoas//MaNhom, MaSV, NamHoc, Dot?MaNhom=${MaNhom}&MaSV=${MaSV}&NamHoc=${NamHoc}&Dot=${Dot}`, this.shareService.httpOptions);
+  }
+
   //Tạm thời
-  async getAllLoiMoiSinhVienByIdDotNamHoc(maSv: string, namHoc: string, dot: number): Promise<LoiMoi[]> {
+  async getAllLoiMoiSinhVienByIdDotNamHoc(MaSV: string, NamHoc: string, Dot: number): Promise<LoiMoi[]> {
     const lstLoiMoi = await this.http.get<LoiMoi[]>(`${this.apiUrl}/api/Loimois`, this.shareService.httpOptions).pipe(
-      map(dsLoiMoi => dsLoiMoi.filter(lm => lm.maSv == maSv && lm.namHoc == namHoc && lm.dot == dot)),
+      map(dsLoiMoi => dsLoiMoi.filter(lm => lm.maSv == MaSV && lm.namHoc == NamHoc && lm.dot == Dot)),
     ).toPromise();
 
     if(lstLoiMoi){
@@ -49,7 +53,6 @@ export class loiMoiService {
       throw new Error('Invitation not found');
     }
   }
-
   //Tạm thời
   async getAllLoiMoiSinhVienByIdDotNamHocNhom(MaNhom: string, MaSV: string, NamHoc: string, Dot: number): Promise<LoiMoi[]> {
     const lstLoiMoi = await this.getAll();

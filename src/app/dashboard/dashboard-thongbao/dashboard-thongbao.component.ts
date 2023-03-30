@@ -75,8 +75,4 @@ export class DashboardThongbaoComponent {
   dateFormat(str: any): string {
     return this.shareService.dateFormat(str);
   }
-
-  async confirm(){
-    
-  }
 }
