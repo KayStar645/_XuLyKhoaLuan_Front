@@ -221,6 +221,19 @@ export class MinistryDanhsachdetaiComponent {
     }
   }
 
+  async getNameChuyennganhByMaDt(maDt: string) {
+    const chuyenNganhs =
+      await this.deTai_chuyenNganhService.GetChuyennganhByMaDT(maDt);
+    let result = '';
+    for (let i = 0; i < chuyenNganhs.length; i++) {
+      result += chuyenNganhs[i].tenCn;
+      if (i != chuyenNganhs.length - 1) {
+        result += ', ';
+      }
+    }
+    return result;
+  }
+
   filterItems() {
     const searchName = this.searchName.trim().toLowerCase();
     this.listDT = this.root.filter((item) =>
