@@ -15,15 +15,15 @@ import { HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-dashboard-main',
   templateUrl: './dashboard-main.component.html',
-  styleUrls: ['./dashboard-main.component.scss']
+  styleUrls: ['./dashboard-main.component.scss'],
 })
-export class DashboardMainComponent implements OnInit{
+export class DashboardMainComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = SinhVien;
   listTB: ThongBao[] = [];
   countTB = 0;
   countKH = 0;
-  chuyenNganh = "";
+  chuyenNganh = '';
 
   constructor(
     private authService: AuthService,
@@ -33,6 +33,7 @@ export class DashboardMainComponent implements OnInit{
     private shareService: shareService,
     private chuyenNganhService: chuyenNganhService,
     private thongBaoService: thongBaoService,
+    private el: ElementRef
   ) {}
 
   public async ngOnInit() {
@@ -47,20 +48,36 @@ export class DashboardMainComponent implements OnInit{
       this.isLoggedIn$ = of(true);
     }
 
+    this.resetNavbar();
+
     // Get dữ liệu của giáo vụ
-    this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString())
-    this.chuyenNganh = (await this.chuyenNganhService.getById(this.data.maCn)).tenCn;
+    this.data = await this.sinhVienService.getById(
+      '' + localStorage.getItem('Id')?.toString()
+    );
+    this.chuyenNganh = (
+      await this.chuyenNganhService.getById(this.data.maCn)
+    ).tenCn;
     this.listTB = await this.thongBaoService.getAll();
+  }
+
+  resetNavbar() {
+    var navbar = this.el.nativeElement.querySelector('#navbar');
+    var number = navbar.querySelectorAll('li').length;
+
+    var navbar_items = this.el.nativeElement.querySelectorAll('.navbar-item');
+    navbar_items.forEach((item: { style: { flexBasis: string } }) => {
+      item.style.flexBasis = 'calc(100% / ' + number + ')';
+    });
   }
 
   dateFormat(str: any): string {
     return this.shareService.dateFormat(str);
   }
 
-  goToDashboardLoiMoiRoute(event: any){
+  goToDashboardLoiMoiRoute(event: any) {
     const data = {
       id: this.data.maSv,
-    }
-    this.router.navigate(['/dashboard/loi-moi'], {queryParams: data});
+    };
+    this.router.navigate(['/dashboard/loi-moi'], { queryParams: data });
   }
 }
