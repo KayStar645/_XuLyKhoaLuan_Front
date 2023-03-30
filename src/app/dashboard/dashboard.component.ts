@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
 import { SinhVien } from '../models/SinhVien.model';
 import { sinhVienService } from '../services/sinhVien.service';
+import { dotDkService } from '../services/dotDk.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +20,8 @@ export class DashboardComponent implements OnInit {
   data: any = SinhVien;
   countTB = 0;
   countKH = 0;
+  namHoc: string = "";
+  dot: number = 0;
 
   // Sửa lại sau
   public role!: string;
@@ -29,6 +33,7 @@ export class DashboardComponent implements OnInit {
     private sinhVienService: sinhVienService,
     private elementRef: ElementRef,
     private shareService: shareService,
+    private dotDkService: dotDkService,
   ) {}
 
   public async ngOnInit() {
@@ -44,6 +49,18 @@ export class DashboardComponent implements OnInit {
 
     // Get dữ liệu của sinh viên
     this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString());
+    // Lấy năm học và đợt mới nhất
+    const latestYear = (await this.dotDkService.getAll()).sort((a, b) => {
+      if (a.namHoc !== b.namHoc) {
+        return b.namHoc.localeCompare(a.namHoc); 
+      } else {
+        return b.dot - a.dot; 
+      }
+    })[0];
+    this.namHoc = latestYear.namHoc;
+    this.dot = latestYear.dot;
+    this.shareService.setNamHoc(this.namHoc);
+    this.shareService.setDot(this.dot);
   }
 
   clickAccount() {

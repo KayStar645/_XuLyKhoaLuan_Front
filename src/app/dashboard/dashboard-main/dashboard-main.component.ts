@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard-main',
@@ -58,7 +59,7 @@ export class DashboardMainComponent implements OnInit{
 
   goToDashboardLoiMoiRoute(event: any){
     const data = {
-      id: this.data.maSv
+      id: this.data.maSv,
     }
     this.router.navigate(['/dashboard/loi-moi'], {queryParams: data});
   }
