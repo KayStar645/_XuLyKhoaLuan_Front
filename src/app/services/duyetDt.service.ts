@@ -36,6 +36,17 @@ export class duyetDtService {
       }
     }
 
+    async getByMadt(maDt: string) {
+      return (
+        (await this.http
+          .get<DuyetDt[]>(
+            `${this.apiUrl}/api/Duyetdts/maDt?maDt=${maDt}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? []
+      );
+    }
+
     //Ngày duyệt phải theo chuẩn ngày tháng năm
     async add(duyetDt: DuyetDt): Promise<any> {
       return await this.http.post(`${this.apiUrl}/api/Duyetdts`, duyetDt, this.shareService.httpOptions).toPromise();
