@@ -9,7 +9,14 @@ import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { Form, Option } from 'src/assets/utils';
+import { Form, Option, getParentElement } from 'src/assets/utils';
+import { MinistryDanhsachdetaiComponent } from '../ministry-danhsachdetai/ministry-danhsachdetai.component';
+import { giangVienService } from 'src/app/services/giangVien.service';
+import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
+import { RaDe } from 'src/app/models/RaDe.model';
+import { DeTai_ChuyenNganh } from 'src/app/models/DeTai_ChuyenNganh.model';
+import { deTai_chuyenNganhService } from 'src/app/services/deTai_chuyenNganh.service';
+import { raDeService } from 'src/app/services/raDe.service';
 
 @Component({
   selector: 'app-ministry-chitietdetai',
@@ -17,12 +24,18 @@ import { Form, Option } from 'src/assets/utils';
   styleUrls: ['./ministry-chitietdetai.component.scss'],
 })
 export class MinistryChitietdetaiComponent {
+  DSDTComponent!: MinistryDanhsachdetaiComponent;
+
   maDt: string = '';
   oldForm: any;
   deTai: DeTai = new DeTai();
+  selectedCN: any[] = [];
   listSV: SinhVien[] = [];
   slMin: number = 1;
   slMax: number = 3;
+
+  GVInputConfig: any = {};
+  CNInputConfig: any = {};
 
   dtForm = new Form({
     maDT: ['', Validators.required],
@@ -31,6 +44,8 @@ export class MinistryChitietdetaiComponent {
     slMin: ['', Validators.required],
     slMax: ['', Validators.required],
     trangThai: [false, Validators.required],
+    tenGv: ['', Validators.required],
+    maGv: ['', Validators.required],
   });
 
   quillConfig: any = {
@@ -49,7 +64,11 @@ export class MinistryChitietdetaiComponent {
     private route: ActivatedRoute,
     private router: Router,
     private sharedService: shareService,
+    private giangVienService: giangVienService,
+    private chuyenNganhService: chuyenNganhService,
+    private deTaiChuyenNganhService: deTai_chuyenNganhService,
     private deTaiService: deTaiService,
+    private raDeService: raDeService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
     private websocketService: WebsocketService
@@ -59,6 +78,16 @@ export class MinistryChitietdetaiComponent {
     this.route.params.subscribe((params) => {
       this.maDt = params['maDt'];
       this.setForm();
+    });
+
+    await this.giangVienService.getAll().then((data) => {
+      this.GVInputConfig.data = data;
+      this.GVInputConfig.keyword = 'tenGv';
+    });
+
+    await this.chuyenNganhService.getAll().then((data) => {
+      this.CNInputConfig.data = data;
+      this.CNInputConfig.keyword = 'tenCn';
     });
 
     this.websocketService.startConnection();
@@ -146,11 +175,75 @@ export class MinistryChitietdetaiComponent {
     }
   }
 
+  onOpenDropdown(event: any) {
+    event.stopPropagation();
+    let parent =
+      getParentElement(event.target, '.selected-box') || event.target;
+
+    parent.classList.toggle('active');
+  }
+
+  onSetItem(event: any) {
+    event.stopPropagation();
+    let element = event.target;
+
+    if (element.classList.contains('active')) {
+      let index = this.selectedCN.findIndex(
+        (t) => t.maCn == element.dataset.index
+      );
+
+      element.classList.remove('active');
+      this.selectedCN.splice(index, 1);
+    } else {
+      let index = element.dataset.index;
+      element.classList.add('active');
+
+      this.selectedCN.push({
+        maCn: index,
+        tenCn: element.innerText,
+      });
+    }
+  }
+
+  async onSearchCN(event: any) {
+    let value = event.target.value;
+
+    if (value) {
+      this.CNInputConfig.data = this.CNInputConfig.data.filter((info: any) => {
+        return info.tenCn.includes(value);
+      });
+    } else {
+      await this.chuyenNganhService.getAll().then((data) => {
+        this.CNInputConfig.data = data;
+      });
+    }
+  }
+
+  isCNExist(array: any[], item: any): boolean {
+    return array.findIndex((i) => i.maCn === item.maCn) !== -1;
+  }
+
+  onClickInput(event: any) {
+    event.stopPropagation();
+  }
+
   async onAdd() {
     let formValue: any = this.dtForm.form.value;
 
     if (this.dtForm.form.valid) {
       const deTai = new DeTai();
+      const raDe = new RaDe();
+      const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
+
+      raDe.init(formValue.maGv, formValue.maDT);
+
+      this.selectedCN.forEach((item) => {
+        let deTaiChuyenNganh = new DeTai_ChuyenNganh();
+
+        deTaiChuyenNganh.init(item.maCn, formValue.maDT);
+        deTaiChuyenNganhs.push(deTaiChuyenNganh);
+      });
+
       deTai.init(
         formValue.maDT,
         formValue.tenDT,
@@ -162,6 +255,12 @@ export class MinistryChitietdetaiComponent {
 
       try {
         await this.deTaiService.add(deTai);
+
+        deTaiChuyenNganhs.forEach(async (item) => {
+          await this.deTaiChuyenNganhService.add(item);
+        });
+
+        await this.raDeService.add(raDe);
         this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         this.router.navigate(['/ministry/de-tai/chi-tiet', { maDt: '' }]);
         this.setForm();
@@ -174,10 +273,9 @@ export class MinistryChitietdetaiComponent {
     }
   }
 
-  setSelectedNV(event: any) {
+  setSelectedGV(event: any) {
     this.dtForm.form.patchValue({
       maGv: event.maGv,
-      maBm: event.maBm,
     });
   }
 
@@ -240,6 +338,18 @@ export class MinistryChitietdetaiComponent {
       }
       _delete.classList.remove('active');
     });
+  }
+
+  getTenChuyennganhByMaDT(maDT: string) {
+    return this.DSDTComponent.getTenChuyennganhByMaDT(maDT);
+  }
+
+  getTenGvRadeByMaDT(maDT: string) {
+    return this.DSDTComponent.getTenGvDuyetByMaDT(maDT);
+  }
+
+  getTenGvDuyetByMaDT(maDT: string) {
+    return this.DSDTComponent.getTenGvDuyetByMaDT(maDT);
   }
 
   async getGVienById(id: string) {

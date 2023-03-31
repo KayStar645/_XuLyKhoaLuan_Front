@@ -153,15 +153,8 @@ export class MinistryChitietnhiemvuComponent {
         await this.nhiemVuService.add(nhiemVu);
         this.toastr.success('Thêm nhiệm vụ thành công', 'nhiệm vụ !');
         this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
-
-
         this.websocketService.sendMessage(true);
-
-
-
-        
         this.setForm();
-        
       } catch (error) {
         this.toastr.error('Thêm nhiệm vụ thất bại', 'nhiệm vụ !');
       }

@@ -1,6 +1,11 @@
 export class RaDe {
-    public maGv!: string;
-    public maDt!: string;
+  public maGv!: string;
+  public maDt!: string;
 
-    constructor() {}
+  constructor() {}
+
+  init(maGv: string, maDt: string) {
+    this.maGv = maGv;
+    this.maDt = maDt;
+  }
 }

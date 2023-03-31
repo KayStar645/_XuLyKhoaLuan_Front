@@ -12,7 +12,7 @@ import { shareService } from 'src/app/services/share.service';
 })
 export class MinistryDanhsachnhiemvuComponent {
   listNV: any[] = [];
-  root: NhiemVu[] = [];
+  root: any[] = [];
   lineTB = new NhiemVu();
   elementOld: any;
   nearTimeOutMS: any[] = [];
@@ -43,7 +43,7 @@ export class MinistryDanhsachnhiemvuComponent {
           }).split(' ')[0]
         );
 
-        nv['thoiGianKt'] = format(new Date(nv.thoiGianKt), 'HH:mm');
+        nv['thoiGianKt2'] = format(new Date(nv.thoiGianKt), 'HH:mm');
 
         let dayOfWeek = getDay(date) + 1;
 
@@ -82,6 +82,8 @@ export class MinistryDanhsachnhiemvuComponent {
         return dateBetween <= 7;
       })
       .sort((a, b) => a.number - b.number);
+
+    console.log(this.listNV);
   }
 
   dateFormat(str: string) {
