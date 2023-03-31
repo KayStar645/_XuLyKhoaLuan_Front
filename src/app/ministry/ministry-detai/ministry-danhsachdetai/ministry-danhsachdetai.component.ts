@@ -19,7 +19,12 @@ import {
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
-import { getParentElement } from 'src/assets/utils';
+import { Form, getParentElement, Option } from 'src/assets/utils';
+import { Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ministry-danhsachdetai',
@@ -27,7 +32,7 @@ import { getParentElement } from 'src/assets/utils';
   styleUrls: ['./ministry-danhsachdetai.component.scss'],
 })
 export class MinistryDanhsachdetaiComponent {
-  @Input() searchName = '';
+  searchName = '';
   @Input() isSelectedDT = false;
   @Output() returnIsSelectedDT = new EventEmitter<boolean>();
   listDT: DeTai[] = [];
@@ -42,6 +47,22 @@ export class MinistryDanhsachdetaiComponent {
   listDeta_Chuyennganh: DeTai_ChuyenNganh[] = [];
   listChuyennganh: ChuyenNganh[] = [];
 
+  dtUpdate: any = DeTai;
+  selectedBomon!: string;
+  deTaiFile: any;
+  listCn: ChuyenNganh[] = [];
+
+  dtAddForm: any;
+  dtUpdateForm: any;
+  dtOldForm: any;
+  isSummary: boolean = false;
+
+  dtForm = new Form();
+
+  exceptInput = ['slMin', 'slMax'];
+
+  tenDT = new Subject<string>();
+
   constructor(
     private deTaiService: deTaiService,
     private elementRef: ElementRef,
@@ -49,11 +70,15 @@ export class MinistryDanhsachdetaiComponent {
     private raDeService: raDeService,
     private duyetDtService: duyetDtService,
     private giangVienService: giangVienService,
-    private chuyenNganhService: chuyenNganhService,
-    private deTai_chuyenNganhService: deTai_chuyenNganhService
+    private deTai_chuyenNganhService: deTai_chuyenNganhService,
+    private titleService: Title,
+    private toastr: ToastrService,
+    private chuyenNganhService: chuyenNganhService
   ) {}
 
   async ngOnInit() {
+    this.titleService.setTitle('Danh sách đề tài');
+    this.listCn = await this.chuyenNganhService.getAll();
     this.getAllDeTai();
 
     this.listRade = await this.raDeService.getAll();
@@ -61,74 +86,150 @@ export class MinistryDanhsachdetaiComponent {
     this.listGiangvien = await this.giangVienService.getAll();
     this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
     this.listChuyennganh = await this.chuyenNganhService.getAll();
+
+    this.tenDT.pipe(debounceTime(800)).subscribe((tenDT) => {
+      this.deTaiService.getAll().then((data) => {
+        if (tenDT) {
+          this.listDT = data.filter((item) =>
+            item.tenDT.toLowerCase().includes(tenDT)
+          );
+        } else {
+          this.listDT = data;
+        }
+      });
+    });
   }
 
-  async clickLine(event: any) {
-    const parent = getParentElement(event.target, '.br-line');
-    const firstChild = parent.firstChild;
-    const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-dblclick'
+  onDragFileEnter(event: any) {
+    event.preventDefault();
+    const parent = getParentElement(event.target, '.drag-form');
+
+    parent.classList.add('active');
+  }
+
+  onDragFileOver(event: any) {
+    event.preventDefault();
+    event.target.classList.add('active');
+  }
+
+  onDragFileLeave(event: any) {
+    event.preventDefault();
+    event.target.classList.remove('active');
+  }
+
+  onDropFile(event: any) {
+    event.preventDefault();
+    let file = event.dataTransfer.files[0];
+    this.readExcelFile(file);
+  }
+
+  onFileInput(event: any) {
+    let file = event.target.files[0];
+
+    this.readExcelFile(file);
+  }
+
+  readExcelFile(file: any) {
+    const fileReader = new FileReader();
+
+    fileReader.readAsArrayBuffer(file);
+    fileReader.onload = (event) => {
+      const arrayBuffer: any = fileReader.result;
+      const data = new Uint8Array(arrayBuffer);
+      const workBook = XLSX.read(data, { type: 'array' });
+      const workSheet = workBook.Sheets[workBook.SheetNames[0]];
+      const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+      const datas = excelData
+        .slice(1, excelData.length)
+        .filter((data: any) => data.length > 0);
+
+      datas.forEach((data: any, i) => {
+        data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
+        data[2] = data[2].split('\r\n');
+        data[2] = data[2].map((line: string) => `<p>${line}</p>`);
+
+        data[2] = data[2].join('');
+      });
+      this.deTaiFile = {
+        name: file.name,
+        size: (file.size / 1024).toFixed(2) + 'MB',
+        data: datas,
+      };
+    };
+  }
+
+  onSelect() {
+    let input = this.elementRef.nativeElement.querySelector(
+      '#drag-file_box input[type=file]'
     );
 
-    if (!parent.classList.contains('br-line-dblclick')) {
-      this.lineDT = await this.deTaiService.getById(firstChild.innerText);
-
-      activeLine && activeLine.classList.remove('br-line-dblclick');
-      parent.classList.add('br-line-dblclick');
-    } else {
-      parent.classList.remove('br-line-dblclick');
-      this.lineDT = new DeTai();
-    }
+    input.click();
   }
 
-  getSelectedLine(e: any) {
-    if (e.ctrlKey) {
-      this.returnIsSelectedDT.emit(true);
-      const activeDblClick = this.elementRef.nativeElement.querySelector(
-        '.br-line.br-line-dblclick'
-      );
-      const parent = getParentElement(e.target, '.br-line');
-      const firstChild = parent.firstChild;
+  onCloseDrag(event: any) {
+    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
 
-      if (activeDblClick) {
-        activeDblClick.classList.remove('.br-line-dblclick');
-        this.lineDT = new DeTai();
-      }
+    event.target.classList.remove('active');
+    dragBox.classList.remove('active');
+  }
 
-      if (parent.classList.contains('br-line-click')) {
-        let childIndex = this.selectedDT.findIndex(
-          (t) => t === firstChild.innerText
+  onReadFile() {
+    if (this.deTaiFile.data.length > 0) {
+      const datas = this.deTaiFile.data;
+
+      datas.forEach(async (data: any) => {
+        let dt = new DeTai();
+        dt.init(
+          data[0] ? data[0] : '',
+          data[1] ? data[1] : '',
+          data[2] ? data[2] : '',
+          data[3] ? data[3] : '',
+          data[4] ? data[4] : '',
+          data[5] === 1 ? true : false
         );
+        try {
+          await this.deTaiService.add(dt);
+          this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
+        } catch (error) {
+          this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
+        }
+      });
 
-        parent.classList.remove('br-line-click');
-        this.selectedDT.splice(childIndex, 1);
-      } else {
-        parent.classList.add('br-line-click');
-        this.selectedDT.push(firstChild.innerText);
-      }
-
-      if (this.selectedDT.length === 0) {
-        this.returnIsSelectedDT.emit(false);
-      }
+      this.getAllDeTai();
     }
   }
 
-  async onShowDetail(event: MouseEvent) {
-    const parent = getParentElement(event.target, '.br-line');
-    const firstChild = parent.firstChild;
-    const activeLine = this.elementRef.nativeElement.querySelector(
-      '.br-line.br-line-dblclick'
-    );
+  onShowFormDrag() {
+    let drag = this.elementRef.nativeElement.querySelector('#drag-file');
+    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
 
-    try {
-      this.lineDT = await this.deTaiService.getById(firstChild.innerText);
-      document.querySelector('.update-btn')?.dispatchEvent(new Event('click'));
-    } catch (error) {
-      console.log(error);
+    drag.classList.add('active');
+    dragBox.classList.add('active');
+  }
+
+  onGetDetaiByMaCn(event: any) {
+    const maBM = event.target.value;
+    if (maBM == '') {
+      this.getAllDeTai();
+    } else {
+      this.getDetaiByMaCn(maBM);
     }
+  }
 
-    activeLine && activeLine.classList.remove('br-line-dblclick');
-    parent.classList.add('br-line-dblclick');
+  async sortGiangVien(event: any) {
+    const sort = event.target.value;
+
+    if (sort == 'asc-id') {
+      this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
+    } else if (sort == 'desc-id') {
+      this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
+    } else if (sort == 'asc-name') {
+      this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
+    } else if (sort == 'desc-name') {
+      this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
+    } else {
+      this.listDT = await this.deTaiService.getAll();
+    }
   }
 
   async getAllDeTai() {
@@ -136,19 +237,6 @@ export class MinistryDanhsachdetaiComponent {
       // Lấy đề tài của khoa mình thôi nè
       this.listDT = await this.deTaiService.getAll();
       this.root = this.listDT;
-      this.listDT.forEach((info) => {
-        let topicSummary = document.createElement('div');
-        let topicName = document.createElement('div');
-
-        topicSummary.innerHTML = info.tomTat;
-        topicName.innerHTML = info.tenDT;
-
-        let firstSummary: any = topicSummary.firstChild?.textContent;
-        let firstName: any = topicName.firstChild?.textContent;
-
-        info.tomTat = firstSummary;
-        info.tenDT = firstName;
-      });
     } catch (error) {
       console.log(error);
     }
@@ -201,31 +289,9 @@ export class MinistryDanhsachdetaiComponent {
     return 'Chưa duyệt!';
   }
 
-  async sortGiangVien(sort: string) {
-    if (sort == 'asc-id') {
-      this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
-    } else if (sort == 'desc-id') {
-      this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
-    } else if (sort == 'asc-name') {
-      this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
-    } else if (sort == 'desc-name') {
-      this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-    } else {
-      this.listDT = await this.deTaiService.getAll();
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      this.filterItems();
-    }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listDT = this.root.filter((item) =>
-      item.tenDT.toLowerCase().includes(searchName)
-    );
+  onSearchName(event: any) {
+    const searchName = event.target.value.trim().toLowerCase();
+    this.tenDT.next(searchName);
   }
 
   dateFormat(str: string): string {

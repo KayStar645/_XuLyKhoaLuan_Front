@@ -1,0 +1,129 @@
+<div id="functional-container">
+  <div class="functional-list">
+    <div class="functional-container row ali-center jus-end functional-wrapper">
+      <div class="functional-button" *ngIf="maDt == ''">
+        <button (click)="onAdd()">Thêm</button>
+      </div>
+
+      <div class="functional-button" *ngIf="maDt">
+        <button (click)="onUpdate()">Sửa</button>
+      </div>
+
+      <div class="functional-button" *ngIf="maDt">
+        <button (click)="onDelete()">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form class="dt-form" [formGroup]="dtForm.form">
+  <div class="container row">
+    <div class="h-8 p-l-8 p-r-8">
+      <div class="form-item">
+        <div class="form-control">
+          <p class="label p-b-8">Tên đề tài</p>
+
+          <div class="form-value">
+            <quill-editor
+              class="form-input"
+              spellcheck="false"
+              placeholder=""
+              formControlName="tenDT"
+              [modules]="{ toolbar: false }"
+            >
+            </quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <p class="label p-b-8">Tóm tắt</p>
+
+          <div class="form-value">
+            <quill-editor
+              spellcheck="false"
+              class="form-input"
+              placeholder=""
+              [modules]="quillConfig"
+              formControlName="tomTat"
+            ></quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4 p-l-8 p-r-8">
+      <div class="form-item">
+        <label class="form-control">
+          <p class="label p-b-8">Mã đề tài</p>
+          <div class="form-value">
+            <input
+              class="form-input"
+              (blur)="dtForm.inputBlur($event)"
+              type="text"
+              formControlName="maDT"
+            />
+            <p class="error-mess"></p>
+          </div>
+        </label>
+
+        <div class="row ali-center functional-wrapper">
+          <div class="h-6 p-l-8 p-r-8">
+            <label class="form-control">
+              <p class="label p-b-8">Tối đa</p>
+              <div class="form-value">
+                <input
+                  id="add-min"
+                  class="form-input"
+                  type="number"
+                  formControlName="slMax"
+                  (blur)="dtForm.inputBlur($event)"
+                  [defaultValue]="slMax"
+                  (change)="setSlMax($event)"
+                  [min]="slMin"
+                />
+                <p class="error-mess"></p>
+              </div>
+            </label>
+          </div>
+          
+          <div class="h-6 p-l-8 p-r-8">
+            <label class="form-control">
+              <p class="label p-b-8">Tối thiểu</p>
+              <div class="form-value">
+                <input
+                  class="form-input"
+                  type="number"
+                  formControlName="slMin"
+                  (blur)="dtForm.inputBlur($event)"
+                  [min]="1"
+                  [max]="slMax"
+                />
+                <p class="error-mess"></p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div id="delete">
+  <div class="form-notify">
+    <div class="notify-container">
+      <p class="notify-title">Thông báo !</p>
+      <p class="notify-content">
+        Việc xóa sẽ làm tất cả thông tin có liên quan đến nhiệm vụ sẽ biến mất.
+        Bạn có chắc chắn muốn xóa ?
+      </p>
+      <div class="row ali-center jus-end">
+        <button class="cancel">Hủy</button>
+        <button class="agree">Đồng ý</button>
+      </div>
+
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+</div>
