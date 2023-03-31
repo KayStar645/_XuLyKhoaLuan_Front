@@ -1,0 +1,20 @@
+<header>
+    <nav>
+      <ul>
+        <li [ngClass]="{'active': activeLinkIndex === 0}">
+          <a routerLink="/dashboard/nhom" (click)="activeLinkIndex = 0">Bảng tin</a>
+        </li>
+        <li [ngClass]="{'active': activeLinkIndex === 1}">
+          <a routerLink="/dashboard/nhom/bai-tap" (click)="activeLinkIndex = 1">Bài tập</a>
+        </li>
+        <li [ngClass]="{'active': activeLinkIndex === 2}">
+          <a routerLink="/dashboard/nhom/thanh-vien" (click)="activeLinkIndex = 2">Thành viên</a>
+        </li>
+      </ul>
+    </nav>
+</header>
+<div class="body">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
