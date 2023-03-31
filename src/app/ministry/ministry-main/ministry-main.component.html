@@ -234,7 +234,12 @@
               <img src="../../../../assets/Images/notify.png" alt="" />
             </div>
             <div class="bottom-notifi-link flex-1">
-              <a [routerLink]="['/home/thong-bao/chi-tiet', { maTb: tb.maTb }]">
+              <a
+                [routerLink]="[
+                  '/ministry/thong-bao/chi-tiet',
+                  { maTb: tb.maTb }
+                ]"
+              >
                 <div class="date">
                   <i class="icon-cal fa-regular fa-calendar"></i>
                   <span>{{ dateFormat(tb.ngayTb) }}</span>

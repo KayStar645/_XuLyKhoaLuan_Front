@@ -60,7 +60,7 @@ export class MinistryDetaiComponent implements OnInit {
     private elementRef: ElementRef,
     private deTaiService: deTaiService,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService,
+    private chuyenNganhService: chuyenNganhService
   ) {
     this.dtAddForm = this.dtForm.form;
     this.dtUpdateForm = this.dtForm.form;
@@ -388,7 +388,7 @@ export class MinistryDetaiComponent implements OnInit {
           this.toastr.error(
             'Thông tin bạn cung cấp không hợp lệ.',
             'Thông báo !'
-          ); 
+          );
         }
       }
     } else {
@@ -410,20 +410,14 @@ export class MinistryDetaiComponent implements OnInit {
     this.DSDTComponent.sortGiangVien(sort);
   }
 
-  addMinMax() {
-    
-  }
-
   async f_AddDetai(dt: DeTai) {
     try {
       await this.deTaiService.add(dt);
       this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
-    }
-    catch {
-      this.toastr.error(
-        'Thông tin bạn cung cấp không hợp lệ.',
-        'Thông báo !'
-      );
+      this.DSDTComponent.getAllDeTai();
+      this.resetForm('#create_box');
+    } catch {
+      this.toastr.error('Thông tin bạn cung cấp không hợp lệ.', 'Thông báo !');
     }
   }
 
@@ -437,8 +431,7 @@ export class MinistryDetaiComponent implements OnInit {
       this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
       this.DSDTComponent.lineDT = new DeTai();
       this.DSDTComponent.getAllDeTai();
-    }
-    catch {
+    } catch {
       this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
     }
   }

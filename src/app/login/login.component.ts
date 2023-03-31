@@ -114,7 +114,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
             localStorage.setItem('role', this.role);
             if (this.role === 'Ministry') {
               this.router.navigate(['/ministry']);
-              // window.location.href = window.location.origin + '/ministry';
             } else if (this.role === 'Teacher') {
               this.router.navigate(['/home']);
             } else if (this.role === 'Student') {
