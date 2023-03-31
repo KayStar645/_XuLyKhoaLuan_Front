@@ -129,6 +129,7 @@ export class MinistryChitietdetaiComponent {
 
         this.dtForm.form.patchValue({
           ...this.deTai,
+          trangThai: JSON.stringify(this.deTai.trangThai),
         });
 
         return this.deTai;
@@ -193,7 +194,7 @@ export class MinistryChitietdetaiComponent {
           formValue.tomTat,
           formValue.slMin,
           formValue.slMax,
-          formValue.trangThai
+          JSON.parse(formValue.trangThai)
         );
 
         try {

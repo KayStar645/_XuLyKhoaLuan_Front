@@ -50,6 +50,21 @@
             <p class="error-mess"></p>
           </div>
         </div>
+
+        <div class="form-control">
+          <p class="label p-b-8">Nhận xét</p>
+
+          <div class="form-value">
+            <quill-editor
+              spellcheck="false"
+              class="form-input"
+              placeholder=""
+              [modules]="{ toolbar: false }"
+              formControlName="tomTat"
+            ></quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -87,7 +102,7 @@
               </div>
             </label>
           </div>
-          
+
           <div class="h-6 p-l-8 p-r-8">
             <label class="form-control">
               <p class="label p-b-8">Tối thiểu</p>
@@ -105,6 +120,34 @@
             </label>
           </div>
         </div>
+
+        <label class="form-control">
+          <p class="label p-b-8">Trạng thái</p>
+          <div class="form-value">
+            <div class="row ali-center topic-status">
+              <label class="row ali-center">
+                <input
+                  type="radio"
+                  value="true"
+                  class="form-input"
+                  formControlName="trangThai"
+                />
+                <p class="label">Đã duyệt</p>
+              </label>
+
+              <label class="row ali-center">
+                <input
+                  type="radio"
+                  value="false"
+                  class="form-input"
+                  formControlName="trangThai"
+                />
+                <p class="label">Chưa duyệt</p>
+              </label>
+            </div>
+            <p class="error-mess"></p>
+          </div>
+        </label>
       </div>
     </div>
   </div>
