@@ -58,4 +58,10 @@ export class loiMoiService {
     const lstLoiMoi = await this.getAll();
     return lstLoiMoi.filter(lm => lm.maNhom == MaNhom && lm.maSv == MaSV && lm.namHoc == NamHoc && lm.dot == Dot);
   }
+
+  //Tạm thời
+  async getAllLoiMoiSinhVienByDotNamHocNhom(MaNhom: string, NamHoc: string, Dot: number): Promise<LoiMoi[]> {
+    const lstLoiMoi = await this.getAll();
+    return lstLoiMoi.filter(lm => lm.maNhom == MaNhom && lm.namHoc == NamHoc && lm.dot == Dot);
+  }
 }
