@@ -1,78 +1,78 @@
 <div class="container">
-    <form [formGroup]="timSinhVienById" class="form-inline">
-      <div class="form-group">
-        <label>Mã sinh viên:</label>
-        <input type="text" formControlName="maSv" class="form-control" placeholder="Mời nhập mã sinh viên">
-      </div>
-      <button type="submit" class="btn btn-primary" (click)="findSvById($event)">Tìm</button>
-    </form>
-    <div class="result">
-        <div class="result-element">
-            <h3 *ngIf="data">Thông tin sinh viên</h3>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Mã sinh viên:</span>
-              <span class="property-value">{{ data.maSv }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Họ tên:</span>
-              <span class="property-value">{{ data.tenSv }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Ngày sinh:</span>
-              <span class="property-value">{{ dateFormat(data.ngaySinh) }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Giới tính:</span>
-              <span class="property-value">{{ data.gioiTinh }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Lớp:</span>
-              <span class="property-value">{{ data.lop }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Số điện thoại:</span>
-              <span class="property-value">{{ data.sdt }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Email:</span>
-              <span class="property-value">{{ data.email }}</span>
-            </div>
-            <div *ngIf="data" class="result-property">
-              <span class="property-name">Mã chuyên ngành:</span>
-              <span class="property-value">{{ data.maCn }}</span>
-            </div>
-        </div>
-        <div class="result-none-element">
-            <h3 *ngIf="!data">Mã sinh viên không hợp lệ</h3>
-        </div>
-    
-        <form [formGroup]="invitationForm" class="invitation-form">
-            <div class="form-group">
-              <label for="maSv">Mã sinh viên:</label>
-              <input type="text" value={{data.maSv}} readonly>
-            </div>
-            <div class="form-group">
-              <label for="namHoc">Năm học:</label>
-              <input type="text" formControlName="namHoc" readonly>
-            </div>
-            <div class="form-group">
-              <label for="dot">Đợt:</label>
-              <input type="number" formControlName="dot" readonly>
-            </div>
-            <div class="form-group">
-              <label for="loiNhan">Lời nhắn:</label>
-              <textarea formControlName="loiNhan"></textarea>
-            </div>
-            <div class="form-group error-message" *ngIf="showSentToSelfError">
-              Bạn không thể gửi lời mời cho chính mình
-            </div>
-            <div class="form-group error-message" *ngIf="isSentToJoinedGroup">
-              Bạn không thể gửi lời mời cho người đã có nhóm
-            </div>
-            <div class="form-group success-message" *ngIf="showSuccessMessage">
-              Lời mời đã được gửi thành công
-            </div>
-            <button (click)="(showSentToSelfError||isSentToJoinedGroup) ? null : sendInvitation()" [disabled]="showSentToSelfError" [disabled]="isSentToJoinedGroup">Gửi lời mời</button>
-          </form>
+  <form [formGroup]="timSinhVienById" class="form-inline">
+    <div class="form-group">
+      <label>Mã sinh viên:</label>
+      <input type="text" formControlName="maSv" class="form-control" placeholder="Mời nhập mã sinh viên">
     </div>
+    <button type="submit" class="btn btn-primary" (click)="findSvById($event)">Tìm</button>
+  </form>
+  <div class="result">
+      <div class="result-element">
+          <h3 *ngIf="data">Thông tin sinh viên</h3>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Mã sinh viên:</span>
+            <span class="property-value">{{ data?.maSv }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Họ tên:</span>
+            <span class="property-value">{{ data?.tenSv }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Ngày sinh:</span>
+            <span class="property-value">{{ dateFormat(data?.ngaySinh) }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Giới tính:</span>
+            <span class="property-value">{{ data?.gioiTinh }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Lớp:</span>
+            <span class="property-value">{{ data?.lop }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Số điện thoại:</span>
+            <span class="property-value">{{ data?.sdt }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Email:</span>
+            <span class="property-value">{{ data?.email }}</span>
+          </div>
+          <div *ngIf="data" class="result-property">
+            <span class="property-name">Mã chuyên ngành:</span>
+            <span class="property-value">{{ data?.maCn }}</span>
+          </div>
+      </div>
+      <div class="result-none-element">
+          <h3 *ngIf="!data">Mã sinh viên không hợp lệ</h3>
+      </div>
+  
+      <form [formGroup]="invitationForm" class="invitation-form">
+          <div class="form-group">
+            <label for="maSv">Mã sinh viên:</label>
+            <input type="text" value={{data.maSv}} readonly>
+          </div>
+          <div class="form-group">
+            <label for="namHoc">Năm học:</label>
+            <input type="text" formControlName="namHoc" readonly>
+          </div>
+          <div class="form-group">
+            <label for="dot">Đợt:</label>
+            <input type="number" formControlName="dot" readonly>
+          </div>
+          <div class="form-group">
+            <label for="loiNhan">Lời nhắn:</label>
+            <textarea formControlName="loiNhan"></textarea>
+          </div>
+          <div class="form-group error-message" *ngIf="showSentToSelfError">
+            Bạn không thể gửi lời mời cho chính mình
+          </div>
+          <div class="form-group error-message" *ngIf="showGroupMemberAlreadySent">
+            Nhóm bạn đã gửi lời mời cho sinh viên này
+          </div>
+          <div class="form-group success-message" *ngIf="showSuccessMessage">
+            Lời mời đã được gửi thành công
+          </div>
+          <button (click)="(showSentToSelfError || showGroupMemberAlreadySent) ? null : sendInvitation()" [disabled]="showSentToSelfError" [disabled]="showGroupMemberAlreadySent">Gửi lời mời</button>
+        </form>
+  </div>
 </div>

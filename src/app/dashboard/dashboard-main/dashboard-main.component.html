@@ -99,9 +99,9 @@
       </div>
     </div>
     <div>
-      <ul class="navbar-list row ali-center">
+      <ul class="navbar-list row ali-center" id="navbar">
         <li class="navbar-item">
-          <a [routerLink]="['/dashboard/dashboard-thongbao', { id:  data?.maSv  }]" class="navbar-link"> 
+          <a [routerLink]="['/dashboard/thong-bao', { id:  data?.maSv  }]" class="navbar-link"> 
             <img
               class="navbar-icon"
               src="../../assets/Images/thong-bao.png"
@@ -123,14 +123,14 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/admin/giang-vien" class="navbar-link">
+          <a routerLink="/admin/hoi-dong" class="navbar-link">
             <img
               class="navbar-icon"
-              src="../../assets/Images/giang-vien.png"
+              src="../../assets/Images/hoi-dong.png"
               alt=""
               width="48"
             />
-            <p>Giảng viên</p>
+            <p>Nhóm</p>
           </a>
         </li>
         <li class="navbar-item">
@@ -153,39 +153,6 @@
               width="48"
             />
             <p>Đề tài</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/admin/sinh-vien" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/sinh-vien.png"
-              alt=""
-              width="48"
-            />
-            <p>Sinh viên</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/admin/hoi-dong" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/hoi-dong.png"
-              alt=""
-              width="48"
-            />
-            <p>Hội đồng</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/admin/quan-ly-chung" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/cai-dat.png"
-              alt=""
-              width="48"
-            />
-            <p>Quản lý chung</p>
           </a>
         </li>
       </ul>

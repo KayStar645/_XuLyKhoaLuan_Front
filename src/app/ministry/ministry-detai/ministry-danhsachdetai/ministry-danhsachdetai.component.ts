@@ -289,9 +289,31 @@ export class MinistryDanhsachdetaiComponent {
     return 'Chưa duyệt!';
   }
 
-  onSearchName(event: any) {
-    const searchName = event.target.value.trim().toLowerCase();
-    this.tenDT.next(searchName);
+  async sortGiangVien(sort: string) {
+    if (sort == 'asc-id') {
+      this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
+    } else if (sort == 'desc-id') {
+      this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
+    } else if (sort == 'asc-name') {
+      this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
+    } else if (sort == 'desc-name') {
+      this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
+    } else {
+      this.listDT = await this.deTaiService.getAll();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.searchName) {
+      this.filterItems();
+    }
+  }
+
+  filterItems() {
+    const searchName = this.searchName.trim().toLowerCase();
+    this.listDT = this.root.filter((item) =>
+      item.tenDT.toLowerCase().includes(searchName)
+    );
   }
 
   dateFormat(str: string): string {
