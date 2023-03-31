@@ -17,3 +17,13 @@
     </div>
   </div>
 </div>
+<div class="modal" *ngIf="isConfirmDialogVisible">
+  <div class="modal-content">
+    <h2 *ngIf="!isTeamLeader || (isTeamLeader && isGroupHaveOneMember)">Bạn đang trong một nhóm. Bạn có muốn thoát khỏi nhóm cũ và tham gia vào nhóm mới không?</h2>
+    <h2 *ngIf="isTeamLeader && !isGroupHaveOneMember">Bạn đang là trưởng nhóm, vui lòng chọn trưởng nhóm khác trước khi rời nhóm</h2>
+    <div class="modal-buttons">
+      <button class="modal-ok-btn" (click)="performAction()">OK</button>
+      <button (click)="hideConfirmDialog()">Cancel</button>
+    </div>
+  </div>
+</div>

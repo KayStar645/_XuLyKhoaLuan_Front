@@ -157,8 +157,8 @@ export class DashboardLoimoiComponent implements OnInit{
   }
 
   async checkNotJoinedGroup(MaSV: string, NamHoc: string, Dot: number): Promise<boolean> {
-    let thamGia: ThamGia = await  this.thamGiaService.getById(MaSV, NamHoc, Dot);
-    return thamGia !== null;
+    let thamGia: ThamGia = await this.thamGiaService.getById(MaSV, NamHoc, Dot);
+    return thamGia.maNhom === null || thamGia.maNhom === '';
   }
 
   async checkGroupMemberSentInvitation(){
