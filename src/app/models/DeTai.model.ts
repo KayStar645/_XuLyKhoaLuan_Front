@@ -5,6 +5,8 @@ export class DeTai {
   public slMin!: number;
   public slMax!: number;
   public trangThai!: boolean;
+  public namHoc!: string;
+  public dot!: number;
 
   constructor() {}
 
@@ -14,7 +16,7 @@ export class DeTai {
     tomTat: string,
     slMin: number,
     slMax: number,
-    trangThai: boolean
+    trangThai: boolean,
   ) {
     this.maDT = maDT;
     this.tenDT = tenDT;
@@ -22,5 +24,25 @@ export class DeTai {
     this.slMin = slMin;
     this.slMax = slMax;
     this.trangThai = trangThai;
+  }
+
+  initF(
+    maDT: string,
+    tenDT: string,
+    tomTat: string,
+    slMin: number,
+    slMax: number,
+    trangThai: boolean,
+    namHoc: string,
+    dot: number
+  ) {
+    this.maDT = maDT;
+    this.tenDT = tenDT;
+    this.tomTat = tomTat;
+    this.slMin = slMin;
+    this.slMax = slMax;
+    this.trangThai = trangThai;
+    this.namHoc = namHoc;
+    this.dot = dot;
   }
 }
