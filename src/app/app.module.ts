@@ -91,6 +91,11 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
     MinistryDanhsachthamgiaComponent,
     MinistryHoidongComponent,
     MinistryQuanlychungComponent,
+    DashboardNhomComponent,
+    DashboardTrangchunhomComponent,
+    DashboardBaitapnhomComponent,
+    DashboardThanhviennhomComponent,
+    MinistryChitietdetaiComponent,
 
     HomeComponent,
     HomeMainComponent,

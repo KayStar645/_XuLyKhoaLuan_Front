@@ -112,3 +112,40 @@
   margin-right: 4px;
   margin-bottom: 4px;
 }
+
+.comment-item {
+  padding-bottom: 32px;
+
+  img {
+    width: 35px;
+  }
+}
+
+.comment-info {
+  background: #f0f2f5;
+  padding: 8px 16px;
+  border-radius: 18px;
+  margin-left: 8px;
+  min-width: 200px;
+  position: relative;
+
+  .title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding-bottom: 2px;
+  }
+
+  .content {
+    font-size: 1.4rem;
+    color: #635f5f;
+  }
+
+  .time {
+    position: absolute;
+    left: 16px;
+    font-size: 1.2rem;
+    color: #7c7c7c;
+    font-weight: 600;
+    top: 100%;
+  }
+}
