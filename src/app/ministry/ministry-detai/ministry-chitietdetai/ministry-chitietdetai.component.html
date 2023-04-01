@@ -52,7 +52,7 @@
         </div>
 
         <div class="form-control" *ngIf="maDt">
-          <p class="label p-b-8">Nhận xét</p>
+          <p class="label p-b-8">Góp ý</p>
 
           <div class="form-value">
             <quill-editor
@@ -60,25 +60,26 @@
               class="form-input"
               placeholder=""
               [modules]="{ toolbar: false }"
-              formControlName="tomTat"
+              formControlName="nhanXet"
             ></quill-editor>
             <p class="error-mess"></p>
           </div>
 
           <div class="row jus-end">
-            <button class="comment-btn">Góp ý</button>
+            <button class="comment-btn" (click)="onAddComment()">Góp ý</button>
           </div>
 
           <div class="comment-list">
-            <div class="comment-item">
+            <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
               <div class="row">
                 <div>
                   <img src="../../../../assets/Images/user-icon.svg" alt="" />
                 </div>
 
                 <div class="comment-info">
-                  <p>Ngô Văn Sơn</p>
-                  <p>Đề tài có vẻ thú dị đó</p>
+                  <p class="title">{{ duyet.tenGv }}</p>
+                  <p class="content" [innerHTML]="duyet.nhanXet"></p>
+                  <p class="time">{{ duyet.thoiGian }}</p>
                 </div>
               </div>
             </div>
