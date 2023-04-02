@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
@@ -44,18 +44,18 @@ export class MinistryChitietnhiemvuComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private sharedService: shareService,
     private nhiemVuService: nhiemVuService,
     private giangVienService: giangVienService,
     private toastr: ToastrService,
-    private _location: Location,
     private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(async (params) => {
       this.maNv = parseInt(params['maNv']);
-      this.setForm();
+      await this.setForm();
     });
 
     await this.giangVienService.getAll().then((data) => {
@@ -151,15 +151,15 @@ export class MinistryChitietnhiemvuComponent {
           );
         }
         await this.nhiemVuService.add(nhiemVu);
-        this.toastr.success('Thêm nhiệm vụ thành công', 'nhiệm vụ !');
-        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
-        this.websocketService.sendMessage(true);
-        this.setForm();
+        await this.setForm();
+        this.websocketService.sendForNhiemVu(true);
+        this.toastr.success('Thêm nhiệm vụ thành công', 'Thông báo !');
+        this.router.navigate(['/minitry/nhiem-vu/chi-tiet', { maNv: -1 }]);
       } catch (error) {
-        this.toastr.error('Thêm nhiệm vụ thất bại', 'nhiệm vụ !');
+        this.toastr.error('Thêm nhiệm vụ thất bại', 'Thông báo !');
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'nhiệm vụ!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
       this.nvForm.validate('.tb-form');
     }
   }
@@ -201,19 +201,20 @@ export class MinistryChitietnhiemvuComponent {
             );
           }
           await this.nhiemVuService.update(nhiemVu);
+          this.websocketService.sendForNhiemVu(true);
 
-          this.toastr.success('Cập nhập nhiệm vụ thành công', 'nhiệm vụ !');
+          this.toastr.success('Cập nhập nhiệm vụ thành công', 'Thông báo !');
         } catch (error) {
-          this.toastr.error('Cập nhập nhiệm vụ thất bại', 'nhiệm vụ !');
+          this.toastr.error('Cập nhập nhiệm vụ thất bại', 'Thông báo !');
         }
       } else {
         this.toastr.info(
           'Thông tin của bạn không thay đổi kể từ lần cuối',
-          'nhiệm vụ !'
+          'Thông báo !'
         );
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'nhiệm vụ!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
       this.nvForm.validate('.tb-form');
     }
   }
@@ -235,11 +236,12 @@ export class MinistryChitietnhiemvuComponent {
     option.agree(async () => {
       try {
         await this.nhiemVuService.delete(this.maNv);
-        this.setForm();
-        this.toastr.success('Xóa nhiệm vụ thành công', 'nhiệm vụ!');
-        window.location.href = '/minitry/nhiem-vu/';
+        await this.setForm();
+        this.websocketService.sendForNhiemVu(true);
+        this.toastr.success('Xóa nhiệm vụ thành công', 'Thông báo !');
+        this.router.navigate(['/minitry/nhiem-vu/']);
       } catch (error) {
-        this.toastr.error('Xóa nhiệm vụ thất bại', 'nhiệm vụ!');
+        this.toastr.error('Xóa nhiệm vụ thất bại', 'Thông báo !');
       }
       _delete.classList.remove('active');
     });

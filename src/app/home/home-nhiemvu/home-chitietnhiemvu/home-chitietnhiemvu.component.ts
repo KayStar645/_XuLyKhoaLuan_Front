@@ -46,11 +46,6 @@ export class HomeChitietnhiemvuComponent {
       this.maNv = parseInt(params['maNv']);
       this.setForm();
     });
-
-    this.websocketService.startConnection();
-    this.websocketService.addMessageListener((message: any) => {
-      console.log(message);
-    });
   }
 
   async setForm() {

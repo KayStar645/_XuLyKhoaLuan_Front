@@ -1,12 +1,13 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { format, formatDistanceStrict, getMilliseconds } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, Subject } from 'rxjs';
+import { async, debounceTime, Subject } from 'rxjs';
 import { KeHoach } from 'src/app/models/KeHoach.model';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { boMonService } from 'src/app/services/boMon.service';
 import { keHoachService } from 'src/app/services/keHoach.service';
 import { khoaService } from 'src/app/services/khoa.service';
@@ -51,13 +52,14 @@ export class MinistryChitietkehoachComponent {
     private khoaService: khoaService,
     private boMonService: boMonService,
     private toastr: ToastrService,
-    private _location: Location
+    private router: Router,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(async (params) => {
       this.maKh = parseInt(params['maKh']);
-      this.setForm();
+      await this.setForm();
     });
 
     await this.khoaService.getAll().then((data) => {
@@ -71,6 +73,8 @@ export class MinistryChitietkehoachComponent {
       this.BMInputConfig.keyword = 'tenBm';
       this.KhoaInputConfig.notFound = 'Không tìm bộ môn';
     });
+
+    this.websocketService.startConnection();
 
     this.maKhoa.pipe(debounceTime(800)).subscribe((tenKhoa) => {
       let id: any;
@@ -174,34 +178,18 @@ export class MinistryChitietkehoachComponent {
           );
         }
         await this.keHoachService.add(keHoach);
+        await this.setForm();
+        this.websocketService.sendForKeHoach(true);
+
         this.toastr.success('Thêm kế hoạch thành công', 'kế hoạch !');
-        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
-        this.setForm();
+        this.router.navigate(['/minitry/ke-hoach/chi-tiet', { maKh: -1 }]);
       } catch (error) {
         this.toastr.error('Thêm kế hoạch thất bại', 'kế hoạch !');
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'kế hoạch!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Kế hoạch !');
       this.khForm.validate('.tb-form');
     }
-  }
-
-  async setSelectedKhoa(event: any) {
-    this.khForm.form.patchValue({
-      maKhoa: event.maKhoa,
-    });
-
-    await this.boMonService.getAll().then((data) => {
-      this.BMInputConfig.data = data.filter(
-        (item) => item.maKhoa === event.maKhoa
-      );
-    });
-  }
-
-  setSelectedBM(event: any) {
-    this.khForm.form.patchValue({
-      maBm: event.maBm,
-    });
   }
 
   async onUpdate() {
@@ -234,6 +222,7 @@ export class MinistryChitietkehoachComponent {
             );
           }
           await this.keHoachService.update(keHoach);
+          this.websocketService.sendForKeHoach(true);
 
           this.toastr.success('Cập nhập kế hoạch thành công', 'kế hoạch !');
         } catch (error) {
@@ -246,7 +235,7 @@ export class MinistryChitietkehoachComponent {
         );
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'kế hoạch!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Kế hoạch !');
       this.khForm.validate('.tb-form');
     }
   }
@@ -268,13 +257,33 @@ export class MinistryChitietkehoachComponent {
     option.agree(async () => {
       try {
         await this.keHoachService.delete(this.maKh);
-        this.setForm();
-        this.toastr.success('Xóa kế hoạch thành công', 'kế hoạch!');
-        window.location.href = '/minitry/nhiem-vu/';
+        await this.setForm();
+        this.websocketService.sendForKeHoach(true);
+
+        this.toastr.success('Xóa kế hoạch thành công', 'Kế hoạch !');
+        this.router.navigate(['/minitry/ke-hoach/']);
       } catch (error) {
-        this.toastr.error('Xóa kế hoạch thất bại', 'kế hoạch!');
+        this.toastr.error('Xóa kế hoạch thất bại', 'Kế hoạch !');
       }
       _delete.classList.remove('active');
+    });
+  }
+
+  async setSelectedKhoa(event: any) {
+    this.khForm.form.patchValue({
+      maKhoa: event.maKhoa,
+    });
+
+    await this.boMonService.getAll().then((data) => {
+      this.BMInputConfig.data = data.filter(
+        (item) => item.maKhoa === event.maKhoa
+      );
+    });
+  }
+
+  setSelectedBM(event: any) {
+    this.khForm.form.patchValue({
+      maBm: event.maBm,
     });
   }
 

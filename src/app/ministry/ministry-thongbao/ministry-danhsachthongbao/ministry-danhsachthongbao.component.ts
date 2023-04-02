@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import axios from 'axios';
 import { ThongBao } from 'src/app/models/ThongBao.model';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { shareService } from 'src/app/services/share.service';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { environment } from 'src/environments/environment';
@@ -32,11 +33,19 @@ export class MinistryDanhsachthongbaoComponent {
   constructor(
     private thongBaoService: thongBaoService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
     await this.getAllThongBao();
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromThongBao((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllThongBao();
+      }
+    });
   }
 
   async getAllThongBao() {

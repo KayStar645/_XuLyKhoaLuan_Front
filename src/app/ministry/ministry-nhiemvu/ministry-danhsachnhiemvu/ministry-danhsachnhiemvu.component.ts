@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { formatDistanceToNowStrict, getDay } from 'date-fns';
 import format from 'date-fns/format';
 import { NhiemVu } from 'src/app/models/NhiemVu.model';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
 
@@ -20,15 +21,23 @@ export class MinistryDanhsachnhiemvuComponent {
   constructor(
     private nhiemVuService: nhiemVuService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
-    await this.getAllThongBao();
+    await this.getAllNhiemVu();
     this.getNearTimeOutMission();
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromNhiemVu((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllNhiemVu();
+      }
+    });
   }
 
-  async getAllThongBao() {
+  async getAllNhiemVu() {
     this.listNV = await this.nhiemVuService.getAll();
     this.root = this.listNV;
   }

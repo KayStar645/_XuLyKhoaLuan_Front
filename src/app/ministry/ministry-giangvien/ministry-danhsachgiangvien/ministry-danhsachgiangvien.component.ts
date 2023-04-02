@@ -13,6 +13,7 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 import { boMonService } from 'src/app/services/boMon.service';
 import { BoMon } from 'src/app/models/BoMon.model';
 import { getParentElement } from 'src/assets/utils';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-ministry-danhsachgiangvien',
@@ -34,7 +35,8 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
     private giangVienService: giangVienService,
     private boMonService: boMonService,
     private shareService: shareService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -55,6 +57,13 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
             line.classList.remove('br-line-click');
           });
         }
+      }
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromGiangVien((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllGiangVien();
       }
     });
   }

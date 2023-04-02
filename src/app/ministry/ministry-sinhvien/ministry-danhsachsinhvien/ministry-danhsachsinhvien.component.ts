@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
@@ -36,7 +37,8 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
     private sinhVienService: sinhVienService,
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
-    private shareService: shareService
+    private shareService: shareService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -55,6 +57,13 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
             line.classList.remove('br-line-click');
           });
         }
+      }
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromSinhVien((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllSinhVien();
       }
     });
   }

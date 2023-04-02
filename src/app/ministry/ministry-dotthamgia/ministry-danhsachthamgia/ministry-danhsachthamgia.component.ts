@@ -15,6 +15,7 @@ import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { getParentElement } from 'src/assets/utils';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-ministry-danhsachthamgia',
@@ -40,7 +41,8 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
-    private thamGiaService: thamGiaService
+    private thamGiaService: thamGiaService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -61,6 +63,13 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
             line.classList.remove('br-line-click');
           });
         }
+      }
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromThamGia((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllThamgiaByDotdk();
       }
     });
   }

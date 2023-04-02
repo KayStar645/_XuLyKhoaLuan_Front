@@ -29,16 +29,6 @@ export class HomeDanhsachnhiemvuComponent {
   async ngOnInit() {
     await this.getAllNhiemVu();
     this.getNearTimeOutMission();
-
-    this.websocketService.startConnection();
-
-    this.websocketService.addMessageListener((message: any) => {
-      console.log(message);
-      
-      if (JSON.parse(message)) {
-        this.getAllNhiemVu();
-      }
-    });
   }
 
   async getAllNhiemVu() {
