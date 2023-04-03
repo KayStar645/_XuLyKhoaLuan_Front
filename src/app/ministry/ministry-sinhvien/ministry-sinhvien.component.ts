@@ -70,9 +70,6 @@ export class MinistrySinhvienComponent implements OnInit {
     }
 
     this.websocketService.startConnection();
-    this.websocketService.addMessageListener((message: any) => {
-      console.log(message);
-    });
   }
 
   setIsSelectedSv(event: any) {
@@ -86,7 +83,6 @@ export class MinistrySinhvienComponent implements OnInit {
     createBox.classList.add('active');
     create.classList.add('active');
     this.svForm.resetForm('#create_box');
-    this.websocketService.sendMessage('hi');
   }
 
   onShowFormUpdate() {
@@ -252,7 +248,8 @@ export class MinistrySinhvienComponent implements OnInit {
         );
         await this.f_AddSinhVien(sinhVien);
       }
-      this.DSSVComponent.getAllSinhVien();
+
+      this.websocketService.sendForSinhVien(true);
     }
   }
 
@@ -271,14 +268,12 @@ export class MinistrySinhvienComponent implements OnInit {
         _delete.classList.remove('active');
       });
 
-      option.agree(() => {
+      option.agree(async () => {
         try {
-          const result = this.sinhVienService.delete(
-            this.DSSVComponent.lineSV.maSv
-          );
-          this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+          await this.sinhVienService.delete(this.DSSVComponent.lineSV.maSv);
+
           this.DSSVComponent.lineSV = new SinhVien();
-          this.DSSVComponent.getAllSinhVien();
+          this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
         } catch (error) {
           this.toastr.error(
             'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
@@ -300,13 +295,14 @@ export class MinistrySinhvienComponent implements OnInit {
         this.userService.delete(maSV);
         this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
         this.DSSVComponent.lineSV = new SinhVien();
-        this.DSSVComponent.getAllSinhVien();
         this.isSelectedSV = false;
       } catch (error) {
         this.toastr.error('Xóa sinh viên thất bại', 'Thông báo !');
       }
     });
+
     this.DSSVComponent.selectedSV = [];
+    this.websocketService.sendForSinhVien(true);
   }
 
   addSinhVien() {
@@ -323,7 +319,7 @@ export class MinistrySinhvienComponent implements OnInit {
         this.svAddForm.value['maCn']
       );
       this.f_AddSinhVien(sinhVien);
-      this.DSSVComponent.getAllSinhVien();
+      this.websocketService.sendForSinhVien(true);
     } else {
       this.svForm.validate('#create_box');
     }
@@ -383,10 +379,10 @@ export class MinistrySinhvienComponent implements OnInit {
         );
 
         try {
-          const result = await this.sinhVienService.update(sinhVien);
+          await this.sinhVienService.update(sinhVien);
           update.classList.remove('active');
           updateBox.classList.remove('active');
-          this.DSSVComponent.getAllSinhVien();
+          this.websocketService.sendForSinhVien(true);
           this.resetLineActive();
           this.toastr.success(
             'Cập nhập thông tin sinh viên thành công',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { ThongBao } from 'src/app/models/ThongBao.model';
@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment.prod';
 import { format } from 'date-fns';
 import { shareService } from 'src/app/services/share.service';
 import { Location } from '@angular/common';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-ministry-chitietthongbao',
@@ -54,14 +55,17 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     private sharedService: shareService,
     private thongBaoService: thongBaoService,
     private toastr: ToastrService,
-    private _location: Location
+    private router: Router,
+    private websocketService: WebsocketService
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(async (params) => {
       this.maTb = parseInt(params['maTb']);
-      this.setForm();
+      await this.setForm();
     });
+
+    this.websocketService.startConnection();
   }
 
   async setForm() {
@@ -129,15 +133,17 @@ export class MinistryChitietthongbaoComponent implements OnInit {
           await this.sharedService.uploadFile(file.files[0]);
         }
         await this.thongBaoService.add(thongBao);
-        this._location.go('/minitry/thong-bao/chi-tiet', 'maTb=-1');
+        await this.setForm();
+        this.websocketService.sendForThongBao(true);
+
+        this.router.navigate(['/minitry/thong-bao/chi-tiet', { maTb: -1 }]);
         this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
-        this.setForm();
       } catch (error) {
         this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');
         console.log(error);
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
     }
   }
 
@@ -168,6 +174,8 @@ export class MinistryChitietthongbaoComponent implements OnInit {
             await this.sharedService.uploadFile(file.files[0]);
           }
           await this.thongBaoService.update(thongBao);
+          this.websocketService.sendForThongBao(true);
+
           this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
         } catch (error) {
           this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
@@ -179,7 +187,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         );
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
     }
   }
 
@@ -201,10 +209,10 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       try {
         await this.thongBaoService.delete(this.maTb);
         this.setForm();
-        this.toastr.success('Xóa thông báo thành công', 'Thông báo!');
-        window.location.href = '/minitry/thong-bao/';
+        this.toastr.success('Xóa thông báo thành công', 'Thông báo !');
+        this.router.navigate(['/minitry/thong-bao/']);
       } catch (error) {
-        this.toastr.error('Xóa thông báo thất bại', 'Thông báo!');
+        this.toastr.error('Xóa thông báo thất bại', 'Thông báo !');
       }
       _delete.classList.remove('active');
     });

@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { format, formatDistanceToNowStrict, getDay } from 'date-fns';
 import { KeHoach } from 'src/app/models/KeHoach.model';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { keHoachService } from 'src/app/services/keHoach.service';
 import { shareService } from 'src/app/services/share.service';
 
@@ -18,15 +19,23 @@ export class MinistryDanhsachkehoachComponent {
   constructor(
     private KeHoachService: keHoachService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
-    await this.getAllThongBao();
+    await this.getAllKeHoach();
     this.getNearTimeOutMission();
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromKeHoach((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllKeHoach();
+      }
+    });
   }
 
-  async getAllThongBao() {
+  async getAllKeHoach() {
     this.listKH = await this.KeHoachService.getAll();
     this.root = this.listKH;
   }

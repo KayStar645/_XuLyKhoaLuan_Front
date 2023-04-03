@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { userService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/User.model';
 import { MinistryDanhsachgiangvienComponent } from './ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-ministry-giangvien',
@@ -52,7 +53,8 @@ export class MinistryGiangvienComponent implements OnInit {
     private boMonService: boMonService,
     private giangVienService: giangVienService,
     private toastr: ToastrService,
-    private userService: userService
+    private userService: userService,
+    private websocketService: WebsocketService
   ) {
     this.gvAddForm = this.gvForm.form;
     this.gvUpdateForm = this.gvForm.form;
@@ -64,6 +66,8 @@ export class MinistryGiangvienComponent implements OnInit {
     if (this.listBoMon.length > 0) {
       this.selectedBomon = this.listBoMon[0].maBm;
     }
+
+    this.websocketService.startConnection();
   }
 
   setIsSelectedGv(event: any) {
@@ -252,7 +256,7 @@ export class MinistryGiangvienComponent implements OnInit {
         this.f_AddGiangVien(gv);
       });
 
-      this.DSGVComponent.getAllGiangVien();
+      this.websocketService.sendForGiangVien(true);
     }
   }
 
@@ -288,19 +292,19 @@ export class MinistryGiangvienComponent implements OnInit {
         this.userService.delete(maGV);
 
         this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
-        this.DSGVComponent.getAllGiangVien();
         this.isSelectedGV = false;
       } catch (error) {
         this.toastr.error('Xóa giảng viên thất bại', 'Thông báo !');
       }
     });
     this.DSGVComponent.selectedGV = [];
+    this.websocketService.sendForGiangVien(true);
   }
 
   addGiangVien() {
     if (this.gvAddForm.valid) {
       const giangVien = new GiangVien();
-      
+
       giangVien.init(
         this.gvAddForm.value['maGv'],
         this.gvAddForm.value['tenGv'],
@@ -390,7 +394,7 @@ export class MinistryGiangvienComponent implements OnInit {
   getGiangVienByMaBM(event: any) {
     const maBM = event.target.value;
     if (maBM == '') {
-      this.DSGVComponent.getAllGiangVien();
+      this.websocketService.sendForGiangVien(true);
     } else {
       this.DSGVComponent.getGiangVienByMaBM(maBM);
     }
@@ -415,10 +419,10 @@ export class MinistryGiangvienComponent implements OnInit {
     try {
       await this.giangVienService.delete(this.DSGVComponent.lineGV.maGv);
       await this.userService.delete(this.DSGVComponent.lineGV.maGv);
+      this.websocketService.sendForGiangVien(true);
 
       this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
       this.DSGVComponent.lineGV = new GiangVien();
-      this.DSGVComponent.getAllGiangVien();
     } catch {
       this.toastr.error(
         'Xóa giảng viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',

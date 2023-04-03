@@ -106,6 +106,11 @@ export class MinistryChitietdetaiComponent {
     this.getComment();
 
     this.websocketService.startConnection();
+    this.websocketService.receiveFromDuyetDT((dataChange: boolean) => {
+      if (dataChange) {
+        this.getComment();
+      }
+    });
   }
 
   async getComment() {
@@ -175,6 +180,7 @@ export class MinistryChitietdetaiComponent {
 
         await this.raDeService.delete(raDe.maGv, raDe.maDt);
         await this.raDeService.add(raDe);
+        this.websocketService.sendForDeTai(true);
 
         this.toastr.success(
           'Cập nhập thông tin đề tài thành công',
@@ -246,12 +252,14 @@ export class MinistryChitietdetaiComponent {
   //         value
   //       );
 
+<<<<<<< HEAD
   //       await this.duyetDTService.add(duyetDt);
 
-  //       await this.getComment();
-  //     } catch (error) {}
-  //   }
-  // }
+        await this.duyetDTService.add(duyetDt);
+        this.websocketService.sendForDuyetDT(true);
+      } catch (error) {}
+    }
+  }
 
   onSetItem(event: any) {
     event.stopPropagation();
@@ -331,9 +339,11 @@ export class MinistryChitietdetaiComponent {
         });
 
         await this.raDeService.add(raDe);
+        await this.setForm();
+        this.websocketService.sendForDeTai(true);
+
         this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         this.router.navigate(['/ministry/de-tai/chi-tiet', { maDt: '' }]);
-        this.setForm();
       } catch (error) {
         this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
       }
@@ -368,7 +378,6 @@ export class MinistryChitietdetaiComponent {
       try {
         const raDe = new RaDe();
         const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-        const duyetDT = new DuyetDt();
 
         raDe.init(formValue.maGv, formValue.maDT);
 
@@ -385,8 +394,8 @@ export class MinistryChitietdetaiComponent {
 
         await this.duyetDTService.delete(formValue.maGv, this.maDt, 1);
         await this.raDeService.delete(raDe.maGv, raDe.maDt);
-        
         await this.deTaiService.delete(this.maDt);
+        this.websocketService.sendForDeTai(true);
 
         this.toastr.success('Xóa Đề tài thành công', 'Đề tài!');
         this.router.navigate(['/ministry/de-tai/']);

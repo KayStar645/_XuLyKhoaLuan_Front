@@ -25,6 +25,7 @@ import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { debounceTime, Subject } from 'rxjs';
+import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
   selector: 'app-ministry-danhsachdetai',
@@ -73,7 +74,8 @@ export class MinistryDanhsachdetaiComponent {
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private titleService: Title,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService
+    private chuyenNganhService: chuyenNganhService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -97,6 +99,13 @@ export class MinistryDanhsachdetaiComponent {
           this.listDT = data;
         }
       });
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromDeTai((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllDeTai();
+      }
     });
   }
 

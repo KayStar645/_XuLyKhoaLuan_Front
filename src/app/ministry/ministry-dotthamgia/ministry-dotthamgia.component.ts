@@ -15,6 +15,8 @@ import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
+import { WebsocketService } from 'src/app/services/Websocket.service';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'app-ministry-dotthamgia',
@@ -43,34 +45,47 @@ export class MinistryDotthamgiaComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
-    private userService: userService,
     private dotDkService: dotDkService,
     private thamGiaService: thamGiaService,
-    private nhomService: nhomService
-  ) { }
+    private nhomService: nhomService,
+    private websocketService: WebsocketService
+  ) {}
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách sinh viên');
     this.listChuyenNganh = await this.chuyenNganhService.getAll();
+    this.listDotDk = await this.dotDkService.getAll();
+
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
-    this.listDotDk = await this.dotDkService.getAll();
+
     if (this.listDotDk.length > 0) {
       this.namHoc = this.listDotDk[0].namHoc;
       this.dot = this.listDotDk[0].dot;
     }
-    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+
+    this.listSinhVien = await this.sinhVienService.getByDotDk(
+      this.namHoc,
+      this.dot,
+      false
+    );
+
+    this.websocketService.startConnection();
   }
 
   async resetList() {
     this.listDotDk = await this.dotDkService.getAll();
-    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+    this.listSinhVien = await this.sinhVienService.getByDotDk(
+      this.namHoc,
+      this.dot,
+      false
+    );
   }
 
   toggleAddAll(event: any) {
     const element = event.target;
-    const parent:any = getParentElement(element, '.table');
+    const parent: any = getParentElement(element, '.table');
     const child = parent.querySelectorAll('.add-btn');
 
     if (!element.classList.contains('active')) {
@@ -82,7 +97,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
         this.selectedSV.push(firstElememt.innerHTML);
         item.firstChild.classList.remove('none');
       });
-      element.classList.add('active');  
+      element.classList.add('active');
     } else {
       this.selectedSV = [];
       child.forEach((item: any) => {
@@ -99,10 +114,10 @@ export class MinistryDotthamgiaComponent implements OnInit {
       const element = event.target;
       const parent = getParentElement(element, '.br-line');
       const firstElememt = parent.firstChild;
-      
+
       // Câu này để văng lỗi
       element.firstChild.classList.contains('none');
-      
+
       this.selectedSV.push(firstElememt.innerHTML);
 
       element.firstChild.classList.remove('none');
@@ -110,7 +125,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
       const element = getParentElement(event.target, '.add-btn');
       const parent = getParentElement(element, '.br-line');
       const firstElememt = parent.firstChild;
-      
+
       let index = this.selectedSV.findIndex(
         (t) => t === firstElememt.innerHTML
       );
@@ -132,9 +147,8 @@ export class MinistryDotthamgiaComponent implements OnInit {
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
-
-      updateBox.classList.add('active');
-      update.classList.add('active');
+    updateBox.classList.add('active');
+    update.classList.add('active');
   }
 
   handleToggleAdd() {
@@ -161,16 +175,17 @@ export class MinistryDotthamgiaComponent implements OnInit {
         _delete.classList.remove('active');
       });
 
-      option.agree(() => {
+      option.agree(async () => {
         try {
-          this.thamGiaService.delete(
+          await this.thamGiaService.delete(
             this.DSTGComponent.lineTG.maSv,
             this.DSTGComponent.lineTG.namHoc,
             this.DSTGComponent.lineTG.dot
           );
+          this.websocketService.sendForThamGia(true);
+
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
           this.DSTGComponent.lineTG = new ThamGia();
-          this.DSTGComponent.getAllThamgiaByDotdk();
         } catch (error) {
           this.toastr.error(
             'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
@@ -212,18 +227,19 @@ export class MinistryDotthamgiaComponent implements OnInit {
       const nhom = new Nhom();
       const maNhom = sv.maSv + this.namHoc + this.dot;
       nhom.init(maNhom, sv.tenSv);
-  
+
       const thamgia = new ThamGia();
       thamgia.init(sv.maSv, this.namHoc, this.dot, maNhom, 0, true);
-  
+
       // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
       await this.nhomService.add(nhom);
       await this.thamGiaService.add(thamgia);
-  
+      this.websocketService.sendForThamGia(true);
+
       this.toastr.success(
         'Thêm sinh viên vào đợt đợt đăng ký thành công',
         'Thông báo !'
-      ); 
+      );
     } catch (error) {
       this.toastr.error(
         'Thêm sinh viên vào đợt đợt đăng ký thất bại',
@@ -271,22 +287,23 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   async getSinhvienByMaCN(event: any) {
     const maCn = event.target.value;
-    if(maCn == '') {
+    if (maCn == '') {
       this.resetList();
-    }
-    else {
+    } else {
       this.listSinhVien = await this.sinhVienService.getByMaCn(maCn);
     }
   }
 
-  async getSinhvienByMaCNToListSV(event: any) {
-    
-  }
+  async getSinhvienByMaCNToListSV(event: any) {}
 
   async getSinhvienByNotDotDk(event: any) {
     const dotdk = event.target.value;
     this.namHoc = dotdk.slice(0, dotdk.length - 1);
     this.dot = dotdk.slice(dotdk.length - 1);
-    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
+    this.listSinhVien = await this.sinhVienService.getByDotDk(
+      this.namHoc,
+      this.dot,
+      false
+    );
   }
 }

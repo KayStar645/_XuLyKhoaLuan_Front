@@ -7,7 +7,7 @@ import { WebsocketService } from 'src/app/services/Websocket.service';
 @Component({
   selector: 'app-dashboard-trangchunhom',
   templateUrl: './dashboard-trangchunhom.component.html',
-  styleUrls: ['./dashboard-trangchunhom.component.scss']
+  styleUrls: ['./dashboard-trangchunhom.component.scss'],
 })
 export class DashboardTrangchunhomComponent {
   listNV: any[] = [];
@@ -26,16 +26,6 @@ export class DashboardTrangchunhomComponent {
 
   async ngOnInit() {
     await this.getAllNhiemVu();
-
-    this.websocketService.startConnection();
-
-    this.websocketService.addMessageListener((message: any) => {
-      console.log(message);
-      
-      if (JSON.parse(message)) {
-        this.getAllNhiemVu();
-      }
-    });
   }
 
   async getAllNhiemVu() {

@@ -21,13 +21,91 @@ export class WebsocketService {
       .catch((err) => console.log('Error while starting connection: ' + err));
   };
 
-  public addMessageListener = (callback: any) => {
-    this.hubConnection.on('ReceiveMessage', callback);
+  // Thông báo
+  public sendForThongBao = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForThongBao', dataChange)
+      .catch((err) => console.error(err));
   };
 
-  public sendMessage = (message: any) => {
+  public receiveFromThongBao = (callback: any) => {
+    this.hubConnection.on('ReceiveFromThongBao', callback);
+  };
+
+  // Kế hoạch
+  public sendForKeHoach = (dataChange: boolean) => {
     this.hubConnection
-      .invoke('SendMessage', message)
+      .invoke('sendForKeHoach', dataChange)
       .catch((err) => console.error(err));
+  };
+
+  public receiveFromKeHoach = (callback: any) => {
+    this.hubConnection.on('ReceiveFromKeHoach', callback);
+  };
+
+  // Nhiệm vụ
+  public sendForNhiemVu = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForNhiemVu', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromNhiemVu = (callback: any) => {
+    this.hubConnection.on('ReceiveFromNhiemVu', callback);
+  };
+
+  // Đề tài
+  public sendForDeTai = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForDeTai', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromDeTai = (callback: any) => {
+    this.hubConnection.on('ReceiveFromDeTai', callback);
+  };
+
+  // Sinh viên
+  public sendForSinhVien = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForSinhVien', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromSinhVien = (callback: any) => {
+    this.hubConnection.on('ReceiveFromSinhVien', callback);
+  };
+
+  // Giảng viên
+  public sendForGiangVien = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForGiangVien', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromGiangVien = (callback: any) => {
+    this.hubConnection.on('ReceiveFromGiangVien', callback);
+  };
+
+  // Tham gia
+  public sendForThamGia = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForThamGia', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromThamGia = (callback: any) => {
+    this.hubConnection.on('ReceiveFromThamGia', callback);
+  };
+
+  // Duyệt đề tài
+  public sendForDuyetDT = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('SendForDuyetDT', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromDuyetDT = (callback: any) => {
+    this.hubConnection.on('ReceiveFromDuyetDT', callback);
   };
 }
