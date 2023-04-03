@@ -234,26 +234,20 @@ export class MinistryChitietdetaiComponent {
     parent.classList.toggle('active');
   }
 
-  // async onAddComment() {
-  //   const formValue: any = this.dtForm.form.value;
-  //   const value: any = formValue.nhanXet;
-
-  //   if (value) {
-  //     try {
-  //       let duyetDt = new DuyetDt();
-
-  //       duyetDt.init(
-  //         'GV00001',
-  //         this.maDt,
-  //         1,
-  //         format(new Date(), 'yyyy-MM-dd') +
-  //           'T' +
-  //           format(new Date(), 'HH:mm:ss'),
-  //         value
-  //       );
-
-<<<<<<< HEAD
-  //       await this.duyetDTService.add(duyetDt);
+  async onAddComment() {
+    const formValue: any = this.dtForm.form.value;
+    const value: any = formValue.nhanXet;
+    if (value) {
+      try {
+        let duyetDt = new DuyetDt();
+        duyetDt.init(
+          'GV00001',
+          this.maDt,
+          format(new Date(), 'yyyy-MM-dd') +
+            'T' +
+            format(new Date(), 'HH:mm:ss'),
+          value
+        );
 
         await this.duyetDTService.add(duyetDt);
         this.websocketService.sendForDuyetDT(true);
