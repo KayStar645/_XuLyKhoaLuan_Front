@@ -1,15 +1,17 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
+import { GiangVien } from 'src/app/models/GiangVien.model';
 import { NhiemVu } from 'src/app/models/NhiemVu.model';
+import { giangVienService } from 'src/app/services/giangVien.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { Form, Option } from 'src/assets/utils';
+import { dateVNConvert, Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment.prod';
 
 @Component({
@@ -22,65 +24,97 @@ export class HomeChitietnhiemvuComponent {
   oldForm: any;
   pdfSrc: any;
   nhiemVu: NhiemVu = new NhiemVu();
-  tbForm = new Form({
+  listGV: GiangVien[] = [];
+  GVInputConfig: any = {};
+  nvForm = new Form({
     tenNv: ['', Validators.required],
-    soLuongDt: [''],
-    thoiGianBd: ['', Validators.required],
-    thoiGianKt: [''],
-    fileNv: [''],
+    soLuongDt: ['', [Validators.required, Validators.min(1)]],
+    thoiDiemBd: [''],
+    ngayKt: ['', Validators.required],
+    thoiGianKt: ['', Validators.required],
+    fileNv: ['error.pdf'],
     maBm: ['', Validators.required],
     maGv: ['', Validators.required],
+    hoTen: ['', Validators.required],
   });
+
+  ngayBd: string = '';
+  ngayKt: string = format(new Date(), 'dd-MM-yyyy');
+  thoiGianKt: string = '00:00:00';
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private sharedService: shareService,
     private nhiemVuService: nhiemVuService,
+    private giangVienService: giangVienService,
     private toastr: ToastrService,
-    private _location: Location,
     private websocketService: WebsocketService
   ) {}
 
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
+  async ngOnInit() {
+    this.route.params.subscribe(async (params) => {
       this.maNv = parseInt(params['maNv']);
-      this.setForm();
+      await this.setForm();
     });
+
+    await this.giangVienService.getAll().then((data) => {
+      this.GVInputConfig.data = data;
+      this.GVInputConfig.keyword = 'tenGv';
+    });
+
+    this.websocketService.startConnection();
   }
 
   async setForm() {
     if (this.maNv > 0) {
       await this.nhiemVuService
         .getById(this.maNv)
-        .then((data) => {
+        .then(async (data) => {
           this.nhiemVu = data;
-          return data;
+          this.ngayBd = format(new Date(this.nhiemVu.thoiGianBd), 'dd-MM-yyyy');
+          this.ngayKt = format(new Date(this.nhiemVu.thoiGianKt), 'dd-MM-yyyy');
+          this.thoiGianKt = format(
+            new Date(this.nhiemVu.thoiGianKt),
+            'HH:mm:ss'
+          );
+
+          this.nvForm.form.patchValue({
+            ...this.nhiemVu,
+            ngayKt: this.ngayKt,
+            thoiGianKt: this.thoiGianKt,
+            hoTen: (await this.getGVienById(this.nhiemVu.maGv)).tenGv,
+          });
+
+          return this.nhiemVu;
         })
         .then((response) => {
           axios
-            .get(environment.githubNotifyFilesAPI + response.fileNv)
+            .get(environment.githubMissionFilesAPI + response.fileNv)
             .then((response) => {
               this.pdfSrc = response.data.download_url;
             });
         });
 
-      this.tbForm.form.patchValue({
-        ...this.nhiemVu,
-      });
-
-      this.oldForm = this.tbForm.form.value;
+      this.oldForm = this.nvForm.form.value;
     } else {
+      this.ngayBd = format(new Date(), 'dd-MM-yyyy');
       this.maNv = -1;
-      this.tbForm.resetForm('.tb-form');
+      this.nvForm.resetForm('.tb-form');
       this.pdfSrc = 'https:/error.pdf';
+
+      this.nvForm.form.patchValue({
+        thoiGianKt: '23:59:00',
+        soLuongDt: 1,
+      });
     }
   }
 
   onChange(event: any) {
     let $img: any = event.target;
 
-    this.tbForm.form.patchValue({
-      thoiGianKt: event.target.files[0].name,
+    this.nvForm.form.patchValue({
+      fileNv: event.target.files[0].name,
     });
 
     if (typeof FileReader !== 'undefined') {
@@ -95,65 +129,83 @@ export class HomeChitietnhiemvuComponent {
   }
 
   async onAdd() {
-    if (this.tbForm.form.valid) {
+    if (this.nvForm.form.valid) {
       let nhiemVu = new NhiemVu();
       let file: any = document.querySelector('.attach-file');
-      let formValue: any = this.tbForm.form.value;
+      let formValue: any = this.nvForm.form.value;
       nhiemVu.init(
         0,
         formValue.tenNv,
         formValue.soLuongDt,
-        formValue.thoiGianBd,
-        formValue.thoiGianKt,
+        format(new Date(), 'yyyy-MM-dd'),
+        dateVNConvert(formValue.ngayKt) + 'T' + formValue.thoiGianKt + '.000Z',
         formValue.fileNv,
         formValue.maBm,
         formValue.maGv
       );
       try {
+        if (file && file.files[0]) {
+          await this.sharedService.uploadFile(
+            file.files[0],
+            environment.githubMissionFilesAPI
+          );
+        }
         await this.nhiemVuService.add(nhiemVu);
-        this.sharedService.uploadFile(file);
-        this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
-        this.setForm();
+        await this.setForm();
+        this.websocketService.sendForNhiemVu(true);
+        this.toastr.success('Thêm nhiệm vụ thành công', 'Thông báo !');
+        this.router.navigate(['/minitry/nhiem-vu/chi-tiet', { maNv: -1 }]);
       } catch (error) {
-        this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');
-        console.log(error);
+        this.toastr.error('Thêm nhiệm vụ thất bại', 'Thông báo !');
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
+      this.nvForm.validate('.tb-form');
     }
   }
 
-  async onUpdate() {
-    this.tbForm.form.patchValue({
-      maBm: format(new Date(), 'yyyy-MM-dd'),
+  setSelectedNV(event: any) {
+    this.nvForm.form.patchValue({
+      maGv: event.maGv,
+      maBm: event.maBm,
     });
+  }
 
-    if (this.tbForm.form.valid) {
+  async onUpdate() {
+    if (this.nvForm.form.valid) {
       if (
-        JSON.stringify(this.oldForm) !== JSON.stringify(this.tbForm.form.value)
+        JSON.stringify(this.oldForm) !== JSON.stringify(this.nvForm.form.value)
       ) {
         let nhiemVu = new NhiemVu();
         let file: any = document.querySelector('.attach-file');
-        let formValue: any = this.tbForm.form.value;
+        let formValue: any = this.nvForm.form.value;
         nhiemVu.init(
           this.maNv,
           formValue.tenNv,
           formValue.soLuongDt,
-          formValue.thoiGianBd,
-          formValue.thoiGianKt,
+          formValue.thoiDiemBd,
+          dateVNConvert(formValue.ngayKt) +
+            'T' +
+            formValue.thoiGianKt +
+            '.000Z',
           formValue.fileNv,
           formValue.maBm,
           formValue.maGv
         );
-        console.log(formValue.thoiGianKt);
+
         try {
-          await this.nhiemVuService.update(nhiemVu);
-          if (file.files[0]) {
-            this.sharedService.uploadFile(file);
+          if (file && file.files[0]) {
+            await this.sharedService.uploadFile(
+              file.files[0],
+              environment.githubMissionFilesAPI
+            );
           }
-          this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
+          await this.nhiemVuService.update(nhiemVu);
+          this.websocketService.sendForNhiemVu(true);
+
+          this.toastr.success('Cập nhập nhiệm vụ thành công', 'Thông báo !');
         } catch (error) {
-          this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
+          this.toastr.error('Cập nhập nhiệm vụ thất bại', 'Thông báo !');
         }
       } else {
         this.toastr.info(
@@ -162,7 +214,8 @@ export class HomeChitietnhiemvuComponent {
         );
       }
     } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo!');
+      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
+      this.nvForm.validate('.tb-form');
     }
   }
 
@@ -183,13 +236,51 @@ export class HomeChitietnhiemvuComponent {
     option.agree(async () => {
       try {
         await this.nhiemVuService.delete(this.maNv);
-        this._location.go('/minitry/thong-bao/chi-tiet', 'maNv=-1');
-        this.setForm();
-        this.toastr.success('Xóa thông báo thành công', 'Thông báo!');
+        await this.setForm();
+        this.websocketService.sendForNhiemVu(true);
+        this.toastr.success('Xóa nhiệm vụ thành công', 'Thông báo !');
+        this.router.navigate(['/minitry/nhiem-vu/']);
       } catch (error) {
-        this.toastr.error('Xóa thông báo thất bại', 'Thông báo!');
+        this.toastr.error('Xóa nhiệm vụ thất bại', 'Thông báo !');
       }
       _delete.classList.remove('active');
     });
   }
+
+  async getGVienById(id: string) {
+    return await this.giangVienService.getById(id).then((data) => {
+      return data;
+    });
+  }
+
+  checkDaySmaller() {
+    let formValue: any = this.nvForm.form.value;
+    let ngayKtControl: any = this.nvForm.form.get('ngayKt');
+    let ngayBd = new Date(dateVNConvert(this.ngayBd));
+    let ngayKt = new Date(dateVNConvert(formValue.ngayKt));
+
+    ngayKtControl.setValidators([
+      this.sharedService.customValidator(
+        'smallerDay',
+        / /,
+        ngayKt.getTime() > ngayBd.getTime() ? true : false
+      ),
+      Validators.required,
+    ]);
+    ngayKtControl.updateValueAndValidity();
+    this.nvForm.validateSpecificControl(['ngayKt', 'thoiGianKt']);
+  }
+
+  onDateTimeChange() {
+    this.checkDaySmaller();
+  }
+
+  onDateChange(event: any) {
+    this.onDateTimeChange();
+  }
+
+  onTimeChange(event: any) {
+    this.onDateTimeChange();
+  }
 }
+

@@ -100,7 +100,7 @@
         <th>Số lượng</th>
         <th>Chuyên ngành</th>
         <th>Giảng viên ra đề</th>
-        <th>Giảng viên duyệt</th>
+        <!-- <th>Giảng viên duyệt</th> -->
         <th>Lần cuối duyệt</th>
       </tr>
       <tbody *ngFor="let dt of listDT">
@@ -120,14 +120,14 @@
           <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
           <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
           <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
-          <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td>
+          <!-- <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td> -->
           <td class="text-center">
             <b>
               {{ getThoiGianDuyetByMaDT(dt.maDT) }}
               <br />
-              <span style="color: rgb(21, 250, 0);" *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''">Chưa duyệt</span>
+              <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''">Chưa duyệt</span>
               <span *ngIf="getThoiGianDuyetByMaDT(dt.maDT) != ''">
-                <span style="color: blue;" *ngIf="dt.trangThai">Đạt</span>
+                <span style="color: #15fa00;;" *ngIf="dt.trangThai">Đạt</span>
                 <span style="color: red;" *ngIf="!dt.trangThai">Chưa đạt</span>
               </span>
             </b>

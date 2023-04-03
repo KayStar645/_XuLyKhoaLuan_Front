@@ -117,7 +117,7 @@
         </label>
 
         <div class="form-control form-no-box-shadow">
-          <p class="label p-b-4">Chuyên ngành</p>
+          <p class="label p-b-4">Chuyên ngành phù hợp</p>
 
           <div class="form-value">
             <div class="selected-box row" (click)="onOpenDropdown($event)">
@@ -199,12 +199,24 @@
           </div>
         </div>
 
+        <label class="form-control">
+          <p class="label p-b-8">Giảng viên duyệt đề tài</p>
+          <div class="form-value">
+            <input
+              [readOnly]="true"
+              class="form-input"
+              type="text"
+              formControlName="tenGv"
+            />
+          </div>
+        </label>
+
         <label class="form-control" *ngIf="maDt">
           <p class="label p-b-8" *ngIf="!isTruongK && !isTruongBM">
             Trạng thái: 
-            <span style="color: palevioletred;" *ngIf="isTrangThai == 0">Chưa duyệt</span>
-            <span style="color: blue;" *ngIf="isTrangThai == 1">Đạt</span>
-            <span style="color: red;" *ngIf="isTrangThai == -1">Chưa đạt</span>
+            <span style="color: blue;" *ngIf="isTrangThai == 0">Chưa duyệt</span>
+            <span style="color: #15fa00;;" *ngIf="isTrangThai == 1">Đạt yêu cầu</span>
+            <span style="color: red;" *ngIf="isTrangThai == -1">Chưa đạt yêu cầu</span>
           </p>
           <div class="form-value" *ngIf="isTruongK || isTruongBM">
             <div class="row ali-center topic-status">
@@ -215,7 +227,7 @@
                   class="form-input"
                   formControlName="trangThai"
                 />
-                <p class="label">Đã duyệt</p>
+                <p class="label">Đạt yêu cầu</p>
               </label>
 
               <label class="row ali-center">
@@ -225,7 +237,7 @@
                   class="form-input"
                   formControlName="trangThai"
                 />
-                <p class="label">Chưa duyệt</p>
+                <p class="label">Chưa đạt yêu cầu</p>
               </label>
             </div>
             <p class="error-mess"></p>

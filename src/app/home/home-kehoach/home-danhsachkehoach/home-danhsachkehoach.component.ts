@@ -1,49 +1,47 @@
 import { Component, ElementRef } from '@angular/core';
-import { formatDistanceToNowStrict, getDay } from 'date-fns';
-import format from 'date-fns/format';
-import { NhiemVu } from 'src/app/models/NhiemVu.model';
+import { format, formatDistanceToNowStrict, getDay } from 'date-fns';
+import { KeHoach } from 'src/app/models/KeHoach.model';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { nhiemVuService } from 'src/app/services/nhiemVu.service';
+import { keHoachService } from 'src/app/services/keHoach.service';
 import { shareService } from 'src/app/services/share.service';
 
 @Component({
-  selector: 'app-home-danhsachnhiemvu',
-  templateUrl: './home-danhsachnhiemvu.component.html',
-  styleUrls: ['./home-danhsachnhiemvu.component.scss'],
+  selector: 'app-home-danhsachkehoach',
+  templateUrl: './home-danhsachkehoach.component.html',
+  styleUrls: ['./home-danhsachkehoach.component.scss'],
 })
-export class HomeDanhsachnhiemvuComponent {
-  listNV: any[] = [];
-  root: any[] = [];
-  lineTB = new NhiemVu();
+export class HomeDanhsachkehoachComponent {
+  listKH: any[] = [];
+  root: KeHoach[] = [];
   elementOld: any;
   nearTimeOutMS: any[] = [];
 
   constructor(
-    private nhiemVuService: nhiemVuService,
+    private KeHoachService: keHoachService,
     private elementRef: ElementRef,
     private shareService: shareService,
     private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
-    await this.getAllNhiemVu();
+    await this.getAllKeHoach();
     this.getNearTimeOutMission();
 
     this.websocketService.startConnection();
-    this.websocketService.receiveFromNhiemVu((dataChange: boolean) => {
+    this.websocketService.receiveFromKeHoach((dataChange: boolean) => {
       if (dataChange) {
-        this.getAllNhiemVu();
+        this.getAllKeHoach();
       }
     });
   }
 
-  async getAllNhiemVu() {
-    this.listNV = await this.nhiemVuService.getAll();
-    this.root = this.listNV;
+  async getAllKeHoach() {
+    this.listKH = await this.KeHoachService.getAll();
+    this.root = this.listKH;
   }
 
   getNearTimeOutMission() {
-    this.nearTimeOutMS = this.listNV
+    this.nearTimeOutMS = this.listKH
       .filter((nv: any) => {
         let date = new Date(nv.thoiGianKt);
         let dateBetween = parseInt(
@@ -52,7 +50,7 @@ export class HomeDanhsachnhiemvuComponent {
           }).split(' ')[0]
         );
 
-        nv['thoiGianKt2'] = format(new Date(nv.thoiGianKt), 'HH:mm');
+        nv['thoiGianKt'] = format(new Date(nv.thoiGianKt), 'HH:mm');
 
         let dayOfWeek = getDay(date) + 1;
 
@@ -91,12 +89,9 @@ export class HomeDanhsachnhiemvuComponent {
         return dateBetween <= 7;
       })
       .sort((a, b) => a.number - b.number);
-
-    console.log(this.listNV);
   }
 
   dateFormat(str: string) {
     return this.shareService.dateFormat(str);
   }
 }
-
