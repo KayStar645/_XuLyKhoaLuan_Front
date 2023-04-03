@@ -1,3 +1,4 @@
+import { HomeMainComponent } from './../../home-main/home-main.component';
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +8,6 @@ import { SinhVien } from 'src/app/models/SinhVien.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { Form, Option, getParentElement } from 'src/assets/utils';
-import { MinistryDanhsachdetaiComponent } from '../ministry-danhsachdetai/ministry-danhsachdetai.component';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { RaDe } from 'src/app/models/RaDe.model';
@@ -18,14 +18,15 @@ import { duyetDtService } from 'src/app/services/duyetDt.service';
 import { DuyetDt } from 'src/app/models/DuyetDt.model';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { HomeDanhsachdetaiComponent } from '../home-danhsachdetai/home-danhsachdetai.component';
 
 @Component({
-  selector: 'app-ministry-chitietdetai',
-  templateUrl: './ministry-chitietdetai.component.html',
-  styleUrls: ['./ministry-chitietdetai.component.scss'],
+  selector: 'app-home-chitietdetai',
+  templateUrl: './home-chitietdetai.component.html',
+  styleUrls: ['./home-chitietdetai.component.scss'],
 })
-export class MinistryChitietdetaiComponent {
-  DSDTComponent!: MinistryDanhsachdetaiComponent;
+export class HomeChitietdetaiComponent {
+  DSDTComponent!: HomeDanhsachdetaiComponent;
 
   maDt: string = '';
   oldForm: any;
@@ -38,6 +39,11 @@ export class MinistryChitietdetaiComponent {
   slMin: number = 1;
   slMax: number = 3;
   tenGv: string = '';
+
+  isTruongBM: boolean = false;
+  isTruongK: boolean = false;
+  isDTMe: boolean = false;
+  isTrangThai: number = 0;
 
   GVInputConfig: any = {};
   CNInputConfig: any = {};
@@ -80,23 +86,15 @@ export class MinistryChitietdetaiComponent {
   ) {}
 
   async ngOnInit() {
-    await this.raDeService.getAll().then((data) => {
-      this.listRaDe = data;
-    });
+    this.listRaDe = await this.raDeService.getAll();
 
-    await this.deTaiChuyenNganhService.getAll().then((data) => {
-      this.listDeta_Chuyennganh = data;
-    });
+    this.listDeta_Chuyennganh = await this.deTaiChuyenNganhService.getAll();
 
-    await this.giangVienService.getAll().then((data) => {
-      this.GVInputConfig.data = data;
-      this.GVInputConfig.keyword = 'tenGv';
-    });
+    this.GVInputConfig.data = await this.giangVienService.getAll();
+    this.GVInputConfig.keyword = 'tenGv';
 
-    await this.chuyenNganhService.getAll().then((data) => {
-      this.CNInputConfig.data = data;
-      this.CNInputConfig.keyword = 'tenCn';
-    });
+    this.CNInputConfig.data = await this.chuyenNganhService.getAll();
+    this.CNInputConfig.keyword = 'tenCn';
 
     this.route.params.subscribe((params) => {
       this.maDt = params['maDt'];
@@ -105,23 +103,32 @@ export class MinistryChitietdetaiComponent {
 
     this.getComment();
 
+    this.isDTMe = await this.deTaiService.CheckisDetaiOfGiangvien(
+      this.maDt,
+      HomeMainComponent.maGV
+    );
+    this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
+    this.isTruongK = HomeMainComponent.maKhoa == null ? false : true;
+    this.isTrangthaiDetai(this.maDt);
+    this.tenGv = await (
+      await this.giangVienService.getById(HomeMainComponent.maGV)
+    ).tenGv;
+
     this.websocketService.startConnection();
   }
 
   async getComment() {
-    await this.duyetDTService.getByMadt(this.maDt).then((data) => {
-      this.listDuyetDT = data;
+    this.listDuyetDT = await this.duyetDTService.getByMadt(this.maDt);
 
-      this.listDuyetDT = this.listDuyetDT.map((t: any) => {
-        return {
-          ...t,
-          thoiGian: formatDistanceToNowStrict(new Date(t.ngayDuyet), {
-            locale: vi,
-          }),
-          tenGv: this.GVInputConfig.data.find((t2: any) => t2.maGv === t.maGv)
-            .tenGv,
-        };
-      });
+    this.listDuyetDT = this.listDuyetDT.map((t: any) => {
+      return {
+        ...t,
+        thoiGian: formatDistanceToNowStrict(new Date(t.ngayDuyet), {
+          locale: vi,
+        }),
+        tenGv: this.GVInputConfig.data.find((t2: any) => t2.maGv === t.maGv)
+          .tenGv,
+      };
     });
   }
 
@@ -194,8 +201,6 @@ export class MinistryChitietdetaiComponent {
       await this.deTaiService.getById(this.maDt).then(async (data) => {
         let gv = this.getGvRadeByMaDT(data.maDT);
 
-        console.log(gv);
-
         this.deTai = data;
         this.getTenChuyennganhByMaDT(this.deTai.maDT);
 
@@ -228,30 +233,33 @@ export class MinistryChitietdetaiComponent {
     parent.classList.toggle('active');
   }
 
-  // async onAddComment() {
-  //   const formValue: any = this.dtForm.form.value;
-  //   const value: any = formValue.nhanXet;
+  async onAddComment() {
+    const formValue: any = this.dtForm.form.value;
+    const value: any = formValue.nhanXet;
 
-  //   if (value) {
-  //     try {
-  //       let duyetDt = new DuyetDt();
+    if (value) {
+      try {
+        let duyetDt = new DuyetDt();
 
-  //       duyetDt.init(
-  //         'GV00001',
-  //         this.maDt,
-  //         1,
-  //         format(new Date(), 'yyyy-MM-dd') +
-  //           'T' +
-  //           format(new Date(), 'HH:mm:ss'),
-  //         value
-  //       );
+        duyetDt.init(
+          HomeMainComponent.maGV,
+          this.maDt,
+          format(new Date(), 'yyyy-MM-dd') +
+            'T' +
+            format(new Date(), 'HH:mm:ss'),
+          value
+        );
 
-  //       await this.duyetDTService.add(duyetDt);
+        await this.duyetDTService.add(duyetDt);
 
-  //       await this.getComment();
-  //     } catch (error) {}
-  //   }
-  // }
+        await this.getComment();
+      } catch (error) {}
+    }
+  }
+
+  createLanDuyet(maGv: string, maDt: string) {
+
+  }
 
   onSetItem(event: any) {
     event.stopPropagation();
@@ -385,7 +393,7 @@ export class MinistryChitietdetaiComponent {
 
         await this.duyetDTService.delete(formValue.maGv, this.maDt, 1);
         await this.raDeService.delete(raDe.maGv, raDe.maDt);
-        
+
         await this.deTaiService.delete(this.maDt);
 
         this.toastr.success('Xóa Đề tài thành công', 'Đề tài!');
@@ -409,11 +417,23 @@ export class MinistryChitietdetaiComponent {
     }
   }
 
+  async isTrangthaiDetai(maDT: string) {
+    const duyetdt = await this.duyetDTService.getByMadt(maDT);
+    if (duyetdt.length == 0) {
+      this.isTrangThai = 0; // Chưa duyệt
+    } else {
+      this.isTrangThai =
+        (await this.deTaiService.getById(maDT)).trangThai == true ? 1 : -1;
+    }
+  }
+
   getGvRadeByMaDT(maDT: string) {
     return this.GVInputConfig.data.find(
       (t: any) => t.maGv === this.listRaDe.find((t) => t.maDt === maDT)?.maGv
     );
   }
+
+  createMaDt() {}
 
   getTenGvDuyetByMaDT(maDT: string) {
     // return this.DSDTComponent.getTenGvDuyetByMaDT(maDT);

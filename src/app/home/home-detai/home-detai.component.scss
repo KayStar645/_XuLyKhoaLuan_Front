@@ -1,15 +1,15 @@
 .custome-functional {
-    flex-wrap: nowrap;
-    gap: 12px;
-  
-    .form-control {
-      flex-basis: calc(100% / 3);
-    }
+  flex-wrap: nowrap;
+  gap: 12px;
+
+  .form-control {
+    flex-basis: calc(100% / 3);
   }
-  
-  #create_box,
-  #update_box {
-    .label {
-      width: 100px;
-    }
+}
+
+#create_box,
+#update_box {
+  .label {
+    width: 100px;
   }
+}

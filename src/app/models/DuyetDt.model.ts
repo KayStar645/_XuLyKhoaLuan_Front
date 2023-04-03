@@ -10,13 +10,11 @@ export class DuyetDt {
   init(
     maGv: string,
     maDt: string,
-    lanDuyet: number,
     ngayDuyet: string,
     nhanXet: string
   ) {
     this.maGv = maGv;
     this.maDt = maDt;
-    this.lanDuyet = lanDuyet;
     this.ngayDuyet = ngayDuyet;
     this.nhanXet = nhanXet;
   }
