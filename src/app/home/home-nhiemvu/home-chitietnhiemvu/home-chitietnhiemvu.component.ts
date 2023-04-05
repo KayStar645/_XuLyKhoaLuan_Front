@@ -13,6 +13,7 @@ import { shareService } from 'src/app/services/share.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { dateVNConvert, Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment.prod';
+import { HomeMainComponent } from '../../home-main/home-main.component';
 
 @Component({
   selector: 'app-home-chitietnhiemvu',
@@ -41,6 +42,7 @@ export class HomeChitietnhiemvuComponent {
   ngayBd: string = '';
   ngayKt: string = format(new Date(), 'dd-MM-yyyy');
   thoiGianKt: string = '00:00:00';
+  isTruongBM: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +59,7 @@ export class HomeChitietnhiemvuComponent {
       this.maNv = parseInt(params['maNv']);
       await this.setForm();
     });
+    this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
 
     await this.giangVienService.getAll().then((data) => {
       this.GVInputConfig.data = data;
@@ -154,7 +157,7 @@ export class HomeChitietnhiemvuComponent {
         await this.setForm();
         this.websocketService.sendForNhiemVu(true);
         this.toastr.success('Thêm nhiệm vụ thành công', 'Thông báo !');
-        this.router.navigate(['/minitry/nhiem-vu/chi-tiet', { maNv: -1 }]);
+        this.router.navigate(['/home/nhiem-vu/chi-tiet', { maNv: -1 }]);
       } catch (error) {
         this.toastr.error('Thêm nhiệm vụ thất bại', 'Thông báo !');
       }
@@ -239,7 +242,7 @@ export class HomeChitietnhiemvuComponent {
         await this.setForm();
         this.websocketService.sendForNhiemVu(true);
         this.toastr.success('Xóa nhiệm vụ thành công', 'Thông báo !');
-        this.router.navigate(['/minitry/nhiem-vu/']);
+        this.router.navigate(['/home/nhiem-vu/']);
       } catch (error) {
         this.toastr.error('Xóa nhiệm vụ thất bại', 'Thông báo !');
       }

@@ -4,6 +4,7 @@ import { KeHoach } from 'src/app/models/KeHoach.model';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { keHoachService } from 'src/app/services/keHoach.service';
 import { shareService } from 'src/app/services/share.service';
+import { HomeMainComponent } from '../../home-main/home-main.component';
 
 @Component({
   selector: 'app-home-danhsachkehoach',
@@ -16,9 +17,10 @@ export class HomeDanhsachkehoachComponent {
   elementOld: any;
   nearTimeOutMS: any[] = [];
 
+  isTruongK: boolean = false;
+
   constructor(
     private KeHoachService: keHoachService,
-    private elementRef: ElementRef,
     private shareService: shareService,
     private websocketService: WebsocketService
   ) {}
@@ -26,6 +28,7 @@ export class HomeDanhsachkehoachComponent {
   async ngOnInit() {
     await this.getAllKeHoach();
     this.getNearTimeOutMission();
+    this.isTruongK = HomeMainComponent.maKhoa == null ? false : true;
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromKeHoach((dataChange: boolean) => {

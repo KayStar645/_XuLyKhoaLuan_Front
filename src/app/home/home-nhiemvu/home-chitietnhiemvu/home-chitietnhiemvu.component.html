@@ -1,4 +1,4 @@
-<div id="functional-container">
+<div id="functional-container" *ngIf="isTruongBM">
   <div class="functional-list">
     <div class="functional-container row ali-center jus-end functional-wrapper">
       <div class="functional-button" *ngIf="maNv == -1">
@@ -132,6 +132,7 @@
               formControlName="soLuongDt"
               min="1"
               spellcheck="false"
+              [readOnly]="!isTruongBM"
             />
             <p class="error-mess"></p>
           </div>

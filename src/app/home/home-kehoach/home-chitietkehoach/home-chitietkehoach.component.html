@@ -1,4 +1,4 @@
-<div id="functional-container">
+<div id="functional-container" *ngIf="isTruongK">
   <div class="functional-list">
     <div class="functional-container row ali-center jus-end functional-wrapper">
       <div class="functional-button" *ngIf="maKh == -1">
@@ -17,7 +17,7 @@
 </div>
 
 <form class="tb-form" [formGroup]="khForm.form">
-  <div class="container row">
+  <div class="container row p-t-16">
     <div class="h-8 p-l-8 p-r-8">
       <div class="form-item">
         <div class="form-control">

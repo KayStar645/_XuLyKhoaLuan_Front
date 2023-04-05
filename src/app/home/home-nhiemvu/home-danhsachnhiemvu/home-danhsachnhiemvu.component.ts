@@ -5,6 +5,7 @@ import { NhiemVu } from 'src/app/models/NhiemVu.model';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
+import { HomeMainComponent } from '../../home-main/home-main.component';
 
 @Component({
   selector: 'app-home-danhsachnhiemvu',
@@ -17,10 +18,10 @@ export class HomeDanhsachnhiemvuComponent {
   lineTB = new NhiemVu();
   elementOld: any;
   nearTimeOutMS: any[] = [];
+  isTruongBM: boolean = false;
 
   constructor(
     private nhiemVuService: nhiemVuService,
-    private elementRef: ElementRef,
     private shareService: shareService,
     private websocketService: WebsocketService
   ) {}
@@ -28,6 +29,8 @@ export class HomeDanhsachnhiemvuComponent {
   async ngOnInit() {
     await this.getAllNhiemVu();
     this.getNearTimeOutMission();
+
+    this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromNhiemVu((dataChange: boolean) => {

@@ -14,6 +14,7 @@ import { khoaService } from 'src/app/services/khoa.service';
 import { shareService } from 'src/app/services/share.service';
 import { dateVNConvert, Form, Option } from 'src/assets/utils';
 import { environment } from 'src/environments/environment.prod';
+import { HomeMainComponent } from '../../home-main/home-main.component';
 
 @Component({
   selector: 'app-home-chitietkehoach',
@@ -27,6 +28,8 @@ export class HomeChitietkehoachComponent {
   keHoach: KeHoach = new KeHoach();
   KhoaInputConfig: any = {};
   BMInputConfig: any = {};
+  isTruongK: boolean = false;
+
   khForm = new Form({
     tenKh: ['', Validators.required],
     soLuongDt: ['', [Validators.required, Validators.min(1)]],
@@ -61,6 +64,8 @@ export class HomeChitietkehoachComponent {
       this.maKh = parseInt(params['maKh']);
       await this.setForm();
     });
+
+    this.isTruongK = HomeMainComponent.maKhoa == null ? false : true;
 
     await this.khoaService.getAll().then((data) => {
       this.KhoaInputConfig.data = data;
@@ -182,7 +187,7 @@ export class HomeChitietkehoachComponent {
         this.websocketService.sendForKeHoach(true);
 
         this.toastr.success('Thêm kế hoạch thành công', 'kế hoạch !');
-        this.router.navigate(['/minitry/ke-hoach/chi-tiet', { maKh: -1 }]);
+        this.router.navigate(['/home/ke-hoach/chi-tiet', { maKh: -1 }]);
       } catch (error) {
         this.toastr.error('Thêm kế hoạch thất bại', 'kế hoạch !');
       }
@@ -261,7 +266,7 @@ export class HomeChitietkehoachComponent {
         this.websocketService.sendForKeHoach(true);
 
         this.toastr.success('Xóa kế hoạch thành công', 'Kế hoạch !');
-        this.router.navigate(['/minitry/ke-hoach/']);
+        this.router.navigate(['/home/ke-hoach/']);
       } catch (error) {
         this.toastr.error('Xóa kế hoạch thất bại', 'Kế hoạch !');
       }
