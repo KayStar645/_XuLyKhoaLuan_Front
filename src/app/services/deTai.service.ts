@@ -49,20 +49,14 @@ export class deTaiService {
   }
 
   async getByChuyenNganh(maCN: string): Promise<DeTai[]> {
-    try {
-      var response: DeTai[] = [];
-      response =
-        (await this.http
-          .get<DeTai[]>(
-            `${this.apiUrl}/api/Detais/MaCN?MaCN=${maCN}`,
-            this.shareService.httpOptions
-          )
-          .toPromise()) ?? (response as DeTai[]);
-      return response;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/MaCN?MaCN=${maCN}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
   }
 
   async getChuyennganhOfDetai(maDT: string) {
@@ -77,26 +71,35 @@ export class deTaiService {
           .toPromise()) ?? (response as DeTai[]);
       return response;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
 
-  async searchByName(tenGV: string): Promise<DeTai[]> {
+  async GetDeTaisByChuyennganhGiangvien(maCn: string, maGv: string) {
     try {
       var response: DeTai[] = [];
       response =
         (await this.http
           .get<DeTai[]>(
-            `${this.apiUrl}/api/Detais/tenDT?tenDT=${tenGV}`,
+            `${this.apiUrl}/api/Detais/maCn, maGv?maCn=${maCn}&maGv=${maGv}`,
             this.shareService.httpOptions
           )
           .toPromise()) ?? (response as DeTai[]);
       return response;
     } catch (error) {
-      console.error(error);
       throw error;
     }
+  }
+
+  async searchByName(tenGV: string): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/tenDT?tenDT=${tenGV}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
   }
 
   async add(deTai: DeTai): Promise<any> {

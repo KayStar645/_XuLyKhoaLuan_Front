@@ -1,35 +1,18 @@
 .topic-summary {
-    width: 400px;
-  }
-  
-  .show-more {
-    position: absolute;
-    bottom: 10px;
-    right: 11px;
-    height: 22.4px;
-    padding-left: 4px;
-    cursor: pointer;
-    color: royalblue;
-    background: #fff;
-  
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+  width: 400px;
+}
 
-  .custome-functional {
-    flex-wrap: nowrap;
-    gap: 12px;
-  
-    .form-control {
-      flex-basis: calc(100% / 3);
-    }
+.show-more {
+  position: absolute;
+  bottom: 10px;
+  right: 11px;
+  height: 22.4px;
+  padding-left: 4px;
+  cursor: pointer;
+  color: royalblue;
+  background: #fff;
+
+  &:hover {
+    text-decoration: underline;
   }
-  
-  #create_box,
-  #update_box {
-    .label {
-      width: 100px;
-    }
-  }
-  
+}

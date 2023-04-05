@@ -1,151 +1,139 @@
-<div id="container">
-    <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-        <tr>
-          <th>Mã ĐT</th>
-          <th>Tên đề tài</th>
-          <th>Tóm tắt</th>
-          <th>Số lượng</th>
-          <th>Chuyên ngành</th>
-          <th>Giảng viên ra đề</th>
-          <th>Giảng viên duyệt</th>
-          <th>Trạng thái</th>
-        </tr>
-        <tbody *ngFor="let dt of listDT">
-          <tr
-            class="br-line"
-            (dblclick)="clickLine($event)"
-            (mousedown)="getSelectedLine($event)"
-          >
-            <td class="text-center">{{ dt.maDT }}</td>
-            <td class="text-left">
-              <p class="cell-limit">
-                {{ dt?.tenDT }}
-              </p>
-            </td>
-            <td class="text-left relative">
-              <p class="topic-summary cell-limit">
-                {{ dt?.tomTat }}
-              </p>
-              <span class="show-more" (click)="onShowDetail($event)"
-                >[Chi tiết]</span
-              >
-            </td>
-            <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
-            <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
-            <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
-            <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td>
-            <td class="text-center">
-              {{ dt?.trangThai ? "Xác nhận!" : "Chưa duyệt!" }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div id="functional-container">
+  <div class="functional-list">
+    <ul class="functional-container row ali-center functional-wrapper">
+      <li class="functional-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="onGetDetaiByMaCn($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let cn of listCn" value="{{ cn.maCn }}">
+            {{ cn.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class="functional-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tên..."
+          (input)="onSearchName($event)"
+        />
+      </li>
+      <li class="functional-item">
+        <select
+          class="search-select"
+          id="sort-select"
+          (change)="sortGiangVien($event)"
+        >
+          <option value="">Mặc định</option>
+          <option value="asc-id">Tăng theo mã</option>
+          <option value="desc-id">Giảm theo mã</option>
+          <option value="asc-name">Tăng theo tên</option>
+          <option value="desc-name">Giảm theo tên</option>
+        </select>
+      </li>
+      <li
+        class="functional-item function-wrapper row ali-center jus-end flex-1"
+      >
+        <div class="functional-button">
+          <button [routerLink]="['/home/de-tai/chi-tiet', { maDt: '' }]">
+            Thêm
+          </button>
+        </div>
 
-     <div id="apply" (click)="handleToggleUpdate()"></div>
-    <div id="apply_box" [formGroup]="dtUpdateForm" class="form ">
-      <div class="form-notify">
-        <div class="notify-container">
-          <p class="notify-title">Thông báo !</p>
-          <p class="notify-content">
-            Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
-          </p>
-          <div class="row ali-center jus-end">
-            <button class="cancel">Hủy
-              
-            </button>
-            <button class="agree">Đồng ý</button>
-            <button class="save">Lưu thay đổi và thoát</button>
+        <div class="functional-button">
+          <button (click)="onShowFormDrag()">Nhập DS</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div id="drag-file" (click)="onCloseDrag($event)"></div>
+  <div id="drag-file_box">
+    <p class="title">Nhập danh sách</p>
+    <p class="description">Nhập danh sách đề tài thông qua 1 file excel</p>
+
+    <form
+      class="drag-form form row flex-column ali-center jus-center"
+      (dragover)="onDragFileOver($event)"
+      (dragleave)="onDragFileLeave($event)"
+      (drop)="onDropFile($event)"
+      (dragenter)="onDragFileOver($event)"
+    >
+      <input
+        type="file"
+        class="file-content"
+        hidden
+        (input)="onFileInput($event)"
+      />
+      <i class="fa-solid fa-cloud-arrow-up"></i>
+      <p>
+        Kéo và thả file vào đây hoặc
+        <span class="choose-file" (click)="onSelect()">chọn file</span>
+      </p>
+    </form>
+
+    <div class="file-choose" *ngIf="deTaiFile">
+      <p class="title">File đã chọn</p>
+      <div class="row ali-center file-choose-container">
+        <i class="fa-solid fa-file-excel"></i>
+        <div class="row ali-center jus-between flex-1">
+          <div class="file-info">
+            <p class="file-name">{{ deTaiFile.name }}</p>
+            <p class="file-size">{{ deTaiFile.size }}</p>
           </div>
-  
-          <div class="progress-bar"></div>
+          <p class="import-btn" (click)="onReadFile()">Nhập</p>
         </div>
-      </div>
-  
-      <div>
-        <h2 class="title">CẬP NHẬT THÔNG TIN ĐỀ TÀI</h2>
-  
-        <div class="row ali-center custome-functional">
-          <label class="row ali-center form-control">
-            <p class="label">Mã đề tài</p>
-            <div class="form-value">
-              <input
-                class="form-input"
-                (blur)="dtForm.inputBlur($event)"
-                type="text"
-                formControlName="maDT"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="row ali-center form-control">
-            <p class="label">Tối thiểu</p>
-            <div class="form-value">
-              <input
-                class="form-input"
-                type="number"
-                formControlName="slMin"
-                (blur)="dtForm.inputBlur($event)"
-                min="1"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-  
-          <label class="row ali-center form-control">
-            <p class="label">Tối đa</p>
-            <div class="form-value">
-              <input
-                class="form-input"
-                type="number"
-                formControlName="slMax"
-                (blur)="dtForm.inputBlur($event)"
-                [value]="3"
-              />
-              <p class="error-mess"></p>
-            </div>
-          </label>
-        </div>
-  
-        <div class="form-control">
-          <p class="label p-b-8">Tên đề tài</p>
-  
-          <div class="form-value">
-            <quill-editor
-              class="form-input topic-name"
-              spellcheck="false"
-              placeholder=""
-              formControlName="tenDT"
-              [modules]="{ toolbar: false }"
-            >
-            </quill-editor>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-  
-        <div class="form-control">
-          <p class="label p-b-8">Tóm tắt</p>
-  
-          <div class="form-value">
-            <quill-editor
-              spellcheck="false"
-              class="form-input"
-              placeholder=""
-              formControlName="tomTat"
-              [modules]="quillConfig"
-            ></quill-editor>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-      </div>
-  
-      <div class="submit-btn text-right">
-        <button class="btn-update" (click)="updateDeTai()">
-          Cập nhật thông tin
-        </button>
       </div>
     </div>
   </div>
-  
+</div>
+
+<div id="container">
+  <div>
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã ĐT</th>
+        <th>Tên đề tài</th>
+        <th>Tóm tắt</th>
+        <th>Số lượng</th>
+        <th>Chuyên ngành</th>
+        <th>Giảng viên ra đề</th>
+        <!-- <th>Giảng viên duyệt</th> -->
+        <th>Lần cuối duyệt</th>
+      </tr>
+      <tbody *ngFor="let dt of listDT">
+        <tr class="br-line">
+          <td class="text-center">{{ dt.maDT }}</td>
+          <td class="text-left">
+            <p class="cell-limit" [innerHTML]="dt?.tenDT"></p>
+          </td>
+          <td class="text-left relative">
+            <p class="topic-summary cell-limit" [innerHTML]="dt?.tomTat"></p>
+            <span
+              class="show-more"
+              [routerLink]="['/home/de-tai/chi-tiet', { maDt: dt.maDT }]"
+              >[Chi tiết]</span
+            >
+          </td>
+          <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
+          <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
+          <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
+          <!-- <td class="text-center">{{ getTenGvDuyetByMaDT(dt.maDT) }}</td> -->
+          <td class="text-center">
+            <b>
+              {{ getThoiGianDuyetByMaDT(dt.maDT) }}
+              <br />
+              <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''">Chưa duyệt</span>
+              <span *ngIf="getThoiGianDuyetByMaDT(dt.maDT) != ''">
+                <span style="color: #15fa00;;" *ngIf="dt.trangThai">Đạt</span>
+                <span style="color: red;" *ngIf="!dt.trangThai">Chưa đạt</span>
+              </span>
+            </b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

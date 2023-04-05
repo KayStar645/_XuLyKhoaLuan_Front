@@ -66,6 +66,9 @@ import { DashboardTrangchunhomComponent } from './dashboard/dashboard-nhom/dashb
 import { DashboardBaitapnhomComponent } from './dashboard/dashboard-nhom/dashboard-baitapnhom/dashboard-baitapnhom.component';
 import { DashboardThanhviennhomComponent } from './dashboard/dashboard-nhom/dashboard-thanhviennhom/dashboard-thanhviennhom.component';
 import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministry-chitietdetai/ministry-chitietdetai.component';
+import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
+import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
+import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +107,7 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
     HomeMainComponent,
     HomeDetaiComponent,
     HomeDanhsachdetaiComponent,
+    HomeChitietdetaiComponent,
     HomeGiangvienComponent,
     HomeDanhsachgiangvienComponent,
     HomeGiaobaitapComponent,
@@ -125,6 +129,8 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
     DashboardTrangchunhomComponent,
     DashboardThanhviennhomComponent,
     TestComponent,
+    HomeChitietkehoachComponent,
+    HomeDanhsachkehoachComponent,
   ],
 
   imports: [

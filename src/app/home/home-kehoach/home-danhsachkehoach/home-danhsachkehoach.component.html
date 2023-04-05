@@ -1,7 +1,7 @@
-<div class="p-t-16" *ngIf="isTruongBM">
+<div class="p-t-16" *ngIf="isTruongK">
   <div class="functional-container row jus-end functional-wrapper">
     <div class="functional-button">
-      <button [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: -1 }]">
+      <button [routerLink]="['/home/ke-hoach/chi-tiet', { maKh: -1 }]">
         Thêm
       </button>
     </div>
@@ -20,20 +20,20 @@
         >
           <div
             class="list-item row ali-center"
-            *ngFor="let nv of nearTimeOutMS"
+            *ngFor="let kh of nearTimeOutMS"
           >
             <div class="item-img ma-r-12">
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
             <div class="flex-1 item-info">
-              <p class="item-time">Đến hạn {{ nv.thu }}</p>
+              <p class="item-time">Đến hạn {{ kh.thu }}</p>
               <a
                 [routerLink]="[
                   '/home/nhiem-vu/chi-tiet',
-                  { maNv: nv.maNv }
+                  { maKh: kh.maKh }
                 ]"
                 class="item-title"
-                >{{ nv.thoiGianKt2 }} - {{ nv.tenNv }}</a
+                >{{ kh.thoiGianKt }} - {{ kh.tenKh }}</a
               >
             </div>
           </div>
@@ -41,7 +41,7 @@
 
         <ng-template #noMission>
           <p class="no-missioin">
-            Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!
+            Tuyệt vời, chưa có kế hoạch nào sắp đến hạn!
           </p>
         </ng-template>
       </div>
@@ -49,21 +49,21 @@
 
     <div class="h-9 p-l-8 p-r-8">
       <div class="mission-list">
-        <div *ngIf="listNV.length > 0">
+        <div *ngIf="listKH.length > 0">
           <a
-            *ngFor="let nv of listNV"
+            *ngFor="let kh of listKH"
             class="row ali-center list-item"
-            [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: nv.maNv }]"
+            [routerLink]="['/home/ke-hoach/chi-tiet', { maKh: kh.maKh }]"
           >
             <div class="item-img ma-r-12">
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
 
             <div class="mission-info">
-              <p class="mission-title">{{ nv.tenNv }}</p>
+              <p class="mission-title">{{ kh.tenKh }}</p>
               <p class="misstion-time row ali-center">
                 <i class="icon-cal fa-regular fa-calendar ma-r-4"></i
-                >{{ dateFormat(nv.thoiGianKt) }}
+                >{{ dateFormat(kh.thoiGianBd) }}
               </p>
             </div>
           </a>

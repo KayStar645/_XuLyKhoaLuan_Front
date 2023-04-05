@@ -48,6 +48,9 @@ import { DashboardThanhviennhomComponent } from './dashboard/dashboard-nhom/dash
 import { DashboardBaitapnhomComponent } from './dashboard/dashboard-nhom/dashboard-baitapnhom/dashboard-baitapnhom.component';
 import { MinistryDanhsachdetaiComponent } from './ministry/ministry-detai/ministry-danhsachdetai/ministry-danhsachdetai.component';
 import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministry-chitietdetai/ministry-chitietdetai.component';
+import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
+import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
+import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -198,6 +201,18 @@ const routes: Routes = [
         path: 'ke-hoach',
         component: HomeKehoachComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: HomeDanhsachkehoachComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: HomeChitietkehoachComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'nhiem-vu',
@@ -239,8 +254,13 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
           {
-            path: 'danh-sach-de-tai',
+            path: '',
             component: HomeDanhsachdetaiComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: HomeChitietdetaiComponent,
             canActivate: [AuthGuard],
           },
         ],
