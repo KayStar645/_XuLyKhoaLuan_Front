@@ -91,8 +91,6 @@ export class MinistryDanhsachnhiemvuComponent {
         return dateBetween <= 7;
       })
       .sort((a, b) => a.number - b.number);
-
-    console.log(this.listNV);
   }
 
   dateFormat(str: string) {

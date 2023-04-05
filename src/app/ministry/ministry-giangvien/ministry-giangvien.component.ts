@@ -75,6 +75,7 @@ export class MinistryGiangvienComponent implements OnInit {
   }
 
   onShowFormAdd() {
+    document.documentElement.classList.add('no-scroll');
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
@@ -100,6 +101,7 @@ export class MinistryGiangvienComponent implements OnInit {
       updateBox.classList.add('active');
       update.classList.add('active');
       this.gvOldForm = this.gvForm.form.value;
+      document.documentElement.classList.add('no-scroll');
     } else {
       this.toastr.warning(
         'Vui lòng chọn giảng viên để cập nhập thông tin',
@@ -123,14 +125,17 @@ export class MinistryGiangvienComponent implements OnInit {
         this.gvForm.resetForm('#create_box');
         createBox.classList.remove('active');
         create.classList.remove('active');
+        document.documentElement.classList.remove('no-scroll');
       });
     } else {
       createBox.classList.remove('active');
       create.classList.remove('active');
+      document.documentElement.classList.remove('no-scroll');
     }
   }
 
   handleToggleUpdate() {
+    document.documentElement.classList.add('no-scroll');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
     let update = this.elementRef.nativeElement.querySelector('#update');
 
@@ -147,16 +152,19 @@ export class MinistryGiangvienComponent implements OnInit {
         updateBox.classList.remove('active');
         update.classList.remove('active');
         this.gvForm.resetValidte('#update_box');
+        document.documentElement.classList.remove('no-scroll');
       });
 
       option.save(() => {
         this.updateGiangVien();
         update.classList.remove('active');
         updateBox.classList.remove('active');
+        document.documentElement.classList.remove('no-scroll');
       });
     } else {
       update.classList.remove('active');
       updateBox.classList.remove('active');
+      document.documentElement.classList.remove('no-scroll');
     }
   }
 
@@ -227,10 +235,20 @@ export class MinistryGiangvienComponent implements OnInit {
     input.click();
   }
 
+  onShowFormDrag() {
+    let drag = this.elementRef.nativeElement.querySelector('#drag-file');
+    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
+
+    drag.classList.add('active');
+    dragBox.classList.add('active');
+    document.documentElement.classList.add('no-scroll');
+  }
+
   onCloseDrag(event: any) {
     let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
 
     event.target.classList.remove('active');
+    document.documentElement.classList.remove('no-scroll');
     dragBox.classList.remove('active');
   }
 
@@ -325,22 +343,16 @@ export class MinistryGiangvienComponent implements OnInit {
     }
   }
 
-  onShowFormDrag() {
-    let drag = this.elementRef.nativeElement.querySelector('#drag-file');
-    let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
-
-    drag.classList.add('active');
-    dragBox.classList.add('active');
-  }
-
   resetLineActive() {
-    this.DSGVComponent.lineGV = new GiangVien();
-    this.elementRef.nativeElement
-      .querySelector('.table tr.br-line-hover')
-      .classList.remove('br-line-hover');
+    if (document.querySelector('.table tr.br-line-hover')) {
+      this.DSGVComponent.lineGV = new GiangVien();
+      document
+        .querySelector('.table tr.br-line-hover')
+        ?.classList.remove('br-line-hover');
+    }
   }
 
-  updateGiangVien() {
+  async updateGiangVien() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
@@ -365,20 +377,22 @@ export class MinistryGiangvienComponent implements OnInit {
           this.gvUpdateForm.value['hocHam'],
           this.gvUpdateForm.value['hocVi'],
           this.gvUpdateForm.value['ngayNhanViec'],
-          this.gvUpdateForm.value['ngayNghi'],
+          this.gvUpdateForm.value['ngayNghi']
+            ? this.gvUpdateForm.value['ngayNghi']
+            : '',
           this.gvUpdateForm.value['maBm']
         );
 
         try {
-          this.f_UpdateGiangVien(giangVien);
+          await this.giangVienService.update(giangVien);
           update.classList.remove('active');
           updateBox.classList.remove('active');
-          this.DSGVComponent.getAllGiangVien();
           this.resetLineActive();
           this.toastr.success(
             'Cập nhập thông tin giảng viên viên thành công',
             'Thông báo !'
           );
+          this.websocketService.sendForGiangVien(true);
         } catch {
           this.toastr.error(
             'Thông tin bạn cung cấp không hợp lệ.',
@@ -409,6 +423,8 @@ export class MinistryGiangvienComponent implements OnInit {
     try {
       await this.giangVienService.add(gv);
       await this.userService.addTeacher(new User(gv.maGv, gv.maGv));
+      this.gvForm.resetForm('#create_box');
+      this.websocketService.sendForGiangVien(true);
       this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
     } catch {
       this.toastr.error('Thông tin bạn cung cấp không hợp lệ.', 'Thông báo !');
@@ -419,7 +435,6 @@ export class MinistryGiangvienComponent implements OnInit {
     try {
       await this.giangVienService.delete(this.DSGVComponent.lineGV.maGv);
       await this.userService.delete(this.DSGVComponent.lineGV.maGv);
-      this.websocketService.sendForGiangVien(true);
 
       this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
       this.DSGVComponent.lineGV = new GiangVien();
@@ -429,9 +444,5 @@ export class MinistryGiangvienComponent implements OnInit {
         'Thông báo !'
       );
     }
-  }
-
-  async f_UpdateGiangVien(gv: GiangVien) {
-    await this.giangVienService.update(gv);
   }
 }

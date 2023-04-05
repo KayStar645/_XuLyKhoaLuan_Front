@@ -257,11 +257,9 @@ export class MinistryChitietkehoachComponent {
     option.agree(async () => {
       try {
         await this.keHoachService.delete(this.maKh);
-        await this.setForm();
         this.websocketService.sendForKeHoach(true);
-
         this.toastr.success('Xóa kế hoạch thành công', 'Kế hoạch !');
-        this.router.navigate(['/minitry/ke-hoach/']);
+        this.router.navigate(['/ministry/ke-hoach/']);
       } catch (error) {
         this.toastr.error('Xóa kế hoạch thất bại', 'Kế hoạch !');
       }

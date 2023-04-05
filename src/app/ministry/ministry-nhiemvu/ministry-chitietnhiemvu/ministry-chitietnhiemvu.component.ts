@@ -183,7 +183,7 @@ export class MinistryChitietnhiemvuComponent {
           this.maNv,
           formValue.tenNv,
           formValue.soLuongDt,
-          formValue.thoiDiemBd,
+          dateVNConvert(this.ngayBd),
           dateVNConvert(formValue.ngayKt) +
             'T' +
             formValue.thoiGianKt +
@@ -235,11 +235,12 @@ export class MinistryChitietnhiemvuComponent {
 
     option.agree(async () => {
       try {
+        console.log();
+
         await this.nhiemVuService.delete(this.maNv);
-        await this.setForm();
         this.websocketService.sendForNhiemVu(true);
         this.toastr.success('Xóa nhiệm vụ thành công', 'Thông báo !');
-        this.router.navigate(['/minitry/nhiem-vu/']);
+        this.router.navigate(['/ministry/nhiem-vu/']);
       } catch (error) {
         this.toastr.error('Xóa nhiệm vụ thất bại', 'Thông báo !');
       }

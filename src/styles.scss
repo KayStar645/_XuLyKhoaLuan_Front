@@ -17,3 +17,7 @@
 .ng-bar-placeholder {
   height: 4px !important;
 }
+
+html.no-scroll {
+  overflow: hidden;
+}

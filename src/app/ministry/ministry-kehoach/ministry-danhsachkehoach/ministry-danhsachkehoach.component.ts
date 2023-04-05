@@ -50,7 +50,7 @@ export class MinistryDanhsachkehoachComponent {
           }).split(' ')[0]
         );
 
-        nv['thoiGianKt'] = format(new Date(nv.thoiGianKt), 'HH:mm');
+        nv['thoiGianKt1'] = format(new Date(nv.thoiGianKt), 'HH:mm');
 
         let dayOfWeek = getDay(date) + 1;
 

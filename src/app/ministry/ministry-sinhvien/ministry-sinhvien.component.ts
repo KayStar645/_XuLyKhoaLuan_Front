@@ -80,6 +80,7 @@ export class MinistrySinhvienComponent implements OnInit {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
     let create = this.elementRef.nativeElement.querySelector('#create');
 
+    document.documentElement.classList.add('no-scroll');
     createBox.classList.add('active');
     create.classList.add('active');
     this.svForm.resetForm('#create_box');
@@ -95,6 +96,7 @@ export class MinistrySinhvienComponent implements OnInit {
         ngaySinh: this.DSSVComponent.lineSV.ngaySinh.substring(0, 10),
       });
 
+      document.documentElement.classList.add('no-scroll');
       updateBox.classList.add('active');
       update.classList.add('active');
       this.svOldForm = this.svForm.form.value;
@@ -121,10 +123,12 @@ export class MinistrySinhvienComponent implements OnInit {
         this.svForm.resetForm('#create_box');
         createBox.classList.remove('active');
         create.classList.remove('active');
+        document.documentElement.classList.remove('no-scroll');
       });
     } else {
       createBox.classList.remove('active');
       create.classList.remove('active');
+      document.documentElement.classList.remove('no-scroll');
     }
   }
 
@@ -145,16 +149,19 @@ export class MinistrySinhvienComponent implements OnInit {
         updateBox.classList.remove('active');
         update.classList.remove('active');
         this.svForm.resetValidte('#update_box');
+        document.documentElement.classList.remove('no-scroll');
       });
 
       option.save(() => {
         this.updateSinhVien();
         update.classList.remove('active');
         updateBox.classList.remove('active');
+        document.documentElement.classList.remove('no-scroll');
       });
     } else {
       update.classList.remove('active');
       updateBox.classList.remove('active');
+      document.documentElement.classList.remove('no-scroll');
     }
   }
 
@@ -227,6 +234,7 @@ export class MinistrySinhvienComponent implements OnInit {
     let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
 
     event.target.classList.remove('active');
+    document.documentElement.classList.remove('no-scroll');
     dragBox.classList.remove('active');
   }
 
@@ -274,6 +282,7 @@ export class MinistrySinhvienComponent implements OnInit {
 
           this.DSSVComponent.lineSV = new SinhVien();
           this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
+          document.documentElement.classList.remove('no-scroll');
         } catch (error) {
           this.toastr.error(
             'Xóa sinh viên thất bại, vui lòng cập nhập ngày nghỉ thay vì xóa',
@@ -343,6 +352,7 @@ export class MinistrySinhvienComponent implements OnInit {
 
     drag.classList.add('active');
     dragBox.classList.add('active');
+    document.documentElement.classList.add('no-scroll');
   }
 
   resetLineActive() {
@@ -382,6 +392,7 @@ export class MinistrySinhvienComponent implements OnInit {
           await this.sinhVienService.update(sinhVien);
           update.classList.remove('active');
           updateBox.classList.remove('active');
+          document.documentElement.classList.remove('no-scroll');
           this.websocketService.sendForSinhVien(true);
           this.resetLineActive();
           this.toastr.success(
