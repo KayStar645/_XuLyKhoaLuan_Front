@@ -415,11 +415,6 @@ export class MinistryGiangvienComponent implements OnInit {
     }
   }
 
-  sortGiangVien(event: any) {
-    const sort = event.target.value;
-    this.DSGVComponent.sortGiangVien(sort);
-  }
-
   async f_AddGiangVien(gv: GiangVien) {
     try {
       await this.giangVienService.add(gv);

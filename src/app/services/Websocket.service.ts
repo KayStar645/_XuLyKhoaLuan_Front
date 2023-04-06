@@ -21,6 +21,13 @@ export class WebsocketService {
       .catch((err) => console.log('Error while starting connection: ' + err));
   };
 
+  public closeConnection = () => {
+    this.hubConnection
+      .stop()
+      .then(() => console.log('Connection closed'))
+      .catch((err) => console.log('Error while closing connection: ' + err));
+  };
+
   // 1. Báo cáo
   public sendForBaoCao = (dataChange: boolean) => {
     this.hubConnection

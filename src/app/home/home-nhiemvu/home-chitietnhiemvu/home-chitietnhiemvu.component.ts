@@ -60,13 +60,13 @@ export class HomeChitietnhiemvuComponent {
       await this.setForm();
     });
     this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
+    console.log(this.isTruongBM)
 
-    await this.giangVienService.getAll().then((data) => {
-      this.GVInputConfig.data = data;
-      this.GVInputConfig.keyword = 'tenGv';
-    });
+    this.GVInputConfig.data = await this.giangVienService.getByBoMon(HomeMainComponent.maBm);
+    this.GVInputConfig.keyword = 'tenGv';
 
     this.websocketService.startConnection();
+    
   }
 
   async setForm() {
@@ -146,6 +146,7 @@ export class HomeChitietnhiemvuComponent {
         formValue.maBm,
         formValue.maGv
       );
+      console.log(nhiemVu);
       try {
         if (file && file.files[0]) {
           await this.sharedService.uploadFile(

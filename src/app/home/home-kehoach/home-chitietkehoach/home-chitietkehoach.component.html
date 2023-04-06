@@ -1,189 +1,167 @@
-<div id="functional-container" *ngIf="isTruongK">
-  <div class="functional-list">
-    <div class="functional-container row ali-center jus-end functional-wrapper">
-      <div class="functional-button" *ngIf="maKh == -1">
-        <button (click)="onAdd()">Thêm</button>
+<div *ngIf="isTruongK">
+  <div id="functional-container">
+    <div class="functional-list">
+      <div class="functional-container row ali-center jus-end functional-wrapper">
+        <div class="functional-button" *ngIf="maKh == -1">
+          <button (click)="onAdd()">Thêm</button>
+        </div>
+
+        <div class="functional-button" *ngIf="maKh > -1">
+          <button (click)="onUpdate()">Sửa</button>
+        </div>
+
+        <div class="functional-button" *ngIf="maKh > -1">
+          <button (click)="onDelete()">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form class="tb-form" [formGroup]="khForm.form">
+    <div class="container row p-t-16">
+      <div class="h-8 p-l-8 p-r-8">
+        <div class="form-item">
+          <div class="form-control">
+            <p class="label p-b-8">Tiêu đề kế hoạch</p>
+
+            <div class="form-value">
+              <input
+                type="text"
+                class="form-input title"
+                formControlName="tenKh"
+                spellcheck="false"
+                (blur)="khForm.inputBlur($event)"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <p class="label p-b-8">File đi kèm:</p>
+
+            <div class="form-value">
+              <input
+                type="file"
+                (change)="onChange($event)"
+                class="attach-file"
+                value="test.pdf"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <pdf-viewer
+            [src]="pdfSrc"
+            [render-text]="true"
+            [original-size]="false"
+            style="width: 100%; height: 100vh; overflow: hidden"
+          ></pdf-viewer>
+        </div>
       </div>
 
-      <div class="functional-button" *ngIf="maKh > -1">
-        <button (click)="onUpdate()">Sửa</button>
-      </div>
+      <div class="h-4 p-l-8 p-r-8">
+        <div class="form-item">
+          <div class="form-control form-no-box-shadow">
+            <p class="label p-b-8">Dành cho bộ môn</p>
 
-      <div class="functional-button" *ngIf="maKh > -1">
-        <button (click)="onDelete()">Xóa</button>
+            <div class="form-value">
+              <ng-autocomplete
+                [data]="BMInputConfig.data"
+                [searchKeyword]="BMInputConfig.keyword"
+                [itemTemplate]="itemTemplate2"
+                [notFoundTemplate]="notFoundTemplate2"
+                class="form-input title"
+                formControlName="tenBm"
+                (selected)="setSelectedBM($event)"
+                spellcheck="false"
+                [disabled]="true"
+              >
+              </ng-autocomplete>
+
+              <ng-template #itemTemplate2 let-item>
+                <a [innerHTML]="item.tenBm"></a>
+              </ng-template>
+
+              <ng-template #notFoundTemplate2 let-notFound>
+                <div [innerHTML]="BMInputConfig.notFound"></div>
+              </ng-template>
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <div class="form-control form-no-box-shadow">
+            <p class="label p-b-8">Ngày đến hạn</p>
+
+            <div class="form-value">
+              <dp-date-picker
+                mode="day"
+                id="day"
+                [displayDate]="ngayKt"
+                formControlName="ngayKt"
+                [config]="{
+                  firstDayOfWeek: 'mo',
+                  showNearMonthDays: false
+                }"
+                (onSelect)="onDateChange($event)"
+                class="form-input"
+              ></dp-date-picker>
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <p class="label p-b-8">Thời gian</p>
+
+            <div class="form-value">
+              <dp-date-picker
+                mode="time"
+                [displayDate]="thoiGianKt"
+                formControlName="thoiGianKt"
+                (onSelect)="onTimeChange($event)"
+                class="form-input"
+              ></dp-date-picker>
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <p class="label p-b-8">Số lượng đề tài tối thiểu</p>
+
+            <div class="form-value">
+              <input
+                type="number"
+                class="form-input title"
+                formControlName="soLuongDt"
+                min="1"
+                spellcheck="false"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div id="delete">
+    <div class="form-notify">
+      <div class="notify-container">
+        <p class="notify-title">Thông báo !</p>
+        <p class="notify-content">
+          Việc xóa sẽ làm tất cả thông tin có liên quan đến kế hoạch sẽ biến mất.
+          Bạn có chắc chắn muốn xóa ?
+        </p>
+        <div class="row ali-center jus-end">
+          <button class="cancel">Hủy</button>
+          <button class="agree">Đồng ý</button>
+        </div>
+
+        <div class="progress-bar"></div>
       </div>
     </div>
   </div>
 </div>
 
-<form class="tb-form" [formGroup]="khForm.form">
-  <div class="container row p-t-16">
-    <div class="h-8 p-l-8 p-r-8">
-      <div class="form-item">
-        <div class="form-control">
-          <p class="label p-b-8">Tiêu đề kế hoạch</p>
-
-          <div class="form-value">
-            <input
-              type="text"
-              class="form-input title"
-              formControlName="tenKh"
-              spellcheck="false"
-              (blur)="khForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <p class="label p-b-8">File đi kèm:</p>
-
-          <div class="form-value">
-            <input
-              type="file"
-              (change)="onChange($event)"
-              class="attach-file"
-              value="test.pdf"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <pdf-viewer
-          [src]="pdfSrc"
-          [render-text]="true"
-          [original-size]="false"
-          style="width: 100%; height: 100vh; overflow: hidden"
-        ></pdf-viewer>
-      </div>
-    </div>
-
-    <div class="h-4 p-l-8 p-r-8">
-      <div class="form-item">
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Dành cho khoa</p>
-
-          <div class="form-value">
-            <ng-autocomplete
-              [data]="KhoaInputConfig.data"
-              [searchKeyword]="KhoaInputConfig.keyword"
-              [itemTemplate]="itemTemplate1"
-              [notFoundTemplate]="notFoundTemplate1"
-              class="form-input title"
-              formControlName="tenKhoa"
-              (selected)="setSelectedKhoa($event)"
-              (inputChanged)="onSearchKhoaChange($event)"
-              spellcheck="false"
-            >
-            </ng-autocomplete>
-
-            <ng-template #itemTemplate1 let-item>
-              <a [innerHTML]="item.tenKhoa"></a>
-            </ng-template>
-
-            <ng-template #notFoundTemplate1 let-notFound>
-              <div [innerHTML]="KhoaInputConfig.notFound"></div>
-            </ng-template>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Dành cho bộ môn</p>
-
-          <div class="form-value">
-            <ng-autocomplete
-              [data]="BMInputConfig.data"
-              [searchKeyword]="BMInputConfig.keyword"
-              [itemTemplate]="itemTemplate2"
-              [notFoundTemplate]="notFoundTemplate2"
-              class="form-input title"
-              formControlName="tenBm"
-              (selected)="setSelectedBM($event)"
-              spellcheck="false"
-              [disabled]="true"
-            >
-            </ng-autocomplete>
-
-            <ng-template #itemTemplate2 let-item>
-              <a [innerHTML]="item.tenBm"></a>
-            </ng-template>
-
-            <ng-template #notFoundTemplate2 let-notFound>
-              <div [innerHTML]="BMInputConfig.notFound"></div>
-            </ng-template>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Ngày đến hạn</p>
-
-          <div class="form-value">
-            <dp-date-picker
-              mode="day"
-              id="day"
-              [displayDate]="ngayKt"
-              formControlName="ngayKt"
-              [config]="{
-                firstDayOfWeek: 'mo',
-                showNearMonthDays: false
-              }"
-              (onSelect)="onDateChange($event)"
-              class="form-input"
-            ></dp-date-picker>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <p class="label p-b-8">Thời gian</p>
-
-          <div class="form-value">
-            <dp-date-picker
-              mode="time"
-              [displayDate]="thoiGianKt"
-              formControlName="thoiGianKt"
-              (onSelect)="onTimeChange($event)"
-              class="form-input"
-            ></dp-date-picker>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <p class="label p-b-8">Số lượng đề tài tối thiểu</p>
-
-          <div class="form-value">
-            <input
-              type="number"
-              class="form-input title"
-              formControlName="soLuongDt"
-              min="1"
-              spellcheck="false"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
-
-<div id="delete">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc xóa sẽ làm tất cả thông tin có liên quan đến kế hoạch sẽ biến mất.
-        Bạn có chắc chắn muốn xóa ?
-      </p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
-
-      <div class="progress-bar"></div>
-    </div>
-  </div>
+<div *ngIf="!isTruongK">
+  Chỗ này làm theo giao diện trên Cổng sinh viên - Kế hoạch
 </div>

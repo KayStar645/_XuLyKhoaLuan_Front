@@ -57,6 +57,7 @@ export class MinistryDanhsachdetaiComponent {
   dtUpdateForm: any;
   dtOldForm: any;
   isSummary: boolean = false;
+  isTrangThai: boolean = false;
 
   dtForm = new Form();
 
@@ -285,7 +286,6 @@ export class MinistryDanhsachdetaiComponent {
   }
 
   getThoiGianDuyetByMaDT(maDT: string) {
-    let result = [];
     let duyetdts = this.listDuyetDt.filter((item) => item.maDt == maDT);
     if (duyetdts.length > 0) {
       const date = duyetdts.reduce((max, duyetdt) => {
@@ -295,7 +295,7 @@ export class MinistryDanhsachdetaiComponent {
       }, new Date(duyetdts[0]?.ngayDuyet));
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
-    return 'Chưa duyệt!';
+    return '';
   }
 
   // async sortGiangVien(sort: string) {

@@ -127,24 +127,6 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
     this.listGV = await this.giangVienService.getByBoMon(maBM);
   }
 
-  async sortGiangVien(sort: string) {
-    if (sort == 'asc-id') {
-      this.listGV.sort((a, b) => a.maGv.localeCompare(b.maGv));
-    } else if (sort == 'desc-id') {
-      this.listGV.sort((a, b) => b.maGv.localeCompare(a.maGv));
-    } else if (sort == 'asc-name') {
-      this.listGV.sort((a, b) => a.tenGv.localeCompare(b.tenGv));
-    } else if (sort == 'desc-name') {
-      this.listGV.sort((a, b) => b.tenGv.localeCompare(a.tenGv));
-    } else if (sort == 'asc-subject') {
-      this.listGV.sort((a, b) => a.maBm.localeCompare(b.maBm));
-    } else if (sort == 'desc-subject') {
-      this.listGV.sort((a, b) => b.maBm.localeCompare(a.maBm));
-    } else {
-      this.listGV = await this.giangVienService.getAll();
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       this.filterItems();

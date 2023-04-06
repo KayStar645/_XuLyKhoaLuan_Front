@@ -11,42 +11,91 @@ import { shareService } from './../services/share.service';
   providedIn: 'root',
 })
 export class nhiemVuService {
-    private apiUrl = environment.api;
-    //private nhiemVus!: BehaviorSubject<NhiemVu>;
+  private apiUrl = environment.api;
+  //private nhiemVus!: BehaviorSubject<NhiemVu>;
 
-    constructor(private http: HttpClient, private router: Router,
-      private shareService: shareService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private shareService: shareService
+  ) {}
 
-    async getAll(): Promise<NhiemVu[]> {
-      return await this.http.get<NhiemVu[]>(`${this.apiUrl}/api/Nhiemvus`, this.shareService.httpOptions).toPromise() ?? [];
-    }
-
-    async getById(MaNV: number):Promise<NhiemVu> {
-      try {
-        var response = new NhiemVu();
-        response = await this.http.get<NhiemVu>(
-          `${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`,
+  async getAll(): Promise<NhiemVu[]> {
+    return (
+      (await this.http
+        .get<NhiemVu[]>(
+          `${this.apiUrl}/api/Nhiemvus`,
           this.shareService.httpOptions
-        ).toPromise() ?? response as NhiemVu;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    }
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async add(nhiemVu: NhiemVu): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Nhiemvus`, 
-      nhiemVu, this.shareService.httpOptions).toPromise();
-    }
+  async getNhiemvusByMaBM(maBM: string): Promise<NhiemVu[]> {
+    return (
+      (await this.http
+        .get<NhiemVu[]>(
+          `${this.apiUrl}/api/Nhiemvus/maBM?maBM=${maBM}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async update(nhiemVu: NhiemVu): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${nhiemVu.maNv}`, 
-      nhiemVu, this.shareService.httpOptions).toPromise();
-    }
+  async getNhiemvusByMaGV(maGV: string): Promise<NhiemVu[]> {
+    return (
+      (await this.http
+        .get<NhiemVu[]>(
+          `${this.apiUrl}/api/Nhiemvus/maGV?maGV=${maGV}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async delete(MaNV: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`, 
-      this.shareService.httpOptions).toPromise();
+  async getById(MaNV: number): Promise<NhiemVu> {
+    try {
+      var response = new NhiemVu();
+      response =
+        (await this.http
+          .get<NhiemVu>(
+            `${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as NhiemVu);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
+  }
+
+  async add(nhiemVu: NhiemVu): Promise<any> {
+    return await this.http
+      .post(
+        `${this.apiUrl}/api/Nhiemvus`,
+        nhiemVu,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async update(nhiemVu: NhiemVu): Promise<any> {
+    return await this.http
+      .put<any>(
+        `${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${nhiemVu.maNv}`,
+        nhiemVu,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async delete(MaNV: number): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Nhiemvus/MaNV?MaNV=${MaNV}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
 }

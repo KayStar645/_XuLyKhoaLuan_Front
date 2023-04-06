@@ -38,8 +38,8 @@ export class HomeChitietkehoachComponent {
     thoiGianKt: ['', Validators.required],
     fileKh: ['error.pdf'],
     maBm: ['', Validators.required],
-    maKhoa: ['', Validators.required],
-    tenKhoa: ['', Validators.required],
+    // maKhoa: ['', Validators.required],
+    // tenKhoa: ['', Validators.required],
     tenBm: ['', Validators.required],
   });
 
@@ -172,7 +172,7 @@ export class HomeChitietkehoachComponent {
         format(new Date(), 'yyyy-MM-dd'),
         dateVNConvert(formValue.ngayKt) + 'T' + formValue.thoiGianKt + '.000Z',
         formValue.fileKh,
-        formValue.maKhoa,
+        HomeMainComponent.maKhoa,
         formValue.maBm
       );
       try {
@@ -215,7 +215,7 @@ export class HomeChitietkehoachComponent {
             formValue.thoiGianKt +
             '.000Z',
           formValue.fileKh,
-          formValue.maKhoa,
+          HomeMainComponent.maKhoa,
           formValue.maBm
         );
 

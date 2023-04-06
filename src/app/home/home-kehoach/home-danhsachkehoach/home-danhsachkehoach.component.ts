@@ -1,3 +1,4 @@
+import { giangVienService } from './../../../services/giangVien.service';
 import { Component, ElementRef } from '@angular/core';
 import { format, formatDistanceToNowStrict, getDay } from 'date-fns';
 import { KeHoach } from 'src/app/models/KeHoach.model';
@@ -22,7 +23,8 @@ export class HomeDanhsachkehoachComponent {
   constructor(
     private KeHoachService: keHoachService,
     private shareService: shareService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private giangVienService: giangVienService,
   ) {}
 
   async ngOnInit() {
@@ -39,7 +41,15 @@ export class HomeDanhsachkehoachComponent {
   }
 
   async getAllKeHoach() {
-    this.listKH = await this.KeHoachService.getAll();
+    if (HomeMainComponent.maKhoa) {
+      this.listKH = await this.KeHoachService.getKeHoachByMaKhoa(
+        HomeMainComponent.maKhoa
+      );
+    } else {
+      const maBM = (await this.giangVienService.getById(HomeMainComponent.maGV))
+        .maBm;
+      this.listKH = await this.KeHoachService.getKeHoachByMaBM(maBM);
+    }
     this.root = this.listKH;
   }
 

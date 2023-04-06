@@ -41,7 +41,16 @@ export class HomeDanhsachnhiemvuComponent {
   }
 
   async getAllNhiemVu() {
-    this.listNV = await this.nhiemVuService.getAll();
+    // Nếu là trưởng bộ môn thì được xem tất cả nhiệm vụ của bộ môn
+    if (HomeMainComponent.maBm) {
+      this.listNV = await this.nhiemVuService.getNhiemvusByMaBM(
+        HomeMainComponent.maBm
+      );
+    }
+    else {
+      // Chỉ xem nhiệm vụ của mình
+      this.listNV = await this.nhiemVuService.getNhiemvusByMaGV(HomeMainComponent.maGV);
+    }
     this.root = this.listNV;
   }
 
@@ -94,8 +103,6 @@ export class HomeDanhsachnhiemvuComponent {
         return dateBetween <= 7;
       })
       .sort((a, b) => a.number - b.number);
-
-    console.log(this.listNV);
   }
 
   dateFormat(str: string) {
