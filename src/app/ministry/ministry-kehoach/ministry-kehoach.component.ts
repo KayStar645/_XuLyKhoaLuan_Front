@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-ministry-kehoach',
   templateUrl: './ministry-kehoach.component.html',
-  styleUrls: ['./ministry-kehoach.component.scss'],
+  styleUrls: [],
 })
 export class MinistryKehoachComponent implements OnInit {
   constructor(private titleService: Title) {}

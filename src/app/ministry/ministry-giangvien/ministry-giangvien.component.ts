@@ -68,6 +68,7 @@ export class MinistryGiangvienComponent implements OnInit {
     }
 
     this.websocketService.startConnection();
+
   }
 
   setIsSelectedGv(event: any) {
