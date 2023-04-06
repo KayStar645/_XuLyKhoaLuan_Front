@@ -101,16 +101,18 @@
   padding-left: 0;
 }
 
+.selected-item{
+  margin: 0 -4px;
+}
+
 .selected-item .item {
   border: 1px solid #eae9e9;
   padding: 4px;
   border-radius: 4px;
-  width: 80px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: 4px;
-  margin-bottom: 4px;
+  margin: 4px;
 }
 
 .comment-item {
