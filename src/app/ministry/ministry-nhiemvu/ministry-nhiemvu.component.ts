@@ -13,7 +13,7 @@ import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 @Component({
   selector: 'app-ministry-phancong',
   templateUrl: './ministry-nhiemvu.component.html',
-  styleUrls: ['./ministry-nhiemvu.component.scss'],
+  // styleUrls: ['./ministry-nhiemvu.component.scss'],
 })
 export class MinistryNhiemvuComponent implements OnInit {
   @ViewChild(MinistryDanhsachnhiemvuComponent)
