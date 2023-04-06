@@ -27,3 +27,15 @@
     </div>
   </div>
 </div>
+
+<!-- Section for Popup Message-->
+<div *ngIf="isPopupVisible" class="blur-frame">
+  <div class="popup-failed">
+    <img src="./../../../assets/Images/that-bai.png"/>
+    <div class="popup-wrapper">
+      <h2>Thất bại</h2>
+      <p>Nhóm bạn đã đăng ký đề tài nên không thể chuyển nhóm</p>
+      <button (click)="hidePopup()">Đóng</button>
+    </div>
+  </div>
+</div>

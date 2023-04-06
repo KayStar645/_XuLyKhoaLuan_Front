@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment.prod';
 export class shareService {
   namHoc:string = "";
   dot: number = 0;
+  isFirstClickHome = false;
 
   public httpOptions = {
     headers: new HttpHeaders({
@@ -144,5 +145,13 @@ export class shareService {
 
   getDot(){
     return this.dot;
+  }
+
+  setIsFirstClickHome(value: boolean){
+    this.isFirstClickHome = value;
+  }
+
+  getIsFirstClickHome(){
+    return this.isFirstClickHome;
   }
 }

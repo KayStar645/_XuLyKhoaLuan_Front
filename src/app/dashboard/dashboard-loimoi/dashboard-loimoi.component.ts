@@ -15,6 +15,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
 import { Form } from 'src/assets/utils';
 import { shareService } from '../../services/share.service';
+import { DashboardComponent } from '../dashboard.component';
 
 @Component({
   selector: 'app-dashboard-loimoi',
@@ -36,6 +37,7 @@ export class DashboardLoimoiComponent implements OnInit{
   showSentToSelfError = false;
   showSuccessMessage = false;
   showGroupMemberAlreadySent = false;
+  isPopupVisible = false;
 
   findSinhVienId = new Form({
     maSv: ['',Validators.required]
@@ -92,6 +94,11 @@ export class DashboardLoimoiComponent implements OnInit{
   }
 
   async sendInvitation(){
+    if(DashboardComponent.isSignUpDeTai){
+      this.isPopupVisible = true;
+      return;
+    }
+
     this.showSuccessMessage = false;
     this.showSentToSelfError = false;  
     this.showGroupMemberAlreadySent = false;
@@ -167,5 +174,9 @@ export class DashboardLoimoiComponent implements OnInit{
       return true;
     }
     return false;
+  }
+
+  hidePopup(){
+    this.isPopupVisible = false;
   }
 }

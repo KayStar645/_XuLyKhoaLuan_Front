@@ -4,11 +4,14 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 import { Nhom } from 'src/app/models/Nhom.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { ThamGia } from 'src/app/models/ThamGia.model';
+import { dangKyService } from 'src/app/services/dangKy.service';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
+import { DashboardComponent } from '../../dashboard.component';
+import { giangVienService } from 'src/app/services/giangVien.service';
 
 @Component({
   selector: 'app-dashboard-thanhviennhom',
@@ -28,6 +31,7 @@ export class DashboardThanhviennhomComponent {
   isTranferDialogVisible = false;
   tranferId = "";
   isGroupHaveOneMember = false;
+  isSignUpDeTai = false;
 
   constructor(
     private shareService: shareService,
@@ -36,6 +40,7 @@ export class DashboardThanhviennhomComponent {
     private router: Router,
     private nhomService: nhomService,
     private loiMoiService: loiMoiService,
+    private giangVienService: giangVienService,
   ) {}
 
   async ngOnInit(){
@@ -48,6 +53,14 @@ export class DashboardThanhviennhomComponent {
     this.leaderId = this.lstThamGia.filter(tgia => tgia.truongNhom === true)[0].maSv;
     this.isTeamLeader = this.studentId === this.leaderId;
     this.isGroupHaveOneMember = this.lstThamGia.length === 1;
+    this.isSignUpDeTai = DashboardComponent.isSignUpDeTai;
+
+    let lstMagv = DashboardComponent.maGvhd;
+    if(this.isSignUpDeTai && lstMagv.length > 0){
+      for(let i = 0 ; i < lstMagv.length ; i++){
+        this.lstGiangVien.push(await this.giangVienService.getById(lstMagv[i]));
+      }
+    }
   }
 
   showConfirmDialog() {

@@ -1,12 +1,16 @@
 import { shareService } from './../services/share.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ElementRef, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
 import { SinhVien } from '../models/SinhVien.model';
 import { sinhVienService } from '../services/sinhVien.service';
 import { dotDkService } from '../services/dotDk.service';
+import { thamGiaService } from '../services/thamGia.service';
+import { dangKyService } from '../services/dangKy.service';
+import { raDeService } from '../services/raDe.service';
+import { DashboardDetaiComponent } from './dashboard-detai/dashboard-detai.component';
 
 
 @Component({
@@ -22,6 +26,12 @@ export class DashboardComponent implements OnInit {
   countKH = 0;
   namHoc: string = "";
   dot: number = 0;
+  static maNhom = "";
+  static maSV = "";
+  static isSignUpDeTai = false;
+  static maDT = "";
+  static maGvhd: string[] = [];
+  static clickHomeFirstTime = false;
 
   // Sửa lại sau
   public role!: string;
@@ -34,6 +44,9 @@ export class DashboardComponent implements OnInit {
     private elementRef: ElementRef,
     private shareService: shareService,
     private dotDkService: dotDkService,
+    private thamGiaService: thamGiaService,
+    private dangKyService: dangKyService,
+    private raDeService: raDeService,
   ) {}
 
   public async ngOnInit() {
@@ -61,6 +74,26 @@ export class DashboardComponent implements OnInit {
     this.dot = latestYear.dot;
     this.shareService.setNamHoc(this.namHoc);
     this.shareService.setDot(this.dot);
+
+    DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
+    let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, this.namHoc, this.dot)).maNhom;
+    DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
+    DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 
+    if(DashboardComponent.isSignUpDeTai){
+      DashboardComponent.maDT = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom)[0].maDt;
+      let lstGvhd = (await this.raDeService.getAll()).filter(rd => rd.maDt === DashboardComponent.maDT);
+      lstGvhd.forEach(gv => DashboardComponent.maGvhd.push(gv.maGv));
+    }
+  }
+
+  reloadRoute(){
+    this.router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/dashboard']);
+    });
+    if(this.shareService.getIsFirstClickHome()){
+      window.location.reload();
+      this.shareService.setIsFirstClickHome(false);
+    }
   }
 
   clickAccount() {

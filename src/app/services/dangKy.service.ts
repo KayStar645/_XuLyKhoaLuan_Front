@@ -22,7 +22,7 @@ export class dangKyService {
       return await this.http.get<DangKy[]>(`${this.apiUrl}/api/Dangkys`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    async getById(maDT: string, maNhom: number):Promise<DangKy> {
+    async getById(maDT: string, maNhom: string):Promise<DangKy> {
       try {
         var response = new DangKy();
         response = await this.http.get<DangKy>(
@@ -37,7 +37,12 @@ export class dangKyService {
     }
 
     async add(DangKy: DangKy): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Dangkys`, DangKy, this.shareService.httpOptions).toPromise();
+      try{
+        return await this.http.post(`${this.apiUrl}/api/Dangkys`, DangKy, this.shareService.httpOptions).toPromise();
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
     async update(DangKy: DangKy): Promise<any> {
