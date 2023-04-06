@@ -9,6 +9,7 @@ import { nhomService } from 'src/app/services/nhom.service';
 import { shareService } from 'src/app/services/share.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
 import { thongBaoService } from 'src/app/services/thongBao.service';
+import { DashboardComponent } from '../dashboard.component';
 
 @Component({
   selector: 'app-dashboard-thongbao',
@@ -28,12 +29,11 @@ export class DashboardThongbaoComponent {
   loiMoi: any;
   isTeamLeader = false;
   isGroupHaveOneMember = false;
+  isPopupVisible = false;
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private titleService: Title,
     private shareService: shareService,
     private loiMoiService : loiMoiService,
     private thamGiaService : thamGiaService,
@@ -53,6 +53,11 @@ export class DashboardThongbaoComponent {
   }
 
   async acceptInvitation(loiMoi: LoiMoi){
+    if(DashboardComponent.isSignUpDeTai){
+      this.isPopupVisible = true;
+      return;
+    }
+
     let groupIdCreated = await (await this.thamGiaService.getById(this.maSv, this.namHoc, this.dot)).maNhom;
     var thamGia = await this.thamGiaService.getById(loiMoi.maSv, this.namHoc, this.dot);
     if(groupIdCreated !== null && groupIdCreated !== ''){
@@ -110,5 +115,9 @@ export class DashboardThongbaoComponent {
     await this.loiMoiService.delete(this.loiMoi.maNhom,this.loiMoi.maSv,this.loiMoi.namHoc,this.loiMoi.dot);
     this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
     this.cd.detectChanges();
+  }
+
+  hidePopup(){
+    this.isPopupVisible = false;
   }
 }

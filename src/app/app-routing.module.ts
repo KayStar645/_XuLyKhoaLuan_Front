@@ -51,6 +51,7 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
+import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -337,6 +338,11 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'de-tai',
+        component: DashboardDetaiComponent,
+        canActivate: [AuthGuard],
+      }
     ],
   },
   { path: '**', redirectTo: '' },

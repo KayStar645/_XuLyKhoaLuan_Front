@@ -42,7 +42,7 @@
             <div class="student-name">{{ st?.tenSv }} </div>
             <button 
                 class="exit-btn" 
-                *ngIf="st?.maSv === studentId"
+                *ngIf="st?.maSv === studentId && !isSignUpDeTai"
                 (click)="showConfirmDialog()"
             >
                 Thoát
@@ -71,14 +71,14 @@
             <div class="student-name">{{ st?.tenSv }} </div>
             <button 
                 class="exit-btn" 
-                *ngIf="st?.maSv !== studentId"
+                *ngIf="st?.maSv !== studentId  && !isSignUpDeTai"
                 (click)="showTranferDialog(st.maSv)"
             >
                 Trưởng nhóm
             </button>
             <button 
                 class="exit-btn" 
-                *ngIf="st?.maSv === studentId"
+                *ngIf="st?.maSv === studentId  && !isSignUpDeTai"
                 (click)="showConfirmDialog()"
             >
                 Thoát

@@ -69,6 +69,7 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
+import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachk
     TestComponent,
     HomeChitietkehoachComponent,
     HomeDanhsachkehoachComponent,
+    DashboardDetaiComponent,
   ],
 
   imports: [

@@ -1,5 +1,5 @@
 export class DangKy {
-    public maNhom!: number;
+    public maNhom!: string;
     public maDt!: string;
     public ngayDk!: string;
     public ngayGiao!: string;
