@@ -10,9 +10,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { HttpParams } from '@angular/common/http';
-import { thamGiaService } from 'src/app/services/thamGia.service';
-import { ThamGia } from 'src/app/models/ThamGia.model';
 
 @Component({
   selector: 'app-dashboard-main',
@@ -36,7 +33,6 @@ export class DashboardMainComponent implements OnInit {
     private shareService: shareService,
     private chuyenNganhService: chuyenNganhService,
     private thongBaoService: thongBaoService,
-    private thamGiaService: thamGiaService,
     private el: ElementRef
   ) {}
 
@@ -54,7 +50,7 @@ export class DashboardMainComponent implements OnInit {
 
     this.resetNavbar();
 
-    // Get dữ liệu của giáo vụ
+    // Get dữ liệu của sinh viên
     this.data = await this.sinhVienService.getById(
       '' + localStorage.getItem('Id')?.toString()
     );

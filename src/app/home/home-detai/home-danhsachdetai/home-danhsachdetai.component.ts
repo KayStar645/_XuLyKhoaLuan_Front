@@ -1,10 +1,10 @@
+import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
+import { chuyenNganhService } from './../../../services/chuyenNganh.service';
 import { duyetDtService } from './../../../services/duyetDt.service';
 import { DuyetDt } from '../../../models/DuyetDt.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
 import { DeTai_ChuyenNganh } from '../../../models/DeTai_ChuyenNganh.model';
-import { deTai_chuyenNganhService } from '../../../services/deTai_chuyenNganh.service';
-import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { giangVienService } from '../../../services/giangVien.service';
 import { RaDe } from '../../../models/RaDe.model';
 import { raDeService } from '../../../services/raDe.service';
@@ -74,7 +74,7 @@ export class HomeDanhsachdetaiComponent {
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private titleService: Title,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService
+    private chuyenNganhService: chuyenNganhService,
   ) {}
 
   async ngOnInit() {
@@ -178,19 +178,37 @@ export class HomeDanhsachdetaiComponent {
 
       datas.forEach(async (data: any) => {
         let dt = new DeTai();
+        const raDe = new RaDe();
+        const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
         dt.init(
-          data[0] ? data[0] : '',
+          data[0],
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
           data[4] ? data[4] : '',
-          data[5] === 1 ? true : false
+          false
         );
+        raDe.init(HomeMainComponent.maGV, data[0]);
+        console.log(data[5]);
+        let chuyenNganhs = data[5].split(",").map((t:any) => this.shareService.removeSpace(t));
+        chuyenNganhs.forEach((item:any) => {
+          let deTaiChuyenNganh = new DeTai_ChuyenNganh();
+          deTaiChuyenNganh.init(item, data[0]);
+          deTaiChuyenNganhs.push(deTaiChuyenNganh);
+        });
+
         try {
           await this.deTaiService.add(dt);
+          
+          deTaiChuyenNganhs.forEach(async (item) => {
+            await this.deTai_chuyenNganhService.add(item);
+          });
+
+          await this.raDeService.add(raDe);
+
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         } catch (error) {
-          this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
+          this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
         }
       });
 
