@@ -74,7 +74,7 @@ export class HomeDanhsachdetaiComponent {
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private titleService: Title,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService,
+    private chuyenNganhService: chuyenNganhService
   ) {}
 
   async ngOnInit() {
@@ -175,23 +175,27 @@ export class HomeDanhsachdetaiComponent {
   onReadFile() {
     if (this.deTaiFile.data.length > 0) {
       const datas = this.deTaiFile.data;
+      console.log(datas);
 
       datas.forEach(async (data: any) => {
         let dt = new DeTai();
         const raDe = new RaDe();
         const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-        dt.init(
+        dt.initF(
           data[0],
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
           data[4] ? data[4] : '',
-          false
+          false,
+          this.shareService.getNamHoc(),
+          this.shareService.getDot()
         );
         raDe.init(HomeMainComponent.maGV, data[0]);
-        console.log(data[5]);
-        let chuyenNganhs = data[5].split(",").map((t:any) => this.shareService.removeSpace(t));
-        chuyenNganhs.forEach((item:any) => {
+        let chuyenNganhs = data[5]
+          .split(',')
+          .map((t: any) => this.shareService.removeSpace(t));
+        chuyenNganhs.forEach((item: any) => {
           let deTaiChuyenNganh = new DeTai_ChuyenNganh();
           deTaiChuyenNganh.init(item, data[0]);
           deTaiChuyenNganhs.push(deTaiChuyenNganh);
@@ -199,7 +203,7 @@ export class HomeDanhsachdetaiComponent {
 
         try {
           await this.deTaiService.add(dt);
-          
+
           deTaiChuyenNganhs.forEach(async (item) => {
             await this.deTai_chuyenNganhService.add(item);
           });
@@ -225,7 +229,7 @@ export class HomeDanhsachdetaiComponent {
   }
 
   async getDetaiByMaCnMaGv(maCn: string, maGV: string) {
-    if(maCn && maGV) {
+    if (maCn && maGV) {
       this.listDT = await this.deTaiService.GetDeTaisByChuyennganhGiangvien(
         maCn,
         maGV

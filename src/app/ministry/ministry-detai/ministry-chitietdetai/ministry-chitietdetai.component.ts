@@ -200,8 +200,6 @@ export class MinistryChitietdetaiComponent {
       await this.deTaiService.getById(this.maDt).then(async (data) => {
         let gv = this.getGvRadeByMaDT(data.maDT);
 
-        console.log(gv);
-
         this.deTai = data;
         this.getTenChuyennganhByMaDT(this.deTai.maDT);
 
@@ -212,10 +210,8 @@ export class MinistryChitietdetaiComponent {
           trangThai: JSON.stringify(this.deTai.trangThai),
         });
 
-        return this.deTai;
+        this.oldForm = this.dtForm.form.value;
       });
-
-      this.oldForm = this.dtForm.form.value;
     } else {
       this.dtForm.resetForm('.dt-form');
 

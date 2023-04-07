@@ -1,4 +1,4 @@
-<div *ngIf="isDTMe ; else editDetai">
+<div *ngIf="isDTMe">
   <div id="functional-container">
     <div class="functional-list">
       <div
@@ -57,7 +57,7 @@
           </div>
 
           <div class="form-control" *ngIf="maDt">
-            <p class="label p-b-8">Góp ý chỉnh sửa đề tài</p>
+            <p class="label p-b-12">Góp ý chỉnh sửa đề tài</p>
 
             <div class="form-value" *ngIf="isTruongBM || isTruongK">
               <quill-editor
@@ -280,22 +280,68 @@
   </div>
 </div>
 
-<ng-template #editDetai>
+<div *ngIf="!isDTMe && oldForm" class="detail-container">
   <div class="row functional-wrapper">
-    <div class="h-8 p-l-8 p-r-8">
+    <div class="h-9 p-l-8 p-r-8">
       <div class="detail-item">
-        <p [innerHTML]="oldForm.tenNv" class="title"></p>
+        <p [innerHTML]="oldForm.tenDT" class="title"></p>
 
-        <p [innerHTML]="oldForm.tomTat"></p>
+        <div [innerHTML]="oldForm.tomTat" class="content p-b-24"></div>
+
+        <div class="form-control" *ngIf="maDt">
+          <p class="label p-b-12 w-auto">Góp ý chỉnh sửa đề tài</p>
+
+          <div *ngIf="isTruongBM || isTruongK">
+            <div class="form-value">
+              <quill-editor
+                spellcheck="false"
+                class="form-input"
+                placeholder=""
+                [modules]="{ toolbar: false }"
+                formControlName="nhanXet"
+              ></quill-editor>
+              <p class="error-mess"></p>
+            </div>
+
+            <div class="row jus-end">
+              <button class="comment-btn" (click)="onAddComment()">
+                Góp ý
+              </button>
+            </div>
+          </div>
+
+          <div class="comment-list">
+            <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
+              <div class="row">
+                <div>
+                  <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                </div>
+
+                <div class="comment-info">
+                  <p class="title">{{ duyet.tenGv }}</p>
+                  <p class="content" [innerHTML]="duyet.nhanXet"></p>
+                  <p class="time">{{ duyet.thoiGian }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="h-4 p-l-8 p-r-8">
+    <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
-        <p class="date-due p-b-16">Ngày đến hạn: {{ oldForm.thoiDiemKt }}</p>
+        <p class="date-due p-b-12">
+          Trạng thái duyệt đề tài:
+          {{ oldForm.trangThai ? "Đã duyệt" : "Chưa duyệt" }}
+        </p>
 
-        <p class="description">Số lượng đề tài: {{ oldForm.soLuongDt }}</p>
+        <ul class="list">
+          Số lượng đề tài:
+          <li>Tối thiểu: {{ oldForm.slMin }}</li>
+          <li>Tối đa: {{ oldForm.slMax }}</li>
+        </ul>
       </div>
     </div>
   </div>
-</ng-template>
+</div>

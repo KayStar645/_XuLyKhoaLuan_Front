@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
+import { dotDkService } from '../services/dotDk.service';
 
 @Component({
   selector: 'app-ministry',
@@ -18,6 +19,8 @@ export class MinistryComponent implements OnInit {
   data: any = GiaoVu;
   countTB = 0;
   countKH = 0;
+  namHoc = '';
+  dot = -1;
   // Sửa lại sau
   public role!: string;
   public id!: string;
@@ -27,7 +30,8 @@ export class MinistryComponent implements OnInit {
     private router: Router,
     private giaoVuService: giaoVuService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
+    private dotDkService: dotDkService
   ) {}
 
   public async ngOnInit() {
@@ -41,7 +45,21 @@ export class MinistryComponent implements OnInit {
     }
 
     // Get dữ liệu của giáo vụ
-    this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
+    this.data = await this.giaoVuService.getById(
+      '' + localStorage.getItem('Id')?.toString()
+    );
+
+    const latestYear = (await this.dotDkService.getAll()).sort((a, b) => {
+      if (a.namHoc !== b.namHoc) {
+        return b.namHoc.localeCompare(a.namHoc);
+      } else {
+        return b.dot - a.dot;
+      }
+    })[0];
+    this.namHoc = latestYear.namHoc;
+    this.dot = latestYear.dot;
+    this.shareService.setNamHoc(this.namHoc);
+    this.shareService.setDot(this.dot);
   }
 
   clickAccount() {

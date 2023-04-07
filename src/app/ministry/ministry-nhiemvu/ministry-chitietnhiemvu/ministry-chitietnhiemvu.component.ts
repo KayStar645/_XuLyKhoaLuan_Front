@@ -94,9 +94,8 @@ export class MinistryChitietnhiemvuComponent {
             .then((response) => {
               this.pdfSrc = response.data.download_url;
             });
+          this.oldForm = this.nvForm.form.value;
         });
-
-      this.oldForm = this.nvForm.form.value;
     } else {
       this.ngayBd = format(new Date(), 'dd-MM-yyyy');
       this.maNv = -1;

@@ -9,6 +9,7 @@ import { deTaiService } from 'src/app/services/deTai.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { MinistryDanhsachdetaiComponent } from './ministry-danhsachdetai/ministry-danhsachdetai.component';
+import { shareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-ministry-detai',
@@ -60,7 +61,8 @@ export class MinistryDetaiComponent implements OnInit {
     private elementRef: ElementRef,
     private deTaiService: deTaiService,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService
+    private chuyenNganhService: chuyenNganhService,
+    private shareService: shareService
   ) {
     this.dtAddForm = this.dtForm.form;
     this.dtUpdateForm = this.dtForm.form;
@@ -261,13 +263,15 @@ export class MinistryDetaiComponent implements OnInit {
 
       datas.forEach((data: any) => {
         let dt = new DeTai();
-        dt.init(
+        dt.initF(
           data[0] ? data[0] : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
           data[4] ? data[4] : '',
-          data[5] === 1 ? true : false
+          data[5] === 1 ? true : false,
+          this.shareService.getNamHoc(),
+          this.shareService.getDot()
         );
         this.f_AddDetai(dt);
       });

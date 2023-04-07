@@ -121,9 +121,9 @@ export class MinistryChitietkehoachComponent {
             .then((response) => {
               this.pdfSrc = response.data.download_url;
             });
-        });
 
-      this.oldForm = this.khForm.form.value;
+          this.oldForm = this.khForm.form.value;
+        });
     } else {
       this.ngayBd = format(new Date(), 'dd-MM-yyyy');
       this.maKh = -1;
