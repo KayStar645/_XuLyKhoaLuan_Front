@@ -21,11 +21,11 @@ import { vi } from 'date-fns/locale';
 import { HomeDanhsachdetaiComponent } from '../home-danhsachdetai/home-danhsachdetai.component';
 
 @Component({
-  selector: 'app-home-chitietdetai',
-  templateUrl: './home-chitietdetai.component.html',
-  styleUrls: ['./home-chitietdetai.component.scss'],
+  selector: 'app-home-formdetai',
+  templateUrl: './home-formdetai.component.html',
+  styleUrls: ['./home-formdetai.component.scss'],
 })
-export class HomeChitietdetaiComponent {
+export class HomeFormdetaiComponent {
   DSDTComponent!: HomeDanhsachdetaiComponent;
 
   maDt: string = '';
@@ -117,9 +117,8 @@ export class HomeChitietdetaiComponent {
     this.websocketService.startConnection();
   }
 
-  onSetDeTai(event: any){
-    console.log("hi");
-    
+  onSetDeTai(event: any) {
+    console.log('hi');
   }
 
   async getComment() {
@@ -262,9 +261,7 @@ export class HomeChitietdetaiComponent {
     }
   }
 
-  createLanDuyet(maGv: string, maDt: string) {
-
-  }
+  createLanDuyet(maGv: string, maDt: string) {}
 
   onSetItem(event: any) {
     event.stopPropagation();
@@ -444,3 +441,4 @@ export class HomeChitietdetaiComponent {
     // return this.DSDTComponent.getTenGvDuyetByMaDT(maDT);
   }
 }
+

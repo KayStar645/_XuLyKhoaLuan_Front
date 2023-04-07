@@ -20,24 +20,11 @@
           (input)="onSearchName($event)"
         />
       </li>
-      <!-- <li class="functional-item">
-        <select
-          class="search-select"
-          id="sort-select"
-          (change)="sortGiangVien($event)"
-        >
-          <option value="">Mặc định</option>
-          <option value="asc-id">Tăng theo mã</option>
-          <option value="desc-id">Giảm theo mã</option>
-          <option value="asc-name">Tăng theo tên</option>
-          <option value="desc-name">Giảm theo tên</option>
-        </select>
-      </li> -->
       <li
         class="functional-item function-wrapper row ali-center jus-end flex-1"
       >
         <div class="functional-button">
-          <button [routerLink]="['/home/de-tai/chi-tiet', { maDt: '' }]">
+          <button [routerLink]="'/home/de-tai/form'">
             Thêm
           </button>
         </div>
