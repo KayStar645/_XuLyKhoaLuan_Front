@@ -1,7 +1,8 @@
 import { Component, AfterViewInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { shareService } from 'src/app/services/share.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
+import { DashboardComponent } from '../dashboard.component';
 
 @Component({
   selector: 'app-dashboard-nhom',
@@ -14,7 +15,6 @@ export class DashboardNhomComponent implements AfterViewInit {
   constructor(
     private shareService: shareService,
     private router: Router,
-    private route: ActivatedRoute,
     private thamGiaService: thamGiaService,
   ) {}
 
@@ -30,13 +30,22 @@ export class DashboardNhomComponent implements AfterViewInit {
 
   async ngOnInit(){
     const id = localStorage.getItem('Id')?.toString() + '';
-    const tgia = this.thamGiaService.getById(
+
+    //Nếu không có trong tham gia không được mời quay trở lại trang chủ
+    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.shareService.getNamHoc(), this.shareService.getDot()) == false){
+      this.router.navigate(['dashboard']);
+    }
+
+    if(await this.thamGiaService.isJoinedAGroup(id, namHoc, dot)){
+      const tgia = this.thamGiaService.getById(
       id,
       shareService.namHoc,
       shareService.dot
     );
-    if((await tgia).maNhom == null || (await tgia).maNhom == ''){
-      this.router.navigate(['dashboard']);
+      if((await tgia).maNhom == null || (await tgia).maNhom == ''){
+        this.router.navigate(['dashboard']);
+      }
     }
   }
+
 }

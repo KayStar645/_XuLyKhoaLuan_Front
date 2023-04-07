@@ -27,7 +27,6 @@ export class sinhVienService {
       this.shareService.httpOptions).toPromise() ?? response as SinhVien;
     }
     
-
     async add(sinhVien: SinhVien): Promise<any> {
       return await this.http.post(`${this.apiUrl}/api/Sinhviens`, 
       sinhVien, this.shareService.httpOptions).toPromise();
@@ -62,5 +61,9 @@ export class sinhVienService {
     async getByDotDk(namHoc: string, dot: number, flag: boolean):Promise<SinhVien[]> {
       return await this.http.get<SinhVien[]>(`${this.apiUrl}/api/Sinhviens/namHoc, dot, flag?namHoc=${namHoc}&dot=${dot}&flag=${flag}`,
        this.shareService.httpOptions).toPromise() ?? [];
+    }
+
+    async isHaveThisStudent(maSV: string): Promise<boolean> {
+      return (await this.getAll()).filter(sv => sv.maSv === maSV).length > 0 ? true : false;
     }
 }

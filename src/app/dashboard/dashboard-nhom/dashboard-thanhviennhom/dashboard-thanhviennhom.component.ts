@@ -4,7 +4,6 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 import { Nhom } from 'src/app/models/Nhom.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { ThamGia } from 'src/app/models/ThamGia.model';
-import { dangKyService } from 'src/app/services/dangKy.service';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
 import { shareService } from 'src/app/services/share.service';

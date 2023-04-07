@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { Nhom } from '../models/Nhom.model';
 import { shareService } from './../services/share.service';
@@ -20,7 +19,7 @@ export class nhomService {
       return await this.http.get<Nhom[]>(`${this.apiUrl}/api/Nhoms`, this.shareService.httpOptions).toPromise() ?? [];
     }
 
-    async getById(MaNhom: number):Promise<Nhom> {
+    async getById(MaNhom: string):Promise<Nhom> {
       try {
         var response = new Nhom();
         response = await this.http.get<Nhom>(

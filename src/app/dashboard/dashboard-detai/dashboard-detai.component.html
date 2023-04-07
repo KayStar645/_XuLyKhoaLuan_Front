@@ -20,19 +20,6 @@
             (input)="onSearchName($event)"
           />
         </li>
-        <li class="functional-item">
-          <select
-            class="search-select"
-            id="sort-select"
-            (change)="sortGiangVien($event)"
-          >
-            <option value="">Mặc định</option>
-            <option value="asc-id">Tăng theo mã</option>
-            <option value="desc-id">Giảm theo mã</option>
-            <option value="asc-name">Tăng theo tên</option>
-            <option value="desc-name">Giảm theo tên</option>
-          </select>
-        </li>
       </ul>
     </div>
   
@@ -128,6 +115,7 @@
       <img src="./../../../assets/Images/that-bai.png"/>
       <div class="popup-wrapper">
         <h2>Thất bại</h2>
+        <p *ngIf="isNotHaveDeTai">Không có đề tài để đăng ký trong đợt này</p>
         <p *ngIf="isNotGroupLeader">Bạn không thể đăng ký đề tài do không là trưởng nhóm</p>
         <p *ngIf="isQuantityNotRequired">Số lượng thành viên nhóm không thỏa yêu cầu đề tài</p>
         <p *ngIf="isAlreadySignUpDeTai">Nhóm bạn đã đăng ký đề tài nên không thể đăng ký nữa</p>

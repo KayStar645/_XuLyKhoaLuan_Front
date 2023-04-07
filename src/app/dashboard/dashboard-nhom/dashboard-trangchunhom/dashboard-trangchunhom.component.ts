@@ -19,9 +19,7 @@ export class DashboardTrangchunhomComponent {
 
   constructor(
     private nhiemVuService: nhiemVuService,
-    private elementRef: ElementRef,
     private shareService: shareService,
-    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
