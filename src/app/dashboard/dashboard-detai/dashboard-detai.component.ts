@@ -18,6 +18,7 @@ import { SinhVien } from 'src/app/models/SinhVien.model';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { shareService } from 'src/app/services/share.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-detai',
@@ -40,6 +41,7 @@ export class DashboardDetaiComponent {
   isNotGroupLeader = false;
   isQuantityNotRequired = false;
   isAlreadySignUpDeTai = false;
+  isNotHaveDeTai = false;
 
   constructor(
     private deTaiService:deTaiService,
@@ -52,15 +54,31 @@ export class DashboardDetaiComponent {
     private sinhVienService: sinhVienService,
     private websocketService: WebsocketService,
     private shareService: shareService,
+    private router: Router,
   ) {}
 
   public async ngOnInit() {
+    //Nếu không có trong tham gia không được mời quay trở lại trang chủ
+    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.shareService.getNamHoc(), this.shareService.getDot()) == false){
+      this.router.navigate(['dashboard']);
+    }
+
+    //Nếu chưa có nhóm quay trở lại trang chủ
+    if(await this.thamGiaService.isNotJoinedAGroupThisSemester(DashboardComponent.maSV, this.shareService.getNamHoc(), this.shareService.getDot()) == true){
+      this.router.navigate(['dashboard']);
+    }
+
+    if(await this.deTaiService.isHaveDeTaiInNamHocDotActive(this.shareService.getNamHoc(), this.shareService.getDot()) == false){
+      this.isPopupVisible = true;
+      this.isNotHaveDeTai = true;
+      return;
+    }
+
     this.listDT = (await this.deTaiService.getAll()).filter(dt => dt.trangThai === true);
     this.listRade = await this.raDeService.getAll();
     this.listGiangvien = await this.giangVienService.getAll();
     this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
     this.listCn = await this.chuyenNganhService.getAll();
-    this.listChuyennganh = await this.chuyenNganhService.getAll();
     this.websocketService.receiveFromDeTai(() => this.getAllDeTai());
 
     this.tenDT.pipe(debounceTime(800)).subscribe((tenDT) => {
@@ -87,7 +105,7 @@ export class DashboardDetaiComponent {
     let result = [];
     let dtcns = this.listDeta_Chuyennganh.filter((item) => item.maDt == maDT);
     for (let item of dtcns) {
-      result.push(this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn);
+      result.push(this.listCn.find((c) => c.maCn == item.maCn)?.tenCn);
     }
     return result;
   }
@@ -103,7 +121,8 @@ export class DashboardDetaiComponent {
   }
 
   async getAllDeTai(){
-    this.listDT = (await this.deTaiService.getAll()).filter(dt => dt.trangThai === true);
+    this.listDT = (await this.deTaiService.getAll()).
+      filter(dt => dt.trangThai === true && dt.namHoc == this.shareService.getNamHoc() && dt.dot == this.shareService.getDot());
     this.root = this.listDT;
   }
 

@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { LoiMoi } from 'src/app/models/LoiMoi.model';
 import { Nhom } from 'src/app/models/Nhom.model';
@@ -12,6 +11,7 @@ import { thamGiaService } from 'src/app/services/thamGia.service';
 import { Form } from 'src/assets/utils';
 import { shareService } from '../../services/share.service';
 import { DashboardComponent } from '../dashboard.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-loimoi',
@@ -34,6 +34,10 @@ export class DashboardLoimoiComponent implements OnInit{
   showSuccessMessage = false;
   showGroupMemberAlreadySent = false;
   isPopupVisible = false;
+  isNotHaveStudent = false;
+  isSignUpDeTai = false;
+  isSentToNotJoinStudent = false;
+  isSuccessPopup = false;
 
   findSinhVienId = new Form({
     maSv: ['',Validators.required]
@@ -47,6 +51,7 @@ export class DashboardLoimoiComponent implements OnInit{
     private thamGiaService: thamGiaService,
     private loiMoiService: loiMoiService,
     private shareService: shareService,
+    private router: Router,
   ) {
     this.timSinhVienById = this.findSinhVienId.form;
     this.invitationForm = this.fb.group({
@@ -56,44 +61,67 @@ export class DashboardLoimoiComponent implements OnInit{
     });
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(){
     this.idSentStudent = DashboardComponent.maSV;
     this.namHoc = this.shareService.getNamHoc();
     this.dot = this.shareService.getDot();
     this.invitationForm.patchValue({namHoc: this.namHoc});
     this.invitationForm.patchValue({dot: this.dot});
-    console.log(this.namHoc, this.dot);
+
+    //Nếu không có trong tham gia không được mời quay trở lại trang chủ
+    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.namHoc, this.dot) == false){
+      this.router.navigate(['dashboard']);
+    }
   }
 
   async findSvById(event: any){
     this.showSuccessMessage = false;
+    this.isNotHaveStudent = false;
+    this.isSignUpDeTai = false;
+    this.isPopupVisible = false;
+    this.isSentToNotJoinStudent = false;
     this.showSentToSelfError = false;  
+
+    if(await this.sinhVienService.isHaveThisStudent(this.timSinhVienById.value['maSv']) == false){
+      this.isPopupVisible = true;
+      this.isNotHaveStudent = true;
+      return;
+    }
     this.showGroupMemberAlreadySent = false;
     
     this.elementRef.nativeElement.querySelector('.result').style.display='block';
     this.data = await this.sinhVienService.getById(this.timSinhVienById.value['maSv']);
-    if(this.data == null)
-      console.log("Không tồn tại sinh viên");
-    else{
-      this.elementRef.nativeElement.querySelector('.result-element').style.display = 'block';     
-      this.elementRef.nativeElement.querySelector('.invitation-form').style.display = 'block';
-      if(this.idSentStudent === this.data?.maSv){
-        this.showSentToSelfError = true;  
-      }
+    this.elementRef.nativeElement.querySelector('.result-element').style.display = 'block';
+    if(this.idSentStudent === this.data?.maSv){
+      this.isPopupVisible = true;
+      this.showSentToSelfError = true;  
     }
   }
 
   async sendInvitation(){
+    this.isNotHaveStudent = false;
+    this.isSignUpDeTai = false;
+    this.isPopupVisible = false;
+    this.isSentToNotJoinStudent = false;
+    this.showSuccessMessage = false;
+    this.showSentToSelfError = false;  
+    this.showGroupMemberAlreadySent = false;
+
+    //Xuất ra lỗi khi nhóm đã đăng ký đề tài
     if(DashboardComponent.isSignUpDeTai){
+      this.isSignUpDeTai = true;
       this.isPopupVisible = true;
       return;
     }
 
-    this.showSuccessMessage = false;
-    this.showSentToSelfError = false;  
-    this.showGroupMemberAlreadySent = false;
+    //Xuất ra lỗi khi gửi lời mời cho sinh viên không trong đợt đăng ký khóa luận
+    if(await this.thamGiaService.isJoinedAGroup(this.timSinhVienById.value['maSv'], this.namHoc, this.dot) == false){
+      this.isPopupVisible = true;
+      this.isSentToNotJoinStudent = true;
+      return;
+    }
+
     const result = await this.checkNotJoinedGroup(this.idSentStudent, this.namHoc, this.dot);
-    console.log(this.idSentStudent);
     if(result) {
       //Người gửi lời mời chưa từng tham gia vào nhóm nào
       await this.createGroup();
@@ -102,13 +130,14 @@ export class DashboardLoimoiComponent implements OnInit{
       this.groupIdCreated = await (await this.thamGiaService.getById(this.idSentStudent, this.namHoc, this.dot)).maNhom;
     }
     
-    console.log(await this.checkGroupMemberSentInvitation());
     if(await this.checkGroupMemberSentInvitation()){
-      console.log(await this.checkGroupMemberSentInvitation());
+      this.isPopupVisible = true;
       this.showGroupMemberAlreadySent = true;
+      return;
     }else{
       await this.createLoiMoi();
       this.showSuccessMessage = true;
+      this.isPopupVisible = true;
     }
   }
 
@@ -137,13 +166,10 @@ export class DashboardLoimoiComponent implements OnInit{
       loiMoi.dot = parseInt(this.invitationForm.value['dot']);
       loiMoi.loiNhan = this.invitationForm.value['loiNhan'];
       loiMoi.maNhom = this.groupIdCreated;
-      console.log(loiMoi.maNhom);
       loiMoi.maSv = this.data.maSv;
       loiMoi.namHoc = this.invitationForm.value['namHoc'];
       loiMoi.thoiGian = date.toISOString();
       loiMoi.trangThai = false;
-
-      console.log(loiMoi);
 
       await this.loiMoiService.add(loiMoi);
     }
@@ -155,6 +181,7 @@ export class DashboardLoimoiComponent implements OnInit{
 
   async checkNotJoinedGroup(MaSV: string, NamHoc: string, Dot: number): Promise<boolean> {
     let thamGia: ThamGia = await this.thamGiaService.getById(MaSV, NamHoc, Dot);
+    console.log(thamGia);
     return thamGia.maNhom === null || thamGia.maNhom === '';
   }
 

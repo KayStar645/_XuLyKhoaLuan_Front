@@ -46,7 +46,8 @@
           <h3 *ngIf="!data">Mã sinh viên không hợp lệ</h3>
       </div>
   
-      <form [formGroup]="invitationForm" class="invitation-form">
+      <div *ngIf="data" class="form-wrapper" class="invitation-form">
+        <form [formGroup]="invitationForm">
           <div class="form-group">
             <label for="maSv">Mã sinh viên:</label>
             <input type="text" value={{data.maSv}} readonly>
@@ -73,7 +74,8 @@
             Lời mời đã được gửi thành công
           </div>
           <button (click)="(showSentToSelfError || showGroupMemberAlreadySent) ? null : sendInvitation()" [disabled]="showSentToSelfError" [disabled]="showGroupMemberAlreadySent">Gửi lời mời</button>
-        </form>
+      </form>
+      </div>
   </div>
 </div>
 
@@ -83,7 +85,20 @@
     <img src="./../../../assets/Images/that-bai.png"/>
     <div class="popup-wrapper">
       <h2>Thất bại</h2>
-      <p>Nhóm bạn đã đăng ký đề tài nên không thể gửi lời mời nhóm</p>
+      <p *ngIf="showGroupMemberAlreadySent">Nhóm bạn đã gửi lời mời cho sinh viên này</p>
+      <p *ngIf="showSentToSelfError">Không thể gửi lời mời cho chính mình</p>
+      <p *ngIf="isNotHaveStudent">Không tìm thấy sinh viên để mời</p>
+      <p *ngIf="isSentToNotJoinStudent">Sinh viên được mời không có trong đợt làm khóa luận này</p>
+      <p *ngIf="isSignUpDeTai">Nhóm bạn đã đăng ký đề tài nên không thể gửi lời mời nhóm</p>
+      <button (click)="hidePopup()">Đóng</button>
+    </div>
+  </div>
+
+  <div *ngIf="showSuccessMessage" class="popup-success">
+    <img src="./../../../assets/Images/tich-xanh.png"/>
+    <div class="popup-wrapper">
+      <h2>Thành công</h2>
+      <p>Bạn đã gửi lời mời thành công</p>
       <button (click)="hidePopup()">Đóng</button>
     </div>
   </div>

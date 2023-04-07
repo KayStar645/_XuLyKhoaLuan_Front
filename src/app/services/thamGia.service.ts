@@ -59,4 +59,10 @@ export class thamGiaService {
       return (await this.getAll())
         .filter(tg => tg.maSv == MaSV && tg.namHoc == NamHoc && tg.dot == Dot).length > 0 ? true : false;
     }
+
+    async isNotJoinedAGroupThisSemester(MaSV: string, NamHoc: string, Dot: number):Promise<boolean> {
+      return (await this.getAll())
+        .filter(tg => tg.maSv == MaSV && tg.namHoc == NamHoc && tg.dot == Dot 
+          && (tg.maNhom === null || tg.maNhom === '')).length > 0 ? true : false;
+    }
 }

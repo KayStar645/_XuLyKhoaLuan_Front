@@ -167,6 +167,7 @@
     }
   }
   
+  .popup-success,
   .popup-failed{
     z-index: 12;
     position: fixed;
@@ -183,6 +184,7 @@
     border-radius: 10px;
   }
   
+  .popup-success img,
   .popup-failed img{
     margin-top: -15%;
     width: 30%;
@@ -200,6 +202,18 @@
     color: #fff;
     padding: 10px 0;
     background-color: #e04f5f ;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+
+  .popup-success button {
+    width: 100%;
+    margin-top: 50px;
+    color: #fff;
+    padding: 10px 0;
+    background-color: #5890ff;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
