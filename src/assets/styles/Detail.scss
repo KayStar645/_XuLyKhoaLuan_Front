@@ -32,3 +32,15 @@
 .attach-file a:hover {
   text-decoration: underline;
 }
+
+.detail-item .content {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: #292929;
+  font-weight: 400;
+}
+
+.detail-item .list li {
+  margin: 4px 0 4px 30px;
+  list-style: disc;
+}

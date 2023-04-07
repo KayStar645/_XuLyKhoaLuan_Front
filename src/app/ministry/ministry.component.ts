@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
+import { dotDkService } from '../services/dotDk.service';
 
 @Component({
   selector: 'app-ministry',
@@ -18,6 +19,8 @@ export class MinistryComponent implements OnInit {
   data: any = GiaoVu;
   countTB = 0;
   countKH = 0;
+  namHoc = '';
+  dot = -1;
   // Sửa lại sau
   public role!: string;
   public id!: string;
@@ -27,7 +30,8 @@ export class MinistryComponent implements OnInit {
     private router: Router,
     private giaoVuService: giaoVuService,
     private elementRef: ElementRef,
-    private shareService: shareService
+    private shareService: shareService,
+    private dotDkService: dotDkService
   ) {}
 
   public async ngOnInit() {

@@ -11,13 +11,15 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.scss'],,
 })
 export class HomeComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
   data: any = GiangVien;
   countTB = 0;
   countKH = 0;
+  namHoc = '';
+  dot = -1;
   chucVu = 0; // 0 là không có chức, 1 là trưởng bộ môn, 2 là trưởng khoa
   
   static namHoc: string;

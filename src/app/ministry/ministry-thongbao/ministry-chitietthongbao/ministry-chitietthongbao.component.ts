@@ -82,13 +82,13 @@ export class MinistryChitietthongbaoComponent implements OnInit {
             .then((response) => {
               this.pdfSrc = response.data.download_url;
             });
+
+          this.tbForm.form.patchValue({
+            ...this.thongBao,
+          });
+
+          this.oldForm = this.tbForm.form.value;
         });
-
-      this.tbForm.form.patchValue({
-        ...this.thongBao,
-      });
-
-      this.oldForm = this.tbForm.form.value;
     } else {
       this.maTb = -1;
       this.tbForm.resetForm('.tb-form');

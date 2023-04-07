@@ -61,7 +61,8 @@ export class MinistryDetaiComponent implements OnInit {
     private elementRef: ElementRef,
     private deTaiService: deTaiService,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService
+    private chuyenNganhService: chuyenNganhService,
+    private shareService: shareService
   ) {
     this.dtAddForm = this.dtForm.form;
     this.dtUpdateForm = this.dtForm.form;

@@ -118,9 +118,8 @@ export class HomeChitietdetaiComponent {
     this.websocketService.startConnection();
   }
 
-  onSetDeTai(event: any){
-    console.log("hi");
-    
+  onSetDeTai(event: any) {
+    console.log('hi');
   }
 
   async getComment() {
@@ -217,10 +216,13 @@ export class HomeChitietdetaiComponent {
           trangThai: JSON.stringify(this.deTai.trangThai),
         });
 
-        return this.deTai;
+        this.oldForm = this.dtForm.form.value;
+        this.oldForm.tenDT =
+          this.oldForm.tenDT.replace(
+            '</p>',
+            ` đợt ${data.dot} năm học ${data.namHoc}`
+          ) + '</p>';
       });
-
-      this.oldForm = this.dtForm.form.value;
     } else {
       this.dtForm.resetForm('.dt-form');
 
@@ -263,9 +265,7 @@ export class HomeChitietdetaiComponent {
     }
   }
 
-  createLanDuyet(maGv: string, maDt: string) {
-
-  }
+  createLanDuyet(maGv: string, maDt: string) {}
 
   onSetItem(event: any) {
     event.stopPropagation();

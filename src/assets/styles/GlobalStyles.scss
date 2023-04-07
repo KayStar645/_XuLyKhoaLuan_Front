@@ -16,6 +16,7 @@
   outline: none;
   caret-color: rgb(0, 42, 255);
   transition: all 0.1s linear;
+  line-height: 1.7;
 }
 
 ::-webkit-scrollbar {
@@ -97,6 +98,10 @@ strong {
 
 .w-fit-content {
   width: fit-content;
+}
+
+.w-auto {
+  width: auto !important;
 }
 
 .h-100 {
