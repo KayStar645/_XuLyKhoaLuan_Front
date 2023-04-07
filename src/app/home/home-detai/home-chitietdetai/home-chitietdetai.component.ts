@@ -202,6 +202,8 @@ export class HomeChitietdetaiComponent {
   }
 
   async setForm() {
+    console.log(this.maDt);
+    
     if (this.maDt) {
       await this.deTaiService.getById(this.maDt).then(async (data) => {
         let gv = this.getGvRadeByMaDT(data.maDT);
