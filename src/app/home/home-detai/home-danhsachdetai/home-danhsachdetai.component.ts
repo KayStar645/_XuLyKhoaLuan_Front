@@ -181,12 +181,12 @@ export class HomeDanhsachdetaiComponent {
         const raDe = new RaDe();
         const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
         dt.init(
-          data[0],
+          data[0] ? data[0] : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
-          data[4] ? data[4] : '',
-          false
+          shareService.namHoc,
+          shareService.dot
         );
         raDe.init(HomeMainComponent.maGV, data[0]);
         console.log(data[5]);

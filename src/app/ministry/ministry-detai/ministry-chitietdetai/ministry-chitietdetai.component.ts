@@ -18,6 +18,7 @@ import { duyetDtService } from 'src/app/services/duyetDt.service';
 import { DuyetDt } from 'src/app/models/DuyetDt.model';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { shareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-ministry-chitietdetai',
@@ -163,12 +164,12 @@ export class MinistryChitietdetaiComponent {
       });
 
       deTai.init(
-        this.maDt,
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
         formValue.slMax,
-        JSON.parse(formValue.trangThai)
+        shareService.namHoc,
+        shareService.dot
       );
       try {
         await this.deTaiService.update(deTai);
@@ -317,12 +318,12 @@ export class MinistryChitietdetaiComponent {
       });
 
       deTai.init(
-        formValue.maDT,
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
         formValue.slMax,
-        formValue.trangThai
+        shareService.namHoc,
+        shareService.dot
       );
 
       try {

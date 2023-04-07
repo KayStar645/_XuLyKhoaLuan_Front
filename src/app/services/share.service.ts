@@ -1,16 +1,16 @@
+import { dotDkService } from './dotDk.service';
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class shareService {
-  namHoc:string = "";
-  dot: number = 0;
+  static namHoc:string;
+  static dot: number;
   isFirstClickHome = false;
 
   public httpOptions = {
@@ -19,7 +19,10 @@ export class shareService {
     }),
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private dotDkService: dotDkService
+    ) {}
 
   public dateFormat(date: string) {
     if (date != null) {
@@ -131,21 +134,21 @@ export class shareService {
     };
   }
 
-  setNamHoc(namHoc: string){
-    this.namHoc = namHoc;
-  }
+  // setNamHoc(namHoc: string){
+  //   this.namHoc = namHoc;
+  // }
 
-  getNamHoc(){
-    return this.namHoc;
-  }
+  // getNamHoc(){
+  //   return this.namHoc;
+  // }
 
-  setDot(dot: number){
-    this.dot = dot;
-  }
+  // setDot(dot: number){
+  //   this.dot = dot;
+  // }
 
-  getDot(){
-    return this.dot;
-  }
+  // getDot(){
+  //   return this.dot;
+  // }
 
   setIsFirstClickHome(value: boolean){
     this.isFirstClickHome = value;
@@ -153,5 +156,17 @@ export class shareService {
 
   getIsFirstClickHome(){
     return this.isFirstClickHome;
+  }
+
+  async namHocDotDk() {
+    const latestYear = (await this.dotDkService.getAll()).sort((a, b) => {
+      if (a.namHoc !== b.namHoc) {
+        return b.namHoc.localeCompare(a.namHoc);
+      } else {
+        return b.dot - a.dot;
+      }
+    })[0];
+    shareService.namHoc = latestYear.namHoc;
+    shareService.dot = latestYear.dot;
   }
 }

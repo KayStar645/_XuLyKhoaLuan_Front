@@ -1,3 +1,5 @@
+import { dotDkService } from './../services/dotDk.service';
+import { shareService } from './../services/share.service';
 import { giangVienService } from './../services/giangVien.service';
 import { GiangVien } from './../models/GiangVien.model';
 import { Component, ElementRef, OnInit } from '@angular/core';
@@ -9,7 +11,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
@@ -18,12 +20,16 @@ export class HomeComponent implements OnInit {
   countKH = 0;
   chucVu = 0; // 0 là không có chức, 1 là trưởng bộ môn, 2 là trưởng khoa
   
+  static namHoc: string;
+  static dot: number;
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private elementRef: ElementRef,
     private giangVienService: giangVienService,
-    ) { }
+    private shareService: shareService,
+  ) {}
 
   public async ngOnInit() {
     // Kiểm tra đăng nhập để điều hướng
@@ -35,8 +41,11 @@ export class HomeComponent implements OnInit {
       this.isLoggedIn$ = of(true);
     }
 
-     // Get dữ liệu của giảng viên
-     this.data = await this.giangVienService.getById('' + localStorage.getItem('Id')?.toString());
+    // Get dữ liệu của giảng viên
+    this.data = await this.giangVienService.getById(
+      '' + localStorage.getItem('Id')?.toString()
+    );
+    await this.shareService.namHocDotDk();
   }
 
   clickAccount() {

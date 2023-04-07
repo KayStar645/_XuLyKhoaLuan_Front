@@ -10,6 +10,8 @@ import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { HomeDanhsachdetaiComponent } from './home-danhsachdetai/home-danhsachdetai.component';
 import { HomeMainComponent } from '../home-main/home-main.component';
+import { HomeComponent } from '../home.component';
+import { shareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-home-detai',
@@ -267,8 +269,8 @@ export class HomeDetaiComponent implements OnInit {
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
           data[3] ? data[3] : '',
-          data[4] ? data[4] : '',
-          data[5] === 1 ? true : false
+          HomeComponent.namHoc,
+          HomeComponent.dot
         );
         this.f_AddDetai(dt);
       });
@@ -324,12 +326,12 @@ export class HomeDetaiComponent implements OnInit {
     if (this.dtAddForm.valid) {
       const deTai = new DeTai();
       deTai.init(
-        this.dtAddForm.value['maDT'],
         this.dtAddForm.value['tenDT'],
         this.dtAddForm.value['tomTat'],
         this.dtAddForm.value['slMin'],
         this.dtAddForm.value['slMax'],
-        false
+        shareService.namHoc,
+        shareService.dot
       );
       this.f_AddDetai(deTai);
     } else {
@@ -368,12 +370,12 @@ export class HomeDetaiComponent implements OnInit {
       } else {
         const deTai = new DeTai();
         deTai.init(
-          this.dtUpdateForm.value['maDT'],
           this.dtUpdateForm.value['tenDT'],
           this.dtUpdateForm.value['tomTat'],
           this.dtUpdateForm.value['slMin'],
           this.dtUpdateForm.value['slMax'],
-          this.dtUpdateForm.value['trangThai'] === 'false' ? false : true
+          shareService.namHoc,
+          shareService.dot
         );
         try {
           this.f_UpdateDetai(deTai);

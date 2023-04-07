@@ -42,6 +42,8 @@ export class MinistryComponent implements OnInit {
 
     // Get dữ liệu của giáo vụ
     this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
+    
+    await this.shareService.namHocDotDk();
   }
 
   clickAccount() {

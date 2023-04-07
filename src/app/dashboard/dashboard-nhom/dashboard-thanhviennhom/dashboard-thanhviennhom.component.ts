@@ -44,8 +44,6 @@ export class DashboardThanhviennhomComponent {
   ) {}
 
   async ngOnInit(){
-    this.namHoc = this.shareService.getNamHoc();
-    this.dot = this.shareService.getDot();
     this.studentId = localStorage.getItem('Id')?.toString() + '';
     const groupJoinedId = await (await this.thamGiaService.getById(this.studentId, this.namHoc, this.dot)).maNhom;
     this.lstThamGia = (await this.thamGiaService.getAll()).filter(tg => tg.maNhom == groupJoinedId);

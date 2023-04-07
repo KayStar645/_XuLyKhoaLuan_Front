@@ -30,9 +30,11 @@ export class DashboardNhomComponent implements AfterViewInit {
 
   async ngOnInit(){
     const id = localStorage.getItem('Id')?.toString() + '';
-    const namHoc = this.shareService.getNamHoc();
-    const dot = this.shareService.getDot();
-    const tgia = this.thamGiaService.getById(id, namHoc, dot);
+    const tgia = this.thamGiaService.getById(
+      id,
+      shareService.namHoc,
+      shareService.dot
+    );
     if((await tgia).maNhom == null || (await tgia).maNhom == ''){
       this.router.navigate(['dashboard']);
     }

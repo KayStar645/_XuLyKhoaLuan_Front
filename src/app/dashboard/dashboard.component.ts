@@ -70,10 +70,9 @@ export class DashboardComponent implements OnInit {
     })[0];
     this.namHoc = latestYear.namHoc;
     this.dot = latestYear.dot;
-    this.shareService.setNamHoc(this.namHoc);
-    this.shareService.setDot(this.dot);
 
     DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
+    await this.shareService.namHocDotDk();
     
     //Cần kiểm tra có nhóm trong tham gia không?
     if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.namHoc, this.dot)){

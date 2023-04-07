@@ -19,6 +19,7 @@ import { DuyetDt } from 'src/app/models/DuyetDt.model';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { HomeDanhsachdetaiComponent } from '../home-danhsachdetai/home-danhsachdetai.component';
+import { shareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-home-chitietdetai',
@@ -170,12 +171,12 @@ export class HomeChitietdetaiComponent {
       });
 
       deTai.init(
-        this.maDt,
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
         formValue.slMax,
-        JSON.parse(formValue.trangThai)
+        shareService.namHoc,
+        shareService.dot
       );
       try {
         await this.deTaiService.update(deTai);
@@ -328,12 +329,12 @@ export class HomeChitietdetaiComponent {
       });
 
       deTai.init(
-        formValue.maDT,
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
         formValue.slMax,
-        formValue.trangThai
+        shareService.namHoc,
+        shareService.dot
       );
 
       try {
@@ -345,7 +346,7 @@ export class HomeChitietdetaiComponent {
 
         await this.raDeService.add(raDe);
         this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
-        this.router.navigate(['/ministry/de-tai/chi-tiet', { maDt: '' }]);
+        this.router.navigate(['/home/de-tai']);
         this.setForm();
       } catch (error) {
         this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
@@ -381,7 +382,7 @@ export class HomeChitietdetaiComponent {
       try {
         const raDe = new RaDe();
         const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-        const duyetDT = new DuyetDt();
+        // const duyetDT = new DuyetDt();
 
         raDe.init(formValue.maGv, formValue.maDT);
 
@@ -396,13 +397,13 @@ export class HomeChitietdetaiComponent {
           await this.deTaiChuyenNganhService.delete(item.maDt, item.maCn);
         });
 
-        await this.duyetDTService.delete(formValue.maGv, this.maDt, 1);
+        await this.duyetDTService.delete(HomeMainComponent.maGV, this.maDt, 1);
         await this.raDeService.delete(raDe.maGv, raDe.maDt);
 
         await this.deTaiService.delete(this.maDt);
 
         this.toastr.success('Xóa Đề tài thành công', 'Đề tài!');
-        this.router.navigate(['/ministry/de-tai/']);
+        this.router.navigate(['/home/de-tai']);
       } catch (error) {
         this.toastr.error('Xóa Đề tài thất bại', 'Đề tài!');
       }

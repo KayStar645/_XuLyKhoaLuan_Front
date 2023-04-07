@@ -22,7 +22,6 @@
               placeholder=""
               formControlName="tenDT"
               [modules]="{ toolbar: false }"
-              [readOnly]="!isDTMe"
             >
             </quill-editor>
             <p class="error-mess"></p>
@@ -39,7 +38,6 @@
               placeholder=""
               [modules]="quillConfig"
               formControlName="tomTat"
-              [readOnly]="!isDTMe"
             ></quill-editor>
             <p class="error-mess"></p>
           </div>
@@ -107,7 +105,6 @@
                   [defaultValue]="slMax"
                   (change)="setSlMax($event)"
                   [min]="slMin"
-                  [readOnly]="!isDTMe"
                 />
                 <p class="error-mess"></p>
               </div>
@@ -125,7 +122,6 @@
                   (blur)="dtForm.inputBlur($event)"
                   [min]="1"
                   [max]="slMax"
-                  [readOnly]="!isDTMe"
                 />
                 <p class="error-mess"></p>
               </div>

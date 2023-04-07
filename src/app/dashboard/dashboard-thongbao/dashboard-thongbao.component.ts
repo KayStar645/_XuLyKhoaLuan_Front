@@ -18,8 +18,6 @@ export class DashboardThongbaoComponent {
   title = 'Thông báo';
   maSv: string = '';
   lstLoiMoi: LoiMoi[] = [];
-  namHoc: string = "";
-  dot: number = 1;
   isAccept = false;
   isConfirmDialogVisible = false;
   loiMoi: any;
@@ -38,10 +36,18 @@ export class DashboardThongbaoComponent {
 
   async ngOnInit(){
     this.maSv = DashboardComponent.maSV;
-    this.namHoc = this.shareService.getNamHoc();
-    this.dot = this.shareService.getDot();
-    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
-    const groupJoinedId = await (await this.thamGiaService.getById(this.maSv, this.namHoc, this.dot)).maNhom;
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
+      this.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
+    const groupJoinedId = await(
+      await this.thamGiaService.getById(
+        this.maSv,
+        shareService.namHoc,
+        shareService.dot
+      )
+    ).maNhom;
     this.isGroupHaveOneMember = (await this.thamGiaService.getAll()).filter(tg => tg.maNhom == groupJoinedId).length === 1;
   }
 
@@ -51,8 +57,18 @@ export class DashboardThongbaoComponent {
       return;
     }
 
-    let groupIdCreated = await (await this.thamGiaService.getById(this.maSv, this.namHoc, this.dot)).maNhom;
-    var thamGia = await this.thamGiaService.getById(loiMoi.maSv, this.namHoc, this.dot);
+    let groupIdCreated = await(
+      await this.thamGiaService.getById(
+        this.maSv,
+        shareService.namHoc,
+        shareService.dot
+      )
+    ).maNhom;
+    var thamGia = await this.thamGiaService.getById(
+      loiMoi.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
     if(groupIdCreated !== null && groupIdCreated !== ''){
       this.isConfirmDialogVisible = true;
       this.isTeamLeader = thamGia.truongNhom;
@@ -62,7 +78,12 @@ export class DashboardThongbaoComponent {
       thamGia.truongNhom = false;
       this.thamGiaService.update(thamGia);
       await this.loiMoiService.delete(this.loiMoi.maNhom,this.loiMoi.maSv,this.loiMoi.namHoc,this.loiMoi.dot);
-      this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
+      this.lstLoiMoi =
+        await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
+          this.maSv,
+          shareService.namHoc,
+          shareService.dot
+        );
       this.cd.detectChanges();
     }
   }
@@ -70,7 +91,11 @@ export class DashboardThongbaoComponent {
   //Phải click 2 lần mới cập nhật được phần đã xóa
   async rejectInvitation(loiMoi: LoiMoi){
     await this.loiMoiService.delete(loiMoi.maNhom,loiMoi.maSv,loiMoi.namHoc,loiMoi.dot);
-    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
+      this.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
     this.cd.detectChanges(); 
   }
 
@@ -88,14 +113,27 @@ export class DashboardThongbaoComponent {
 
   async performAction() {
     this.isConfirmDialogVisible = false;
-    var thamGia = await this.thamGiaService.getById(this.loiMoi.maSv, this.namHoc, this.dot);
+    var thamGia = await this.thamGiaService.getById(
+      this.loiMoi.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
     if(thamGia.truongNhom && !this.isGroupHaveOneMember){
       this.router.navigate(['dashboard/nhom/thanh-vien']);
       return;
     }else if(thamGia.truongNhom && this.isGroupHaveOneMember){
-      let tgia = await this.thamGiaService.getById(this.maSv, this.namHoc, this.dot);
+      let tgia = await this.thamGiaService.getById(
+        this.maSv,
+        shareService.namHoc,
+        shareService.dot
+      );
       //Xóa tất cả lời mời từ nhóm cũ
-      const lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(tgia.maNhom, this.namHoc, this.dot);
+      const lstLoiMoi =
+        await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(
+          tgia.maNhom,
+          shareService.namHoc,
+          shareService.dot
+        );
       (await lstLoiMoi).forEach(lm => this.loiMoiService.delete(lm.maNhom, lm.maSv, lm.namHoc, lm.dot));
       //Xóa nhóm
       await this.nhomService.delete(tgia.maNhom);
@@ -106,7 +144,11 @@ export class DashboardThongbaoComponent {
     
     //Cập nhật lại danh sách lời mời
     await this.loiMoiService.delete(this.loiMoi.maNhom,this.loiMoi.maSv,this.loiMoi.namHoc,this.loiMoi.dot);
-    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
+      this.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
     this.cd.detectChanges();
   }
 
