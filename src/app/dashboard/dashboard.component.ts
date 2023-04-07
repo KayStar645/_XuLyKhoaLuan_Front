@@ -76,6 +76,7 @@ export class DashboardComponent implements OnInit {
     this.shareService.setDot(this.dot);
 
     DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
+    
     let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, this.namHoc, this.dot)).maNhom;
     DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
     DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 
