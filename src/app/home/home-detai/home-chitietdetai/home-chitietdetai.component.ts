@@ -433,15 +433,22 @@ export class HomeChitietdetaiComponent {
     }
   }
 
+  getThoiGianDuyetByMaDT(maDT: string) {
+    let duyetdts = this.listDuyetDT.filter((item) => item.maDt == maDT);
+    if (duyetdts.length > 0) {
+      const date = duyetdts.reduce((max, duyetdt) => {
+        return new Date(duyetdt?.ngayDuyet) > max
+          ? new Date(duyetdt?.ngayDuyet)
+          : max;
+      }, new Date(duyetdts[0]?.ngayDuyet));
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    }
+    return '';
+  }
+
   getGvRadeByMaDT(maDT: string) {
     return this.GVInputConfig.data.find(
       (t: any) => t.maGv === this.listRaDe.find((t) => t.maDt === maDT)?.maGv
     );
-  }
-
-  createMaDt() {}
-
-  getTenGvDuyetByMaDT(maDT: string) {
-    // return this.DSDTComponent.getTenGvDuyetByMaDT(maDT);
   }
 }

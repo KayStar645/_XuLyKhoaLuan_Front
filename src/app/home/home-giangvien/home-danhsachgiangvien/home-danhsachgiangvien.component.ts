@@ -38,23 +38,23 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
 
   async getAllGiangVien() {
     const maGv = HomeMainComponent.maGV;
-    let truongKhoa, truongBm;
+    let isTruongKhoa, isTruongBm;
     try {
-      truongKhoa = await this.truongKhoaService.CheckTruongKhoaByMaGV(maGv);
+      isTruongKhoa = await this.truongKhoaService.isTruongKhoaByMaGV(maGv);
     } catch { }
     try {
-      truongBm = await this.truongBmService.CheckTruongBomonByMaGV(maGv);
+      isTruongBm = await this.truongBmService.isTruongBomonByMaGV(maGv);
     } catch { }
 
-    if(truongKhoa != null) {
+    if (isTruongKhoa) {
+      let truongKhoa = await this.truongKhoaService.CheckTruongKhoaByMaGV(maGv);
       this.listGV = await this.giangVienService.getByMaKhoa(truongKhoa.maKhoa);
       this.root = this.listGV;
-    }
-    else if (truongBm != null) {
+    } else if (isTruongBm) {
+      let truongBm = await this.truongBmService.CheckTruongBomonByMaGV(maGv);
       this.listGV = await this.giangVienService.getByBoMon(truongBm.maBm);
       this.root = this.listGV;
-    }
-    else {
+    } else {
       this.listGV = [];
       this.root = [];
     }

@@ -333,13 +333,16 @@
       <div class="detail-item">
         <p class="date-due p-b-12">
           Trạng thái duyệt đề tài:
-          {{ oldForm.trangThai ? "Đã duyệt" : "Chưa duyệt" }}
+           <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(maDt) == ''">Chưa duyệt</span>
+              <span *ngIf="getThoiGianDuyetByMaDT(maDt) != ''">
+                <span style="color: #15fa00;" *ngIf="isTrangthaiDetai(maDt)">Đạt</span>
+                <span style="color: red;" *ngIf="!isTrangthaiDetai(maDt)">Chưa đạt</span>
+              </span>
         </p>
 
         <ul class="list">
-          Số lượng đề tài:
-          <li>Tối thiểu: {{ oldForm.slMin }}</li>
-          <li>Tối đa: {{ oldForm.slMax }}</li>
+          Số lượng sinh viên phù hợp: 
+          <span style="color: blue;">{{ oldForm.slMin }} -> {{ oldForm.slMax }}</span>
         </ul>
       </div>
     </div>

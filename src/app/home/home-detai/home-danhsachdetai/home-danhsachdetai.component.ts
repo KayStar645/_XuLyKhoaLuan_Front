@@ -1,3 +1,4 @@
+import { WebsocketService } from 'src/app/services/Websocket.service';
 import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
 import { chuyenNganhService } from './../../../services/chuyenNganh.service';
 import { duyetDtService } from './../../../services/duyetDt.service';
@@ -74,7 +75,8 @@ export class HomeDanhsachdetaiComponent {
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private titleService: Title,
     private toastr: ToastrService,
-    private chuyenNganhService: chuyenNganhService
+    private chuyenNganhService: chuyenNganhService,
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -95,6 +97,13 @@ export class HomeDanhsachdetaiComponent {
         );
       } else {
         this.listDT = this.root;
+      }
+    });
+    
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromDeTai((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllDeTai();
       }
     });
   }
@@ -143,11 +152,11 @@ export class HomeDanhsachdetaiComponent {
         .filter((data: any) => data.length > 0);
 
       datas.forEach((data: any, i) => {
-        data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
-        data[2] = data[2].split('\r\n');
-        data[2] = data[2].map((line: string) => `<p>${line}</p>`);
+        data[0] = `<p>${data[0].replaceAll('\r\n', ' ')}</p>`;
+        data[1] = data[1].split('\r\n');
+        data[1] = data[1].map((line: string) => `<p>${line}</p>`);
 
-        data[2] = data[2].join('');
+        data[1] = data[1].join('');
       });
       this.deTaiFile = {
         name: file.name,
@@ -175,38 +184,38 @@ export class HomeDanhsachdetaiComponent {
   onReadFile() {
     if (this.deTaiFile.data.length > 0) {
       const datas = this.deTaiFile.data;
-      console.log(datas);
 
       datas.forEach(async (data: any) => {
-        let dt = new DeTai();
-        const raDe = new RaDe();
-        const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-        dt.init(
-          data[0] ? data[0] : '',
-          data[1] ? data[1] : '',
-          data[2] ? data[2] : '',
-          data[3] ? data[3] : '',
-          shareService.namHoc,
-          shareService.dot
-        );
-        raDe.init(HomeMainComponent.maGV, data[0]);
-        let chuyenNganhs = data[5]
-          .split(',')
-          .map((t: any) => this.shareService.removeSpace(t));
-        chuyenNganhs.forEach((item: any) => {
-          let deTaiChuyenNganh = new DeTai_ChuyenNganh();
-          deTaiChuyenNganh.init(item, data[0]);
-          deTaiChuyenNganhs.push(deTaiChuyenNganh);
-        });
-
         try {
-          await this.deTaiService.add(dt);
+          let dt = new DeTai();
+          dt.init(
+            data[0] ? data[0] : '',
+            data[1] ? data[1] : '',
+            data[2] ? data[2] : '',
+            data[3] ? data[3] : '',
+            shareService.namHoc,
+            shareService.dot
+          );
+          let deTai = await this.deTaiService.add(dt);
+          // console.log("Đề tài nè: ");
+          // console.log(deTai);
 
+          let raDe = new RaDe();
+          raDe.init(HomeMainComponent.maGV, deTai.maDT);
+          await this.raDeService.add(raDe);
+
+          let deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
+          let chuyenNganhs = data[4]
+            .split(',')
+            .map((t: any) => this.shareService.removeSpace(t));
+          chuyenNganhs.forEach((item: any) => {
+            let deTaiChuyenNganh = new DeTai_ChuyenNganh();
+            deTaiChuyenNganh.init(item, deTai.maDT);
+            deTaiChuyenNganhs.push(deTaiChuyenNganh);
+          });
           deTaiChuyenNganhs.forEach(async (item) => {
             await this.deTai_chuyenNganhService.add(item);
           });
-
-          await this.raDeService.add(raDe);
 
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         } catch (error) {
@@ -287,7 +296,6 @@ export class HomeDanhsachdetaiComponent {
   getTenGvRadeByMaDT(maDT: string) {
     let result = [];
     let rades = this.listRade.filter((item) => item.maDt == maDT);
-    // rades.forEach(item => result.push(this.listGiangvien.find(g => g.maGv == item.maGv)?.tenGv));
     for (let item of rades) {
       result.push(this.listGiangvien.find((g) => g.maGv == item.maGv)?.tenGv);
     }

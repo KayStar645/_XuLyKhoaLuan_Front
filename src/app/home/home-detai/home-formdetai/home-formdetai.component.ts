@@ -190,7 +190,7 @@ export class HomeFormdetaiComponent {
         this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         this.router.navigate(['/home/de-tai', { maDt: '' }]);
       } catch (error) {
-        this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
+        this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
       }
     } else {
       this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
