@@ -1,14 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map } from 'rxjs/operators';
 import { LoiMoi } from 'src/app/models/LoiMoi.model';
 import { Nhom } from 'src/app/models/Nhom.model';
 import { ThamGia } from 'src/app/models/ThamGia.model';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
@@ -45,15 +41,11 @@ export class DashboardLoimoiComponent implements OnInit{
 
   constructor(
     private elementRef: ElementRef,
-    private authService: AuthService,
-    private router: Router,
     private fb: FormBuilder,
-    private http: HttpClient,
     private sinhVienService: sinhVienService,
     private nhomService: nhomService,
     private thamGiaService: thamGiaService,
     private loiMoiService: loiMoiService,
-    private route: ActivatedRoute,
     private shareService: shareService,
   ) {
     this.timSinhVienById = this.findSinhVienId.form;
@@ -65,9 +57,7 @@ export class DashboardLoimoiComponent implements OnInit{
   }
 
   public ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.idSentStudent = params['id'];
-    });
+    this.idSentStudent = DashboardComponent.maSV;
     this.namHoc = this.shareService.getNamHoc();
     this.dot = this.shareService.getDot();
     this.invitationForm.patchValue({namHoc: this.namHoc});

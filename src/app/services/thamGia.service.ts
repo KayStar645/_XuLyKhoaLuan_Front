@@ -1,9 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, map } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { ThamGia } from '../models/ThamGia.model';
 import { shareService } from './../services/share.service';
@@ -56,5 +53,10 @@ export class thamGiaService {
     async add(ThamGia: ThamGia): Promise<any> {
       return await this.http.post(`${this.apiUrl}/api/Thamgias`, 
       ThamGia, this.shareService.httpOptions).toPromise();
+    }
+
+    async isJoinedAGroup(MaSV: string, NamHoc: string, Dot: number):Promise<boolean> {
+      return (await this.getAll())
+        .filter(tg => tg.maSv == MaSV && tg.namHoc == NamHoc && tg.dot == Dot).length > 0 ? true : false;
     }
 }

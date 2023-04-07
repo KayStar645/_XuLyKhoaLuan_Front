@@ -75,13 +75,17 @@ export class DashboardComponent implements OnInit {
 
     DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
     
-    let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, this.namHoc, this.dot)).maNhom;
-    DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
-    DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 
-    if(DashboardComponent.isSignUpDeTai){
-      DashboardComponent.maDT = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom)[0].maDt;
-      let lstGvhd = (await this.raDeService.getAll()).filter(rd => rd.maDt === DashboardComponent.maDT);
-      lstGvhd.forEach(gv => DashboardComponent.maGvhd.push(gv.maGv));
+    //Cần kiểm tra có nhóm trong tham gia không?
+    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.namHoc, this.dot)){
+      let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, this.namHoc, this.dot)).maNhom;
+      DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
+      
+      DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 
+      if(DashboardComponent.isSignUpDeTai){
+        DashboardComponent.maDT = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom)[0].maDt;
+        let lstGvhd = (await this.raDeService.getAll()).filter(rd => rd.maDt === DashboardComponent.maDT);
+        lstGvhd.forEach(gv => DashboardComponent.maGvhd.push(gv.maGv));
+      }
     }
   }
 
