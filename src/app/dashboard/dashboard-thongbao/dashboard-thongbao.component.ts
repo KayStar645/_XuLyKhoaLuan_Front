@@ -1,14 +1,10 @@
-import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoiMoi } from 'src/app/models/LoiMoi.model';
-import { ThongBao } from 'src/app/models/ThongBao.model';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
 import { shareService } from 'src/app/services/share.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
-import { thongBaoService } from 'src/app/services/thongBao.service';
 import { DashboardComponent } from '../dashboard.component';
 
 @Component({
@@ -33,7 +29,6 @@ export class DashboardThongbaoComponent {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private shareService: shareService,
     private loiMoiService : loiMoiService,
     private thamGiaService : thamGiaService,
@@ -42,9 +37,7 @@ export class DashboardThongbaoComponent {
   ) {}
 
   async ngOnInit(){
-    this.route.params.subscribe(params => {
-      this.maSv = params['id']
-    })
+    this.maSv = DashboardComponent.maSV;
     this.namHoc = this.shareService.getNamHoc();
     this.dot = this.shareService.getDot();
     this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
