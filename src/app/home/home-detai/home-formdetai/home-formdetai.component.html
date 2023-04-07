@@ -44,69 +44,11 @@
             <p class="error-mess"></p>
           </div>
         </div>
-
-        <div class="form-control" *ngIf="maDt">
-          <p class="label p-b-8">Góp ý chỉnh sửa đề tài</p>
-
-          <div class="form-value" *ngIf="isTruongBM || isTruongK">
-            <quill-editor
-              spellcheck="false"
-              class="form-input"
-              placeholder=""
-              [modules]="{ toolbar: false }"
-              formControlName="nhanXet"
-            ></quill-editor>
-            <p class="error-mess"></p>
-          </div>
-
-          <div class="row jus-end" *ngIf="isTruongBM || isTruongK">
-            <button class="comment-btn" (click)="onAddComment()">Góp ý</button>
-          </div>
-
-          <div class="comment-list">
-            <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
-              <div class="row">
-                <div>
-                  <img src="../../../../assets/Images/user-icon.svg" alt="" />
-                </div>
-
-                <div class="comment-info">
-                  <p class="title">{{ duyet.tenGv }}</p>
-                  <p class="content" [innerHTML]="duyet.nhanXet"></p>
-                  <p class="time">{{ duyet.thoiGian }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     <div class="h-4 p-l-8 p-r-8">
       <div class="form-item">
-        <label class="form-control">
-          <p class="label p-b-8">Mã đề tài</p>
-          <div class="form-value">
-            <input
-              [readOnly]="true"
-              class="form-input"
-              type="text"
-              formControlName="maDT"
-            />
-          </div>
-        </label>
-
-        <label class="form-control">
-          <p class="label p-b-8">Giảng viên ra đề</p>
-          <div class="form-value">
-            <input
-              [readOnly]="true"
-              class="form-input"
-              type="text"
-              formControlName="tenGv"
-            />
-          </div>
-        </label>
 
         <div class="form-control form-no-box-shadow">
           <p class="label p-b-4">Chuyên ngành phù hợp</p>
@@ -190,76 +132,7 @@
             </label>
           </div>
         </div>
-
-        <label class="form-control">
-          <p class="label p-b-8">Giảng viên duyệt đề tài</p>
-          <div class="form-value">
-            <input
-              [readOnly]="true"
-              class="form-input"
-              type="text"
-              formControlName="tenGv"
-            />
-          </div>
-        </label>
-
-        <label class="form-control" *ngIf="maDt">
-          <p class="label p-b-8" *ngIf="!isTruongK && !isTruongBM">
-            Trạng thái:
-            <span style="color: blue" *ngIf="isTrangThai == 0">Chưa duyệt</span>
-            <span style="color: #15fa00 ;" *ngIf="isTrangThai == 1"
-              >Đạt yêu cầu</span
-            >
-            <span style="color: red" *ngIf="isTrangThai == -1"
-              >Chưa đạt yêu cầu</span
-            >
-          </p>
-          <div class="form-value" *ngIf="isTruongK || isTruongBM">
-            <div class="row ali-center topic-status">
-              <label class="row ali-center">
-                <input
-                  type="radio"
-                  value="true"
-                  class="form-input"
-                  (change)="onSetDeTai($event)"
-                  formControlName="trangThai"
-                />
-                <p class="label">Đạt yêu cầu</p>
-              </label>
-
-              <label class="row ali-center">
-                <input
-                  type="radio"
-                  value="false"
-                  class="form-input"
-                  (change)="onSetDeTai($event)"
-                  formControlName="trangThai"
-                />
-                <p class="label">Chưa đạt yêu cầu</p>
-              </label>
-            </div>
-            <p class="error-mess"></p>
-          </div>
-        </label>
       </div>
     </div>
   </div>
 </form>
-
-<div id="delete">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc xóa sẽ làm tất cả thông tin có liên quan đến nhiệm vụ sẽ biến mất.
-        Bạn có chắc chắn muốn xóa ?
-      </p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
-
-      <div class="progress-bar"></div>
-    </div>
-  </div>
-</div>

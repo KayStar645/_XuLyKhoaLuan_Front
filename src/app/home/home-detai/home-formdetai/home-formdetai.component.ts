@@ -96,11 +96,6 @@ export class HomeFormdetaiComponent {
     this.CNInputConfig.data = await this.chuyenNganhService.getAll();
     this.CNInputConfig.keyword = 'tenCn';
 
-    this.route.params.subscribe((params) => {
-      this.maDt = params['maDt'];
-      this.setForm();
-    });
-
     this.getComment();
 
     this.isDTMe = await this.deTaiService.CheckisDetaiOfGiangvien(
@@ -200,35 +195,6 @@ export class HomeFormdetaiComponent {
     }
   }
 
-  async setForm() {
-    if (this.maDt) {
-      await this.deTaiService.getById(this.maDt).then(async (data) => {
-        let gv = this.getGvRadeByMaDT(data.maDT);
-
-        this.deTai = data;
-        this.getTenChuyennganhByMaDT(this.deTai.maDT);
-
-        this.dtForm.form.patchValue({
-          ...this.deTai,
-          maGv: gv.maGv,
-          tenGv: gv.tenGv,
-          trangThai: JSON.stringify(this.deTai.trangThai),
-        });
-
-        return this.deTai;
-      });
-
-      this.oldForm = this.dtForm.form.value;
-    } else {
-      this.dtForm.resetForm('.dt-form');
-
-      this.dtForm.form.patchValue({
-        slMin: this.slMin,
-        slMax: this.slMax,
-      });
-    }
-  }
-
   onOpenDropdown(event: any) {
     event.stopPropagation();
     let parent =
@@ -260,8 +226,6 @@ export class HomeFormdetaiComponent {
       } catch (error) {}
     }
   }
-
-  createLanDuyet(maGv: string, maDt: string) {}
 
   onSetItem(event: any) {
     event.stopPropagation();
@@ -343,7 +307,6 @@ export class HomeFormdetaiComponent {
         await this.raDeService.add(raDe);
         this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         this.router.navigate(['/ministry/de-tai/chi-tiet', { maDt: '' }]);
-        this.setForm();
       } catch (error) {
         this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
       }
@@ -356,54 +319,6 @@ export class HomeFormdetaiComponent {
   setSelectedGV(event: any) {
     this.dtForm.form.patchValue({
       maGv: event.maGv,
-    });
-  }
-
-  onDelete() {
-    let formValue: any = this.dtForm.form.value;
-    const _delete = document.querySelector('#delete')!;
-    let option = new Option('#delete');
-
-    _delete.classList.add('active');
-
-    option.show('error', () => {
-      _delete.classList.remove('active');
-    });
-
-    option.cancel(() => {
-      _delete.classList.remove('active');
-    });
-
-    option.agree(async () => {
-      try {
-        const raDe = new RaDe();
-        const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-        const duyetDT = new DuyetDt();
-
-        raDe.init(formValue.maGv, formValue.maDT);
-
-        this.selectedCN.forEach((item) => {
-          let deTaiChuyenNganh = new DeTai_ChuyenNganh();
-
-          deTaiChuyenNganh.init(item.maCn, formValue.maDT);
-          deTaiChuyenNganhs.push(deTaiChuyenNganh);
-        });
-
-        deTaiChuyenNganhs.forEach(async (item) => {
-          await this.deTaiChuyenNganhService.delete(item.maDt, item.maCn);
-        });
-
-        await this.duyetDTService.delete(formValue.maGv, this.maDt, 1);
-        await this.raDeService.delete(raDe.maGv, raDe.maDt);
-
-        await this.deTaiService.delete(this.maDt);
-
-        this.toastr.success('Xóa Đề tài thành công', 'Đề tài!');
-        this.router.navigate(['/ministry/de-tai/']);
-      } catch (error) {
-        this.toastr.error('Xóa Đề tài thất bại', 'Đề tài!');
-      }
-      _delete.classList.remove('active');
     });
   }
 
@@ -427,12 +342,6 @@ export class HomeFormdetaiComponent {
       this.isTrangThai =
         (await this.deTaiService.getById(maDT)).trangThai == true ? 1 : -1;
     }
-  }
-
-  getGvRadeByMaDT(maDT: string) {
-    return this.GVInputConfig.data.find(
-      (t: any) => t.maGv === this.listRaDe.find((t) => t.maDt === maDT)?.maGv
-    );
   }
 
   createMaDt() {}
