@@ -1,0 +1,151 @@
+.container {
+  margin: 0 -8px;
+}
+
+.form-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 16px;
+
+  .label {
+    width: auto;
+  }
+}
+
+.date-time {
+  margin: 0 -8px;
+}
+
+.topic-status {
+  gap: 24px;
+}
+
+.comment-btn {
+  background: #0984e3;
+  color: #fff;
+  padding: 10px 12px;
+  min-width: 75px;
+  font-size: 1.4rem;
+  border-radius: 5px;
+  margin-top: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: #36a0f1;
+  }
+}
+
+.selected-box {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #eae9e9;
+  background: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 400;
+  min-height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(64, 153, 213, 0.859);
+  }
+}
+
+.form-value {
+  position: relative;
+
+  .dropdown {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    top: 120%;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.selected-box.active {
+  i {
+    transform: rotate(180deg);
+  }
+
+  .dropdown {
+    display: block;
+  }
+}
+
+.major-item {
+  padding: 8px 0;
+  border-left: 0px solid transparent;
+
+  &.active {
+    padding-left: 12px;
+    padding-right: 12px;
+    border-left: 5px solid #2378b8;
+  }
+}
+
+.list-major {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.dropdown input {
+  border: none;
+  border-bottom: 2px solid #c6c6c6;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+.selected-item .item {
+  border: 1px solid #eae9e9;
+  padding: 4px;
+  border-radius: 4px;
+  width: 80px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.comment-item {
+  padding-bottom: 32px;
+
+  img {
+    width: 35px;
+  }
+}
+
+.comment-info {
+  background: #f0f2f5;
+  padding: 8px 16px;
+  border-radius: 18px;
+  margin-left: 8px;
+  min-width: 200px;
+  position: relative;
+
+  .title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding-bottom: 2px;
+  }
+
+  .content {
+    font-size: 1.4rem;
+    color: #635f5f;
+  }
+
+  .time {
+    position: absolute;
+    left: 16px;
+    font-size: 1.2rem;
+    color: #7c7c7c;
+    font-weight: 600;
+    top: 100%;
+  }
+}

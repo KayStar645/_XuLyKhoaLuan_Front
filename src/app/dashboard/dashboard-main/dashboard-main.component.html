@@ -101,7 +101,7 @@
     <div>
       <ul class="navbar-list row ali-center" id="navbar">
         <li class="navbar-item">
-          <a [routerLink]="['/dashboard/thong-bao', { id:  data?.maSv  }]" class="navbar-link"> 
+          <a routerLink="/dashboard/thong-bao" class="navbar-link"> 
             <img
               class="navbar-icon"
               src="../../assets/Images/thong-bao.png"
@@ -112,7 +112,7 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a (click)="goToDashboardLoiMoiRoute($event)" class="navbar-link">
+          <a routerLink="/dashboard/loi-moi" class="navbar-link">
             <img
               class="navbar-icon"
               src="../../assets/Images/sinh-vien.png"

@@ -73,11 +73,4 @@ export class DashboardMainComponent implements OnInit {
   dateFormat(str: any): string {
     return this.shareService.dateFormat(str);
   }
-
-  goToDashboardLoiMoiRoute(event: any) {
-    const data = {
-      id: this.data.maSv,
-    };
-    this.router.navigate(['/dashboard/loi-moi'], { queryParams: data });
-  }
 }

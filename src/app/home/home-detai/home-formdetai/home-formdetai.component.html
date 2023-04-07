@@ -1,0 +1,138 @@
+<div id="functional-container">
+  <div class="functional-list">
+    <div class="functional-container row ali-center jus-end functional-wrapper">
+      <div class="functional-button">
+        <button (click)="onAdd()">Thêm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form class="dt-form" [formGroup]="dtForm.form">
+  <div class="container row">
+    <div class="h-8 p-l-8 p-r-8">
+      <div class="form-item">
+        <div class="form-control">
+          <p class="label p-b-8">Tên đề tài</p>
+
+          <div class="form-value">
+            <quill-editor
+              class="form-input"
+              spellcheck="false"
+              placeholder=""
+              formControlName="tenDT"
+              [modules]="{ toolbar: false }"
+              [readOnly]="!isDTMe"
+            >
+            </quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <p class="label p-b-8">Tóm tắt</p>
+
+          <div class="form-value">
+            <quill-editor
+              spellcheck="false"
+              class="form-input"
+              placeholder=""
+              [modules]="quillConfig"
+              formControlName="tomTat"
+              [readOnly]="!isDTMe"
+            ></quill-editor>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4 p-l-8 p-r-8">
+      <div class="form-item">
+
+        <div class="form-control form-no-box-shadow">
+          <p class="label p-b-4">Chuyên ngành phù hợp</p>
+
+          <div class="form-value">
+            <div class="selected-box row" (click)="onOpenDropdown($event)">
+              <div class="selected-item flex-1">
+                <div class="row ali-center">
+                  <div *ngFor="let item of selectedCN" class="item">
+                    {{ item.tenCn }}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <i class="fa-solid fa-caret-down"></i>
+              </div>
+
+              <div class="dropdown">
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="Tìm chuyên ngành"
+                  (input)="onSearchCN($event)"
+                  (click)="onClickInput($event)"
+                />
+
+                <div class="list-major p-t-16">
+                  <div
+                    *ngFor="let item of CNInputConfig.data; let i = index"
+                    class="major-item"
+                    [ngClass]="{ active: isCNExist(selectedCN, item) }"
+                    [attr.data-index]="item.maCn"
+                    (click)="onSetItem($event)"
+                  >
+                    {{ item.tenCn }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <div class="row ali-center functional-wrapper">
+          <div class="h-6 p-l-8 p-r-8">
+            <label class="form-control">
+              <p class="label p-b-8">Tối đa</p>
+              <div class="form-value">
+                <input
+                  id="add-min"
+                  class="form-input"
+                  type="number"
+                  formControlName="slMax"
+                  (blur)="dtForm.inputBlur($event)"
+                  [defaultValue]="slMax"
+                  (change)="setSlMax($event)"
+                  [min]="slMin"
+                  [readOnly]="!isDTMe"
+                />
+                <p class="error-mess"></p>
+              </div>
+            </label>
+          </div>
+
+          <div class="h-6 p-l-8 p-r-8">
+            <label class="form-control">
+              <p class="label p-b-8">Tối thiểu</p>
+              <div class="form-value">
+                <input
+                  class="form-input"
+                  type="number"
+                  formControlName="slMin"
+                  (blur)="dtForm.inputBlur($event)"
+                  [min]="1"
+                  [max]="slMax"
+                  [readOnly]="!isDTMe"
+                />
+                <p class="error-mess"></p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
