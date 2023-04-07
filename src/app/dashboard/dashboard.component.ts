@@ -10,7 +10,6 @@ import { dotDkService } from '../services/dotDk.service';
 import { thamGiaService } from '../services/thamGia.service';
 import { dangKyService } from '../services/dangKy.service';
 import { raDeService } from '../services/raDe.service';
-import { DashboardDetaiComponent } from './dashboard-detai/dashboard-detai.component';
 
 
 @Component({
@@ -52,7 +51,6 @@ export class DashboardComponent implements OnInit {
   public async ngOnInit() {
 
     // Kiểm tra đăng nhập để điều hướng
-    //this.isLoggedIn$ = this.authService.isLoggedIn(); [Tạm thời]
     if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Student')) {
       this.isLoggedIn$ = of(false);
       this.router.navigate(['/login']);
@@ -76,6 +74,7 @@ export class DashboardComponent implements OnInit {
     this.shareService.setDot(this.dot);
 
     DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
+    
     let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, this.namHoc, this.dot)).maNhom;
     DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
     DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 

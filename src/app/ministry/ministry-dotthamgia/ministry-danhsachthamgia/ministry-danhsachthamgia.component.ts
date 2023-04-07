@@ -69,6 +69,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     this.websocketService.startConnection();
     this.websocketService.receiveFromThamGia((dataChange: boolean) => {
       if (dataChange) {
+        this.sinhVienService.getAll().then((data) => this.listSV = data);
         this.getAllThamgiaByDotdk();
       }
     });

@@ -67,14 +67,19 @@ export class HomeMainComponent {
     this.data = await this.giangVienService.getById(this.maGV);
     this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
-    try {
-      this.maBm = await (await this.truongBmService.CheckTruongBomonByMaGV(this.maGV)).maBm;
+    // Kiểm tra có phải là trưởng bộ môn hoặc trưởng khoa hay không?
+    if(await this.truongBmService.isTruongBomonByMaGV(this.maGV)) {
+      this.maBm = await(
+        await this.truongBmService.CheckTruongBomonByMaGV(this.maGV)
+      ).maBm;
       HomeMainComponent.maBm = this.maBm;
-    } catch { }
-    try {
-      this.maKhoa = await (await this.truongKhoaService.CheckTruongKhoaByMaGV(this.maGV)).maKhoa;
+    }
+    if(await this.truongKhoaService.isTruongKhoaByMaGV(this.maGV)) {
+      this.maKhoa = await(
+        await this.truongKhoaService.CheckTruongKhoaByMaGV(this.maGV)
+      ).maKhoa;
       HomeMainComponent.maKhoa = this.maKhoa;
-    } catch { }
+    }
 
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
     this.resetNavbar();

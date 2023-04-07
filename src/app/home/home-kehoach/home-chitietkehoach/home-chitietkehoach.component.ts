@@ -262,7 +262,6 @@ export class HomeChitietkehoachComponent {
     option.agree(async () => {
       try {
         await this.keHoachService.delete(this.maKh);
-        await this.setForm();
         this.websocketService.sendForKeHoach(true);
 
         this.toastr.success('Xóa kế hoạch thành công', 'Kế hoạch !');
