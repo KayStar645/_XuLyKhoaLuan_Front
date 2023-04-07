@@ -213,10 +213,14 @@
 
         <label class="form-control" *ngIf="maDt">
           <p class="label p-b-8" *ngIf="!isTruongK && !isTruongBM">
-            Trạng thái: 
-            <span style="color: blue;" *ngIf="isTrangThai == 0">Chưa duyệt</span>
-            <span style="color: #15fa00;;" *ngIf="isTrangThai == 1">Đạt yêu cầu</span>
-            <span style="color: red;" *ngIf="isTrangThai == -1">Chưa đạt yêu cầu</span>
+            Trạng thái:
+            <span style="color: blue" *ngIf="isTrangThai == 0">Chưa duyệt</span>
+            <span style="color: #15fa00 ;" *ngIf="isTrangThai == 1"
+              >Đạt yêu cầu</span
+            >
+            <span style="color: red" *ngIf="isTrangThai == -1"
+              >Chưa đạt yêu cầu</span
+            >
           </p>
           <div class="form-value" *ngIf="isTruongK || isTruongBM">
             <div class="row ali-center topic-status">
@@ -225,6 +229,7 @@
                   type="radio"
                   value="true"
                   class="form-input"
+                  (change)="onSetDeTai($event)"
                   formControlName="trangThai"
                 />
                 <p class="label">Đạt yêu cầu</p>
@@ -235,6 +240,7 @@
                   type="radio"
                   value="false"
                   class="form-input"
+                  (change)="onSetDeTai($event)"
                   formControlName="trangThai"
                 />
                 <p class="label">Chưa đạt yêu cầu</p>

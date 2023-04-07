@@ -1,0 +1,34 @@
+.detail-container {
+  padding: 16px 0;
+}
+
+.detail-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 1.4rem;
+}
+
+.detail-item .title {
+  font-size: 2rem;
+  color: #292929;
+  font-weight: bold;
+  padding-bottom: 24px;
+}
+
+.attach-file {
+  font-size: 1.4rem;
+}
+
+.attach-file p {
+  padding-right: 4px;
+}
+
+.attach-file a {
+  color: dodgerblue;
+  font-weight: 500;
+}
+
+.attach-file a:hover {
+  text-decoration: underline;
+}

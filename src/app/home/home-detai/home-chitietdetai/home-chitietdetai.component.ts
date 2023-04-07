@@ -117,6 +117,11 @@ export class HomeChitietdetaiComponent {
     this.websocketService.startConnection();
   }
 
+  onSetDeTai(event: any){
+    console.log("hi");
+    
+  }
+
   async getComment() {
     this.listDuyetDT = await this.duyetDTService.getByMadt(this.maDt);
 

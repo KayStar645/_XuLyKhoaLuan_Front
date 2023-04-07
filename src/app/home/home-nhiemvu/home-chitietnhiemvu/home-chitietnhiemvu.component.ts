@@ -60,13 +60,13 @@ export class HomeChitietnhiemvuComponent {
       await this.setForm();
     });
     this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
-    console.log(this.isTruongBM)
 
-    this.GVInputConfig.data = await this.giangVienService.getByBoMon(HomeMainComponent.maBm);
+    this.GVInputConfig.data = await this.giangVienService.getByBoMon(
+      HomeMainComponent.maBm
+    );
     this.GVInputConfig.keyword = 'tenGv';
 
     this.websocketService.startConnection();
-    
   }
 
   async setForm() {
@@ -95,11 +95,13 @@ export class HomeChitietnhiemvuComponent {
           axios
             .get(environment.githubMissionFilesAPI + response.fileNv)
             .then((response) => {
+              this.oldForm.fileName = response.data.name;
               this.pdfSrc = response.data.download_url;
             });
         });
 
       this.oldForm = this.nvForm.form.value;
+      this.oldForm.thoiDiemKt = this.ngayKt + ' ' + this.thoiGianKt;
     } else {
       this.ngayBd = format(new Date(), 'dd-MM-yyyy');
       this.maNv = -1;
@@ -287,4 +289,3 @@ export class HomeChitietnhiemvuComponent {
     this.onDateTimeChange();
   }
 }
-
