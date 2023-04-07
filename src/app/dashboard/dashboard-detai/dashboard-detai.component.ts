@@ -59,16 +59,33 @@ export class DashboardDetaiComponent {
 
   public async ngOnInit() {
     //Nếu không có trong tham gia không được mời quay trở lại trang chủ
-    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.shareService.getNamHoc(), this.shareService.getDot()) == false){
+    if (
+      (await this.thamGiaService.isJoinedAGroup(
+        DashboardComponent.maSV,
+        shareService.namHoc,
+        shareService.dot
+      )) == false
+    ) {
       this.router.navigate(['dashboard']);
     }
 
     //Nếu chưa có nhóm quay trở lại trang chủ
-    if(await this.thamGiaService.isNotJoinedAGroupThisSemester(DashboardComponent.maSV, this.shareService.getNamHoc(), this.shareService.getDot()) == true){
+    if (
+      (await this.thamGiaService.isNotJoinedAGroupThisSemester(
+        DashboardComponent.maSV,
+        shareService.namHoc,
+        shareService.dot
+      )) == true
+    ) {
       this.router.navigate(['dashboard']);
     }
 
-    if(await this.deTaiService.isHaveDeTaiInNamHocDotActive(this.shareService.getNamHoc(), this.shareService.getDot()) == false){
+    if (
+      (await this.deTaiService.isHaveDeTaiInNamHocDotActive(
+        shareService.namHoc,
+        shareService.dot
+      )) == false
+    ) {
       this.isPopupVisible = true;
       this.isNotHaveDeTai = true;
       return;
@@ -121,8 +138,12 @@ export class DashboardDetaiComponent {
   }
 
   async getAllDeTai(){
-    this.listDT = (await this.deTaiService.getAll()).
-      filter(dt => dt.trangThai === true && dt.namHoc == this.shareService.getNamHoc() && dt.dot == this.shareService.getDot());
+    this.listDT = (await this.deTaiService.getAll()).filter(
+      (dt) =>
+        dt.trangThai === true &&
+        dt.namHoc == shareService.namHoc &&
+        dt.dot == shareService.dot
+    );
     this.root = this.listDT;
   }
 

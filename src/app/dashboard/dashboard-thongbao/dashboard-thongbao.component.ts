@@ -36,14 +36,31 @@ export class DashboardThongbaoComponent {
 
   async ngOnInit(){
     this.maSv = DashboardComponent.maSV;
-    this.namHoc = this.shareService.getNamHoc();
-    this.dot = this.shareService.getDot();
-    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(this.maSv,this.namHoc,this.dot);
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
+      this.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
 
-    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.namHoc, this.dot)){
-      const groupJoinedId = await (await this.thamGiaService.getById(this.maSv, this.namHoc, this.dot)).maNhom;
-      this.isGroupHaveOneMember = (await this.thamGiaService.getAll()).filter(tg => tg.maNhom == groupJoinedId).length === 1;
-    }else {
+    if (
+      await this.thamGiaService.isJoinedAGroup(
+        DashboardComponent.maSV,
+        shareService.namHoc,
+        shareService.dot
+      )
+    ) {
+      const groupJoinedId = await(
+        await this.thamGiaService.getById(
+          this.maSv,
+          shareService.namHoc,
+          shareService.dot
+        )
+      ).maNhom;
+      this.isGroupHaveOneMember =
+        (await this.thamGiaService.getAll()).filter(
+          (tg) => tg.maNhom == groupJoinedId
+        ).length === 1;
+    } else {
       this.router.navigate(['dashboard']);
     }
   }

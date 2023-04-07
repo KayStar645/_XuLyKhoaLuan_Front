@@ -32,17 +32,29 @@ export class DashboardNhomComponent implements AfterViewInit {
     const id = localStorage.getItem('Id')?.toString() + '';
 
     //Nếu không có trong tham gia không được mời quay trở lại trang chủ
-    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.shareService.getNamHoc(), this.shareService.getDot()) == false){
+    if (
+      (await this.thamGiaService.isJoinedAGroup(
+        DashboardComponent.maSV,
+        shareService.namHoc,
+        shareService.dot
+      )) == false
+    ) {
       this.router.navigate(['dashboard']);
     }
 
-    if(await this.thamGiaService.isJoinedAGroup(id, namHoc, dot)){
+    if (
+      await this.thamGiaService.isJoinedAGroup(
+        id,
+        shareService.namHoc,
+        shareService.dot
+      )
+    ) {
       const tgia = this.thamGiaService.getById(
-      id,
-      shareService.namHoc,
-      shareService.dot
-    );
-      if((await tgia).maNhom == null || (await tgia).maNhom == ''){
+        id,
+        shareService.namHoc,
+        shareService.dot
+      );
+      if ((await tgia).maNhom == null || (await tgia).maNhom == '') {
         this.router.navigate(['dashboard']);
       }
     }

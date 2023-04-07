@@ -111,13 +111,23 @@ export class DashboardLoimoiComponent implements OnInit{
     }
 
     //Xuất ra lỗi khi gửi lời mời cho sinh viên không trong đợt đăng ký khóa luận
-    if(await this.thamGiaService.isJoinedAGroup(this.timSinhVienById.value['maSv'], this.namHoc, this.dot) == false){
+    if (
+      (await this.thamGiaService.isJoinedAGroup(
+        this.timSinhVienById.value['maSv'],
+        shareService.namHoc,
+        shareService.dot
+      )) == false
+    ) {
       this.isPopupVisible = true;
       this.isSentToNotJoinStudent = true;
       return;
     }
 
-    const result = await this.checkNotJoinedGroup(this.idSentStudent, this.namHoc, this.dot);
+    const result = await this.checkNotJoinedGroup(
+      this.idSentStudent,
+      shareService.namHoc,
+      shareService.dot
+    );
     if(result) {
       //Người gửi lời mời chưa từng tham gia vào nhóm nào
       await this.createGroup();
