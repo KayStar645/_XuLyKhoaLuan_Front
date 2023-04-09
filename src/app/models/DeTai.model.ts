@@ -11,6 +11,7 @@ export class DeTai {
   constructor() {}
 
   init(
+    maDT: string,
     tenDT: string,
     tomTat: string,
     slMin: number,
@@ -18,7 +19,7 @@ export class DeTai {
     namHoc: string,
     dot: number
   ) {
-    this.maDT = '';
+    this.maDT = maDT;
     this.tenDT = tenDT;
     this.tomTat = tomTat;
     this.slMin = slMin;

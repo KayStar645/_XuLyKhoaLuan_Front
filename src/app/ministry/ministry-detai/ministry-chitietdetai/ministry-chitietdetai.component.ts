@@ -164,6 +164,7 @@ export class MinistryChitietdetaiComponent {
       });
 
       deTai.init(
+        "",
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
@@ -314,6 +315,7 @@ export class MinistryChitietdetaiComponent {
       });
 
       deTai.init(
+        "",
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,

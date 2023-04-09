@@ -160,6 +160,7 @@ export class HomeFormdetaiComponent {
       try {
         const deTai = new DeTai();
         deTai.init(
+          "",
           formValue.tenDT,
           formValue.tomTat,
           formValue.slMin,

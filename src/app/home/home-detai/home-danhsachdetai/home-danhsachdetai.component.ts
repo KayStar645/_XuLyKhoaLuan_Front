@@ -26,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { debounceTime, Subject } from 'rxjs';
 import { HomeMainComponent } from '../../home-main/home-main.component';
+import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
 
 @Component({
   selector: 'app-home-danhsachdetai',
@@ -99,7 +100,7 @@ export class HomeDanhsachdetaiComponent {
         this.listDT = this.root;
       }
     });
-    
+
     this.websocketService.startConnection();
     this.websocketService.receiveFromDeTai((dataChange: boolean) => {
       if (dataChange) {
@@ -181,49 +182,61 @@ export class HomeDanhsachdetaiComponent {
     dragBox.classList.remove('active');
   }
 
-  onReadFile() {
+  async createDeTai(data: any) {
+    let deTai = new DeTai();
+    // let maDT = await this.deTaiService.createMaDT('CNTT');
+    deTai.init(
+      "",
+      data[0] ? data[0] : '',
+      data[1] ? data[1] : '',
+      data[2] ? data[2] : '',
+      data[3] ? data[3] : '',
+      shareService.namHoc,
+      shareService.dot
+    );
+    let dt = await this.deTaiService.add(deTai);
+    return dt.maDT;
+  }
+
+  async createRaDe(maDT: string) {
+    let raDe = new RaDe();
+    raDe.init(HomeMainComponent.maGV, maDT);
+    await this.raDeService.add(raDe);
+  }
+
+  async createChuyenNganh_DeTai(listCns: any, maDT: string) {
+    let deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
+    let chuyenNganhs = listCns
+      .split(',')
+      .map((t: any) => this.shareService.removeSpace(t));
+    chuyenNganhs.forEach((item: any) => {
+      let deTaiChuyenNganh = new DeTai_ChuyenNganh();
+      deTaiChuyenNganh.init(item, maDT);
+      deTaiChuyenNganhs.push(deTaiChuyenNganh);
+    });
+    deTaiChuyenNganhs.forEach(async (item) => {
+      await this.deTai_chuyenNganhService.add(item);
+    });
+  }
+
+  async onReadFile() {
     if (this.deTaiFile.data.length > 0) {
       const datas = this.deTaiFile.data;
-
-      datas.forEach(async (data: any) => {
+      
+      for(var data of datas) {
         try {
-          let dt = new DeTai();
-          dt.init(
-            data[0] ? data[0] : '',
-            data[1] ? data[1] : '',
-            data[2] ? data[2] : '',
-            data[3] ? data[3] : '',
-            shareService.namHoc,
-            shareService.dot
-          );
-          let deTai = await this.deTaiService.add(dt);
-          // console.log("Đề tài nè: ");
-          // console.log(deTai);
+          var maDT = await this.createDeTai(data);
+          console.log(maDT);
 
-          let raDe = new RaDe();
-          raDe.init(HomeMainComponent.maGV, deTai.maDT);
-          await this.raDeService.add(raDe);
+          await this.createRaDe(maDT);
 
-          let deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-          let chuyenNganhs = data[4]
-            .split(',')
-            .map((t: any) => this.shareService.removeSpace(t));
-          chuyenNganhs.forEach((item: any) => {
-            let deTaiChuyenNganh = new DeTai_ChuyenNganh();
-            deTaiChuyenNganh.init(item, deTai.maDT);
-            deTaiChuyenNganhs.push(deTaiChuyenNganh);
-          });
-          deTaiChuyenNganhs.forEach(async (item) => {
-            await this.deTai_chuyenNganhService.add(item);
-          });
+          await this.createChuyenNganh_DeTai(data[4], maDT);
 
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         } catch (error) {
           this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
         }
-      });
-
-      this.getAllDeTai();
+      }
     }
   }
 

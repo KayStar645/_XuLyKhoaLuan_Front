@@ -190,6 +190,7 @@ export class MinistryDanhsachdetaiComponent {
       datas.forEach(async (data: any) => {
         let dt = new DeTai();
         dt.init(
+          "",
           data[0] ? data[0] : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
@@ -247,9 +248,7 @@ export class MinistryDanhsachdetaiComponent {
       // Lấy đề tài của khoa mình thôi nè
       this.listDT = await this.deTaiService.getAll();
       this.root = this.listDT;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   async getDetaiByMaCn(maCn: string) {

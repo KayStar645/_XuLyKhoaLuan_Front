@@ -258,13 +258,14 @@ export class HomeDetaiComponent implements OnInit {
     dragBox.classList.remove('active');
   }
 
-  onReadFile() {
+  async onReadFile() {
     if (this.deTaiFile.data.length > 0) {
       const datas = this.deTaiFile.data;
 
-      datas.forEach((data: any) => {
+      datas.forEach(async (data: any) => {
         let dt = new DeTai();
         dt.init(
+          "",
           data[0] ? data[0] : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
@@ -318,7 +319,7 @@ export class HomeDetaiComponent implements OnInit {
     });
   }
 
-  addDeTai() {
+  async addDeTai() {
     this.dtForm.form.patchValue({
       trangThai: 'false',
     });
@@ -326,6 +327,7 @@ export class HomeDetaiComponent implements OnInit {
     if (this.dtAddForm.valid) {
       const deTai = new DeTai();
       deTai.init(
+        "",
         this.dtAddForm.value['tenDT'],
         this.dtAddForm.value['tomTat'],
         this.dtAddForm.value['slMin'],
@@ -354,7 +356,7 @@ export class HomeDetaiComponent implements OnInit {
       .classList.remove('br-line-hover');
   }
 
-  updateDeTai() {
+  async updateDeTai() {
     let update = this.elementRef.nativeElement.querySelector('#update');
     let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
 
@@ -370,6 +372,7 @@ export class HomeDetaiComponent implements OnInit {
       } else {
         const deTai = new DeTai();
         deTai.init(
+          "",
           this.dtUpdateForm.value['tenDT'],
           this.dtUpdateForm.value['tomTat'],
           this.dtUpdateForm.value['slMin'],

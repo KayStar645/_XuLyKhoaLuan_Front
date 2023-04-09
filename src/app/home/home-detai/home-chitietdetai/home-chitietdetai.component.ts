@@ -168,8 +168,8 @@ export class HomeChitietdetaiComponent {
         deTaiChuyenNganh.init(item.maCn, formValue.maDT);
         deTaiChuyenNganhs.push(deTaiChuyenNganh);
       });
-
       deTai.init(
+        formValue.maDT,
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
@@ -327,8 +327,8 @@ export class HomeChitietdetaiComponent {
         deTaiChuyenNganh.init(item.maCn, formValue.maDT);
         deTaiChuyenNganhs.push(deTaiChuyenNganh);
       });
-
       deTai.init(
+        "",
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
