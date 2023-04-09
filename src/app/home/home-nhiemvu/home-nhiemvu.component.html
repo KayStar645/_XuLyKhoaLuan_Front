@@ -1,1 +1,42 @@
+<div class="p-t-16" *ngIf="isTruongBM">
+  <div class="functional-container row jus-between functional-wrapper">
+    <div class="h-3"></div>
+
+    <div class="h-6">
+      <div class="row ali-center jus-center nav-bar functional-wrapper h-100">
+        <div
+          class="nav-item active"
+          routerLink="/home/nhiem-vu"
+          (click)="onChangeCurrent($event)"
+        >
+          Nhiệm vụ
+          <div class="line"></div>
+        </div>
+        <div
+          class="nav-item"
+          routerLink="/home/nhiem-vu/huongdan-rade"
+          (click)="onChangeInstruct($event)"
+        >
+          Hướng dẫn - Ra đề
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-3">
+      <div class="row jus-end h-100">
+        <div class="functional-button">
+          <button
+            *ngIf="homeNhiemVuService.getIsAddBtnActive()"
+            [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: -1 }]"
+            (click)="onCheckIsAddBtnActive()"
+          >
+            Thêm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <router-outlet></router-outlet>

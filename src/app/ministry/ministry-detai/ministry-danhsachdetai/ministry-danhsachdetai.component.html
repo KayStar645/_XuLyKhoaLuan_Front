@@ -34,7 +34,7 @@
         </select>
       </li> -->
       <li
-        class="functional-item function-wrapper row ali-center jus-end flex-1"
+        class="functional-item functional-wrapper row ali-center jus-end flex-1"
       >
         <div class="functional-button">
           <button [routerLink]="['/ministry/de-tai/chi-tiet', { maDt: '' }]">
@@ -48,7 +48,7 @@
       </li>
     </ul>
   </div>
-  
+
   <div id="drag-file" (click)="onCloseDrag($event)"></div>
   <div id="drag-file_box">
     <p class="title">Nhập danh sách</p>
@@ -123,10 +123,14 @@
             <b>
               {{ getThoiGianDuyetByMaDT(dt.maDT) }}
               <br />
-              <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''">Chưa duyệt</span>
+              <span
+                style="color: blue"
+                *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''"
+                >Chưa duyệt</span
+              >
               <span *ngIf="getThoiGianDuyetByMaDT(dt.maDT) != ''">
-                <span style="color: #15fa00;;" *ngIf="dt.trangThai">Đạt</span>
-                <span style="color: red;" *ngIf="!dt.trangThai">Chưa đạt</span>
+                <span style="color: #15fa00 ;" *ngIf="dt.trangThai">Đạt</span>
+                <span style="color: red" *ngIf="!dt.trangThai">Chưa đạt</span>
               </span>
             </b>
           </td>

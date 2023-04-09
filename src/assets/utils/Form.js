@@ -51,18 +51,21 @@ class Form {
 
   resetForm(formSelector, except = []) {
     let form = document.querySelector(formSelector);
-    let formElement = form.querySelectorAll(".form-input");
 
-    for (let i = 0; i < formElement.length; i++) {
-      const element = formElement[i];
-      const parent = getParentElement(element, ".form-control");
-      let controlName = element.getAttribute("formControlName");
+    if (form) {
+      let formElement = form.querySelectorAll(".form-input");
 
-      if (!except.includes(controlName)) {
-        parent && parent.classList.remove("invalid");
-        this.form.patchValue({
-          [controlName]: "",
-        });
+      for (let i = 0; i < formElement.length; i++) {
+        const element = formElement[i];
+        const parent = getParentElement(element, ".form-control");
+        let controlName = element.getAttribute("formControlName");
+
+        if (!except.includes(controlName)) {
+          parent && parent.classList.remove("invalid");
+          this.form.patchValue({
+            [controlName]: "",
+          });
+        }
       }
     }
   }
