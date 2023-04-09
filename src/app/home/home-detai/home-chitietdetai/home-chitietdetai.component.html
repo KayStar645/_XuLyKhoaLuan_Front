@@ -291,7 +291,7 @@
         <div class="form-control" *ngIf="maDt">
           <p class="label p-b-12 w-auto">Góp ý chỉnh sửa đề tài</p>
 
-          <div *ngIf="isTruongBM || isTruongK">
+          <div [formGroup]="dtForm.form" *ngIf="isTruongBM || isTruongK">
             <div class="form-value">
               <quill-editor
                 spellcheck="false"
@@ -333,16 +333,24 @@
       <div class="detail-item">
         <p class="date-due p-b-12">
           Trạng thái duyệt đề tài:
-           <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(maDt) == ''">Chưa duyệt</span>
-              <span *ngIf="getThoiGianDuyetByMaDT(maDt) != ''">
-                <span style="color: #15fa00;" *ngIf="isTrangthaiDetai(maDt)">Đạt</span>
-                <span style="color: red;" *ngIf="!isTrangthaiDetai(maDt)">Chưa đạt</span>
-              </span>
+          <!-- <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(maDt) == ''"
+            >Chưa duyệt</span
+          >
+          <span *ngIf="getThoiGianDuyetByMaDT(maDt) != ''">
+            <span style="color: #15fa00" *ngIf="isTrangthaiDetai(maDt)"
+              >Đạt</span
+            >
+            <span style="color: red" *ngIf="!isTrangthaiDetai(maDt)"
+              >Chưa đạt</span
+            >
+          </span> -->
         </p>
 
         <ul class="list">
-          Số lượng sinh viên phù hợp: 
-          <span style="color: blue;">{{ oldForm.slMin }} -> {{ oldForm.slMax }}</span>
+          Số lượng sinh viên phù hợp:
+          <span style="color: blue"
+            >{{ oldForm.slMin }} -> {{ oldForm.slMax }}</span
+          >
         </ul>
       </div>
     </div>
