@@ -331,9 +331,9 @@
 
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
-        <p class="date-due p-b-12">
+        <!-- <p class="date-due p-b-12">
           Trạng thái duyệt đề tài:
-          <!-- <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(maDt) == ''"
+          <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(maDt) == ''"
             >Chưa duyệt</span
           >
           <span *ngIf="getThoiGianDuyetByMaDT(maDt) != ''">
@@ -343,15 +343,22 @@
             <span style="color: red" *ngIf="!isTrangthaiDetai(maDt)"
               >Chưa đạt</span
             >
-          </span> -->
-        </p>
+          </span>
+        </p> -->
 
-        <ul class="list">
-          Số lượng sinh viên phù hợp:
-          <span style="color: blue"
-            >{{ oldForm.slMin }} -> {{ oldForm.slMax }}</span
-          >
-        </ul>
+        <div class="description-list">
+          <div class="description-item row">
+            <p>Mã đề tài:</p>
+            <p>{{ oldForm.maDT }}</p>
+          </div>
+
+          <ul class="list">
+            Số lượng sinh viên phù hợp:
+            <span style="color: blue"
+              >{{ oldForm.slMin }} -> {{ oldForm.slMax }}</span
+            >
+          </ul>
+        </div>
       </div>
     </div>
   </div>
