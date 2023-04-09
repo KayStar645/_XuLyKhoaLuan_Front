@@ -18,25 +18,25 @@ export class userService {
     constructor(private http: HttpClient, private router: Router,
       private shareService: shareService) {}
 
-    async addMinistry(user: User): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Accounts/SigUpMinistry`, 
-      user, this.shareService.httpOptions).toPromise();
-    }
+    // async addMinistry(user: User): Promise<any> {
+    //   return await this.http.post(`${this.apiUrl}/api/Accounts/SigUpMinistry`, 
+    //   user, this.shareService.httpOptions).toPromise();
+    // }
 
-    async addTeacher(user: User): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Accounts/SigUpTeacher`, 
-      user, this.shareService.httpOptions).toPromise();
-    }
+    // async addTeacher(user: User): Promise<any> {
+    //   return await this.http.post(`${this.apiUrl}/api/Accounts/SigUpTeacher`, 
+    //   user, this.shareService.httpOptions).toPromise();
+    // }
 
-    async addStudent(user: User): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Accounts/SigUpStudent`, 
-      user, this.shareService.httpOptions).toPromise();
-    }
+    // async addStudent(user: User): Promise<any> {
+    //   return await this.http.post(`${this.apiUrl}/api/Accounts/SigUpStudent`, 
+    //   user, this.shareService.httpOptions).toPromise();
+    // }
 
-    async delete(id: string) {
-      return await this.http.delete(`${this.apiUrl}/api/Accounts/${id}`, 
-      this.shareService.httpOptions).toPromise();
-    }
+    // async delete(id: string) {
+    //   return await this.http.delete(`${this.apiUrl}/api/Accounts/${id}`, 
+    //   this.shareService.httpOptions).toPromise();
+    // }
 
     async ChangePassword(newUser: ChangePassword) {
       return await this.http.post(`${this.apiUrl}/api/Accounts/ChangePassword$`, 

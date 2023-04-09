@@ -153,11 +153,11 @@ export class HomeDanhsachdetaiComponent {
         .filter((data: any) => data.length > 0);
 
       datas.forEach((data: any, i) => {
-        data[0] = `<p>${data[0].replaceAll('\r\n', ' ')}</p>`;
-        data[1] = data[1].split('\r\n');
-        data[1] = data[1].map((line: string) => `<p>${line}</p>`);
+        data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
+        data[2] = data[2].split('\r\n');
+        data[2] = data[2].map((line: string) => `<p>${line}</p>`);
 
-        data[1] = data[1].join('');
+        data[2] = data[2].join('');
       });
       this.deTaiFile = {
         name: file.name,
@@ -187,10 +187,10 @@ export class HomeDanhsachdetaiComponent {
     // let maDT = await this.deTaiService.createMaDT('CNTT');
     deTai.init(
       "",
-      data[0] ? data[0] : '',
       data[1] ? data[1] : '',
       data[2] ? data[2] : '',
       data[3] ? data[3] : '',
+      data[4] ? data[4] : '',
       shareService.namHoc,
       shareService.dot
     );
@@ -229,7 +229,7 @@ export class HomeDanhsachdetaiComponent {
 
           await this.createRaDe(maDT);
 
-          await this.createChuyenNganh_DeTai(data[4], maDT);
+          await this.createChuyenNganh_DeTai(data[5], maDT);
 
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         } catch (error) {

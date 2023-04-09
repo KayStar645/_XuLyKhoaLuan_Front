@@ -20,7 +20,6 @@ import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
-import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
@@ -127,46 +126,45 @@ export class MinistryDanhsachdetaiComponent {
     event.target.classList.remove('active');
   }
 
-  onDropFile(event: any) {
-    event.preventDefault();
-    let file = event.dataTransfer.files[0];
-    this.readExcelFile(file);
-  }
+  // onDropFile(event: any) {
+  //   event.preventDefault();
+  //   let file = event.dataTransfer.files[0];
+  //   this.readExcelFile(file);
+  // }
 
-  onFileInput(event: any) {
-    let file = event.target.files[0];
+  // onFileInput(event: any) {
+  //   let file = event.target.files[0];
 
-    this.readExcelFile(file);
-  }
+  //   this.readExcelFile(file);
+  // }
 
-  readExcelFile(file: any) {
-    const fileReader = new FileReader();
+  // readExcelFile(file: any) {
+  //   const fileReader = new FileReader();
+  //   fileReader.readAsArrayBuffer(file);
+  //   fileReader.onload = (event) => {
+  //     const arrayBuffer: any = fileReader.result;
+  //     const data = new Uint8Array(arrayBuffer);
+  //     const workBook = XLSX.read(data, { type: 'array' });
+  //     const workSheet = workBook.Sheets[workBook.SheetNames[0]];
+  //     const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+  //     const datas = excelData
+  //       .slice(1, excelData.length)
+  //       .filter((data: any) => data.length > 0);
 
-    fileReader.readAsArrayBuffer(file);
-    fileReader.onload = (event) => {
-      const arrayBuffer: any = fileReader.result;
-      const data = new Uint8Array(arrayBuffer);
-      const workBook = XLSX.read(data, { type: 'array' });
-      const workSheet = workBook.Sheets[workBook.SheetNames[0]];
-      const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-      const datas = excelData
-        .slice(1, excelData.length)
-        .filter((data: any) => data.length > 0);
+  //     datas.forEach((data: any, i) => {
+  //       data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
+  //       data[2] = data[2].split('\r\n');
+  //       data[2] = data[2].map((line: string) => `<p>${line}</p>`);
 
-      datas.forEach((data: any, i) => {
-        data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
-        data[2] = data[2].split('\r\n');
-        data[2] = data[2].map((line: string) => `<p>${line}</p>`);
-
-        data[2] = data[2].join('');
-      });
-      this.deTaiFile = {
-        name: file.name,
-        size: (file.size / 1024).toFixed(2) + 'MB',
-        data: datas,
-      };
-    };
-  }
+  //       data[2] = data[2].join('');
+  //     });
+  //     this.deTaiFile = {
+  //       name: file.name,
+  //       size: (file.size / 1024).toFixed(2) + 'MB',
+  //       data: datas,
+  //     };
+  //   };
+  // }
 
   onSelect() {
     let input = this.elementRef.nativeElement.querySelector(
@@ -190,11 +188,11 @@ export class MinistryDanhsachdetaiComponent {
       datas.forEach(async (data: any) => {
         let dt = new DeTai();
         dt.init(
-          "",
-          data[0] ? data[0] : '',
-          data[1] ? data[1] : '',
-          data[2] ? data[2] : '',
+          '',
+          data[1] ? this.shareService.removeSpace(data[1]) : '',
+          data[2] ? this.shareService.removeSpace(data[2]) : '',
           data[3] ? data[3] : '',
+          data[4] ? data[4] : '',
           shareService.namHoc,
           shareService.dot
         );
@@ -202,7 +200,7 @@ export class MinistryDanhsachdetaiComponent {
           await this.deTaiService.add(dt);
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         } catch (error) {
-          this.toastr.success('Thêm đề tài thất bại', 'Thông báo !');
+          this.toastr.error('Thêm đề tài thất bại', 'Thông báo !');
         }
       });
 

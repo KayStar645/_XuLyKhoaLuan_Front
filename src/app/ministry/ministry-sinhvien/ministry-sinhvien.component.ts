@@ -1,6 +1,3 @@
-import { Nhom } from 'src/app/models/Nhom.model';
-import { ThamGia } from 'src/app/models/ThamGia.model';
-import { DotDk } from './../../models/DotDk.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -9,12 +6,9 @@ import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { userService } from 'src/app/services/user.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
-import { User } from 'src/app/models/User.model';
 import { MinistryDanhsachsinhvienComponent } from './ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
-import { HubConnectionBuilder } from '@aspnet/signalr';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
@@ -55,7 +49,6 @@ export class MinistrySinhvienComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
-    private userService: userService,
     private websocketService: WebsocketService
   ) {
     this.svAddForm = this.svForm.form;
@@ -301,7 +294,6 @@ export class MinistrySinhvienComponent implements OnInit {
     this.DSSVComponent.selectedSV.forEach((maSV) => {
       try {
         this.sinhVienService.delete(maSV);
-        this.userService.delete(maSV);
         this.toastr.success('Xóa sinh viên thành công', 'Thông báo !');
         this.DSSVComponent.lineSV = new SinhVien();
         this.isSelectedSV = false;
@@ -338,8 +330,6 @@ export class MinistrySinhvienComponent implements OnInit {
     try {
       await this.sinhVienService.add(sv);
       this.svForm.resetForm('#create_box');
-      // Add tai khoan
-      await this.userService.addStudent(new User(sv.maSv, sv.maSv));
       this.toastr.success('Thêm sinh viên thành công', 'Thông báo !');
     } catch {
       this.toastr.error('Thông tin bạn cung cấp không hợp lệ.', 'Thông báo !');
