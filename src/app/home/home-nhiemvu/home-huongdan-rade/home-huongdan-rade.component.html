@@ -14,14 +14,18 @@
                 <th>GV phản biện</th>
               </tr>
 
-              <tr *ngFor="let dt of deTais">
-                <td></td>
-                <td></td>
-                <td></td>
+              <!-- <tr *ngFor="let dt of deTais">
+                <td>
+                  <p *ngFor="let sv of getSinhVienByDT(dt.maDT)">
+                    <td>{{ sv.maSv }}</td>
+                    <td>{{ sv.tenSv }}</td>
+                    <td>{{ sv.lop }}</td>
+                  </p>
+                </td>
                 <td [innerHTML]="dt.tenDT"></td>
                 <td></td>
                 <td></td>
-              </tr>
+              </tr> -->
 
               <!-- <tr>
                   <td>2001202222</td>

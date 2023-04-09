@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
+import { SinhVien } from 'src/app/models/SinhVien.model';
 import { deTaiService } from 'src/app/services/deTai.service';
+import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
@@ -12,9 +14,11 @@ export class HomeHuongdanRadeComponent implements OnInit {
   selectedGVPB: any = [];
   GVPBInputConfig: any = {};
   deTais: DeTai[] = [];
-  sinhVienByDTs: any[] = [];
 
-  constructor(private deTaiService: deTaiService) {}
+  constructor(
+    private deTaiService: deTaiService,
+    private sinhVienService: sinhVienService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.GVPBInputConfig.data = [];
@@ -31,8 +35,13 @@ export class HomeHuongdanRadeComponent implements OnInit {
     this.deTais = await this.deTaiService.getAll();
   }
 
-  async getSinhVienByDT(maDT: string){
-    await this.deTaiService.getSinhvienByDetai
+  async getSinhVienByDT(maDT: string): Promise<SinhVien[]> {
+    let result: SinhVien[] = [];
+    await this.sinhVienService.getSinhvienByDetai(maDT).then((data) => {
+      result = data;
+    });
+
+    return result;
   }
 
   onOpenDropdown(event: any) {
