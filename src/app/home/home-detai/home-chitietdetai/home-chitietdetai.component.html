@@ -1,4 +1,4 @@
-<div *ngIf="isDTMe">
+<div *ngIf="isDTMe && isTrangThai != 1; else XemDT">
   <div id="functional-container">
     <div class="functional-list">
       <div
@@ -33,7 +33,6 @@
                 placeholder=""
                 formControlName="tenDT"
                 [modules]="{ toolbar: false }"
-                [readOnly]="!isDTMe"
               >
               </quill-editor>
               <p class="error-mess"></p>
@@ -50,7 +49,6 @@
                 placeholder=""
                 [modules]="quillConfig"
                 formControlName="tomTat"
-                [readOnly]="!isDTMe"
               ></quill-editor>
               <p class="error-mess"></p>
             </div>
@@ -178,7 +176,6 @@
                     [defaultValue]="slMax"
                     (change)="setSlMax($event)"
                     [min]="slMin"
-                    [readOnly]="!isDTMe"
                   />
                   <p class="error-mess"></p>
                 </div>
@@ -196,7 +193,6 @@
                     (blur)="dtForm.inputBlur($event)"
                     [min]="1"
                     [max]="slMax"
-                    [readOnly]="!isDTMe"
                   />
                   <p class="error-mess"></p>
                 </div>
@@ -204,7 +200,7 @@
             </div>
           </div>
 
-          <label class="form-control">
+          <!-- <label class="form-control">
             <p class="label p-b-8">Giảng viên duyệt đề tài</p>
             <div class="form-value">
               <input
@@ -213,8 +209,9 @@
                 type="text"
                 formControlName="tenGv"
               />
+              Chưa làm -- Xem cmt là được rồi
             </div>
-          </label>
+          </label> -->
 
           <label class="form-control" *ngIf="maDt">
             <p class="label p-b-8" *ngIf="!isTruongK && !isTruongBM">
@@ -280,86 +277,161 @@
   </div>
 </div>
 
-<div *ngIf="!isDTMe && oldForm" class="detail-container">
-  <div class="row functional-wrapper">
-    <div class="h-9 p-l-8 p-r-8">
-      <div class="detail-item">
-        <p [innerHTML]="oldForm.tenDT" class="title"></p>
+<!-- !isDTMe && oldForm -->
+<ng-template #XemDT>
+  <div class="detail-container">
+    <form class="dt-form" [formGroup]="dtForm.form">
+      <div class="row functional-wrapper">
+        <div class="h-9 p-l-8 p-r-8">
+          <div class="detail-item">
+            <p [innerHTML]="oldForm.tenDT" class="title"></p>
 
-        <div [innerHTML]="oldForm.tomTat" class="content p-b-24"></div>
+            <div [innerHTML]="oldForm.tomTat" class="content p-b-24"></div>
 
-        <div class="form-control" *ngIf="maDt">
-          <p class="label p-b-12 w-auto">Góp ý chỉnh sửa đề tài</p>
+            <div class="form-control" *ngIf="maDt">
+              <p class="label p-b-12 w-auto">Góp ý chỉnh sửa đề tài</p>
 
-          <div [formGroup]="dtForm.form" *ngIf="isTruongBM || isTruongK">
-            <div class="form-value">
-              <quill-editor
-                spellcheck="false"
-                class="form-input"
-                placeholder=""
-                [modules]="{ toolbar: false }"
-                formControlName="nhanXet"
-              ></quill-editor>
-              <p class="error-mess"></p>
-            </div>
-
-            <div class="row jus-end">
-              <button class="comment-btn" (click)="onAddComment()">
-                Góp ý
-              </button>
-            </div>
-          </div>
-
-          <div class="comment-list">
-            <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
-              <div class="row">
-                <div>
-                  <img src="../../../../assets/Images/user-icon.svg" alt="" />
+              <div [formGroup]="dtForm.form" *ngIf="isTruongBM || isTruongK">
+                <div class="form-value">
+                  <quill-editor
+                    spellcheck="false"
+                    class="form-input"
+                    placeholder=""
+                    [modules]="{ toolbar: false }"
+                    formControlName="nhanXet"
+                  ></quill-editor>
+                  <p class="error-mess"></p>
                 </div>
 
-                <div class="comment-info">
-                  <p class="title">{{ duyet.tenGv }}</p>
-                  <p class="content" [innerHTML]="duyet.nhanXet"></p>
-                  <p class="time">{{ duyet.thoiGian }}</p>
+                <div class="row jus-end">
+                  <button class="comment-btn" (click)="onAddComment()">
+                    Góp ý
+                  </button>
+                </div>
+              </div>
+
+              <div class="comment-list">
+                <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
+                  <div class="row">
+                    <div>
+                      <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                    </div>
+
+                    <div class="comment-info">
+                      <p class="title">{{ duyet.tenGv }}</p>
+                      <p class="content" [innerHTML]="duyet.nhanXet"></p>
+                      <p class="time">{{ duyet.thoiGian }}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="h-3 p-l-8 p-r-8">
-      <div class="detail-item">
-        <!-- <p class="date-due p-b-12">
-          Trạng thái duyệt đề tài:
-          <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(maDt) == ''"
-            >Chưa duyệt</span
-          >
-          <span *ngIf="getThoiGianDuyetByMaDT(maDt) != ''">
-            <span style="color: #15fa00" *ngIf="isTrangthaiDetai(maDt)"
-              >Đạt</span
-            >
-            <span style="color: red" *ngIf="!isTrangthaiDetai(maDt)"
-              >Chưa đạt</span
-            >
-          </span>
-        </p> -->
+        <div class="h-3 p-l-8 p-r-8">
+          <div class="detail-item">
+            <div class="description-list">
+              <label class="form-control">
+                <p class="label p-b-8">Mã đề tài</p>
+                <div class="form-value">
+                  <input
+                    [readOnly]="true"
+                    class="form-input"
+                    type="text"
+                    formControlName="maDT"
+                  />
+                </div>
+              </label>
 
-        <div class="description-list">
-          <div class="description-item row">
-            <p>Mã đề tài:</p>
-            <p>{{ oldForm.maDT }}</p>
+              <label class="form-control">
+                <p class="label p-b-8">Giảng viên ra đề</p>
+                <div class="form-value">
+                  <input
+                    [readOnly]="true"
+                    class="form-input"
+                    type="text"
+                    formControlName="tenGv"
+                  />
+                </div>
+              </label>
+
+              <div class="form-control form-no-box-shadow">
+                <p class="p-b-8">Chuyên ngành phù hợp</p>
+
+                <div class="form-value">
+                  <div class="selected-box row">
+                    <div class="selected-item flex-1">
+                      <div class="row ali-center">
+                        <div *ngFor="let item of selectedCN" class="item">
+                          {{ item.tenCn }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <label class="form-control">
+                <p class="p-b-8">Số lượng sinh viên phù hợp:</p>
+                <div class="form-value form-input">
+                  <input
+                    [readOnly]="true"
+                    class="form-input"
+                    type="text"
+                    value="{{ oldForm.slMin }}  ->  {{ oldForm.slMax }}"
+                  />
+                </div>
+              </label>
+
+              <div class="ma-t-16">
+                <p class="date-due p-b-12">
+                  Trạng thái duyệt đề tài:
+                  <span style="color: blue" *ngIf="isTrangThai == 0; else DaDuyet">Chưa duyệt</span>
+                  <ng-template #DaDuyet>
+                      <span style="color: #15fa00;" *ngIf="isTrangThai == 1; else Dat">Đạt</span>
+                      <ng-template #Dat>
+                        <span style="color: red;">Chưa đạt</span>
+                      </ng-template>
+                  </ng-template>
+                </p>
+                <div class="functional-button" *ngIf="isTruongK; else isNotTK">
+                  <div *ngIf="isTrangThai == 0 || isTrangThai == -1">
+                    <button class="p-t-8 p-b-8 ma-r-8 functional-error functional-disabled"
+                        (click)="onBrowse(maDt, false)"
+                        [disabled]="true">
+                      Yêu cầu chỉnh sửa
+                    </button>
+                    <button class="p-t-8 p-b-8 ma-t-12 functional-success" (click)="onBrowse(maDt, true)">
+                      Duyệt đề tài
+                    </button>
+                  </div>
+                  <div *ngIf="isTrangThai == 1">
+                    <button class="p-t-8 p-b-8 ma-b-12 functional-success" (click)="onBrowse(maDt, false)">
+                      Yêu cầu chỉnh sửa
+                    </button>
+                    <button class="p-t-8 p-b-8 ma-r-8 functional-error functional-disabled"
+                        (click)="onBrowse(maDt, true)"
+                        [disabled]="true">
+                      Duyệt đề tài
+                    </button>
+                  </div>
+                </div>
+                <ng-template #isNotTK>
+                  <div class="functional-button" *ngIf="isTruongBM;">
+                    <button class="p-t-8 p-b-8 functional-success"
+                        [disabled]="isTrangThai == 1"
+                        (click)="onBrowse(maDt, true)">
+                      Duyệt đề tài
+                    </button>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
           </div>
-
-          <ul class="list">
-            Số lượng sinh viên phù hợp:
-            <span style="color: blue"
-              >{{ oldForm.slMin }} -> {{ oldForm.slMax }}</span
-            >
-          </ul>
         </div>
       </div>
-    </div>
+    </form>
   </div>
-</div>
+</ng-template>
+

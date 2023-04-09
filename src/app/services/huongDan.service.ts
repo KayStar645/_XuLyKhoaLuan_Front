@@ -6,47 +6,86 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { HuongDan } from '../models/HuongDan.model';
 import { shareService } from './../services/share.service';
+import { GiangVien } from '../models/GiangVien.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class huongDanService {
-    private apiUrl = environment.api;
-    //private huongDans!: BehaviorSubject<HuongDan>;
+  private apiUrl = environment.api;
+  //private huongDans!: BehaviorSubject<HuongDan>;
 
-    constructor(private http: HttpClient, private router: Router,
-      private shareService: shareService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private shareService: shareService
+  ) {}
 
-    async getAll(): Promise<HuongDan[]> {
-      return await this.http.get<HuongDan[]>(`${this.apiUrl}/api/Huongdans`, this.shareService.httpOptions).toPromise() ?? [];
-    }
-
-    async getById(MaGV: string, MaDT: string):Promise<HuongDan> {
-      try {
-        var response = new HuongDan();
-        response = await this.http.get<HuongDan>(
-          `${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+  async getAll(): Promise<HuongDan[]> {
+    return (
+      (await this.http
+        .get<HuongDan[]>(
+          `${this.apiUrl}/api/Huongdans`,
           this.shareService.httpOptions
-        ).toPromise() ?? response as HuongDan;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    }
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async add(huongDan: HuongDan): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Huongdans`, 
-      huongDan, this.shareService.httpOptions).toPromise();
-    }
+  async getGiangvienByDetai(maDT: string): Promise<GiangVien[]> {
+    return (
+      (await this.http
+        .get<GiangVien[]>(
+          `${this.apiUrl}/api/Huongdans/MaDT?maDT=${maDT}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async update(huongDan: HuongDan): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`, 
-      huongDan, this.shareService.httpOptions).toPromise();
+  async getById(MaGV: string, MaDT: string): Promise<HuongDan> {
+    try {
+      var response = new HuongDan();
+      response =
+        (await this.http
+          .get<HuongDan>(
+            `${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as HuongDan);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
+  }
 
-    async delete(MaGV: string, MaDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
-      this.shareService.httpOptions).toPromise();
-    }
+  async add(huongDan: HuongDan): Promise<any> {
+    return await this.http
+      .post(
+        `${this.apiUrl}/api/Huongdans`,
+        huongDan,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async update(huongDan: HuongDan): Promise<any> {
+    return await this.http
+      .put<any>(
+        `${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${huongDan.maGv}&MaDT=${huongDan.maDt}`,
+        huongDan,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async delete(MaGV: string, MaDT: string): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Huongdans/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
 }

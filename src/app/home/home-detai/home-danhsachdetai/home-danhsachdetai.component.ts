@@ -226,7 +226,6 @@ export class HomeDanhsachdetaiComponent {
       for(var data of datas) {
         try {
           var maDT = await this.createDeTai(data);
-          console.log(maDT);
 
           await this.createRaDe(maDT);
 

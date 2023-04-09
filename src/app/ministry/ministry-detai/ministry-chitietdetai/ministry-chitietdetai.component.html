@@ -1,262 +1,104 @@
-<div id="functional-container">
-  <div class="functional-list">
-    <div class="functional-container row ali-center jus-end functional-wrapper">
-      <div class="functional-button" *ngIf="maDt == ''">
-        <button (click)="onAdd()">Thêm</button>
-      </div>
+  <div class="detail-container" *ngIf="oldForm">
+    <form class="dt-form" [formGroup]="dtForm.form">
+      <div class="row functional-wrapper">
+        <div class="h-9 p-l-8 p-r-8">
+          <div class="detail-item">
+            <p [innerHTML]="oldForm.tenDT" class="title"></p>
 
-      <div class="functional-button" *ngIf="maDt">
-        <button (click)="onUpdate()">Sửa</button>
-      </div>
+            <div [innerHTML]="oldForm.tomTat" class="content p-b-24"></div>
 
-      <div class="functional-button" *ngIf="maDt">
-        <button (click)="onDelete()">Xóa</button>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="form-control" *ngIf="maDt">
+              <p class="label p-b-12 w-auto">Góp ý chỉnh sửa đề tài</p>
 
-<form class="dt-form" [formGroup]="dtForm.form">
-  <div class="container row">
-    <div class="h-8 p-l-8 p-r-8">
-      <div class="form-item">
-        <div class="form-control">
-          <p class="label p-b-8">Tên đề tài</p>
+              <div class="comment-list">
+                <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
+                  <div class="row">
+                    <div>
+                      <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                    </div>
 
-          <div class="form-value">
-            <quill-editor
-              [readOnly]="true"
-              class="form-input"
-              spellcheck="false"
-              placeholder=""
-              formControlName="tenDT"
-              [modules]="{ toolbar: false }"
-            >
-            </quill-editor>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <p class="label p-b-8">Tóm tắt</p>
-
-          <div class="form-value">
-            <quill-editor
-              [readOnly]="true"
-              spellcheck="false"
-              class="form-input"
-              placeholder=""
-              [modules]="quillConfig"
-              formControlName="tomTat"
-            ></quill-editor>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control" *ngIf="maDt">
-          <p class="label p-b-8">Góp ý chỉnh sửa đề tài</p>
-
-          <div class="comment-list">
-            <div class="comment-item" *ngFor="let duyet of this.listDuyetDT">
-              <div class="row">
-                <div>
-                  <img src="../../../../assets/Images/user-icon.svg" alt="" />
-                </div>
-
-                <div class="comment-info">
-                  <p class="title">{{ duyet.tenGv }}</p>
-                  <p class="content" [innerHTML]="duyet.nhanXet"></p>
-                  <p class="time">{{ duyet.thoiGian }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="h-4 p-l-8 p-r-8">
-      <div class="form-item">
-        <label class="form-control">
-          <p class="label p-b-8">Mã đề tài</p>
-          <div class="form-value">
-            <input
-              [readOnly]="true"
-              class="form-input"
-              (blur)="dtForm.inputBlur($event)"
-              type="text"
-              formControlName="maDT"
-            />
-          </div>
-        </label>
-
-        <label class="form-control">
-          <p class="label p-b-8">Giảng viên ra đề</p>
-          <div class="form-value">
-            <input
-              [readOnly]="true"
-              class="form-input"
-              (blur)="dtForm.inputBlur($event)"
-              type="text"
-              formControlName="tenGv"
-            />
-          </div>
-        </label>
-
-        <!-- <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Giảng viên ra đề</p>
-
-          <div class="form-value">
-            <ng-autocomplete
-              [data]="GVInputConfig.data"
-              [searchKeyword]="GVInputConfig.keyword"
-              [itemTemplate]="itemTemplate1"
-              [notFoundTemplate]="notFoundTemplate1"
-              class="form-input title"
-              formControlName="tenGv"
-              (selected)="setSelectedGV($event)"
-              spellcheck="false"
-            >
-            </ng-autocomplete>
-
-            <ng-template #itemTemplate1 let-item>
-              <a [innerHTML]="item.tenGv"></a>
-            </ng-template>
-
-            <ng-template #notFoundTemplate1 let-notFound>
-              <div [innerHTML]="notFound"></div>
-            </ng-template>
-            <p class="error-mess"></p>
-          </div>
-        </div> -->
-
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-4">Chuyên ngành</p>
-
-          <div class="form-value">
-            <div class="selected-box row" (click)="onOpenDropdown($event)">
-              <div class="selected-item flex-1">
-                <div class="row ali-center">
-                  <div *ngFor="let item of selectedCN" class="item">
-                    {{ item.tenCn }}
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <i class="fa-solid fa-caret-down"></i>
-              </div>
-
-              <div class="dropdown">
-                <input
-                  type="text"
-                  class="form-input"
-                  placeholder="Tìm chuyên ngành"
-                  (input)="onSearchCN($event)"
-                  (click)="onClickInput($event)"
-                />
-
-                <div class="list-major p-t-16">
-                  <div
-                    *ngFor="let item of CNInputConfig.data; let i = index"
-                    class="major-item"
-                    [ngClass]="{ active: isCNExist(selectedCN, item) }"
-                    [attr.data-index]="item.maCn"
-                    (click)="onSetItem($event)"
-                  >
-                    {{ item.tenCn }}
+                    <div class="comment-info">
+                      <p class="title">{{ duyet.tenGv }}</p>
+                      <p class="content" [innerHTML]="duyet.nhanXet"></p>
+                      <p class="time">{{ duyet.thoiGian }}</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <p class="error-mess"></p>
           </div>
         </div>
 
-        <div class="row ali-center functional-wrapper">
-          <div class="h-6 p-l-8 p-r-8">
-            <label class="form-control">
-              <p class="label p-b-8">Tối đa</p>
-              <div class="form-value">
-                <input
-                  id="add-min"
-                  class="form-input"
-                  type="number"
-                  formControlName="slMax"
-                  (blur)="dtForm.inputBlur($event)"
-                  [defaultValue]="slMax"
-                  (change)="setSlMax($event)"
-                  [min]="slMin"
-                />
-                <p class="error-mess"></p>
-              </div>
-            </label>
-          </div>
-
-          <div class="h-6 p-l-8 p-r-8">
-            <label class="form-control">
-              <p class="label p-b-8">Tối thiểu</p>
-              <div class="form-value">
-                <input
-                  class="form-input"
-                  type="number"
-                  formControlName="slMin"
-                  (blur)="dtForm.inputBlur($event)"
-                  [min]="1"
-                  [max]="slMax"
-                />
-                <p class="error-mess"></p>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <label class="form-control" *ngIf="maDt">
-          <p class="label p-b-8">Trạng thái</p>
-          <div class="form-value">
-            <div class="row ali-center topic-status">
-              <label class="row ali-center">
-                <input
-                  type="radio"
-                  value="true"
-                  class="form-input"
-                  formControlName="trangThai"
-                />
-                <p class="label">Đã duyệt</p>
+        <div class="h-3 p-l-8 p-r-8">
+          <div class="detail-item">
+            <div class="description-list">
+              <label class="form-control">
+                <p class="label p-b-8">Mã đề tài</p>
+                <div class="form-value">
+                  <input
+                    [readOnly]="true"
+                    class="form-input"
+                    type="text"
+                    formControlName="maDT"
+                  />
+                </div>
               </label>
 
-              <label class="row ali-center">
-                <input
-                  type="radio"
-                  value="false"
-                  class="form-input"
-                  formControlName="trangThai"
-                />
-                <p class="label">Chưa duyệt</p>
+              <label class="form-control">
+                <p class="label p-b-8">Giảng viên ra đề</p>
+                <div class="form-value">
+                  <input
+                    [readOnly]="true"
+                    class="form-input"
+                    type="text"
+                    formControlName="tenGv"
+                  />
+                </div>
               </label>
+
+              <div class="form-control form-no-box-shadow">
+                <p class="p-b-8">Chuyên ngành phù hợp</p>
+
+                <div class="form-value">
+                  <div class="selected-box row">
+                    <div class="selected-item flex-1">
+                      <div class="row ali-center">
+                        <div *ngFor="let item of selectedCN" class="item">
+                          {{ item.tenCn }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <label class="form-control">
+                <p class="p-b-8">Số lượng sinh viên phù hợp:</p>
+                <div class="form-value form-input">
+                  <input
+                    [readOnly]="true"
+                    class="form-input"
+                    type="text"
+                    value="{{ oldForm.slMin }}  ->  {{ oldForm.slMax }}"
+                  />
+                </div>
+              </label>
+
+              <div class="ma-t-16">
+                <p class="date-due p-b-12">
+                  Trạng thái duyệt đề tài:
+                  <span style="color: blue" *ngIf="isTrangThai == 0; else DaDuyet">Chưa duyệt</span>
+                  <ng-template #DaDuyet>
+                      <span style="color: #15fa00;" *ngIf="isTrangThai == 1; else Dat">Đạt</span>
+                      <ng-template #Dat>
+                        <span style="color: red;">Chưa đạt</span>
+                      </ng-template>
+                  </ng-template>
+                </p>
+              </div>
             </div>
-            <p class="error-mess"></p>
           </div>
-        </label>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
-</form>
-
-<div id="delete">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc xóa sẽ làm tất cả thông tin có liên quan đến nhiệm vụ sẽ biến mất.
-        Bạn có chắc chắn muốn xóa ?
-      </p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
-
-      <div class="progress-bar"></div>
-    </div>
-  </div>
-</div>

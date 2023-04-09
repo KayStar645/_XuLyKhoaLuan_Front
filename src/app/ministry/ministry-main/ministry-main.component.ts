@@ -28,6 +28,7 @@ export class MinistryMainComponent implements OnInit {
     private titleService: Title,
     private shareService: shareService,
     private thongBaoService: thongBaoService,
+    private el: ElementRef
   ) {}
 
   public async ngOnInit() {
@@ -42,11 +43,23 @@ export class MinistryMainComponent implements OnInit {
       this.isLoggedIn$ = of(true);
     }
 
+    this.resetNavbar();
+
     // Get dữ liệu của giáo vụ
     this.data = await this.giaoVuService.getById(
       '' + localStorage.getItem('Id')?.toString()
     );
     this.listTB = await this.thongBaoService.getAll();
+  }
+
+  resetNavbar() {
+    var navbar = this.el.nativeElement.querySelector('#navbar');
+    var number = navbar.querySelectorAll('li').length;
+
+    var navbar_items = this.el.nativeElement.querySelectorAll('.navbar-item');
+    navbar_items.forEach((item: { style: { flexBasis: string } }) => {
+      item.style.flexBasis = 'calc(100% / ' + number + ')';
+    });
   }
 
   dateFormat(str: any): string {

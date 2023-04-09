@@ -64,6 +64,16 @@
   //display:none;
 }
 
+.relative {
+  position: relative;
+}
+
+.center-2 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .back {
   margin-top: 8px;
   font-size: 1.4rem;
