@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { DeTai } from '../models/DeTai.model';
 import { shareService } from './share.service';
+import { SinhVien } from '../models/SinhVien.model';
 
 @Injectable({
   providedIn: 'root',
@@ -106,15 +107,15 @@ export class deTaiService {
       .toPromise();
   }
 
-  async getSinhvienByDetai(deTai: DeTai): Promise<DeTai[]> {
-     return (
-       (await this.http
-         .get<DeTai[]>(
-           `${this.apiUrl}/api/Detais/deTai?deTai=${deTai}`,
-           this.shareService.httpOptions
-         )
-         .toPromise()) ?? []
-     );
+  async getSinhvienByDetai(maDT: String): Promise<SinhVien[]> {
+    return (
+      (await this.http
+        .get<SinhVien[]>(
+          `${this.apiUrl}/api/Detais/deTai?deTai=${maDT}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
   }
 
   //Tóm tắt không được để trống

@@ -1,54 +1,56 @@
 <div class="detail-container">
   <div class="row functional-wrapper">
     <div class="h-9 p-l-8 p-r-8">
-      <div class="detail-item"></div>
+      <div class="detail-item">
+        <div id="container">
+          <div>
+            <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+              <tr>
+                <th>MSSV</th>
+                <th>Họ và tên</th>
+                <th>Lớp</th>
+                <th>Đề tài</th>
+                <th>GV hướng dẫn</th>
+                <th>GV phản biện</th>
+              </tr>
+
+              <tr *ngFor="let dt of deTais">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td [innerHTML]="dt.tenDT"></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <!-- <tr>
+                  <td>2001202222</td>
+                  <td>Ngo Van Son</td>
+                  <td>11DHTH3</td>
+                  <td rowspan="3">Hay cung nhau huong toi 1 tuong lai xa voi</td>
+                  <td rowspan="3">Ngo Duc Duy, Ngo Van Truong</td>
+                  <td rowspan="3">Ngo Van Phong, Ngo Thi Ha</td>
+                </tr>
+  
+                <tr>
+                  <td>2001202222</td>
+                  <td>Ngo Van Son</td>
+                  <td>11DHTH3</td>
+                </tr>
+  
+                <tr>
+                  <td>2001202222</td>
+                  <td>Ngo Van Son</td>
+                  <td>11DHTH3</td>
+                </tr> -->
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
-        <div class="form-control form-no-box-shadow">
-          <p class="label w-auto p-b-4">Đề tài</p>
-
-          <div class="form-value">
-            <div class="selected-box row" (click)="onOpenDropdown($event)">
-              <div class="selected-item flex-1">
-                <div class="row ali-center">
-                  <div *ngFor="let item of selectedGVPB" class="item">
-                    {{ item.tenGv }}
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <i class="fa-solid fa-caret-down"></i>
-              </div>
-
-              <div class="dropdown">
-                <input
-                  type="text"
-                  class="form-input"
-                  placeholder="Tìm đề tài"
-                  (input)="onSearchCN($event)"
-                  (click)="onClickInput($event)"
-                />
-
-                <div class="list-major p-t-16">
-                  <div
-                    *ngFor="let item of GVPBInputConfig.data; let i = index"
-                    class="major-item"
-                    [ngClass]="{ active: isCNExist(selectedGVPB, item) }"
-                    [attr.data-index]="item.maCn"
-                    (click)="onSetItem($event)"
-                  >
-                    {{ item.tenCn }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
         <div class="form-control form-no-box-shadow">
           <p class="label w-auto p-b-4">Giảng viên hướng dẫn</p>
 

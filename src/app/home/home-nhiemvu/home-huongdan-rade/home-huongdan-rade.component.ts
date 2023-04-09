@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DeTai } from 'src/app/models/DeTai.model';
+import { deTaiService } from 'src/app/services/deTai.service';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
@@ -9,10 +11,12 @@ import { getParentElement } from 'src/assets/utils';
 export class HomeHuongdanRadeComponent implements OnInit {
   selectedGVPB: any = [];
   GVPBInputConfig: any = {};
+  deTais: DeTai[] = [];
+  sinhVienByDTs: any[] = [];
 
-  constructor() {}
+  constructor(private deTaiService: deTaiService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.GVPBInputConfig.data = [];
 
     window.addEventListener('click', (e) => {
@@ -23,6 +27,12 @@ export class HomeHuongdanRadeComponent implements OnInit {
         activeList.classList.remove('active');
       }
     });
+
+    this.deTais = await this.deTaiService.getAll();
+  }
+
+  async getSinhVienByDT(maDT: string){
+    await this.deTaiService.getSinhvienByDetai
   }
 
   onOpenDropdown(event: any) {
