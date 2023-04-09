@@ -57,10 +57,14 @@
             <b>
               {{ getThoiGianDuyetByMaDT(dt.maDT) }}
               <br />
-              <span style="color: blue" *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''">Chưa duyệt</span>
+              <span
+                style="color: blue"
+                *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''"
+                >Chưa duyệt</span
+              >
               <span *ngIf="getThoiGianDuyetByMaDT(dt.maDT) != ''">
-                <span style="color: #15fa00;;" *ngIf="dt.trangThai">Đạt</span>
-                <span style="color: red;" *ngIf="!dt.trangThai">Chưa đạt</span>
+                <span style="color: #15fa00 ;" *ngIf="dt.trangThai">Đạt</span>
+                <span style="color: red" *ngIf="!dt.trangThai">Chưa đạt</span>
               </span>
             </b>
           </td>

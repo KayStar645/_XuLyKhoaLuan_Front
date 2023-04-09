@@ -29,6 +29,27 @@
   height: 100%;
 }
 
+.functional-item .back-btn {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #007de4;
+  cursor: pointer;
+  background: #e7ecf0;
+}
+
+.functional-item .back-btn:hover i {
+  transform: translateX(-5px);
+}
+
+.functional-item .back-btn i {
+  margin-top: 2px;
+  font-size: 1.35rem;
+  margin-right: 4px;
+  transition: all linear 0.3s;
+}
+
 .functional-item input,
 .functional-item select {
   border: 1px solid #ccc;

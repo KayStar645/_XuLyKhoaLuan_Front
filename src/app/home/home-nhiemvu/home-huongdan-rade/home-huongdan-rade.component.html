@@ -1,0 +1,140 @@
+<div class="detail-container">
+  <div class="row functional-wrapper">
+    <div class="h-9 p-l-8 p-r-8">
+      <div class="detail-item"></div>
+    </div>
+
+    <div class="h-3 p-l-8 p-r-8">
+      <div class="detail-item">
+        <div class="form-control form-no-box-shadow">
+          <p class="label w-auto p-b-4">Đề tài</p>
+
+          <div class="form-value">
+            <div class="selected-box row" (click)="onOpenDropdown($event)">
+              <div class="selected-item flex-1">
+                <div class="row ali-center">
+                  <div *ngFor="let item of selectedGVPB" class="item">
+                    {{ item.tenGv }}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <i class="fa-solid fa-caret-down"></i>
+              </div>
+
+              <div class="dropdown">
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="Tìm đề tài"
+                  (input)="onSearchCN($event)"
+                  (click)="onClickInput($event)"
+                />
+
+                <div class="list-major p-t-16">
+                  <div
+                    *ngFor="let item of GVPBInputConfig.data; let i = index"
+                    class="major-item"
+                    [ngClass]="{ active: isCNExist(selectedGVPB, item) }"
+                    [attr.data-index]="item.maCn"
+                    (click)="onSetItem($event)"
+                  >
+                    {{ item.tenCn }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <div class="form-control form-no-box-shadow">
+          <p class="label w-auto p-b-4">Giảng viên hướng dẫn</p>
+
+          <div class="form-value">
+            <div class="selected-box row" (click)="onOpenDropdown($event)">
+              <div class="selected-item flex-1">
+                <div class="row ali-center">
+                  <div *ngFor="let item of selectedGVPB" class="item">
+                    {{ item.tenGv }}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <i class="fa-solid fa-caret-down"></i>
+              </div>
+
+              <div class="dropdown">
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="Tìm giảng viên"
+                  (input)="onSearchCN($event)"
+                  (click)="onClickInput($event)"
+                />
+
+                <div class="list-major p-t-16">
+                  <div
+                    *ngFor="let item of GVPBInputConfig.data; let i = index"
+                    class="major-item"
+                    [ngClass]="{ active: isCNExist(selectedGVPB, item) }"
+                    [attr.data-index]="item.maCn"
+                    (click)="onSetItem($event)"
+                  >
+                    {{ item.tenCn }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+
+        <div class="form-control form-no-box-shadow">
+          <p class="label w-auto p-b-4">Giảng viên phản biện</p>
+
+          <div class="form-value">
+            <div class="selected-box row" (click)="onOpenDropdown($event)">
+              <div class="selected-item flex-1">
+                <div class="row ali-center">
+                  <div *ngFor="let item of selectedGVPB" class="item">
+                    {{ item.tenGv }}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <i class="fa-solid fa-caret-down"></i>
+              </div>
+
+              <div class="dropdown">
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="Tìm giảng viên"
+                  (input)="onSearchCN($event)"
+                  (click)="onClickInput($event)"
+                />
+
+                <div class="list-major p-t-16">
+                  <div
+                    *ngFor="let item of GVPBInputConfig.data; let i = index"
+                    class="major-item"
+                    [ngClass]="{ active: isCNExist(selectedGVPB, item) }"
+                    [attr.data-index]="item.maCn"
+                    (click)="onSetItem($event)"
+                  >
+                    {{ item.tenCn }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="error-mess"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

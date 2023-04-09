@@ -6,6 +6,8 @@ import { WebsocketService } from 'src/app/services/Websocket.service';
 import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
 import { HomeMainComponent } from '../../home-main/home-main.component';
+import { HomeNhiemvuComponent } from '../home-nhiemvu.component';
+import { homeNhiemVuService } from '../home_nhiemvu.service';
 
 @Component({
   selector: 'app-home-danhsachnhiemvu',
@@ -13,6 +15,7 @@ import { HomeMainComponent } from '../../home-main/home-main.component';
   styleUrls: ['./home-danhsachnhiemvu.component.scss'],
 })
 export class HomeDanhsachnhiemvuComponent {
+  NhiemVuComponent!: HomeNhiemvuComponent;
   listNV: any[] = [];
   root: any[] = [];
   lineTB = new NhiemVu();
@@ -23,7 +26,8 @@ export class HomeDanhsachnhiemvuComponent {
   constructor(
     private nhiemVuService: nhiemVuService,
     private shareService: shareService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private homeNhiemVuService: homeNhiemVuService
   ) {}
 
   async ngOnInit() {
@@ -40,16 +44,21 @@ export class HomeDanhsachnhiemvuComponent {
     });
   }
 
+  onShowDetail() {
+    this.homeNhiemVuService.setIsAddBtnActive(false);
+  }
+
   async getAllNhiemVu() {
     // Nếu là trưởng bộ môn thì được xem tất cả nhiệm vụ của bộ môn
     if (HomeMainComponent.maBm) {
       this.listNV = await this.nhiemVuService.getNhiemvusByMaBM(
         HomeMainComponent.maBm
       );
-    }
-    else {
+    } else {
       // Chỉ xem nhiệm vụ của mình
-      this.listNV = await this.nhiemVuService.getNhiemvusByMaGV(HomeMainComponent.maGV);
+      this.listNV = await this.nhiemVuService.getNhiemvusByMaGV(
+        HomeMainComponent.maGV
+      );
     }
     this.root = this.listNV;
   }
@@ -109,4 +118,3 @@ export class HomeDanhsachnhiemvuComponent {
     return this.shareService.dateFormat(str);
   }
 }
-

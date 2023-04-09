@@ -1,13 +1,3 @@
-<div class="p-t-16" *ngIf="isTruongBM">
-  <div class="functional-container row jus-end functional-wrapper">
-    <div class="functional-button">
-      <button [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: -1 }]">
-        Thêm
-      </button>
-    </div>
-  </div>
-</div>
-
 <div id="container">
   <div class="row">
     <div class="h-3 p-l-8 p-r-8 first-info">
@@ -28,10 +18,7 @@
             <div class="flex-1 item-info">
               <p class="item-time">Đến hạn {{ nv.thu }}</p>
               <a
-                [routerLink]="[
-                  '/home/nhiem-vu/chi-tiet',
-                  { maNv: nv.maNv }
-                ]"
+                [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: nv.maNv }]"
                 class="item-title"
                 >{{ nv.thoiGianKt2 }} - {{ nv.tenNv }}</a
               >
@@ -54,6 +41,7 @@
             *ngFor="let nv of listNV"
             class="row ali-center list-item"
             [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: nv.maNv }]"
+            (click)="onShowDetail()"
           >
             <div class="item-img ma-r-12">
               <img src="../../../../assets/Images/mission.svg" alt="" />
