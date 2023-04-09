@@ -14,19 +14,34 @@
                 <th>GV phản biện</th>
               </tr>
 
-              <!-- <tr *ngFor="let dt of deTais">
-                <td>
-                  <p *ngFor="let sv of getSinhVienByDT(dt.maDT)">
-                    <td>{{ sv.maSv }}</td>
-                    <td>{{ sv.tenSv }}</td>
-                    <td>{{ sv.lop }}</td>
-                  </p>
-                </td>
-                <td [innerHTML]="dt.tenDT"></td>
-                <td></td>
-                <td></td>
-              </tr> -->
+              <ng-container *ngFor="let dt of deTais">
+                <tr>
+                  <ng-container *ngIf="sinhVienByDts && sinhVienByDts[dt.maDT]">
+                    <ng-container *ngFor="let sv of sinhVienByDts[dt.maDT]">
+                      <td>{{ sv.maSv }}</td>
+                      <td>{{ sv.tenSv }}</td>
+                      <td>{{ sv.lop }}</td>
+                    </ng-container>
+                  </ng-container>
 
+                  <td [innerHTML]=" dt.tenDT"></td>
+
+                  <td>
+                    <ng-container *ngIf="gvHuongdan && gvHuongdan[dt.maDT]">
+                      <ng-container *ngFor="let gv of gvHuongdan[dt.maDT]">
+                        {{ gv.tenGv }}
+                      </ng-container>
+                    </ng-container>
+                  </td>
+
+                  <ng-container *ngIf="gvPhanbien && gvPhanbien[dt.maDT]">
+                    <ng-container *ngFor="let gv of gvPhanbien[dt.maDT]">
+                      {{ gv.tenGv }}
+                    </ng-container>
+                  </ng-container>
+                </tr>
+              </ng-container>
+              
               <!-- <tr>
                   <td>2001202222</td>
                   <td>Ngo Van Son</td>

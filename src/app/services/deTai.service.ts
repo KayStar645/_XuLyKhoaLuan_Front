@@ -13,16 +13,24 @@ export class deTaiService {
   private apiUrl = environment.api;
   //private deTais!: BehaviorSubject<DeTai>;
 
-  constructor(
-    private http: HttpClient,
-    private shareService: shareService
-  ) {}
+  constructor(private http: HttpClient, private shareService: shareService) {}
 
   async getAll(): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(
           `${this.apiUrl}/api/Detais`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async getDetaiByDot(namHoc: string, dot: number): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/namHoc, dot?namHoc=${namHoc}&dot=${dot}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
