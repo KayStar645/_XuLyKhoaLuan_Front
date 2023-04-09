@@ -106,16 +106,16 @@ export class deTaiService {
       .toPromise();
   }
 
-  // async createMaDT(maKhoa: string): Promise<string> {
-  //   return (
-  //     (await this.http
-  //       .get<string>(
-  //         `${this.apiUrl}/api/Detais/maK?maK=${maKhoa}`,
-  //         this.shareService.httpOptions
-  //       )
-  //       .toPromise()) ?? ''
-  //   );
-  // }
+  async getSinhvienByDetai(deTai: DeTai): Promise<DeTai[]> {
+     return (
+       (await this.http
+         .get<DeTai[]>(
+           `${this.apiUrl}/api/Detais/deTai?deTai=${deTai}`,
+           this.shareService.httpOptions
+         )
+         .toPromise()) ?? []
+     );
+  }
 
   //Tóm tắt không được để trống
   async update(deTai: DeTai): Promise<any> {

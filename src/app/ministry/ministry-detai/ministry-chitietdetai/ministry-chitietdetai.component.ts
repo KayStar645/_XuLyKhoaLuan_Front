@@ -39,6 +39,7 @@ export class MinistryChitietdetaiComponent {
   slMin: number = 1;
   slMax: number = 3;
   tenGv: string = '';
+  isTrangThai: number = 0;
 
   GVInputConfig: any = {};
   CNInputConfig: any = {};
@@ -81,6 +82,7 @@ export class MinistryChitietdetaiComponent {
   ) {}
 
   async ngOnInit() {
+
     await this.raDeService.getAll().then((data) => {
       this.listRaDe = data;
     });
@@ -105,6 +107,8 @@ export class MinistryChitietdetaiComponent {
     });
 
     this.getComment();
+
+    this.isTrangthaiDetai(this.maDt);
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromDuyetDT((dataChange: boolean) => {
@@ -164,7 +168,7 @@ export class MinistryChitietdetaiComponent {
       });
 
       deTai.init(
-        "",
+        '',
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
@@ -315,7 +319,7 @@ export class MinistryChitietdetaiComponent {
       });
 
       deTai.init(
-        "",
+        '',
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
@@ -352,53 +356,6 @@ export class MinistryChitietdetaiComponent {
     });
   }
 
-  onDelete() {
-    let formValue: any = this.dtForm.form.value;
-    const _delete = document.querySelector('#delete')!;
-    let option = new Option('#delete');
-
-    _delete.classList.add('active');
-
-    option.show('error', () => {
-      _delete.classList.remove('active');
-    });
-
-    option.cancel(() => {
-      _delete.classList.remove('active');
-    });
-
-    option.agree(async () => {
-      try {
-        const raDe = new RaDe();
-        const deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-
-        raDe.init(formValue.maGv, formValue.maDT);
-
-        this.selectedCN.forEach((item) => {
-          let deTaiChuyenNganh = new DeTai_ChuyenNganh();
-
-          deTaiChuyenNganh.init(item.maCn, formValue.maDT);
-          deTaiChuyenNganhs.push(deTaiChuyenNganh);
-        });
-
-        deTaiChuyenNganhs.forEach(async (item) => {
-          await this.deTaiChuyenNganhService.delete(item.maDt, item.maCn);
-        });
-
-        await this.duyetDTService.delete(formValue.maGv, this.maDt, 1);
-        await this.raDeService.delete(raDe.maGv, raDe.maDt);
-        await this.deTaiService.delete(this.maDt);
-        this.websocketService.sendForDeTai(true);
-
-        this.toastr.success('Xóa Đề tài thành công', 'Đề tài!');
-        this.router.navigate(['/ministry/de-tai/']);
-      } catch (error) {
-        this.toastr.error('Xóa Đề tài thất bại', 'Đề tài!');
-      }
-      _delete.classList.remove('active');
-    });
-  }
-
   getTenChuyennganhByMaDT(maDT: string) {
     let dtcns = this.listDeta_Chuyennganh.filter((item) => item.maDt == maDT);
 
@@ -417,7 +374,13 @@ export class MinistryChitietdetaiComponent {
     );
   }
 
-  getTenGvDuyetByMaDT(maDT: string) {
-    // return this.DSDTComponent.getTenGvDuyetByMaDT(maDT);
+  async isTrangthaiDetai(maDT: string) {
+    const duyetdt = await this.duyetDTService.getByMadt(maDT);
+    if (duyetdt.length == 0) {
+      this.isTrangThai = 0; // Chưa duyệt
+    } else {
+      this.isTrangThai =
+        (await this.deTaiService.getById(maDT)).trangThai == true ? 1 : -1;
+    }
   }
 }

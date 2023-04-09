@@ -328,7 +328,7 @@ export class HomeChitietdetaiComponent {
         deTaiChuyenNganhs.push(deTaiChuyenNganh);
       });
       deTai.init(
-        "",
+        '',
         formValue.tenDT,
         formValue.tomTat,
         formValue.slMin,
@@ -409,6 +409,18 @@ export class HomeChitietdetaiComponent {
       }
       _delete.classList.remove('active');
     });
+  }
+
+  async onBrowse(maDT: string, flag: boolean) {
+    let deTai = await this.deTaiService.getById(maDT);
+    deTai.trangThai = flag;
+    this.deTaiService.update(deTai);
+    if(flag) {
+      this.toastr.success('Thành công!', 'Duyệt đề tài!');
+    }
+    else {
+      this.toastr.warning('Thành công!', 'Yêu cầu chỉnh sửa!');
+    }
   }
 
   getTenChuyennganhByMaDT(maDT: string) {

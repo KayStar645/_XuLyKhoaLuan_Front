@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   form = new Form({
     username: ['', Validators.required],
     password: ['', Validators.required],
-    protectCode: ['', Validators.required],
+    // protectCode: ['', Validators.required],
   });
   loginForm: any;
   apiUrl = environment.api;

@@ -20,73 +20,7 @@
           (input)="onSearchName($event)"
         />
       </li>
-      <!-- <li class="functional-item">
-        <select
-          class="search-select"
-          id="sort-select"
-          (change)="sortGiangVien($event)"
-        >
-          <option value="">Mặc định</option>
-          <option value="asc-id">Tăng theo mã</option>
-          <option value="desc-id">Giảm theo mã</option>
-          <option value="asc-name">Tăng theo tên</option>
-          <option value="desc-name">Giảm theo tên</option>
-        </select>
-      </li> -->
-      <li
-        class="functional-item function-wrapper row ali-center jus-end flex-1"
-      >
-        <div class="functional-button">
-          <button [routerLink]="['/ministry/de-tai/chi-tiet', { maDt: '' }]">
-            Thêm
-          </button>
-        </div>
-
-        <div class="functional-button">
-          <button (click)="onShowFormDrag()">Nhập DS</button>
-        </div>
-      </li>
     </ul>
-  </div>
-  
-  <div id="drag-file" (click)="onCloseDrag($event)"></div>
-  <div id="drag-file_box">
-    <p class="title">Nhập danh sách</p>
-    <p class="description">Nhập danh sách đề tài thông qua 1 file excel</p>
-
-    <form
-      class="drag-form form row flex-column ali-center jus-center"
-      (dragover)="onDragFileOver($event)"
-      (dragleave)="onDragFileLeave($event)"
-      (drop)="onDropFile($event)"
-      (dragenter)="onDragFileOver($event)"
-    >
-      <input
-        type="file"
-        class="file-content"
-        hidden
-        (input)="onFileInput($event)"
-      />
-      <i class="fa-solid fa-cloud-arrow-up"></i>
-      <p>
-        Kéo và thả file vào đây hoặc
-        <span class="choose-file" (click)="onSelect()">chọn file</span>
-      </p>
-    </form>
-
-    <div class="file-choose" *ngIf="deTaiFile">
-      <p class="title">File đã chọn</p>
-      <div class="row ali-center file-choose-container">
-        <i class="fa-solid fa-file-excel"></i>
-        <div class="row ali-center jus-between flex-1">
-          <div class="file-info">
-            <p class="file-name">{{ deTaiFile.name }}</p>
-            <p class="file-size">{{ deTaiFile.size }}</p>
-          </div>
-          <p class="import-btn" (click)="onReadFile()">Nhập</p>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 

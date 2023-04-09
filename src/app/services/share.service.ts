@@ -4,12 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { environment } from 'src/environments/environment.prod';
+import { WebsocketService } from './Websocket.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class shareService {
-  static namHoc:string;
+  static namHoc: string;
   static dot: number;
   isFirstClickHome = false;
 
@@ -21,8 +22,9 @@ export class shareService {
 
   constructor(
     private http: HttpClient,
-    private dotDkService: dotDkService
-    ) {}
+    private dotDkService: dotDkService,
+    private websocketService: WebsocketService
+  ) {}
 
   public dateFormat(date: string) {
     if (date != null) {
@@ -150,11 +152,11 @@ export class shareService {
   //   return this.dot;
   // }
 
-  setIsFirstClickHome(value: boolean){
+  setIsFirstClickHome(value: boolean) {
     this.isFirstClickHome = value;
   }
 
-  getIsFirstClickHome(){
+  getIsFirstClickHome() {
     return this.isFirstClickHome;
   }
 

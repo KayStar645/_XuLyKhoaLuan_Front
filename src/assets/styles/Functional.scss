@@ -48,7 +48,9 @@
   padding-right: 8px;
 }
 
-.functional-button button {
+.functional-button button,
+.functional-success-button,
+.functional-error-button {
   border-radius: 5px;
   background: none;
   width: 100%;
@@ -58,6 +60,25 @@
   min-width: 75px;
   font-size: 1.35rem;
   height: 100%;
+}
+
+button.functional-success {
+  background-color: #0984e3;
+  font-weight: bold;
+}
+
+button.functional-waring {
+  background-color: #ff5500;
+  font-weight: bold;
+}
+
+button.functional-error {
+  background-color: #ff0000;
+  font-weight: bold;
+}
+
+.functional-disabled {
+  opacity: 0.4;
 }
 
 .functional-button:hover {

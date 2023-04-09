@@ -27,10 +27,10 @@
 
       <div *ngIf="activeForm == true; then form"></div>
 
-      <ng-template #form>
+      <ng-template #form class="relative">
         <form
           id="form"
-          class="form"
+          class="form center-2"
           (ngSubmit)="logIn()"
           [formGroup]="loginForm"
         >
@@ -60,7 +60,7 @@
               <p class="error-mess"></p>
             </div>
           </label>
-          <label class="form-control row ali-center">
+          <!-- <label class="form-control row ali-center">
             <p class="label">Mã bảo vệ</p>
             <div class="form-value">
               <input
@@ -71,7 +71,7 @@
               />
               <p class="error-mess"></p>
             </div>
-          </label>
+          </label> -->
           <p class="error-mess">Tài khoản hoặc mật khẩu không tồn tại</p>
 
           <div class="submit-btn text-right">

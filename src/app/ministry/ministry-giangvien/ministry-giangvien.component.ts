@@ -68,7 +68,6 @@ export class MinistryGiangvienComponent implements OnInit {
     }
 
     this.websocketService.startConnection();
-
   }
 
   setIsSelectedGv(event: any) {
@@ -228,6 +227,42 @@ export class MinistryGiangvienComponent implements OnInit {
     };
   }
 
+  onReadFile() {
+    if (this.giangVienFile.data.length > 0) {
+      const datas = this.giangVienFile.data;
+
+      datas.forEach((data: any) => {
+        let gv = new GiangVien();
+        /*
+          this.maGv = maGv;
+          this.tenGv = tenGv;
+          this.gioiTinh = gioiTinh;
+          this.email = email;
+          this.sdt = sdt;
+          this.hocVi = hocVi;
+          this.ngayNhanViec = format(new Date(), "yyyy:MM:dd");
+          this.maBm = maBm;
+        */
+        // gv.initT(
+        //   data[1] ? data[1] : '',
+        //   data[2] ? data[2] : '',
+        //   data[2] ? data[2] : '',
+        //   data[3] ? data[3] : '',
+        //   data[4] ? data[4] : '',
+        //   data[5] ? data[5] : '',
+        //   data[6] ? data[6] : '',
+        //   data[7] ? data[7] : '',
+        //   data[8] ? data[8] : '',
+        //   data[9] ? data[9] : '',
+        //   data[10] ? data[10] : ''
+        // );
+        this.f_AddGiangVien(gv);
+      });
+
+      this.websocketService.sendForGiangVien(true);
+    }
+  }
+
   onSelect() {
     let input = this.elementRef.nativeElement.querySelector(
       '#drag-file_box input[type=file]'
@@ -251,32 +286,6 @@ export class MinistryGiangvienComponent implements OnInit {
     event.target.classList.remove('active');
     document.documentElement.classList.remove('no-scroll');
     dragBox.classList.remove('active');
-  }
-
-  onReadFile() {
-    if (this.giangVienFile.data.length > 0) {
-      const datas = this.giangVienFile.data;
-
-      datas.forEach((data: any) => {
-        let gv = new GiangVien();
-        gv.init(
-          data[0] ? data[0] : '',
-          data[1] ? data[1] : '',
-          data[2] ? data[2] : '',
-          data[3] ? data[3] : '',
-          data[4] ? data[4] : '',
-          data[5] ? data[5] : '',
-          data[6] ? data[6] : '',
-          data[7] ? data[7] : '',
-          data[8] ? data[8] : '',
-          data[9] ? data[9] : '',
-          data[10] ? data[10] : ''
-        );
-        this.f_AddGiangVien(gv);
-      });
-
-      this.websocketService.sendForGiangVien(true);
-    }
   }
 
   clickDelete() {
