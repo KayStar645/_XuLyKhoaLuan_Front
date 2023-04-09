@@ -102,7 +102,7 @@ export class HomeChitietdetaiComponent {
       this.setForm();
     });
 
-    this.getComment();
+    await this.getComment();
 
     this.isDTMe = await this.deTaiService.CheckisDetaiOfGiangvien(
       this.maDt,
@@ -111,7 +111,7 @@ export class HomeChitietdetaiComponent {
     this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
     this.isTruongK = HomeMainComponent.maKhoa == null ? false : true;
     this.isTrangthaiDetai(this.maDt);
-    this.tenGv = await (
+    this.tenGv = (
       await this.giangVienService.getById(HomeMainComponent.maGV)
     ).tenGv;
 
@@ -123,17 +123,17 @@ export class HomeChitietdetaiComponent {
   }
 
   async getComment() {
-    this.listDuyetDT = await this.duyetDTService.getByMadt(this.maDt);
-
-    this.listDuyetDT = this.listDuyetDT.map((t: any) => {
-      return {
-        ...t,
-        thoiGian: formatDistanceToNowStrict(new Date(t.ngayDuyet), {
-          locale: vi,
-        }),
-        tenGv: this.GVInputConfig.data.find((t2: any) => t2.maGv === t.maGv)
-          .tenGv,
-      };
+    await this.duyetDTService.getByMadt(this.maDt).then((data) => {
+      this.listDuyetDT = data.map((t: any) => {
+        return {
+          ...t,
+          thoiGian: formatDistanceToNowStrict(new Date(t.ngayDuyet), {
+            locale: vi,
+          }),
+          tenGv: this.GVInputConfig.data.find((t2: any) => t2.maGv === t.maGv)
+            .tenGv,
+        };
+      });
     });
   }
 
