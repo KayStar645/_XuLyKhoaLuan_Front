@@ -1,18 +1,17 @@
+import { shareService } from 'src/app/services/share.service';
+import { boMonService } from 'src/app/services/boMon.service';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { BoMon } from '../../models/BoMon.model';
-import { boMonService } from '../../services/boMon.service';
 import { giangVienService } from '../../services/giangVien.service';
-import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Validators } from '@angular/forms';
 import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
-import { userService } from 'src/app/services/user.service';
-import { User } from 'src/app/models/User.model';
 import { MinistryDanhsachgiangvienComponent } from './ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
 import { WebsocketService } from 'src/app/services/Websocket.service';
+import { DeTai } from 'src/app/models/DeTai.model';
 
 @Component({
   selector: 'app-ministry-giangvien',
@@ -48,13 +47,12 @@ export class MinistryGiangvienComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private router: Router,
     private elementRef: ElementRef,
     private boMonService: boMonService,
     private giangVienService: giangVienService,
     private toastr: ToastrService,
-    private userService: userService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private shareService: shareService
   ) {
     this.gvAddForm = this.gvForm.form;
     this.gvUpdateForm = this.gvForm.form;
@@ -211,14 +209,7 @@ export class MinistryGiangvienComponent implements OnInit {
       const workBook = XLSX.read(data, { type: 'array' });
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-      const datas = excelData
-        .slice(1, excelData.length)
-        .filter((data: any) => data.length > 0);
-      datas.forEach((data: any, i) => {
-        data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-        data[8] = data[8] ? XLSX.SSF.format('yyyy-MM-dd', data[8]) : undefined;
-        data[9] = data[9] ? XLSX.SSF.format('yyyy-MM-dd', data[9]) : undefined;
-      });
+      const datas = excelData.slice(1, excelData.length);
       this.giangVienFile = {
         name: file.name,
         size: (file.size / 1024).toFixed(2) + 'MB',
@@ -227,37 +218,34 @@ export class MinistryGiangvienComponent implements OnInit {
     };
   }
 
-  onReadFile() {
+  async onReadFile() {
     if (this.giangVienFile.data.length > 0) {
       const datas = this.giangVienFile.data;
-
-      datas.forEach((data: any) => {
+      
+      for(let data of datas) {
+        if (data[1] == '') {
+          continue;
+        }
         let gv = new GiangVien();
-        /*
-          this.maGv = maGv;
-          this.tenGv = tenGv;
-          this.gioiTinh = gioiTinh;
-          this.email = email;
-          this.sdt = sdt;
-          this.hocVi = hocVi;
-          this.ngayNhanViec = format(new Date(), "yyyy:MM:dd");
-          this.maBm = maBm;
-        */
-        // gv.initT(
-        //   data[1] ? data[1] : '',
-        //   data[2] ? data[2] : '',
-        //   data[2] ? data[2] : '',
-        //   data[3] ? data[3] : '',
-        //   data[4] ? data[4] : '',
-        //   data[5] ? data[5] : '',
-        //   data[6] ? data[6] : '',
-        //   data[7] ? data[7] : '',
-        //   data[8] ? data[8] : '',
-        //   data[9] ? data[9] : '',
-        //   data[10] ? data[10] : ''
-        // );
+        var bomMon = await this.boMonService.getBomonByName(
+          this.shareService.removeSpace(data[7])
+        );
+        gv.init(
+          this.shareService.removeSpace(data[1]),
+          data[2] ? this.shareService.removeSpace(data[2]) : '',
+          '',
+          data[3] ? this.shareService.removeSpace(data[3]) : '',
+          data[4] ? this.shareService.removeSpace(data[4]) : '',
+          data[5] ? this.shareService.removeSpace(data[5]) : '',
+          '',
+          data[6] ? this.shareService.removeSpace(data[6]) : '',
+          '',
+          '',
+          bomMon.maBm
+        );
+        console.log(gv);
         this.f_AddGiangVien(gv);
-      });
+      }
 
       this.websocketService.sendForGiangVien(true);
     }
@@ -317,7 +305,6 @@ export class MinistryGiangvienComponent implements OnInit {
     this.DSGVComponent.selectedGV.forEach((maGV) => {
       try {
         this.giangVienService.delete(maGV);
-        this.userService.delete(maGV);
 
         this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
         this.isSelectedGV = false;
@@ -427,7 +414,6 @@ export class MinistryGiangvienComponent implements OnInit {
   async f_AddGiangVien(gv: GiangVien) {
     try {
       await this.giangVienService.add(gv);
-      await this.userService.addTeacher(new User(gv.maGv, gv.maGv));
       this.gvForm.resetForm('#create_box');
       this.websocketService.sendForGiangVien(true);
       this.toastr.success('Thêm giảng viên thành công', 'Thông báo !');
@@ -439,7 +425,6 @@ export class MinistryGiangvienComponent implements OnInit {
   async f_DeleteGiangVien(maGV: string) {
     try {
       await this.giangVienService.delete(this.DSGVComponent.lineGV.maGv);
-      await this.userService.delete(this.DSGVComponent.lineGV.maGv);
 
       this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
       this.DSGVComponent.lineGV = new GiangVien();

@@ -15,7 +15,6 @@ export class deTaiService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private shareService: shareService
   ) {}
 
@@ -43,6 +42,22 @@ export class deTaiService {
       return response;
     } catch (error) {
       console.error(error);
+      throw error;
+    }
+  }
+
+  async getDetaiByName(tenDT: string): Promise<DeTai> {
+    try {
+      var response = new DeTai();
+      response =
+        (await this.http
+          .get<DeTai>(
+            `${this.apiUrl}/api/Detais/nameDT?nameDT=${tenDT}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as DeTai);
+      return response;
+    } catch (error) {
       throw error;
     }
   }
@@ -105,17 +120,6 @@ export class deTaiService {
     return await this.http
       .post(`${this.apiUrl}/api/Detais`, deTai, this.shareService.httpOptions)
       .toPromise();
-  }
-
-  async getSinhvienByDetai(maDT: String): Promise<SinhVien[]> {
-    return (
-      (await this.http
-        .get<SinhVien[]>(
-          `${this.apiUrl}/api/Detais/deTai?deTai=${maDT}`,
-          this.shareService.httpOptions
-        )
-        .toPromise()) ?? []
-    );
   }
 
   //Tóm tắt không được để trống

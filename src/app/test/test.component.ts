@@ -25,22 +25,22 @@ export class TestComponent implements OnInit {
     // console.log(maDT);
   }
 
-  async taoTaiKhoan() {
-    try {
-      await this.userService.addTeacher(new User('GV00021', 'GV00021'));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async taoTaiKhoan() {
+  //   try {
+  //     await this.userService.addTeacher(new User('GV00021', 'GV00021'));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  async xoaTaiKhoan() {
-    console.log('Xóa nè');
-    try {
-      await this.userService.delete('GV00021');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async xoaTaiKhoan() {
+  //   console.log('Xóa nè');
+  //   try {
+  //     await this.userService.delete('GV00021');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   async getAll() {
     await this.raDeService.getAll();

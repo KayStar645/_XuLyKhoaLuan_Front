@@ -4,12 +4,11 @@
       <tr>
         <th>Mã GV</th>
         <th>Họ và tên</th>
-        <th>Email</th>
-        <th>Ngày sinh</th>
         <th>Giới tính</th>
+        <th>Email</th>
         <th>SĐT</th>
-        <th>Ngày nhận việc</th>
-        <th>Ngày nghỉ</th>
+        <!-- <th>Ngày nhận việc</th> -->
+        <!-- <th>Ngày nghỉ</th> -->
         <th>Bộ môn công tác</th>
       </tr>
       <tbody *ngFor="let gv of listGV">
@@ -22,12 +21,12 @@
           <td class="text-left">
             {{ gv?.hocHam }} {{ gv?.hocVi }} {{ gv?.tenGv }}
           </td>
-          <td class="text-left">{{ gv?.email }}</td>
-          <td class="text-center">{{ dateFormat(gv.ngaySinh) }}</td>
           <td class="text-center">{{ gv?.gioiTinh }}</td>
+          <td class="text-left">{{ gv?.email }}</td>
           <td class="text-center">{{ gv?.sdt }}</td>
+          <!-- <td class="text-center">{{ dateFormat(gv.ngaySinh) }}</td>
           <td class="text-center">{{ dateFormat(gv.ngayNhanViec) }}</td>
-          <td class="text-center">{{ dateFormat(gv.ngayNghi) }}</td>
+          <td class="text-center">{{ dateFormat(gv.ngayNghi) }}</td> -->
           <td class="text-left">{{ getTenBMById(gv.maBm) }}</td>
         </tr>
       </tbody>

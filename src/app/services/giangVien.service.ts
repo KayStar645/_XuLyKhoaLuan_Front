@@ -61,8 +61,13 @@ export class giangVienService {
     }
 
     async add(giangVien: GiangVien): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Giangviens`, giangVien, 
-      this.shareService.httpOptions).toPromise();
+      return await this.http
+        .post(
+          `${this.apiUrl}/api/Giangviens`,
+          giangVien,
+          this.shareService.httpOptions
+        )
+        .toPromise();
     }
 
     async update(giangVien: GiangVien): Promise<any> {
