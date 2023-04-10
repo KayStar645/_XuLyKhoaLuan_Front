@@ -59,6 +59,7 @@ import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitiett
 import { DashboardDanhsachthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
 import { DashboardChitietthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
 import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
+import { DashboardThemthanhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-themthanhvien.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -338,6 +339,11 @@ const routes: Routes = [
       {
         path: 'loi-moi',
         component: DashboardLoimoiComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'them-thanh-vien',
+        component: DashboardThemthanhvienComponent,
         canActivate: [AuthGuard],
       },
       {

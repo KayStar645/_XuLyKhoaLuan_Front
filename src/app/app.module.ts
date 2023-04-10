@@ -78,6 +78,8 @@ import { DashboardDanhsachthongbaoComponent } from './dashboard/dashboard-thongb
 import { DashboardChitietthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
 import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitietthongbao/home-chitietthongbao.component';
 import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
+import { DashboardThemthanhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-themthanhvien.component';
+import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-danhsachsinhvien/dashboard-danhsachsinhvien.component';
 
 @NgModule({
   declarations: [
@@ -129,15 +131,6 @@ import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dash
     HomeSinhvienComponent,
     HomeDanhsachsinhvienComponent,
     HomeThongbaoComponent,
-
-    DashboardComponent,
-    DashboardMainComponent,
-    DashboardThongbaoComponent,
-    DashboardLoimoiComponent,
-    DashboardNhomComponent,
-    DashboardTrangchunhomComponent,
-    DashboardThanhviennhomComponent,
-    TestComponent,
     HomeChitietkehoachComponent,
     HomeDanhsachkehoachComponent,
     DashboardDetaiComponent,
@@ -147,8 +140,20 @@ import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dash
     DropDownComponent,
     HomeDanhsachthongbaoComponent,
     HomeChitietthongbaoComponent,
+
+    DashboardComponent,
+    DashboardMainComponent,
+    DashboardThongbaoComponent,
+    DashboardLoimoiComponent,
+    DashboardNhomComponent,
+    DashboardTrangchunhomComponent,
+    DashboardThanhviennhomComponent,
     DashboardDanhsachthongbaoComponent,
     DashboardChitietthongbaoComponent,
+    DashboardThemthanhvienComponent,
+    DashboardDanhsachsinhvienComponent,
+    
+    TestComponent,
   ],
 
   imports: [

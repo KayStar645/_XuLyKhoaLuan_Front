@@ -87,7 +87,7 @@ export class DashboardDetaiComponent {
       (await this.deTaiService.isHaveDeTaiInNamHocDotActive(
         shareService.namHoc,
         shareService.dot
-      )) == false
+      )) == true
     ) {
       this.isPopupVisible = true;
       this.isNotHaveDeTai = true;
@@ -96,7 +96,7 @@ export class DashboardDetaiComponent {
 
     this.listDT = (await this.deTaiService.getAll()).filter(
       (dt) =>
-        dt.trangThai === false &&
+        dt.trangThai === true &&
         dt.namHoc == shareService.namHoc &&
         dt.dot == shareService.dot
     );
@@ -140,14 +140,14 @@ export class DashboardDetaiComponent {
     if (maCn == '') {
       this.listDT = (await this.deTaiService.getAll()).filter(
         (dt) =>
-          dt.trangThai === false &&
+          dt.trangThai === true &&
           dt.namHoc == shareService.namHoc &&
           dt.dot == shareService.dot
       );
     } else {
       this.listDT = (await this.deTaiService.getByChuyenNganh(maCn)).filter(
         (dt) =>
-          dt.trangThai === false &&
+          dt.trangThai === true &&
           dt.namHoc == shareService.namHoc &&
           dt.dot == shareService.dot
       );
@@ -158,7 +158,7 @@ export class DashboardDetaiComponent {
   async getAllDeTai() {
     this.listDT = (await this.deTaiService.getAll()).filter(
       (dt) =>
-        dt.trangThai === false &&
+        dt.trangThai === true &&
         dt.namHoc == shareService.namHoc &&
         dt.dot == shareService.dot
     );
@@ -259,7 +259,7 @@ export class DashboardDetaiComponent {
     await this.deTaiService.update(deTai);
     this.listDT = (await this.deTaiService.getAll()).filter(
       (dt) =>
-        dt.trangThai === false &&
+        dt.trangThai === true &&
         dt.namHoc == shareService.namHoc &&
         dt.dot == shareService.dot
     );

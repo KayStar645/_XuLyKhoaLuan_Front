@@ -6,17 +6,14 @@ import { thamGiaService } from './../../services/thamGia.service';
 import { dotDkService } from './../../services/dotDk.service';
 import { DotDk } from './../../models/DotDk.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { userService } from 'src/app/services/user.service';
-import { Form, getParentElement, Option } from 'src/assets/utils';
+import { getParentElement, Option } from 'src/assets/utils';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { async } from 'rxjs';
 
 @Component({
   selector: 'app-ministry-dotthamgia',

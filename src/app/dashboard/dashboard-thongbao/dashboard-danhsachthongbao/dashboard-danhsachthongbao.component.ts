@@ -9,14 +9,11 @@ import { ThongBao } from 'src/app/models/ThongBao.model';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { shareService } from 'src/app/services/share.service';
 import { thongBaoService } from 'src/app/services/thongBao.service';
-
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoiMoi } from 'src/app/models/LoiMoi.model';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
-import { Validators } from '@angular/forms';
-import { Form } from 'src/assets/utils';
 import { Title } from '@angular/platform-browser';
 import { DashboardComponent } from '../../dashboard.component';
 

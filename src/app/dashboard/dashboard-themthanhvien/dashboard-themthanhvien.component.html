@@ -1,0 +1,30 @@
+<div id="functional-container">
+  <div class="functional-list p-b-12">
+    <ul class="functional-container row ali-center">
+      <li class="functional-item">
+        <select
+          class="functional-select"
+          id="functional-select"
+          (change)="getThamgiaByMaCN($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
+            {{ cn?.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class="functional-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tên..."
+          [(ngModel)]="searchName"
+        />
+      </li>
+    </ul>
+  </div>
+
+  <app-dashboard-danhsachsinhvien
+    [searchName]="searchName"
+  ></app-dashboard-danhsachsinhvien>
+
+</div>

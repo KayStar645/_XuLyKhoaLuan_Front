@@ -7,15 +7,15 @@
           <div class="card-deck">
             <div class="card" *ngFor="let loiMoi of lstLoiMoi">
               <div class="card-header">
-                Lời mời từ nhóm {{loiMoi.maNhom}}
+                Lời mời từ nhóm {{ loiMoi.maNhom }}
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ loiMoi.namHoc }} - Đợt {{ loiMoi.dot }} - Nhóm {{ loiMoi.maNhom }}</h5>
                 <p class="card-text">{{ loiMoi.loiNhan }}</p>
                 <p class="card-text">Thời gian: {{ dateFormat(loiMoi.thoiGian) }}</p>
                 <div>
-                  <button class="btn btn-success accept-btn" (click)="acceptInvitation(loiMoi)">Accept</button>
-                  <button class="btn btn-danger reject-btn" (click)="rejectInvitation(loiMoi)">Reject</button>
+                  <button class="btn btn-success accept-btn" (click)="acceptInvitation(loiMoi)">Chấp nhận</button>
+                  <button class="btn btn-danger reject-btn" (click)="rejectInvitation(loiMoi)">Từ chối</button>
                 </div>
               </div>
             </div>
@@ -43,27 +43,6 @@
             </div>
           </div>
         </div>
-        <!-- <a
-          class="item-container"
-          [routerLink]="[
-            '/dashboard/thong-bao/chi-tiet',
-            { maTb: listTB[0]?.maTb }
-          ]"
-        >
-          <img src="../../../../assets/Images/notify.png" alt="" />
-
-          <div class="flex-1">
-            <div class="info row flex-column jus-between">
-              <div class="name">
-                <p [innerHTML]="listTB[0]?.tenTb"></p>
-              </div>
-              <p class="date row ali-center jus-end">
-                <i class="icon-cal fa-regular fa-calendar"></i>
-                {{ dateFormat(listTB[0]?.ngayTb) }}
-              </p>
-            </div>
-          </div>
-        </a> -->
       </div>
 
       <div class="h-7 p-l-12 p-r-12">
