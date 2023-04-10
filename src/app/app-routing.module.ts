@@ -56,6 +56,8 @@ import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-fo
 import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rade/home-huongdan-rade.component';
 import { HomeDanhsachthongbaoComponent } from './home/home-thongbao/home-danhsachthongbao/home-danhsachthongbao.component';
 import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitietthongbao/home-chitietthongbao.component';
+import { DashboardDanhsachthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
+import { DashboardChitietthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -341,6 +343,18 @@ const routes: Routes = [
         path: 'thong-bao',
         component: DashboardThongbaoComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: DashboardDanhsachthongbaoComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'chi-tiet',
+            component: DashboardChitietthongbaoComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'nhom',

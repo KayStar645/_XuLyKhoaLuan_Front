@@ -1,22 +1,34 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectorRef,
+} from '@angular/core';
+import { ThongBao } from 'src/app/models/ThongBao.model';
+import { WebsocketService } from 'src/app/services/Websocket.service';
+import { shareService } from 'src/app/services/share.service';
+import { thongBaoService } from 'src/app/services/thongBao.service';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoiMoi } from 'src/app/models/LoiMoi.model';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
-import { shareService } from 'src/app/services/share.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
-import { DashboardComponent } from '../dashboard.component';
-import { DashboardDanhsachthongbaoComponent } from './dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
 import { Validators } from '@angular/forms';
 import { Form } from 'src/assets/utils';
 import { Title } from '@angular/platform-browser';
+import { DashboardComponent } from '../../dashboard.component';
 
 @Component({
-  selector: 'app-dashboard-thongbao',
-  templateUrl: './dashboard-thongbao.component.html',
-  styleUrls: ['./dashboard-thongbao.component.scss'],
+  selector: 'app-dashboard-danhsachthongbao',
+  templateUrl: './dashboard-danhsachthongbao.component.html',
+  styleUrls: [
+    './dashboard-danhsachthongbao.component.scss',
+    '../dashboard-thongbao.component.scss',
+  ],
 })
-export class DashboardThongbaoComponent {
+export class DashboardDanhsachthongbaoComponent {
   title = 'Thông báo';
   maSv: string = '';
   lstLoiMoi: LoiMoi[] = [];
@@ -27,29 +39,21 @@ export class DashboardThongbaoComponent {
   isGroupHaveOneMember = false;
   isPopupVisible = false;
 
-  // Hiển thị thông báo của khoa nè
-  @ViewChild(DashboardDanhsachthongbaoComponent)
-  protected DSTBComponent!: DashboardDanhsachthongbaoComponent;
-  // searchName = '';
-
-  // tbAddForm: any;
-  // tbUpdateForm: any;
-  // dtOldForm: any;
-
-  // tbForm = new Form({
-  //   maTb: ['', Validators.required],
-  //   tenTb: ['', Validators.required],
-  //   moTa: ['', Validators.email],
-  //   noiDung: [''],
-  //   hinhAnh: ['', Validators.required],
-  //   fileTb: [''],
-  //   maKhoa: ['', Validators.required],
-  //   ngayTb: ['', Validators.required],
-  // });
+  // Thông báo từ khoa
+  @Input() searchName = '';
+  @Input() isSelectedTB = false;
+  @Output() returnIsSelectedTB = new EventEmitter<boolean>();
+  listTB: any = [];
+  selectedTB: string = 'adsad';
+  root: ThongBao[] = [];
+  lineTB = new ThongBao();
+  elementOld: any;
 
   constructor(
-    private router: Router,
+    private thongBaoService: thongBaoService,
     private shareService: shareService,
+    private websocketService: WebsocketService,
+    private router: Router,
     private loiMoiService: loiMoiService,
     private thamGiaService: thamGiaService,
     private cd: ChangeDetectorRef,
@@ -58,38 +62,46 @@ export class DashboardThongbaoComponent {
   ) {}
 
   async ngOnInit() {
-    this.titleService.setTitle('Danh sách thông báo');
+    await this.getAllThongBao();
 
-    // this.maSv = DashboardComponent.maSV;
-    // this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
-    //   this.maSv,
-    //   shareService.namHoc,
-    //   shareService.dot
-    // );
+    this.maSv = DashboardComponent.maSV;
+    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
+      this.maSv,
+      shareService.namHoc,
+      shareService.dot
+    );
 
-    // if (
-    //   await this.thamGiaService.isJoinedAGroup(
-    //     DashboardComponent.maSV,
-    //     shareService.namHoc,
-    //     shareService.dot
-    //   )
-    // ) {
-    //   const groupJoinedId = await (
-    //     await this.thamGiaService.getById(
-    //       this.maSv,
-    //       shareService.namHoc,
-    //       shareService.dot
-    //     )
-    //   ).maNhom;
-    //   this.isGroupHaveOneMember =
-    //     (await this.thamGiaService.getAll()).filter(
-    //       (tg) => tg.maNhom == groupJoinedId
-    //     ).length === 1;
-    // } else {
-    //   this.router.navigate(['dashboard']);
-    // }
+    if (
+      await this.thamGiaService.isJoinedAGroup(
+        DashboardComponent.maSV,
+        shareService.namHoc,
+        shareService.dot
+      )
+    ) {
+      const groupJoinedId = await (
+        await this.thamGiaService.getById(
+          this.maSv,
+          shareService.namHoc,
+          shareService.dot
+        )
+      ).maNhom;
+      this.isGroupHaveOneMember =
+        (await this.thamGiaService.getAll()).filter(
+          (tg) => tg.maNhom == groupJoinedId
+        ).length === 1;
+    } else {
+      this.router.navigate(['dashboard']);
+    }
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromThongBao((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllThongBao();
+      }
+    });
   }
 
+  // Thông báo từ lời mời nè
   async acceptInvitation(loiMoi: LoiMoi) {
     if (DashboardComponent.isSignUpDeTai) {
       this.isPopupVisible = true;
@@ -146,10 +158,6 @@ export class DashboardThongbaoComponent {
       shareService.dot
     );
     this.cd.detectChanges();
-  }
-
-  dateFormat(str: any): string {
-    return this.shareService.dateFormat(str);
   }
 
   async showConfirmDialog() {
@@ -212,5 +220,13 @@ export class DashboardThongbaoComponent {
     this.isPopupVisible = false;
   }
 
-  // Hiển thị thông báo của khoa nè
+  // Thông báo từ khoa
+  async getAllThongBao() {
+    this.listTB = await this.thongBaoService.getAll();
+    this.root = this.listTB;
+  }
+
+  dateFormat(str: string) {
+    return this.shareService.dateFormat(str);
+  }
 }
