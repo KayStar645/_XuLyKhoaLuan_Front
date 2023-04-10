@@ -1,3 +1,7 @@
+import { huongDanService } from './../../../services/huongDan.service';
+import { phanBienService } from './../../../services/phanBien.service';
+import { raDeService } from 'src/app/services/raDe.service';
+import { shareService } from 'src/app/services/share.service';
 import { Component, OnInit } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
@@ -10,6 +14,7 @@ import { huongDanService } from 'src/app/services/huongDan.service';
 import { phanBienService } from 'src/app/services/phanBien.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { getParentElement } from 'src/assets/utils';
+import { GiangVien } from 'src/app/models/GiangVien.model';
 
 @Component({
   selector: 'app-home-huongdan-rade',

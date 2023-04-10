@@ -1,0 +1,55 @@
+<div id="container" *ngIf="listTB.length > 0">
+  <div class="notify-list">
+    <div class="wrapper row">
+      <div class="h-5 p-l-12 p-r-12 p-t-8 first-info">
+        <a
+          class="item-container"
+          [routerLink]="[
+            '/home/thong-bao/chi-tiet',
+            { maTb: listTB[0]?.maTb }
+          ]"
+        >
+          <img src="../../../../assets/Images/notify.png" alt="" />
+
+          <div class="flex-1">
+            <div class="info row flex-column jus-between">
+              <div class="name">
+                <p [innerHTML]="listTB[0]?.tenTb"></p>
+              </div>
+              <p class="date row ali-center jus-end">
+                <i class="icon-cal fa-regular fa-calendar"></i>
+                {{ dateFormat(listTB[0]?.ngayTb) }}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="h-7 p-l-12 p-r-12">
+        <div class="list-item" *ngFor="let thongBao of listTB">
+          <a
+            class="row item-container"
+            [routerLink]="[
+              '/home/thong-bao/chi-tiet',
+              { maTb: thongBao.maTb }
+            ]"
+          >
+            <img src="../../../../assets/Images/notify.png" alt="" />
+
+            <div class="flex-1">
+              <div class="info row flex-column jus-between">
+                <div class="name">
+                  <p [innerHTML]="thongBao.tenTb"></p>
+                </div>
+                <p class="date row ali-center jus-end">
+                  <i class="icon-cal fa-regular fa-calendar"></i>
+                  {{ dateFormat(thongBao.ngayTb) }}
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

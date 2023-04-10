@@ -47,7 +47,7 @@ export class sinhVienService {
     return (
       (await this.http
         .get<SinhVien[]>(
-          `${this.apiUrl}/api/Detais/deTai?deTai=${maDT}`,
+          `${this.apiUrl}/api/Sinhviens/maDT?maDT=${maDT}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

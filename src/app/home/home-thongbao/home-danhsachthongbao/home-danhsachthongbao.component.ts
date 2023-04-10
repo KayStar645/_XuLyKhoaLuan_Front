@@ -11,14 +11,14 @@ import { shareService } from 'src/app/services/share.service';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 
 @Component({
-  selector: 'app-ministry-danhsachthongbao',
-  templateUrl: './ministry-danhsachthongbao.component.html',
+  selector: 'app-home-danhsachthongbao',
+  templateUrl: './home-danhsachthongbao.component.html',
   styleUrls: [
-    './ministry-danhsachthongbao.component.scss',
-    '../ministry-thongbao.component.scss',
+    './home-danhsachthongbao.component.scss',
+    '../home-thongbao.component.scss',
   ],
 })
-export class MinistryDanhsachthongbaoComponent {
+export class HomeDanhsachthongbaoComponent {
   @Input() searchName = '';
   @Input() isSelectedTB = false;
   @Output() returnIsSelectedTB = new EventEmitter<boolean>();

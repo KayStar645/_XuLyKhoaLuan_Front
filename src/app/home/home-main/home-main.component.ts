@@ -18,7 +18,7 @@ import { of } from 'rxjs/internal/observable/of';
   selector: 'app-home-main',
   templateUrl: './home-main.component.html',
   styleUrls: ['./home-main.component.scss'],
-  providers: [HomeMainComponent]
+  providers: [HomeMainComponent],
 })
 export class HomeMainComponent {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
@@ -35,9 +35,9 @@ export class HomeMainComponent {
   hoiDong: any = HoiDong;
   itemNumber = 9;
 
-  countTB = 0;
+  countNV = 0;
   countKH = 0;
-  boMon = "";
+  boMon = '';
 
   constructor(
     private authService: AuthService,
@@ -49,7 +49,7 @@ export class HomeMainComponent {
     private truongBmService: truongBmService,
     private boMonService: boMonService,
     private el: ElementRef,
-    private thongBaoService: thongBaoService,
+    private thongBaoService: thongBaoService
   ) {}
 
   public async ngOnInit() {
@@ -68,14 +68,14 @@ export class HomeMainComponent {
     this.boMon = (await this.boMonService.getById(this.data.maBm)).tenBm;
 
     // Kiểm tra có phải là trưởng bộ môn hoặc trưởng khoa hay không?
-    if(await this.truongBmService.isTruongBomonByMaGV(this.maGV)) {
-      this.maBm = await(
+    if (await this.truongBmService.isTruongBomonByMaGV(this.maGV)) {
+      this.maBm = await (
         await this.truongBmService.CheckTruongBomonByMaGV(this.maGV)
       ).maBm;
       HomeMainComponent.maBm = this.maBm;
     }
-    if(await this.truongKhoaService.isTruongKhoaByMaGV(this.maGV)) {
-      this.maKhoa = await(
+    if (await this.truongKhoaService.isTruongKhoaByMaGV(this.maGV)) {
+      this.maKhoa = await (
         await this.truongKhoaService.CheckTruongKhoaByMaGV(this.maGV)
       ).maKhoa;
       HomeMainComponent.maKhoa = this.maKhoa;
@@ -92,13 +92,12 @@ export class HomeMainComponent {
     var number = navbar.querySelectorAll('li').length;
 
     var navbar_items = this.el.nativeElement.querySelectorAll('.navbar-item');
-    navbar_items.forEach((item: { style: { flexBasis: string; }; }) => {
-      item.style.flexBasis = 'calc(100% / '+ number +')';
-    });    
+    navbar_items.forEach((item: { style: { flexBasis: string } }) => {
+      item.style.flexBasis = 'calc(100% / ' + number + ')';
+    });
   }
 
   dateFormat(str: any): string {
     return this.shareService.dateFormat(str);
   }
-
 }
