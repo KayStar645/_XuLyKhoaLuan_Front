@@ -71,6 +71,7 @@ import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkeh
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
 import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-formdetai.component';
+import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-fo
     HomeDanhsachkehoachComponent,
     DashboardDetaiComponent,
     HomeFormdetaiComponent,
+    DashboardBaitapchitietComponent,
   ],
 
   imports: [

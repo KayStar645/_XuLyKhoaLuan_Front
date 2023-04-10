@@ -47,4 +47,12 @@ export class congViecService {
       return await this.http.delete(`${this.apiUrl}/api/Congviecs/maCV?maCV=${maCV}`, 
       this.shareService.httpOptions).toPromise();
     }
+
+    async isHaveCongViecForGroup(maNhom: string): Promise<boolean> {
+      return (await this.getAll()).filter(cv => cv.maNhom === maNhom).length > 0 ? true : false;
+    }
+
+    async getAllCongViecForGroup(maNhom: string): Promise<CongViec[]> {
+      return (await this.getAll()).filter(cv => cv.maNhom === maNhom);
+    }
 }
