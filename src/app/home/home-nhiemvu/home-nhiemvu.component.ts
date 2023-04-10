@@ -39,8 +39,8 @@ export class HomeNhiemvuComponent implements OnInit {
   }
 
   onChangeLayout(event: any) {
-    document.querySelector('.nav-item.active')?.classList.remove('active');
+    // document.querySelector('.nav-item.active')?.classList.remove('active');
 
-    event.target.classList.add('active');
+    // event.target.classList.add('active');
   }
 }

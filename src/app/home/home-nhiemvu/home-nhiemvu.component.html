@@ -5,7 +5,9 @@
     <div class="h-6">
       <div class="row ali-center jus-center nav-bar functional-wrapper h-100">
         <div
-          class="nav-item active"
+          routerLinkActive="active"
+          class="nav-item"
+          [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/home/nhiem-vu"
           (click)="onChangeCurrent($event)"
         >
@@ -14,6 +16,8 @@
         </div>
         <div
           class="nav-item"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/home/nhiem-vu/huongdan-rade"
           (click)="onChangeInstruct($event)"
         >
