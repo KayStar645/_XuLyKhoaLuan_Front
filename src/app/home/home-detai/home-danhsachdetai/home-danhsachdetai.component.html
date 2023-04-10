@@ -20,6 +20,18 @@
           (input)="onSearchName($event)"
         />
       </li>
+      <li class="functional-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="onGetDetaiByMaCn($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let cn of listCn" value="{{ cn.maCn }}">
+            {{ cn.tenCn }}
+          </option>
+        </select>
+      </li>
       <li
         class="functional-item functional-wrapper row ali-center jus-end flex-1"
       >
@@ -110,13 +122,13 @@
               <br />
               <span
                 style="color: blue"
-                *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == ''"
+                *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == '' && !getTrangthaiDetai(dt.maDT); else isDuyet"
                 >Chưa duyệt</span
               >
-              <span *ngIf="getThoiGianDuyetByMaDT(dt.maDT) != ''">
+              <ng-template #isDuyet>
                 <span style="color: #15fa00 ;" *ngIf="dt.trangThai">Đạt</span>
                 <span style="color: red" *ngIf="!dt.trangThai">Chưa đạt</span>
-              </span>
+              </ng-template>
             </b>
           </td>
         </tr>

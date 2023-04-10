@@ -279,7 +279,7 @@
 
 <!-- !isDTMe && oldForm -->
 <ng-template #XemDT>
-  <div class="detail-container">
+  <div class="detail-container" *ngIf="oldForm">
     <form class="dt-form" [formGroup]="dtForm.form">
       <div class="row functional-wrapper">
         <div class="h-9 p-l-8 p-r-8">

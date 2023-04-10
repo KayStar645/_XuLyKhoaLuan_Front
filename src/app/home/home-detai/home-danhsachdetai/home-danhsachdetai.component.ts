@@ -43,6 +43,7 @@ export class HomeDanhsachdetaiComponent {
   lineDT = new DeTai();
   elementOld: any;
 
+  listDetai: DeTai[] = [];
   listRade: RaDe[] = [];
   listDuyetDt: DuyetDt[] = [];
   listGiangvien: GiangVien[] = [];
@@ -82,9 +83,11 @@ export class HomeDanhsachdetaiComponent {
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài');
+
     this.listCn = await this.chuyenNganhService.getAll();
     this.getAllDeTai();
 
+    this.listDetai = await this.deTaiService.getAll();
     this.listRade = await this.raDeService.getAll();
     this.listDuyetDt = await this.duyetDtService.getAll();
     this.listGiangvien = await this.giangVienService.getAll();
@@ -108,7 +111,7 @@ export class HomeDanhsachdetaiComponent {
       }
     });
   }
-
+  
   onDragFileEnter(event: any) {
     event.preventDefault();
     const parent = getParentElement(event.target, '.drag-form');
@@ -186,7 +189,7 @@ export class HomeDanhsachdetaiComponent {
     let deTai = new DeTai();
     // let maDT = await this.deTaiService.createMaDT('CNTT');
     deTai.init(
-      "",
+      '',
       data[1] ? data[1] : '',
       data[2] ? data[2] : '',
       data[3] ? data[3] : '',
@@ -222,8 +225,8 @@ export class HomeDanhsachdetaiComponent {
   async onReadFile() {
     if (this.deTaiFile.data.length > 0) {
       const datas = this.deTaiFile.data;
-      
-      for(var data of datas) {
+
+      for (var data of datas) {
         try {
           var maDT = await this.createDeTai(data);
 
@@ -248,7 +251,13 @@ export class HomeDanhsachdetaiComponent {
   }
 
   async getDetaiByMaCnMaGv(maCn: string, maGV: string) {
-    if (maCn && maGV) {
+    if (HomeMainComponent.maBm != '') {
+      // Lấy đề tài theo chuyên ngành của bộ môn mình
+      this.listDT = await this.deTaiService.GetDetaiByChuyenNganhBomon(
+        maCn,
+        HomeMainComponent.maBm
+      );
+    } else {
       this.listDT = await this.deTaiService.GetDeTaisByChuyennganhGiangvien(
         maCn,
         maGV
@@ -256,12 +265,26 @@ export class HomeDanhsachdetaiComponent {
     }
   }
 
+  async getDetaiByDotdk(namHoc: string, dot: number) {}
+
   onGetDetaiByMaCn(event: any) {
-    const maBM = event.target.value;
-    if (maBM == '') {
+    const maCn = event.target.value;
+    if (maCn == '') {
       this.getAllDeTai();
     } else {
-      this.getDetaiByMaCnMaGv(maBM, HomeMainComponent.maGV);
+      this.getDetaiByMaCnMaGv(maCn, HomeMainComponent.maGV);
+    }
+  }
+
+  onGetDotdk(event: any) {
+    const dotdk = event.target.value;
+    let namHoc = dotdk.slice(0, dotdk.length - 1);
+    let dot = dotdk.slice(dotdk.length - 1);
+
+    if (dotdk == '') {
+      this.getAllDeTai();
+    } else {
+      this.getDetaiByDotdk(namHoc, dot);
     }
   }
 
@@ -288,7 +311,7 @@ export class HomeDanhsachdetaiComponent {
     if (maKhoa != null) {
       this.listDT = await this.deTaiService.GetAllDeTaisByMakhoa(maKhoa);
     } else if (maBm != null) {
-      this.listDT = await this.deTaiService.GetAllDeTaisByMaBomon(maBm);
+      this.listDT = await this.deTaiService.GetAllDeTaisByMaBomon(maBm, false);
     } else {
       this.listDT = await this.deTaiService.GetAllDeTaisByGiangvien(maGv);
     }
@@ -334,6 +357,12 @@ export class HomeDanhsachdetaiComponent {
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
     return '';
+  }
+
+  getTrangthaiDetai(maDT: string) {
+    let detai: DeTai =
+      this.listDT.find((item) => item.maDT == maDT) ?? new DeTai();
+    return detai.trangThai;
   }
 
   onSearchName(event: any) {

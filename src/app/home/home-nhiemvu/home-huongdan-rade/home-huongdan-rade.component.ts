@@ -7,6 +7,8 @@ import { giangVienService } from 'src/app/services/giangVien.service';
 import { huongDanService } from 'src/app/services/huongDan.service';
 import { phanBienService } from 'src/app/services/phanBien.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
+import { HomeMainComponent } from '../../home-main/home-main.component';
+import { shareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-home-huongdan-rade',
@@ -21,6 +23,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
   sinhViens: any[] = [];
   rowSpans: any[] = [];
   maDt = '';
+  isTruongBM: boolean = false;
 
   constructor(
     private deTaiService: deTaiService,
@@ -31,6 +34,8 @@ export class HomeHuongdanRadeComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
+    
     let giangViens1 = await this.giangVienService.getAll();
     let giangViens2 = await this.giangVienService.getAll();
 
@@ -42,36 +47,127 @@ export class HomeHuongdanRadeComponent implements OnInit {
     this.GVHDInputConfig.keyWord = 'tenGv';
     this.GVHDInputConfig.selectedItem = [];
 
-    await this.deTaiService.getAll().then(async (data) => {
-      this.deTais = data;
+    await this.getAllDetai();
+    
+  }
 
-      for (const dt of data) {
-        await this.sinhVienService
-          .getSinhvienByDetai(dt.maDT)
-          .then(async (sv: any[]) => {
-            if (sv.length > 0) {
-              sv[0].maDT = dt.maDT;
+  async getAllDetai() {
+    // Chỉ lấy danh sách đề tài đã được duyệt của bộ môn mình
+    if(this.isTruongBM) {
+      await this.deTaiService
+        .getDetaiByBomonDot(
+          HomeMainComponent.maBm,
+          shareService.namHoc,
+          shareService.dot,
+          true
+        )
+        .then(async (data) => {
+          this.deTais = data;
 
-              sv[0].giangVienHD = await this.huongDanService
-                .getGiangvienByDetai(dt.maDT)
-                .then();
+          for (const dt of data) {
+            await this.sinhVienService
+              .getSinhvienByDetai(dt.maDT)
+              .then(async (sv: any[]) => {
+                if (sv.length > 0) {
+                  sv[0].maDT = dt.maDT;
 
-              sv[0].giangVienPB = await this.phanBienService
-                .getGiangvienByDetai(dt.maDT)
-                .then();
+                  sv[0].giangVienHD = await this.huongDanService
+                    .getGiangvienByDetai(dt.maDT)
+                    .then();
 
-              sv[sv.length - 1].isLast = true;
+                  sv[0].giangVienPB = await this.phanBienService
+                    .getGiangvienByDetai(dt.maDT)
+                    .then();
 
-              this.sinhViens = [...this.sinhViens, ...sv];
+                  sv[sv.length - 1].isLast = true;
 
-              this.rowSpans.push({
-                maDT: dt.maDT,
-                span: sv.length,
+                  this.sinhViens = [...this.sinhViens, ...sv];
+
+                  this.rowSpans.push({
+                    maDT: dt.maDT,
+                    span: sv.length,
+                  });
+                }
               });
+          }
+        });
+    }
+    else {
+      await this.deTaiService
+        .GetDetaiByHuongdanOfGiangvienDotdk(
+          HomeMainComponent.maGV,
+          shareService.namHoc,
+          shareService.dot
+        )
+        .then(async (data) => {
+          this.deTais = data;
+
+          for (const dt of data) {
+            await this.sinhVienService
+              .getSinhvienByDetai(dt.maDT)
+              .then(async (sv: any[]) => {
+                if (sv.length > 0) {
+                  sv[0].maDT = dt.maDT;
+
+                  sv[0].giangVienHD = await this.huongDanService
+                    .getGiangvienByDetai(dt.maDT)
+                    .then();
+
+                  sv[0].giangVienPB = await this.phanBienService
+                    .getGiangvienByDetai(dt.maDT)
+                    .then();
+
+                  sv[sv.length - 1].isLast = true;
+
+                  this.sinhViens = [...this.sinhViens, ...sv];
+
+                  this.rowSpans.push({
+                    maDT: dt.maDT,
+                    span: sv.length,
+                  });
+                }
+              });
+          }
+        });
+
+        await this.deTaiService
+          .GetDetaiByPhanbienOfGiangvienDotdk(
+            HomeMainComponent.maGV,
+            shareService.namHoc,
+            shareService.dot
+          )
+          .then(async (data) => {
+            this.deTais.push(...data);
+
+            for (const dt of data) {
+              await this.sinhVienService
+                .getSinhvienByDetai(dt.maDT)
+                .then(async (sv: any[]) => {
+                  if (sv.length > 0) {
+                    sv[0].maDT = dt.maDT;
+
+                    sv[0].giangVienHD = await this.huongDanService
+                      .getGiangvienByDetai(dt.maDT)
+                      .then();
+
+                    sv[0].giangVienPB = await this.phanBienService
+                      .getGiangvienByDetai(dt.maDT)
+                      .then();
+
+                    sv[sv.length - 1].isLast = true;
+
+                    this.sinhViens = [...this.sinhViens, ...sv];
+
+                    this.rowSpans.push({
+                      maDT: dt.maDT,
+                      span: sv.length,
+                    });
+                  }
+                });
             }
           });
-      }
-    });
+    }
+    
   }
 
   onUpdate(event: any) {

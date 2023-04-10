@@ -37,6 +37,33 @@ export class deTaiService {
     );
   }
 
+  async getDetaiByBomonDot(
+    maBM: string,
+    namHoc: string,
+    dot: number,
+    flag: boolean
+  ): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/maBM, namHoc, dot, flag?maBM=${maBM}&namHoc=${namHoc}&dot=${dot}&flag=${flag}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async GetDetaiByChuyenNganhBomon(maCN: string, maBM: string): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/maCN, maBM?maCN=${maCN}&maBM=${maBM}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async getById(id: string): Promise<DeTai> {
     try {
       var response = new DeTai();
@@ -161,11 +188,11 @@ export class deTaiService {
     );
   }
 
-  async GetAllDeTaisByMaBomon(maBm: string): Promise<DeTai[]> {
+  async GetAllDeTaisByMaBomon(maBm: string, flag: boolean): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(
-          `${this.apiUrl}/api/Detais/maBm?maBm=${maBm}`,
+          `${this.apiUrl}/api/Detais/maBm, flag?maBm=${maBm}&flag=${flag}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
@@ -183,6 +210,36 @@ export class deTaiService {
     );
   }
 
+  async GetDetaiByHuongdanOfGiangvienDotdk(
+    maGVHD: string,
+    namHoc: string,
+    dot: number
+  ): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/maGVHD, namHoc, dot?maGVHD=${maGVHD}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async GetDetaiByPhanbienOfGiangvienDotdk(
+    maGVPB: string,
+    namHoc: string,
+    dot: number
+  ): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/maGVPB, namHoc, dot?maGVPB=${maGVPB}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async CheckisDetaiOfGiangvien(maDt: string, maGv: string): Promise<boolean> {
     return (
       (await this.http
@@ -194,9 +251,13 @@ export class deTaiService {
     );
   }
 
-  async isHaveDeTaiInNamHocDotActive(namHoc: string, dot: number): Promise<boolean> {
+  async isHaveDeTaiInNamHocDotActive(
+    namHoc: string,
+    dot: number
+  ): Promise<boolean> {
     return (await this.getAll()).filter(
-      (dt) => dt.namHoc == namHoc && dt.dot == dot && dt.trangThai == false).length > 0
+      (dt) => dt.namHoc == namHoc && dt.dot == dot && dt.trangThai == false
+    ).length > 0
       ? true
       : false;
   }

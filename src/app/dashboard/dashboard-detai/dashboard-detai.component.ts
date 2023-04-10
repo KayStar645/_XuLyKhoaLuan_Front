@@ -155,7 +155,7 @@ export class DashboardDetaiComponent {
     console.log(maCn);
   }
 
-  async getAllDeTai(){
+  async getAllDeTai() {
     this.listDT = (await this.deTaiService.getAll()).filter(
       (dt) =>
         dt.trangThai === false &&
@@ -178,21 +178,21 @@ export class DashboardDetaiComponent {
     );
   }
 
-  async sortGiangVien(event: any) {
-    const sort = event.target.value;
+  // async sortGiangVien(event: any) {
+  //   const sort = event.target.value;
 
-    if (sort == 'asc-id') {
-      this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
-    } else if (sort == 'desc-id') {
-      this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
-    } else if (sort == 'asc-name') {
-      this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
-    } else if (sort == 'desc-name') {
-      this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-    } else {
-      this.getAllDeTai();
-    }
-  }
+  //   if (sort == 'asc-id') {
+  //     this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
+  //   } else if (sort == 'desc-id') {
+  //     this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
+  //   } else if (sort == 'asc-name') {
+  //     this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
+  //   } else if (sort == 'desc-name') {
+  //     this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
+  //   } else {
+  //     this.getAllDeTai();
+  //   }
+  // }
 
   onSearchName(event: any) {
     const searchName = event.target.value.trim().toLowerCase();
@@ -257,8 +257,12 @@ export class DashboardDetaiComponent {
     this.isSuccessPopup = true;
     deTai.trangThai = true;
     await this.deTaiService.update(deTai);
-    this.listDT = (await this.deTaiService.getAll()).
-      filter(dt => dt.trangThai === false && dt.namHoc == this.shareService.getNamHoc() && dt.dot == this.shareService.getDot());
+    this.listDT = (await this.deTaiService.getAll()).filter(
+      (dt) =>
+        dt.trangThai === false &&
+        dt.namHoc == shareService.namHoc &&
+        dt.dot == shareService.dot
+    );
     await this.insertHuongDan(deTai.maDT);
     this.shareService.setIsFirstClickHome(true);
     this.websocketService.receiveFromDeTai(() => this.getAllDeTai());

@@ -25,7 +25,7 @@ export class HomeNhiemvuComponent implements OnInit {
   }
 
   onChangeCurrent(event: any) {
-    this.onChangeLayout(event);
+    // this.onChangeLayout(event);
     this.homeNhiemVuService.setIsAddBtnActive(true);
   }
 
@@ -34,13 +34,13 @@ export class HomeNhiemvuComponent implements OnInit {
   }
 
   onChangeInstruct(event: any) {
-    this.onChangeLayout(event);
+    // this.onChangeLayout(event);
     this.homeNhiemVuService.setIsAddBtnActive(false);
   }
 
-  onChangeLayout(event: any) {
-    // document.querySelector('.nav-item.active')?.classList.remove('active');
+  // onChangeLayout(event: any) {
+  //   // document.querySelector('.nav-item.active')?.classList.remove('active');
 
-    // event.target.classList.add('active');
-  }
+  //   // event.target.classList.add('active');
+  // }
 }

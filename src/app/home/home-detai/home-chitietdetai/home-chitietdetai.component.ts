@@ -437,11 +437,12 @@ export class HomeChitietdetaiComponent {
 
   async isTrangthaiDetai(maDT: string) {
     const duyetdt = await this.duyetDTService.getByMadt(maDT);
-    if (duyetdt.length == 0) {
+    const detai = await this.deTaiService.getById(maDT);
+    if (duyetdt.length == 0 && detai.trangThai == false) {
       this.isTrangThai = 0; // Chưa duyệt
     } else {
       this.isTrangThai =
-        (await this.deTaiService.getById(maDT)).trangThai == true ? 1 : -1;
+        detai.trangThai == true ? 1 : -1;
     }
   }
 

@@ -12,7 +12,7 @@
                 <th>Đề tài</th>
                 <th class="white-space-no-wrap">GV hướng dẫn</th>
                 <th class="white-space-no-wrap">GV phản biện</th>
-                <th class="white-space-no-wrap">Thao tác</th>
+                <th class="white-space-no-wrap" *ngIf="isTruongBM">Thao tác</th>
               </tr>
 
               <tr *ngFor="let sv of sinhViens; let i = index">
@@ -57,7 +57,7 @@
                 </td>
                 <td
                   class="border-bold update-btn"
-                  *ngIf="sv.maDT"
+                  *ngIf="sv.maDT && isTruongBM"
                   [attr.data-index]="sv.maDT"
                   [rowSpan]="getRowSpan(sv.maDT)"
                   (click)="onUpdate($event)"
@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <div class="h-3 p-l-8 p-r-8">
+    <div class="h-3 p-l-8 p-r-8" *ngIf="isTruongBM">
       <div class="detail-item">
         <div class="form-control">
           <div class="row ali-center">
