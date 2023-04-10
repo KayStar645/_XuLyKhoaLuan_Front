@@ -19,6 +19,8 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { shareService } from 'src/app/services/share.service';
 import { Router } from '@angular/router';
+import { HuongDan } from 'src/app/models/HuongDan.model';
+import { huongDanService } from 'src/app/services/huongDan.service';
 
 @Component({
   selector: 'app-dashboard-detai',
@@ -52,6 +54,7 @@ export class DashboardDetaiComponent {
     private dangKyService: dangKyService,
     private thamGiaService: thamGiaService,
     private sinhVienService: sinhVienService,
+    private huongDanService: huongDanService,
     private websocketService: WebsocketService,
     private shareService: shareService,
     private router: Router,
@@ -91,7 +94,12 @@ export class DashboardDetaiComponent {
       return;
     }
 
-    this.listDT = (await this.deTaiService.getAll()).filter(dt => dt.trangThai === true);
+    this.listDT = (await this.deTaiService.getAll()).filter(
+      (dt) =>
+        dt.trangThai === false &&
+        dt.namHoc == shareService.namHoc &&
+        dt.dot == shareService.dot
+    );
     this.listRade = await this.raDeService.getAll();
     this.listGiangvien = await this.giangVienService.getAll();
     this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
@@ -130,9 +138,19 @@ export class DashboardDetaiComponent {
   async onGetDetaiByMaCn(event: any) {
     const maCn = event.target.value;
     if (maCn == '') {
-      this.listDT = (await this.deTaiService.getAll()).filter(dt => dt.trangThai === true);
+      this.listDT = (await this.deTaiService.getAll()).filter(
+        (dt) =>
+          dt.trangThai === false &&
+          dt.namHoc == shareService.namHoc &&
+          dt.dot == shareService.dot
+      );
     } else {
-      this.listDT = (await this.deTaiService.getByChuyenNganh(maCn)).filter(dt => dt.trangThai === true);
+      this.listDT = (await this.deTaiService.getByChuyenNganh(maCn)).filter(
+        (dt) =>
+          dt.trangThai === false &&
+          dt.namHoc == shareService.namHoc &&
+          dt.dot == shareService.dot
+      );
     }
     console.log(maCn);
   }
@@ -140,7 +158,7 @@ export class DashboardDetaiComponent {
   async getAllDeTai(){
     this.listDT = (await this.deTaiService.getAll()).filter(
       (dt) =>
-        dt.trangThai === true &&
+        dt.trangThai === false &&
         dt.namHoc == shareService.namHoc &&
         dt.dot == shareService.dot
     );
@@ -229,7 +247,7 @@ export class DashboardDetaiComponent {
     dangKy.maNhom = DashboardComponent.maNhom;
     dangKy.ngayDk = date.toISOString();
 
-    this.dangKyService.add(dangKy)
+    await this.dangKyService.add(dangKy)
       .then(() => this.showSuccessPopup(deTai))
       .catch((error) => this.isPopupVisible = true);
   }
@@ -237,14 +255,30 @@ export class DashboardDetaiComponent {
   async showSuccessPopup(deTai: DeTai){
     this.isPopupVisible = true;
     this.isSuccessPopup = true;
-    deTai.trangThai = false;
+    deTai.trangThai = true;
     await this.deTaiService.update(deTai);
-    this.listDT = (await this.deTaiService.getAll()).filter(dt => dt.trangThai === true);
+    this.listDT = (await this.deTaiService.getAll()).
+      filter(dt => dt.trangThai === false && dt.namHoc == this.shareService.getNamHoc() && dt.dot == this.shareService.getDot());
+    await this.insertHuongDan(deTai.maDT);
     this.shareService.setIsFirstClickHome(true);
     this.websocketService.receiveFromDeTai(() => this.getAllDeTai());
   }
 
   hidePopup() {
     this.isPopupVisible = false;
+  }
+
+  async insertHuongDan(MaDT: string){
+    let lstMaGvhd : string[] = []; 
+    let lstGvhd = (await this.raDeService.getAll()).filter(rd => rd.maDt === MaDT);
+    lstGvhd.forEach(gv => lstMaGvhd.push(gv.maGv));
+    for(let i = 0 ; i < lstMaGvhd.length ; i++){
+      const a = new HuongDan();
+      a.duaRaHd = false;
+      a.maDt = MaDT;
+      a.maGv = lstMaGvhd[i];
+
+      await this.huongDanService.add(a);
+    }
   }
 }

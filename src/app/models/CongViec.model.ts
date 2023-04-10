@@ -7,7 +7,7 @@ export class CongViec {
     public mucDoHoanThanh!: number;
     public maGv!: string;
     public maDt!: string;
-    public maNhom!: number;
+    public maNhom!: string;
 
     constructor(){}
 }

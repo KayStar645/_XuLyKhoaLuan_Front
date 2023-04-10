@@ -5,7 +5,7 @@ import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.compon
 import { HomeMainComponent } from './home/home-main/home-main.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
@@ -58,6 +58,7 @@ import { HomeDanhsachthongbaoComponent } from './home/home-thongbao/home-danhsac
 import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitietthongbao/home-chitietthongbao.component';
 import { DashboardDanhsachthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
 import { DashboardChitietthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
+import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -374,6 +375,11 @@ const routes: Routes = [
           {
             path: 'bai-tap',
             component: DashboardBaitapnhomComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'bai-tap-chi-tiet',
+            component: DashboardBaitapchitietComponent,
             canActivate: [AuthGuard],
           },
         ],

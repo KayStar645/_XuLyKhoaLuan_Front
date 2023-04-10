@@ -38,37 +38,28 @@
       </div>
   
       <div class="h-9 p-l-8 p-r-8">
-        <div class="mission-list">
-          <div class="row ali-center jus-end ma-b-16">
-            <div class="functional-list">
-              <div class="functional-container row jus-end">
-                <div class="functional-button">
-                  <button>
-                    <a
-                      [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: -1 }]"
-                      >Thêm</a
-                    >
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <div *ngIf="listNV.length > 0">
+        <div *ngIf="isSignUpDeTai">
+          <div *ngIf="lstCV.length > 0" class="mission-list">
             <a
-              *ngFor="let nv of listNV"
+              *ngFor="let cv of lstCV"
               class="row ali-center list-item"
-              [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: nv.maNv }]"
+              [routerLink]="['/dashboard/nhom/bai-tap-chi-tiet', { maCv: cv.maCv}]"
             >
               <div class="item-img ma-r-12">
                 <img src="../../../../assets/Images/mission.svg" alt="" />
               </div>
   
               <div class="mission-info">
-                <p class="mission-title">{{ nv.tenNv }}</p>
+                <p class="mission-title">
+                  {{ cv.maGv }}
+                  đã đăng một bài tập mới
+                  {{ cv.tenCv }}
+                </p>
                 <p class="misstion-time row ali-center">
                   <i class="icon-cal fa-regular fa-calendar ma-r-4"></i
-                  >{{ dateFormat(nv.thoiGianBd) }}
+                  >
+                  <span>Hạn chót: </span>
+                  {{ dateFormat(cv.hanChot) }}
                 </p>
               </div>
             </a>

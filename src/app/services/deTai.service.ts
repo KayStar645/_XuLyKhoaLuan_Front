@@ -194,13 +194,9 @@ export class deTaiService {
     );
   }
 
-  async isHaveDeTaiInNamHocDotActive(
-    namHoc: string,
-    dot: number
-  ): Promise<boolean> {
+  async isHaveDeTaiInNamHocDotActive(namHoc: string, dot: number): Promise<boolean> {
     return (await this.getAll()).filter(
-      (dt) => dt.namHoc == namHoc && dt.dot == dot && dt.trangThai == true
-    ).length > 0
+      (dt) => dt.namHoc == namHoc && dt.dot == dot && dt.trangThai == false).length > 0
       ? true
       : false;
   }

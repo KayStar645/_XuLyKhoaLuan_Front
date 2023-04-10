@@ -1,0 +1,55 @@
+<div id="container">
+    <div class="row">
+        <div class="h-9 p-l-8 p-r-8">
+            <div class="assignment-detail">
+                <div class="color-blue assignment-name">{{ congViec.tenCv }}</div>
+                <div class="teacher-name">{{ tenGv }}</div>
+                <div class="deadline">
+                    <div class="date">
+                        Hạn nộp: {{ dateFormat(congViec.hanChot) }}
+                    </div>
+                </div>
+                <div class="command-for-assignment">
+                    Nhận xét của bài tập
+                </div>
+
+                <a class="add-command">
+                    Thêm nhận xét về lớp học
+                </a>
+            </div>
+        </div>
+
+        <div class="h-3 p-l-8 p-r-8">
+            <div class="assignment-submition">
+                <div class="m-b-10 fs-24 color-dark">Bài tập của bạn</div>
+                <a class="color-blue t-center btn-submit" (click)="onShowFormDrag()">+ Thêm hoặc tạo</a>
+            </div>
+        </div>
+
+        <div id="drag-file" (click)="onCloseDrag($event)"></div>
+        <div id="drag-file_box">
+        <p class="title">Nhập vào file</p>
+        <p class="description">Nhập danh sách đề tài thông qua 1 file excel</p>
+
+        <form
+            class="drag-form form row flex-column ali-center jus-center"
+            (dragover)="onDragFileOver($event)"
+            (dragleave)="onDragFileLeave($event)"
+            (drop)="onDropFile($event)"
+            (dragenter)="onDragFileOver($event)"
+        >
+        <input
+            type="file"
+            class="file-content"
+            hidden
+            (input)="onFileInput($event)"
+        />
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <p>
+            Kéo và thả file vào đây hoặc
+            <span class="choose-file">chọn file</span>
+        </p>
+        </form>
+        </div>
+    </div>
+</div>

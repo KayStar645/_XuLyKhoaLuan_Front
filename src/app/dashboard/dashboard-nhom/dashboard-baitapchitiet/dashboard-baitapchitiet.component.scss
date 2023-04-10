@@ -1,0 +1,80 @@
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.fs-24{
+    font-size: 24px;
+}
+
+.color-dark{
+    color: #3c4043;
+}
+
+.t-center {
+    text-align: center;
+}
+
+.color-blue {
+    color: rgb(25,103,210);
+}
+
+.assignment-detail{
+    background: #fff;
+    padding: 16px 16px 1px 16px;
+    border-radius: 10px;
+}
+
+.assignment-name{
+    font-size: 40px;
+    margin-bottom: 0.25rem;
+}
+
+.teacher-name{
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    color: #5f6368;
+}
+
+.deadline{
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: right;
+    border-bottom: 1px solid  rgb(66 133 244);
+    margin-bottom: 1rem;
+}
+
+.date {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    color: #3c4043;
+}   
+ 
+.command-for-assignment{
+    padding-top: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+    color: #3c4043;
+}
+
+.add-command{
+    margin-top: 0.25rem;
+    padding: 0.5rem 0;
+    display: inline-block;
+    color: rgb(25,103,210);
+}
+
+.assignment-submition{
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.btn-submit {
+    display: block;
+    border: 1px solid #ccc;
+    padding: 5px 0;
+    border-radius: 5px;
+}
