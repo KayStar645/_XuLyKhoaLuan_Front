@@ -74,37 +74,35 @@ export class HomeHuongdanRadeComponent implements OnInit {
     });
   }
 
-  updateGiangViens() {}
-
   onUpdate(event: any) {
     let id = event.target.dataset.index;
     let deTai = this.sinhViens.find((t) => t.maDT === id);
 
     this.maDt = id;
 
-    if (deTai.giangVienHD.length > 0) {
-      this.GVHDInputConfig.selectedItem = deTai.giangVienHD;
+    this.GVHDInputConfig.selectedItem = deTai.giangVienHD;
 
-      deTai.giangVienHD.forEach((gv: any) => {
-        let index = this.GVPBInputConfig.data.findIndex(
-          (t: any) => t.maGv === gv.maGv
-        );
+    this.GVHDInputConfig.selectedItem.forEach((gv: any) => {
+      let index = this.GVPBInputConfig.data.findIndex(
+        (t: any) => t.maGv === gv.maGv
+      );
 
+      if (index > -1) {
         this.GVPBInputConfig.data.splice(index, 1);
-      });
-    }
+      }
+    });
 
-    if (deTai.giangVienPB.length > 0) {
-      this.GVPBInputConfig.selectedItem = deTai.giangVienPB;
+    this.GVPBInputConfig.selectedItem = deTai.giangVienPB;
 
-      deTai.giangVienPB.forEach((gv: any) => {
-        let index = this.GVHDInputConfig.data.findIndex(
-          (t: any) => t.maGv === gv.maGv
-        );
+    deTai.giangVienPB.forEach((gv: any) => {
+      let index = this.GVHDInputConfig.data.findIndex(
+        (t: any) => t.maGv === gv.maGv
+      );
 
+      if (index > -1) {
         this.GVHDInputConfig.data.splice(index, 1);
-      });
-    }
+      }
+    });
   }
 
   async onSelectGVHD(event: any) {
