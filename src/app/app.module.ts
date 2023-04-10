@@ -72,6 +72,8 @@ import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachk
 import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-formdetai.component';
 import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rade/home-huongdan-rade.component';
+import { HomeDanhsachthongbaoComponent } from './home/home-thongbao/home-danhsachthongbao/home-danhsachthongbao.component';
+import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitietthongbao/home-chitietthongbao.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +139,8 @@ import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rad
     DashboardDetaiComponent,
     HomeFormdetaiComponent,
     HomeHuongdanRadeComponent,
+    HomeDanhsachthongbaoComponent,
+    HomeChitietthongbaoComponent,
   ],
 
   imports: [

@@ -1,0 +1,92 @@
+.container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px 24px;
+}
+
+.title {
+  font-size: 2.2rem;
+  color: #383838;
+}
+
+.content {
+  font-size: 1.6rem;
+}
+
+// SCSS nhiệm vụ
+.container {
+  margin: 0 -8px;
+}
+
+.form-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 16px;
+
+  .label {
+    width: auto;
+  }
+}
+
+.date-time {
+  margin: 0 -8px;
+}
+
+
+// SCSS Các thông báo khác
+.h-3-75 {
+  padding: 16px;
+  background-color: #fff;
+}
+
+.info-title {
+  font-size: 2rem;
+  font-weight: 700;
+  border-bottom: 1px solid #ddd;
+  color: #0066cb;
+}
+
+// Bottom
+.bottom {
+  margin: 16px -8px 0 -8px;
+}
+
+.bottom-notifi-item {
+  border-top: 1.6px solid #ccc;
+  padding-bottom: 16px;
+}
+
+.bottom-notifi-img img {
+  width: 100px;
+}
+
+.bottom-notifi-link {
+  padding: 4px 10px;
+  color: #5c676f;
+  top: 0;
+  text-align: justify;
+  font-size: 1.3rem;
+}
+
+.bottom-notifi-link a:hover {
+  color: #0056b3;
+}
+
+.icon-cal {
+  color: #1da1f2;
+}
+
+.date {
+  color: #666;
+  font-size: 1.2rem;
+  padding-bottom: 2px;
+
+  i{
+    margin-right: 4px;
+  }
+}
+
+.detail-link {
+  color: #1da1f2;
+  font-size: 1.3rem;
+}

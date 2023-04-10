@@ -358,6 +358,11 @@
         max-width: 36.66667%;
     }
 
+    .wide .h-4-8 {
+        flex-basis: 63.33333%;
+        max-width: 63.33333%;
+    }
+
     .wide .h-5 {
         flex-basis: 41.66667%;
         max-width: 41.66667%;
@@ -376,6 +381,11 @@
     .wide .h-8 {
         flex-basis: 66.66667%;
         max-width: 66.66667%;
+    }
+
+    .wide .h-3-70 {
+        flex-basis: 70%;
+        max-width: 70%;
     }
 
     .wide .h-9 {
