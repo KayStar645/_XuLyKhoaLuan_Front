@@ -1,0 +1,42 @@
+<div class="form-control form-no-box-shadow">
+  <p class="label w-auto p-b-4">{{ label }}</p>
+
+  <div class="form-value">
+    <div class="selected-box row" (click)="onOpenDropdown($event)">
+      <div class="selected-item flex-1">
+        <div class="row ali-center">
+          <div *ngFor="let item of selectedItem" class="item">
+            {{ item[keyWord] }}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <i class="fa-solid fa-caret-down"></i>
+      </div>
+
+      <div class="dropdown">
+        <input
+          type="text"
+          class="form-input"
+          [placeholder]="placeholder"
+          (input)="onSearchItem($event)"
+          (click)="onClickInput($event)"
+        />
+
+        <div class="list p-t-16">
+          <div
+            *ngFor="let item of items; let i = index"
+            class="item"
+            [ngClass]="{ active: isItemExist(selectedItem, item) }"
+            [attr.data-id]="item[primarKey]"
+            (click)="onSetItem($event)"
+          >
+            {{ item.tenGv }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="error-mess"></p>
+  </div>
+</div>

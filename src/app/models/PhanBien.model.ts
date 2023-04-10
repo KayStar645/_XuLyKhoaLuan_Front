@@ -1,7 +1,13 @@
 export class PhanBien {
-    public maGv!: string;
-    public maDt!: string;
-    public duaRaHd!: boolean;
+  public maGv!: string;
+  public maDt!: string;
+  public duaRaHd!: boolean;
 
-    constructor(){}
+  constructor() {}
+
+  init(maGv: string, maDt: string, duaRaHd: boolean) {
+    this.maGv = maGv;
+    this.maDt = maDt;
+    this.duaRaHd = duaRaHd;
+  }
 }

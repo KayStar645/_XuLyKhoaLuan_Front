@@ -4,49 +4,67 @@
       <div class="detail-item">
         <div id="container">
           <div>
-            <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+            <table class="table">
               <tr>
                 <th>MSSV</th>
                 <th>Họ và tên</th>
                 <th>Lớp</th>
                 <th>Đề tài</th>
-                <th>GV hướng dẫn</th>
-                <th>GV phản biện</th>
+                <th class="white-space-no-wrap">GV hướng dẫn</th>
+                <th class="white-space-no-wrap">GV phản biện</th>
+                <th class="white-space-no-wrap">Thao tác</th>
               </tr>
 
-              <!-- <tr *ngFor="let dt of deTais">
-                <td>
-                  <p *ngFor="let sv of getSinhVienByDT(dt.maDT)">
-                    <td>{{ sv.maSv }}</td>
-                    <td>{{ sv.tenSv }}</td>
-                    <td>{{ sv.lop }}</td>
+              <tr *ngFor="let sv of sinhViens; let i = index">
+                <td [ngClass]="{ 'border-bold': sv.isLast }">{{ sv.maSv }}</td>
+                <td
+                  [ngClass]="{ 'border-bold': sv.isLast }"
+                  class="white-space-no-wrap"
+                >
+                  {{ sv.tenSv }}
+                </td>
+                <td [ngClass]="{ 'border-bold': sv.isLast }">{{ sv.lop }}</td>
+                <td
+                  class="border-bold"
+                  *ngIf="sv.maDT"
+                  [rowSpan]="getRowSpan(sv.maDT)"
+                  [innerHtml]="getDeTaiByID(sv.maDT)"
+                ></td>
+
+                <td
+                  class="border-bold"
+                  *ngIf="sv.giangVienHD"
+                  [rowSpan]="getRowSpan(sv.maDT)"
+                >
+                  <p
+                    *ngFor="let item of sv.giangVienHD"
+                    class="white-space-no-wrap"
+                  >
+                    {{ item.tenGv }}
                   </p>
                 </td>
-                <td [innerHTML]="dt.tenDT"></td>
-                <td></td>
-                <td></td>
-              </tr> -->
-
-              <!-- <tr>
-                  <td>2001202222</td>
-                  <td>Ngo Van Son</td>
-                  <td>11DHTH3</td>
-                  <td rowspan="3">Hay cung nhau huong toi 1 tuong lai xa voi</td>
-                  <td rowspan="3">Ngo Duc Duy, Ngo Van Truong</td>
-                  <td rowspan="3">Ngo Van Phong, Ngo Thi Ha</td>
-                </tr>
-  
-                <tr>
-                  <td>2001202222</td>
-                  <td>Ngo Van Son</td>
-                  <td>11DHTH3</td>
-                </tr>
-  
-                <tr>
-                  <td>2001202222</td>
-                  <td>Ngo Van Son</td>
-                  <td>11DHTH3</td>
-                </tr> -->
+                <td
+                  class="border-bold"
+                  *ngIf="sv.giangVienPB"
+                  [rowSpan]="getRowSpan(sv.maDT)"
+                >
+                  <p
+                    *ngFor="let item of sv.giangVienPB"
+                    class="white-space-no-wrap"
+                  >
+                    {{ item.tenGv }}
+                  </p>
+                </td>
+                <td
+                  class="border-bold update-btn"
+                  *ngIf="sv.maDT"
+                  [attr.data-index]="sv.maDT"
+                  [rowSpan]="getRowSpan(sv.maDT)"
+                  (click)="onUpdate($event)"
+                >
+                  Thay đổi
+                </td>
+              </tr>
             </table>
           </div>
         </div>
@@ -55,91 +73,37 @@
 
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
-        <div class="form-control form-no-box-shadow">
-          <p class="label w-auto p-b-4">Giảng viên hướng dẫn</p>
+        <div class="form-control">
+          <div class="row ali-center">
+            <p class="label">Mã đề tài:</p>
 
-          <div class="form-value">
-            <div class="selected-box row" (click)="onOpenDropdown($event)">
-              <div class="selected-item flex-1">
-                <div class="row ali-center">
-                  <div *ngFor="let item of selectedGVPB" class="item">
-                    {{ item.tenGv }}
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <i class="fa-solid fa-caret-down"></i>
-              </div>
-
-              <div class="dropdown">
-                <input
-                  type="text"
-                  class="form-input"
-                  placeholder="Tìm giảng viên"
-                  (input)="onSearchCN($event)"
-                  (click)="onClickInput($event)"
-                />
-
-                <div class="list-major p-t-16">
-                  <div
-                    *ngFor="let item of GVPBInputConfig.data; let i = index"
-                    class="major-item"
-                    [ngClass]="{ active: isCNExist(selectedGVPB, item) }"
-                    [attr.data-index]="item.maCn"
-                    (click)="onSetItem($event)"
-                  >
-                    {{ item.tenCn }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="error-mess"></p>
+            <p class="flex-1 text-right">{{ maDt }}</p>
           </div>
         </div>
 
-        <div class="form-control form-no-box-shadow">
-          <p class="label w-auto p-b-4">Giảng viên phản biện</p>
+        <app-drop-down
+          *ngIf="GVHDInputConfig.data"
+          label="Giảng viên hướng dẫn"
+          placeholder="Tìm giảng viên"
+          [items]="GVHDInputConfig.data"
+          [selectedItem]="GVHDInputConfig.selectedItem"
+          primarKey="maGv"
+          keyWord="tenGv"
+          (onParrentSelect)="onSelectGVHD($event)"
+          (onParrentUnSelect)="onUnSelectGVHD($event)"
+        ></app-drop-down>
 
-          <div class="form-value">
-            <div class="selected-box row" (click)="onOpenDropdown($event)">
-              <div class="selected-item flex-1">
-                <div class="row ali-center">
-                  <div *ngFor="let item of selectedGVPB" class="item">
-                    {{ item.tenGv }}
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <i class="fa-solid fa-caret-down"></i>
-              </div>
-
-              <div class="dropdown">
-                <input
-                  type="text"
-                  class="form-input"
-                  placeholder="Tìm giảng viên"
-                  (input)="onSearchCN($event)"
-                  (click)="onClickInput($event)"
-                />
-
-                <div class="list-major p-t-16">
-                  <div
-                    *ngFor="let item of GVPBInputConfig.data; let i = index"
-                    class="major-item"
-                    [ngClass]="{ active: isCNExist(selectedGVPB, item) }"
-                    [attr.data-index]="item.maCn"
-                    (click)="onSetItem($event)"
-                  >
-                    {{ item.tenCn }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="error-mess"></p>
-          </div>
-        </div>
+        <app-drop-down
+          *ngIf="GVPBInputConfig.data"
+          label="Giảng viên phản biện"
+          placeholder="Tìm giảng viên"
+          [items]="GVPBInputConfig.data"
+          [selectedItem]="GVPBInputConfig.selectedItem"
+          primarKey="maGv"
+          keyWord="tenGv"
+          (onParrentSelect)="onSelectGVPB($event)"
+          (onParrentUnSelect)="onUnSelectGVPB($event)"
+        ></app-drop-down>
       </div>
     </div>
   </div>

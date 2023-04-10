@@ -15,7 +15,7 @@
   list-style: none;
   outline: none;
   caret-color: rgb(0, 42, 255);
-  transition: all 0.1s linear;
+  transition: all 0.2s linear;
   line-height: 1.7;
 }
 
@@ -122,6 +122,10 @@ strong {
 
 .text-right {
   text-align: right;
+}
+
+.white-space-no-wrap {
+  white-space: nowrap;
 }
 
 /* ================================= Row ================================= */
