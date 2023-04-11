@@ -6,16 +6,6 @@
   cursor: pointer;
 }
 
-.notify-list {
-  padding: 16px 24px;
-  background: #fff;
-  border-radius: 10px;
-}
-
-.wrapper {
-  margin: 0 -12px;
-}
-
 .list-item {
   padding: 8px 0px;
 }
@@ -23,10 +13,6 @@
 .list-item img {
   width: 120px;
   border-radius: 4px;
-}
-
-.info {
-  min-height: 100%;
 }
 
 .list-item .info {
@@ -46,15 +32,6 @@
   max-height: var(--height);
   overflow: hidden;
   position: relative;
-
-  // &::after {
-  //   position: absolute;
-  //   content: "";
-  //   background: linear-gradient(to bottom, transparent, #fff);
-  //   width: 100%;
-  //   height: 16px;
-  //   bottom: 0;
-  // }
 }
 
 .date {
@@ -69,91 +46,70 @@
   }
 }
 
-
 // SCSS lời mời
+.card .btn {
+  min-width: 120px;
+  padding: 8px 0;
+  font-size: 1.5rem;
+  border-radius: 999px;
+  background: #f0f2f5;
+  font-weight: 500;
+  cursor: pointer;
 
-.invitation-list {
-  margin-top: 20px;
+  &:hover {
+    background: #e3e3e3;
+  }
+}
+
+.card .btn-success {
+  background: rgb(35, 197, 35);
+  color: #fff;
+
+  &:hover {
+    background: rgb(21, 161, 21);
+  }
+}
+
+.cart-info {
+  background: #f0f2f5;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.card-container img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.cart-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #443f3f;
+}
+
+.cart-description {
+  font-size: 1.4rem;
+  color: #6b6868;
+}
+
+.cart-mess {
+  padding-top: 8px;
+  font-weight: 400;
+  max-height: 200px;
+  overflow-y: auto;
+
+  span {
+    font-weight: 500;
+    color: #6b6868;
+  }
 }
 
 .title {
-font-size: 24px;
-font-weight: bold;
-margin-bottom: 20px;
+  font-size: 2rem;
+  color: #0066cb;
+  font-weight: 700;
 }
-
-.card-deck {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.card {
-  width: 20rem;
-  margin: 1rem;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-}
-
-.btn {
-  padding: 8px;
-  border-radius: 0.25rem;
-}
-
-.card-header {
-  background-color: #007bff;
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 1rem;
-  border-radius: 5px 5px 0 0;
-}
-
-.card-body {
-  padding: 1rem;
-}
-
-.card-title {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.card-text {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.card-text:last-child {
-  margin-bottom: 0;
-}
-
-.accept-btn {
-  background-color: #007bff;
-  border-color: #007bff;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  transition: all 0.15s ease-in-out;
-  color: white;
-  margin-right: 8px;
-}
-
-.reject-btn {
-  background-color: red;
-  color: white;
-  border-color: red;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  transition: all 0.15s ease-in-out;
-}
-
-.accept-btn:hover, .reject-btn:hover {
-  opacity: 0.8;
-}  
 
 .modal {
   display: flex;
@@ -200,12 +156,13 @@ margin-bottom: 20px;
 @keyframes popupFadeIn {
   from {
     transform: translate(-50%, 0) scale(0.1);
-  } to {
+  }
+  to {
     transform: translate(0, 0) scale(1);
   }
 }
 
-.popup-failed{
+.popup-failed {
   z-index: 12;
   position: fixed;
   top: 0;
@@ -221,7 +178,7 @@ margin-bottom: 20px;
   animation: popupFadeIn ease 0.4s;
 }
 
-.popup-failed img{
+.popup-failed img {
   margin-top: -15%;
   width: 30%;
   border-radius: 50%;
@@ -237,7 +194,7 @@ margin-bottom: 20px;
   margin-top: 50px;
   color: #fff;
   padding: 10px 0;
-  background-color: #e04f5f ;
+  background-color: #e04f5f;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;

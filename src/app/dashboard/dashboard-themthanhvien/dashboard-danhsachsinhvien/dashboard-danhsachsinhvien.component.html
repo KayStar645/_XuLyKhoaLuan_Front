@@ -1,28 +1,33 @@
 <div id="container">
-    <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+  <div>
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã SV</th>
+        <th>Họ và tên</th>
+        <!-- <th>Ngày sinh</th> -->
+        <th>Giới tính</th>
+        <th>Lớp</th>
+        <th>Chuyên ngành</th>
+        <th>Đợt</th>
+        <th>Thao tác</th>
+      </tr>
+      <tbody *ngFor="let tg of listTg">
         <tr>
-          <th>Mã SV</th>
-          <th>Họ và tên</th>
-          <!-- <th>Ngày sinh</th> -->
-          <th>Giới tính</th>
-          <th>Lớp</th>
-          <th>Chuyên ngành</th>
-          <th>Đợt</th>
+          <td class="text-center">{{ tg?.maSv }}</td>
+          {{
+            getSinhVienById(tg.maSv)
+          }}
+          <td class="text-left">{{ sinhVien.tenSv }}</td>
+          <!-- <td class="text-center">{{ dateFormat(sinhVien.ngaySinh) }}</td> -->
+          <td class="text-center">{{ sinhVien.gioiTinh }}</td>
+          <td class="text-center">{{ sinhVien.lop }}</td>
+          <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
+          <td class="text-left namhoc_dot">
+            {{ tg.namHoc }} - Đợt {{ tg.dot }}
+          </td>
+          <td class="text-center action-btn">Mời tham gia</td>
         </tr>
-        <tbody *ngFor="let tg of listTg">
-          <tr>
-            <td class="text-center">{{ tg?.maSv }}</td>
-            {{getSinhVienById(tg.maSv)}}
-            <td class="text-left">{{ sinhVien.tenSv }}</td>
-            <!-- <td class="text-center">{{ dateFormat(sinhVien.ngaySinh) }}</td> -->
-            <td class="text-center">{{ sinhVien.gioiTinh }}</td>
-            <td class="text-center">{{ sinhVien.lop }}</td>
-            <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
-            <td class="text-left namhoc_dot">{{ tg.namHoc }} - Đợt {{ tg.dot }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      </tbody>
+    </table>
   </div>
-  
+</div>

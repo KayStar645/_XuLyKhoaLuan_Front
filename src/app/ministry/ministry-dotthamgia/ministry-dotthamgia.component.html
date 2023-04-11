@@ -1,6 +1,6 @@
 <div id="functional-container">
   <div class="functional-list">
-    <ul class="functional-container row ali-center">
+    <ul class="functional-container row ali-center functional-wrapper">
       <li class="functional-item">
         <select
           class="functional-select"
@@ -112,7 +112,7 @@
           <th>Họ và tên</th>
           <th>Lớp</th>
           <th>Chuyên ngành</th>
-          <th class="add-all" (click)="toggleAddAll($event)">Tham gia</th>
+          <th class="add-all" (click)="toggleAddAll($event)">Tất cả</th>
         </tr>
 
         <tbody *ngFor="let sv of listSinhVien">
