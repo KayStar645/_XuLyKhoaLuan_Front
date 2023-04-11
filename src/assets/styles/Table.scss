@@ -5,6 +5,15 @@
   overflow: hidden;
 }
 
+.table .action-btn:hover {
+  background: rgb(30, 144, 255, 0.1);
+  color: dodgerblue;
+}
+
+.table .action-btn {
+  font-weight: 600;
+}
+
 .table .border-bold {
   border-bottom: 2px solid dodgerblue;
 }

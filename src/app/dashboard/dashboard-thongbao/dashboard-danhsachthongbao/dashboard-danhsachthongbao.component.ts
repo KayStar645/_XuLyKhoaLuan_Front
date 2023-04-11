@@ -16,6 +16,7 @@ import { nhomService } from 'src/app/services/nhom.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
 import { Title } from '@angular/platform-browser';
 import { DashboardComponent } from '../../dashboard.component';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-dashboard-danhsachthongbao',
@@ -62,11 +63,24 @@ export class DashboardDanhsachthongbaoComponent {
     await this.getAllThongBao();
 
     this.maSv = DashboardComponent.maSV;
-    this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
-      this.maSv,
-      shareService.namHoc,
-      shareService.dot
-    );
+    await this.loiMoiService
+      .getAllLoiMoiSinhVienByIdDotNamHoc(
+        this.maSv,
+        shareService.namHoc,
+        shareService.dot
+      )
+      .then((data) => {
+        data = data.map((loiMoi) => {
+          return {
+            ...loiMoi,
+            thoiGian: format(new Date(loiMoi.thoiGian), 'dd-MM-yyyy'),
+          };
+        });
+
+        this.lstLoiMoi = data;
+      });
+
+    console.log(this.lstLoiMoi);
 
     if (
       await this.thamGiaService.isJoinedAGroup(

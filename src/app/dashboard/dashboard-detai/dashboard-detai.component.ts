@@ -25,7 +25,7 @@ import { huongDanService } from 'src/app/services/huongDan.service';
 @Component({
   selector: 'app-dashboard-detai',
   templateUrl: './dashboard-detai.component.html',
-  styleUrls: ['./dashboard-detai.component.scss']
+  styleUrls: ['./dashboard-detai.component.scss'],
 })
 export class DashboardDetaiComponent {
   listCn: ChuyenNganh[] = [];
@@ -46,8 +46,8 @@ export class DashboardDetaiComponent {
   isNotHaveDeTai = false;
 
   constructor(
-    private deTaiService:deTaiService,
-    private raDeService:raDeService,
+    private deTaiService: deTaiService,
+    private raDeService: raDeService,
     private giangVienService: giangVienService,
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private chuyenNganhService: chuyenNganhService,
@@ -57,7 +57,7 @@ export class DashboardDetaiComponent {
     private huongDanService: huongDanService,
     private websocketService: WebsocketService,
     private shareService: shareService,
-    private router: Router,
+    private router: Router
   ) {}
 
   public async ngOnInit() {
@@ -104,7 +104,9 @@ export class DashboardDetaiComponent {
     this.listGiangvien = await this.giangVienService.getAll();
     this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
     this.listCn = await this.chuyenNganhService.getAll();
-    this.websocketService.receiveFromDeTai(() => this.getAllDeTai());
+    if (this.websocketService) {
+      this.websocketService.receiveFromDeTai(() => this.getAllDeTai());
+    }
 
     this.tenDT.pipe(debounceTime(800)).subscribe((tenDT) => {
       if (tenDT) {
@@ -199,35 +201,42 @@ export class DashboardDetaiComponent {
     this.tenDT.next(searchName);
   }
 
-  openModal(dt: any){
+  openModal(dt: any) {
     this.selectedDt = dt;
   }
 
-  closeModal(){
+  closeModal() {
     this.selectedDt = null;
   }
 
-  async onSignUpDeTai(deTai: DeTai){
+  async onSignUpDeTai(deTai: DeTai) {
     this.isPopupVisible = false;
     this.isSuccessPopup = false;
     this.isNotGroupLeader = false;
     this.isQuantityNotRequired = false;
     this.isAlreadySignUpDeTai = false;
     let lstStudent: SinhVien[] = [];
-    const lstThamGia = (await this.thamGiaService.getAll()).filter(tg => tg.maNhom == DashboardComponent.maNhom);
-    lstThamGia.forEach(async thamGia => lstStudent.push(await this.sinhVienService.getById(thamGia.maSv)));
-    let leaderId = lstThamGia.filter(tgia => tgia.truongNhom === true)[0].maSv;
-    let dangKyDeTai: DangKy[] = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === DashboardComponent.maNhom);
-    
+    const lstThamGia = (await this.thamGiaService.getAll()).filter(
+      (tg) => tg.maNhom == DashboardComponent.maNhom
+    );
+    lstThamGia.forEach(async (thamGia) =>
+      lstStudent.push(await this.sinhVienService.getById(thamGia.maSv))
+    );
+    let leaderId = lstThamGia.filter((tgia) => tgia.truongNhom === true)[0]
+      .maSv;
+    let dangKyDeTai: DangKy[] = (await this.dangKyService.getAll()).filter(
+      (dk) => dk.maNhom === DashboardComponent.maNhom
+    );
+
     //Đã đăng ký đề tài không thể đăng ký nữa
-    if(dangKyDeTai.length > 0){
+    if (dangKyDeTai.length > 0) {
       this.isPopupVisible = true;
       this.isAlreadySignUpDeTai = true;
       return;
     }
-    
+
     //Không là nhóm trưởng không được đăng ký
-    if(DashboardComponent.maSV !== leaderId){
+    if (DashboardComponent.maSV !== leaderId) {
       this.isPopupVisible = true;
       this.isNotGroupLeader = true;
       return;
@@ -235,7 +244,10 @@ export class DashboardDetaiComponent {
 
     //Nhóm không thỏa thành viên
     let groupMemberQuantity = lstThamGia.length;
-    if(groupMemberQuantity < deTai.slMin || groupMemberQuantity > deTai.slMax){
+    if (
+      groupMemberQuantity < deTai.slMin ||
+      groupMemberQuantity > deTai.slMax
+    ) {
       this.isPopupVisible = true;
       this.isQuantityNotRequired = true;
       return;
@@ -247,12 +259,13 @@ export class DashboardDetaiComponent {
     dangKy.maNhom = DashboardComponent.maNhom;
     dangKy.ngayDk = date.toISOString();
 
-    await this.dangKyService.add(dangKy)
+    await this.dangKyService
+      .add(dangKy)
       .then(() => this.showSuccessPopup(deTai))
-      .catch((error) => this.isPopupVisible = true);
+      .catch((error) => (this.isPopupVisible = true));
   }
 
-  async showSuccessPopup(deTai: DeTai){
+  async showSuccessPopup(deTai: DeTai) {
     this.isPopupVisible = true;
     this.isSuccessPopup = true;
     deTai.trangThai = true;
@@ -272,11 +285,13 @@ export class DashboardDetaiComponent {
     this.isPopupVisible = false;
   }
 
-  async insertHuongDan(MaDT: string){
-    let lstMaGvhd : string[] = []; 
-    let lstGvhd = (await this.raDeService.getAll()).filter(rd => rd.maDt === MaDT);
-    lstGvhd.forEach(gv => lstMaGvhd.push(gv.maGv));
-    for(let i = 0 ; i < lstMaGvhd.length ; i++){
+  async insertHuongDan(MaDT: string) {
+    let lstMaGvhd: string[] = [];
+    let lstGvhd = (await this.raDeService.getAll()).filter(
+      (rd) => rd.maDt === MaDT
+    );
+    lstGvhd.forEach((gv) => lstMaGvhd.push(gv.maGv));
+    for (let i = 0; i < lstMaGvhd.length; i++) {
       const a = new HuongDan();
       a.duaRaHd = false;
       a.maDt = MaDT;

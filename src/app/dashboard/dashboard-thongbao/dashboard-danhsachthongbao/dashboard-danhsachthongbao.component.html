@@ -1,74 +1,115 @@
-<div id="container" *ngIf="listTB.length > 0">
+<div id="container" *ngIf="listTB.length > 0" class="detail-container">
   <div class="notify-list">
-    <div class="wrapper row">
-      <div class="h-5 p-l-12 p-r-12 first-info">
-        <h3 class="title">Danh sách lời mời</h3>
-        <div class="invitation-list">
-          <div class="card-deck">
-            <div class="card" *ngFor="let loiMoi of lstLoiMoi">
-              <div class="card-header">
-                Lời mời từ nhóm {{ loiMoi.maNhom }}
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">{{ loiMoi.namHoc }} - Đợt {{ loiMoi.dot }} - Nhóm {{ loiMoi.maNhom }}</h5>
-                <p class="card-text">{{ loiMoi.loiNhan }}</p>
-                <p class="card-text">Thời gian: {{ dateFormat(loiMoi.thoiGian) }}</p>
-                <div>
-                  <button class="btn btn-success accept-btn" (click)="acceptInvitation(loiMoi)">Chấp nhận</button>
-                  <button class="btn btn-danger reject-btn" (click)="rejectInvitation(loiMoi)">Từ chối</button>
+    <div class="row functional-wrapper">
+      <div class="h-7 p-l-8 p-r-8">
+        <div class="detail-item">
+          <h3 class="title">Thông báo từ khoa</h3>
+          <div class="list-item" *ngFor="let thongBao of listTB">
+            <a
+              class="row item-container"
+              [routerLink]="[
+                '/dashboard/thong-bao/chi-tiet',
+                { maTb: thongBao.maTb }
+              ]"
+            >
+              <img src="../../../../assets/Images/notify.png" alt="" />
+
+              <div class="flex-1">
+                <div class="info row flex-column jus-between">
+                  <div class="name">
+                    <p [innerHTML]="thongBao.tenTb"></p>
+                  </div>
+                  <p class="date row ali-center jus-end">
+                    <i class="icon-cal fa-regular fa-calendar"></i>
+                    {{ dateFormat(thongBao.ngayTb) }}
+                  </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal" *ngIf="isConfirmDialogVisible">
-          <div class="modal-content">
-            <h2 *ngIf="!isTeamLeader || (isTeamLeader && isGroupHaveOneMember)">Bạn đang trong một nhóm. Bạn có muốn thoát khỏi nhóm cũ và tham gia vào nhóm mới không?</h2>
-            <h2 *ngIf="isTeamLeader && !isGroupHaveOneMember">Bạn đang là trưởng nhóm, vui lòng chọn trưởng nhóm khác trước khi rời nhóm</h2>
-            <div class="modal-buttons">
-              <button class="modal-ok-btn" (click)="performAction()">OK</button>
-              <button (click)="hideConfirmDialog()">Cancel</button>
-            </div>
-          </div>
-        </div>
-
-
-        <div *ngIf="isPopupVisible" class="blur-frame">
-          <div class="popup-failed">
-            <img src="./../../../assets/Images/that-bai.png"/>
-            <div class="popup-wrapper">
-              <h2>Thất bại</h2>
-              <p>Nhóm bạn đã đăng ký đề tài nên không thể chuyển nhóm</p>
-              <button (click)="hidePopup()">Đóng</button>
-            </div>
+            </a>
           </div>
         </div>
       </div>
 
-      <div class="h-7 p-l-12 p-r-12">
-        <h3 class="title">Thông báo từ khoa</h3>
-        <div class="list-item" *ngFor="let thongBao of listTB">
-          <a
-            class="row item-container"
-            [routerLink]="[
-              '/dashboard/thong-bao/chi-tiet',
-              { maTb: thongBao.maTb }
-            ]"
-          >
-            <img src="../../../../assets/Images/notify.png" alt="" />
+      <div class="h-5 p-l-8 p-r-8">
+        <div class="detail-item">
+          <h3 class="title">Danh sách lời mời</h3>
+          <div class="row">
+            <div class="card h-12 ma-b-24" *ngFor="let loiMoi of lstLoiMoi">
+              <div class="row ali-start card-container">
+                <img
+                  src="../../../../assets/Images/avatar-nam.jpeg"
+                  alt=""
+                  class="ma-r-12"
+                />
 
-            <div class="flex-1">
-              <div class="info row flex-column jus-between">
-                <div class="name">
-                  <p [innerHTML]="thongBao.tenTb"></p>
+                <div class="flex-1 cart-info">
+                  <div class="row">
+                    <div class="flex-1">
+                      <p class="cart-title">{{ loiMoi.maNhom }}</p>
+                      <p class="cart-description">
+                        Đợt {{ loiMoi.dot }} - {{ loiMoi.namHoc }}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p class="cart-title">Thời gian</p>
+                      <p class="cart-description">{{ loiMoi.thoiGian }}</p>
+                    </div>
+                  </div>
+
+                  <p class="cart-mess">
+                    <span>Lời nhắn: </span>{{ loiMoi.loiNhan }}
+                  </p>
                 </div>
-                <p class="date row ali-center jus-end">
-                  <i class="icon-cal fa-regular fa-calendar"></i>
-                  {{ dateFormat(thongBao.ngayTb) }}
-                </p>
+              </div>
+
+              <div class="row ali-center jus-end ma-t-12">
+                <button
+                  class="btn btn-danger"
+                  (click)="rejectInvitation(loiMoi)"
+                >
+                  Từ chối
+                </button>
+                <button
+                  class="ma-l-12 btn btn-success"
+                  (click)="acceptInvitation(loiMoi)"
+                >
+                  Chấp nhận
+                </button>
               </div>
             </div>
-          </a>
+          </div>
+          <div class="modal" *ngIf="isConfirmDialogVisible">
+            <div class="modal-content">
+              <h2
+                *ngIf="!isTeamLeader || (isTeamLeader && isGroupHaveOneMember)"
+              >
+                Bạn đang trong một nhóm. Bạn có muốn thoát khỏi nhóm cũ và tham
+                gia vào nhóm mới không?
+              </h2>
+              <h2 *ngIf="isTeamLeader && !isGroupHaveOneMember">
+                Bạn đang là trưởng nhóm, vui lòng chọn trưởng nhóm khác trước
+                khi rời nhóm
+              </h2>
+              <div class="modal-buttons">
+                <button class="modal-ok-btn" (click)="performAction()">
+                  OK
+                </button>
+                <button (click)="hideConfirmDialog()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isPopupVisible" class="blur-frame">
+            <div class="popup-failed">
+              <img src="./../../../assets/Images/that-bai.png" />
+              <div class="popup-wrapper">
+                <h2>Thất bại</h2>
+                <p>Nhóm bạn đã đăng ký đề tài nên không thể chuyển nhóm</p>
+                <button (click)="hidePopup()">Đóng</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
