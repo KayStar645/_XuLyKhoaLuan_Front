@@ -1,6 +1,6 @@
+import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-congviec.component';
 import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
 import { MinistryDotthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-dotthamgia.component';
-import { HomeGiaobaitapComponent } from './home/home-giaobaitap/home-giaobaitap.component';
 import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
 import { HomeMainComponent } from './home/home-main/home-main.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -60,6 +60,11 @@ import { DashboardDanhsachthongbaoComponent } from './dashboard/dashboard-thongb
 import { DashboardChitietthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
 import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
 import { DashboardThemthanhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-themthanhvien.component';
+import { HomeHuongdanComponent } from './home/home-huongdan/home-huongdan.component';
+import { HomeNhomsinhvienComponent } from './home/home-huongdan/home-nhomsinhvien/home-nhomsinhvien.component';
+import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
+import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/home-chitietbaitap/home-chitietbaitap.component';
+import { HomeThanhviennhomComponent } from './home/home-huongdan/home-congviec/home-thanhviennhom/home-thanhviennhom.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -314,9 +319,38 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'giao-bai-tap',
-        component: HomeGiaobaitapComponent,
+        path: 'huong-dan',
+        component: HomeHuongdanComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: HomeNhomsinhvienComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'cong-viec',
+            component: HomeCongviecComponent,
+            canActivate: [AuthGuard],
+            children: [
+              {
+                path: '',
+                component: HomeDanhsachbaitapComponent,
+                canActivate: [AuthGuard],
+              },
+              {
+                path: 'chi-tiet',
+                component: HomeChitietbaitapComponent,
+                canActivate: [AuthGuard],
+              },
+              {
+                path: 'thanh-vien-nhom',
+                component: HomeThanhviennhomComponent,
+                canActivate: [AuthGuard],
+              },
+            ],
+          },
+        ],
       },
       {
         path: 'lich-phan-bien',

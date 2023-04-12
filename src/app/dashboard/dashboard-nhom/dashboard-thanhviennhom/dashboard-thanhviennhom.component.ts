@@ -23,8 +23,6 @@ export class DashboardThanhviennhomComponent {
   lstThamGia: ThamGia[] = [];
   studentId: string = "";
   isConfirmDialogVisible = false;
-  namHoc: string = "";
-  dot: number = 1;
   leaderId = "";
   isTeamLeader = false;
   isTranferDialogVisible = false;
@@ -44,7 +42,7 @@ export class DashboardThanhviennhomComponent {
 
   async ngOnInit(){
     this.studentId = localStorage.getItem('Id')?.toString() + '';
-    const groupJoinedId = await (await this.thamGiaService.getById(this.studentId, this.namHoc, this.dot)).maNhom;
+    const groupJoinedId = await (await this.thamGiaService.getById(this.studentId, shareService.namHoc, shareService.dot)).maNhom;
     this.lstThamGia = (await this.thamGiaService.getAll()).filter(tg => tg.maNhom == groupJoinedId);
     this.lstThamGia.forEach(async thamGia => this.lstStudent.push(await this.sinhVienService.getById(thamGia.maSv)));
     this.leaderId = this.lstThamGia.filter(tgia => tgia.truongNhom === true)[0].maSv;
@@ -71,10 +69,10 @@ export class DashboardThanhviennhomComponent {
   async performAction() {
     this.isConfirmDialogVisible = false;
     if((this.isTeamLeader && this.isGroupHaveOneMember) || !this.isTeamLeader){
-      let tgia = await this.thamGiaService.getById(this.studentId, this.namHoc, this.dot);
+      let tgia = await this.thamGiaService.getById(this.studentId, shareService.namHoc, shareService.dot);
       if(this.isTeamLeader){
         //Xóa tất cả lời mời từ nhóm cũ
-        const lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(tgia.maNhom, this.namHoc, this.dot);
+        const lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(tgia.maNhom, shareService.namHoc, shareService.dot);
         (await lstLoiMoi).forEach(lm => this.loiMoiService.delete(lm.maNhom, lm.maSv, lm.namHoc, lm.dot));
         //Xóa nhóm
         await this.nhomService.delete(tgia.maNhom);
@@ -99,12 +97,12 @@ export class DashboardThanhviennhomComponent {
 
   async performTranferAction(){
     this.isTranferDialogVisible = false;
-    const curGroupId = await (await this.thamGiaService.getById(this.studentId, this.namHoc, this.dot)).maNhom;
+    const curGroupId = await (await this.thamGiaService.getById(this.studentId, shareService.namHoc, shareService.dot)).maNhom;
     let newGroupId = "";
 
     //tạo nhóm mới với nhóm trưởng mã tranferId
     var nhom = new Nhom();
-    nhom.maNhom = this.tranferId + this.namHoc + this.dot;
+    nhom.maNhom = this.tranferId + shareService.namHoc + shareService.dot;
     nhom.tenNhom = (await this.sinhVienService.getById(this.tranferId)).tenSv;
     newGroupId = nhom.maNhom;
     await this.nhomService.add(nhom);
@@ -121,7 +119,7 @@ export class DashboardThanhviennhomComponent {
     });
 
     //Xóa tất cả lời mời từ nhóm cũ
-    const lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(curGroupId, this.namHoc, this.dot);
+    const lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(curGroupId, shareService.namHoc, shareService.dot);
     (await lstLoiMoi).forEach(lm => this.loiMoiService.delete(lm.maNhom, lm.maSv, lm.namHoc, lm.dot));
     //Xóa nhóm cũ
     await this.nhomService.delete(curGroupId);

@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { HuongDan } from '../models/HuongDan.model';
 import { shareService } from './../services/share.service';
 import { GiangVien } from '../models/GiangVien.model';
+import { DeTai } from '../models/DeTai.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,21 @@ export class huongDanService {
       (await this.http
         .get<HuongDan[]>(
           `${this.apiUrl}/api/Huongdans`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async GetDetaiByGVHDDotdk(
+    maGv: string,
+    namHoc: string,
+    dot: number
+  ): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Huongdans/maGV, namHoc, dot?maGV=${maGv}&namHoc=${namHoc}&dot=${dot}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
