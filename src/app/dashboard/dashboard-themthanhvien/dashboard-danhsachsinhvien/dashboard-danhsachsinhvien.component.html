@@ -25,9 +25,42 @@
           <td class="text-left namhoc_dot">
             {{ tg.namHoc }} - Đợt {{ tg.dot }}
           </td>
-          <td class="text-center action-btn">Mời tham gia</td>
+          <td class="text-center action-btn" (click)="onShowInvite()">
+            Mời tham gia
+          </td>
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div id="create" (click)="onHideInvite($event)"></div>
+<div id="create_box" [formGroup]="lmForm.form">
+  <p class="title">Thông tin sinh viên</p>
+
+  <div class="background">
+    <div class="user-info row flex-column ali-center">
+      <img src="../../../../assets/Images/avatar-nam.jpeg" alt="" />
+      <p>Ngô Văn Sơn</p>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <div class="form-value">
+      <quill-editor
+        spellcheck="false"
+        class="form-input"
+        placeholder=""
+        [modules]="{ toolbar: false }"
+        formControlName="loiNhan"
+      ></quill-editor>
+      <p class="error-mess"></p>
+    </div>
+  </div>
+
+  <div class="row ali-center jus-end">
+    <button class="functional-button">
+      <button (click)="onSendInvite()">Gửi lời mời</button>
+    </button>
   </div>
 </div>
