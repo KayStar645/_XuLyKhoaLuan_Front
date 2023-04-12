@@ -29,3 +29,61 @@
   width: 230px;
   height: 40px;
 }
+
+#create_box {
+  width: 500px;
+}
+
+#create_box .title {
+  font-size: 2rem;
+  color: #0066cb;
+  font-weight: 700;
+  padding-bottom: 12px;
+  margin-top: -8px;
+}
+
+#create_box .background {
+  background: url("../../../assets/Images/user-bg.jpg") center / cover no-repeat;
+  height: 150px;
+  position: relative;
+  margin: 0 -30px;
+}
+
+#create_box .user-info {
+  position: absolute;
+  bottom: -65px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#create_box .user-info img {
+  width: 60px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#create_box .user-info {
+  font-size: 1.6rem;
+}
+
+#create_box .form-control {
+  margin-top: 65px;
+}
+
+#create_box .form-value {
+  height: 120px;
+
+  quill-editor {
+    height: 100%;
+  }
+}
+
+.functional-button {
+  padding: 0;
+
+  button {
+    min-width: 70px;
+    padding: 8px 12px;
+  }
+}

@@ -14,12 +14,14 @@ import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { getParentElement } from 'src/assets/utils';
+import { Form, getParentElement } from 'src/assets/utils';
 import { WebsocketService } from 'src/app/services/Websocket.service';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard-danhsachsinhvien',
   templateUrl: './dashboard-danhsachsinhvien.component.html',
+  styleUrls: ['../dashboard-themthanhvien.component.scss'],
 })
 export class DashboardDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
@@ -34,6 +36,12 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   selectedTG: any[] = [];
   lineTG = new ThamGia();
   elementOld: any;
+  lmForm: Form = new Form({
+    loiNhan: [
+      'Bạn có muốn tham gia vào nhóm của mình không ?',
+      Validators.required,
+    ],
+  });
 
   constructor(
     private sinhVienService: sinhVienService,
@@ -94,8 +102,28 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     }
   }
 
+  onShowInvite() {
+    let create = document.querySelector('#create');
+    let createBox = document.querySelector('#create_box');
+
+    create?.classList.add('active');
+    createBox?.classList.add('active');
+  }
+
+  onHideInvite(event: any) {
+    event.target.classList.remove('active');
+    document.querySelector('#create_box')?.classList.remove('active');
+  }
+
+  onSendInvite(){
+    
+  }
+
   async getAllThamgiaByDotdk() {
-    this.listTg = await this.thamGiaService.GetThamgiaByDotdk(shareService.namHoc, shareService.dot);
+    this.listTg = await this.thamGiaService.GetThamgiaByDotdk(
+      shareService.namHoc,
+      shareService.dot
+    );
     this.root = this.listTg;
   }
 
@@ -135,4 +163,3 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     return this.shareService.dateFormat(str);
   }
 }
-
