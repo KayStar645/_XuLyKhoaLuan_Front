@@ -1,3 +1,4 @@
+import { dotDkService } from './../../../services/dotDk.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
 import { chuyenNganhService } from './../../../services/chuyenNganh.service';
@@ -26,7 +27,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { debounceTime, Subject } from 'rxjs';
 import { HomeMainComponent } from '../../home-main/home-main.component';
-import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
+import { DotDk } from 'src/app/models/DotDk.model';
 
 @Component({
   selector: 'app-home-danhsachdetai',
@@ -54,6 +55,7 @@ export class HomeDanhsachdetaiComponent {
   selectedBomon!: string;
   deTaiFile: any;
   listCn: ChuyenNganh[] = [];
+  listDotdk: DotDk[] = [];
 
   dtAddForm: any;
   dtUpdateForm: any;
@@ -78,6 +80,7 @@ export class HomeDanhsachdetaiComponent {
     private titleService: Title,
     private toastr: ToastrService,
     private chuyenNganhService: chuyenNganhService,
+    private dotDkService: dotDkService,
     private websocketService: WebsocketService
   ) {}
 
@@ -85,6 +88,8 @@ export class HomeDanhsachdetaiComponent {
     this.titleService.setTitle('Danh sách đề tài');
 
     this.listCn = await this.chuyenNganhService.getAll();
+
+    this.listDotdk = await this.dotDkService.getAll();
     this.getAllDeTai();
 
     this.listDetai = await this.deTaiService.getAll();
@@ -111,7 +116,7 @@ export class HomeDanhsachdetaiComponent {
       }
     });
   }
-  
+
   onDragFileEnter(event: any) {
     event.preventDefault();
     const parent = getParentElement(event.target, '.drag-form');
@@ -303,6 +308,17 @@ export class HomeDanhsachdetaiComponent {
       this.getAllDeTai();
     }
   }
+
+  // getThamgiaByDotDk(event: any) {
+  //   const dotdk = event.target.value;
+  //   if (dotdk == '') {
+  //     this.DSTGComponent.getAllThamgiaByDotdk();
+  //   } else {
+  //     this.namHoc = dotdk.slice(0, dotdk.length - 1);
+  //     this.dot = dotdk.slice(dotdk.length - 1);
+  //     this.DSTGComponent.getThamgiaByDotDk(this.namHoc, this.dot);
+  //   }
+  // }
 
   async getAllDeTai() {
     const maKhoa = HomeMainComponent.maKhoa;

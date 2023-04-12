@@ -82,6 +82,7 @@ import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themth
 import { HomeHuongdanComponent } from './home/home-huongdan/home-huongdan.component';
 import { HomeNhomsinhvienComponent } from './home/home-huongdan/home-nhomsinhvien/home-nhomsinhvien.component';
 import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-congviec.component';
+import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
 
 @NgModule({
   declarations: [
@@ -158,6 +159,7 @@ import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-c
     DashboardDanhsachsinhvienComponent,
     
     TestComponent,
+          DashbordDangkydetaiComponent,
   ],
 
   imports: [

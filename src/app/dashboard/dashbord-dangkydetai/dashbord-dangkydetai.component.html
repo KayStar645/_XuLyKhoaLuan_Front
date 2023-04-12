@@ -1,0 +1,34 @@
+<div id="container">
+  <div>
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã ĐT</th>
+        <th>Tên đề tài</th>
+        <th>Số lượng sinh viên</th>
+        <th>Giảng viên ra đề</th>
+        <th>Lần cuối duyệt</th>
+      </tr>
+      <!-- listDT -->
+      <tbody *ngFor="let dt of listDT"> 
+        <tr class="br-line">
+          <td class="text-center">{{ dt.maDT }}</td>
+          <td class="text-left">
+            <p class="cell-limit" [innerHTML]="dt?.tenDT"></p>
+          </td>
+          <td class="text-left relative">
+            <p class="topic-summary cell-limit" [innerHTML]="dt?.tomTat"></p>
+            <span
+              class="show-more"
+              [routerLink]="['/home/de-tai/chi-tiet', { maDt: dt.maDT }]"
+              >[Chi tiết]</span
+            >
+          </td>
+          <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
+          <!-- <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td> -->
+          <!-- <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td> -->
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
