@@ -16,7 +16,7 @@ export class HomeNhomsinhvienComponent {
   constructor(
     private titleService: Title,
     private huongDanService: huongDanService
-    ) {}
+  ) {}
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài hướng dẫn');

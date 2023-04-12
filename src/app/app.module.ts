@@ -82,6 +82,8 @@ import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themth
 import { HomeHuongdanComponent } from './home/home-huongdan/home-huongdan.component';
 import { HomeNhomsinhvienComponent } from './home/home-huongdan/home-nhomsinhvien/home-nhomsinhvien.component';
 import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-congviec.component';
+import { RouterModule } from '@angular/router';
+import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +146,7 @@ import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-c
     DropDownComponent,
     HomeDanhsachthongbaoComponent,
     HomeChitietthongbaoComponent,
+    HomeDanhsachbaitapComponent,
 
     DashboardComponent,
     DashboardMainComponent,
@@ -156,7 +159,7 @@ import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-c
     DashboardChitietthongbaoComponent,
     DashboardThemthanhvienComponent,
     DashboardDanhsachsinhvienComponent,
-    
+
     TestComponent,
   ],
 
@@ -167,6 +170,7 @@ import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-c
     ReactiveFormsModule,
     FormsModule,
     QuillModule,
+    RouterModule,
 
     NgProgressModule,
     NgProgressHttpModule,

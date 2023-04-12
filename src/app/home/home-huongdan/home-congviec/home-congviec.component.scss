@@ -1,0 +1,50 @@
+.functional-container {
+  margin-bottom: 16px;
+}
+
+.nav-bar .nav-item {
+  font-size: 1.45rem;
+  font-weight: 500;
+  padding: 0 24px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #e7ecf0;
+  cursor: pointer;
+}
+
+.nav-bar .nav-item:not(.active):hover {
+  .line {
+    opacity: 1;
+    transform: scale(0.7);
+  }
+}
+
+.nav-bar .nav-item .line {
+  position: absolute;
+  background: dodgerblue;
+  height: 3px;
+  border-radius: 100px;
+  transform: scale(0);
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: all linear 0.3s;
+  transform-origin: center;
+}
+
+.nav-bar .nav-item.active {
+  background: rgb(30, 144, 255, 0.1);
+  color: rgb(25, 103, 210);
+}
+
+.nav-bar .nav-item.active .line {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.content {
+  padding: 0 90px;
+}
