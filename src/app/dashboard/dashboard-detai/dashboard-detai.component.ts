@@ -180,22 +180,6 @@ export class DashboardDetaiComponent {
     );
   }
 
-  // async sortGiangVien(event: any) {
-  //   const sort = event.target.value;
-
-  //   if (sort == 'asc-id') {
-  //     this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
-  //   } else if (sort == 'desc-id') {
-  //     this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
-  //   } else if (sort == 'asc-name') {
-  //     this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
-  //   } else if (sort == 'desc-name') {
-  //     this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-  //   } else {
-  //     this.getAllDeTai();
-  //   }
-  // }
-
   onSearchName(event: any) {
     const searchName = event.target.value.trim().toLowerCase();
     this.tenDT.next(searchName);
