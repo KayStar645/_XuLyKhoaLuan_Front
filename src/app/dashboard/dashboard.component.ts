@@ -23,8 +23,6 @@ export class DashboardComponent implements OnInit {
   data: any = SinhVien;
   countTB = 0;
   countKH = 0;
-  namHoc: string = "";
-  dot: number = 0;
   static maNhom = "";
   static maSV = "";
   static isSignUpDeTai = false;
@@ -42,7 +40,6 @@ export class DashboardComponent implements OnInit {
     private sinhVienService: sinhVienService,
     private elementRef: ElementRef,
     private shareService: shareService,
-    private dotDkService: dotDkService,
     private thamGiaService: thamGiaService,
     private dangKyService: dangKyService,
     private raDeService: raDeService,
@@ -60,23 +57,14 @@ export class DashboardComponent implements OnInit {
 
     // Get dữ liệu của sinh viên
     this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString());
-    // Lấy năm học và đợt mới nhất
-    const latestYear = (await this.dotDkService.getAll()).sort((a, b) => {
-      if (a.namHoc !== b.namHoc) {
-        return b.namHoc.localeCompare(a.namHoc); 
-      } else {
-        return b.dot - a.dot; 
-      }
-    })[0];
-    this.namHoc = latestYear.namHoc;
-    this.dot = latestYear.dot;
+    await this.shareService.namHocDotDk();
 
     DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
-    await this.shareService.namHocDotDk();
+    
     
     //Cần kiểm tra có nhóm trong tham gia không?
-    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, this.namHoc, this.dot)){
-      let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, this.namHoc, this.dot)).maNhom;
+    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, shareService.namHoc, shareService.dot)){
+      let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, shareService.namHoc, shareService.dot)).maNhom;
       DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
       
       DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 
