@@ -1,0 +1,29 @@
+<div id="container">
+  <div class="row">
+    <div class="h-2 p-l-8 p-r-8 first-info">
+    </div>
+
+    <div class="h-8 p-l-8 p-r-8">
+      <div class="mission-list">
+        <div *ngIf="listDT.length > 0">
+          <a
+            *ngFor="let dt of listDT"
+            class="row ali-center list-item"
+            [routerLink]="['/home/huong-dan/cong-viec', { maDt: dt.maDT }]"
+          >
+            <div class="item-img ma-r-12">
+              <img src="../../../../assets/Images/mission.svg" alt="" />
+            </div>
+
+            <div class="mission-info">
+              <p class="mission-title" [innerHTML]="dt.tenDT"></p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-2 p-l-8 p-r-8 first-info">
+    </div>
+  </div>
+</div>

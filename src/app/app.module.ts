@@ -31,7 +31,6 @@ import { HomeGiangvienComponent } from './home/home-giangvien/home-giangvien.com
 import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
 import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
 import { HomeHoidongComponent } from './home/home-hoidong/home-hoidong.component';
-import { HomeGiaobaitapComponent } from './home/home-giaobaitap/home-giaobaitap.component';
 import { HomeLichphanbienComponent } from './home/home-lichphanbien/home-lichphanbien.component';
 
 import { MinistryComponent } from './ministry/ministry.component';
@@ -80,6 +79,9 @@ import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitiett
 import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
 import { DashboardThemthanhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-themthanhvien.component';
 import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-danhsachsinhvien/dashboard-danhsachsinhvien.component';
+import { HomeHuongdanComponent } from './home/home-huongdan/home-huongdan.component';
+import { HomeNhomsinhvienComponent } from './home/home-huongdan/home-nhomsinhvien/home-nhomsinhvien.component';
+import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-congviec.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +123,6 @@ import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themth
     HomeChitietdetaiComponent,
     HomeGiangvienComponent,
     HomeDanhsachgiangvienComponent,
-    HomeGiaobaitapComponent,
     HomeHoidongComponent,
     HomeKehoachComponent,
     HomeLichphanbienComponent,
@@ -137,6 +138,9 @@ import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themth
     HomeFormdetaiComponent,
     DashboardBaitapchitietComponent,
     HomeHuongdanRadeComponent,
+    HomeHuongdanComponent,
+    HomeNhomsinhvienComponent,
+    HomeCongviecComponent,
     DropDownComponent,
     HomeDanhsachthongbaoComponent,
     HomeChitietthongbaoComponent,
