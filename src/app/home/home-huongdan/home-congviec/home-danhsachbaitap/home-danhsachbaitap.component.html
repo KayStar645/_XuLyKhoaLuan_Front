@@ -1,3 +1,12 @@
+<div class="poster">
+  <div class="layer">
+    <div class="poster-info">
+      <p class="group-name">{{ nhom.tenNhom }}</p>
+      <p [innerHTML]="deTai.tenDT" class="topic-name"></p>
+    </div>
+  </div>
+</div>
+
 <div class="p-t-16">
   <div class="functional-container row jus-end functional-wrapper">
     <div class="functional-button">
@@ -13,6 +22,18 @@
 <div id="container">
   <div class="row">
     <div class="h-4 p-l-8 p-r-8 first-info">
+      <div class="time-out ma-b-16">
+        <p class="title">Mã nhóm</p>
+
+        <p class="group-id">{{ nhom.maNhom }}</p>
+
+        <ng-template #noMission>
+          <p class="no-missioin">
+            Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!
+          </p>
+        </ng-template>
+      </div>
+
       <div class="time-out">
         <p class="title">Sắp đến hạn</p>
 
@@ -72,83 +93,33 @@
           </a>
         </div> -->
 
-        <div class="list-item" (click)="onShowDetail($event)">
+        <div
+          class="list-item"
+          (click)="onShowDetail($event)"
+          *ngFor="let item of listBT"
+        >
           <div class="row ali-center mission-header">
             <div class="item-img ma-r-12">
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
 
-            <p class="flex-1 mission-title">Báo cáo tiến trình lần 1</p>
+            <p class="flex-1 mission-title">{{ item.tenCv }}</p>
 
             <p class="mission-timeout">Đến hạn 23:59 25 tháng 4</p>
           </div>
 
           <div class="collapse-block row jus-between">
             <div class="mission-info">
-              <p class="mission-timeout">Đã đăng vào 23 20 tháng 4</p>
-
               <p class="mission-description">
-                Liệt kê các quy trình nghiệp vụ liên quan đến đề tài
+                {{ item.yeuCau }}
               </p>
             </div>
 
             <div class="row flex-column ali-center mission-rate">
               <p class="rate-title">Tiến độ thực hiện</p>
-              <p class="rate-score">5/10</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="list-item" (click)="onShowDetail($event)">
-          <div class="row ali-center mission-header">
-            <div class="item-img ma-r-12">
-              <img src="../../../../assets/Images/mission.svg" alt="" />
-            </div>
-
-            <p class="flex-1 mission-title">Báo cáo tiến trình lần 1</p>
-
-            <p class="mission-timeout">Đến hạn 23:59 25 tháng 4</p>
-          </div>
-
-          <div class="collapse-block row jus-between">
-            <div class="mission-info">
-              <p class="mission-timeout">Đã đăng vào 23 20 tháng 4</p>
-
-              <p class="mission-description">
-                Liệt kê các quy trình nghiệp vụ liên quan đến đề tài
+              <p class="rate-score">
+                {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
               </p>
-            </div>
-
-            <div class="row flex-column ali-center mission-rate">
-              <p class="rate-title">Tiến độ thực hiện</p>
-              <p class="rate-score">5/10</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="list-item" (click)="onShowDetail($event)">
-          <div class="row ali-center mission-header">
-            <div class="item-img ma-r-12">
-              <img src="../../../../assets/Images/mission.svg" alt="" />
-            </div>
-
-            <p class="flex-1 mission-title">Báo cáo tiến trình lần 1</p>
-
-            <p class="mission-timeout">Đến hạn 23:59 25 tháng 4</p>
-          </div>
-
-          <div class="collapse-block row jus-between">
-            <div class="mission-info">
-              <p class="mission-timeout">Đã đăng vào 23 20 tháng 4</p>
-
-              <p class="mission-description">
-                Liệt kê các quy trình nghiệp vụ liên quan đến đề tài
-              </p>
-            </div>
-
-            <div class="row flex-column ali-center mission-rate">
-              <p class="rate-title">Tiến độ thực hiện</p>
-              <p class="rate-score">5/10</p>
             </div>
           </div>
         </div>

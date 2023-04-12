@@ -1,6 +1,53 @@
+.poster {
+  background: url("../../../../../assets/Images/group_bg.jpg") center / cover
+    no-repeat;
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+
+  .layer {
+    padding-right: 24px;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+      40rem 18.75rem ellipse at bottom right,
+      rgb(66, 133, 244),
+      transparent
+    );
+  }
+}
+
+.poster-info {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  color: #fff;
+  width: 100%;
+
+  .group-name {
+    font-size: 3.2rem;
+  }
+
+  .topic-name {
+    font-size: 2rem;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 #container {
   padding-top: 16px;
   margin: 0 -8px;
+}
+
+.group-id {
+  color: rgb(25, 103, 210);
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .time-out {
@@ -112,7 +159,6 @@
   }
 
   .mission-description {
-    padding-top: 12px;
     font-size: 1.4rem;
     color: rgb(75 75 75);
   }

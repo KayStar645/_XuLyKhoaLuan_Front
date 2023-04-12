@@ -49,7 +49,7 @@ export class nhomService {
       response =
         (await this.http
           .get<Nhom>(
-            `${this.apiUrl}/api/Nhoms/MaNhom?MaNhom=${MaDT}`,
+            `${this.apiUrl}/api/Nhoms/maDT?maDT=${MaDT}`,
             this.shareService.httpOptions
           )
           .toPromise()) ?? (response as Nhom);

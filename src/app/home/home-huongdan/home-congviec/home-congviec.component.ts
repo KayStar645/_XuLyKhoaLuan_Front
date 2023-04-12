@@ -7,11 +7,11 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./home-congviec.component.scss'],
 })
 export class HomeCongviecComponent {
+  public static maDT: string = '';
+
   constructor(private titleService: Title) {}
 
   async ngOnInit() {
     this.titleService.setTitle('Dach sách bài tập');
-
-    
   }
 }
