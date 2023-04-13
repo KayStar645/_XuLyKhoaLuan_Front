@@ -8,7 +8,6 @@
         <th>Giới tính</th>
         <th>Lớp</th>
         <th>Chuyên ngành</th>
-        <th>Đợt</th>
         <th>Thao tác</th>
       </tr>
       <tbody *ngFor="let tg of listTg">
@@ -22,12 +21,18 @@
           <td class="text-center">{{ sinhVien.gioiTinh }}</td>
           <td class="text-center">{{ sinhVien.lop }}</td>
           <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
-          <td class="text-left namhoc_dot">
-            {{ tg.namHoc }} - Đợt {{ tg.dot }}
+          <td
+            *ngIf="checkSentInvitation(tg.maSv); else chuaGui"
+            class="text-center action-btn"
+            (click)="onShowInvite(tg.maSv)"
+          >
+            Hủy lời mời
           </td>
-          <td class="text-center action-btn" (click)="onShowInvite()">
-            Mời tham gia
-          </td>
+          <ng-template #chuaGui>
+            <td class="text-center action-btn" (click)="onShowInvite(tg.maSv)">
+              Mời tham gia
+            </td>
+          </ng-template>
         </tr>
       </tbody>
     </table>
@@ -41,7 +46,7 @@
   <div class="background">
     <div class="user-info row flex-column ali-center">
       <img src="../../../../assets/Images/avatar-nam.jpeg" alt="" />
-      <p>Ngô Văn Sơn</p>
+      <p>{{ sinhVien.tenSv }}</p>
     </div>
   </div>
 
@@ -62,5 +67,35 @@
     <button class="functional-button">
       <button (click)="onSendInvite()">Gửi lời mời</button>
     </button>
+  </div>
+</div>
+
+<div *ngIf="isPopupVisible" class="blur-frame">
+  <div class="popup-failed">
+    <img src="./../../../assets/Images/that-bai.png" />
+    <div class="popup-wrapper">
+      <h2>Thất bại</h2>
+      <p *ngIf="showGroupMemberAlreadySent">
+        Nhóm bạn đã gửi lời mời cho sinh viên này
+      </p>
+      <p *ngIf="showSentToSelfError">Không thể gửi lời mời cho chính mình</p>
+      <p *ngIf="isNotHaveStudent">Không tìm thấy sinh viên để mời</p>
+      <p *ngIf="isSentToNotJoinStudent">
+        Sinh viên được mời không có trong đợt làm khóa luận này
+      </p>
+      <p *ngIf="isSignUpDeTai">
+        Nhóm bạn đã đăng ký đề tài nên không thể gửi lời mời nhóm
+      </p>
+      <button (click)="hidePopup()">Đóng</button>
+    </div>
+  </div>
+
+  <div *ngIf="showSuccessMessage" class="popup-success">
+    <img src="./../../../assets/Images/tich-xanh.png" />
+    <div class="popup-wrapper">
+      <h2>Thành công</h2>
+      <p>Bạn đã gửi lời mời thành công</p>
+      <button (click)="hidePopup()">Đóng</button>
+    </div>
   </div>
 </div>

@@ -1,210 +1,215 @@
 <div class="main">
-    <div class="top">
-      <div class="h-7">
-        <div class="top-info">
-          <h2 class="info-title p-b-8">Thông tin cá nhân</h2>
-  
-          <div class="info-content row ma-t-24">
-            <div class="info-img">
-              <img
-                *ngIf="data?.gioiTinh == 'Nữ'"
-                src="../../assets/Images/avatar-nu.jpg"
-                alt="Avatar"
-              />
-              <img
-                *ngIf="data?.gioiTinh == 'Nam'"
-                src="../../assets/Images/avatar-nam.jpeg"
-                alt="Avatar"
-              />
-              <a href="" class="detail-link">Xem chi tiết</a>
-            </div>
-  
-            <div class="flex-1">
-              <div class="row jus-around">
-                <div class="info-left">
-                  <ul class="info-left-list">
-                    <li class="info-left-item row ali-center">
-                      <p>MSSV:</p>
-                      <b>{{ data?.maSv }}</b>
-                    </li>
-                    <li class="info-left-item row ali-center">
-                      <p>Họ tên:</p>
-                      <b>{{ data?.tenSv }}</b>
-                    </li>
-                    <li class="info-left-item row ali-center">
-                      <p>Giới tính:</p>
-                      <b>{{ data?.gioiTinh }}</b>
-                    </li>
-                    <li class="info-left-item row ali-center">
-                      <p>Ngày sinh:</p>
-                      <b>{{ dateFormat(data?.ngaySinh) }}</b>
-                    </li>
-                  </ul>
-                </div>
-                <div class="info-right">
+  <div class="top">
+    <div class="h-7">
+      <div class="top-info">
+        <h2 class="info-title p-b-8">Thông tin cá nhân</h2>
+
+        <div class="info-content row ma-t-24">
+          <div class="info-img">
+            <img
+              *ngIf="data?.gioiTinh == 'Nữ'"
+              src="../../assets/Images/avatar-nu.jpg"
+              alt="Avatar"
+            />
+            <img
+              *ngIf="data?.gioiTinh == 'Nam'"
+              src="../../assets/Images/avatar-nam.jpeg"
+              alt="Avatar"
+            />
+            <a href="" class="detail-link">Xem chi tiết</a>
+          </div>
+
+          <div class="flex-1">
+            <div class="row jus-around">
+              <div class="info-left">
+                <ul class="info-left-list">
                   <li class="info-left-item row ali-center">
-                    <p>Lớp:</p>
-                    <b>{{ data?.lop }}</b>
+                    <p>MSSV:</p>
+                    <b>{{ data?.maSv }}</b>
                   </li>
                   <li class="info-left-item row ali-center">
-                    <p>Email:</p>
-                    <b>{{ data?.email }}</b>
+                    <p>Họ tên:</p>
+                    <b>{{ data?.tenSv }}</b>
                   </li>
                   <li class="info-left-item row ali-center">
-                    <p>Số điện thoại:</p>
-                    <b>{{ data?.sdt }}</b>
+                    <p>Giới tính:</p>
+                    <b>{{ data?.gioiTinh }}</b>
                   </li>
                   <li class="info-left-item row ali-center">
-                    <p>Chuyên ngành:</p>
-                    <b>{{ chuyenNganh }}</b>
+                    <p>Ngày sinh:</p>
+                    <b>{{ dateFormat(data?.ngaySinh) }}</b>
                   </li>
-                </div>
+                </ul>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="h-5">
-        <div class="top-right row h-100">
-          <div class="top-notifi row ali-center jus-between">
-            <div class="top-notifi-count row flex-column">
-              <div class="top-info-title">Nhắc nhở mới, chưa xem</div>
-              <p class="count">{{ countTB }}</p>
-              <a href="" class="detail-link">Xem chi tiết</a>
-            </div>
-            <div>
-              <img
-                src="./../../../assets/Images/thong-bao.png"
-                width="100"
-                alt=""
-              />
-            </div>
-          </div>
-          <div class="top-plan row ali-center jus-between">
-            <div class="top-notifi-count row flex-column">
-              <div class="top-info-title">Kế hoạch thực hiện</div>
-              <p class="count">{{ countTB }}</p>
-              <a href="" class="detail-link">Xem chi tiết</a>
-            </div>
-            <div>
-              <img
-                src="./../../../assets/Images/ke-hoach.png"
-                width="80"
-                alt=""
-              />
+              <div class="info-right">
+                <li class="info-left-item row ali-center">
+                  <p>Lớp:</p>
+                  <b>{{ data?.lop }}</b>
+                </li>
+                <li class="info-left-item row ali-center">
+                  <p>Email:</p>
+                  <b>{{ data?.email }}</b>
+                </li>
+                <li class="info-left-item row ali-center">
+                  <p>Số điện thoại:</p>
+                  <b>{{ data?.sdt }}</b>
+                </li>
+                <li class="info-left-item row ali-center">
+                  <p>Chuyên ngành:</p>
+                  <b>{{ chuyenNganh }}</b>
+                </li>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div>
-      <ul class="navbar-list row ali-center" id="navbar">
-        <li class="navbar-item">
-          <a routerLink="/dashboard/thong-bao" class="navbar-link"> 
+
+    <div class="h-5">
+      <div class="top-right row h-100">
+        <div class="top-notifi row ali-center jus-between">
+          <div class="top-notifi-count row flex-column">
+            <div class="top-info-title">Nhắc nhở mới, chưa xem</div>
+            <p class="count">{{ countTB }}</p>
+            <a href="" class="detail-link">Xem chi tiết</a>
+          </div>
+          <div>
             <img
-              class="navbar-icon"
-              src="../../assets/Images/thong-bao.png"
+              src="./../../../assets/Images/thong-bao.png"
+              width="100"
               alt=""
-              width="48"
             />
-            <p>Thông báo</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/dashboard/them-thanh-vien" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/sinh-vien.png"
-              alt=""
-              width="48"
-            />
-            <p>Thêm thành viên</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/dashboard/nhom" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/hoi-dong.png"
-              alt=""
-              width="48"
-            />
-            <p>Nhóm</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/dashboard/dang-ky-de-tai" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/de-tai.png"
-              alt=""
-              width="48"
-            />
-            <p>Đăng ký đề tài</p>
-          </a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/dashboard/de-tai" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/de-tai.png"
-              alt=""
-              width="48"
-            />
-            <p>Kết quả</p>
-          </a>
-        </li>
-      </ul>
-    </div>
-  
-    <div class="bottom row">
-      <div class="h-8 p-r-8 p-l-8">
-        <div class="w-100 bottom-left">
-          <h2 class="info-title p-b-8">Thông báo</h2>
-          <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
-            <li class="bottom-notifi-item row">
-              <div class="bottom-notifi-img-l">
-                <img src="../../../../assets/Images/notify.png" alt="" />
-              </div>
-              <div class="bottom-notifi-link flex-1">
-                <a [routerLink]="['/dashboard/thong-bao/chi-tiet',
-                            { maTb: tb.maTb }]">
-                  <div class="date">
-                    <i class="icon-cal fa-regular fa-calendar"></i>
-                    <span>{{ dateFormat(tb.ngayTb) }}</span>
-                  </div>
-                  <b>{{ tb.tenTb }}</b
-                  >
-                </a>
-              </div>
-            </li>            
-          </ul> 
+          </div>
         </div>
-      </div>
-      <div class="h-4 p-l-8 p-r-8">
-        <div class="bottom-right w-100">
-          <h2 class="info-title p-b-8">Thông báo mới</h2>
-          <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
-            <li class="bottom-notifi-item row">
-              <div class="bottom-notifi-img-r">
-                <img src="../../../../assets/Images/notify.png" alt="" />
-              </div>
-              <div class="bottom-notifi-link flex-1">
-                <a [routerLink]="['/dashboard/thong-bao/chi-tiet',
-                            { maTb: tb.maTb }]">
-                  <div class="date">
-                    <i class="icon-cal fa-regular fa-calendar"></i>
-                    <span>{{ dateFormat(tb.ngayTb) }}</span>
-                  </div>
-                  <b>{{ tb.tenTb }}</b
-                  >
-                </a>
-              </div>
-            </li>            
-          </ul>
+        <div class="top-plan row ali-center jus-between">
+          <div class="top-notifi-count row flex-column">
+            <div class="top-info-title">Kế hoạch thực hiện</div>
+            <p class="count">{{ countTB }}</p>
+            <a href="" class="detail-link">Xem chi tiết</a>
+          </div>
+          <div>
+            <img
+              src="./../../../assets/Images/ke-hoach.png"
+              width="80"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
+  <div>
+    <ul class="navbar-list row ali-center" id="navbar">
+      <li class="navbar-item">
+        <a routerLink="/dashboard/thong-bao" class="navbar-link">
+          <img
+            class="navbar-icon"
+            src="../../assets/Images/thong-bao.png"
+            alt=""
+            width="48"
+          />
+          <p>Thông báo</p>
+        </a>
+      </li>
+      <li class="navbar-item">
+        <a routerLink="/dashboard/them-thanh-vien" class="navbar-link">
+          <img
+            class="navbar-icon"
+            src="../../assets/Images/sinh-vien.png"
+            alt=""
+            width="48"
+          />
+          <p>Thêm thành viên</p>
+        </a>
+      </li>
+      <li class="navbar-item">
+        <a routerLink="/dashboard/nhom" class="navbar-link">
+          <img
+            class="navbar-icon"
+            src="../../assets/Images/hoi-dong.png"
+            alt=""
+            width="48"
+          />
+          <p>Nhóm</p>
+        </a>
+      </li>
+      <li class="navbar-item">
+        <a routerLink="/dashboard/dang-ky-de-tai" class="navbar-link">
+          <img
+            class="navbar-icon"
+            src="../../assets/Images/de-tai.png"
+            alt=""
+            width="48"
+          />
+          <p>Đăng ký đề tài</p>
+        </a>
+      </li>
+      <li class="navbar-item">
+        <a routerLink="/dashboard/de-tai" class="navbar-link">
+          <img
+            class="navbar-icon"
+            src="../../assets/Images/de-tai.png"
+            alt=""
+            width="48"
+          />
+          <p>Kết quả</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bottom row">
+    <div class="h-8 p-r-8 p-l-8">
+      <div class="w-100 bottom-left">
+        <h2 class="info-title p-b-8">Thông báo</h2>
+        <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
+          <li class="bottom-notifi-item row">
+            <div class="bottom-notifi-img-l">
+              <img src="../../../../assets/Images/notify.png" alt="" />
+            </div>
+            <div class="bottom-notifi-link flex-1">
+              <a
+                [routerLink]="[
+                  '/dashboard/thong-bao/chi-tiet',
+                  { maTb: tb.maTb }
+                ]"
+              >
+                <div class="date">
+                  <i class="icon-cal fa-regular fa-calendar"></i>
+                  <span>{{ dateFormat(tb.ngayTb) }}</span>
+                </div>
+                <b>{{ tb.tenTb }}</b>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="h-4 p-l-8 p-r-8">
+      <div class="bottom-right w-100">
+        <h2 class="info-title p-b-8">Thông báo mới</h2>
+        <ul class="bottom-notifi-list" *ngFor="let tb of listTB">
+          <li class="bottom-notifi-item row">
+            <div class="bottom-notifi-img-r">
+              <img src="../../../../assets/Images/notify.png" alt="" />
+            </div>
+            <div class="bottom-notifi-link flex-1">
+              <a
+                [routerLink]="[
+                  '/dashboard/thong-bao/chi-tiet',
+                  { maTb: tb.maTb }
+                ]"
+              >
+                <div class="date">
+                  <i class="icon-cal fa-regular fa-calendar"></i>
+                  <span>{{ dateFormat(tb.ngayTb) }}</span>
+                </div>
+                <b>{{ tb.tenTb }}</b>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
