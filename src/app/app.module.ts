@@ -14,7 +14,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
 import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
-import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 import { TestComponent } from './test/test.component';
 
 import { NgProgressModule } from 'ngx-progressbar';
@@ -152,7 +151,6 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
     DashboardComponent,
     DashboardMainComponent,
     DashboardThongbaoComponent,
-    DashboardLoimoiComponent,
     DashboardNhomComponent,
     DashboardTrangchunhomComponent,
     DashboardThanhviennhomComponent,
@@ -162,7 +160,7 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
     DashboardDanhsachsinhvienComponent,
 
     TestComponent,
-          DashbordDangkydetaiComponent,
+    DashbordDangkydetaiComponent,
   ],
 
   imports: [

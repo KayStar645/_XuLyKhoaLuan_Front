@@ -17,6 +17,7 @@ import { thamGiaService } from 'src/app/services/thamGia.service';
 import { Title } from '@angular/platform-browser';
 import { DashboardComponent } from '../../dashboard.component';
 import { format } from 'date-fns';
+import { Nhom } from 'src/app/models/Nhom.model';
 
 @Component({
   selector: 'app-dashboard-danhsachthongbao',
@@ -36,6 +37,7 @@ export class DashboardDanhsachthongbaoComponent {
   isTeamLeader = false;
   isGroupHaveOneMember = false;
   isPopupVisible = false;
+  lstNhom: Nhom[] = [];
 
   // Thông báo từ khoa
   @Input() searchName = '';
@@ -80,8 +82,6 @@ export class DashboardDanhsachthongbaoComponent {
         this.lstLoiMoi = data;
       });
 
-    console.log(this.lstLoiMoi);
-
     if (
       await this.thamGiaService.isJoinedAGroup(
         DashboardComponent.maSV,
@@ -110,6 +110,8 @@ export class DashboardDanhsachthongbaoComponent {
         this.getAllThongBao();
       }
     });
+
+    this.lstNhom = await this.nhomService.getAll();
   }
 
   // Thông báo từ lời mời nè
@@ -239,5 +241,9 @@ export class DashboardDanhsachthongbaoComponent {
 
   dateFormat(str: string) {
     return this.shareService.dateFormat(str);
+  }
+
+  getTenNhomByMaNhom(maNhom: string){
+    return this.lstNhom.find(nhom => nhom.maNhom == maNhom)?.tenNhom;
   }
 }

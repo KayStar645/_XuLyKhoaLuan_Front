@@ -10,7 +10,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { DashboardMainComponent } from './dashboard/dashboard-main/dashboard-main.component';
-import { DashboardLoimoiComponent } from './dashboard/dashboard-loimoi/dashboard-loimoi.component';
 import { DashboardThongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-thongbao.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.component';
@@ -369,11 +368,6 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardMainComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'loi-moi',
-        component: DashboardLoimoiComponent,
         canActivate: [AuthGuard],
       },
       {

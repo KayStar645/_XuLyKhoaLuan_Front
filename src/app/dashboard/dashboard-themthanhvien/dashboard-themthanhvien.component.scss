@@ -1,3 +1,74 @@
+@keyframes popupFadeIn {
+  from {
+    transform: translate(-50%, 0) scale(0.1);
+  } to {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.popup-success,
+.popup-failed{
+  z-index: 12;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 360px;
+  margin: 0 auto;
+  margin-top: 180px;
+  text-align: center;
+  background-color: #fff;
+  font-size: 16.25px;
+  animation: popupFadeIn ease 0.4s;
+  border-radius: 10px;
+}
+
+.popup-success img,
+.popup-failed img{
+  margin-top: -15%;
+  width: 30%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+.popup-wrapper {
+  padding: 0 32px;
+}
+
+.popup-failed button {
+  width: 100%;
+  margin-top: 50px;
+  color: #fff;
+  padding: 10px 0;
+  background-color: #e04f5f ;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.popup-success button {
+  width: 100%;
+  margin-top: 50px;
+  color: #fff;
+  padding: 10px 0;
+  background-color: #5890ff;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.blur-frame {
+  z-index: 12;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
 .list {
   height: calc(100vh - 260px);
   overflow: auto;
