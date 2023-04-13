@@ -29,11 +29,15 @@ export class thamGiaService {
     );
   }
 
-  async GetAllThamgiaNotme(maSV: string): Promise<ThamGia[]> {
+  async GetAllThamgiaDotdkNotme(
+    maSV: string,
+    namHoc: string,
+    dot: number
+  ): Promise<ThamGia[]> {
     return (
       (await this.http
         .get<ThamGia[]>(
-          `${this.apiUrl}/api/Thamgias/maSV?maSV=${maSV}`,
+          `${this.apiUrl}/api/Thamgias/notmaSV, namHoc, dot?notmaSV=${maSV}&namHoc=${namHoc}&dot=${dot}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
