@@ -6,8 +6,11 @@ import { Nhom } from 'src/app/models/Nhom.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { nhomService } from 'src/app/services/nhom.service';
-import { getParentElement } from 'src/assets/utils';
+import { Option, getParentElement } from 'src/assets/utils';
 import { HomeCongviecComponent } from '../home-congviec.component';
+import { format, formatDistanceToNowStrict, getDay } from 'date-fns';
+import { ToastrService } from 'ngx-toastr';
+import { sinhVienService } from 'src/app/services/sinhVien.service';
 
 @Component({
   selector: 'app-home-danhsachbaitap',
@@ -17,44 +20,161 @@ import { HomeCongviecComponent } from '../home-congviec.component';
 export class HomeDanhsachbaitapComponent implements OnInit {
   maDT: string = '';
   nearTimeOutMS: any[] = [];
-  listBT: CongViec[] = [];
+  listBT: any[] = [];
+  listSV: any[] = [];
   nhom: Nhom = new Nhom();
   deTai: DeTai = new DeTai();
 
   constructor(
     private deTaiService: deTaiService,
+    private toastService: ToastrService,
     private nhomService: nhomService,
     private congViecService: congViecService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private sinhVienService: sinhVienService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.activeRoute.paramMap.subscribe((params) => {
       this.maDT = params.get('maDt')!;
-      if(this.maDT) {
+      if (this.maDT) {
         HomeCongviecComponent.maDT = params.get('maDt')!;
-      }
-      else {
-        this.maDT = HomeCongviecComponent.maDT
+      } else {
+        this.maDT = HomeCongviecComponent.maDT;
       }
     });
+
+    await this.getListBT();
+
     this.nhom = await this.nhomService.GetNhomByMadtAsync(this.maDT);
-    this.listBT = await this.congViecService.GetCongviecByMadt(this.maDT);
+    this.listSV = await this.sinhVienService.getSinhvienByDetai(this.maDT);
     this.deTai = await this.deTaiService.getById(this.maDT);
+
+    this.getNearTimeOutMission();
+    this.closeOption();
+
+    console.log(this.listSV);
   }
 
-  onShowDetail(event: any) {
-    let parent = getParentElement(event.target, '.list-item');
+  async getListBT() {
+    await this.congViecService.GetCongviecByMadt(this.maDT).then((data) => {
+      this.listBT = data.map((bt) => ({
+        ...bt,
+        thoiHan: format(new Date(bt.hanChot), 'HH:mm dd-MM').replace(
+          '-',
+          ' tháng '
+        ),
+      }));
+    });
+  }
+
+  getNearTimeOutMission() {
+    this.nearTimeOutMS = this.listBT
+      .filter((nv: any) => {
+        let date = new Date(nv.hanChot);
+        let dateBetween = parseInt(
+          formatDistanceToNowStrict(date, {
+            unit: 'day',
+          }).split(' ')[0]
+        );
+
+        nv['thoiGianKt2'] = format(new Date(nv.hanChot), 'HH:mm');
+
+        let dayOfWeek = getDay(date) + 1;
+
+        switch (dayOfWeek) {
+          case 2:
+            nv['thu'] = 'Thứ Hai';
+            nv['number'] = 2;
+            break;
+          case 3:
+            nv['thu'] = 'Thứ Ba';
+            nv['number'] = 3;
+            break;
+          case 4:
+            nv['thu'] = 'Thứ Tư';
+            nv['number'] = 4;
+            break;
+          case 5:
+            nv['thu'] = 'Thứ Năm';
+            nv['number'] = 5;
+            break;
+          case 6:
+            nv['thu'] = 'Thứ Sáu';
+            nv['number'] = 6;
+            break;
+          case 7:
+            nv['thu'] = 'Thứ Bảy';
+            nv['number'] = 7;
+            break;
+
+          default:
+            nv['thu'] = 'Chủ Nhật';
+            nv['number'] = 1;
+            break;
+        }
+
+        return dateBetween <= 7;
+      })
+      .sort((a, b) => a.number - b.number);
+  }
+
+  closeOption() {
+    window.addEventListener('click', (e: any) => {
+      let option = e.target.closest('.option');
+
+      if (!option) {
+        document.querySelector('.option.active')?.classList.remove('active');
+      }
+    });
+  }
+
+  onShowOption(event: any) {
+    let element = event.target.closest('.option');
+
+    if (element) {
+      element.classList.toggle('active');
+    }
+  }
+
+  onShowMore(event: any) {
+    let parent = event.target.closest('.list-item');
+    let option = event.target.closest('.option');
     let activeItem = document.querySelector('.list-item.active');
 
-    if (activeItem) {
-      activeItem.classList.remove('active');
+    if (!option) {
+      if (parent.classList.contains('active')) {
+        parent.classList.remove('active');
+      } else {
+        if (activeItem) {
+          activeItem.classList.remove('active');
+        }
+        parent.classList.add('active');
+      }
     }
-    if (parent) {
-      parent.classList.add('active');
+  }
+
+  async onDeleteJob(maCv: string) {
+    try {
+      let create = document.querySelector('#create');
+      let option = new Option('#create');
+
+      create?.classList.add('active');
+
+      option.show('warning');
+
+      option.agree(async () => {
+        await this.congViecService.delete(maCv);
+        await this.getListBT();
+        this.toastService.success('Xóa công việc thành công', 'thông báo !');
+        create?.classList.remove('active');
+      });
+
+      option.cancel(() => {
+        create?.classList.remove('active');
+      });
+    } catch (error) {
+      this.toastService.error('Xóa công việc thất bại', 'Thông báo !');
     }
-    // if (parent && activeItem) {
-    //   parent.classList.remove('active');
-    // }
   }
 }
