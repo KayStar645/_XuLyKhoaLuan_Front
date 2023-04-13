@@ -162,7 +162,7 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
     DashboardDanhsachsinhvienComponent,
 
     TestComponent,
-          DashbordDangkydetaiComponent,
+    DashbordDangkydetaiComponent,
   ],
 
   imports: [

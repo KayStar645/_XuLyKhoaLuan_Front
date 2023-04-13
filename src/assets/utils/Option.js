@@ -9,8 +9,10 @@ class Option {
   show(type = "info", doAfter = () => {}) {
     this.type = type;
     this.notify.classList.add(this.type);
+
     this.timeoutId = setTimeout(() => {
       this.notify.classList.remove(this.type);
+      this.root.classList.remove("active");
       doAfter();
     }, 3500);
   }
