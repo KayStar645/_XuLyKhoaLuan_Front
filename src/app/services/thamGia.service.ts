@@ -29,6 +29,17 @@ export class thamGiaService {
     );
   }
 
+  async GetAllThamgiaNotme(maSV: string): Promise<ThamGia[]> {
+    return (
+      (await this.http
+        .get<ThamGia[]>(
+          `${this.apiUrl}/api/Thamgias/maSV?maSV=${maSV}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async GetThamgiaByDotdk(namHoc: string, dot: number): Promise<ThamGia[]> {
     return (
       (await this.http

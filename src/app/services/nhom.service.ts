@@ -55,7 +55,6 @@ export class nhomService {
           .toPromise()) ?? (response as Nhom);
       return response;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
