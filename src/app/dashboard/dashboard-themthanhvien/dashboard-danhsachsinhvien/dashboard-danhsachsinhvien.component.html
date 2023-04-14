@@ -21,11 +21,16 @@
             *ngIf="checkSentInvitation(tg.maSv); else chuaGui"
             class="text-center action-btn"
             (click)="onShowInvite(tg.maSv)"
+            style="color: #ff0000;"
           >
             Hủy lời mời
           </td>
           <ng-template #chuaGui>
-            <td class="text-center action-btn" (click)="onShowInvite(tg.maSv)">
+            <td 
+              class="text-center action-btn"
+              (click)="onShowInvite(tg.maSv)"
+              style="color: #0984e3;"
+              >
               Mời tham gia
             </td>
           </ng-template>

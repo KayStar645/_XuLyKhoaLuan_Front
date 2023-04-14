@@ -21,6 +21,7 @@ import { shareService } from 'src/app/services/share.service';
 import { Router } from '@angular/router';
 import { HuongDan } from 'src/app/models/HuongDan.model';
 import { huongDanService } from 'src/app/services/huongDan.service';
+import { HomeComponent } from 'src/app/home/home.component';
 
 @Component({
   selector: 'app-dashboard-detai',
@@ -61,6 +62,7 @@ export class DashboardDetaiComponent {
   ) {}
 
   public async ngOnInit() {
+    // console.log('Vô nè!1');
     //Nếu không có trong tham gia không được mời quay trở lại trang chủ
     if (
       (await this.thamGiaService.isJoinedAGroup(
@@ -91,14 +93,17 @@ export class DashboardDetaiComponent {
     ) {
       this.isPopupVisible = true;
       this.isNotHaveDeTai = true;
-      return;
+      // return; // Đây là cái gì
     }
 
-    this.listDT = (await this.deTaiService.getAll()).filter(
-      (dt) =>
-        dt.trangThai === true &&
-        dt.namHoc == shareService.namHoc &&
-        dt.dot == shareService.dot
+    // console.log("Vô nè!");
+    // console.log(shareService.namHoc);
+    // console.log(shareService.dot);
+    // console.log(DashboardComponent.maNhom);
+    this.listDT = await this.dangKyService.GetAllDetaiDangky(
+      shareService.namHoc,
+      shareService.dot,
+      DashboardComponent.maNhom
     );
     this.listRade = await this.raDeService.getAll();
     this.listGiangvien = await this.giangVienService.getAll();

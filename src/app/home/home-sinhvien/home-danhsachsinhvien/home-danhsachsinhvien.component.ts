@@ -68,26 +68,6 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
     
   }
 
-  async clickLine(event: any) {
-    const parent = getParentElement(event.target, '.br-line');
-    const firstChild = parent.firstChild;
-    const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
-    const namHoc = namHoc_Dot.substring(0, 9);
-    const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
-
-    if (!parent.classList.contains('br-line-dblclick')) {
-      this.lineTG = await this.thamGiaService.getById(
-        firstChild.innerText,
-        namHoc,
-        dot
-      );
-      parent.classList.add('br-line-dblclick');
-    } else {
-      this.lineTG = new ThamGia();
-      parent.classList.remove('br-line-dblclick');
-    }
-  }
-
   async getAllThamgiaByDotdk() {
     this.listTg = await this.thamGiaService.getAll();
     this.root = this.listTg;
@@ -100,46 +80,6 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
   getThamgiaByDotDk(namHoc: string, dot: number) {
     this.listTg =
       this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
-  }
-
-  getSelectedLine(e: any) {
-    if (e.ctrlKey) {
-      this.returnIsSelectedTG.emit(true);
-      const activeDblClick = this.elementRef.nativeElement.querySelector(
-        '.br-line.br-line-dblclick'
-      );
-      const parent = getParentElement(e.target, '.br-line');
-      const firstChild = parent.firstChild;
-      const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
-      const namHoc = namHoc_Dot.substring(0, 9);
-      const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
-
-      if (activeDblClick) {
-        activeDblClick.classList.remove('.br-line-dblclick');
-        this.lineTG = new ThamGia();
-      }
-
-      if (parent.classList.contains('br-line-click')) {
-        let childIndex = this.selectedTG.findIndex(
-          (t) => t === firstChild.innerText
-        );
-
-        parent.classList.remove('br-line-click');
-        this.selectedTG.splice(childIndex, 1);
-      } else {
-        parent.classList.add('br-line-click');
-        var idTg = {
-          maSv: firstChild.innerText,
-          namHoc: namHoc,
-          dot: dot,
-        };
-        this.selectedTG.push(idTg);
-      }
-
-      if (this.selectedTG.length === 0) {
-        this.returnIsSelectedTG.emit(false);
-      }
-    }
   }
 
   async ngOnChanges(changes: SimpleChanges) {

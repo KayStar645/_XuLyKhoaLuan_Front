@@ -98,6 +98,7 @@
         <th>Chuyên ngành phù hợp</th>
         <th>Giảng viên ra đề</th>
         <th>Lần cuối duyệt</th>
+        <th>Đợt</th>
       </tr>
       <tbody *ngFor="let dt of listDT">
         <tr class="br-line">
@@ -131,6 +132,7 @@
               </ng-template>
             </b>
           </td>
+          <td class="text-center">{{ dt.dot }} - {{ dt.namHoc }}</td>
         </tr>
       </tbody>
     </table>
