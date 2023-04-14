@@ -99,7 +99,9 @@
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
 
-            <p class="flex-1 mission-title">{{ item.tenCv }}</p>
+            <p class="flex-1 mission-title">
+              {{ item.moTa ? item.moTa : item.tenCv }}
+            </p>
 
             <div class="row ali-center">
               <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
@@ -113,7 +115,7 @@
                     class="option-item"
                     [routerLink]="[
                       '/home/huong-dan/cong-viec/chi-tiet',
-                      { maCv: item.maCv }
+                      { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
                     ]"
                   >
                     Chỉnh sửa
@@ -151,9 +153,7 @@
   <div class="form-notify">
     <div class="notify-container">
       <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc tắt Form sẽ xóa tất cả thông tin hiện đang có trên Form.
-      </p>
+      <p class="notify-content">Bạn có chắc muốn xóa nhiệm vụ này chứ !</p>
       <div class="row ali-center jus-end">
         <button class="cancel">Hủy</button>
         <button class="agree">Đồng ý</button>

@@ -65,6 +65,41 @@
                   Thay đổi
                 </td>
               </tr>
+
+              <tr *ngFor="let dt of restDeTais">
+                <td class="border-bold"></td>
+                <td class="border-bold"></td>
+                <td class="border-bold"></td>
+                <td class="border-bold" [innerHTML]="dt.tenDT"></td>
+                <td class="border-bold">
+                  <span *ngIf="dt.giangVienHD">
+                    <p
+                      *ngFor="let item of dt.giangVienHD"
+                      class="white-space-no-wrap"
+                    >
+                      {{ item.tenGv }}
+                    </p>
+                  </span>
+                </td>
+                <td class="border-bold">
+                  <span *ngIf="dt.giangVienPB">
+                    <p
+                      *ngFor="let item of dt.giangVienPB"
+                      class="white-space-no-wrap"
+                    >
+                      {{ item.tenGv }}
+                    </p>
+                  </span>
+                </td>
+                <td
+                  class="border-bold update-btn"
+                  *ngIf="dt.maDT && isTruongBM"
+                  [attr.data-index]="dt.maDT"
+                  (click)="onUpdate($event)"
+                >
+                  Thay đổi
+                </td>
+              </tr>
             </table>
           </div>
         </div>
