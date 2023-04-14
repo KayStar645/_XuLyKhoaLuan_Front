@@ -118,8 +118,7 @@ export class HomeChitietdetaiComponent {
     this.websocketService.startConnection();
   }
 
-  onSetDeTai(event: any) {
-  }
+  onSetDeTai(event: any) {}
 
   async getComment() {
     await this.duyetDTService.getByMadt(this.maDt).then((data) => {
@@ -141,6 +140,7 @@ export class HomeChitietdetaiComponent {
   }
 
   setSlMax(event: any) {
+    let formValue: any = this.dtForm.form.value;
     const currentValue = parseInt(event.target.value);
     const previousValue = parseInt(event.target.defaultValue);
 
@@ -148,6 +148,12 @@ export class HomeChitietdetaiComponent {
       this.slMax += 1;
     } else if (currentValue < previousValue) {
       this.slMax -= 1;
+    }
+
+    if (currentValue < formValue.slMin) {
+      this.dtForm.form.patchValue({
+        slMin: currentValue - 1,
+      });
     }
   }
 

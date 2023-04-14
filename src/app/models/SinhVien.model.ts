@@ -22,7 +22,7 @@ export class SinhVien {
   ) {
     this.maSv = maSv;
     this.tenSv = tenSv;
-    this.ngaySinh = ngaySinh;
+    ngaySinh && (this.ngaySinh = ngaySinh);
     this.gioiTinh = gioiTinh;
     this.lop = lop;
     this.sdt = sdt;

@@ -27,10 +27,10 @@ class Form {
   }
 
   validateSpecificControl(controlNames = []) {
-    controlNames.forEach((errorName) => {
-      let errors = this.controls[errorName].errors;
+    controlNames.forEach((controlName) => {
+      let errors = this.controls[controlName].errors;
       let element = document.querySelector(
-        `dp-date-picker[formControlName='${errorName}']`
+        `[formControlName='${controlName}']`
       );
 
       setErrors(errors, element);

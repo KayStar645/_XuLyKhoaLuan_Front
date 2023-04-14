@@ -11,6 +11,7 @@ function setErrors(errors, element, parentSelector, errorSelector) {
       if (errors.required) {
         errorMess && (errorMess.innerText = "Trường này là bắt buộc");
       }
+      
       if (errors.email) {
         errorMess && (errorMess.innerText = "Email không hợp lệ");
       }
@@ -25,6 +26,10 @@ function setErrors(errors, element, parentSelector, errorSelector) {
       if (errors.smallerDay) {
         errorMess &&
           (errorMess.innerText = "Ngày kết thúc phải lớn hơn ngày bắt đầu");
+      }
+
+      if (errors.dateBirth18) {
+        errorMess && (errorMess.innerText = "Ngày sinh phải đủ 18 tuổi");
       }
     } else {
       parent.classList.remove("invalid");

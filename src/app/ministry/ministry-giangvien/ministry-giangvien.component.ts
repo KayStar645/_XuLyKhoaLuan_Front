@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MinistryDanhsachgiangvienComponent } from './ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { DeTai } from 'src/app/models/DeTai.model';
+import { compareAsc, formatDistance, formatDistanceStrict } from 'date-fns';
 
 @Component({
   selector: 'app-ministry-giangvien',
@@ -221,8 +222,8 @@ export class MinistryGiangvienComponent implements OnInit {
   async onReadFile() {
     if (this.giangVienFile.data.length > 0) {
       const datas = this.giangVienFile.data;
-      
-      for(let data of datas) {
+
+      for (let data of datas) {
         if (data[1] == '') {
           continue;
         }
@@ -247,6 +248,75 @@ export class MinistryGiangvienComponent implements OnInit {
       }
 
       this.websocketService.sendForGiangVien(true);
+    }
+  }
+
+  onNgaySinhInput(event: any) {
+    let formValue: any = this.gvForm.form.value;
+    let ngaySinh: any = this.gvForm.form.get('ngaySinh');
+    let value = event.target.value;
+    let date1 = new Date(value);
+    let date2 = formValue.ngayNhanViec
+      ? new Date(formValue.ngayNhanViec)
+      : new Date();
+    let isSmaller = compareAsc(date1, date2) === -1 ? true : false;
+
+    if (isSmaller) {
+      let yearBetween = parseInt(
+        formatDistanceStrict(date1, date2, { unit: 'year' }).split(' ')[0]
+      );
+
+      ngaySinh.setValidators([
+        this.shareService.customValidator(
+          'dateBirth18',
+          / /,
+          yearBetween >= 18 ? true : false
+        ),
+        Validators.required,
+      ]);
+      ngaySinh.updateValueAndValidity();
+      this.gvForm.validateSpecificControl(['ngaySinh']);
+    } else {
+      ngaySinh.setErrors({
+        dateBirth18: 'Ngày sinh phải lớn hơn ngày hiện tại',
+      });
+      this.gvForm.validateSpecificControl(['ngaySinh']);
+    }
+  }
+
+  onNgayNhanViecInput(event: any) {
+    let formValue: any = this.gvForm.form.value;
+
+    if (formValue.ngaySinh) {
+      let ngaySinh: any = this.gvForm.form.get('ngaySinh');
+      let value = event.target.value;
+      let date1 = new Date(formValue.ngaySinh);
+      let date2 = new Date(value);
+      let isSmaller = compareAsc(date1, date2) === -1 ? true : false;
+
+      if (isSmaller) {
+        let yearBetween = parseInt(
+          formatDistanceStrict(date1, date2, { unit: 'year' }).split(' ')[0]
+        );
+
+        ngaySinh.setValidators([
+          this.shareService.customValidator(
+            'dateBirth18',
+            / /,
+            yearBetween >= 18 ? true : false
+          ),
+          Validators.required,
+        ]);
+        ngaySinh.updateValueAndValidity();
+        this.gvForm.validateSpecificControl(['ngaySinh']);
+      } else {
+        ngaySinh.setErrors({
+          dateBirth18: 'Ngày sinh phải lớn hơn ngày hiện tại',
+        });
+        this.gvForm.validateSpecificControl(['ngaySinh']);
+      }
+    } else {
+      this.gvForm.validateSpecificControl(['ngaySinh']);
     }
   }
 

@@ -90,6 +90,7 @@ export class HomeFormdetaiComponent {
   }
 
   setSlMax(event: any) {
+    let formValue: any = this.dtForm.form.value;
     const currentValue = parseInt(event.target.value);
     const previousValue = parseInt(event.target.defaultValue);
 
@@ -97,6 +98,12 @@ export class HomeFormdetaiComponent {
       this.slMax += 1;
     } else if (currentValue < previousValue) {
       this.slMax -= 1;
+    }
+
+    if (currentValue < formValue.slMin) {
+      this.dtForm.form.patchValue({
+        slMin: currentValue - 1,
+      });
     }
   }
 

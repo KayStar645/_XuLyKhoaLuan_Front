@@ -132,6 +132,7 @@
               type="date"
               formControlName="ngaySinh"
               (blur)="gvForm.inputBlur($event)"
+              (input)="onNgaySinhInput($event)"
               class="form-input"
             />
 
@@ -162,6 +163,7 @@
               type="date"
               formControlName="ngayNhanViec"
               (blur)="gvForm.inputBlur($event)"
+              (input)="onNgayNhanViecInput($event)"
               class="form-input"
             />
             <p class="error-mess"></p>
@@ -296,6 +298,7 @@
               type="date"
               formControlName="ngaySinh"
               (blur)="gvForm.inputBlur($event)"
+              (input)="onNgaySinhInput($event)"
               class="form-input"
             />
 
@@ -326,6 +329,7 @@
               type="date"
               formControlName="ngayNhanViec"
               (blur)="gvForm.inputBlur($event)"
+              (input)="onNgayNhanViecInput($event)"
               class="form-input"
             />
             <p class="error-mess"></p>

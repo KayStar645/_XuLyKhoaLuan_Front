@@ -78,6 +78,7 @@
           <p class="label">Mã sinh viên</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="maSv"
               (blur)="svForm.inputBlur($event)"
@@ -90,6 +91,7 @@
           <p class="label">Tên sinh viên</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="tenSv"
               (blur)="svForm.inputBlur($event)"
@@ -102,6 +104,7 @@
           <p class="label">Ngày sinh</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="date"
               formControlName="ngaySinh"
               (blur)="svForm.inputBlur($event)"
@@ -115,6 +118,7 @@
           <p class="label">Giới tính</p>
           <div class="form-value">
             <select
+              class="form-input"
               formControlName="gioiTinh"
               (blur)="svForm.inputBlur($event)"
             >
@@ -130,7 +134,11 @@
         <label class="input row ali-center form-control">
           <p class="label">Chuyên ngành</p>
           <div class="form-value">
-            <select formControlName="maCn" (blur)="svForm.inputBlur($event)">
+            <select
+              formControlName="maCn"
+              (blur)="svForm.inputBlur($event)"
+              class="form-input"
+            >
               <option value="">Không có</option>
               <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
                 {{ cn?.tenCn }}
@@ -144,6 +152,7 @@
           <p class="label">Lớp</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="lop"
               (blur)="svForm.inputBlur($event)"
@@ -156,6 +165,7 @@
           <p class="label">Email</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="email"
               (blur)="svForm.inputBlur($event)"
@@ -168,6 +178,7 @@
           <p class="label">Số điện thoại</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="sdt"
               maxlength="10"
@@ -212,6 +223,8 @@
           <p class="label">Mã sinh viên</p>
           <div class="form-value">
             <input
+              readonly
+              class="form-input"
               type="text"
               formControlName="maSv"
               (blur)="svForm.inputBlur($event)"
@@ -224,6 +237,7 @@
           <p class="label">Tên sinh viên</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="tenSv"
               (blur)="svForm.inputBlur($event)"
@@ -236,6 +250,7 @@
           <p class="label">Ngày sinh</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="date"
               formControlName="ngaySinh"
               (blur)="svForm.inputBlur($event)"
@@ -249,6 +264,7 @@
           <p class="label">Giới tính</p>
           <div class="form-value">
             <select
+              class="form-input"
               formControlName="gioiTinh"
               (blur)="svForm.inputBlur($event)"
             >
@@ -264,7 +280,11 @@
         <label class="input row ali-center form-control">
           <p class="label">Chuyên ngành</p>
           <div class="form-value">
-            <select formControlName="maCn" (blur)="svForm.inputBlur($event)">
+            <select
+              formControlName="maCn"
+              (blur)="svForm.inputBlur($event)"
+              class="form-input"
+            >
               <option value="">Không có</option>
               <option *ngFor="let cn of listChuyenNganh" [value]="cn?.maCn">
                 {{ cn?.tenCn }}
@@ -278,6 +298,7 @@
           <p class="label">Lớp</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="lop"
               (blur)="svForm.inputBlur($event)"
@@ -290,6 +311,7 @@
           <p class="label">Email</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="email"
               (blur)="svForm.inputBlur($event)"
@@ -302,6 +324,7 @@
           <p class="label">Số điện thoại</p>
           <div class="form-value">
             <input
+              class="form-input"
               type="text"
               formControlName="sdt"
               maxlength="10"
