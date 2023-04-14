@@ -1,13 +1,14 @@
 @keyframes popupFadeIn {
   from {
     transform: translate(-50%, 0) scale(0.1);
-  } to {
+  }
+  to {
     transform: translate(0, 0) scale(1);
   }
 }
 
 .popup-success,
-.popup-failed{
+.popup-failed {
   z-index: 12;
   position: fixed;
   top: 0;
@@ -24,7 +25,7 @@
 }
 
 .popup-success img,
-.popup-failed img{
+.popup-failed img {
   margin-top: -15%;
   width: 30%;
   border-radius: 50%;
@@ -40,7 +41,7 @@
   margin-top: 50px;
   color: #fff;
   padding: 10px 0;
-  background-color: #e04f5f ;
+  background-color: #e04f5f;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
@@ -67,6 +68,18 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+.p-t-140 {
+  padding-top: 140px;
+}
+
+.p-t-20 {
+  padding-top: 20px;
+}
+
+.to-center {
+  margin: 0 auto;
 }
 
 .list {

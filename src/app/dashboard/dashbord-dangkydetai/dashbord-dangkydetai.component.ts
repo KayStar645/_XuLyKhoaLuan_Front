@@ -1,6 +1,5 @@
 import { deTaiService } from './../../services/deTai.service';
-import { Component, OnInit } from '@angular/core';
-import { isThisSecond } from 'date-fns';
+import { Component } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 
 @Component({
@@ -11,9 +10,7 @@ import { DeTai } from 'src/app/models/DeTai.model';
 export class DashbordDangkydetaiComponent {
   listDT: DeTai[] = [];
 
-  constructor(
-    private deTaiService: deTaiService
-  ) {}
+  constructor(private deTaiService: deTaiService) {}
 
   async OnInit() {
     // Chỉ trưởng nhóm mới được đăng ký, Đăng ký rồi thì đề tài biến mất, được phép hủy đăng ký để đăng ký lại

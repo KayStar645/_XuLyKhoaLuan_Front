@@ -36,7 +36,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   root: ThamGia[] = [];
   sinhVien = new SinhVien();
   groupIdCreated = '';
-  isSentInvitationToThisStudent = false;
   lstLoiMoi: LoiMoi[] = [];
 
   isNotHaveStudent = false;
@@ -44,8 +43,8 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   isPopupVisible = false;
   isSentToNotJoinStudent = false;
   showSuccessMessage = false;
-  showSentToSelfError = false;
   showGroupMemberAlreadySent = false;
+  isRemoveInvite = false;
 
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
@@ -61,7 +60,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
 
   constructor(
     private sinhVienService: sinhVienService,
-    private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
     private thamGiaService: thamGiaService,
@@ -113,7 +111,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     this.isPopupVisible = false;
     this.isSentToNotJoinStudent = false;
     this.showSuccessMessage = false;
-    this.showSentToSelfError = false;
     this.showGroupMemberAlreadySent = false;
 
     //Xuất ra lỗi khi nhóm đã đăng ký đề tài
@@ -156,6 +153,7 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
       createBox?.classList.remove('active');
       this.showSuccessMessage = true;
       this.isPopupVisible = true;
+      this.ngOnInit();
     }
   }
 
@@ -258,22 +256,36 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
 
   getSinhVienById(maSV: string) {
     this.sinhVien = this.listSV.find((t) => t.maSv === maSV)!;
-
     return this.sinhVien;
   }
 
   checkSentInvitation(maSV: string) {
-    //return this.lstLoiMoi.find((lm) => lm.maSv == maSV) ? true : false;
-    return true;
+    return this.lstLoiMoi.find((lm) => lm.maSv == maSV) ? true : false;
   }
 
-  async onRemoveLoiMoi(maSV: string) {
+  checkSentInvitationForStudent() {
+    return this.lstLoiMoi.find((lm) => lm.maSv == this.sinhVien.maSv)
+      ? true
+      : false;
+  }
+
+  async onRemoveInvite() {
     await this.loiMoiService.delete(
       DashboardComponent.maNhom,
-      maSV,
+      this.sinhVien.maSv,
       shareService.namHoc,
       shareService.dot
     );
+    let create = document.querySelector('#create');
+    let createBox = document.querySelector('#create_box');
+    create?.classList.remove('active');
+    createBox?.classList.remove('active');
+
+    this.showSuccessMessage = true;
+    this.isPopupVisible = true;
+    this.isRemoveInvite = true;
+
+    this.ngOnInit();
   }
 
   dateFormat(str: string) {

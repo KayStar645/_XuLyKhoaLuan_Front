@@ -46,7 +46,10 @@
     </div>
   </div>
 
-  <div class="form-control">
+  <div
+    *ngIf="checkSentInvitationForStudent() == false; else daGui"
+    class="form-control"
+  >
     <div class="form-value">
       <quill-editor
         spellcheck="false"
@@ -57,13 +60,19 @@
       ></quill-editor>
       <p class="error-mess"></p>
     </div>
+    <div class="to-center p-t-20 row ali-center jus-end">
+      <button class="functional-button">
+        <button (click)="onSendInvite()">Gửi lời mời</button>
+      </button>
+    </div>
   </div>
-
-  <div class="row ali-center jus-end">
-    <button class="functional-button">
-      <button (click)="onSendInvite()">Gửi lời mời</button>
-    </button>
-  </div>
+  <ng-template #daGui>
+    <div class="to-center p-t-140 row ali-center jus-end">
+      <button class="functional-button">
+        <button (click)="onRemoveInvite()">Hủy lời mời</button>
+      </button>
+    </div>
+  </ng-template>
 </div>
 
 <div *ngIf="isPopupVisible" class="blur-frame">
@@ -74,7 +83,6 @@
       <p *ngIf="showGroupMemberAlreadySent">
         Nhóm bạn đã gửi lời mời cho sinh viên này
       </p>
-      <p *ngIf="showSentToSelfError">Không thể gửi lời mời cho chính mình</p>
       <p *ngIf="isNotHaveStudent">Không tìm thấy sinh viên để mời</p>
       <p *ngIf="isSentToNotJoinStudent">
         Sinh viên được mời không có trong đợt làm khóa luận này
@@ -90,7 +98,8 @@
     <img src="./../../../assets/Images/tich-xanh.png" />
     <div class="popup-wrapper">
       <h2>Thành công</h2>
-      <p>Bạn đã gửi lời mời thành công</p>
+      <p *ngIf="isRemoveInvite">Bạn đã xóa lời mời thành công</p>
+      <p *ngIf="!isRemoveInvite">Bạn đã gửi lời mời thành công</p>
       <button (click)="hidePopup()">Đóng</button>
     </div>
   </div>

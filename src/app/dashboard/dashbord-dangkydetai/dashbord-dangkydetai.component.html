@@ -8,7 +8,7 @@
         <th>Giảng viên hướng dẫn</th>
       </tr>
       <!-- listDT -->
-      <tbody *ngFor="let dt of listDT"> 
+      <tbody *ngFor="let dt of listDT">
         <tr class="br-line">
           <td class="text-center">{{ dt.maDT }}</td>
           <td class="text-left">
@@ -23,9 +23,6 @@
             >
           </td>
           <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
-          <!-- <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td> -->
-          <!-- <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td> -->
-          
         </tr>
       </tbody>
     </table>
