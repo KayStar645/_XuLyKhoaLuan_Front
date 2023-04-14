@@ -406,50 +406,62 @@
                     </ng-template>
                   </ng-template>
                 </p>
-                <div class="functional-button" *ngIf="isTruongK; else isNotTK">
-                  <div *ngIf="isTrangThai == 0 || isTrangThai == -1">
-                    <button
-                      class="p-t-8 p-b-8 ma-r-8 functional-error functional-disabled"
-                      (click)="onBrowse(maDt, false)"
-                      [disabled]="true"
-                    >
-                      Yêu cầu chỉnh sửa
-                    </button>
-                    <button
-                      class="p-t-8 p-b-8 ma-t-12 functional-success"
-                      (click)="onBrowse(maDt, true)"
-                    >
-                      Duyệt đề tài
-                    </button>
-                  </div>
-                  <div *ngIf="isTrangThai == 1">
-                    <button
-                      class="p-t-8 p-b-8 ma-b-12 functional-success"
-                      (click)="onBrowse(maDt, false)"
-                    >
-                      Yêu cầu chỉnh sửa
-                    </button>
-                    <button
-                      class="p-t-8 p-b-8 ma-r-8 functional-error functional-disabled"
-                      (click)="onBrowse(maDt, true)"
-                      [disabled]="true"
-                    >
-                      Duyệt đề tài
-                    </button>
-                  </div>
-                </div>
-                <ng-template #isNotTK>
-                  <div class="functional-button" *ngIf="isTruongBM">
-                    <button
-                      class="p-t-8 p-b-8 functional-success"
-                      [disabled]="isTrangThai == 1"
-                      (click)="onBrowse(maDt, true)"
-                    >
-                      Duyệt đề tài
-                    </button>
-                  </div>
-                </ng-template>
               </div>
+
+              <div class="functional-list" *ngIf="isTruongK; else isNotTK">
+                <div
+                  class="functional-container row ali-center jus-end"
+                  *ngIf="isTrangThai == 0 || isTrangThai == -1"
+                >
+                  <button
+                    class="functional-error functional-disabled"
+                    (click)="onBrowse(maDt, false)"
+                    [disabled]="true"
+                  >
+                    <button>Yêu cầu chỉnh sửa</button>
+                  </button>
+                  <button
+                    class="functional-success"
+                    (click)="onBrowse(maDt, true)"
+                  >
+                    <button>Duyệt đề tài</button>
+                  </button>
+                </div>
+
+                <div
+                  class="functional-container row ali-center jus-end"
+                  *ngIf="isTrangThai == 1"
+                >
+                  <button
+                    class="functional-success"
+                    (click)="onBrowse(maDt, false)"
+                  >
+                    <button>Yêu cầu chỉnh sửa</button>
+                  </button>
+                  <button
+                    class="functional-error functional-disabled"
+                    (click)="onBrowse(maDt, true)"
+                    [disabled]="true"
+                  >
+                    <button>Duyệt đề tài</button>
+                  </button>
+                </div>
+              </div>
+
+              <ng-template #isNotTK>
+                <div
+                  class="functional-container row ali-center jus-end"
+                  *ngIf="isTruongBM"
+                >
+                  <button
+                    class="functional-button functional-success"
+                    [disabled]="isTrangThai == 1"
+                    (click)="onBrowse(maDt, true)"
+                  >
+                    <button>Duyệt đề tài</button>
+                  </button>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>
