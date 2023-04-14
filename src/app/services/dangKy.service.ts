@@ -85,7 +85,7 @@ export class dangKyService {
       .toPromise();
   }
 
-  async delete(maDT: string, maNhom: number): Promise<any> {
+  async delete(maDT: string, maNhom: string): Promise<any> {
     return await this.http
       .delete(
         `${this.apiUrl}/api/Dangkys/maDT, maNhom?maDT=${maDT}&maNhom=${maNhom}`,

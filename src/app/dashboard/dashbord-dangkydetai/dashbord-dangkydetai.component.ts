@@ -15,6 +15,8 @@ import { HuongDan } from 'src/app/models/HuongDan.model';
 import { DeTai_ChuyenNganh } from 'src/app/models/DeTai_ChuyenNganh.model';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { getParentElement } from 'src/assets/utils';
+import { DangKy } from 'src/app/models/DangKy.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashbord-dangkydetai',
@@ -23,6 +25,8 @@ import { getParentElement } from 'src/assets/utils';
 })
 export class DashbordDangkydetaiComponent {
   lineDT!: DeTai;
+  oldParent: any;
+  lineDTdk!: DeTai;
 
   listDT: DeTai[] = [];
   listGiangvien: GiangVien[] = [];
@@ -32,6 +36,7 @@ export class DashbordDangkydetaiComponent {
 
   constructor(
     private titleService: Title,
+    private toastr: ToastrService,
     private deTaiService: deTaiService,
     private dangKyService: dangKyService,
     private giangVienService: giangVienService,
@@ -84,5 +89,30 @@ export class DashbordDangkydetaiComponent {
       this.lineDT = new DeTai();
       parent.classList.remove('br-line-dblclick');
     }
+
+    if (this.oldParent && this.oldParent != parent) {
+      if (this.oldParent.classList.contains('br-line-dblclick')) {
+        this.oldParent.classList.remove('br-line-dblclick');
+      }
+    }
+    this.oldParent = parent;
+  }
+
+  async onDangKy(maDT: string) {
+    let dk = new DangKy();
+    // dk.init(DashboardComponent.maNhom, maDT, '', '', ''); // Xem lại cái này
+    dk.maDt = maDT;
+    dk.maNhom = DashboardComponent.maNhom;
+    dk.ngayDk = (new Date()).toISOString();
+
+    await this.dangKyService.add(dk);
+    this.lineDTdk = await this.deTaiService.getById(maDT);
+    this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
+  }
+
+  async onHuyDangKy(maDT: string) {
+    await this.dangKyService.delete(maDT, DashboardComponent.maNhom);
+    this.lineDTdk = new DeTai();
+    this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
   }
 }

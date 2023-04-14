@@ -1,5 +1,6 @@
 <div id="container">
   <div class="p-t-16">
+    <!-- Danh sách đề tài -->
     <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
       <tr>
         <th>Mã ĐT</th>
@@ -23,6 +24,64 @@
           <td class="text-center">{{ getChuyennganhPhuhop(dt.maDT) }}</td>
         </tr>
       </tbody>
+    </table>
+
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã ĐT</th>
+        <th>Tên đề tài</th>
+        <th>Chi tiết</th>
+        <th>Số lượng sinh viên</th>
+        <th>Giảng viên hướng dẫn</th>
+        <th>Chuyên ngành phù hợp</th>
+        <th></th>
+      </tr>
+
+      <!-- Đề tài đang chọn -->
+      <tr *ngIf="lineDT">
+          <td class="text-center">{{ lineDT.maDT }}</td>
+          <td class="text-left">
+            <p class="cell-limit" [innerHTML]="lineDT.tenDT"></p>
+          </td>
+          <td class="text-left">
+            <p class="cell-limit" [innerHTML]="lineDT.tomTat"></p>
+          </td>
+          <td class="text-center">{{ lineDT.slMin }} - {{ lineDT.slMax }}</td>
+          <td class="text-center">{{ getTenGvHuongdanByMaDT(lineDT.maDT) }}</td>
+          <td class="text-center">{{ getChuyennganhPhuhop(lineDT.maDT) }}</td>
+          <td class="text-center">
+            <button class="dangKy-btn" (click)="onDangKy(lineDT.maDT)">Đăng ký</button>
+          </td>
+        </tr>
+    </table>
+
+    <!-- Đề tài đã đăng ký -->
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã ĐT</th>
+        <th>Tên đề tài</th>
+        <th>Chi tiết</th>
+        <th>Số lượng sinh viên</th>
+        <th>Giảng viên hướng dẫn</th>
+        <th>Chuyên ngành phù hợp</th>
+        <th></th>
+      </tr>
+
+      <tr *ngIf="lineDTdk">
+          <td class="text-center">{{ lineDTdk.maDT }}</td>
+          <td class="text-left">
+            <p class="cell-limit" [innerHTML]="lineDTdk.tenDT"></p>
+          </td>
+          <td class="text-left">
+            <p class="cell-limit" [innerHTML]="lineDTdk.tomTat"></p>
+          </td>
+          <td class="text-center">{{ lineDTdk.slMin }} - {{ lineDTdk.slMax }}</td>
+          <td class="text-center">{{ getTenGvHuongdanByMaDT(lineDTdk.maDT) }}</td>
+          <td class="text-center">{{ getChuyennganhPhuhop(lineDTdk.maDT) }}</td>
+          <td class="text-center">
+            <button class="huy-btn" (click)="onHuyDangKy(lineDTdk.maDT)">Hủy</button>
+          </td>
+        </tr>
     </table>
   </div>
 </div>

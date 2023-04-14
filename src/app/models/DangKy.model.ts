@@ -7,4 +7,13 @@ export class DangKy {
     public ngayKt!: string;
 
     constructor(){}
+
+    init(maNhom: string, maDt: string, ngayGiao: string, ngayBd: string, ngayKt: string) {
+        this.maNhom = maNhom;
+        this.maDt = maDt;
+        this.ngayDk = "";
+        this.ngayGiao = ngayGiao;
+        this.ngayBd = ngayBd;
+        this.ngayKt = ngayKt;
+    }
 }
