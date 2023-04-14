@@ -5,7 +5,7 @@
 .functional-list {
   position: sticky;
   top: 60px;
-  background: #e7ecf0;
+  background: transparent;
   padding: 16px 0;
   z-index: 10;
 }
@@ -67,11 +67,12 @@
   justify-content: center;
   padding-left: 8px;
   padding-right: 8px;
+  background: transparent;
 }
 
 .functional-button button,
-.functional-success-button,
-.functional-error-button {
+.functional-success-button button,
+.functional-error-button button {
   border-radius: 5px;
   background: none;
   width: 100%;
@@ -85,23 +86,16 @@
   padding: 0 12px;
 }
 
-button.functional-success {
-  background-color: #0984e3;
-  font-weight: bold;
-}
-
-button.functional-waring {
+button.functional-waring button {
   background-color: #ff5500;
-  font-weight: bold;
 }
 
-button.functional-error {
+button.functional-error button {
   background-color: #ff0000;
-  font-weight: bold;
 }
 
 .functional-disabled {
-  opacity: 0.4;
+  opacity: 0.6;
 }
 
 .functional-button:hover {
