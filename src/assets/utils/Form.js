@@ -79,8 +79,6 @@ class Form {
 
         setErrors(errors, e.target);
       }
-    } else {
-      console.log([e]);
     }
   }
 

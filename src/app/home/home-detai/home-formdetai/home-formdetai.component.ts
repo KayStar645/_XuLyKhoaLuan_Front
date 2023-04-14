@@ -85,7 +85,6 @@ export class HomeFormdetaiComponent {
     this.websocketService.startConnection();
   }
 
-
   onBlur(event: any) {
     this.dtForm.inputBlur(event);
   }
@@ -160,7 +159,7 @@ export class HomeFormdetaiComponent {
       try {
         const deTai = new DeTai();
         deTai.init(
-          "",
+          '',
           formValue.tenDT,
           formValue.tomTat,
           formValue.slMin,
@@ -168,10 +167,7 @@ export class HomeFormdetaiComponent {
           shareService.namHoc,
           shareService.dot
         );
-        console.log(deTai)
         let dt = await this.deTaiService.add(deTai);
-
-        console.log(dt)
 
         const raDe = new RaDe();
         raDe.init(HomeMainComponent.maGV, dt.maDT);
@@ -205,4 +201,3 @@ export class HomeFormdetaiComponent {
     });
   }
 }
-

@@ -119,7 +119,6 @@ export class HomeChitietdetaiComponent {
   }
 
   onSetDeTai(event: any) {
-    console.log('hi');
   }
 
   async getComment() {

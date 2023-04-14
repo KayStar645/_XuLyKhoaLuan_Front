@@ -172,7 +172,6 @@ export class DashboardChitietthongbaoComponent implements OnInit {
           formValue.maKhoa,
           formValue.ngayTb
         );
-        console.log(formValue.fileTb);
         try {
           if (file && file.files[0]) {
             await this.sharedService.uploadFile(file.files[0]);
@@ -238,4 +237,3 @@ export class DashboardChitietthongbaoComponent implements OnInit {
     return this.shareService.dateFormat(str);
   }
 }
-

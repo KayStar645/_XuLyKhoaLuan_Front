@@ -234,8 +234,6 @@ export class MinistryChitietnhiemvuComponent {
 
     option.agree(async () => {
       try {
-        console.log();
-
         await this.nhiemVuService.delete(this.maNv);
         this.websocketService.sendForNhiemVu(true);
         this.toastr.success('Xóa nhiệm vụ thành công', 'Thông báo !');

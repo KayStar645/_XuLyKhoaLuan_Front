@@ -158,8 +158,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
-    console.log(this.DSTGComponent.lineTG);
-    console.log(_delete);
     if (Object.entries(this.DSTGComponent.lineTG).length > 0) {
       _delete.classList.add('active');
       let option = new Option('#delete');

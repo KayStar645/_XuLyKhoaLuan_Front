@@ -154,7 +154,6 @@ export class DashboardDetaiComponent {
           dt.dot == shareService.dot
       );
     }
-    console.log(maCn);
   }
 
   async getAllDeTai() {
