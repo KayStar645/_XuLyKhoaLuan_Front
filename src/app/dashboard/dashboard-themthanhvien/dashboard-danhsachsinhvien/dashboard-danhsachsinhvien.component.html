@@ -13,14 +13,10 @@
       <tbody *ngFor="let tg of listTg">
         <tr>
           <td class="text-center">{{ tg?.maSv }}</td>
-          {{
-            getSinhVienById(tg.maSv)
-          }}
-          <td class="text-left">{{ sinhVien.tenSv }}</td>
-          <!-- <td class="text-center">{{ dateFormat(sinhVien.ngaySinh) }}</td> -->
-          <td class="text-center">{{ sinhVien.gioiTinh }}</td>
-          <td class="text-center">{{ sinhVien.lop }}</td>
-          <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
+          <td class="text-left">{{ tg.tenSv }}</td>
+          <td class="text-center">{{ tg.gioiTinh }}</td>
+          <td class="text-center">{{ tg.lop }}</td>
+          <td class="text-left">{{ getTenCNById(tg.maCn) }}</td>
           <td
             *ngIf="checkSentInvitation(tg.maSv); else chuaGui"
             class="text-center action-btn"
@@ -40,7 +36,7 @@
 </div>
 
 <div id="create" (click)="onHideInvite($event)"></div>
-<div id="create_box" [formGroup]="lmForm.form">
+<div id="create_box" [formGroup]="lmForm.form" *ngIf="sinhVien">
   <p class="title">Thông tin sinh viên</p>
 
   <div class="background">

@@ -32,7 +32,7 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedTG = false;
   @Output() returnIsSelectedTG = new EventEmitter<boolean>();
-  listTg: ThamGia[] = [];
+  listTg: any[] = [];
   root: ThamGia[] = [];
   sinhVien = new SinhVien();
   groupIdCreated = '';
@@ -75,22 +75,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
 
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.selectedTG = [];
-        this.returnIsSelectedTG.emit(false);
-        let activeLine = this.elementRef.nativeElement.querySelectorAll(
-          '.br-line.br-line-click'
-        );
-
-        if (activeLine) {
-          activeLine.forEach((line: any) => {
-            line.classList.remove('br-line-click');
-          });
-        }
-      }
-    });
-
     this.websocketService.startConnection();
     this.websocketService.receiveFromThamGia((dataChange: boolean) => {
       if (dataChange) {
@@ -105,27 +89,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
         shareService.namHoc,
         shareService.dot
       );
-    console.log(this.lstLoiMoi);
-  }
-
-  async clickLine(event: any) {
-    const parent = getParentElement(event.target, '.br-line');
-    const firstChild = parent.firstChild;
-    const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
-    const namHoc = namHoc_Dot.substring(0, 9);
-    const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
-
-    if (!parent.classList.contains('br-line-dblclick')) {
-      this.lineTG = await this.thamGiaService.getById(
-        firstChild.innerText,
-        namHoc,
-        dot
-      );
-      parent.classList.add('br-line-dblclick');
-    } else {
-      this.lineTG = new ThamGia();
-      parent.classList.remove('br-line-dblclick');
-    }
   }
 
   onShowInvite(maSv: string) {
@@ -240,7 +203,12 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
       shareService.namHoc,
       shareService.dot
     );
-    console.log(this.listTg);
+
+    this.listTg = this.listTg.map((tg) => ({
+      ...tg,
+      ...this.getSinhVienById(tg.maSv),
+    }));
+
     this.root = this.listTg;
   }
 
@@ -289,7 +257,9 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   }
 
   getSinhVienById(maSV: string) {
-    this.sinhVien = this.listSV.find((t) => t.maSv === maSV) ?? this.sinhVien;
+    this.sinhVien = this.listSV.find((t) => t.maSv === maSV)!;
+
+    return this.sinhVien;
   }
 
   checkSentInvitation(maSV: string) {
