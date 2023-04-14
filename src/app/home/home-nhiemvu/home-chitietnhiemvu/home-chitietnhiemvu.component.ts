@@ -148,7 +148,6 @@ export class HomeChitietnhiemvuComponent {
         formValue.maBm,
         formValue.maGv
       );
-      console.log(nhiemVu);
       try {
         if (file && file.files[0]) {
           await this.sharedService.uploadFile(
@@ -157,10 +156,10 @@ export class HomeChitietnhiemvuComponent {
           );
         }
         await this.nhiemVuService.add(nhiemVu);
-        await this.setForm();
+        // await this.setForm();
         this.websocketService.sendForNhiemVu(true);
         this.toastr.success('Thêm nhiệm vụ thành công', 'Thông báo !');
-        this.router.navigate(['/home/nhiem-vu/chi-tiet', { maNv: -1 }]);
+        this.router.navigate(['/home/nhiem-vu/']);
       } catch (error) {
         this.toastr.error('Thêm nhiệm vụ thất bại', 'Thông báo !');
       }
@@ -185,11 +184,15 @@ export class HomeChitietnhiemvuComponent {
         let nhiemVu = new NhiemVu();
         let file: any = document.querySelector('.attach-file');
         let formValue: any = this.nvForm.form.value;
+        
+        // Get nhiệm vụ
+        let nv = await this.nhiemVuService.getById(this.maNv);
+
         nhiemVu.init(
           this.maNv,
           formValue.tenNv,
           formValue.soLuongDt,
-          formValue.thoiDiemBd,
+          nv.thoiGianBd,
           dateVNConvert(formValue.ngayKt) +
             'T' +
             formValue.thoiGianKt +
@@ -242,7 +245,7 @@ export class HomeChitietnhiemvuComponent {
     option.agree(async () => {
       try {
         await this.nhiemVuService.delete(this.maNv);
-        await this.setForm();
+        // await this.setForm();
         this.websocketService.sendForNhiemVu(true);
         this.toastr.success('Xóa nhiệm vụ thành công', 'Thông báo !');
         this.router.navigate(['/home/nhiem-vu/']);

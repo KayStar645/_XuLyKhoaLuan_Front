@@ -198,61 +198,41 @@
                 </div>
               </label>
             </div>
+            
+            <div class="functional-button" *ngIf="isTruongK; else isNotTK">
+                  <div *ngIf="isTrangThai == 0 || isTrangThai == -1">
+                    <button class="p-t-8 p-b-8 ma-r-8 functional-error functional-disabled"
+                        (click)="onBrowse(maDt, false)"
+                        [disabled]="true">
+                      Yêu cầu chỉnh sửa
+                    </button>
+                    <button class="p-t-8 p-b-8 ma-t-12 functional-success" (click)="onBrowse(maDt, true)">
+                      Duyệt đề tài
+                    </button>
+                  </div>
+                  <div *ngIf="isTrangThai == 1">
+                    <button class="p-t-8 p-b-8 ma-b-12 functional-success" (click)="onBrowse(maDt, false)">
+                      Yêu cầu chỉnh sửa
+                    </button>
+                    <button class="p-t-8 p-b-8 ma-r-8 functional-error functional-disabled"
+                        (click)="onBrowse(maDt, true)"
+                        [disabled]="true">
+                      Duyệt đề tài
+                    </button>
+                  </div>
+                </div>
+                <ng-template #isNotTK>
+                  <div class="functional-button" *ngIf="isTruongBM;">
+                    <button class="p-t-8 p-b-8 functional-success"
+                        [disabled]="isTrangThai == 1"
+                        (click)="onBrowse(maDt, true)">
+                      Duyệt đề tài
+                    </button>
+                  </div>
+                </ng-template>
+
+            
           </div>
-
-          <!-- <label class="form-control">
-            <p class="label p-b-8">Giảng viên duyệt đề tài</p>
-            <div class="form-value">
-              <input
-                [readOnly]="true"
-                class="form-input"
-                type="text"
-                formControlName="tenGv"
-              />
-              Chưa làm -- Xem cmt là được rồi
-            </div>
-          </label> -->
-
-          <label class="form-control" *ngIf="maDt">
-            <p class="label p-b-8" *ngIf="!isTruongK && !isTruongBM">
-              Trạng thái:
-              <span style="color: blue" *ngIf="isTrangThai == 0"
-                >Chưa duyệt</span
-              >
-              <span style="color: #15fa00" *ngIf="isTrangThai == 1"
-                >Đạt yêu cầu</span
-              >
-              <span style="color: red" *ngIf="isTrangThai == -1"
-                >Chưa đạt yêu cầu</span
-              >
-            </p>
-            <div class="form-value" *ngIf="isTruongK || isTruongBM">
-              <div class="row ali-center topic-status">
-                <label class="row ali-center">
-                  <input
-                    type="radio"
-                    value="true"
-                    class="form-input"
-                    (change)="onSetDeTai($event)"
-                    formControlName="trangThai"
-                  />
-                  <p class="label">Đạt yêu cầu</p>
-                </label>
-
-                <label class="row ali-center">
-                  <input
-                    type="radio"
-                    value="false"
-                    class="form-input"
-                    (change)="onSetDeTai($event)"
-                    formControlName="trangThai"
-                  />
-                  <p class="label">Chưa đạt yêu cầu</p>
-                </label>
-              </div>
-              <p class="error-mess"></p>
-            </div>
-          </label>
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ export class HomeNhomsinhvienComponent {
   async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài hướng dẫn');
 
+    // Chỉ lấy danh sách đề tài do giảng viên này hướng dẫn và đã có sinh viên đăng ký sau đợt đăng ký
     this.listDT = await this.huongDanService.GetDetaiByGVHDDotdk(
       HomeMainComponent.maGV,
       shareService.namHoc,

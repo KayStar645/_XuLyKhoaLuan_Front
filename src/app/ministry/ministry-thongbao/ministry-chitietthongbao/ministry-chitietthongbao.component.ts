@@ -136,7 +136,7 @@ export class MinistryChitietthongbaoComponent implements OnInit {
         await this.setForm();
         this.websocketService.sendForThongBao(true);
 
-        this.router.navigate(['/minitry/thong-bao/chi-tiet', { maTb: -1 }]);
+        this.router.navigate(['/ministry/thong-bao']);
         this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
       } catch (error) {
         this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');

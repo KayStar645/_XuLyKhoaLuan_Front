@@ -411,13 +411,10 @@ export class HomeChitietdetaiComponent {
   }
 
   async onBrowse(maDT: string, flag: boolean) {
-    let deTai = await this.deTaiService.getById(maDT);
-    deTai.trangThai = flag;
-    this.deTaiService.update(deTai);
-    if(flag) {
+    this.duyetDTService.UpdateTrangthaiDetai(maDT, this.oldForm.maGv, flag);
+    if (flag) {
       this.toastr.success('Thành công!', 'Duyệt đề tài!');
-    }
-    else {
+    } else {
       this.toastr.warning('Thành công!', 'Yêu cầu chỉnh sửa!');
     }
   }
@@ -440,8 +437,7 @@ export class HomeChitietdetaiComponent {
     if (duyetdt.length == 0 && detai.trangThai == false) {
       this.isTrangThai = 0; // Chưa duyệt
     } else {
-      this.isTrangThai =
-        detai.trangThai == true ? 1 : -1;
+      this.isTrangThai = detai.trangThai == true ? 1 : -1;
     }
   }
 
