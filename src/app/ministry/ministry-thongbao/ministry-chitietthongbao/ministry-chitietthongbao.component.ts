@@ -207,9 +207,9 @@ export class MinistryChitietthongbaoComponent implements OnInit {
     option.agree(async () => {
       try {
         await this.thongBaoService.delete(this.maTb);
-        this.setForm();
+        // this.setForm();
         this.toastr.success('Xóa thông báo thành công', 'Thông báo !');
-        this.router.navigate(['/minitry/thong-bao/']);
+        this.router.navigate(['/ministry/thong-bao/']);
       } catch (error) {
         this.toastr.error('Xóa thông báo thất bại', 'Thông báo !');
       }

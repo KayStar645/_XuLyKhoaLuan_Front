@@ -415,7 +415,7 @@ export class HomeChitietdetaiComponent {
     if (flag) {
       this.toastr.success('Thành công!', 'Duyệt đề tài!');
     } else {
-      this.toastr.warning('Thành công!', 'Yêu cầu chỉnh sửa!');
+      this.toastr.success('Thành công!', 'Yêu cầu chỉnh sửa!');
     }
   }
 
