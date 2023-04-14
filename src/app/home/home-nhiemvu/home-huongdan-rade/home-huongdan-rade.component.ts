@@ -228,32 +228,29 @@ export class HomeHuongdanRadeComponent implements OnInit {
   }
 
   async onSelectGVHD(event: any) {
-    console.log(event);
-    // let hd = new HuongDan();
-    // let index = this.GVPBInputConfig.data.findIndex(
-    //   (t: any) => t.maGv === event.maGv
-    // );
+    let hd = new HuongDan();
+    let index = this.GVPBInputConfig.data.findIndex(
+      (t: any) => t.maGv === event.maGv
+    );
 
-    // hd.init(event.maGv, this.maDt, true);
-    // this.GVPBInputConfig.data.splice(index, 1);
+    hd.init(event.maGv, this.maDt, true);
+    this.GVPBInputConfig.data.splice(index, 1);
 
-    // try {
-    //   await this.huongDanService.add(hd);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await this.huongDanService.add(hd);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async onUnSelectGVHD(event: any) {
-    console.log(event);
-
     this.GVPBInputConfig.data.push(event);
 
-    // try {
-    //   await this.huongDanService.delete(event.maGv, this.maDt);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await this.huongDanService.delete(event.maGv, this.maDt);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async onSelectGVPB(event: any) {

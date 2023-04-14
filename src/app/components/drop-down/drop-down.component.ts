@@ -53,11 +53,8 @@ export class DropDownComponent implements OnInit {
 
     if (element.classList.contains('active')) {
       let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
-      this.onParrentUnSelect.emit(this.items[index]);
-
+      this.onParrentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
       element.classList.remove('active');
-
-      this.selectedItem.splice(index, 1);
     } else {
       let item = this.items.find((t) => t[this.primarKey] === id);
       this.selectedItem.push({
@@ -67,6 +64,7 @@ export class DropDownComponent implements OnInit {
       element.classList.add('active');
       this.onParrentSelect.emit(item);
     }
+
   }
 
   onSearchItem(event: any) {
