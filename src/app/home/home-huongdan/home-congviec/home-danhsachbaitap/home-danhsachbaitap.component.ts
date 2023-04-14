@@ -52,8 +52,6 @@ export class HomeDanhsachbaitapComponent implements OnInit {
 
     this.getNearTimeOutMission();
     this.closeOption();
-
-    console.log(this.listSV);
   }
 
   async getListBT() {

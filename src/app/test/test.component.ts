@@ -22,7 +22,6 @@ export class TestComponent implements OnInit {
 
   async createMaDt() {
     // let maDT = await this.deTaiService.createMaDT('CNTT');
-    // console.log(maDT);
   }
 
   // async taoTaiKhoan() {
@@ -34,7 +33,6 @@ export class TestComponent implements OnInit {
   // }
 
   // async xoaTaiKhoan() {
-  //   console.log('Xóa nè');
   //   try {
   //     await this.userService.delete('GV00021');
   //   } catch (error) {
@@ -49,7 +47,6 @@ export class TestComponent implements OnInit {
   async getById() {
     try {
       var result = await this.raDeService.getByMaGvMaDt('', 'DT0002');
-      console.log(result);
     } catch (error) {
       console.log(error);
     }

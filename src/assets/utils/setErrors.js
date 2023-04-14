@@ -16,7 +16,6 @@ function setErrors(errors, element, parentSelector, errorSelector) {
       }
 
       if (errors.min) {
-        console.log(errors.min);
         errorMess &&
           (errorMess.innerText = `Số lượng tối thiểu phải lớn ${
             errors.min.min - 1

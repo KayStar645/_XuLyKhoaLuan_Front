@@ -172,7 +172,6 @@ export class HomeChitietthongbaoComponent implements OnInit {
           formValue.maKhoa,
           formValue.ngayTb
         );
-        console.log(formValue.fileTb);
         try {
           if (file && file.files[0]) {
             await this.sharedService.uploadFile(file.files[0]);

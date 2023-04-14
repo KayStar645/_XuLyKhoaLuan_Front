@@ -243,7 +243,6 @@ export class MinistryGiangvienComponent implements OnInit {
           '',
           bomMon.maBm
         );
-        console.log(gv);
         this.f_AddGiangVien(gv);
       }
 
