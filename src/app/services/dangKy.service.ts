@@ -32,7 +32,11 @@ export class dangKyService {
     );
   }
 
-  async GetAllDetaiDangky(namHoc: string, dot: number, maNhom: string): Promise<DeTai[]> {
+  async GetAllDetaiDangky(
+    namHoc: string,
+    dot: number,
+    maNhom: string
+  ): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(
@@ -93,4 +97,27 @@ export class dangKyService {
       )
       .toPromise();
   }
+
+  async isNhomDangkyDetaiAsyc(maNhom: string): Promise<Boolean> {
+    return (
+      (await this.http
+        .get<Boolean>(
+          `${this.apiUrl}/api/Dangkys/maNhom?maNhom=${maNhom}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? false
+    );
+  }
+
+  async GetDetaiDangkyAsync(nhom: string, namHoc: string, dot: number): Promise<DeTai> {{
+    var response = new DeTai();
+    return (
+      (await this.http
+        .get<DeTai>(
+          `${this.apiUrl}/api/Dangkys/nhom, namHoc, dot?nhom=${nhom}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? (response as DeTai)
+    );
+  }}
 }

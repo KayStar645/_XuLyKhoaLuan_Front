@@ -27,6 +27,7 @@ export class DashbordDangkydetaiComponent {
   lineDT!: DeTai;
   oldParent: any;
   lineDTdk!: DeTai;
+  isDangky: boolean = false;
 
   listDT: DeTai[] = [];
   listGiangvien: GiangVien[] = [];
@@ -58,6 +59,8 @@ export class DashbordDangkydetaiComponent {
       shareService.dot,
       DashboardComponent.maNhom
     );
+
+    this.isDangky = await this.dangKyService.isNhomDangkyDetaiAsyc(DashboardComponent.maNhom) ? true : false;
   }
 
   getTenGvHuongdanByMaDT(maDT: string) {
