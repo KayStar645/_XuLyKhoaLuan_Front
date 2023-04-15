@@ -50,7 +50,7 @@
           <td class="text-center">{{ getTenGvHuongdanByMaDT(lineDT.maDT) }}</td>
           <td class="text-center">{{ getChuyennganhPhuhop(lineDT.maDT) }}</td>
           <td class="text-center">
-            <button class="dangKy-btn" (click)="onDangKy(lineDT.maDT)">Đăng ký</button>
+            <button *ngIf="!isDangky" class="dangKy-btn" (click)="onDangKy(lineDT.maDT)">Đăng ký</button>
           </td>
         </tr>
     </table>
