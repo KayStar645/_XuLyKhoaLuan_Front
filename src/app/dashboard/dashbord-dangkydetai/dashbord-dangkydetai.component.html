@@ -72,7 +72,7 @@
             <th>Thao tác</th>
           </tr>
 
-          <tr *ngIf="lineDTdk">
+          <tr *ngIf="lineDTdk && lineDTdk.maDT">
             <td class="text-center">{{ lineDTdk.maDT }}</td>
             <td class="text-left">
               <p class="cell-limit" [innerHTML]="lineDTdk.tenDT"></p>
