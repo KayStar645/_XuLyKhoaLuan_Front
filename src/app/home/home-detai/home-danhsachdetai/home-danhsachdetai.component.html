@@ -46,6 +46,64 @@
     </ul>
   </div>
 
+  <div id="container">
+    <div>
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+        <tr>
+          <th>Mã ĐT</th>
+          <th>Tên đề tài</th>
+          <th>Tóm tắt</th>
+          <th>Số lượng</th>
+          <th>Chuyên ngành phù hợp</th>
+          <th>Giảng viên ra đề</th>
+          <th>Lần cuối duyệt</th>
+          <th>Đợt</th>
+        </tr>
+        <tbody *ngFor="let dt of listDT">
+          <tr class="br-line">
+            <td class="text-center">{{ dt.maDT }}</td>
+            <td class="text-left">
+              <p class="cell-limit" [innerHTML]="dt?.tenDT"></p>
+            </td>
+            <td class="text-left relative">
+              <p class="topic-summary cell-limit" [innerHTML]="dt?.tomTat"></p>
+              <span
+                class="show-more"
+                [routerLink]="['/home/de-tai/chi-tiet', { maDt: dt.maDT }]"
+                >[Chi tiết]</span
+              >
+            </td>
+            <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
+            <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
+            <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
+            <td class="text-center">
+              <b>
+                {{ getThoiGianDuyetByMaDT(dt.maDT) }}
+                <br />
+                <span
+                  style="color: blue"
+                  *ngIf="
+                    getThoiGianDuyetByMaDT(dt.maDT) == '' &&
+                      !getTrangthaiDetai(dt.maDT);
+                    else isDuyet
+                  "
+                  >Chưa duyệt</span
+                >
+                <ng-template #isDuyet>
+                  <span style="color: #15fa00" *ngIf="dt.trangThai">Đạt</span>
+                  <span style="color: red" *ngIf="!dt.trangThai">Chưa đạt</span>
+                </ng-template>
+              </b>
+            </td>
+            <td class="text-center white-space-no-wrap">
+              {{ dt.dot }} - {{ dt.namHoc }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div id="drag-file" (click)="onCloseDrag($event)"></div>
   <div id="drag-file_box">
     <p class="title">Nhập danh sách</p>
@@ -84,57 +142,5 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div id="container">
-  <div>
-    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-      <tr>
-        <th>Mã ĐT</th>
-        <th>Tên đề tài</th>
-        <th>Tóm tắt</th>
-        <th>Số lượng</th>
-        <th>Chuyên ngành phù hợp</th>
-        <th>Giảng viên ra đề</th>
-        <th>Lần cuối duyệt</th>
-        <th>Đợt</th>
-      </tr>
-      <tbody *ngFor="let dt of listDT">
-        <tr class="br-line">
-          <td class="text-center">{{ dt.maDT }}</td>
-          <td class="text-left">
-            <p class="cell-limit" [innerHTML]="dt?.tenDT"></p>
-          </td>
-          <td class="text-left relative">
-            <p class="topic-summary cell-limit" [innerHTML]="dt?.tomTat"></p>
-            <span
-              class="show-more"
-              [routerLink]="['/home/de-tai/chi-tiet', { maDt: dt.maDT }]"
-              >[Chi tiết]</span
-            >
-          </td>
-          <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
-          <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
-          <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
-          <td class="text-center">
-            <b>
-              {{ getThoiGianDuyetByMaDT(dt.maDT) }}
-              <br />
-              <span
-                style="color: blue"
-                *ngIf="getThoiGianDuyetByMaDT(dt.maDT) == '' && !getTrangthaiDetai(dt.maDT); else isDuyet"
-                >Chưa duyệt</span
-              >
-              <ng-template #isDuyet>
-                <span style="color: #15fa00 ;" *ngIf="dt.trangThai">Đạt</span>
-                <span style="color: red" *ngIf="!dt.trangThai">Chưa đạt</span>
-              </ng-template>
-            </b>
-          </td>
-          <td class="text-center">{{ dt.dot }} - {{ dt.namHoc }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
