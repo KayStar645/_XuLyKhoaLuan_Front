@@ -98,6 +98,7 @@
 
 .submit-btn {
   padding-top: 12px;
+  background: transparent;
 }
 
 .submit-btn button {
@@ -111,6 +112,6 @@
 }
 
 .submit-btn button:hover {
-  background-color: #0f69b8;
+  opacity: 0.8;
   cursor: pointer;
 }
