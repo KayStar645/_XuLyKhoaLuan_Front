@@ -133,7 +133,7 @@ export class DashbordDangkydetaiComponent {
     // dk.init(DashboardComponent.maNhom, maDT, '', '', ''); // Xem lại cái này
     dk.maDt = maDT;
     dk.maNhom = DashboardComponent.maNhom;
-    dk.ngayDk = (new Date()).toISOString();
+    dk.ngayDk = new Date().toISOString();
 
     await this.dangKyService.add(dk);
     this.lineDTdk = await this.deTaiService.getById(maDT);
