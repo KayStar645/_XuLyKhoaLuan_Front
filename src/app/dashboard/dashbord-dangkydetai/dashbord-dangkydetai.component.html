@@ -38,6 +38,7 @@
             <div class="row ali-center jus-between p-b-12">
               <p class="table-title">Nội dung đề tài</p>
               <button
+                *ngIf="isTruongnhom"
                 class="dangKy-btn submit-btn"
                 (click)="onDangKy(lineDT.maDT)"
               >
@@ -91,6 +92,7 @@
             </td>
             <td class="text-center">
               <button
+                *ngIf="isTruongnhom"
                 class="huy-btn submit-btn"
                 (click)="onHuyDangKy(lineDTdk.maDT)"
               >

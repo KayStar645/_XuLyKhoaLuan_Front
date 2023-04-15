@@ -43,6 +43,15 @@ export class nhomService {
     }
   }
 
+  async isTruongnhom(maSV: string, namHoc: string, dot: number, maNhom: string): Promise<boolean> {
+    return await this.http
+          .get<boolean>(
+            `${this.apiUrl}/api/Nhoms/maSV, namHoc, dot, maNhom?maSV=${maSV}&namHoc=${namHoc}&dot=${dot}&maNhom=${maNhom}`,
+            this.shareService.httpOptions
+          )
+          .toPromise() ?? false;
+  }
+
   async GetNhomByMadtAsync(MaDT: string): Promise<Nhom> {
     try {
       var response = new Nhom();
