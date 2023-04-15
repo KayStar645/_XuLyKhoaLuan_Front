@@ -38,7 +38,7 @@
             <div class="row ali-center jus-between p-b-12">
               <p class="table-title">Nội dung đề tài</p>
               <button
-                *ngIf="isTruongnhom"
+                *ngIf="isTruongnhom && !isDangky"
                 class="dangKy-btn submit-btn"
                 (click)="onDangKy(lineDT.maDT)"
               >

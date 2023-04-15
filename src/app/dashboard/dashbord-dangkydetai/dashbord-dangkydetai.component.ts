@@ -150,6 +150,12 @@ export class DashbordDangkydetaiComponent {
       this.websocketService.sendForDangKy(true);
       this.lineDTdk = await this.deTaiService.getById(maDT);
       this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
+
+      this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
+        DashboardComponent.maNhom
+      ))
+        ? true
+        : false;
     } catch (error) {
       console.log(error);
     }
@@ -161,6 +167,12 @@ export class DashbordDangkydetaiComponent {
       this.websocketService.sendForDangKy(true);
       this.lineDTdk = new DeTai();
       this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
+
+      this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
+        DashboardComponent.maNhom
+      ))
+        ? true
+        : false;
     } catch (error) {
       console.log(error);
     }
