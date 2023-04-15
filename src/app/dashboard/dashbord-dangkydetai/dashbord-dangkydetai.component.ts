@@ -18,6 +18,7 @@ import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { getParentElement } from 'src/assets/utils';
 import { DangKy } from 'src/app/models/DangKy.model';
 import { ToastrService } from 'ngx-toastr';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'app-dashbord-dangkydetai',
@@ -56,31 +57,31 @@ export class DashbordDangkydetaiComponent {
     this.listChuyennganh = await this.chuyenNganhService.getAll();
     this.listCnPhuhop = await this.deTai_chuyenNganhService.getAll();
 
+    this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
+      DashboardComponent.maNhom
+    ))
+      ? true
+      : false;
+
+    await this.getAllDangky();
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromDangKy(async (dataChange: boolean) => {
+      if (dataChange) {
+        console.log('changed');
+
+        await this.getAllDangky();
+      }
+    });
+  }
+
+  async getAllDangky() {
     this.listDT = await this.dangKyService.GetAllDetaiDangky(
       shareService.namHoc,
       shareService.dot,
       DashboardComponent.maNhom
     );
 
-    this.isDangky = await this.dangKyService.isNhomDangkyDetaiAsyc(DashboardComponent.maNhom) ? true : false;
-    if(this.isDangky)
-    {
-      this.lineDTdk = await this.dangKyService.GetDetaiDangkyAsync(
-        DashboardComponent.maNhom,
-        shareService.namHoc,
-        shareService.dot
-      );
-    }
-
-    // this.websocketService.startConnection();
-    // this.websocketService.sendForDangKy2((dataChange: boolean) => {
-    //   if (dataChange) {
-    //     this.getDangky();
-    //   }
-    // });
-  }
-
-  async getDangky() {
     if (this.isDangky) {
       this.lineDTdk = await this.dangKyService.GetDetaiDangkyAsync(
         DashboardComponent.maNhom,
@@ -135,14 +136,24 @@ export class DashbordDangkydetaiComponent {
     dk.maNhom = DashboardComponent.maNhom;
     dk.ngayDk = new Date().toISOString();
 
-    await this.dangKyService.add(dk);
-    this.lineDTdk = await this.deTaiService.getById(maDT);
-    this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
+    try {
+      await this.dangKyService.add(dk);
+      this.websocketService.sendForDangKy(true);
+      this.lineDTdk = await this.deTaiService.getById(maDT);
+      this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async onHuyDangKy(maDT: string) {
-    await this.dangKyService.delete(maDT, DashboardComponent.maNhom);
-    this.lineDTdk = new DeTai();
-    this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
+    try {
+      await this.dangKyService.delete(maDT, DashboardComponent.maNhom);
+      this.websocketService.sendForDangKy(true);
+      this.lineDTdk = new DeTai();
+      this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
