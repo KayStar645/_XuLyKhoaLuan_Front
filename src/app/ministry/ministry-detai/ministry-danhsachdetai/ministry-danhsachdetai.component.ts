@@ -126,6 +126,13 @@ export class MinistryDanhsachdetaiComponent {
     event.target.classList.remove('active');
   }
 
+  getTrangthaiDetai(maDT: string) {
+    let detai: DeTai =
+      this.listDT.find((item) => item.maDT == maDT) ?? new DeTai();
+    // console.log(maDT + ": " + detai.trangThai);
+    return detai.trangThai;
+  }
+
   // onDropFile(event: any) {
   //   event.preventDefault();
   //   let file = event.dataTransfer.files[0];
