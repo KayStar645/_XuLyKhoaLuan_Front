@@ -222,13 +222,13 @@
 
             <div *ngIf="isTrangThai == 1">
               <button
-                class="functional-success"
+                class="functional-button functional-success"
                 (click)="onBrowse(maDt, false)"
               >
                 <button>Yêu cầu chỉnh sửa</button>
               </button>
               <button
-                class="functional-error functional-disabled"
+                class="functional-button functional-error functional-disabled"
                 (click)="onBrowse(maDt, true)"
                 [disabled]="true"
               >
@@ -433,13 +433,13 @@
                   *ngIf="isTrangThai == 1"
                 >
                   <button
-                    class="functional-success"
+                    class="functional-button functional-success"
                     (click)="onBrowse(maDt, false)"
                   >
                     <button>Yêu cầu chỉnh sửa</button>
                   </button>
                   <button
-                    class="functional-error functional-disabled"
+                    class="functional-button functional-error functional-disabled"
                     (click)="onBrowse(maDt, true)"
                     [disabled]="true"
                   >

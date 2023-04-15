@@ -103,6 +103,10 @@ button.functional-error button {
   opacity: 0.9;
 }
 
+.functional-disabled:hover {
+  opacity: 0.6;
+}
+
 #create,
 #update,
 #drag-file,
