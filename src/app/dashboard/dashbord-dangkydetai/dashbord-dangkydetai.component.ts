@@ -1,3 +1,4 @@
+import { WebsocketService } from './../../services/Websocket.service';
 import { chuyenNganhService } from './../../services/chuyenNganh.service';
 import { deTai_chuyenNganhService } from './../../services/deTai_chuyenNganh.service';
 import { huongDanService } from './../../services/huongDan.service';
@@ -43,10 +44,11 @@ export class DashbordDangkydetaiComponent {
     private giangVienService: giangVienService,
     private huongDanService: huongDanService,
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
-    private chuyenNganhService: chuyenNganhService
+    private chuyenNganhService: chuyenNganhService,
+    private websocketService: WebsocketService
   ) {}
 
-  public async ngOnInit() {
+  async ngOnInit() {
     this.titleService.setTitle('Đăng ký đề tài');
 
     this.listHuongdan = await this.huongDanService.getAll();
@@ -61,6 +63,31 @@ export class DashbordDangkydetaiComponent {
     );
 
     this.isDangky = await this.dangKyService.isNhomDangkyDetaiAsyc(DashboardComponent.maNhom) ? true : false;
+    if(this.isDangky)
+    {
+      this.lineDTdk = await this.dangKyService.GetDetaiDangkyAsync(
+        DashboardComponent.maNhom,
+        shareService.namHoc,
+        shareService.dot
+      );
+    }
+
+    // this.websocketService.startConnection();
+    // this.websocketService.sendForDangKy2((dataChange: boolean) => {
+    //   if (dataChange) {
+    //     this.getDangky();
+    //   }
+    // });
+  }
+
+  async getDangky() {
+    if (this.isDangky) {
+      this.lineDTdk = await this.dangKyService.GetDetaiDangkyAsync(
+        DashboardComponent.maNhom,
+        shareService.namHoc,
+        shareService.dot
+      );
+    }
   }
 
   getTenGvHuongdanByMaDT(maDT: string) {
