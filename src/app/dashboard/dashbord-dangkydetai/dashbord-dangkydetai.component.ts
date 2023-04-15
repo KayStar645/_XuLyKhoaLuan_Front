@@ -19,6 +19,7 @@ import { getParentElement } from 'src/assets/utils';
 import { DangKy } from 'src/app/models/DangKy.model';
 import { ToastrService } from 'ngx-toastr';
 import { async } from 'rxjs';
+import { nhomService } from 'src/app/services/nhom.service';
 
 @Component({
   selector: 'app-dashbord-dangkydetai',
@@ -30,6 +31,7 @@ export class DashbordDangkydetaiComponent {
   oldParent: any;
   lineDTdk!: DeTai;
   isDangky: boolean = false;
+  isTruongnhom: boolean = false;
 
   listDT: DeTai[] = [];
   listGiangvien: GiangVien[] = [];
@@ -46,7 +48,8 @@ export class DashbordDangkydetaiComponent {
     private huongDanService: huongDanService,
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private chuyenNganhService: chuyenNganhService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private nhomService: nhomService
   ) {}
 
   async ngOnInit() {
@@ -56,6 +59,12 @@ export class DashbordDangkydetaiComponent {
     this.listGiangvien = await this.giangVienService.getAll();
     this.listChuyennganh = await this.chuyenNganhService.getAll();
     this.listCnPhuhop = await this.deTai_chuyenNganhService.getAll();
+    this.isTruongnhom = await this.nhomService.isTruongnhom(
+      DashboardComponent.maSV,
+      shareService.namHoc,
+      shareService.dot,
+      DashboardComponent.maNhom
+    );
 
     this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
       DashboardComponent.maNhom
