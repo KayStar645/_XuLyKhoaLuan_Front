@@ -62,7 +62,6 @@ export class DashboardDetaiComponent {
   ) {}
 
   public async ngOnInit() {
-    // console.log('Vô nè!1');
     //Nếu không có trong tham gia không được mời quay trở lại trang chủ
     if (
       (await this.thamGiaService.isJoinedAGroup(
@@ -96,9 +95,6 @@ export class DashboardDetaiComponent {
       // return; // Đây là cái gì
     }
 
-    // console.log("Vô nè!");
-    // console.log(shareService.namHoc);
-    // console.log(shareService.dot);
     // console.log(DashboardComponent.maNhom);
     this.listDT = await this.dangKyService.GetAllDetaiDangky(
       shareService.namHoc,

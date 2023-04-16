@@ -84,6 +84,7 @@ import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-c
 import { RouterModule } from '@angular/router';
 import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
 import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -161,6 +162,7 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
 
     TestComponent,
     DashbordDangkydetaiComponent,
+    ScheduleComponent,
   ],
 
   imports: [

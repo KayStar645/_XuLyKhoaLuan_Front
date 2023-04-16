@@ -1,0 +1,50 @@
+<div id="container">
+  <div class="p-t-16">
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th></th>
+        <th>
+          <p>Thứ 2</p>
+          <p>04.01</p>
+        </th>
+        <th>
+          <p>Thứ 3</p>
+          <p>05.01</p>
+        </th>
+        <th>
+          <p>Thứ 4</p>
+          <p>06.01</p>
+        </th>
+        <th>
+          <p>Thứ 5</p>
+          <p>07.01</p>
+        </th>
+        <th>
+          <p>Thứ 6</p>
+          <p>08.01</p>
+        </th>
+        <th>
+          <p>Thứ 7</p>
+          <p>09.01</p>
+        </th>
+        <th>
+          <p>Chủ nhật</p>
+          <p>10.01</p>
+        </th>
+      </tr>
+
+      <tbody>
+        <tr *ngFor="let lich of data">
+          <td>{{ lich.thoiGian }}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
