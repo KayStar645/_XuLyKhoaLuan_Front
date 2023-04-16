@@ -67,7 +67,6 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
-import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-formdetai.component';
 import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rade/home-huongdan-rade.component';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
@@ -113,12 +112,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     MinistryDanhsachthamgiaComponent,
     MinistryHoidongComponent,
     MinistryQuanlychungComponent,
-    DashboardNhomComponent,
-    DashboardTrangchunhomComponent,
-    DashboardBaitapnhomComponent,
-    DashboardThanhviennhomComponent,
     MinistryChitietdetaiComponent,
-
+    
     HomeComponent,
     HomeMainComponent,
     HomeDetaiComponent,
@@ -137,22 +132,26 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     HomeThongbaoComponent,
     HomeChitietkehoachComponent,
     HomeDanhsachkehoachComponent,
-    DashboardDetaiComponent,
     HomeFormdetaiComponent,
-    DashboardBaitapchitietComponent,
     HomeHuongdanRadeComponent,
     HomeHuongdanComponent,
     HomeNhomsinhvienComponent,
     HomeCongviecComponent,
-    DropDownComponent,
     HomeDanhsachthongbaoComponent,
     HomeChitietthongbaoComponent,
     HomeDanhsachbaitapComponent,
-
+    
+    DropDownComponent,
+    
     DashboardComponent,
+    DashboardBaitapchitietComponent,
     DashboardMainComponent,
     DashboardThongbaoComponent,
     DashboardNhomComponent,
+    DashboardNhomComponent,
+    DashboardTrangchunhomComponent,
+    DashboardBaitapnhomComponent,
+    DashboardThanhviennhomComponent,
     DashboardTrangchunhomComponent,
     DashboardThanhviennhomComponent,
     DashboardDanhsachthongbaoComponent,

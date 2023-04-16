@@ -1,4 +1,9 @@
 tbody td {
     border: none;
     border-right: 1px solid #7ab8ed;
+    border-bottom: 1px solid #d1e6f8;
+  }
+
+tbody td:first-child {
+    width: 100px;
   }

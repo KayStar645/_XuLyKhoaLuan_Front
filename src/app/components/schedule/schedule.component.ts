@@ -14,33 +14,34 @@ export class ScheduleComponent implements OnInit {
   }
 
   setSchedule() {
-    let endOfDayHour: number = endOfDay(new Date()).getHours();
+    // let endOfDayHour: number = endOfDay(new Date()).getHours();
 
-    for (let i = 0; i <= endOfDayHour; i++) {
-      if (this.data[i]) {
+    for (let i = 7; i <= 21; i++) {
+      let x = i - 7;
+      if (this.data[x]) {
         if (i < 12) {
           if (i > 9) {
-            this.data[i].thoiGian = `${i}:00 AM`;
+            this.data[x].thoiGian = `${i}:00`;
           } else {
-            this.data[i].thoiGian = `0${i}:00 AM`;
+            this.data[x].thoiGian = `0${i}:00`;
           }
         } else {
-          this.data[i].thoiGian = `${i}:00 PM`;
+          this.data[x].thoiGian = `${i}:00`;
         }
       } else {
         if (i < 12) {
           if (i > 9) {
             this.data.push({
-              thoiGian: `${i}:00 AM`,
+              thoiGian: `${i}:00`,
             });
           } else {
             this.data.push({
-              thoiGian: `0${i}:00 AM`,
+              thoiGian: `0${i}:00`,
             });
           }
         } else {
           this.data.push({
-            thoiGian: `${i}:00 PM`,
+            thoiGian: `${i}:00`,
           });
         }
       }

@@ -1,3 +1,4 @@
+<!-- Đây là đề tài của tôi và trạng thái chưa đạt -->
 <div *ngIf="isDTMe && isTrangThai != 1; else XemDT">
   <div id="functional-container">
     <div class="functional-list">
@@ -54,10 +55,10 @@
             </div>
           </div>
 
-          <div class="form-control" *ngIf="maDt">
+          <div class="form-control" *ngIf="maDt && (isTruongBM || isDTMe)">
             <p class="label p-b-12">Góp ý chỉnh sửa đề tài</p>
 
-            <div class="form-value" *ngIf="isTruongBM || isTruongK">
+            <div class="form-value" *ngIf="isTruongBM">
               <quill-editor
                 spellcheck="false"
                 class="form-input"
@@ -68,7 +69,7 @@
               <p class="error-mess"></p>
             </div>
 
-            <div class="row jus-end" *ngIf="isTruongBM || isTruongK">
+            <div class="row jus-end" *ngIf="isTruongBM">
               <button class="comment-btn" (click)="onAddComment()">
                 Góp ý
               </button>
@@ -200,7 +201,7 @@
             </div>
           </div>
 
-          <div *ngIf="isTruongK; else isNotTK" class="functional-list">
+          <div *ngIf="isTruongBM;" class="functional-list">
             <div
               *ngIf="isTrangThai == 0 || isTrangThai == -1"
               class="functional-container row ali-center jus-end functional-wrapper"
@@ -236,20 +237,6 @@
               </button>
             </div>
           </div>
-          <ng-template #isNotTK>
-            <div
-              *ngIf="isTruongBM"
-              class="functional-container row ali-center jus-end functional-wrapper"
-            >
-              <button
-                class="functional-button functional-success"
-                [disabled]="isTrangThai == 1"
-                (click)="onBrowse(maDt, true)"
-              >
-                <button>Duyệt đề tài</button>
-              </button>
-            </div>
-          </ng-template>
         </div>
       </div>
     </div>
@@ -274,7 +261,7 @@
   </div>
 </div>
 
-<!-- !isDTMe && oldForm -->
+<!-- Đây là trạng thái chỉ xem đề tài - !isDTMe && oldForm -->
 <ng-template #XemDT>
   <div class="detail-container" *ngIf="oldForm">
     <form class="dt-form" [formGroup]="dtForm.form">
@@ -285,10 +272,10 @@
 
             <div [innerHTML]="oldForm.tomTat" class="content p-b-24"></div>
 
-            <div class="form-control" *ngIf="maDt">
+            <div class="form-control" *ngIf="maDt && (isTruongBM || isDTMe)">
               <p class="label p-b-12 w-auto">Góp ý chỉnh sửa đề tài</p>
 
-              <div [formGroup]="dtForm.form" *ngIf="isTruongBM || isTruongK">
+              <div [formGroup]="dtForm.form" *ngIf="isTruongBM">
                 <div class="form-value">
                   <quill-editor
                     spellcheck="false"
@@ -307,7 +294,7 @@
                 </div>
               </div>
 
-              <div class="comment-list">
+              <div class="comment-list" *ngIf="isTruongBM || isDTMe">
                 <div
                   class="comment-item"
                   *ngFor="let duyet of this.listDuyetDT"
@@ -408,7 +395,7 @@
                 </p>
               </div>
 
-              <div class="functional-list" *ngIf="isTruongK; else isNotTK">
+              <div class="functional-list" *ngIf="isTruongBM;">
                 <div
                   class="functional-container row ali-center jus-end"
                   *ngIf="isTrangThai == 0 || isTrangThai == -1"
@@ -447,21 +434,6 @@
                   </button>
                 </div>
               </div>
-
-              <ng-template #isNotTK>
-                <div
-                  class="functional-container row ali-center jus-end"
-                  *ngIf="isTruongBM"
-                >
-                  <button
-                    class="functional-button functional-success"
-                    [disabled]="isTrangThai == 1"
-                    (click)="onBrowse(maDt, true)"
-                  >
-                    <button>Duyệt đề tài</button>
-                  </button>
-                </div>
-              </ng-template>
             </div>
           </div>
         </div>

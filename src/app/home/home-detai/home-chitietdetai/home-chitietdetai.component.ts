@@ -115,7 +115,7 @@ export class HomeChitietdetaiComponent {
       await this.giangVienService.getById(HomeMainComponent.maGV)
     ).tenGv;
 
-    this.websocketService.startConnection();
+    // this.websocketService.startConnection();
   }
 
   onSetDeTai(event: any) {}
@@ -264,7 +264,6 @@ export class HomeChitietdetaiComponent {
         );
 
         await this.duyetDTService.add(duyetDt);
-
         await this.getComment();
       } catch (error) {}
     }
@@ -423,6 +422,7 @@ export class HomeChitietdetaiComponent {
     } else {
       this.toastr.success('Thành công!', 'Yêu cầu chỉnh sửa!');
     }
+    this.websocketService.sendForDuyetDT(true);
   }
 
   getTenChuyennganhByMaDT(maDT: string) {
@@ -445,6 +445,18 @@ export class HomeChitietdetaiComponent {
     } else {
       this.isTrangThai = detai.trangThai == true ? 1 : -1;
     }
+
+    // Websocket
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromDuyetDT(async (dataChange: boolean) => {
+      const duyetdt = await this.duyetDTService.getByMadt(maDT);
+      const detai = await this.deTaiService.getById(maDT);
+      if (duyetdt.length == 0 && detai.trangThai == false) {
+        this.isTrangThai = 0; // Chưa duyệt
+      } else {
+        this.isTrangThai = detai.trangThai == true ? 1 : -1;
+      }
+    });
   }
 
   getThoiGianDuyetByMaDT(maDT: string) {

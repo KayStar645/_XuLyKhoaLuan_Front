@@ -177,11 +177,11 @@ export class deTaiService {
       .toPromise();
   }
 
-  async GetAllDeTaisByMakhoa(maKhoa: string): Promise<DeTai[]> {
+  async GetAllDeTaisByMakhoa(maKhoa: string, trangThaiDT: number): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(
-          `${this.apiUrl}/api/Detais/maKhoa?maKhoa=${maKhoa}`,
+          `${this.apiUrl}/api/Detais/maKhoa, trangThaiDT?maKhoa=${maKhoa}&trangThaiDT=${trangThaiDT}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

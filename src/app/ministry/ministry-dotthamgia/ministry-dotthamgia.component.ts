@@ -219,16 +219,17 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   async f_AddThamgia(sv: SinhVien) {
     try {
+      // Tạo nhóm cho sinh viên
       const nhom = new Nhom();
       const maNhom = sv.maSv + this.namHoc + this.dot;
       nhom.init(maNhom, sv.tenSv);
+      await this.nhomService.add(nhom);
 
+      // Đưa sinh viên vào tham gia đợt đăng ký này
       const thamgia = new ThamGia();
       thamgia.init(sv.maSv, this.namHoc, this.dot, maNhom, 0, true);
-
-      // Add: Tạo nhóm cho sinh viên và đưa sinh viên vào tham gia đợt đăng ký này
-      await this.nhomService.add(nhom);
       await this.thamGiaService.add(thamgia);
+      
       this.websocketService.sendForThamGia(true);
 
       this.toastr.success(
