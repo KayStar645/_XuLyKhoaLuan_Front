@@ -60,9 +60,6 @@ import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhi
 import { MinistryDanhsachkehoachComponent } from './ministry/ministry-kehoach/ministry-danhsachkehoach/ministry-danhsachkehoach.component';
 import { MinistryChitietkehoachComponent } from './ministry/ministry-kehoach/ministry-chitietkehoach/ministry-chitietkehoach.component';
 import { DashboardNhomComponent } from './dashboard/dashboard-nhom/dashboard-nhom.component';
-import { DashboardTrangchunhomComponent } from './dashboard/dashboard-nhom/dashboard-trangchunhom/dashboard-trangchunhom.component';
-import { DashboardBaitapnhomComponent } from './dashboard/dashboard-nhom/dashboard-baitapnhom/dashboard-baitapnhom.component';
-import { DashboardThanhviennhomComponent } from './dashboard/dashboard-nhom/dashboard-thanhviennhom/dashboard-thanhviennhom.component';
 import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministry-chitietdetai/ministry-chitietdetai.component';
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
@@ -84,6 +81,7 @@ import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-c
 import { RouterModule } from '@angular/router';
 import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
 import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
+import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard-mainnhom/dashboard-mainnhom.component';
 
 @NgModule({
   declarations: [
@@ -113,9 +111,6 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
     MinistryHoidongComponent,
     MinistryQuanlychungComponent,
     DashboardNhomComponent,
-    DashboardTrangchunhomComponent,
-    DashboardBaitapnhomComponent,
-    DashboardThanhviennhomComponent,
     MinistryChitietdetaiComponent,
 
     HomeComponent,
@@ -152,12 +147,11 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
     DashboardMainComponent,
     DashboardThongbaoComponent,
     DashboardNhomComponent,
-    DashboardTrangchunhomComponent,
-    DashboardThanhviennhomComponent,
     DashboardDanhsachthongbaoComponent,
     DashboardChitietthongbaoComponent,
     DashboardThemthanhvienComponent,
     DashboardDanhsachsinhvienComponent,
+    DashboardMainnhomComponent,
 
     TestComponent,
     DashbordDangkydetaiComponent,
