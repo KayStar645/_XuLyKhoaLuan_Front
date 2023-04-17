@@ -1,41 +1,307 @@
 <div id="container">
   <div class="p-t-16">
+    <div class="functional-list">
+      <div
+        class="functional-container row ali-center jus-end functional-wrapper"
+      >
+        <div class="functional-button">
+          <div class="row ali-center calendar-btn">
+            <img src="../../.././assets/Images/calendar.png" alt="" />
+            <dp-date-picker
+              #dayPicker
+              mode="day"
+              id="day"
+              [displayDate]="currDate"
+              [config]="{
+                firstDayOfWeek: 'mo',
+                showNearMonthDays: false,
+                opens: 'right'
+              }"
+              class="button"
+            ></dp-date-picker>
+          </div>
+        </div>
+
+        <button class="functional-button">
+          <button (click)="dayPicker.api.open()">Tuần trước</button>
+        </button>
+        <button class="functional-button">
+          <button>Tuần tới</button>
+        </button>
+      </div>
+    </div>
+
     <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
       <tr>
-        <th>Thời gian</th>
+        <th class="time"></th>
         <th>
-          <p>Thứ 2</p>
-          <p>04/01/2023</p>
+          <div class="day">
+            <p>Thứ 3</p>
+            <p>05/01/2023</p>
+          </div>
         </th>
         <th>
-          <p>Thứ 3</p>
-          <p>05/01/2023</p>
+          <div class="day active">
+            <p>Thứ 3</p>
+            <p>05/01/2023</p>
+          </div>
         </th>
         <th>
-          <p>Thứ 4</p>
-          <p>06/01/2023</p>
+          <div class="day">
+            <p>Thứ 4</p>
+            <p>06/01/2023</p>
+          </div>
         </th>
         <th>
-          <p>Thứ 5</p>
-          <p>07/01/2023</p>
+          <div class="day">
+            <p>Thứ 5</p>
+            <p>07/01/2023</p>
+          </div>
         </th>
         <th>
-          <p>Thứ 6</p>
-          <p>08/01/2023</p>
+          <div class="day">
+            <p>Thứ 6</p>
+            <p>08/01/2023</p>
+          </div>
         </th>
         <th>
-          <p>Thứ 7</p>
-          <p>09/01/2023</p>
+          <div class="day">
+            <p>Thứ 7</p>
+            <p>09/01/2023</p>
+          </div>
         </th>
         <th>
-          <p>Chủ nhật</p>
-          <p>10/01/2023</p>
+          <div class="day">
+            <p>Chủ nhật</p>
+            <p>10/01/2023</p>
+          </div>
         </th>
       </tr>
 
       <tbody>
-        <tr *ngFor="let lich of data">
-          <td class="text-center">{{ lich.thoiGian }}</td>
+        <tr class="hour">
+          <td class="text-center">7:00</td>
+          <td [rowSpan]="17" class="rowSpan">
+            <div class="calendar-item">
+              <p class="font-semi">
+                Hệ thống xử lý tiến trình khóa luận tốt nghiệp
+              </p>
+
+              <div class="p-t-8">
+                <p>Thời gian: <span class="font-semi">7:00 - 11:00</span></p>
+                <p>Địa điểm: <span class="font-semi">Phòng A202</span></p>
+              </div>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td class="active text-center"><p>7:45</p></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="hour">
+          <td class="text-center">8:00</td>
+          <td [rowSpan]="16" class="rowSpan">
+            <div class="calendar-item">
+              <p class="font-semi">
+                Hệ thống xử lý tiến trình khóa luận tốt nghiệp lần 2
+              </p>
+
+              <div class="p-t-8">
+                <p>Thời gian: <span class="font-semi">8:00 - 11:45</span></p>
+                <p>Địa điểm: <span class="font-semi">Phòng A202</span></p>
+              </div>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="hour">
+          <td class="text-center">9:00</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="hour">
+          <td class="text-center">10:00</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="hour">
+          <td class="text-center">11:00</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="hour">
+          <td class="text-center">12:00</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="minute">
+          <td></td>
           <td></td>
           <td></td>
           <td></td>

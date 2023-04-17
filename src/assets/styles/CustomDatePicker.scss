@@ -49,6 +49,16 @@ dp-date-picker {
   text-decoration: underline;
 }
 
+.dp-calendar-day.dp-current-month.dp-current-day {
+  background: #9fcded;
+  color: #4d4d4d;
+}
+
+.dp-calendar-day.dp-current-month.dp-current-day:hover {
+  background: #9fcded;
+  color: #4d4d4d;
+}
+
 .cdk-overlay-pane dp-day-calendar .dp-calendar-weekday {
   font-size: 1.4rem;
   border-left: none;
@@ -136,4 +146,22 @@ dp-time-select .dp-time-select-control-down {
 dp-time-select .dp-time-select-control-up:hover,
 dp-time-select .dp-time-select-control-down:hover {
   background: #e8f0fe;
+}
+
+dp-date-picker.button {
+  width: auto;
+
+  flex: 1;
+}
+
+dp-date-picker.button input {
+  padding: 8px 4px 8px 0;
+  background: #fff;
+  border-radius: 5px;
+  color: #5c676f;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: 500;
+  caret-color: transparent;
+  width: 100%;
 }

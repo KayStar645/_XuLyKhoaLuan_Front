@@ -1,9 +1,110 @@
-tbody td {
-    border: none;
-    border-right: 1px solid #7ab8ed;
-    border-bottom: 1px solid #d1e6f8;
-  }
+table tr th {
+  width: calc(100% / 7);
+  background: #fafafa;
+  color: #5c676f;
+  height: 65px;
+  padding: 4px 8px;
+  border: 1px solid #d1d4d7;
+}
 
-tbody td:first-child {
-    width: 100px;
+.day {
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.day.active {
+  background: #195ce5;
+  color: #ffff;
+}
+
+table tr th.time {
+  width: 80px;
+}
+
+tbody td {
+  border: none;
+  border-right: 1px solid #d1d4d7;
+  vertical-align: top;
+  height: 16px !important;
+  padding-top: 8px;
+  padding-bottom: 0;
+}
+
+.day .active {
+  background: #195ce5;
+  color: #ffff;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.hour td:first-child,
+.minute td:first-child {
+  background: #fafafa;
+}
+
+.hour td:first-child {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #5c676f;
+  vertical-align: bottom;
+  position: relative;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.minute td {
+  height: 100%;
+}
+
+.minute td.active p {
+  background: dodgerblue;
+  border-radius: 16px;
+  color: #ffff;
+  padding: 2px;
+  font-weight: 500;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 100vw;
+    height: 2px;
+    background-color: dodgerblue;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
   }
+}
+
+.rowSpan {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.calendar-item {
+  background: #e9f1f9;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: 2px solid #81add8;
+  position: relative;
+  z-index: 9;
+}
+
+.calendar-btn {
+  background: #ffff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+  width: 150px;
+
+  img {
+    width: 32px;
+    margin-right: 8px;
+  }
+}
