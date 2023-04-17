@@ -417,11 +417,11 @@ export class HomeChitietdetaiComponent {
 
   async onBrowse(maDT: string, flag: boolean) {
     this.duyetDTService.UpdateTrangthaiDetai(maDT, this.oldForm.maGv, flag);
-    if (flag) {
-      this.toastr.success('Thành công!', 'Duyệt đề tài!');
-    } else {
-      this.toastr.success('Thành công!', 'Yêu cầu chỉnh sửa!');
-    }
+    // if (flag) {
+    //   this.toastr.success('Thành công!', 'Duyệt đề tài!');
+    // } else {
+    //   this.toastr.success('Thành công!', 'Yêu cầu chỉnh sửa!');
+    // }
     this.websocketService.sendForDuyetDT(true);
   }
 

@@ -1,55 +1,75 @@
-<div id="container">
-    <div class="row">
-        <div class="h-9 p-l-8 p-r-8">
-            <div class="assignment-detail">
-                <div class="color-blue assignment-name">{{ congViec.tenCv }}</div>
-                <div class="teacher-name">{{ tenGv }}</div>
-                <div class="deadline">
-                    <div class="date">
-                        Hạn nộp: {{ dateFormat(congViec.hanChot) }}
-                    </div>
-                </div>
-                <div class="command-for-assignment">
-                    Nhận xét của bài tập
-                </div>
+<form class="tb-form">
+  <div class="container row p-t-16">
+    <div class="h-8 p-l-8 p-r-8">
+      <div class="congviec-detail">
+        <div class="form-control">
+          <div class="congviec-header p-b-8">{{ cviec.tenCv }}</div>
+          <div class="teacher-name">{{ giangVien.tenGv }}</div>
+          <div class="congviec-mota">
+            <span>Mô tả: </span>
+            {{ cviec.moTa }}
+          </div>
+          <div class="row ali-center">
+            <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+          </div>
+          <div class="congviec-yeucau">
+            <span>Yêu cầu: </span>
+            {{ cviec.yeuCau }}
+          </div>
+        </div>
+      </div>
 
-                <a class="add-command">
-                    Thêm nhận xét về lớp học
-                </a>
+      <div [formGroup]="dtForm.form" class="form-control">
+        <div class="form-value">
+          <quill-editor
+            spellcheck="false"
+            class="form-input"
+            placeholder=""
+            [modules]="{ toolbar: false }"
+            formControlName="nhanXet"
+          ></quill-editor>
+          <p class="error-mess"></p>
+        </div>
+
+        <div class="row jus-end">
+          <button class="comment-btn" (click)="onAddComment()">
+            Bình luận
+          </button>
+        </div>
+
+        <div class="comment-list">
+          <div class="comment-item" *ngFor="let duyet of listBinhLuan">
+            <div class="row">
+              <div>
+                <img src="../../../../assets/Images/user-icon.svg" alt="" />
+              </div>
+
+              <div class="comment-info">
+                <p class="title">{{ duyet.maSv }}</p>
+                <p class="content" [innerHTML]="duyet.noiDung"></p>
+                <p class="time">{{ duyet.thoiGian }}</p>
+              </div>
             </div>
+          </div>
         </div>
-
-        <div class="h-3 p-l-8 p-r-8">
-            <div class="assignment-submition">
-                <div class="m-b-10 fs-24 color-dark">Bài tập của bạn</div>
-                <a class="color-blue t-center btn-submit" (click)="onShowFormDrag()">+ Thêm hoặc tạo</a>
-            </div>
-        </div>
-
-        <div id="drag-file" (click)="onCloseDrag($event)"></div>
-        <div id="drag-file_box">
-        <p class="title">Nhập vào file</p>
-        <p class="description">Nhập danh sách đề tài thông qua 1 file excel</p>
-
-        <form
-            class="drag-form form row flex-column ali-center jus-center"
-            (dragover)="onDragFileOver($event)"
-            (dragleave)="onDragFileLeave($event)"
-            (drop)="onDropFile($event)"
-            (dragenter)="onDragFileOver($event)"
-        >
-        <input
-            type="file"
-            class="file-content"
-            hidden
-            (input)="onFileInput($event)"
-        />
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <p>
-            Kéo và thả file vào đây hoặc
-            <span class="choose-file">chọn file</span>
-        </p>
-        </form>
-        </div>
+      </div>
     </div>
-</div>
+
+    <div class="h-4 p-l-8 p-r-8">
+      <div class="congviec-detail">
+        <div class="form-control form-no-box-shadow">
+          <p class="label p-b-8">Bài tập của bạn</p>
+          <div class="row jus-end">
+            <button
+              class="comment-btn m-r-auto m-l-auto"
+              (click)="onAddComment()"
+            >
+              Nộp bài
+            </button>
+          </div>
+          <p class="error-mess"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
