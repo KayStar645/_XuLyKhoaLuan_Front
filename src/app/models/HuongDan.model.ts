@@ -3,6 +3,7 @@ export class HuongDan {
   public maDt!: string;
   public thoiGianBD!: string;
   public thoiGianKT!: string;
+  public diaDiem!: string;
   public duaRaHd!: boolean;
 
   constructor() {}
