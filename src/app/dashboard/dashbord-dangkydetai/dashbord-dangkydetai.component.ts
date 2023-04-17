@@ -77,8 +77,6 @@ export class DashbordDangkydetaiComponent {
     this.websocketService.startConnection();
     this.websocketService.receiveFromDangKy(async (dataChange: boolean) => {
       if (dataChange) {
-        console.log('changed');
-
         await this.getAllDangky();
       }
     });
@@ -88,7 +86,8 @@ export class DashbordDangkydetaiComponent {
     this.listDT = await this.dangKyService.GetAllDetaiDangky(
       shareService.namHoc,
       shareService.dot,
-      DashboardComponent.maNhom
+      DashboardComponent.maNhom,
+      false
     );
 
     if (this.isDangky) {

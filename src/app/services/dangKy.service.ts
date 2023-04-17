@@ -35,12 +35,13 @@ export class dangKyService {
   async GetAllDetaiDangky(
     namHoc: string,
     dot: number,
-    maNhom: string
+    maNhom: string,
+    isThamkhao: boolean
   ): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(
-          `${this.apiUrl}/api/Dangkys/namHoc, dot, maNhom?namHoc=${namHoc}&dot=${dot}&maNhom=${maNhom}`,
+          `${this.apiUrl}/api/Dangkys/namHoc, dot, maNhom, isThamkhao?namHoc=${namHoc}&dot=${dot}&maNhom=${maNhom}&isThamkhao=${isThamkhao}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
@@ -109,15 +110,21 @@ export class dangKyService {
     );
   }
 
-  async GetDetaiDangkyAsync(nhom: string, namHoc: string, dot: number): Promise<DeTai> {{
-    var response = new DeTai();
-    return (
-      (await this.http
-        .get<DeTai>(
-          `${this.apiUrl}/api/Dangkys/nhom, namHoc, dot?nhom=${nhom}&namHoc=${namHoc}&dot=${dot}`,
-          this.shareService.httpOptions
-        )
-        .toPromise()) ?? (response as DeTai)
-    );
-  }}
+  async GetDetaiDangkyAsync(
+    nhom: string,
+    namHoc: string,
+    dot: number
+  ): Promise<DeTai> {
+    {
+      var response = new DeTai();
+      return (
+        (await this.http
+          .get<DeTai>(
+            `${this.apiUrl}/api/Dangkys/nhom, namHoc, dot?nhom=${nhom}&namHoc=${namHoc}&dot=${dot}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as DeTai)
+      );
+    }
+  }
 }

@@ -90,7 +90,7 @@ export class HomeDanhsachdetaiComponent {
     this.listCn = await this.chuyenNganhService.getAll();
 
     this.listDotdk = await this.dotDkService.getAll();
-    this.getAllDeTai();
+    await this.getAllDeTai();
 
     this.listDetai = await this.deTaiService.getAll();
     this.listRade = await this.raDeService.getAll();
@@ -324,12 +324,20 @@ export class HomeDanhsachdetaiComponent {
     const maKhoa = HomeMainComponent.maKhoa;
     const maBm = HomeMainComponent.maBm;
     const maGv = HomeMainComponent.maGV;
+    this.listDT.splice(0, this.listDT.length);
     if (maKhoa != null) {
-      this.listDT = await this.deTaiService.GetAllDeTaisByMakhoa(maKhoa);
-    } else if (maBm != null) {
-      this.listDT = await this.deTaiService.GetAllDeTaisByMaBomon(maBm, false);
-    } else {
-      this.listDT = await this.deTaiService.GetAllDeTaisByGiangvien(maGv);
+      // Nếu là trưởng khoa sẽ xem được toàn bộ đề tài đã được duyệt
+      let deTais = await this.deTaiService.GetAllDeTaisByMakhoa(maKhoa, 1);
+      this.listDT.push(...deTais);
+    }
+    if (maBm != null) {
+      // Nếu là bộ môn thì xem tất cả đề tài của bộ môn mình
+      let deTais = await this.deTaiService.GetAllDeTaisByMaBomon(maBm, false);
+      this.listDT.push(...deTais);
+    }
+    if (maKhoa == null && maBm == null) {
+      let deTais = await this.deTaiService.GetAllDeTaisByGiangvien(maGv);
+      this.listDT.push(...deTais);
     }
     this.root = this.listDT;
   }

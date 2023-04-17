@@ -39,12 +39,8 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
   async getAllGiangVien() {
     const maGv = HomeMainComponent.maGV;
     let isTruongKhoa, isTruongBm;
-    try {
-      isTruongKhoa = await this.truongKhoaService.isTruongKhoaByMaGV(maGv);
-    } catch { }
-    try {
-      isTruongBm = await this.truongBmService.isTruongBomonByMaGV(maGv);
-    } catch { }
+    isTruongKhoa = await this.truongKhoaService.isTruongKhoaByMaGV(maGv);
+    isTruongBm = await this.truongBmService.isTruongBomonByMaGV(maGv);
 
     if (isTruongKhoa) {
       let truongKhoa = await this.truongKhoaService.CheckTruongKhoaByMaGV(maGv);

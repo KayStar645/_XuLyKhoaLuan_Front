@@ -64,7 +64,6 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
-import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-formdetai.component';
 import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rade/home-huongdan-rade.component';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
@@ -82,6 +81,7 @@ import { RouterModule } from '@angular/router';
 import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
 import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
 import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard-mainnhom/dashboard-mainnhom.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -131,21 +131,22 @@ import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard
     HomeThongbaoComponent,
     HomeChitietkehoachComponent,
     HomeDanhsachkehoachComponent,
-    DashboardDetaiComponent,
     HomeFormdetaiComponent,
-    DashboardBaitapchitietComponent,
     HomeHuongdanRadeComponent,
     HomeHuongdanComponent,
     HomeNhomsinhvienComponent,
     HomeCongviecComponent,
-    DropDownComponent,
     HomeDanhsachthongbaoComponent,
     HomeChitietthongbaoComponent,
     HomeDanhsachbaitapComponent,
 
+    DropDownComponent,
+
     DashboardComponent,
+    DashboardBaitapchitietComponent,
     DashboardMainComponent,
     DashboardThongbaoComponent,
+    DashboardNhomComponent,
     DashboardNhomComponent,
     DashboardDanhsachthongbaoComponent,
     DashboardChitietthongbaoComponent,
@@ -155,6 +156,7 @@ import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard
 
     TestComponent,
     DashbordDangkydetaiComponent,
+    ScheduleComponent,
   ],
 
   imports: [

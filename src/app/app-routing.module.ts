@@ -47,7 +47,6 @@ import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministr
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
-import { DashboardDetaiComponent } from './dashboard/dashboard-detai/dashboard-detai.component';
 import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-formdetai.component';
 import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rade/home-huongdan-rade.component';
 import { HomeDanhsachthongbaoComponent } from './home/home-thongbao/home-danhsachthongbao/home-danhsachthongbao.component';
@@ -406,11 +405,6 @@ const routes: Routes = [
             canActivate: [AuthGuard],
           },
         ],
-      },
-      {
-        path: 'de-tai',
-        component: DashboardDetaiComponent,
-        canActivate: [AuthGuard],
       },
       {
         path: 'dang-ky-de-tai',
