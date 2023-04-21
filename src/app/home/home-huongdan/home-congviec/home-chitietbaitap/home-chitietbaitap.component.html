@@ -1,161 +1,88 @@
-<div id="functional-container">
-  <div class="functional-list">
-    <div class="functional-container row ali-center jus-end functional-wrapper">
-      <div class="functional-button" *ngIf="maNv == -1">
-        <button (click)="onAdd()">Thêm</button>
-      </div>
-
-      <div class="functional-button" *ngIf="maNv > -1">
-        <button (click)="onUpdate()">Sửa</button>
-      </div>
-
-      <div class="functional-button" *ngIf="maNv > -1">
-        <button (click)="onDelete()">Xóa</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <form class="tb-form" [formGroup]="cvForm.form">
-  <div class="container row">
+<form class="tb-form">
+  <div class="container row p-t-16">
     <div class="h-8 p-l-8 p-r-8">
-      <div class="form-item">
+      <div class="congviec-detail">
         <div class="form-control">
-          <p class="label p-b-8">Tiêu đề nhiệm vụ</p>
-
-          <div class="form-value">
-            <input
-              type="text"
-              class="form-input title"
-              formControlName="tenNv"
-              spellcheck="false"
-              (blur)="nvForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
+          <div class="congviec-header p-b-8">{{ cviec.tenCv }}</div>
+          <div class="teacher-name">{{ giangVien.tenGv }}</div>
+          <div class="congviec-yeucau">
+            <span>Yêu cầu: </span>
+            {{ cviec.yeuCau }}
+          </div>
+          <div class="row ali-center">
+            <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+          </div>
+          <div class="congviec-mota">
+            <span>Mô tả: </span>
+            {{ cviec.moTa }}
           </div>
         </div>
+      </div>
 
-        <div class="form-control">
-          <p class="label p-b-8">File đi kèm:</p>
-
-          <div class="form-value">
-            <input
-              type="file"
-              (change)="onChange($event)"
-              class="attach-file"
-              value="test.pdf"
-            />
-            <p class="error-mess"></p>
-          </div>
+      <div [formGroup]="dtForm.form" class="form-control">
+        <div class="form-value">
+          <quill-editor
+            spellcheck="false"
+            class="form-input"
+            placeholder=""
+            [modules]="{ toolbar: false }"
+            formControlName="nhanXet"
+          ></quill-editor>
+          <p class="error-mess"></p>
         </div>
 
-        <pdf-viewer
-          [src]="pdfSrc"
-          [render-text]="true"
-          [original-size]="false"
-          style="width: 100%; height: 100vh; overflow: hidden"
-        ></pdf-viewer>
+        <div class="row jus-end">
+          <button class="comment-btn" (click)="onAddComment()">
+            Bình luận
+          </button>
+        </div>
+
+        <div class="comment-list">
+                <div
+                  class="comment-item"
+                  *ngFor="let gopy of this.listHDGopy"
+                >
+                  <div class="row">
+                    <div>
+                      <img
+                        src="../../../../assets/Images/user-icon.svg"
+                        alt=""
+                      />
+                    </div>
+
+                    <div class="comment-info">
+                      <p class="title">{{ gopy.tenGv }}</p>
+                      <p class="content" [innerHTML]="gopy.noiDung"></p>
+                      <p class="time">{{ gopy.thoiGian }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+        <div class="comment-list">
+          <div class="comment-item" *ngFor="let duyet of listBinhLuan">
+            <div class="row">
+              <div>
+                <img src="../../../../assets/Images/user-icon.svg" alt="" />
+              </div>
+
+              <div class="comment-info">
+                <p class="title">{{ duyet.maSv }}</p>
+                <p class="content" [innerHTML]="duyet.noiDung"></p>
+                <p class="time">{{ duyet.thoiGian }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="h-4 p-l-8 p-r-8">
-      <div class="form-item">
+      <div class="congviec-detail">
         <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Dành cho giảng viên</p>
-
-          <div class="form-value">
-            <ng-autocomplete
-              [data]="GVInputConfig.data"
-              [searchKeyword]="GVInputConfig.keyword"
-              [itemTemplate]="itemTemplate"
-              [notFoundTemplate]="notFoundTemplate"
-              class="form-input title"
-              formControlName="hoTen"
-              (selected)="setSelectedNV($event)"
-              spellcheck="false"
-            >
-            </ng-autocomplete>
-
-            <ng-template #itemTemplate let-item>
-              <a [innerHTML]="item.tenGv"></a>
-            </ng-template>
-
-            <ng-template #notFoundTemplate let-notFound>
-              <div [innerHTML]="notFound"></div>
-            </ng-template>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Ngày đến hạn</p>
-
-          <div class="form-value">
-            <dp-date-picker
-              mode="day"
-              id="day"
-              [displayDate]="ngayKt"
-              formControlName="ngayKt"
-              [config]="{
-                firstDayOfWeek: 'mo',
-                showNearMonthDays: false
-              }"
-              (onSelect)="onDateChange($event)"
-              class="form-input"
-            ></dp-date-picker>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <p class="label p-b-8">Thời gian</p>
-
-          <div class="form-value">
-            <dp-date-picker
-              mode="time"
-              [displayDate]="thoiGianKt"
-              formControlName="thoiGianKt"
-              (onSelect)="onTimeChange($event)"
-              class="form-input"
-            ></dp-date-picker>
-            <p class="error-mess"></p>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <p class="label p-b-8">Số lượng đề tài tối thiểu</p>
-
-          <div class="form-value">
-            <input
-              type="number"
-              class="form-input title"
-              formControlName="soLuongDt"
-              min="1"
-              spellcheck="false"
-              [readOnly]="!isTruongBM"
-            />
-            <p class="error-mess"></p>
-          </div>
+          <p class="label p-b-8">Bài tập của sinh viên</p>
         </div>
       </div>
     </div>
   </div>
 </form>
-
-<div id="delete">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc xóa sẽ làm tất cả thông tin có liên quan đến nhiệm vụ sẽ biến mất.
-        Bạn có chắc chắn muốn xóa ?
-      </p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
-
-      <div class="progress-bar"></div>
-    </div>
-  </div>
-</div> -->

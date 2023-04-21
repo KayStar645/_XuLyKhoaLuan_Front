@@ -7,11 +7,7 @@ import { giangVienService } from 'src/app/services/giangVien.service';
 import { format } from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
-import { Validators } from '@angular/forms';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
-import { DashboardChitietthongbaoComponent } from '../../dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
-import { DashboardComponent } from '../../dashboard.component';
-import { shareService } from 'src/app/services/share.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({

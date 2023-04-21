@@ -11,43 +11,80 @@ import { shareService } from './../services/share.service';
   providedIn: 'root',
 })
 export class hdGopYService {
-    private apiUrl = environment.api;
-    //private HdGopis!: BehaviorSubject<HdGopi>;
+  private apiUrl = environment.api;
+  //private HdGopis!: BehaviorSubject<HdGopi>;
 
-    constructor(private http: HttpClient, private router: Router,
-      private shareService: shareService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private shareService: shareService
+  ) {}
 
-    async getAll(): Promise<HdGopi[]> {
-      return await this.http.get<HdGopi[]>(`${this.apiUrl}/api/Hdgopies`, 
-      this.shareService.httpOptions).toPromise() ?? [];
-    }
-
-    async getById(id: number):Promise<HdGopi> {
-      try {
-        var response = new HdGopi();
-        response = await this.http.get<HdGopi>(
-          `${this.apiUrl}/api/Hdgopies/id?id=${id}`,
+  async getAll(): Promise<HdGopi[]> {
+    return (
+      (await this.http
+        .get<HdGopi[]>(
+          `${this.apiUrl}/api/Hdgopies`,
           this.shareService.httpOptions
-        ).toPromise() ?? response as HdGopi;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    }
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async add(HdGopi: HdGopi): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Hdgopies`, 
-      HdGopi, this.shareService.httpOptions).toPromise();
-    }
+  async GetHdGopyByMacv(maCv: string): Promise<HdGopi[]> {
+    return (
+      (await this.http
+        .get<HdGopi[]>(
+          `${this.apiUrl}/api/Hdgopies/maCv?maCv=${maCv}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async update(HdGopi: HdGopi): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Hdgopies/id?id=${HdGopi.id}`, 
-      HdGopi, this.shareService.httpOptions).toPromise();
+  async getById(id: number): Promise<HdGopi> {
+    try {
+      var response = new HdGopi();
+      response =
+        (await this.http
+          .get<HdGopi>(
+            `${this.apiUrl}/api/Hdgopies/id?id=${id}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as HdGopi);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
+  }
 
-    async delete(id: number): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Hdgopies/id?id=${id}`, 
-      this.shareService.httpOptions).toPromise();
-    }
+  async add(HdGopi: HdGopi): Promise<any> {
+    return await this.http
+      .post(
+        `${this.apiUrl}/api/Hdgopies`,
+        HdGopi,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async update(HdGopi: HdGopi): Promise<any> {
+    return await this.http
+      .put<any>(
+        `${this.apiUrl}/api/Hdgopies/id?id=${HdGopi.id}`,
+        HdGopi,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async delete(id: number): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Hdgopies/id?id=${id}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
 }

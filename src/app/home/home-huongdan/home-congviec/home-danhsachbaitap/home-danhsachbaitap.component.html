@@ -142,6 +142,19 @@
                 {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
               </p>
             </div>
+
+            <div>
+              <hr />
+              <p
+                class="option-item"
+                [routerLink]="[
+                  '/home/huong-dan/cong-viec/chi-tiet',
+                  { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
+                ]"
+              >
+                Chỉnh sửa
+              </p>
+            </div>
           </div>
         </div>
       </div>

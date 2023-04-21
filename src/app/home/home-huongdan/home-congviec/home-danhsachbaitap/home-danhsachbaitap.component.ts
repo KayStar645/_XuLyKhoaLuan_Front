@@ -19,6 +19,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 })
 export class HomeDanhsachbaitapComponent implements OnInit {
   maDT: string = '';
+  static maDt: string = '';
   nearTimeOutMS: any[] = [];
   listBT: any[] = [];
   listSV: any[] = [];
@@ -52,6 +53,9 @@ export class HomeDanhsachbaitapComponent implements OnInit {
 
     this.getNearTimeOutMission();
     this.closeOption();
+
+    HomeDanhsachbaitapComponent.maDt = this.maDT;
+
   }
 
   async getListBT() {

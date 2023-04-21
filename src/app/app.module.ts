@@ -82,6 +82,7 @@ import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/
 import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
 import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard-mainnhom/dashboard-mainnhom.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/home-chitietbaitap/home-chitietbaitap.component';
 
 @NgModule({
   declarations: [
@@ -139,6 +140,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     HomeDanhsachthongbaoComponent,
     HomeChitietthongbaoComponent,
     HomeDanhsachbaitapComponent,
+    HomeChitietbaitapComponent,
 
     DropDownComponent,
 
