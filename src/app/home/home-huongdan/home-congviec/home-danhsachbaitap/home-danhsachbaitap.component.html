@@ -128,19 +128,21 @@
             </div>
           </div>
 
-          <div class="collapse-block row jus-between">
-            <div class="mission-info">
-              <p class="mission-description">
-                {{ item.yeuCau }}
-              </p>
-            </div>
+          <div class="collapse-block">
+            <div class="row jus-between">
+              <div class="mission-info">
+                <p class="mission-description">
+                  {{ item.yeuCau }}
+                </p>
+              </div>
 
-            <div class="row flex-column ali-center mission-rate">
-              <p class="rate-title">Tiến độ thực hiện</p>
+              <div class="row flex-column ali-center mission-rate">
+                <p class="rate-title">Tiến độ thực hiện</p>
 
-              <p class="rate-score">
-                {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
-              </p>
+                <p class="rate-score">
+                  {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
+                </p>
+              </div>
             </div>
 
             <div>
@@ -152,7 +154,7 @@
                   { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
                 ]"
               >
-                Chỉnh sửa
+                Xem chi tiết
               </p>
             </div>
           </div>
