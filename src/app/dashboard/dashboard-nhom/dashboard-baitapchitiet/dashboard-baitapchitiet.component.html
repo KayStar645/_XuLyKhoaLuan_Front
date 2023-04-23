@@ -71,7 +71,7 @@
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
         <div class="row ali-center jus-between home-work">
-          <p class="home-work-title p-b-8">Bài tập của bạn</p>
+          <p class="home-work-title p-b-8">Báo cáo của bạn</p>
           <p class="mission-note" *ngIf="isOutDate">Thiếu</p>
           <input type="file" hidden (input)="onConfirmFile($event)" multiple />
         </div>
@@ -88,7 +88,11 @@
               <span>{{ item.type }}</span>
             </div>
 
-            <i class="fa-solid fa-xmark remove-btn" style="color: #878787" (click)="onRemveFileItem($event, item.name)"></i>
+            <i
+              class="fa-solid fa-xmark remove-btn"
+              style="color: #878787"
+              (click)="onRemveFileItem($event, item.name)"
+            ></i>
           </div>
         </div>
 
@@ -97,7 +101,7 @@
             Thêm file đi kèm
           </button>
           <button class="comment-btn w-100" (click)="onSubmitHomeWork()">
-            Nộp bài
+            Nộp báo cáo
           </button>
         </div>
       </div>

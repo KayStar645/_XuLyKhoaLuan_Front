@@ -30,9 +30,6 @@ export class DashboardComponent implements OnInit {
   static maGvhd: string[] = [];
   static clickHomeFirstTime = false;
 
-  // Sửa lại sau
-  public role!: string;
-  public id!: string;
   
   constructor(
     private authService: AuthService,
