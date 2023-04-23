@@ -225,3 +225,43 @@
   color: #db0909;
   font-size: 1.5rem;
 }
+
+.list-file {
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: -12px;
+}
+
+.file-item {
+  padding: 8px 0;
+  flex-wrap: nowrap;
+}
+
+.file-item img {
+  width: 40px;
+  height: 45px;
+  margin-right: 8px;
+}
+
+.item-info {
+  width: 72%;
+}
+
+.file-item p {
+  color: #4c4d4f;
+  width: 99%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.file-item span {
+  color: #919191;
+}
+
+.remove-btn {
+  font-size: 2.2rem;
+  padding: 8px;
+  cursor: pointer;
+}

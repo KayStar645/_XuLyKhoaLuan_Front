@@ -6,9 +6,10 @@ import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
-import { Form } from 'src/assets/utils';
+import { Form, getParentElement } from 'src/assets/utils';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard-baitapchitiet',
@@ -22,6 +23,7 @@ export class DashboardBaitapchitietComponent {
   thoiHan = '';
   listBinhLuan: BinhLuan[] = [];
   isOutDate: boolean = true;
+  homeworkFiles: any[] = [];
 
   dtForm = new Form({
     nhanXet: [''],
@@ -32,7 +34,8 @@ export class DashboardBaitapchitietComponent {
     private congViecService: congViecService,
     private giangVienService: giangVienService,
     private binhLuanService: binhLuanService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private httpClient: HttpClient
   ) {}
 
   async ngOnInit() {
@@ -47,7 +50,7 @@ export class DashboardBaitapchitietComponent {
     );
     this.websocketService.startConnection();
 
-    if(compareAsc(new Date(), new Date(this.cviec.hanChot)) === 1){
+    if (compareAsc(new Date(), new Date(this.cviec.hanChot)) === 1) {
       this.isOutDate = true;
     }
   }
@@ -60,4 +63,51 @@ export class DashboardBaitapchitietComponent {
   }
 
   async onAddComment() {}
+
+  async onConfirmFile(event: any) {
+    const files = Array.from(event.target.files);
+    let types = [
+      'xlsx',
+      'jpg',
+      'png',
+      'pptx',
+      'sql',
+      'docx',
+      'txt',
+      'pdf',
+      'rar',
+    ];
+
+    files.forEach((file: any) => {
+      let fileSplit: string[] = file.name.split('.');
+      let type = fileSplit[fileSplit.length - 1];
+      let item: any = {};
+
+      if (types.includes(type)) {
+        item['img'] = `../../../../assets/Images/file_type/${type}.png`;
+      } else {
+        item['img'] = `../../../../assets/Images/file_type/doc.png`;
+      }
+
+      item['name'] = file.name;
+      item['type'] = type;
+
+      this.homeworkFiles.push(item);
+    });
+  }
+
+  async onAddFile() {
+    let input: any = document.querySelector('.home-work input');
+
+    input.click();
+  }
+
+  onRemveFileItem(event: any, name: String) {
+    this.homeworkFiles.splice(
+      this.homeworkFiles.findIndex((t) => t.name === name),
+      1
+    );
+  }
+
+  async onSubmitHomeWork() {}
 }

@@ -70,16 +70,33 @@
 
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
-        <div class="row ali-center jus-between">
+        <div class="row ali-center jus-between home-work">
           <p class="home-work-title p-b-8">Bài tập của bạn</p>
           <p class="mission-note" *ngIf="isOutDate">Thiếu</p>
+          <input type="file" hidden (input)="onConfirmFile($event)" multiple />
+        </div>
+
+        <div class="list-file" *ngIf="homeworkFiles.length > 0">
+          <div
+            class="file-item row ali-center"
+            *ngFor="let item of homeworkFiles"
+          >
+            <img [src]="item.img" alt="" />
+
+            <div class="item-info">
+              <p>{{ item.name }}</p>
+              <span>{{ item.type }}</span>
+            </div>
+
+            <i class="fa-solid fa-xmark remove-btn" style="color: #878787" (click)="onRemveFileItem($event, item.name)"></i>
+          </div>
         </div>
 
         <div>
-          <button class="comment-btn w-100" (click)="onAddComment()">
+          <button class="comment-btn w-100" (click)="onAddFile()">
             Thêm file đi kèm
           </button>
-          <button class="comment-btn w-100" (click)="onAddComment()">
+          <button class="comment-btn w-100" (click)="onSubmitHomeWork()">
             Nộp bài
           </button>
         </div>
