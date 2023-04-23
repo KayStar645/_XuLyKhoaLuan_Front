@@ -4,7 +4,7 @@ import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { format } from 'date-fns';
+import { compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
@@ -21,6 +21,7 @@ export class DashboardBaitapchitietComponent {
   giangVien: GiangVien = new GiangVien();
   thoiHan = '';
   listBinhLuan: BinhLuan[] = [];
+  isOutDate: boolean = true;
 
   dtForm = new Form({
     nhanXet: [''],
@@ -45,6 +46,10 @@ export class DashboardBaitapchitietComponent {
       (bl) => bl.maCv == this.maCV
     );
     this.websocketService.startConnection();
+
+    if(compareAsc(new Date(), new Date(this.cviec.hanChot)) === 1){
+      this.isOutDate = true;
+    }
   }
 
   catchDateTime() {

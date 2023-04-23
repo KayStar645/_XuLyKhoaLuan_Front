@@ -1,53 +1,66 @@
-<form class="tb-form">
-  <div class="container row p-t-16">
-    <div class="h-8 p-l-8 p-r-8">
-      <div class="congviec-detail">
-        <div class="form-control">
-          <div class="congviec-header p-b-8">{{ cviec.tenCv }}</div>
-          <div class="teacher-name">{{ giangVien.tenGv }}</div>
-          <div class="congviec-mota">
-            <span>Mô tả: </span>
-            {{ cviec.moTa }}
+<form class="tb-form detail-container">
+  <div class="row functional-wrapper">
+    <div class="h-9 p-l-8 p-r-8">
+      <div class="detail-item">
+        <div class="mission-info relative">
+          <div class="mission-img row ali-center jus-center ma-r-16">
+            <img src="../../../../assets/Images/mission.svg" alt="" />
           </div>
-          <div class="row ali-center">
-            <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+
+          <div>
+            <div class="misstion-name p-b-8">{{ cviec.tenCv }}</div>
+            <div class="row ali-center jus-between">
+              <div class="teacher-name">{{ giangVien.tenGv }}</div>
+              <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+            </div>
+
+            <div class="mission-request" style="border: none">
+              <span>Mô tả: </span>
+              {{ cviec.moTa }}
+            </div>
+
+            <div class="mission-request">
+              <span>Yêu cầu: </span>
+              {{ cviec.yeuCau }}
+            </div>
           </div>
-          <div class="congviec-yeucau">
-            <span>Yêu cầu: </span>
-            {{ cviec.yeuCau }}
-          </div>
-        </div>
-      </div>
 
-      <div [formGroup]="dtForm.form" class="form-control">
-        <div class="form-value">
-          <quill-editor
-            spellcheck="false"
-            class="form-input"
-            placeholder=""
-            [modules]="{ toolbar: false }"
-            formControlName="nhanXet"
-          ></quill-editor>
-          <p class="error-mess"></p>
-        </div>
-
-        <div class="row jus-end">
-          <button class="comment-btn" (click)="onAddComment()">
-            Bình luận
-          </button>
-        </div>
-
-        <div class="comment-list">
-          <div class="comment-item" *ngFor="let duyet of listBinhLuan">
-            <div class="row">
-              <div>
+          <div [formGroup]="dtForm.form" class="commment-form">
+            <p class="comment-title">Nhận xét về công việc</p>
+            <div class="form-control">
+              <div class="user-img row ali-center jus-center ma-r-16">
                 <img src="../../../../assets/Images/user-icon.svg" alt="" />
               </div>
 
-              <div class="comment-info">
-                <p class="title">{{ duyet.maSv }}</p>
-                <p class="content" [innerHTML]="duyet.noiDung"></p>
-                <p class="time">{{ duyet.thoiGian }}</p>
+              <div class="form-value">
+                <quill-editor
+                  spellcheck="false"
+                  class="form-input"
+                  placeholder="Thêm nhận xét cho công việc tại đây"
+                  [modules]="{ toolbar: false }"
+                  formControlName="nhanXet"
+                ></quill-editor>
+                <p class="error-mess"></p>
+              </div>
+            </div>
+
+            <div class="row jus-end">
+              <button class="comment-btn" (click)="onAddComment()">Đăng</button>
+            </div>
+
+            <div class="comment-list">
+              <div class="comment-item" *ngFor="let duyet of listBinhLuan">
+                <div class="row">
+                  <div>
+                    <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                  </div>
+
+                  <div class="comment-info">
+                    <p class="title">{{ duyet.maSv }}</p>
+                    <p class="content" [innerHTML]="duyet.noiDung"></p>
+                    <p class="time">{{ duyet.thoiGian }}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -55,19 +68,20 @@
       </div>
     </div>
 
-    <div class="h-4 p-l-8 p-r-8">
-      <div class="congviec-detail">
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Bài tập của bạn</p>
-          <div class="row jus-end">
-            <button
-              class="comment-btn m-r-auto m-l-auto"
-              (click)="onAddComment()"
-            >
-              Nộp bài
-            </button>
-          </div>
-          <p class="error-mess"></p>
+    <div class="h-3 p-l-8 p-r-8">
+      <div class="detail-item">
+        <div class="row ali-center jus-between">
+          <p class="home-work-title p-b-8">Bài tập của bạn</p>
+          <p class="mission-note" *ngIf="isOutDate">Thiếu</p>
+        </div>
+
+        <div>
+          <button class="comment-btn w-100" (click)="onAddComment()">
+            Thêm file đi kèm
+          </button>
+          <button class="comment-btn w-100" (click)="onAddComment()">
+            Nộp bài
+          </button>
         </div>
       </div>
     </div>

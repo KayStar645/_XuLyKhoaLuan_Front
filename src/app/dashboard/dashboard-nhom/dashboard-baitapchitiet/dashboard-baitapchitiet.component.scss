@@ -1,17 +1,7 @@
-.m-b-10 {
-  margin-bottom: 10px;
-}
-
-.fs-24 {
-  font-size: 24px;
-}
-
-.color-dark {
-  color: #3c4043;
-}
-
-.t-center {
-  text-align: center;
+.detail-container {
+  margin: 0 -90px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .color-blue {
@@ -27,14 +17,6 @@
 .assignment-name {
   font-size: 40px;
   margin-bottom: 0.25rem;
-}
-
-.teacher-name {
-  margin-bottom: 0.5rem;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 30px;
-  color: #5f6368;
 }
 
 .deadline {
@@ -89,17 +71,16 @@
   }
 }
 
-.congviec-header {
+.misstion-name {
   color: rgb(25, 103, 210);
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 600;
 }
 
 .teacher-name {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  line-height: 1.3rem;
-  color: #5f6368;
+  color: #4c4d4f;
 }
 
 .congviec-mota {
@@ -110,20 +91,16 @@
   line-height: 1.25rem;
 }
 
-.congviec-yeucau {
-  font-size: 1.7rem;
-  line-height: 1.3rem;
-  color: #3c4043;
-  margin-top: 8px;
-  padding-top: 8px;
+.mission-request {
+  font-size: 1.4rem;
+  padding: 16px 0;
+  color: #5f6368;
   border-top: 1px solid rgb(25, 103, 210);
 }
 
 .mission-timeout {
-  font-size: 1.3rem;
-  color: rgba(0, 0, 0, 0.549);
-  margin-right: 0;
-  margin-left: auto;
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .form-value {
@@ -146,8 +123,9 @@
 .comment-btn {
   background: #0984e3;
   color: #fff;
-  padding: 10px 12px;
+  padding: 8px 12px;
   min-width: 75px;
+  font-weight: 600;
   font-size: 1.4rem;
   border-radius: 5px;
   margin-top: 12px;
@@ -195,10 +173,55 @@
   }
 }
 
-.m-r-auto {
-  margin-right: auto;
+.mission-img {
+  height: 40px;
+  width: 40px;
+  background: dodgerblue;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  img {
+    width: auto;
+  }
 }
 
-.m-l-auto {
-  margin-left: auto;
+.mission-info {
+  padding-left: 54px;
+}
+
+.commment-form {
+  padding-top: 16px;
+  border-top: 1.6px solid #e0e0e0;
+}
+
+.commment-form .form-control {
+  position: relative;
+  padding-left: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.comment-title {
+  color: #3c4043;
+  font-size: 1.5rem;
+  padding-bottom: 12px;
+}
+
+.commment-form .user-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+}
+
+.home-work-title {
+  font-size: 2.2rem;
+  color: #56595c;
+}
+
+.mission-note {
+  color: #db0909;
+  font-size: 1.5rem;
 }

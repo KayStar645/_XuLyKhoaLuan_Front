@@ -1,137 +1,129 @@
-<div class="wrapper">
-    <header>
-      <div class="poster">
-        <div class="layer">
-          <div class="poster-info">
-            <p class="group-name">{{ nhom.tenNhom }}</p>
-            <p [innerHTML]="deTai.tenDT" class="topic-name"></p>
+<div class="poster">
+  <div class="layer">
+    <div class="poster-info">
+      <p class="group-name">{{ nhom.tenNhom }}</p>
+      <p [innerHTML]="deTai.tenDT" class="topic-name"></p>
+    </div>
+  </div>
+</div>
+
+<div id="container">
+  <div class="row">
+    <div class="h-4 p-l-8 p-r-8">
+      <div class="first-info">
+        <div class="time-out ma-b-16">
+          <div class="ma-b-16">
+            <p class="title">Mã nhóm</p>
+
+            <p class="group-id">{{ nhom.maNhom }}</p>
           </div>
-        </div>
-      </div>
-    </header>
-  
-    <div id="container">
-      <div class="row">
-        <div class="h-4 p-l-8 p-r-8">
-          <div class="first-info">
-            <div class="time-out ma-b-16">
-              <div class="ma-b-16">
-                <p class="title">Mã nhóm</p>
-  
-                <p class="group-id">{{ nhom.maNhom }}</p>
+
+          <p class="title">Thành viên nhóm</p>
+
+          <div class="member-list">
+            <div class="member-item row ali-center" *ngFor="let item of listSV">
+              <div *ngIf="item.gioiTinh === 'Nam'; else female">
+                <img
+                  src="../../../../../assets/Images/avatar-nam.jpeg"
+                  alt=""
+                />
               </div>
-  
-              <p class="title">Thành viên nhóm</p>
-  
-              <div class="member-list">
-                <div
-                  class="member-item row ali-center"
-                  *ngFor="let item of listSV"
-                >
-                  <div *ngIf="item.gioiTinh === 'Nam'; else female">
-                    <img
-                      src="../../../../../assets/Images/avatar-nam.jpeg"
-                      alt=""
-                    />
-                  </div>
-  
-                  <ng-template #female>
-                    <img
-                      src="../../../../../assets/Images/avatar-nu.jpg"
-                      alt=""
-                    />
-                  </ng-template>
-  
-                  <p class="member-info">{{ item.tenSv }} - {{ item.maSv }}</p>
-                </div>
-              </div>
-            </div>
-  
-            <div class="time-out">
-              <p class="title">Sắp đến hạn</p>
-  
-              <div
-                class="time-out-list"
-                *ngIf="nearTimeOutMS.length > 0; else noMission"
-              >
-                <div
-                  class="list-item row ali-center"
-                  *ngFor="let cv of nearTimeOutMS"
-                >
-                  <div class="item-img ma-r-12">
-                    <img src="../../../../assets/Images/mission.svg" alt="" />
-                  </div>
-                  <div class="flex-1 item-info">
-                    <p class="item-time">Đến hạn {{ cv.thu }}</p>
-                    <a
-                      [routerLink]="[
-                        '/dashboard/nhom/bai-tap-chi-tiet',
-                        { maCv: cv.maCv }
-                      ]"
-                      class="item-title"
-                      >{{ cv.thoiGianKt2 }} - {{ cv.tenCv }}</a
-                    >
-                  </div>
-                </div>
-              </div>
-  
-              <ng-template #noMission>
-                <p class="no-missioin">
-                  Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!
-                </p>
+
+              <ng-template #female>
+                <img src="../../../../../assets/Images/avatar-nu.jpg" alt="" />
               </ng-template>
+
+              <p class="member-info">{{ item.tenSv }} - {{ item.maSv }}</p>
             </div>
           </div>
         </div>
-  
-        <div class="h-8 p-l-8 p-r-8">
-          <div class="mission-list">
-            <div class="list-item" *ngFor="let item of listBT">
-              <div
-                (click)="onShowMore($event)"
-                class="row ali-center mission-header"
-              >
-                <div class="item-img ma-r-12">
-                  <img src="../../../assets/Images/mission.svg" alt="" />
-                </div>
-  
-                <p class="flex-1 mission-title">
-                  {{ item.moTa ? item.moTa : item.tenCv }}
-                </p>
-  
-                <div class="row ali-center">
-                  <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
-                </div>
+
+        <div class="time-out">
+          <p class="title">Sắp đến hạn</p>
+
+          <div
+            class="time-out-list"
+            *ngIf="nearTimeOutMS.length > 0; else noMission"
+          >
+            <div
+              class="list-item row ali-center"
+              *ngFor="let cv of nearTimeOutMS"
+            >
+              <div class="item-img ma-r-12">
+                <img src="../../../../assets/Images/mission.svg" alt="" />
               </div>
-  
-              <div class="collapse-block row jus-between">
-                <div class="mission-info">
-                  <p class="mission-description">
-                    {{ item.yeuCau }}
-                  </p>
-                </div>
-  
-                <div class="row flex-column ali-center mission-rate">
-                  <p class="rate-title">Tiến độ thực hiện</p>
-  
-                  <p class="rate-score">
-                    {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
-                  </p>
-                </div>
-              </div>
-  
-              <div class="c-blue for-detail">
+              <div class="flex-1 item-info">
+                <p class="item-time">Đến hạn {{ cv.thu }}</p>
                 <a
                   [routerLink]="[
                     '/dashboard/nhom/bai-tap-chi-tiet',
-                    { maCv: item.maCv }
+                    { maCv: cv.maCv }
                   ]"
-                  >Xem chi tiết</a
+                  class="item-title"
+                  >{{ cv.thoiGianKt2 }} - {{ cv.tenCv }}</a
                 >
               </div>
+            </div>
+          </div>
+
+          <ng-template #noMission>
+            <p class="no-missioin">
+              Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!
+            </p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-8 p-l-8 p-r-8">
+      <div class="mission-list">
+        <div class="list-item" *ngFor="let item of listBT">
+          <div
+            (click)="onShowMore($event)"
+            class="row ali-center mission-header"
+          >
+            <div class="item-img ma-r-12">
+              <img src="../../../../assets/Images/mission.svg" alt="" />
+            </div>
+
+            <p class="flex-1 mission-title">
+              {{ item.moTa ? item.moTa : item.tenCv }}
+            </p>
+
+            <div class="row ali-center">
+              <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
+            </div>
+          </div>
+
+          <div class="collapse-block">
+            <div class="row jus-between">
+              <div class="mission-info">
+                <p class="mission-description">
+                  {{ item.yeuCau }}
+                </p>
+              </div>
+
+              <div class="row flex-column ali-center mission-rate">
+                <p class="rate-title">Tiến độ thực hiện</p>
+
+                <p class="rate-score">
+                  {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
+                </p>
+              </div>
+            </div>
+
+            <div class="c-blue for-detail">
+              <a
+                [routerLink]="[
+                  '/dashboard/nhom/bai-tap-chi-tiet',
+                  { maCv: item.maCv }
+                ]"
+                >Xem chi tiết</a
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
