@@ -1,3 +1,4 @@
+import { sinhVienService } from './../../../services/sinhVien.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CongViec } from 'src/app/models/CongViec.model';
@@ -20,6 +21,7 @@ import { baoCaoService } from 'src/app/services/baoCao.service';
 import { BaoCao } from 'src/app/models/BaoCao.model';
 import { Validators } from '@angular/forms';
 import { vi } from 'date-fns/locale';
+import { SinhVien } from 'src/app/models/SinhVien.model';
 
 @Component({
   selector: 'app-dashboard-baitapchitiet',
@@ -48,7 +50,8 @@ export class DashboardBaitapchitietComponent {
     private binhLuanService: binhLuanService,
     private toastService: ToastrService,
     private websocketService: WebsocketService,
-    private baoCaoService: baoCaoService
+    private baoCaoService: baoCaoService,
+    private sinhVienService: sinhVienService
   ) {}
 
   async ngOnInit() {
@@ -170,34 +173,44 @@ export class DashboardBaitapchitietComponent {
     this.homeworkFiles.splice(index, 1);
   }
 
-  onSubmitHomeWork() {
+  async onSubmitHomeWork() {
     if (this.homeworkFiles.length > 0) {
       try {
-        this.homeworkFiles.forEach(async (file) => {
-          let baoCao = new BaoCao();
-          let currDate = new Date();
-
-          baoCao.dot = this.dot;
-          baoCao.fileBc = file.name;
-          baoCao.lanNop = 1;
-          baoCao.maCv = this.maCV;
-          baoCao.maSv = DashboardComponent.maSV;
-          baoCao.namHoc = this.namHoc;
-          baoCao.thoiGianNop =
-            format(currDate, 'yyyy-MM-dd') +
-            'T' +
-            format(currDate, 'HH:mm:ss') +
-            '.000Z';
-
-          await this.baoCaoService.add(baoCao);
+        for (var file of this.homeworkFiles) {
+          await this.addBaoCao(file.name);
           this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
-        });
+        }
       } catch (error) {
-        this.toastService.error('Nộp báo cáo thất bại', 'Thông báo !');
+        this.toastService.error('Nộp báo cáo thất bại', 'Thông báo!');
       }
     } else {
       this.toastService.warning('Vui lòng thêm file đi kèm', 'Thông báo !');
     }
+  }
+
+  async addBaoCao(fileName: string) {
+    let currDate = new Date();
+    let thoiGianNop =
+      format(currDate, 'yyyy-MM-dd') +
+      'T' +
+      format(currDate, 'HH:mm:ss') +
+      '.000Z';
+
+    let baoCao = new BaoCao();
+    baoCao.init(
+      this.maCV,
+      DashboardComponent.maSV,
+      this.namHoc,
+      this.dot,
+      thoiGianNop,
+      fileName
+    );
+    await this.baoCaoService.add(baoCao);
+  }
+
+  async getNameSinhvien(maSv: string) {
+    let sv = await this.sinhVienService.getById(maSv);
+    return sv.maSv + ' - ' + sv.tenSv;
   }
 
   getNamhocDot() {

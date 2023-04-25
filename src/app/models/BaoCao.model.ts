@@ -8,4 +8,13 @@ export class BaoCao {
     public fileBc!: string;
 
     constructor() {}
+
+    init(maCv: string, maSv: string, namHoc: string, dot: number, thoiGianNop: string, fileBc: string) {
+        this.maCv = maCv;
+        this.maSv = maSv;
+        this.namHoc = namHoc;
+        this.dot = dot;
+        this.thoiGianNop = thoiGianNop;
+        this.fileBc = fileBc;
+    }
 }
