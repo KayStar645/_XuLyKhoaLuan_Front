@@ -40,7 +40,7 @@
         <div class="comment-list">
                 <div
                   class="comment-item"
-                  *ngFor="let gopy of this.listHDGopy"
+                  *ngFor="let td of this.listTraoDoi"
                 >
                   <div class="row">
                     <div>
@@ -51,29 +51,13 @@
                     </div>
 
                     <div class="comment-info">
-                      <p class="title">{{ gopy.tenGv }}</p>
-                      <p class="content" [innerHTML]="gopy.noiDung"></p>
-                      <p class="time">{{ gopy.thoiGian }}</p>
+                      <p class="title">{{ td.tenHienThi }}</p>
+                      <p class="content" [innerHTML]="td.noiDung"></p>
+                      <p class="time">{{ td.thoiGian }}</p>
                     </div>
                   </div>
                 </div>
               </div>
-
-        <div class="comment-list">
-          <div class="comment-item" *ngFor="let duyet of listBinhLuan">
-            <div class="row">
-              <div>
-                <img src="../../../../assets/Images/user-icon.svg" alt="" />
-              </div>
-
-              <div class="comment-info">
-                <p class="title">{{ duyet.maSv }}</p>
-                <p class="content" [innerHTML]="duyet.noiDung"></p>
-                <p class="time">{{ duyet.thoiGian }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 

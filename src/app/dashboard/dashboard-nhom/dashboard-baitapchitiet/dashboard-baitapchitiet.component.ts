@@ -1,3 +1,4 @@
+import { traoDoiService } from './../../../services/traodoi.service';
 import { sinhVienService } from './../../../services/sinhVien.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -21,7 +22,7 @@ import { baoCaoService } from 'src/app/services/baoCao.service';
 import { BaoCao } from 'src/app/models/BaoCao.model';
 import { Validators } from '@angular/forms';
 import { vi } from 'date-fns/locale';
-import { SinhVien } from 'src/app/models/SinhVien.model';
+import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 
 @Component({
   selector: 'app-dashboard-baitapchitiet',
@@ -35,7 +36,7 @@ export class DashboardBaitapchitietComponent {
   cviec: CongViec = new CongViec();
   giangVien: GiangVien = new GiangVien();
   thoiHan = '';
-  listBinhLuan: any[] = [];
+  listTraoDoi: Traodoi[] = [];
   isOutDate: boolean = true;
   homeworkFiles: any[] = [];
 
@@ -47,9 +48,10 @@ export class DashboardBaitapchitietComponent {
     private route: ActivatedRoute,
     private congViecService: congViecService,
     private giangVienService: giangVienService,
-    private binhLuanService: binhLuanService,
+    private traoDoiService: traoDoiService,
     private toastService: ToastrService,
     private websocketService: WebsocketService,
+    private binhLuanService: binhLuanService,
     private baoCaoService: baoCaoService,
     private sinhVienService: sinhVienService
   ) {}
@@ -63,9 +65,7 @@ export class DashboardBaitapchitietComponent {
     this.cviec = await this.congViecService.getById(this.maCV);
     this.giangVien = await this.giangVienService.getById(this.cviec.maGv);
     this.catchDateTime();
-    this.listBinhLuan = (await this.binhLuanService.getAll()).filter(
-      (bl) => bl.maCv == this.maCV
-    );
+    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(this.maCV);
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromBinhLuan(async (dataChange: boolean) => {
@@ -81,14 +81,22 @@ export class DashboardBaitapchitietComponent {
   }
 
   async getBinhLuans() {
-    this.listBinhLuan = (await this.binhLuanService.getAll())
-      .filter((t) => t.maCv === this.maCV)
-      .map((t: any) => ({
-        ...t,
-        thoiGian: formatDistanceToNow(new Date(t.thoiGian), { locale: vi }),
-      }));
-
-    console.log(this.listBinhLuan);
+    await this.traoDoiService
+      .GetAllTraoDoiMotCongViec(this.maCV)
+      .then((data) => {
+        this.listTraoDoi = data.map((t: any) => {
+          return {
+            ...t,
+            thoiGian:
+              t.thoiGian.substr(0, 10) +
+              ' (' +
+              formatDistanceToNowStrict(new Date(t.thoiGian), {
+                locale: vi,
+              }) +
+              ' trước) ',
+          };
+        });
+      });
   }
 
   catchDateTime() {

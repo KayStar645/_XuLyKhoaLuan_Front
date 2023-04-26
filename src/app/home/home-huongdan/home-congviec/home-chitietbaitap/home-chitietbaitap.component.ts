@@ -1,5 +1,5 @@
+import { traoDoiService } from './../../../../services/traodoi.service';
 import { hdGopYService } from './../../../../services/hdGopY.service';
-import { duyetDtService } from 'src/app/services/duyetDt.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CongViec } from 'src/app/models/CongViec.model';
@@ -7,17 +7,14 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { format, formatDistanceToNowStrict } from 'date-fns';
-import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
-import { Validators } from '@angular/forms';
-import { binhLuanService } from 'src/app/services/binhLuan.service';
-import { shareService } from 'src/app/services/share.service';
 import { vi } from 'date-fns/locale';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { DuyetDt } from 'src/app/models/DuyetDt.model';
 import { HomeMainComponent } from 'src/app/home/home-main/home-main.component';
 import { HdGopi } from 'src/app/models/HdGopi.model';
 import { HomeDanhsachbaitapComponent } from '../home-danhsachbaitap/home-danhsachbaitap.component';
+import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 
 @Component({
   selector: 'app-home-chitietbaitap',
@@ -29,8 +26,7 @@ export class HomeChitietbaitapComponent {
   cviec: CongViec = new CongViec();
   giangVien: GiangVien = new GiangVien();
   thoiHan = '';
-  listBinhLuan: BinhLuan[] = [];
-  listHDGopy: any[] = [];
+  listTraoDoi: Traodoi[] = [];
 
   GVInputConfig: any = {};
 
@@ -42,7 +38,7 @@ export class HomeChitietbaitapComponent {
     private route: ActivatedRoute,
     private congViecService: congViecService,
     private giangVienService: giangVienService,
-    private binhLuanService: binhLuanService,
+    private traoDoiService: traoDoiService,
     private hdGopYService: hdGopYService,
     private websocketService: WebsocketService
   ) {}
@@ -58,9 +54,7 @@ export class HomeChitietbaitapComponent {
     this.cviec = await this.congViecService.getById(this.maCV);
     this.giangVien = await this.giangVienService.getById(this.cviec.maGv);
     this.catchDateTime();
-    this.listBinhLuan = (await this.binhLuanService.getAll()).filter(
-      (bl) => bl.maCv == this.maCV
-    );
+    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(this.maCV);
 
     await this.getComment();
 
@@ -75,18 +69,22 @@ export class HomeChitietbaitapComponent {
   }
 
   async getComment() {
-    await this.hdGopYService.GetHdGopyByMacv(this.maCV).then((data) => {
-      this.listHDGopy = data.map((t: any) => {
-        return {
-          ...t,
-          thoiGian: formatDistanceToNowStrict(new Date(t.thoiGian), {
-            locale: vi,
-          }),
-          tenGv: this.GVInputConfig.data.find((t2: any) => t2.maGv === t.maGv)
-            .tenGv,
-        };
+    await this.traoDoiService
+      .GetAllTraoDoiMotCongViec(this.maCV)
+      .then((data) => {
+        this.listTraoDoi = data.map((t: any) => {
+          return {
+            ...t,
+            thoiGian:
+              t.thoiGian.substr(0, 10) +
+              ' (' +
+              formatDistanceToNowStrict(new Date(t.thoiGian), {
+                locale: vi,
+              }) +
+              ' trước) ',
+          };
+        });
       });
-    });
   }
 
   async onAddComment() {

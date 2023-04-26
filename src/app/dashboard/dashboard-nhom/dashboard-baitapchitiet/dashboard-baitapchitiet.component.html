@@ -49,14 +49,14 @@
             </div>
 
             <div class="comment-list">
-              <div class="comment-item" *ngFor="let duyet of listBinhLuan">
+              <div class="comment-item" *ngFor="let duyet of listTraoDoi">
                 <div class="row">
                   <div>
                     <img src="../../../../assets/Images/user-icon.svg" alt="" />
                   </div>
 
                   <div class="comment-info">
-                    <p class="title">{{ duyet.maSv }}</p>
+                    <p class="title">{{ duyet.tenHienThi }}</p>
                     <p class="content" [innerHTML]="duyet.noiDung"></p>
                     <p class="time">{{ duyet.thoiGian }}</p>
                   </div>
