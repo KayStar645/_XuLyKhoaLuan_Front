@@ -98,4 +98,15 @@ export class nhiemVuService {
       )
       .toPromise();
   }
+
+  async SoLuongDeTaiPhaiRa(maGV: string):Promise<number> {
+    return (
+      (await this.http
+        .get<number>(
+          `${this.apiUrl}/api/Nhiemvus/maGVien?maGVien=${maGV}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? 0
+    );
+  }
 }

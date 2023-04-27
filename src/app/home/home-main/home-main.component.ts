@@ -1,3 +1,6 @@
+import { phanBienService } from 'src/app/services/phanBien.service';
+import { huongDanService } from 'src/app/services/huongDan.service';
+import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { HoiDong } from './../../models/HoiDong.model';
@@ -35,8 +38,9 @@ export class HomeMainComponent {
   hoiDong: any = HoiDong;
   itemNumber = 9;
 
-  countNV = 0;
-  countKH = 0;
+  countRD = 0;
+  countHD = 0;
+  countPB = 0;
   boMon = '';
 
   constructor(
@@ -49,7 +53,10 @@ export class HomeMainComponent {
     private truongBmService: truongBmService,
     private boMonService: boMonService,
     private el: ElementRef,
-    private thongBaoService: thongBaoService
+    private thongBaoService: thongBaoService,
+    private nhiemVuService: nhiemVuService,
+    private huongDanService: huongDanService,
+    private phanBienService: phanBienService
   ) {}
 
   public async ngOnInit() {
@@ -80,6 +87,10 @@ export class HomeMainComponent {
       ).maKhoa;
       HomeMainComponent.maKhoa = this.maKhoa;
     }
+
+    this.countRD = await this.nhiemVuService.SoLuongDeTaiPhaiRa(this.maGV);
+    this.countHD = await this.huongDanService.SoLuongDeTaiPhaiHuongDan(this.maGV);
+    this.countPB = await this.phanBienService.SoLuongDeTaiPhaiPhanbien(this.maGV);
 
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
     this.resetNavbar();
