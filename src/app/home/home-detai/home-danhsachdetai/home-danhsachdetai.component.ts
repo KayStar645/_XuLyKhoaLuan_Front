@@ -238,6 +238,7 @@ export class HomeDanhsachdetaiComponent {
           await this.createRaDe(maDT);
 
           await this.createChuyenNganh_DeTai(data[5], maDT);
+          this.websocketService.sendForDeTai(true);
 
           this.toastr.success('Thêm đề tài thành công', 'Thông báo !');
         } catch (error) {
