@@ -1,3 +1,4 @@
+import { shareService } from 'src/app/services/share.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -35,9 +36,9 @@ export class MinistrySinhvienComponent implements OnInit {
   svForm = new Form({
     maSv: ['', Validators.required],
     tenSv: ['', Validators.required],
-    email: ['', Validators.email],
-    ngaySinh: [''],
-    gioiTinh: ['', Validators.required],
+    email: [''],
+    //ngaySinh: [''],
+    gioiTinh: [''],
     sdt: [''],
     lop: ['', Validators.required],
     maCn: ['', Validators.required],
@@ -49,7 +50,8 @@ export class MinistrySinhvienComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
     private toastr: ToastrService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private shareService: shareService
   ) {
     this.svAddForm = this.svForm.form;
     this.svUpdateForm = this.svForm.form;
@@ -86,7 +88,6 @@ export class MinistrySinhvienComponent implements OnInit {
     if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
       this.svForm.form.setValue({
         ...this.DSSVComponent.lineSV,
-        ngaySinh: this.DSSVComponent.lineSV.ngaySinh.substring(0, 10),
       });
 
       document.documentElement.classList.add('no-scroll');
@@ -204,9 +205,6 @@ export class MinistrySinhvienComponent implements OnInit {
       const datas = excelData
         .slice(1, excelData.length)
         .filter((data: any) => data.length > 0);
-      datas.forEach((data: any, i) => {
-        data[2] = data[2] ? XLSX.SSF.format('yyyy-MM-dd', data[2]) : undefined;
-      });
       this.sinhVienFile = {
         name: file.name,
         size: (file.size / 1024).toFixed(2) + 'MB',
@@ -237,22 +235,18 @@ export class MinistrySinhvienComponent implements OnInit {
 
       for (let data of datas) {
         let sinhVien = new SinhVien();
-        sinhVien.init(
-          data[0] ? JSON.stringify(data[0]) : '',
-          data[1] ? data[1] : '',
-          data[2] ? data[2] : '',
-          data[3] ? data[3] : '',
-          data[4] ? data[4] : '',
-          data[5] ? data[5] : '',
-          data[6] ? data[6] : '',
-          data[7] ? data[7] : ''
+        let cn = await this.chuyenNganhService.GetMaCnByTenAsync(
+          this.shareService.removeSpace(data[5])
         );
+        sinhVien.init2(data[3].toString(), data[1] + ' ' + data[2], data[4], cn.maCn);
         await this.f_AddSinhVien(sinhVien);
       }
 
       this.websocketService.sendForSinhVien(true);
     }
   }
+
+  
 
   async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
@@ -312,7 +306,6 @@ export class MinistrySinhvienComponent implements OnInit {
       sinhVien.init(
         this.svAddForm.value['maSv'],
         this.svAddForm.value['tenSv'],
-        this.svAddForm.value['ngaySinh'],
         this.svAddForm.value['gioiTinh'],
         this.svAddForm.value['lop'],
         this.svAddForm.value['sdt'],
@@ -370,7 +363,6 @@ export class MinistrySinhvienComponent implements OnInit {
         sinhVien.init(
           this.svUpdateForm.value['maSv'],
           this.svUpdateForm.value['tenSv'],
-          this.svUpdateForm.value['ngaySinh'],
           this.svUpdateForm.value['gioiTinh'],
           this.svUpdateForm.value['lop'],
           this.svUpdateForm.value['sdt'],

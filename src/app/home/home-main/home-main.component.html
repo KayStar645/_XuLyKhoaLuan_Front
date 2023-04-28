@@ -7,15 +7,16 @@
           <div class="info-content row ma-t-24">
             <div class="info-img">
               <img
-                *ngIf="data?.gioiTinh == 'Nữ'"
+                *ngIf="data?.gioiTinh == 'Nữ'; else Nam"
                 src="../../assets/Images/avatar-nu.jpg"
                 alt="Avatar"
               />
-              <img
-                *ngIf="data?.gioiTinh == 'Nam'"
+              <ng-template #Nam>
+                <img
                 src="../../assets/Images/avatar-nam.jpeg"
                 alt="Avatar"
-              />
+                />
+              </ng-template>
               <a href="" class="detail-link">Xem chi tiết</a>
             </div>
   
@@ -31,7 +32,7 @@
                       <p>Họ tên:</p>
                       <b>{{ data?.tenGv }}</b>
                     </li>
-                    <li class="info-left-item row ali-center">
+                    <li class="info-left-item row ali-center" *ngIf="data.gioiTinh">
                       <p>Giới tính:</p>
                       <b>{{ data?.gioiTinh }}</b>
                     </li>

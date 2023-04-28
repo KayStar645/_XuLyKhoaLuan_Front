@@ -100,16 +100,16 @@
           </div>
         </label>
 
-        <label class="form-control row ali-center form-control">
-          <p class="label">Ngày sinh</p>
+        <label class="input row ali-center form-control">
+          <p class="label">Số điện thoại</p>
           <div class="form-value">
             <input
               class="form-input"
-              type="date"
-              formControlName="ngaySinh"
+              type="text"
+              formControlName="sdt"
+              maxlength="10"
               (blur)="svForm.inputBlur($event)"
             />
-
             <p class="error-mess"></p>
           </div>
         </label>
@@ -246,16 +246,16 @@
           </div>
         </label>
 
-        <label class="form-control row ali-center form-control">
-          <p class="label">Ngày sinh</p>
+        <label class="input row ali-center form-control">
+          <p class="label">Số điện thoại</p>
           <div class="form-value">
             <input
               class="form-input"
-              type="date"
-              formControlName="ngaySinh"
+              type="text"
+              formControlName="sdt"
+              maxlength="10"
               (blur)="svForm.inputBlur($event)"
             />
-
             <p class="error-mess"></p>
           </div>
         </label>
@@ -319,20 +319,7 @@
             <p class="error-mess"></p>
           </div>
         </label>
-
-        <label class="input row ali-center form-control">
-          <p class="label">Số điện thoại</p>
-          <div class="form-value">
-            <input
-              class="form-input"
-              type="text"
-              formControlName="sdt"
-              maxlength="10"
-              (blur)="svForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
+        
       </div>
     </div>
 

@@ -30,15 +30,14 @@ export class MinistryGiangvienComponent implements OnInit {
   gvAddForm: any;
   gvUpdateForm: any;
   gvOldForm: any;
-  isSelectedGV: boolean = false;
 
   gvForm = new Form({
     maGv: ['', Validators.required],
     maBm: ['', Validators.required],
     tenGv: ['', Validators.required],
     email: ['', Validators.email],
-    ngaySinh: ['', Validators.required],
-    ngayNhanViec: ['', Validators.required],
+    ngaySinh: [''],
+    ngayNhanViec: [''],
     gioiTinh: ['', Validators.required],
     hocHam: [''],
     sdt: [''],
@@ -69,10 +68,6 @@ export class MinistryGiangvienComponent implements OnInit {
     this.websocketService.startConnection();
   }
 
-  setIsSelectedGv(event: any) {
-    this.isSelectedGV = event;
-  }
-
   onShowFormAdd() {
     document.documentElement.classList.add('no-scroll');
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
@@ -90,11 +85,9 @@ export class MinistryGiangvienComponent implements OnInit {
     if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
       this.gvForm.form.setValue({
         ...this.DSGVComponent.lineGV,
-        ngayNhanViec: this.DSGVComponent.lineGV.ngayNhanViec.substring(0, 10),
-        ngaySinh: this.DSGVComponent.lineGV.ngaySinh.substring(0, 10),
-        ngayNghi:
-          this.DSGVComponent.lineGV.ngayNghi &&
-          this.DSGVComponent.lineGV.ngayNghi.substring(0, 10),
+        ngayNhanViec: '',
+        ngaySinh: '',
+        ngayNghi: '',
       });
 
       updateBox.classList.add('active');
@@ -284,41 +277,41 @@ export class MinistryGiangvienComponent implements OnInit {
     }
   }
 
-  onNgayNhanViecInput(event: any) {
-    let formValue: any = this.gvForm.form.value;
+  // onNgayNhanViecInput(event: any) {
+  //   let formValue: any = this.gvForm.form.value;
 
-    if (formValue.ngaySinh) {
-      let ngaySinh: any = this.gvForm.form.get('ngaySinh');
-      let value = event.target.value;
-      let date1 = new Date(formValue.ngaySinh);
-      let date2 = new Date(value);
-      let isSmaller = compareAsc(date1, date2) === -1 ? true : false;
+  //   if (formValue.ngaySinh) {
+  //     let ngaySinh: any = this.gvForm.form.get('ngaySinh');
+  //     let value = event.target.value;
+  //     let date1 = new Date(formValue.ngaySinh);
+  //     let date2 = new Date(value);
+  //     let isSmaller = compareAsc(date1, date2) === -1 ? true : false;
 
-      if (isSmaller) {
-        let yearBetween = parseInt(
-          formatDistanceStrict(date1, date2, { unit: 'year' }).split(' ')[0]
-        );
+  //     if (isSmaller) {
+  //       let yearBetween = parseInt(
+  //         formatDistanceStrict(date1, date2, { unit: 'year' }).split(' ')[0]
+  //       );
 
-        ngaySinh.setValidators([
-          this.shareService.customValidator(
-            'dateBirth18',
-            / /,
-            yearBetween >= 18 ? true : false
-          ),
-          Validators.required,
-        ]);
-        ngaySinh.updateValueAndValidity();
-        this.gvForm.validateSpecificControl(['ngaySinh']);
-      } else {
-        ngaySinh.setErrors({
-          dateBirth18: 'Ngày sinh phải lớn hơn ngày hiện tại',
-        });
-        this.gvForm.validateSpecificControl(['ngaySinh']);
-      }
-    } else {
-      this.gvForm.validateSpecificControl(['ngaySinh']);
-    }
-  }
+  //       ngaySinh.setValidators([
+  //         this.shareService.customValidator(
+  //           'dateBirth18',
+  //           / /,
+  //           yearBetween >= 18 ? true : false
+  //         ),
+  //         Validators.required,
+  //       ]);
+  //       ngaySinh.updateValueAndValidity();
+  //       this.gvForm.validateSpecificControl(['ngaySinh']);
+  //     } else {
+  //       ngaySinh.setErrors({
+  //         dateBirth18: 'Ngày sinh phải lớn hơn ngày hiện tại',
+  //       });
+  //       this.gvForm.validateSpecificControl(['ngaySinh']);
+  //     }
+  //   } else {
+  //     this.gvForm.validateSpecificControl(['ngaySinh']);
+  //   }
+  // }
 
   onSelect() {
     let input = this.elementRef.nativeElement.querySelector(
@@ -364,24 +357,9 @@ export class MinistryGiangvienComponent implements OnInit {
         this.f_DeleteGiangVien(this.DSGVComponent.lineGV.maGv);
         _delete.classList.remove('active');
       });
-    } else if (
-      Object.entries(this.DSGVComponent.lineGV).length === 0 &&
-      this.DSGVComponent.selectedGV.length === 0
-    ) {
+    } else {
       this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');
     }
-
-    this.DSGVComponent.selectedGV.forEach((maGV) => {
-      try {
-        this.giangVienService.delete(maGV);
-
-        this.toastr.success('Xóa giảng viên thành công', 'Thông báo !');
-        this.isSelectedGV = false;
-      } catch (error) {
-        this.toastr.error('Xóa giảng viên thất bại', 'Thông báo !');
-      }
-    });
-    this.DSGVComponent.selectedGV = [];
     this.websocketService.sendForGiangVien(true);
   }
 

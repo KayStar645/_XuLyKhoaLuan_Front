@@ -37,21 +37,9 @@
         </div>
       </li>
     </ul>
-
-    <div class="p-t-12">
-      <p class="notify" *ngIf="!isSelectedGV">
-        (⁎) Giữ CRT + Click để chọn nhiều
-      </p>
-      <p class="notify" *ngIf="isSelectedGV">
-        (⁎) Nhấn Esc để thoát chọn nhiều
-      </p>
-    </div>
   </div>
-  <!-- <router-outlet></router-outlet> -->
   <app-ministry-danhsachgiangvien
     [searchName]="searchName"
-    [isSelectedGV]="isSelectedGV"
-    (returnIsSelectedGV)="setIsSelectedGv($event)"
   ></app-ministry-danhsachgiangvien>
 
   <div id="create" (click)="handleToggleAdd()"></div>
@@ -125,20 +113,6 @@
             <p class="error-mess"></p>
           </div>
         </label>
-        <label class="form-control row ali-center form-control">
-          <p class="label">Ngày sinh</p>
-          <div class="form-value">
-            <input
-              type="date"
-              formControlName="ngaySinh"
-              (blur)="gvForm.inputBlur($event)"
-              (input)="onNgaySinhInput($event)"
-              class="form-input"
-            />
-
-            <p class="error-mess"></p>
-          </div>
-        </label>
       </div>
       <div class="h-6 p-l-12 p-r-12">
         <label class="form-control row ali-center form-control">
@@ -153,19 +127,6 @@
                 {{ bm.tenBm }}
               </option>
             </select>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày nhận việc</p>
-          <div class="form-value">
-            <input
-              type="date"
-              formControlName="ngayNhanViec"
-              (blur)="gvForm.inputBlur($event)"
-              (input)="onNgayNhanViecInput($event)"
-              class="form-input"
-            />
             <p class="error-mess"></p>
           </div>
         </label>
@@ -291,20 +252,6 @@
             <p class="error-mess"></p>
           </div>
         </label>
-        <label class="form-control row ali-center form-control">
-          <p class="label">Ngày sinh</p>
-          <div class="form-value">
-            <input
-              type="date"
-              formControlName="ngaySinh"
-              (blur)="gvForm.inputBlur($event)"
-              (input)="onNgaySinhInput($event)"
-              class="form-input"
-            />
-
-            <p class="error-mess"></p>
-          </div>
-        </label>
       </div>
       <div class="h-6 p-l-12 p-r-12">
         <label class="form-control row ali-center form-control">
@@ -319,31 +266,6 @@
                 {{ bm.tenBm }}
               </option>
             </select>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày nhận việc</p>
-          <div class="form-value">
-            <input
-              type="date"
-              formControlName="ngayNhanViec"
-              (blur)="gvForm.inputBlur($event)"
-              (input)="onNgayNhanViecInput($event)"
-              class="form-input"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </label>
-        <label class="input row ali-center form-control">
-          <p class="label">Ngày nghỉ</p>
-          <div class="form-value">
-            <input
-              type="date"
-              formControlName="ngayNghi"
-              (blur)="gvForm.inputBlur($event)"
-              class="form-input"
-            />
             <p class="error-mess"></p>
           </div>
         </label>
