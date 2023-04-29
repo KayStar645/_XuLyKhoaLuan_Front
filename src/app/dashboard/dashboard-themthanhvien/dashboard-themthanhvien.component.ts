@@ -1,17 +1,9 @@
-import { Nhom } from 'src/app/models/Nhom.model';
-import { nhomService } from 'src/app/services/nhom.service';
-import { ThamGia } from 'src/app/models/ThamGia.model';
-import { thamGiaService } from './../../services/thamGia.service';
-import { dotDkService } from './../../services/dotDk.service';
-import { DotDk } from './../../models/DotDk.model';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ToastrService } from 'ngx-toastr';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { getParentElement, Option } from 'src/assets/utils';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { DashboardDanhsachsinhvienComponent } from './dashboard-danhsachsinhvien/dashboard-danhsachsinhvien.component';
 import { shareService } from 'src/app/services/share.service';
@@ -35,7 +27,6 @@ export class DashboardThemthanhvienComponent implements OnInit {
     private titleService: Title,
     private chuyenNganhService: chuyenNganhService,
     private sinhVienService: sinhVienService,
-    private dotDkService: dotDkService,
     private websocketService: WebsocketService
   ) {}
 
@@ -52,7 +43,6 @@ export class DashboardThemthanhvienComponent implements OnInit {
       shareService.dot,
       false
     );
-
     this.websocketService.startConnection();
   }
 
@@ -64,5 +54,4 @@ export class DashboardThemthanhvienComponent implements OnInit {
       this.DSTGComponent.getThamgiaByMaCN(maCn);
     }
   }
-
 }

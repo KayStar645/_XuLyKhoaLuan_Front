@@ -11,11 +11,10 @@ import { thamGiaService } from '../services/thamGia.service';
 import { dangKyService } from '../services/dangKy.service';
 import { raDeService } from '../services/raDe.service';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   title = 'Sinh viên';
@@ -23,14 +22,13 @@ export class DashboardComponent implements OnInit {
   data: any = SinhVien;
   countTB = 0;
   countKH = 0;
-  static maNhom = "";
-  static maSV = "";
+  static maNhom = '';
+  static maSV = '';
   static isSignUpDeTai = false;
-  static maDT = "";
+  static maDT = '';
   static maGvhd: string[] = [];
   static clickHomeFirstTime = false;
 
-  
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -39,11 +37,10 @@ export class DashboardComponent implements OnInit {
     private shareService: shareService,
     private thamGiaService: thamGiaService,
     private dangKyService: dangKyService,
-    private raDeService: raDeService,
+    private raDeService: raDeService
   ) {}
 
   public async ngOnInit() {
-
     // Kiểm tra đăng nhập để điều hướng
     if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Student')) {
       this.isLoggedIn$ = of(false);
@@ -53,31 +50,54 @@ export class DashboardComponent implements OnInit {
     }
 
     // Get dữ liệu của sinh viên
-    this.data = await this.sinhVienService.getById('' + localStorage.getItem('Id')?.toString());
+    this.data = await this.sinhVienService.getById(
+      '' + localStorage.getItem('Id')?.toString()
+    );
     await this.shareService.namHocDotDk();
 
     DashboardComponent.maSV = '' + localStorage.getItem('Id')?.toString();
-    
-    
+
     //Cần kiểm tra có nhóm trong tham gia không?
-    if(await this.thamGiaService.isJoinedAGroup(DashboardComponent.maSV, shareService.namHoc, shareService.dot)){
-      let maNhom = (await this.thamGiaService.getById(DashboardComponent.maSV, shareService.namHoc, shareService.dot)).maNhom;
-      DashboardComponent.maNhom = (maNhom === null || maNhom === '') ? '' : maNhom;
-      
-      DashboardComponent.isSignUpDeTai = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom).length >  0 ? true : false; 
-      if(DashboardComponent.isSignUpDeTai){
-        DashboardComponent.maDT = (await this.dangKyService.getAll()).filter(dk => dk.maNhom === maNhom)[0].maDt;
-        let lstGvhd = (await this.raDeService.getAll()).filter(rd => rd.maDt === DashboardComponent.maDT);
-        lstGvhd.forEach(gv => DashboardComponent.maGvhd.push(gv.maGv));
+    if (
+      await this.thamGiaService.isJoinedAGroup(
+        DashboardComponent.maSV,
+        shareService.namHoc,
+        shareService.dot
+      )
+    ) {
+      let maNhom = (
+        await this.thamGiaService.getById(
+          DashboardComponent.maSV,
+          shareService.namHoc,
+          shareService.dot
+        )
+      ).maNhom;
+      DashboardComponent.maNhom =
+        maNhom === null || maNhom === '' ? '' : maNhom;
+      DashboardComponent.isSignUpDeTai =
+        (await this.dangKyService.getAll()).filter((dk) => dk.maNhom === maNhom)
+          .length > 0
+          ? true
+          : false;
+      if (DashboardComponent.isSignUpDeTai) {
+        DashboardComponent.maDT = (await this.dangKyService.getAll()).filter(
+          (dk) => dk.maNhom === maNhom
+        )[0].maDt;
+        let lstGvhd = (await this.raDeService.getAll()).filter(
+          (rd) => rd.maDt === DashboardComponent.maDT
+        );
+        lstGvhd.forEach((gv) => DashboardComponent.maGvhd.push(gv.maGv));
       }
     }
   }
 
-  reloadRoute(){
-    this.router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/dashboard']);
-    });
-    if(this.shareService.getIsFirstClickHome()){
+  reloadRoute() {
+    this.router
+      .navigateByUrl('/dashboard', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate(['/dashboard']);
+      });
+    if (this.shareService.getIsFirstClickHome()) {
       window.location.reload();
       this.shareService.setIsFirstClickHome(false);
     }

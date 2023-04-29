@@ -126,7 +126,7 @@
 
 .modal-content {
   background-color: #fff;
-  width: 400px;
+  width: 600px;
   max-width: 90%;
   margin: 0 auto;
   padding: 20px;
@@ -141,16 +141,31 @@
 }
 
 .modal-buttons button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  background-color: #ccc;
+  width: 30%;
+  margin-top: 50px;
+  padding: 10px 0;
   cursor: pointer;
-  margin-left: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  border-radius: 999px;
 }
 
-.modal-buttons button:hover {
-  background-color: #ddd;
+.modal-buttons button:nth-child(1) {
+  background-color: #f0f2f5;
+
+  &:hover {
+    background: #e3e3e3;
+  }
+}
+
+.modal-buttons button:nth-child(2) {
+  margin-left: 10px;
+  color: #fff;
+  background: rgb(35, 197, 35);
+
+  &:hover {
+    background: rgb(21, 161, 21);
+  }
 }
 
 @keyframes popupFadeIn {

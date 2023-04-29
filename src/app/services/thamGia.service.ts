@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ThamGia } from '../models/ThamGia.model';
 import { shareService } from './../services/share.service';
+import { SinhVien } from '../models/SinhVien.model';
 
 @Injectable({
   providedIn: 'root',
@@ -70,10 +71,10 @@ export class thamGiaService {
     );
   }
 
-  async GetSinhvienByNhom(maNhom: string, flag: boolean): Promise<ThamGia[]> {
+  async GetSinhvienByNhom(maNhom: string, flag: boolean): Promise<SinhVien[]> {
     return (
       (await this.http
-        .get<ThamGia[]>(
+        .get<SinhVien[]>(
           `${this.apiUrl}/api/Thamgias/maNhom, flag?maNhom=${maNhom}&flag=${flag}`,
           this.shareService.httpOptions
         )

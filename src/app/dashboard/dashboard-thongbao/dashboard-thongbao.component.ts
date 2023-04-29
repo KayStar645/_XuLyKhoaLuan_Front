@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoiMoi } from 'src/app/models/LoiMoi.model';
 import { loiMoiService } from 'src/app/services/loiMoi.service';
 import { nhomService } from 'src/app/services/nhom.service';
@@ -7,8 +7,6 @@ import { shareService } from 'src/app/services/share.service';
 import { thamGiaService } from 'src/app/services/thamGia.service';
 import { DashboardComponent } from '../dashboard.component';
 import { DashboardDanhsachthongbaoComponent } from './dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
-import { Validators } from '@angular/forms';
-import { Form } from 'src/assets/utils';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -74,17 +72,17 @@ export class DashboardThongbaoComponent {
     //     shareService.dot
     //   )
     // ) {
-    //   const groupJoinedId = await (
-    //     await this.thamGiaService.getById(
-    //       this.maSv,
-    //       shareService.namHoc,
-    //       shareService.dot
-    //     )
-    //   ).maNhom;
-    //   this.isGroupHaveOneMember =
-    //     (await this.thamGiaService.getAll()).filter(
-    //       (tg) => tg.maNhom == groupJoinedId
-    //     ).length === 1;
+    // const groupJoinedId = await (
+    //   await this.thamGiaService.getById(
+    //     DashboardComponent.maSV,
+    //     shareService.namHoc,
+    //     shareService.dot
+    //   )
+    // ).maNhom;
+    // this.isGroupHaveOneMember =
+    //   (await this.thamGiaService.getAll()).filter(
+    //     (tg) => tg.maNhom == groupJoinedId
+    //   ).length === 1;
     // } else {
     //   this.router.navigate(['dashboard']);
     // }
