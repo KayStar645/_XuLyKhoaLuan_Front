@@ -1,0 +1,37 @@
+<div id="container">
+  <div class="detail-container">
+    <!-- Đề tài đã đăng ký -->
+    <div class="p-t-16">
+      <div class="detail-item">
+        <p class="table-title p-b-12">Đề tài dự kiến sẽ mở</p>
+        <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+          <tr>
+            <th>Mã ĐT</th>
+            <th>Tên đề tài</th>
+            <th>Chi tiết</th>
+            <th>Số lượng sinh viên</th>
+            <th>Giảng viên hướng dẫn</th>
+            <th>Chuyên ngành phù hợp</th>
+          </tr>
+
+          <tbody *ngFor="let dt of listDT">
+            <tr style="color: {{ dt.isDangKy ? 'blue' : 'red' }}">
+              <td class="text-center">{{ dt.maDT }}</td>
+              <td class="text-left">
+                <p class="cell-limit" [innerHTML]="dt.tenDT"></p>
+              </td>
+              <td class="text-left">
+                <p class="cell-limit" [innerHTML]="dt.tomTat"></p>
+              </td>
+              <td class="text-center">{{ dt.slMin }} - {{ dt.slMax }}</td>
+              <td class="text-center">
+                {{ getTenGvHuongdanByMaDT(dt.maDT) }}
+              </td>
+              <td class="text-center">{{ getChuyennganhPhuhop(dt.maDT) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

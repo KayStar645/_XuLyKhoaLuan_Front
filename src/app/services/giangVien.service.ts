@@ -115,4 +115,15 @@ export class giangVienService {
       )
       .toPromise();
   }
+
+  async GetSoLuongNhiemVu(maGv: string, namHoc: string, dot: number): Promise<number[]> {
+    return (
+      (await this.http
+        .get<number[]>(
+          `${this.apiUrl}/api/Giangviens/maGv, namHoc, dot?maGv=${maGv}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
 }

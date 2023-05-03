@@ -84,6 +84,7 @@ import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/home-chitietbaitap/home-chitietbaitap.component';
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
+import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 
 @NgModule({
   declarations: [
@@ -161,6 +162,7 @@ import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.compon
     DashbordDangkydetaiComponent,
     ScheduleComponent,
     HomeChamdiemComponent,
+    DashboardDanhsachdetaiComponent,
   ],
 
   imports: [

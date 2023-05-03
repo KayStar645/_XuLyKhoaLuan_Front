@@ -7,6 +7,7 @@ export class DeTai {
   public trangThai!: boolean;
   public namHoc!: string;
   public dot!: number;
+  public isDangKy!: boolean;
 
   constructor() {}
 

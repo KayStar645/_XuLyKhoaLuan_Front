@@ -225,7 +225,7 @@ export class MinistryGiangvienComponent implements OnInit {
           this.shareService.removeSpace(data[7])
         );
         gv.init(
-          this.shareService.removeSpace(data[1]),
+          data[1] ? this.shareService.removeSpace(data[1]) : '',
           data[2] ? this.shareService.removeSpace(data[2]) : '',
           '',
           data[3] ? this.shareService.removeSpace(data[3]) : '',

@@ -8,8 +8,10 @@
           <!-- <th>Ngày sinh</th> -->
           <th>Giới tính</th>
           <th>SĐT</th>
-          <th>Số lượng ĐT được giao</th>
-          <th>Số lượng ĐT đạt / Số lượng ĐT ra</th>
+          <th>Số ĐT được giao</th>
+          <th>Số ĐT đạt / Số ĐT ra</th>
+          <th>Số ĐT hướng dẫn</th>
+          <th>Số ĐT phản biện</th>
         </tr>
         <tbody *ngFor="let gv of listGV">
           <tr>
@@ -20,8 +22,10 @@
             <td class="text-left">{{ gv?.email }}</td>
             <td class="text-center">{{ gv?.gioiTinh }}</td>
             <td class="text-center">{{ gv?.sdt }}</td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
+            <td class="text-center">{{ gv.cNhiemVu && gv.cNhiemVu.length > 0 ? gv.cNhiemVu[0] : '' }}</td>
+            <td class="text-center">{{ gv.cNhiemVu && gv.cNhiemVu.length > 1 ? gv.cNhiemVu[1] : '' }} / {{ gv.cNhiemVu && gv.cNhiemVu.length > 2 ? gv.cNhiemVu[2] : '' }}</td>
+            <td class="text-center">{{ gv.cNhiemVu && gv.cNhiemVu.length > 3 ? gv.cNhiemVu[3] : '' }}</td>
+            <td class="text-center">{{ gv.cNhiemVu && gv.cNhiemVu.length > 4 ? gv.cNhiemVu[4] : '' }}</td>
           </tr>
         </tbody>
       </table>

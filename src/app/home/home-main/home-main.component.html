@@ -81,8 +81,8 @@
         <div class="top-right row h-100">
           <div class="top-notifi row ali-center jus-between">
             <div class="top-notifi-count row flex-column">
-              <div class="top-info-title">Số đề tài cần ra</div>
-              <p class="count">{{ countRD }}</p>
+              <div class="top-info-title">Số đề tài đạt - Số đề tài ra - Số đề tài được giao</div>
+              <p class="count">{{ cNhiemVu[1] }} --- {{ cNhiemVu[2] }} --- {{ cNhiemVu[0] }}</p>
               <a routerLink="/home/nhiem-vu" class="detail-link">Xem chi tiết</a>
             </div>
             <div>
@@ -96,7 +96,7 @@
           <div class="top-plan row ali-center jus-between">
             <div class="top-notifi-count row flex-column">
               <div class="top-info-title">Số đề tài Hướng dẫn - Phản biện</div>
-              <p class="count">{{ countHD }} --- {{ countPB }}</p>
+              <p class="count">{{ cNhiemVu[3] }} --- {{ cNhiemVu[4] }}</p>
               <a routerLink="/home/lich-phan-bien" class="detail-link">Xem chi tiết</a>
             </div>
             <div>

@@ -69,6 +69,8 @@ export class HomeDanhsachdetaiComponent {
 
   tenDT = new Subject<string>();
 
+  _ListCn: string[] = ['CNPM', 'MMT', 'KHPTDL', 'HTTT'];
+
   constructor(
     private deTaiService: deTaiService,
     private elementRef: ElementRef,
@@ -294,21 +296,21 @@ export class HomeDanhsachdetaiComponent {
     }
   }
 
-  async sortGiangVien(event: any) {
-    const sort = event.target.value;
+  // async sortGiangVien(event: any) {
+  //   const sort = event.target.value;
 
-    if (sort == 'asc-id') {
-      this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
-    } else if (sort == 'desc-id') {
-      this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
-    } else if (sort == 'asc-name') {
-      this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
-    } else if (sort == 'desc-name') {
-      this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-    } else {
-      this.getAllDeTai();
-    }
-  }
+  //   if (sort == 'asc-id') {
+  //     this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
+  //   } else if (sort == 'desc-id') {
+  //     this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
+  //   } else if (sort == 'asc-name') {
+  //     this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
+  //   } else if (sort == 'desc-name') {
+  //     this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
+  //   } else {
+  //     this.getAllDeTai();
+  //   }
+  // }
 
   // getThamgiaByDotDk(event: any) {
   //   const dotdk = event.target.value;
@@ -332,9 +334,19 @@ export class HomeDanhsachdetaiComponent {
       this.listDT.push(...deTais);
     }
     if (maBm != null) {
-      // Nếu là bộ môn thì xem tất cả đề tài của bộ môn mình
       let deTais = await this.deTaiService.GetAllDeTaisByMaBomon(maBm, false);
-      this.listDT.push(...deTais);
+      if (maKhoa != null) {
+        // Vừa là trưởng khoa, vừa là trưởng bộ môn
+        for(let dt of deTais) {
+          if(!dt.trangThai) {
+            this.listDT.push(dt);
+          }
+        }
+      }
+      else {
+        // Nếu là bộ môn thì xem tất cả đề tài của bộ môn mình
+        this.listDT.push(...deTais);
+      }
     }
     if (maKhoa == null && maBm == null) {
       let deTais = await this.deTaiService.GetAllDeTaisByGiangvien(maGv);
@@ -346,8 +358,21 @@ export class HomeDanhsachdetaiComponent {
   getTenChuyennganhByMaDT(maDT: string) {
     let result = [];
     let dtcns = this.listDeta_Chuyennganh.filter((item) => item.maDt == maDT);
-
+    let count = 0;
+    if (dtcns.length >= 4) {
+      for (let cn of dtcns) {
+        if (this._ListCn.includes(cn.maCn)) {
+          count++;
+        }
+      }
+    }
+    if (count == 4) {
+      result.push('Công nghệ thông tin');
+    }
     for (let item of dtcns) {
+      if (count == 4 && this._ListCn.includes(item.maCn)) {
+        continue;
+      }
       result.push(this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn);
     }
     return result;
@@ -387,7 +412,7 @@ export class HomeDanhsachdetaiComponent {
   getTrangthaiDetai(maDT: string) {
     let detai: DeTai =
       this.listDT.find((item) => item.maDT == maDT) ?? new DeTai();
-      // console.log(maDT + ": " + detai.trangThai);
+    // console.log(maDT + ": " + detai.trangThai);
     return detai.trangThai;
   }
 

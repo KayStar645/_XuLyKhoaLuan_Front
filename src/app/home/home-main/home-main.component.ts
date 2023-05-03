@@ -38,10 +38,9 @@ export class HomeMainComponent {
   hoiDong: any = HoiDong;
   itemNumber = 9;
 
-  countRD = 0;
-  countHD = 0;
-  countPB = 0;
   boMon = '';
+
+  cNhiemVu: number[] = [];
 
   constructor(
     private authService: AuthService,
@@ -88,9 +87,7 @@ export class HomeMainComponent {
       HomeMainComponent.maKhoa = this.maKhoa;
     }
 
-    this.countRD = await this.nhiemVuService.SoLuongDeTaiPhaiRa(this.maGV);
-    this.countHD = await this.huongDanService.SoLuongDeTaiPhaiHuongDan(this.maGV);
-    this.countPB = await this.phanBienService.SoLuongDeTaiPhaiPhanbien(this.maGV);
+    this.cNhiemVu = await this.giangVienService.GetSoLuongNhiemVu(HomeMainComponent.maGV, shareService.namHoc, shareService.dot);
 
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
     this.resetNavbar();

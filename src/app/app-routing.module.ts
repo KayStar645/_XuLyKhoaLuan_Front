@@ -63,6 +63,7 @@ import { HomeThanhviennhomComponent } from './home/home-huongdan/home-congviec/h
 import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
 import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard-mainnhom/dashboard-mainnhom.component';
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
+import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -411,6 +412,11 @@ const routes: Routes = [
             canActivate: [AuthGuard],
           },
         ],
+      },
+      {
+        path: 'danh-sach-de-tai',
+        component: DashboardDanhsachdetaiComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'dang-ky-de-tai',
