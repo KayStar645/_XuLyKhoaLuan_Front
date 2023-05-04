@@ -48,10 +48,6 @@ export class DashboardThemthanhvienComponent implements OnInit {
 
   getThamgiaByMaCN(event: any) {
     const maCn = event.target.value;
-    if (maCn == '') {
-      this.DSTGComponent.getAllThamgiaByDotdk();
-    } else {
-      this.DSTGComponent.getThamgiaByMaCN(maCn);
-    }
+    this.DSTGComponent.getThamgiaByMaCN(maCn);
   }
 }

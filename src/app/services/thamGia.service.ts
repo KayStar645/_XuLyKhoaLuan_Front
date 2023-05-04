@@ -116,6 +116,17 @@ export class thamGiaService {
     );
   }
 
+  async search(tenSv: string, maCn: string, namHoc: string, dot:number): Promise<ThamGia[]> {
+    return (
+      (await this.http
+        .get<ThamGia[]>(
+          `${this.apiUrl}/api/Thamgias/tenSv, maCn, namHoc, dot?tenSv=${tenSv}&maCn=${maCn}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async update(ThamGia: ThamGia): Promise<any> {
     return await this.http
       .put<any>(
