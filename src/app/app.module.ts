@@ -85,6 +85,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/home-chitietbaitap/home-chitietbaitap.component';
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
+import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +164,7 @@ import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachd
     ScheduleComponent,
     HomeChamdiemComponent,
     DashboardDanhsachdetaiComponent,
+    DashboardLichbaocaoComponent,
   ],
 
   imports: [

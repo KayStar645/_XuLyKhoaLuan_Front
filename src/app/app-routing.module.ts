@@ -64,6 +64,7 @@ import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/d
 import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard-mainnhom/dashboard-mainnhom.component';
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
+import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -421,6 +422,11 @@ const routes: Routes = [
       {
         path: 'dang-ky-de-tai',
         component: DashbordDangkydetaiComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'lich-bao-cao',
+        component: DashboardLichbaocaoComponent,
         canActivate: [AuthGuard],
       },
     ],

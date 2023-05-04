@@ -241,6 +241,11 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
         this.listTg = this.root;
       } else {
         this.listTg = await this.thamGiaService.searchThamgiaByName(name);
+
+        this.listTg = this.listTg.map((tg) => ({
+          ...tg,
+          ...this.getSinhVienById(tg.maSv),
+        }));
       }
     }
   }
