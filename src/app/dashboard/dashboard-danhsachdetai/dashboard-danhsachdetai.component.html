@@ -15,7 +15,7 @@
           </tr>
 
           <tbody *ngFor="let dt of listDT">
-            <tr style="color: {{ dt.isDangKy ? 'blue' : 'red' }}">
+            <tr style="color: {{ dt.isDangKy ? 'black' : 'red' }}">
               <td class="text-center">{{ dt.maDT }}</td>
               <td class="text-left">
                 <p class="cell-limit" [innerHTML]="dt.tenDT"></p>

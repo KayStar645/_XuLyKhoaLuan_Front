@@ -37,12 +37,16 @@ export class DashboardBaitapchitietComponent {
   giangVien: GiangVien = new GiangVien();
   thoiHan = '';
   listTraoDoi: Traodoi[] = [];
-  isOutDate: boolean = true;
+  isOutDate: number = 1; // Đã nộp
   homeworkFiles: any[] = [];
+  apiHomeworkFiles: any[] = [];
+  apiBaoCaos: BaoCao[] = [];
 
   dtForm = new Form({
     nhanXet: ['', Validators.required],
   });
+
+  types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
 
   constructor(
     private route: ActivatedRoute,
@@ -65,7 +69,9 @@ export class DashboardBaitapchitietComponent {
     this.cviec = await this.congViecService.getById(this.maCV);
     this.giangVien = await this.giangVienService.getById(this.cviec.maGv);
     this.catchDateTime();
-    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(this.maCV);
+    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(
+      this.maCV
+    );
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromBinhLuan(async (dataChange: boolean) => {
@@ -74,10 +80,28 @@ export class DashboardBaitapchitietComponent {
       }
     });
 
-    if (compareAsc(new Date(), new Date(this.cviec.hanChot)) === 1) {
-      this.isOutDate = true;
-    }
     await this.getBinhLuans();
+
+    await this.getAllHomeworkFiles();
+    
+    if (
+      compareAsc(new Date(), new Date(this.cviec.hanChot)) === -1 &&
+      this.apiHomeworkFiles.length === 0
+    ) {
+      // Đã nộp nè
+      let isOut = false;
+      for (let b of this.apiBaoCaos) {
+        if(compareAsc(new Date(b.thoiGianNop), new Date(this.cviec.hanChot)) === 1) {
+          isOut = true;
+          break;
+        }
+      }
+      if (isOut) {
+        this.isOutDate = 1; // Đã nộp
+      } else {
+        this.isOutDate = 0; // Nộp muộn
+      }
+    }
   }
 
   async getBinhLuans() {
@@ -137,26 +161,57 @@ export class DashboardBaitapchitietComponent {
     }
   }
 
+  async getAllHomeworkFiles() {
+    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+
+    this.apiBaoCaos.forEach((file: BaoCao) => {
+      let fileSplit: string[] = file.fileBc.split('.');
+      let type = fileSplit[fileSplit.length - 1];
+      let item: any = {};
+
+      if (this.types.includes(type)) {
+        item['img'] = `../../../../assets/Images/file_type/${type}.png`;
+      } else {
+        item['img'] = `../../../../assets/Images/file_type/doc.png`;
+      }
+      item['name'] = file.fileBc;
+      item['type'] = type;
+      this.apiHomeworkFiles.push(item);
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromBaoCao(async (dataChange: boolean) => {
+      this.homeworkFiles.splice(0, this.homeworkFiles.length);
+      this.apiHomeworkFiles.splice(0, this.apiHomeworkFiles.length);
+
+      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+
+      this.apiBaoCaos.forEach((file: BaoCao) => {
+        let fileSplit: string[] = file.fileBc.split('.');
+        let type = fileSplit[fileSplit.length - 1];
+        let item: any = {};
+
+        if (this.types.includes(type)) {
+          item['img'] = `../../../../assets/Images/file_type/${type}.png`;
+        } else {
+          item['img'] = `../../../../assets/Images/file_type/doc.png`;
+        }
+        item['name'] = file.fileBc;
+        item['type'] = type;
+        this.apiHomeworkFiles.push(item);
+      });
+    });
+  }
+
   async onConfirmFile(event: any) {
     const files = Array.from(event.target.files);
-    let types = [
-      'xlsx',
-      'jpg',
-      'png',
-      'pptx',
-      'sql',
-      'docx',
-      'txt',
-      'pdf',
-      'rar',
-    ];
 
     files.forEach((file: any) => {
       let fileSplit: string[] = file.name.split('.');
       let type = fileSplit[fileSplit.length - 1];
       let item: any = {};
 
-      if (types.includes(type)) {
+      if (this.types.includes(type)) {
         item['img'] = `../../../../assets/Images/file_type/${type}.png`;
       } else {
         item['img'] = `../../../../assets/Images/file_type/doc.png`;
@@ -187,6 +242,7 @@ export class DashboardBaitapchitietComponent {
         for (var file of this.homeworkFiles) {
           await this.addBaoCao(file.name);
           this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
+          this.websocketService.sendForBaoCao(true);
         }
       } catch (error) {
         this.toastService.error('Nộp báo cáo thất bại', 'Thông báo!');

@@ -28,22 +28,6 @@ export class DashboardThongbaoComponent {
   // Hiển thị thông báo của khoa nè
   @ViewChild(DashboardDanhsachthongbaoComponent)
   protected DSTBComponent!: DashboardDanhsachthongbaoComponent;
-  // searchName = '';
-
-  // tbAddForm: any;
-  // tbUpdateForm: any;
-  // dtOldForm: any;
-
-  // tbForm = new Form({
-  //   maTb: ['', Validators.required],
-  //   tenTb: ['', Validators.required],
-  //   moTa: ['', Validators.email],
-  //   noiDung: [''],
-  //   hinhAnh: ['', Validators.required],
-  //   fileTb: [''],
-  //   maKhoa: ['', Validators.required],
-  //   ngayTb: ['', Validators.required],
-  // });
 
   constructor(
     private router: Router,
@@ -57,35 +41,6 @@ export class DashboardThongbaoComponent {
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách thông báo');
-
-    // this.maSv = DashboardComponent.maSV;
-    // this.lstLoiMoi = await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
-    //   this.maSv,
-    //   shareService.namHoc,
-    //   shareService.dot
-    // );
-
-    // if (
-    //   await this.thamGiaService.isJoinedAGroup(
-    //     DashboardComponent.maSV,
-    //     shareService.namHoc,
-    //     shareService.dot
-    //   )
-    // ) {
-    // const groupJoinedId = await (
-    //   await this.thamGiaService.getById(
-    //     DashboardComponent.maSV,
-    //     shareService.namHoc,
-    //     shareService.dot
-    //   )
-    // ).maNhom;
-    // this.isGroupHaveOneMember =
-    //   (await this.thamGiaService.getAll()).filter(
-    //     (tg) => tg.maNhom == groupJoinedId
-    //   ).length === 1;
-    // } else {
-    //   this.router.navigate(['dashboard']);
-    // }
   }
 
   async acceptInvitation(loiMoi: LoiMoi) {
