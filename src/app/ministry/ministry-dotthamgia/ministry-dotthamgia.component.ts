@@ -140,13 +140,13 @@ export class MinistryDotthamgiaComponent implements OnInit {
     create.classList.add('active');
   }
 
-  onShowFormUpdate() {
-    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-    let update = this.elementRef.nativeElement.querySelector('#update');
+  // onShowFormUpdate() {
+  //   let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
+  //   let update = this.elementRef.nativeElement.querySelector('#update');
 
-    updateBox.classList.add('active');
-    update.classList.add('active');
-  }
+  //   updateBox.classList.add('active');
+  //   update.classList.add('active');
+  // }
 
   handleToggleAdd() {
     let createBox = this.elementRef.nativeElement.querySelector('#create_box');
@@ -251,11 +251,11 @@ export class MinistryDotthamgiaComponent implements OnInit {
       .classList.remove('br-line-dblclick');
   }
 
-  updateSinhVien() {
-    let update = this.elementRef.nativeElement.querySelector('#update');
-    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-    this.DSTGComponent.lineTG = new ThamGia();
-  }
+  // updateSinhVien() {
+  //   let update = this.elementRef.nativeElement.querySelector('#update');
+  //   let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
+  //   this.DSTGComponent.lineTG = new ThamGia();
+  // }
 
   getThamgiaByMaCN(event: any) {
     const maCn = event.target.value;
@@ -272,22 +272,12 @@ export class MinistryDotthamgiaComponent implements OnInit {
 
   getThamgiaByDotDk(event: any) {
     const dotdk = event.target.value;
-    if (dotdk == '') {
-      this.DSTGComponent.getAllThamgiaByDotdk();
-    } else {
-      this.namHoc = dotdk.slice(0, dotdk.length - 1);
-      this.dot = dotdk.slice(dotdk.length - 1);
-      this.DSTGComponent.getThamgiaByDotDk(this.namHoc, this.dot);
-    }
+    this.DSTGComponent.getThamgiaByDotDk(dotdk);
   }
 
   async getSinhvienByMaCN(event: any) {
     const maCn = event.target.value;
-    if (maCn == '') {
-      this.resetList();
-    } else {
-      this.listSinhVien = await this.sinhVienService.getByMaCn(maCn);
-    }
+    this.DSTGComponent.getThamgiaByMaCN(maCn);
   }
 
   async getSinhvienByMaCNToListSV(event: any) {}
