@@ -255,6 +255,10 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
 
     if (this.listCN) {
       tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
+      this.listTg = this.listTg.map((tg) => ({
+        ...tg,
+        ...this.getSinhVienById(tg.maSv),
+      }));
     }
     return tencn;
   }
