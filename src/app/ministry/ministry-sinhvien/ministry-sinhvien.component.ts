@@ -20,6 +20,7 @@ export class MinistrySinhvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachsinhvienComponent)
   protected DSSVComponent!: MinistryDanhsachsinhvienComponent;
   listChuyenNganh: ChuyenNganh[] = [];
+  listLop: string[] = [];
   searchName = '';
   selectedChuyenNganh!: string;
   isSelectedSV: boolean = false;
@@ -63,7 +64,7 @@ export class MinistrySinhvienComponent implements OnInit {
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
-
+    this.listLop = await this.sinhVienService.getClass("", 0);
     this.websocketService.startConnection();
   }
 
@@ -238,15 +239,18 @@ export class MinistrySinhvienComponent implements OnInit {
         let cn = await this.chuyenNganhService.GetMaCnByTenAsync(
           this.shareService.removeSpace(data[5])
         );
-        sinhVien.init2(data[3].toString(), data[1] + ' ' + data[2], data[4], cn.maCn);
+        sinhVien.init2(
+          data[3].toString(),
+          data[1] + ' ' + data[2],
+          data[4],
+          cn.maCn
+        );
         await this.f_AddSinhVien(sinhVien);
       }
 
       this.websocketService.sendForSinhVien(true);
     }
   }
-
-  
 
   async clickDelete() {
     const _delete = this.elementRef.nativeElement.querySelector('#delete');
@@ -397,10 +401,11 @@ export class MinistrySinhvienComponent implements OnInit {
 
   getSinhVienByMaCN(event: any) {
     const maCn = event.target.value;
-    if (maCn == '') {
-      this.DSSVComponent.getAllSinhVien();
-    } else {
-      this.DSSVComponent.getSinhVienByMaCN(maCn);
-    }
+    this.DSSVComponent.getSinhVienByMaCN(maCn);
+  }
+
+  getSinhVienByClass(event: any) {
+    const lop = event.target.value;
+    this.DSSVComponent.getSinhVienByClass(lop);
   }
 }

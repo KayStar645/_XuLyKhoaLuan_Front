@@ -56,46 +56,10 @@ export class HomeSinhvienComponent implements OnInit {
 
   getThamgiaByMaCN(event: any) {
     const maCn = event.target.value;
-    if (maCn == '') {
-      this.DSTGComponent.getAllThamgiaByDotdk();
-    } else {
-      this.DSTGComponent.getThamgiaByMaCN(maCn);
-    }
+    this.DSTGComponent.getThamgiaByMaCN(maCn);
   }
 
   getTenCnById(maCn: string) {
     return this.DSTGComponent.getTenCNById(maCn);
-  }
-
-  getThamgiaByDotDk(event: any) {
-    const dotdk = event.target.value;
-    if (dotdk == '') {
-      this.DSTGComponent.getAllThamgiaByDotdk();
-    } else {
-      this.namHoc = dotdk.slice(0, dotdk.length - 1);
-      this.dot = dotdk.slice(dotdk.length - 1);
-      this.DSTGComponent.getThamgiaByDotDk(this.namHoc, this.dot);
-    }
-  }
-
-  async getSinhvienByMaCN(event: any) {
-    const maCn = event.target.value;
-    if(maCn == '') {
-      this.resetList();
-    }
-    else {
-      this.listSinhVien = await this.sinhVienService.getByMaCn(maCn);
-    }
-  }
-
-  async getSinhvienByMaCNToListSV(event: any) {
-    
-  }
-
-  async getSinhvienByNotDotDk(event: any) {
-    const dotdk = event.target.value;
-    this.namHoc = dotdk.slice(0, dotdk.length - 1);
-    this.dot = dotdk.slice(dotdk.length - 1);
-    this.listSinhVien = await this.sinhVienService.getByDotDk(this.namHoc, this.dot, false);
   }
 }

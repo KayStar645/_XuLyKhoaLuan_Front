@@ -20,18 +20,6 @@
           [(ngModel)]="searchName"
         />
       </li>
-      <li class="functional-item">
-        <select
-          class="functional-select"
-          id="functional-select"
-          (change)="getThamgiaByDotDk($event)"
-        >
-          <option value="">Tất cả</option>
-          <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
-            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
-          </option>
-        </select>
-      </li>
       <li
         class="functional-item functional-wrapper row ali-center jus-end flex-1"
       ></li>
