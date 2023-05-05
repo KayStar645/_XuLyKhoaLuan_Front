@@ -31,6 +31,28 @@ export class sinhVienService {
     );
   }
 
+  async search(maCn: string, lop: string, tenSv: string): Promise<SinhVien[]> {
+    return (
+      (await this.http
+        .get<SinhVien[]>(
+          `${this.apiUrl}/api/Sinhviens/maCn, lop, tenSv?maCn=${maCn}&lop=${lop}&tenSv=${tenSv}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async getClass(namHoc: string, dot: number): Promise<string[]> {
+    return (
+      (await this.http
+        .get<string[]>(
+          `${this.apiUrl}/api/Sinhviens/namHoc, dot?namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async getById(maSV: string): Promise<SinhVien> {
     var response = new SinhVien();
     return (

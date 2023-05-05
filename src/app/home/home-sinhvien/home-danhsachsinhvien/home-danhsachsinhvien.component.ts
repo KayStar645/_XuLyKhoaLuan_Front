@@ -23,9 +23,11 @@ import { getParentElement } from 'src/assets/utils';
 export class HomeDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedTG = false;
+  _searchName = '';
+  _maCn = '';
+
   @Output() returnIsSelectedTG = new EventEmitter<boolean>();
   listTg: ThamGia[] = [];
-  root: ThamGia[] = [];
   sinhVien = new SinhVien();
 
   listSV: SinhVien[] = [];
@@ -43,42 +45,42 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
     this.listSV = await this.sinhVienService.getAll();
     this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
-
-    
-  }
-
-  async getAllSinhVien() {
-    
   }
 
   async getAllThamgiaByDotdk() {
-    this.listTg = await this.thamGiaService.getAll();
-    this.root = this.listTg;
+    this.listTg = await this.thamGiaService.search(
+      this._searchName,
+      this._maCn,
+      shareService.namHoc,
+      shareService.dot
+    );
   }
 
   async getThamgiaByMaCN(maCn: string) {
-    this.listTg = await this.thamGiaService.getByCn(maCn);
-  }
-
-  getThamgiaByDotDk(namHoc: string, dot: number) {
-    this.listTg =
-      this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
+    this._maCn = maCn;
+    this.listTg = await this.thamGiaService.search(
+      this._searchName,
+      this._maCn,
+      shareService.namHoc,
+      shareService.dot
+    );
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       const name = this.searchName.trim().toLowerCase();
-      if (name == '') {
-        this.listTg = this.root;
-      } else {
-        this.listTg = await this.thamGiaService.searchThamgiaByName(name);
-      }
+      this._searchName = name;
+      this.listTg = await this.thamGiaService.search(
+        this._searchName,
+        this._maCn,
+        shareService.namHoc,
+        shareService.dot
+      );
     }
   }
 
   getTenCNById(maCn: string): string {
     let tencn: any = '';
-
     if (this.listCN) {
       tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
     }

@@ -24,6 +24,10 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedSV = false;
   @Output() returnIsSelectedSV = new EventEmitter<boolean>();
+  _searchName = '';
+  _maCn = '';
+  _lop = '';
+
   root: SinhVien[] = [];
   sinhVien = new SinhVien();
 
@@ -82,11 +86,29 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
   }
 
   async getAllSinhVien() {
-    this.listSV = await this.sinhVienService.getAll();
+    this.listSV = await this.sinhVienService.search(
+      this._maCn,
+      this._lop,
+      this._searchName
+    );
   }
 
   async getSinhVienByMaCN(maCn: string) {
-    this.listSV = await this.sinhVienService.getByMaCn(maCn);
+    this._maCn = maCn;
+    this.listSV = await this.sinhVienService.search(
+      this._maCn,
+      this._lop,
+      this._searchName
+    );
+  }
+
+  async getSinhVienByClass(lop: string) {
+    this._lop = lop;
+    this.listSV = await this.sinhVienService.search(
+      this._maCn,
+      this._lop,
+      this._searchName
+    );
   }
 
   getSelectedLine(e: any) {
@@ -121,17 +143,16 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      this.filterItems();
+      const searchName = this.searchName.trim().toLowerCase();
+      this._searchName = searchName;
+      this.listSV = await this.sinhVienService.search(
+        this._maCn,
+        this._lop,
+        this._searchName
+      );
     }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listSV = this.root.filter((item) => {
-      item.tenSv.toLowerCase().includes(searchName);
-    });
   }
 
   getTenCNById(maCn: string): string {
