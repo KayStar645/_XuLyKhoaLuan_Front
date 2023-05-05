@@ -20,6 +20,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 export class HomeDanhsachbaitapComponent implements OnInit {
   maDT: string = '';
   static maDt: string = '';
+  static maNhom: string = '';
   nearTimeOutMS: any[] = [];
   listBT: any[] = [];
   listSV: any[] = [];
@@ -55,7 +56,7 @@ export class HomeDanhsachbaitapComponent implements OnInit {
     this.closeOption();
 
     HomeDanhsachbaitapComponent.maDt = this.maDT;
-
+    HomeDanhsachbaitapComponent.maNhom = this.nhom.maNhom;
   }
 
   async getListBT() {
@@ -157,26 +158,26 @@ export class HomeDanhsachbaitapComponent implements OnInit {
   }
 
   async onDeleteJob(maCv: string) {
-    try {
-      let create = document.querySelector('#create');
-      let option = new Option('#create');
+    let create = document.querySelector('#create');
+    let option = new Option('#create');
+    create?.classList.add('active');
 
-      create?.classList.add('active');
+    option.show('warning');
 
-      option.show('warning');
-
-      option.agree(async () => {
+    option.agree(async () => {
+      try {
         await this.congViecService.delete(maCv);
-        await this.getListBT();
         this.toastService.success('Xóa công việc thành công', 'thông báo !');
         create?.classList.remove('active');
-      });
-
-      option.cancel(() => {
+      } catch (error) {
+        this.toastService.error('Xóa công việc thất bại', 'Thông báo !');
         create?.classList.remove('active');
-      });
-    } catch (error) {
-      this.toastService.error('Xóa công việc thất bại', 'Thông báo !');
-    }
+      }
+      await this.getListBT();
+    });
+
+    option.cancel(() => {
+      create?.classList.remove('active');
+    });
   }
 }

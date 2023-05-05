@@ -109,7 +109,9 @@ export class MinistryGiangvienComponent implements OnInit {
     if (this.gvForm.isHaveValue()) {
       let option = new Option('#create_box');
 
-      option.show('warning');
+      option.show('warning', () => {
+        createBox.classList.remove('active');
+      });
 
       option.cancel();
 
@@ -136,7 +138,9 @@ export class MinistryGiangvienComponent implements OnInit {
     ) {
       let option = new Option('#update_box');
 
-      option.show('warning');
+      option.show('warning', () => {
+        updateBox.classList.remove('active');
+      });
 
       option.cancel();
 

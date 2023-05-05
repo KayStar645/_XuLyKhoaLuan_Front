@@ -6,11 +6,7 @@ import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import {
-  compareAsc,
-  format,
-  formatDistanceToNowStrict,
-} from 'date-fns';
+import { compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
@@ -41,6 +37,7 @@ export class DashboardBaitapchitietComponent {
   homeworkFiles: any[] = [];
   apiHomeworkFiles: any[] = [];
   apiBaoCaos: BaoCao[] = [];
+  selectedFiles: any[] = [];
 
   dtForm = new Form({
     nhanXet: ['', Validators.required],
@@ -84,7 +81,7 @@ export class DashboardBaitapchitietComponent {
     await this.getBinhLuans();
 
     await this.getAllHomeworkFiles();
-    
+
     if (
       compareAsc(new Date(), new Date(this.cviec.hanChot)) === -1 &&
       this.apiHomeworkFiles.length === 0
@@ -92,7 +89,10 @@ export class DashboardBaitapchitietComponent {
       // Đã nộp nè
       let isOut = false;
       for (let b of this.apiBaoCaos) {
-        if(compareAsc(new Date(b.thoiGianNop), new Date(this.cviec.hanChot)) === 1) {
+        if (
+          compareAsc(new Date(b.thoiGianNop), new Date(this.cviec.hanChot)) ===
+          1
+        ) {
           isOut = true;
           break;
         }
