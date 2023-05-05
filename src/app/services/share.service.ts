@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { environment } from 'src/environments/environment.prod';
 import { WebsocketService } from './Websocket.service';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -68,8 +69,75 @@ export class shareService {
           console.error(error);
         }
       };
+
       fileReader.readAsDataURL(file);
     }
+  }
+
+  public async createFolderAndUploadFile(folderCheck: String, file: any) {
+    const folderPath = 'Homework';
+
+    this.createDirectory(folderPath).subscribe(
+      () => {
+        const formData = new FormData();
+        formData.append('file', file, `${folderPath}/${file.name}`);
+
+        const options = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `token ${environment.githubToken}`,
+          },
+        };
+
+        this.http
+          .put(
+            `${environment.githubAPI}${folderPath}/${file.name}`,
+            {
+              message: `Add ${file.name}`,
+              content: btoa(file),
+            },
+            options
+          )
+          .subscribe(
+            (response) => {
+              console.log(`File ${file.name} has been added to GitHub`);
+            },
+            (error) => {
+              console.error(
+                `Error adding file ${file.name} to GitHub: ${error}`
+              );
+            }
+          );
+      },
+      (error) => {
+        console.error(`Error creating directory ${folderPath}: ${error}`);
+      }
+    );
+  }
+
+  createDirectory(folderPath: string) {
+    const options = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `token ${environment.githubToken}`,
+      },
+    };
+
+    return this.http.get(`${environment.githubAPI}${folderPath}`, options).pipe(
+      catchError(() => {
+        const payload = {
+          message: `Create ${folderPath} directory`,
+          content: '',
+          path: `${folderPath}/`,
+        };
+
+        return this.http.put(
+          `${environment.githubAPI}${folderPath}`,
+          payload,
+          options
+        );
+      })
+    );
   }
 
   public getDay(date: string) {

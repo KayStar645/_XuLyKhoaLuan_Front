@@ -1,6 +1,9 @@
 export const environment = {
   production: true,
-  api: 'http://web.com',
+  githubOwner: "chuazz",
+  githubRepo: "HeThongKhoaLuan_Assets",
+  githubAPI:
+    'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/',
   githubNotifyFilesAPI:
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Notify/Files/',
   githubMissionFilesAPI:
