@@ -26,6 +26,25 @@ export class deTaiService {
     );
   }
 
+  async search(
+    maCn: string,
+    tenDt: string,
+    namHoc: string,
+    dot: number,
+    key: string,
+    maGv: string,
+    chucVu: number
+  ): Promise<DeTai[]> {
+    return (
+      (await this.http
+        .get<DeTai[]>(
+          `${this.apiUrl}/api/Detais/maCn, tenDt, namHoc, dot, key, maGv, chucVu?maCn=${maCn}&tenDt=${tenDt}&namHoc=${namHoc}&dot=${dot}&key=${key}&maGv=${maGv}&chucVu=${chucVu}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async getDetaiByDot(namHoc: string, dot: number): Promise<DeTai[]> {
     return (
       (await this.http
@@ -53,7 +72,10 @@ export class deTaiService {
     );
   }
 
-  async GetDetaiByChuyenNganhBomon(maCN: string, maBM: string): Promise<DeTai[]> {
+  async GetDetaiByChuyenNganhBomon(
+    maCN: string,
+    maBM: string
+  ): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(
@@ -177,7 +199,10 @@ export class deTaiService {
       .toPromise();
   }
 
-  async GetAllDeTaisByMakhoa(maKhoa: string, trangThaiDT: number): Promise<DeTai[]> {
+  async GetAllDeTaisByMakhoa(
+    maKhoa: string,
+    trangThaiDT: number
+  ): Promise<DeTai[]> {
     return (
       (await this.http
         .get<DeTai[]>(

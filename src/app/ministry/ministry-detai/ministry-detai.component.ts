@@ -81,9 +81,4 @@ export class MinistryDetaiComponent implements OnInit {
       this.DSDTComponent.getDetaiByMaCn(maBM);
     }
   }
-
-  sortGiangVien(event: any) {
-    const sort = event.target.value;
-    this.DSDTComponent.sortDetai(sort);
-  }
 }

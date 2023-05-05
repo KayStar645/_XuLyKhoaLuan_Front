@@ -281,42 +281,6 @@ export class MinistryGiangvienComponent implements OnInit {
     }
   }
 
-  // onNgayNhanViecInput(event: any) {
-  //   let formValue: any = this.gvForm.form.value;
-
-  //   if (formValue.ngaySinh) {
-  //     let ngaySinh: any = this.gvForm.form.get('ngaySinh');
-  //     let value = event.target.value;
-  //     let date1 = new Date(formValue.ngaySinh);
-  //     let date2 = new Date(value);
-  //     let isSmaller = compareAsc(date1, date2) === -1 ? true : false;
-
-  //     if (isSmaller) {
-  //       let yearBetween = parseInt(
-  //         formatDistanceStrict(date1, date2, { unit: 'year' }).split(' ')[0]
-  //       );
-
-  //       ngaySinh.setValidators([
-  //         this.shareService.customValidator(
-  //           'dateBirth18',
-  //           / /,
-  //           yearBetween >= 18 ? true : false
-  //         ),
-  //         Validators.required,
-  //       ]);
-  //       ngaySinh.updateValueAndValidity();
-  //       this.gvForm.validateSpecificControl(['ngaySinh']);
-  //     } else {
-  //       ngaySinh.setErrors({
-  //         dateBirth18: 'Ngày sinh phải lớn hơn ngày hiện tại',
-  //       });
-  //       this.gvForm.validateSpecificControl(['ngaySinh']);
-  //     }
-  //   } else {
-  //     this.gvForm.validateSpecificControl(['ngaySinh']);
-  //   }
-  // }
-
   onSelect() {
     let input = this.elementRef.nativeElement.querySelector(
       '#drag-file_box input[type=file]'
@@ -455,11 +419,7 @@ export class MinistryGiangvienComponent implements OnInit {
 
   getGiangVienByMaBM(event: any) {
     const maBM = event.target.value;
-    if (maBM == '') {
-      this.websocketService.sendForGiangVien(true);
-    } else {
-      this.DSGVComponent.getGiangVienByMaBM(maBM);
-    }
+    this.DSGVComponent.getGiangVienByMaBM(maBM);
   }
 
   async f_AddGiangVien(gv: GiangVien) {

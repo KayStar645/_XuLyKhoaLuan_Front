@@ -1,3 +1,4 @@
+import { dotDkService } from './../../../services/dotDk.service';
 import { DuyetDt } from '../../../models/DuyetDt.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
@@ -25,6 +26,8 @@ import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { debounceTime, Subject } from 'rxjs';
 import { WebsocketService } from 'src/app/services/Websocket.service';
+import { DotDk } from 'src/app/models/DotDk.model';
+import { HomeMainComponent } from 'src/app/home/home-main/home-main.component';
 
 @Component({
   selector: 'app-ministry-danhsachdetai',
@@ -35,6 +38,14 @@ export class MinistryDanhsachdetaiComponent {
   searchName = '';
   @Input() isSelectedDT = false;
   @Output() returnIsSelectedDT = new EventEmitter<boolean>();
+  _searchName = '';
+  _maCn = '';
+  _namHoc = '';
+  _dot = 0;
+  _chucVu = -1;
+
+  _ListCn: string[] = ['CNPM', 'MMT', 'KHPTDL', 'HTTT'];
+
   listDT: DeTai[] = [];
   root: DeTai[] = [];
   selectedDT: string[] = [];
@@ -51,6 +62,7 @@ export class MinistryDanhsachdetaiComponent {
   selectedBomon!: string;
   deTaiFile: any;
   listCn: ChuyenNganh[] = [];
+  listDotdk: DotDk[] = [];
 
   dtAddForm: any;
   dtUpdateForm: any;
@@ -66,21 +78,22 @@ export class MinistryDanhsachdetaiComponent {
 
   constructor(
     private deTaiService: deTaiService,
-    private elementRef: ElementRef,
     private shareService: shareService,
     private raDeService: raDeService,
     private duyetDtService: duyetDtService,
     private giangVienService: giangVienService,
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private titleService: Title,
-    private toastr: ToastrService,
     private chuyenNganhService: chuyenNganhService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private dotDkService: dotDkService
   ) {}
 
   async ngOnInit() {
-    this.titleService.setTitle('Danh sách đề tài');
     this.listCn = await this.chuyenNganhService.getAll();
+
+    this.listDotdk = await this.dotDkService.getAll();
+    await this.getAllDeTai();
     this.getAllDeTai();
 
     this.listRade = await this.raDeService.getAll();
@@ -132,37 +145,60 @@ export class MinistryDanhsachdetaiComponent {
     return detai.trangThai;
   }
 
-  onGetDetaiByMaCn(event: any) {
-    const maBM = event.target.value;
-    if (maBM == '') {
-      this.getAllDeTai();
-    } else {
-      this.getDetaiByMaCn(maBM);
-    }
+  async onGetDetaiByMaCn(event: any) {
+    const maCn = event.target.value;
+    this._maCn = maCn;
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
   }
 
-  async sortDetai(event: any) {
-    const sort = event.target.value;
+  async onSearchName(event: any) {
+    const searchName = event.target.value.trim().toLowerCase();
+    this._searchName = searchName;
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
+  }
 
-    if (sort == 'asc-id') {
-      this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
-    } else if (sort == 'desc-id') {
-      this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
-    } else if (sort == 'asc-name') {
-      this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
-    } else if (sort == 'desc-name') {
-      this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-    } else {
-      this.listDT = await this.deTaiService.getAll();
-    }
+  async onGetDotdk(event: any) {
+    const dotdk = event.target.value;
+    this._namHoc = dotdk.slice(0, dotdk.length - 1);
+    this._dot = dotdk.slice(dotdk.length - 1);
+
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
   }
 
   async getAllDeTai() {
-    try {
-      // Lấy đề tài của khoa mình thôi nè
-      this.listDT = await this.deTaiService.getAll();
-      this.root = this.listDT;
-    } catch (error) {}
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
   }
 
   async getDetaiByMaCn(maCn: string) {
@@ -172,8 +208,21 @@ export class MinistryDanhsachdetaiComponent {
   getTenChuyennganhByMaDT(maDT: string) {
     let result = [];
     let dtcns = this.listDeta_Chuyennganh.filter((item) => item.maDt == maDT);
-
+    let count = 0;
+    if (dtcns.length >= 4) {
+      for (let cn of dtcns) {
+        if (this._ListCn.includes(cn.maCn)) {
+          count++;
+        }
+      }
+    }
+    if (count == 4) {
+      result.push('Công nghệ thông tin');
+    }
     for (let item of dtcns) {
+      if (count == 4 && this._ListCn.includes(item.maCn)) {
+        continue;
+      }
       result.push(this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn);
     }
     return result;
@@ -209,24 +258,6 @@ export class MinistryDanhsachdetaiComponent {
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
     return '';
-  }
-
-  onSearchName(event: any) {
-    const searchName = event.target.value.trim().toLowerCase();
-    this.tenDT.next(searchName);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      this.filterItems();
-    }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listDT = this.root.filter((item) =>
-      item.tenDT.toLowerCase().includes(searchName)
-    );
   }
 
   dateFormat(str: string): string {

@@ -18,12 +18,14 @@ import { WebsocketService } from 'src/app/services/Websocket.service';
 @Component({
   selector: 'app-ministry-danhsachgiangvien',
   templateUrl: './ministry-danhsachgiangvien.component.html',
-  // styleUrls: ['./ministry-danhsachgiangvien.component.scss'],
 })
 export class MinistryDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedGV = false;
   @Output() returnIsSelectedGV = new EventEmitter<boolean>();
+  _searchName = '';
+  _maBm = '';
+
   listBM: BoMon[] = [];
   root: GiangVien[] = [];
   lineGV = new GiangVien();
@@ -90,20 +92,19 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   }
 
   async getGiangVienByMaBM(maBM: string) {
-    this.listGV = await this.giangVienService.getByBoMon(maBM);
+    this._maBm = maBM;
+    this.listGV = await this.giangVienService.search(this._maBm, this._searchName);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      this.filterItems();
+      const searchName = this.searchName.trim().toLowerCase();
+      this._searchName = searchName;
+      this.listGV = await this.giangVienService.search(
+        this._maBm,
+        this._searchName
+      );
     }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listGV = this.root.filter((item) =>
-      item.tenGv.toLowerCase().includes(searchName)
-    );
   }
 
   getTenBMById(maBM: string): string {

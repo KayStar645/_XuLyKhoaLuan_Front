@@ -402,15 +402,6 @@ export class HomeDetaiComponent implements OnInit {
     }
   }
 
-  getDetaiByMaCn(event: any) {
-    const maBM = event.target.value;
-    if (maBM == '') {
-      this.DSDTComponent.getAllDeTai();
-    } else {
-      this.DSDTComponent.getDetaiByMaCnMaGv(maBM, HomeMainComponent.maGV);
-    }
-  }
-
   async f_AddDetai(dt: DeTai) {
     try {
       await this.deTaiService.add(dt);

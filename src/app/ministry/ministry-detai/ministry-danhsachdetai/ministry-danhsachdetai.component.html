@@ -20,6 +20,18 @@
           (input)="onSearchName($event)"
         />
       </li>
+      <li class="functional-item">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="onGetDotdk($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let dk of listDotdk" [value]="dk.namHoc + dk.dot">
+            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
+          </option>
+        </select>
+      </li>
     </ul>
   </div>
 </div>

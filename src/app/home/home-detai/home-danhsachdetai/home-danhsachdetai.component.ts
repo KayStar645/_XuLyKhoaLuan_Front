@@ -38,8 +38,13 @@ export class HomeDanhsachdetaiComponent {
   searchName = '';
   @Input() isSelectedDT = false;
   @Output() returnIsSelectedDT = new EventEmitter<boolean>();
+  _searchName = '';
+  _maCn = '';
+  _namHoc = '';
+  _dot = 0;
+  _chucVu = 0;
+
   listDT: DeTai[] = [];
-  root: DeTai[] = [];
   selectedDT: string[] = [];
   lineDT = new DeTai();
   elementOld: any;
@@ -88,6 +93,13 @@ export class HomeDanhsachdetaiComponent {
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài');
+    if (HomeMainComponent.maKhoa && HomeMainComponent.maBm) {
+      this._chucVu = 3;
+    } else if (HomeMainComponent.maKhoa) {
+      this._chucVu = 2;
+    } else if (HomeMainComponent.maBm) {
+      this._chucVu = 1;
+    }
 
     this.listCn = await this.chuyenNganhService.getAll();
 
@@ -100,16 +112,6 @@ export class HomeDanhsachdetaiComponent {
     this.listGiangvien = await this.giangVienService.getAll();
     this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
     this.listChuyennganh = await this.chuyenNganhService.getAll();
-
-    this.tenDT.pipe(debounceTime(800)).subscribe((tenDT) => {
-      if (tenDT) {
-        this.listDT = this.root.filter((item) =>
-          item.tenDT.toLowerCase().includes(tenDT)
-        );
-      } else {
-        this.listDT = this.root;
-      }
-    });
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromDeTai((dataChange: boolean) => {
@@ -258,101 +260,61 @@ export class HomeDanhsachdetaiComponent {
     dragBox.classList.add('active');
   }
 
-  async getDetaiByMaCnMaGv(maCn: string, maGV: string) {
-    if (HomeMainComponent.maBm != '') {
-      // Lấy đề tài theo chuyên ngành của bộ môn mình
-      this.listDT = await this.deTaiService.GetDetaiByChuyenNganhBomon(
-        maCn,
-        HomeMainComponent.maBm
-      );
-    } else {
-      this.listDT = await this.deTaiService.GetDeTaisByChuyennganhGiangvien(
-        maCn,
-        maGV
-      );
-    }
-  }
-
-  async getDetaiByDotdk(namHoc: string, dot: number) {}
-
-  onGetDetaiByMaCn(event: any) {
+  async onGetDetaiByMaCn(event: any) {
     const maCn = event.target.value;
-    if (maCn == '') {
-      this.getAllDeTai();
-    } else {
-      this.getDetaiByMaCnMaGv(maCn, HomeMainComponent.maGV);
-    }
+    this._maCn = maCn;
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
   }
 
-  onGetDotdk(event: any) {
+  async onSearchName(event: any) {
+    const searchName = event.target.value.trim().toLowerCase();
+    this._searchName = searchName;
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
+  }
+
+  async onGetDotdk(event: any) {
     const dotdk = event.target.value;
-    let namHoc = dotdk.slice(0, dotdk.length - 1);
-    let dot = dotdk.slice(dotdk.length - 1);
+    this._namHoc = dotdk.slice(0, dotdk.length - 1);
+    this._dot = dotdk.slice(dotdk.length - 1);
+    
 
-    if (dotdk == '') {
-      this.getAllDeTai();
-    } else {
-      this.getDetaiByDotdk(namHoc, dot);
-    }
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
   }
-
-  // async sortGiangVien(event: any) {
-  //   const sort = event.target.value;
-
-  //   if (sort == 'asc-id') {
-  //     this.listDT.sort((a, b) => a.maDT.localeCompare(b.maDT));
-  //   } else if (sort == 'desc-id') {
-  //     this.listDT.sort((a, b) => b.maDT.localeCompare(a.maDT));
-  //   } else if (sort == 'asc-name') {
-  //     this.listDT.sort((a, b) => a.tenDT.localeCompare(b.tenDT));
-  //   } else if (sort == 'desc-name') {
-  //     this.listDT.sort((a, b) => b.tenDT.localeCompare(a.tenDT));
-  //   } else {
-  //     this.getAllDeTai();
-  //   }
-  // }
-
-  // getThamgiaByDotDk(event: any) {
-  //   const dotdk = event.target.value;
-  //   if (dotdk == '') {
-  //     this.DSTGComponent.getAllThamgiaByDotdk();
-  //   } else {
-  //     this.namHoc = dotdk.slice(0, dotdk.length - 1);
-  //     this.dot = dotdk.slice(dotdk.length - 1);
-  //     this.DSTGComponent.getThamgiaByDotDk(this.namHoc, this.dot);
-  //   }
-  // }
 
   async getAllDeTai() {
-    const maKhoa = HomeMainComponent.maKhoa;
-    const maBm = HomeMainComponent.maBm;
-    const maGv = HomeMainComponent.maGV;
-    this.listDT.splice(0, this.listDT.length);
-    if (maKhoa != null) {
-      // Nếu là trưởng khoa sẽ xem được toàn bộ đề tài đã được duyệt
-      let deTais = await this.deTaiService.GetAllDeTaisByMakhoa(maKhoa, 1);
-      this.listDT.push(...deTais);
-    }
-    if (maBm != null) {
-      let deTais = await this.deTaiService.GetAllDeTaisByMaBomon(maBm, false);
-      if (maKhoa != null) {
-        // Vừa là trưởng khoa, vừa là trưởng bộ môn
-        for(let dt of deTais) {
-          if(!dt.trangThai) {
-            this.listDT.push(dt);
-          }
-        }
-      }
-      else {
-        // Nếu là bộ môn thì xem tất cả đề tài của bộ môn mình
-        this.listDT.push(...deTais);
-      }
-    }
-    if (maKhoa == null && maBm == null) {
-      let deTais = await this.deTaiService.GetAllDeTaisByGiangvien(maGv);
-      this.listDT.push(...deTais);
-    }
-    this.root = this.listDT;
+    this.listDT = await this.deTaiService.search(
+      this._maCn,
+      this._searchName,
+      this._namHoc,
+      this._dot,
+      HomeMainComponent.maBm,
+      HomeMainComponent.maGV,
+      this._chucVu
+    );
   }
 
   getTenChuyennganhByMaDT(maDT: string) {
@@ -414,24 +376,6 @@ export class HomeDanhsachdetaiComponent {
       this.listDT.find((item) => item.maDT == maDT) ?? new DeTai();
     // console.log(maDT + ": " + detai.trangThai);
     return detai.trangThai;
-  }
-
-  onSearchName(event: any) {
-    const searchName = event.target.value.trim().toLowerCase();
-    this.tenDT.next(searchName);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      this.filterItems();
-    }
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.listDT = this.root.filter((item) =>
-      item.tenDT.toLowerCase().includes(searchName)
-    );
   }
 
   dateFormat(str: string): string {

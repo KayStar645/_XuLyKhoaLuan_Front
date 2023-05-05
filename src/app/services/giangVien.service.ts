@@ -31,6 +31,17 @@ export class giangVienService {
     );
   }
 
+  async search(maBm: string, tenGv: string): Promise<GiangVien[]> {
+    return (
+      (await this.http
+        .get<GiangVien[]>(
+          `${this.apiUrl}/api/Giangviens/maBm, tenGv?maBm=${maBm}&tenGv=${tenGv}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
   async getById(id: string): Promise<GiangVien> {
     try {
       var response = new GiangVien();
@@ -116,7 +127,11 @@ export class giangVienService {
       .toPromise();
   }
 
-  async GetSoLuongNhiemVu(maGv: string, namHoc: string, dot: number): Promise<number[]> {
+  async GetSoLuongNhiemVu(
+    maGv: string,
+    namHoc: string,
+    dot: number
+  ): Promise<number[]> {
     return (
       (await this.http
         .get<number[]>(
