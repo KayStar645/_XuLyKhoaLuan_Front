@@ -1,0 +1,36 @@
+.council-item {
+  padding: 4px 0;
+  font-weight: 500;
+}
+
+.council-item:nth-child(odd) {
+  padding-top: 0;
+}
+
+.council-item:nth-child(even) {
+  position: relative;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+
+  &::after {
+    position: absolute;
+    content: "";
+    bottom: -1px;
+    height: 1.5px;
+    width: 50%;
+    background: #ccc;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 500px;
+  }
+}
+
+.label {
+  width: 120px;
+  font-weight: 400;
+}
+
+.description {
+  flex: 1;
+  text-align: right;
+}
