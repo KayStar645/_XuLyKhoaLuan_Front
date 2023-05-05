@@ -8,6 +8,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { congViecService } from 'src/app/services/congViec.service';
 import { format, formatDistanceToNowStrict, getDay } from 'date-fns';
 import { DashboardComponent } from '../../dashboard.component';
+import { thamGiaService } from 'src/app/services/thamGia.service';
 
 @Component({
   selector: 'app-dashboard-mainnhom',
@@ -26,20 +27,29 @@ export class DashboardMainnhomComponent {
     private nhomService: nhomService,
     private deTaiService: deTaiService,
     private sinhVienService: sinhVienService,
-    private congViecService: congViecService
+    private congViecService: congViecService,
+    private thamGiaService: thamGiaService
   ) {}
 
   @ViewChildren('link') links!: QueryList<ElementRef>;
 
   async ngOnInit() {
     this.nhom = await this.nhomService.getById(DashboardComponent.maNhom);
-    this.deTai = await this.deTaiService.getById(DashboardComponent.maDT);
-    this.maDT = DashboardComponent.maDT;
-    this.listSV = await this.sinhVienService.getSinhvienByDetai(
-      DashboardComponent.maDT
-    );
-    await this.getListBT();
-    this.getNearTimeOutMission();
+
+    if (DashboardComponent.maDT !== '') {
+      this.deTai = await this.deTaiService.getById(DashboardComponent.maDT);
+      this.maDT = DashboardComponent.maDT;
+      this.listSV = await this.sinhVienService.getSinhvienByDetai(
+        DashboardComponent.maDT
+      );
+      await this.getListBT();
+      this.getNearTimeOutMission();
+    } else {
+      this.listSV = await this.thamGiaService.GetSinhvienByNhom(
+        DashboardComponent.maNhom,
+        false
+      );
+    }
   }
 
   getNearTimeOutMission() {

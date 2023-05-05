@@ -1,19 +1,20 @@
+import { giangVienService } from 'src/app/services/giangVien.service';
+import { nhiemVuService } from './../../../services/nhiemVu.service';
 import { TruongBm } from './../../../models/TruongBm.model';
 import { TruongKhoa } from './../../../models/TruongKhoa.model';
 import { truongBmService } from './../../../services/truongBm.service';
 import { truongKhoaService } from './../../../services/truongKhoa.service';
 import { HomeMainComponent } from './../../home-main/home-main.component';
 import { shareService } from '../../../services/share.service';
-import { giangVienService } from '../../../services/giangVien.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { boMonService } from 'src/app/services/boMon.service';
 import { BoMon } from 'src/app/models/BoMon.model';
+import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
 
 @Component({
   selector: 'app-home-danhsachgiangvien',
   templateUrl: './home-danhsachgiangvien.component.html',
-  // styleUrls: ['./home-danhsachgiangvien.component.scss']
 })
 export class HomeDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
@@ -26,7 +27,6 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
     private giangVienService: giangVienService,
     private boMonService: boMonService,
     private shareService: shareService,
-    private HomeMainComponent: HomeMainComponent,
     private truongKhoaService: truongKhoaService,
     private truongBmService: truongBmService,
   ) {}
@@ -54,6 +54,11 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
       this.listGV = [];
       this.root = [];
     }
+    
+    for(let gv of this.listGV) {
+      gv.cNhiemVu = await this.giangVienService.GetSoLuongNhiemVu(gv.maGv, shareService.namHoc, shareService.dot);
+    }
+    console.log("a");
   }
 
   ngOnChanges(changes: SimpleChanges) {

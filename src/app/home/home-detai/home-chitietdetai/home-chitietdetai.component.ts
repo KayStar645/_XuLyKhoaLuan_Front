@@ -115,7 +115,7 @@ export class HomeChitietdetaiComponent {
       await this.giangVienService.getById(HomeMainComponent.maGV)
     ).tenGv;
 
-    // this.websocketService.startConnection();
+   this.websocketService.startConnection();
   }
 
   onSetDeTai(event: any) {}
@@ -417,12 +417,7 @@ export class HomeChitietdetaiComponent {
 
   async onBrowse(maDT: string, flag: boolean) {
     this.duyetDTService.UpdateTrangthaiDetai(maDT, this.oldForm.maGv, flag);
-    // if (flag) {
-    //   this.toastr.success('Thành công!', 'Duyệt đề tài!');
-    // } else {
-    //   this.toastr.success('Thành công!', 'Yêu cầu chỉnh sửa!');
-    // }
-    this.websocketService.sendForDuyetDT(true);
+    this.websocketService.sendForDeTai(true);
   }
 
   getTenChuyennganhByMaDT(maDT: string) {
@@ -447,8 +442,7 @@ export class HomeChitietdetaiComponent {
     }
 
     // Websocket
-    this.websocketService.startConnection();
-    this.websocketService.receiveFromDuyetDT(async (dataChange: boolean) => {
+    this.websocketService.receiveFromDeTai(async (dataChange: boolean) => {
       const duyetdt = await this.duyetDTService.getByMadt(maDT);
       const detai = await this.deTaiService.getById(maDT);
       if (duyetdt.length == 0 && detai.trangThai == false) {

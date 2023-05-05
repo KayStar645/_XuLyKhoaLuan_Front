@@ -4,11 +4,10 @@
       <tr>
         <th>Mã SV</th>
         <th>Họ và tên</th>
-        <th>Email</th>
-        <th>Ngày sinh</th>
-        <th>Giới tính</th>
-        <th>SĐT</th>
         <th>Lớp</th>
+        <th>Giới tính</th>
+        <th>Email</th>
+        <th>SĐT</th>
         <th>Chuyên ngành</th>
       </tr>
       <tbody *ngFor="let sv of listSV">
@@ -19,11 +18,10 @@
         >
           <td class="text-center">{{ sv?.maSv }}</td>
           <td class="text-left">{{ sv.tenSv }}</td>
-          <td class="text-left">{{ sv.email }}</td>
-          <td class="text-center">{{ dateFormat(sv.ngaySinh) }}</td>
-          <td class="text-center">{{ sv.gioiTinh }}</td>
-          <td class="text-center">{{ sv.sdt }}</td>
           <td class="text-center">{{ sv.lop }}</td>
+          <td class="text-center">{{ sv.gioiTinh }}</td>
+          <td class="text-left">{{ sv.email }}</td>
+          <td class="text-center">{{ sv.sdt }}</td>
           <td class="text-left">{{ getTenCNById(sv.maCn) }}</td>
         </tr>
       </tbody>

@@ -26,8 +26,12 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedTG = false;
   @Output() returnIsSelectedTG = new EventEmitter<boolean>();
+  _searchName = '';
+  _maCn = '';
+  _namHoc = '';
+  _dot = 0;
+
   listTg: ThamGia[] = [];
-  root: ThamGia[] = [];
   sinhVien = new SinhVien();
 
   listSV: SinhVien[] = [];
@@ -69,7 +73,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     this.websocketService.startConnection();
     this.websocketService.receiveFromThamGia((dataChange: boolean) => {
       if (dataChange) {
-        this.sinhVienService.getAll().then((data) => this.listSV = data);
+        this.sinhVienService.getAll().then((data) => (this.listSV = data));
         this.getAllThamgiaByDotdk();
       }
     });
@@ -96,17 +100,51 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   }
 
   async getAllThamgiaByDotdk() {
-    this.listTg = await this.thamGiaService.getAll();
-    this.root = this.listTg;
+    this.listTg = await this.thamGiaService.search(
+      this._searchName,
+      this._maCn,
+      this._namHoc,
+      this._dot
+    );
   }
 
   async getThamgiaByMaCN(maCn: string) {
-    this.listTg = await this.thamGiaService.getByCn(maCn);
+    this._maCn = maCn;
+    this.listTg = await this.thamGiaService.search(
+      this._searchName,
+      this._maCn,
+      this._namHoc,
+      this._dot
+    );
   }
 
-  getThamgiaByDotDk(namHoc: string, dot: number) {
-    this.listTg =
-      this.root.filter((t) => t.namHoc == namHoc && t.dot == dot) || [];
+  async getThamgiaByDotDk(dotdk: string) {
+    this._namHoc = '';
+    this._dot = 0;
+    if (dotdk != '') {
+      this._namHoc = dotdk.slice(0, dotdk.length - 1);
+      this._dot = parseInt(dotdk.slice(dotdk.length - 1));
+    }
+    this.listTg = await this.thamGiaService.search(
+      this._searchName,
+      this._maCn,
+      this._namHoc,
+      this._dot
+    );
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes.searchName) {
+      const name = this.searchName.trim().toLowerCase();
+      this._searchName = name;
+
+      this.listTg = await this.thamGiaService.search(
+        this._searchName,
+        this._maCn,
+        this._namHoc,
+        this._dot
+      );
+    }
   }
 
   getSelectedLine(e: any) {
@@ -145,17 +183,6 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
       if (this.selectedTG.length === 0) {
         this.returnIsSelectedTG.emit(false);
-      }
-    }
-  }
-
-  async ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      const name = this.searchName.trim().toLowerCase();
-      if (name == '') {
-        this.listTg = this.root;
-      } else {
-        this.listTg = await this.thamGiaService.searchThamgiaByName(name);
       }
     }
   }

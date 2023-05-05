@@ -28,7 +28,6 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   root: GiangVien[] = [];
   lineGV = new GiangVien();
   elementOld: any;
-  selectedGV: string[] = [];
   listGV: GiangVien[] = [];
 
   constructor(
@@ -43,22 +42,6 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
     this.getAllGiangVien();
 
     this.listBM = await this.boMonService.getAll();
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.selectedGV = [];
-        this.returnIsSelectedGV.emit(false);
-        let activeLine = this.elementRef.nativeElement.querySelectorAll(
-          '.br-line.br-line-click'
-        );
-
-        if (activeLine) {
-          activeLine.forEach((line: any) => {
-            line.classList.remove('br-line-click');
-          });
-        }
-      }
-    });
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromGiangVien((dataChange: boolean) => {
@@ -75,27 +58,10 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
         '.br-line.br-line-dblclick'
       );
       const parent = getParentElement(event.target, '.br-line');
-      const firstChild = parent.firstChild;
 
       if (activeDblClick) {
         activeDblClick.classList.remove('.br-line-dblclick');
         this.lineGV = new GiangVien();
-      }
-
-      if (parent.classList.contains('br-line-click')) {
-        let childIndex = this.selectedGV.findIndex(
-          (t) => t === firstChild.innerText
-        );
-
-        parent.classList.remove('br-line-click');
-        this.selectedGV.splice(childIndex, 1);
-      } else {
-        parent.classList.add('br-line-click');
-        this.selectedGV.push(firstChild.innerText);
-      }
-
-      if (this.selectedGV.length === 0) {
-        this.returnIsSelectedGV.emit(false);
       }
     }
   }

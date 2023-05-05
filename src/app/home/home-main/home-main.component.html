@@ -7,15 +7,16 @@
           <div class="info-content row ma-t-24">
             <div class="info-img">
               <img
-                *ngIf="data?.gioiTinh == 'Nữ'"
+                *ngIf="data?.gioiTinh == 'Nữ'; else Nam"
                 src="../../assets/Images/avatar-nu.jpg"
                 alt="Avatar"
               />
-              <img
-                *ngIf="data?.gioiTinh == 'Nam'"
+              <ng-template #Nam>
+                <img
                 src="../../assets/Images/avatar-nam.jpeg"
                 alt="Avatar"
-              />
+                />
+              </ng-template>
               <a href="" class="detail-link">Xem chi tiết</a>
             </div>
   
@@ -31,7 +32,7 @@
                       <p>Họ tên:</p>
                       <b>{{ data?.tenGv }}</b>
                     </li>
-                    <li class="info-left-item row ali-center">
+                    <li class="info-left-item row ali-center" *ngIf="data.gioiTinh">
                       <p>Giới tính:</p>
                       <b>{{ data?.gioiTinh }}</b>
                     </li>
@@ -80,8 +81,8 @@
         <div class="top-right row h-100">
           <div class="top-notifi row ali-center jus-between">
             <div class="top-notifi-count row flex-column">
-              <div class="top-info-title">Nhiệm vụ</div>
-              <p class="count">{{ countNV }}</p>
+              <div class="top-info-title">Số đề tài đạt - Số đề tài ra - Số đề tài được giao</div>
+              <p class="count">{{ cNhiemVu[1] }} --- {{ cNhiemVu[2] }} --- {{ cNhiemVu[0] }}</p>
               <a routerLink="/home/nhiem-vu" class="detail-link">Xem chi tiết</a>
             </div>
             <div>
@@ -94,8 +95,8 @@
           </div>
           <div class="top-plan row ali-center jus-between">
             <div class="top-notifi-count row flex-column">
-              <div class="top-info-title">Lịch phản biện</div>
-              <p class="count">{{ countNV }}</p>
+              <div class="top-info-title">Số đề tài Hướng dẫn - Phản biện</div>
+              <p class="count">{{ cNhiemVu[3] }} --- {{ cNhiemVu[4] }}</p>
               <a routerLink="/home/lich-phan-bien" class="detail-link">Xem chi tiết</a>
             </div>
             <div>
@@ -177,17 +178,6 @@
             <p>Sinh viên</p>
           </a>
         </li>
-        <li class="navbar-item" *ngIf="maKhoa != null || maBm != null || hoiDong.maGv != null">
-          <a routerLink="/home/hoi-dong" class="navbar-link">
-            <img
-              class="navbar-icon"
-              src="../../assets/Images/hoi-dong.png"
-              alt=""
-              width="48"
-            />
-            <p>Hội đồng</p>
-          </a>
-        </li>
         <li class="navbar-item">
             <a routerLink="/home/huong-dan" class="navbar-link">
               <img
@@ -211,14 +201,25 @@
           </a>
         </li>
         <li class="navbar-item">
-          <a routerLink="/home/lich-phan-bien" class="navbar-link">
+          <a routerLink="/home/cham-diem" class="navbar-link">
             <img
               class="navbar-icon"
-              src="../../assets/Images/lich-phan-bien.png"
+              src="../../assets/Images/cham-diem.png"
               alt=""
               width="48"
             />
             <p>Chấm điểm</p>
+          </a>
+        </li>
+        <li class="navbar-item" *ngIf="maKhoa != null || maBm != null || hoiDong.maGv != null">
+          <a routerLink="/home/hoi-dong" class="navbar-link">
+            <img
+              class="navbar-icon"
+              src="../../assets/Images/hoi-dong.png"
+              alt=""
+              width="48"
+            />
+            <p>Hội đồng</p>
           </a>
         </li>
       </ul>

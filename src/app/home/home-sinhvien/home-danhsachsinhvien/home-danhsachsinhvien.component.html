@@ -5,7 +5,6 @@
         <th>Mã SV</th>
         <th>Họ và tên</th>
         <th>Email</th>
-        <th>Ngày sinh</th>
         <th>Giới tính</th>
         <th>SĐT</th>
         <th>Lớp</th>
@@ -18,7 +17,6 @@
           {{getSinhVienById(tg.maSv)}}
           <td class="text-left">{{ sinhVien.tenSv }}</td>
           <td class="text-left">{{ sinhVien.email }}</td>
-          <td class="text-center">{{ dateFormat(sinhVien.ngaySinh) }}</td>
           <td class="text-center">{{ sinhVien.gioiTinh }}</td>
           <td class="text-center">{{ sinhVien.sdt }}</td>
           <td class="text-center">{{ sinhVien.lop }}</td>

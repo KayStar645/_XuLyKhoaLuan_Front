@@ -12,6 +12,7 @@ export class GiangVien {
   public ngayNhanViec!: string;
   public ngayNghi!: string;
   public maBm!: string;
+  cNhiemVu: number[] = [0, 0, 0, 0, 0];
 
   constructor() {}
 

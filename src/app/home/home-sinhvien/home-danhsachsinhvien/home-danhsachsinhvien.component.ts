@@ -30,13 +30,10 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
 
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
-  selectedTG: any[] = [];
-  lineTG = new ThamGia();
   elementOld: any;
 
   constructor(
     private sinhVienService: sinhVienService,
-    private elementRef: ElementRef,
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
     private thamGiaService: thamGiaService
@@ -47,21 +44,7 @@ export class HomeDanhsachsinhvienComponent implements OnInit {
     this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
 
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.selectedTG = [];
-        this.returnIsSelectedTG.emit(false);
-        let activeLine = this.elementRef.nativeElement.querySelectorAll(
-          '.br-line.br-line-click'
-        );
-
-        if (activeLine) {
-          activeLine.forEach((line: any) => {
-            line.classList.remove('br-line-click');
-          });
-        }
-      }
-    });
+    
   }
 
   async getAllSinhVien() {

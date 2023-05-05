@@ -104,4 +104,15 @@ export class huongDanService {
       )
       .toPromise();
   }
+
+  async SoLuongDeTaiPhaiHuongDan(maGV: string): Promise<number> {
+    return (
+      (await this.http
+        .get<number>(
+          `${this.apiUrl}/api/Huongdans/maGv?maGv=${maGV}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? 0
+    );
+  }
 }

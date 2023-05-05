@@ -88,4 +88,15 @@ export class phanBienService {
       )
       .toPromise();
   }
+
+  async SoLuongDeTaiPhaiPhanbien(maGV: string): Promise<number> {
+    return (
+      (await this.http
+        .get<number>(
+          `${this.apiUrl}/api/Phanbiens/maGv?maGv=${maGV}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? 0
+    );
+  }
 }

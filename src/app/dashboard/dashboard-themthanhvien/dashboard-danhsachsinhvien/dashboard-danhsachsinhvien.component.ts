@@ -32,6 +32,9 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';
   @Input() isSelectedTG = false;
   @Output() returnIsSelectedTG = new EventEmitter<boolean>();
+  _maCn!: string;
+  _searchName!: string;
+
   listTg: any[] = [];
   root: ThamGia[] = [];
   sinhVien = new SinhVien();
@@ -227,21 +230,34 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   }
 
   async getThamgiaByMaCN(maCn: string) {
-    this.listTg = await this.thamGiaService.GetThamgiaByChuyennganhDotdk(
-      maCn,
+    this._maCn = maCn;
+    this.listTg = await this.thamGiaService.search(
+      this._searchName,
+      this._maCn,
       shareService.namHoc,
       shareService.dot
     );
+    this.listTg = this.listTg.map((tg) => ({
+      ...tg,
+      ...this.getSinhVienById(tg.maSv),
+    }));
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       const name = this.searchName.trim().toLowerCase();
-      if (name == '') {
-        this.listTg = this.root;
-      } else {
-        this.listTg = await this.thamGiaService.searchThamgiaByName(name);
-      }
+      this._searchName = name;
+      
+      this.listTg = await this.thamGiaService.search(
+        this._searchName,
+        this._maCn,
+        shareService.namHoc,
+        shareService.dot
+      );
+      this.listTg = this.listTg.map((tg) => ({
+        ...tg,
+        ...this.getSinhVienById(tg.maSv),
+      }));
     }
   }
 
@@ -250,6 +266,10 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
 
     if (this.listCN) {
       tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
+      this.listTg = this.listTg.map((tg) => ({
+        ...tg,
+        ...this.getSinhVienById(tg.maSv),
+      }));
     }
     return tencn;
   }

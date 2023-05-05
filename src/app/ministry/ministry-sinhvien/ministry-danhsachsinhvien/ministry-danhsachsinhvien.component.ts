@@ -121,24 +121,6 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
     }
   }
 
-  // async sortSinhVien(sort: string) {
-  //   if (sort == 'asc-id') {
-  //     this.listSV.sort((a, b) => a.maSv.localeCompare(b.maSv));
-  //   } else if (sort == 'desc-id') {
-  //     this.listSV.sort((a, b) => b.maSv.localeCompare(a.maSv));
-  //   } else if (sort == 'asc-name') {
-  //     this.listSV.sort((a, b) => a.tenSv.localeCompare(b.tenSv));
-  //   } else if (sort == 'desc-name') {
-  //     this.listSV.sort((a, b) => b.tenSv.localeCompare(a.tenSv));
-  //   } else if (sort == 'asc-subject') {
-  //     this.listSV.sort((a, b) => a.maCn.localeCompare(b.maCn));
-  //   } else if (sort == 'desc-subject') {
-  //     this.listSV.sort((a, b) => b.maCn.localeCompare(a.maCn));
-  //   } else {
-  //     this.listSV = await this.sinhVienService.getAll();
-  //   }
-  // }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       this.filterItems();

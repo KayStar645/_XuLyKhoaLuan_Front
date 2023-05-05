@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ThamGia } from '../models/ThamGia.model';
 import { shareService } from './../services/share.service';
+import { SinhVien } from '../models/SinhVien.model';
 
 @Injectable({
   providedIn: 'root',
@@ -70,10 +71,10 @@ export class thamGiaService {
     );
   }
 
-  async GetSinhvienByNhom(maNhom: string, flag: boolean): Promise<ThamGia[]> {
+  async GetSinhvienByNhom(maNhom: string, flag: boolean): Promise<SinhVien[]> {
     return (
       (await this.http
-        .get<ThamGia[]>(
+        .get<SinhVien[]>(
           `${this.apiUrl}/api/Thamgias/maNhom, flag?maNhom=${maNhom}&flag=${flag}`,
           this.shareService.httpOptions
         )
@@ -109,6 +110,17 @@ export class thamGiaService {
       (await this.http
         .get<ThamGia[]>(
           `${this.apiUrl}/api/Thamgias/name?name=${name}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async search(tenSv: string, maCn: string, namHoc: string, dot:number): Promise<ThamGia[]> {
+    return (
+      (await this.http
+        .get<ThamGia[]>(
+          `${this.apiUrl}/api/Thamgias/tenSv, maCn, namHoc, dot?tenSv=${tenSv}&maCn=${maCn}&namHoc=${namHoc}&dot=${dot}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

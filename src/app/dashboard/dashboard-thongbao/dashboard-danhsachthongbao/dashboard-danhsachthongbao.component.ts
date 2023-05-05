@@ -18,6 +18,7 @@ import { Title } from '@angular/platform-browser';
 import { DashboardComponent } from '../../dashboard.component';
 import { format } from 'date-fns';
 import { Nhom } from 'src/app/models/Nhom.model';
+import { ThamGia } from 'src/app/models/ThamGia.model';
 
 @Component({
   selector: 'app-dashboard-danhsachthongbao',
@@ -38,6 +39,7 @@ export class DashboardDanhsachthongbaoComponent {
   isGroupHaveOneMember = false;
   isPopupVisible = false;
   lstNhom: Nhom[] = [];
+  listThamGia: ThamGia[] = [];
 
   // Thông báo từ khoa
   @Input() searchName = '';
@@ -57,31 +59,14 @@ export class DashboardDanhsachthongbaoComponent {
     private loiMoiService: loiMoiService,
     private thamGiaService: thamGiaService,
     private cd: ChangeDetectorRef,
-    private nhomService: nhomService,
-    private titleService: Title
+    private nhomService: nhomService
   ) {}
 
   async ngOnInit() {
     await this.getAllThongBao();
 
     this.maSv = DashboardComponent.maSV;
-    await this.loiMoiService
-      .getAllLoiMoiSinhVienByIdDotNamHoc(
-        this.maSv,
-        shareService.namHoc,
-        shareService.dot
-      )
-      .then((data) => {
-        data = data.map((loiMoi) => {
-          return {
-            ...loiMoi,
-            thoiGian: format(new Date(loiMoi.thoiGian), 'dd-MM-yyyy'),
-          };
-        });
-
-        this.lstLoiMoi = data;
-      });
-
+    this.getAllLoiMoi();
     if (
       await this.thamGiaService.isJoinedAGroup(
         DashboardComponent.maSV,
@@ -110,8 +95,38 @@ export class DashboardDanhsachthongbaoComponent {
         this.getAllThongBao();
       }
     });
-
+    this.websocketService.receiveFromThamGia((dataChange: boolean) => {
+      if (dataChange) {
+        this.getAllThamGia();
+      }
+    });
     this.lstNhom = await this.nhomService.getAll();
+  }
+
+  async getAllThamGia() {
+    this.listThamGia = await this.thamGiaService.GetThamgiaByDotdk(
+      shareService.namHoc,
+      shareService.dot
+    );
+  }
+
+  async getAllLoiMoi() {
+    await this.loiMoiService
+      .getAllLoiMoiSinhVienByIdDotNamHoc(
+        this.maSv,
+        shareService.namHoc,
+        shareService.dot
+      )
+      .then((data) => {
+        data = data.map((loiMoi) => {
+          return {
+            ...loiMoi,
+            thoiGian: format(new Date(loiMoi.thoiGian), 'dd-MM-yyyy'),
+          };
+        });
+
+        this.lstLoiMoi = data;
+      });
   }
 
   // Thông báo từ lời mời nè
@@ -123,7 +138,7 @@ export class DashboardDanhsachthongbaoComponent {
 
     let groupIdCreated = await (
       await this.thamGiaService.getById(
-        this.maSv,
+        DashboardComponent.maSV,
         shareService.namHoc,
         shareService.dot
       )
@@ -137,24 +152,8 @@ export class DashboardDanhsachthongbaoComponent {
       this.isConfirmDialogVisible = true;
       this.isTeamLeader = thamGia.truongNhom;
       this.loiMoi = loiMoi;
-    } else {
-      thamGia.maNhom = loiMoi.maNhom;
-      thamGia.truongNhom = false;
-      this.thamGiaService.update(thamGia);
-      await this.loiMoiService.delete(
-        this.loiMoi.maNhom,
-        this.loiMoi.maSv,
-        this.loiMoi.namHoc,
-        this.loiMoi.dot
-      );
-      this.lstLoiMoi =
-        await this.loiMoiService.getAllLoiMoiSinhVienByIdDotNamHoc(
-          this.maSv,
-          shareService.namHoc,
-          shareService.dot
-        );
-      this.cd.detectChanges();
     }
+    this.cd.detectChanges();
   }
 
   //Phải click 2 lần mới cập nhật được phần đã xóa
@@ -213,6 +212,7 @@ export class DashboardDanhsachthongbaoComponent {
     thamGia.maNhom = this.loiMoi.maNhom;
     thamGia.truongNhom = false;
     await this.thamGiaService.update(thamGia);
+    this.websocketService.sendForThamGia(true);
 
     //Cập nhật lại danh sách lời mời
     await this.loiMoiService.delete(
@@ -243,7 +243,7 @@ export class DashboardDanhsachthongbaoComponent {
     return this.shareService.dateFormat(str);
   }
 
-  getTenNhomByMaNhom(maNhom: string){
-    return this.lstNhom.find(nhom => nhom.maNhom == maNhom)?.tenNhom;
+  getTenNhomByMaNhom(maNhom: string) {
+    return this.lstNhom.find((nhom) => nhom.maNhom == maNhom)?.tenNhom;
   }
 }

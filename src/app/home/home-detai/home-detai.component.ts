@@ -411,10 +411,10 @@ export class HomeDetaiComponent implements OnInit {
     }
   }
 
-  sortGiangVien(event: any) {
-    const sort = event.target.value;
-    this.DSDTComponent.sortGiangVien(sort);
-  }
+  // sortGiangVien(event: any) {
+  //   const sort = event.target.value;
+  //   this.DSDTComponent.sortGiangVien(sort);
+  // }
 
   async f_AddDetai(dt: DeTai) {
     try {

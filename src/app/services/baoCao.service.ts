@@ -79,4 +79,15 @@ export class baoCaoService {
       )
       .toPromise();
   }
+
+  async GetBaocaoByMacv(maCv: string): Promise<BaoCao[]> {
+    return (
+      (await this.http
+        .get<BaoCao[]>(
+          `${this.apiUrl}/api/Baocaos/maCv?maCv=${maCv}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
 }

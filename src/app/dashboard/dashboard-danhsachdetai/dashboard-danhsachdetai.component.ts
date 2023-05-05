@@ -20,13 +20,15 @@ import { DangKy } from 'src/app/models/DangKy.model';
 import { ToastrService } from 'ngx-toastr';
 import { async } from 'rxjs';
 import { nhomService } from 'src/app/services/nhom.service';
+import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
+
 
 @Component({
-  selector: 'app-dashbord-dangkydetai',
-  templateUrl: './dashbord-dangkydetai.component.html',
-  styleUrls: ['./dashbord-dangkydetai.component.scss'],
+  selector: 'app-dashboard-danhsachdetai',
+  templateUrl: './dashboard-danhsachdetai.component.html',
+  styleUrls: ['./dashboard-danhsachdetai.component.scss'],
 })
-export class DashbordDangkydetaiComponent {
+export class DashboardDanhsachdetaiComponent {
   lineDT!: DeTai;
   oldParent: any;
   lineDTdk!: DeTai;
@@ -55,7 +57,7 @@ export class DashbordDangkydetaiComponent {
   ) {}
 
   async ngOnInit() {
-    this.titleService.setTitle('Đăng ký đề tài');
+    this.titleService.setTitle('Danh sách đề tài dự kiến');
 
     this.listHuongdan = await this.huongDanService.getAll();
     this.listGiangvien = await this.giangVienService.getAll();
@@ -89,7 +91,7 @@ export class DashbordDangkydetaiComponent {
       shareService.namHoc,
       shareService.dot,
       DashboardComponent.maNhom,
-      false
+      true
     );
 
     if (this.isDangky) {
@@ -114,21 +116,23 @@ export class DashbordDangkydetaiComponent {
     let result = [];
     let chuyenNganhs = this.listCnPhuhop.filter((item) => item.maDt == maDT);
     let count = 0;
-    if (chuyenNganhs.length >= 4) {
+    if(chuyenNganhs.length >= 4) {
       for (let cn of chuyenNganhs) {
-        if (this._ListCn.includes(cn.maCn)) {
+        if(this._ListCn.includes(cn.maCn)) {
           count++;
         }
       }
     }
-    if (count == 4) {
+    if(count == 4) {
       result.push('Công nghệ thông tin');
     }
     for (let item of chuyenNganhs) {
       if (count == 4 && this._ListCn.includes(item.maCn)) {
         continue;
       }
-      result.push(this.listChuyennganh.find((g) => g.maCn == item.maCn)?.tenCn);
+        result.push(
+          this.listChuyennganh.find((g) => g.maCn == item.maCn)?.tenCn
+        );
     }
     return result;
   }
