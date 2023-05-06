@@ -1,3 +1,4 @@
+import { deTaiDiemService } from './../services/NghiepVu/detaidiem.service';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { userService } from 'src/app/services/user.service';
 import { raDeService } from './../services/raDe.service';
@@ -15,10 +16,16 @@ export class TestComponent implements OnInit {
   constructor(
     private raDeService: raDeService,
     private userService: userService,
-    private deTaiService: deTaiService
+    private deTaiService: deTaiService,
+    private deTaiDiemService: deTaiDiemService
   ) {}
 
   ngOnInit(): void {}
+
+  async getDeTaiDiem() {
+    let result = await this.deTaiDiemService.GetDanhSachDiemByGv('GV00001');
+    console.log(result);
+  }
 
   async createMaDt() {
     // let maDT = await this.deTaiService.createMaDT('CNTT');
