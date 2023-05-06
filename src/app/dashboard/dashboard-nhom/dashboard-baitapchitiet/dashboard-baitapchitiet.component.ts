@@ -1,4 +1,4 @@
-import { traoDoiService } from './../../../services/traodoi.service';
+import { traoDoiService } from '../../../services/NghiepVu/traodoi.service';
 import { sinhVienService } from './../../../services/sinhVien.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';

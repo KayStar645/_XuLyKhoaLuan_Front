@@ -6,10 +6,10 @@ export class Traodoi {
 
   constructor() {}
 
-  init(tenHienThi: string, vaiTro: string, thoiGian: string, noiDung: string) {
-    this.tenHienThi = tenHienThi;
-    this.vaiTro = vaiTro;
-    this.thoiGian = thoiGian;
-    this.noiDung = noiDung;
-  }
+  // init(tenHienThi: string, vaiTro: string, thoiGian: string, noiDung: string) {
+  //   this.tenHienThi = tenHienThi;
+  //   this.vaiTro = vaiTro;
+  //   this.thoiGian = thoiGian;
+  //   this.noiDung = noiDung;
+  // }
 }

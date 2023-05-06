@@ -1,4 +1,4 @@
-import { traoDoiService } from './../../../../services/traodoi.service';
+import { traoDoiService } from '../../../../services/NghiepVu/traodoi.service';
 import { hdGopYService } from './../../../../services/hdGopY.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

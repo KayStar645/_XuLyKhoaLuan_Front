@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { shareService } from './share.service';
-import { Traodoi } from '../models/VirtualModel/TraodoiModel';
+import { shareService } from '../share.service';
+import { Traodoi } from '../../models/VirtualModel/TraodoiModel';
 
 @Injectable({
   providedIn: 'root',
