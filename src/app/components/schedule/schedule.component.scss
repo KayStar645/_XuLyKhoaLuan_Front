@@ -41,6 +41,12 @@ tbody td {
   border-radius: 10px;
 }
 
+.days {
+  position: sticky;
+  top: 131px;
+  z-index: 10;
+}
+
 .hour td:first-child,
 .minute td:first-child {
   background: #fafafa;

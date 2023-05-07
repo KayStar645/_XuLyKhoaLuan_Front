@@ -1,1 +1,4 @@
-<app-schedule [data]="data"></app-schedule>
+<app-schedule
+  *ngIf="lichPhanBiens.length > 0"
+  [data]="lichPhanBiens"
+></app-schedule>

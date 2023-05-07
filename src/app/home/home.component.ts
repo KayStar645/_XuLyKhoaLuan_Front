@@ -21,16 +21,17 @@ export class HomeComponent implements OnInit {
   namHoc = '';
   dot = -1;
   chucVu = 0; // 0 là không có chức, 1 là trưởng bộ môn, 2 là trưởng khoa
-  
+
   static namHoc: string;
   static dot: number;
+  static maGv: string;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private elementRef: ElementRef,
     private giangVienService: giangVienService,
-    private shareService: shareService,
+    private shareService: shareService
   ) {}
 
   public async ngOnInit() {
@@ -47,6 +48,8 @@ export class HomeComponent implements OnInit {
     this.data = await this.giangVienService.getById(
       '' + localStorage.getItem('Id')?.toString()
     );
+
+    
     await this.shareService.namHocDotDk();
   }
 

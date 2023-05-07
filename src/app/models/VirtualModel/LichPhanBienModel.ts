@@ -1,9 +1,9 @@
 export class LichPhanBien {
-  public MaDt!: string;
-  public TenDeTai!: string;
-  public ThoiGianBD!: string;
-  public ThoiGianKT!: string;
-  public DiaDiem!: string;
+  public maDt!: string;
+  public tenDeTai!: string;
+  public thoiGianBD!: string;
+  public thoiGianKT!: string;
+  public diaDiem!: string;
 
   /*
     1: Hướng dẫn
