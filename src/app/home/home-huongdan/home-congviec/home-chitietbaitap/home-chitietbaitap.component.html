@@ -1,103 +1,190 @@
-<div id="functional-container">
-  <div class="functional-list">
-    <div class="functional-container row ali-center jus-end functional-wrapper">
-      <div class="functional-button">
-        <button (click)="onAdd()">Thêm</button>
+<div *ngIf="maCV === '-1'; else hasMaCV">
+  <div id="functional-container">
+    <div class="functional-list">
+      <div
+        class="functional-container row ali-center jus-end functional-wrapper"
+      >
+        <div class="functional-button">
+          <button (click)="onAdd()">Thêm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form class="tb-form" [formGroup]="khForm.form">
+    <div class="container row p-t-16 functional-wrapper">
+      <div class="h-8 p-l-8 p-r-8">
+        <div class="detail-item">
+          <div class="form-control">
+            <p class="label p-b-8">Tên công việc</p>
+
+            <div class="form-value">
+              <input
+                type="text"
+                class="form-input title"
+                formControlName="tenCv"
+                spellcheck="false"
+                (blur)="khForm.inputBlur($event)"
+              />
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <p class="label p-b-8">Yêu cầu</p>
+
+            <div class="form-value">
+              <quill-editor
+                spellcheck="false"
+                class="form-input"
+                placeholder=""
+                [modules]="quillConfig"
+                formControlName="yeuCau"
+              ></quill-editor>
+              <p class="error-mess"></p>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <p class="label p-b-8">Mô tả</p>
+
+            <div class="form-value">
+              <quill-editor
+                spellcheck="false"
+                class="form-input"
+                placeholder=""
+                [modules]="quillConfig"
+                formControlName="moTa"
+              ></quill-editor>
+              <p class="error-mess"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-4 p-l-8 p-r-8">
+        <div class="detail-item">
+          <div class="form-control form-no-box-shadow">
+            <p class="label p-b-8">Ngày đến hạn</p>
+
+            <div class="form-value">
+              <dp-date-picker
+                mode="day"
+                id="day"
+                formControlName="ngayKt"
+                [config]="{
+                  firstDayOfWeek: 'mo',
+                  showNearMonthDays: false
+                }"
+                (onSelect)="onDateChange($event)"
+                class="form-input"
+              ></dp-date-picker>
+              <p class="error-mess"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div id="delete">
+    <div class="form-notify">
+      <div class="notify-container">
+        <p class="notify-title">Thông báo !</p>
+        <p class="notify-content">
+          Việc xóa sẽ làm tất cả thông tin có liên quan đến kế hoạch sẽ biến
+          mất. Bạn có chắc chắn muốn xóa ?
+        </p>
+        <div class="row ali-center jus-end">
+          <button class="cancel">Hủy</button>
+          <button class="agree">Đồng ý</button>
+        </div>
+
+        <div class="progress-bar"></div>
       </div>
     </div>
   </div>
 </div>
 
-<form class="tb-form" [formGroup]="khForm.form">
-  <div class="container row p-t-16 functional-wrapper">
-    <div class="h-8 p-l-8 p-r-8">
-      <div class="detail-item">
-        <div class="form-control">
-          <p class="label p-b-8">Tên công việc</p>
+<ng-template #hasMaCV>
+  <form class="tb-form detail-container">
+    <div class="row functional-wrapper">
+      <div class="h-9 p-l-8 p-r-8">
+        <div class="detail-item">
+          <div class="mission-info relative">
+            <div class="mission-img row ali-center jus-center ma-r-16">
+              <img src="../../../../assets/Images/mission.svg" alt="" />
+            </div>
 
-          <div class="form-value">
-            <input
-              type="text"
-              class="form-input title"
-              formControlName="tenCv"
-              spellcheck="false"
-              (blur)="khForm.inputBlur($event)"
-            />
-            <p class="error-mess"></p>
-          </div>
-        </div>
+            <div>
+              <div class="misstion-name p-b-8">{{ cviec.tenCv }}</div>
+              <div class="row ali-center jus-between">
+                <div class="teacher-name">{{ giangVien.tenGv }}</div>
+                <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+              </div>
 
-        <div class="form-control">
-          <p class="label p-b-8">Yêu cầu</p>
+              <div class="mission-request" style="border: none">
+                <span>Mô tả: </span>
+                <span [innerHTML]="cviec.moTa"></span>
+              </div>
 
-          <div class="form-value">
-            <quill-editor
-              spellcheck="false"
-              class="form-input"
-              placeholder=""
-              [modules]="quillConfig"
-              formControlName="yeuCau"
-            ></quill-editor>
-            <p class="error-mess"></p>
-          </div>
-        </div>
+              <div class="mission-request">
+                <span>Yêu cầu: </span>
+                <span [innerHTML]="cviec.yeuCau"></span>
+              </div>
+            </div>
 
-        <div class="form-control">
-          <p class="label p-b-8">Mô tả</p>
+            <div [formGroup]="dtForm.form" class="commment-form">
+              <p class="comment-title">Nhận xét về công việc</p>
+              <div class="form-control">
+                <div class="user-img row ali-center jus-center ma-r-16">
+                  <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                </div>
 
-          <div class="form-value">
-            <quill-editor
-              spellcheck="false"
-              class="form-input"
-              placeholder=""
-              [modules]="quillConfig"
-              formControlName="moTa"
-            ></quill-editor>
-            <p class="error-mess"></p>
+                <div class="form-value">
+                  <quill-editor
+                    spellcheck="false"
+                    class="form-input"
+                    placeholder="Thêm nhận xét cho công việc tại đây"
+                    [modules]="{ toolbar: false }"
+                    formControlName="nhanXet"
+                  ></quill-editor>
+                  <p class="error-mess"></p>
+                </div>
+              </div>
+
+              <div class="row jus-end">
+                <button class="comment-btn" (click)="onAddComment()">
+                  Đăng
+                </button>
+              </div>
+
+              <div class="comment-list">
+                <div class="comment-item" *ngFor="let duyet of listTraoDoi">
+                  <div class="row">
+                    <div>
+                      <img
+                        src="../../../../assets/Images/user-icon.svg"
+                        alt=""
+                      />
+                    </div>
+
+                    <div class="comment-info">
+                      <p class="title">{{ duyet.tenHienThi }}</p>
+                      <p class="content" [innerHTML]="duyet.noiDung"></p>
+                      <p class="time">{{ duyet.thoiGian }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="h-4 p-l-8 p-r-8">
-      <div class="detail-item">
-        <div class="form-control form-no-box-shadow">
-          <p class="label p-b-8">Ngày đến hạn</p>
-
-          <div class="form-value">
-            <dp-date-picker
-              mode="day"
-              id="day"
-              formControlName="ngayKt"
-              [config]="{
-                firstDayOfWeek: 'mo',
-                showNearMonthDays: false
-              }"
-              (onSelect)="onDateChange($event)"
-              class="form-input"
-            ></dp-date-picker>
-            <p class="error-mess"></p>
-          </div>
-        </div>
+      <div class="h-3 p-l-8 p-r-8">
+        <div class="detail-item"></div>
       </div>
     </div>
-  </div>
-</form>
-
-<div id="delete">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc xóa sẽ làm tất cả thông tin có liên quan đến kế hoạch sẽ biến mất.
-        Bạn có chắc chắn muốn xóa ?
-      </p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
-
-      <div class="progress-bar"></div>
-    </div>
-  </div>
-</div>
+  </form>
+</ng-template>
