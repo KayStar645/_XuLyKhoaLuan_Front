@@ -51,6 +51,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   @Input() data: LichPhanBien[] = [];
 
   currDate: Date = new Date();
+  rootDate: Date = new Date();
 
   dates: date[] = [];
   schedule: LichPhanBien[] = [];
@@ -113,13 +114,13 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
   onClickPrev() {
-    this.currDate = subDays(this.currDate, 7);
+    this.rootDate = subDays(this.rootDate, 7);
 
     this.setSchedule();
   }
 
   onClickNext() {
-    this.currDate = addDays(this.currDate, 7);
+    this.rootDate = addDays(this.rootDate, 7);
 
     this.setSchedule();
   }
@@ -238,11 +239,11 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
   getWeek() {
-    this.startOfWeek = startOfWeek(this.currDate, {
+    this.startOfWeek = startOfWeek(this.rootDate, {
       weekStartsOn: 1,
     });
 
-    this.endOfWeek = endOfWeek(this.currDate, {
+    this.endOfWeek = endOfWeek(this.rootDate, {
       weekStartsOn: 1,
     });
 
