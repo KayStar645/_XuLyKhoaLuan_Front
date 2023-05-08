@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home-lichphanbien',
@@ -8,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class HomeLichphanbienComponent implements OnInit {
   data: any[] = [];
 
+  constructor(
+    private titleService: Title
+  ){ }
+
   ngOnInit(): void {
+    this.titleService.setTitle('Lịch phản biện');
+
     this.data = [
       {
         tenDT: 'Quản lý tiến trình khóa luận 1',

@@ -2,13 +2,13 @@ import { GiangVienVT } from "./GiangVienVTModel";
 import { SinhVienVT } from "./SinhVienVTModel";
 
 export class DeTaiDiemVT {
-  public MaDT!: string;
-  public TenDT!: number;
+  public maDT!: string;
+  public tenDT!: number;
 
-  public SinhViens!: SinhVienVT[];
-  public GVHDs!: GiangVienVT[];
-  public GVPBs!: GiangVienVT[];
-  public HoiDongs!: GiangVienVT[];
+  public sinhViens!: SinhVienVT[];
+  public gvhDs!: GiangVienVT[];
+  public gvpBs!: GiangVienVT[];
+  public hoiDongs!: GiangVienVT[];
 
   constructor() {}
 }
