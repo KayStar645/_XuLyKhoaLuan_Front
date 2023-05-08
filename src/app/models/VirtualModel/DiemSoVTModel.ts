@@ -1,6 +1,6 @@
 export class DiemSoVT {
-  public MaGV!: string;
-  public Diem!: number;
+  public maGV!: string;
+  public diem!: number;
 
   constructor() {}
 }

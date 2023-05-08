@@ -1,13 +1,13 @@
 export class GiangVienVT {
-  public MaGV!: string;
-  public TenGV!: number;
+  public maGV!: string;
+  public tenGV!: number;
   /*
     1: Hướng dẫn
     2: Phản biện
     3: Hội đồng
   */
-  public VaiTro!: number;
-  public ChucVu!: number;
+  public vaiTro!: number;
+  public chucVu!: number;
 
   constructor() {}
 }
