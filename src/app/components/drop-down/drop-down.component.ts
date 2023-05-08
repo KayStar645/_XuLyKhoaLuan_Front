@@ -20,6 +20,7 @@ export class DropDownComponent implements OnInit {
 
   // Components
   temp: any[] = [];
+  prevItem: any;
 
   ngOnInit(): void {
     this.temp = this.items;
@@ -50,13 +51,14 @@ export class DropDownComponent implements OnInit {
   onSetItem(event: any) {
     let element = event.target;
     let id = element.dataset.id;
+    let item = this.items.find((t) => t[this.primarKey] === id);
+    let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
 
     if (element.classList.contains('active')) {
-      let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
       this.onParrentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
       element.classList.remove('active');
+      this.prevItem = item;
     } else {
-      let item = this.items.find((t) => t[this.primarKey] === id);
       this.selectedItem.push({
         ...item,
       });
@@ -64,7 +66,6 @@ export class DropDownComponent implements OnInit {
       element.classList.add('active');
       this.onParrentSelect.emit(item);
     }
-
   }
 
   onSearchItem(event: any) {
@@ -76,6 +77,11 @@ export class DropDownComponent implements OnInit {
     } else {
       this.items = this.temp;
     }
+  }
+
+  public undoRemoveItem() {
+    this.selectedItem.push(this.prevItem);
+    console.log(this.items);
   }
 
   onClickInput(event: any) {
