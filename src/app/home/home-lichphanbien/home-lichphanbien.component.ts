@@ -6,6 +6,7 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { HomeMainComponent } from '../home-main/home-main.component';
 
 @Component({
   selector: 'app-home-lichphanbien',
@@ -14,7 +15,6 @@ import { vi } from 'date-fns/locale';
 })
 export class HomeLichphanbienComponent implements OnInit {
   lichPhanBiens: LichPhanBien[] = [];
-  giangVien!: GiangVien;
 
   constructor(
     private lichPhanVienService: lichPhanBienService,
@@ -22,18 +22,13 @@ export class HomeLichphanbienComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.giangVien = await this.giangVienService.getById(
-      '' + localStorage.getItem('Id')?.toString()
-    );
-
     await this.getShedule();
   }
 
   async getShedule() {
-    await this.lichPhanVienService
-      .GetAllTraoDoiMotCongViec(this.giangVien.maGv)
-      .then((res) => {
-        this.lichPhanBiens = res;
-      });
+    this.lichPhanBiens =
+      await this.lichPhanVienService.GetAllTraoDoiMotCongViec(
+        HomeMainComponent.maGV
+      );
   }
 }

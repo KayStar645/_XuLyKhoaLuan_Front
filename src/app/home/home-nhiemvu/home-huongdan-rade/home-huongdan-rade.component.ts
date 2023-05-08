@@ -228,6 +228,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
   }
 
   async onSelectGVHD(event: any) {
+    // Xu ly ne
     let hd = new HuongDan();
     let index = this.GVPBInputConfig.data.findIndex(
       (t: any) => t.maGv === event.maGv
@@ -244,6 +245,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
   }
 
   async onUnSelectGVHD(event: any) {
+    // Xu ly ne
     this.GVPBInputConfig.data.push(event);
 
     try {
@@ -254,6 +256,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
   }
 
   async onSelectGVPB(event: any) {
+    // Xu ly ne
     let pb = new PhanBien();
     let index = this.GVHDInputConfig.data.findIndex(
       (t: any) => t.maGv === event.maGv
@@ -266,6 +269,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
   }
 
   async onUnSelectGVPB(event: any) {
+    // Xu ly ne
     this.GVHDInputConfig.data.push(event);
     await this.phanBienService.delete(event.maGv, this.maDt);
   }

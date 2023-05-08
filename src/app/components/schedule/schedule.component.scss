@@ -1,10 +1,27 @@
-table tr th {
+.table tr th {
   width: calc(100% / 7);
   background: #fafafa;
   color: #5c676f;
   height: 65px;
   padding: 4px 8px;
   border: 1px solid #d1d4d7;
+}
+
+.table {
+  tbody td {
+    border: none;
+    border-right: 1px solid #d1d4d7;
+    vertical-align: top;
+    height: 16px !important;
+    padding-top: 8px;
+    padding-bottom: 0;
+  }
+
+  tr:last-child {
+    td {
+      margin-bottom: 8px;
+    }
+  }
 }
 
 .day {
@@ -21,17 +38,8 @@ table tr th {
   color: #ffff;
 }
 
-table tr th.time {
+.table tr th.time {
   width: 80px;
-}
-
-tbody td {
-  border: none;
-  border-right: 1px solid #d1d4d7;
-  vertical-align: top;
-  height: 16px !important;
-  padding-top: 8px;
-  padding-bottom: 0;
 }
 
 .day .active {
@@ -47,43 +55,20 @@ tbody td {
   z-index: 10;
 }
 
-.hour td:first-child,
-.minute td:first-child {
-  background: #fafafa;
-}
-
 .hour td:first-child {
-  font-size: 1.4rem;
   font-weight: 500;
-  color: #5c676f;
   vertical-align: bottom;
   position: relative;
   padding-left: 16px;
   padding-right: 16px;
+  font-size: 1.4rem;
+  color: #5c676f;
 }
 
-.minute td {
-  height: 100%;
-}
-
-.minute td.active p {
-  background: dodgerblue;
-  border-radius: 16px;
-  color: #ffff;
-  padding: 2px;
+.minute td > p {
+  font-size: 1.4rem;
+  color: #3479ac;
   font-weight: 500;
-  position: relative;
-
-  &::after {
-    position: absolute;
-    content: "";
-    width: 100vw;
-    height: 2px;
-    background-color: dodgerblue;
-    left: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 }
 
 .rowSpan {
@@ -92,14 +77,31 @@ tbody td {
 }
 
 .calendar-item {
-  background: #e9f1f9;
   height: 100%;
   width: 100%;
   padding: 8px;
   border-radius: 10px;
-  border: 2px solid #81add8;
+  border: 2px solid #ebeced;
   position: relative;
   z-index: 9;
+}
+
+.today {
+  .calendar-item {
+    background: #85d4e8;
+  }
+}
+
+.past {
+  .calendar-item {
+    background: #e4d37e;
+  }
+}
+
+.future {
+  .calendar-item {
+    background: #85e796;
+  }
 }
 
 .calendar-btn {
@@ -112,5 +114,40 @@ tbody td {
   img {
     width: 32px;
     margin-right: 8px;
+  }
+}
+
+.functional-button button {
+  padding: 8px 12px;
+}
+
+.status {
+  padding: 0 8px;
+  font-size: 1.4rem;
+  font-weight: 500;
+
+  .color {
+    width: 50px;
+    height: 30px;
+    border-radius: 8px;
+    margin-right: 8px;
+  }
+}
+
+.past {
+  .color {
+    background: #e4d37e;
+  }
+}
+
+.today {
+  .color {
+    background: #85d4e8;
+  }
+}
+
+.future {
+  .color {
+    background: #85e796;
   }
 }

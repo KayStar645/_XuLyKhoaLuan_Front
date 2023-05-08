@@ -18,6 +18,8 @@ import {
   add,
   subDays,
   addDays,
+  isToday,
+  isPast,
 } from 'date-fns';
 import { DatePickerComponent } from 'ng2-date-picker';
 import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
@@ -37,6 +39,8 @@ type time = {
   hourEnd?: number;
   minuteEnd?: number;
   index?: number;
+  status?: 'past' | 'today' | 'future';
+  type?: 'Hướng dẫn' | 'Phản biện' | 'Hội đồng';
 };
 
 @Component({
@@ -74,7 +78,6 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.removeRightCell();
   }
 
   removeRightCell() {
@@ -135,6 +138,9 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
   getDateInWeekFromData() {
+    this.dateInWeek = [];
+    this.schedule = [];
+
     this.dates.forEach((date) => {
       if (
         isWithinInterval(date.start, {
@@ -212,6 +218,22 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
         let minuteEnd = dateEnd.getMinutes();
         let minuteBonus =
           this.getPartOf45(minuteEnd) - this.getPartOf45(minuteStart);
+
+        if (isToday(dateStart)) {
+          time.status = 'today';
+        } else if (isPast(dateStart)) {
+          time.status = 'past';
+        } else {
+          time.status = 'future';
+        }
+
+        if (lich.loaiLich === 1) {
+          time.type = 'Hướng dẫn';
+        } else if (lich.loaiLich === 2) {
+          time.type = 'Phản biện';
+        } else {
+          time.type = 'Hội đồng';
+        }
 
         time.rowSpan = (hourEnd - hourStart) * 4 + 1 + minuteBonus;
         time.day = dateStart.getDay();

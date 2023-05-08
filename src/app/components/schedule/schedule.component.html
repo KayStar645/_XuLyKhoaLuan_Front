@@ -1,29 +1,49 @@
 <div id="container">
   <div class="functional-list">
-    <div class="functional-container row ali-center jus-end functional-wrapper">
-      <div class="functional-button">
-        <div class="row ali-center calendar-btn">
-          <img src="../../.././assets/Images/calendar.png" alt="" />
-          <dp-date-picker
-            #dayPicker
-            mode="day"
-            id="day"
-            [config]="{
-              firstDayOfWeek: 'mo',
-              showNearMonthDays: false,
-              opens: 'right'
-            }"
-            class="button"
-          ></dp-date-picker>
+    <div class="functional-container functional-wrapper">
+      <div class="row jus-between ali-center">
+        <div class="row ali-center">
+          <div class="row ali-center past status">
+            <div class="color"></div>
+            <div class="note">Đã qua</div>
+          </div>
+          <div class="row ali-center today status">
+            <div class="color"></div>
+            <div class="note">Hôm nay</div>
+          </div>
+          <div class="row ali-center future status">
+            <div class="color"></div>
+            <div class="note">Sắp tới</div>
+          </div>
+        </div>
+
+        <div class="row ali-center jus-end h-100">
+          <div class="functional-button">
+            <div class="row ali-center calendar-btn">
+              <img src="../../.././assets/Images/calendar.png" alt="" />
+              <dp-date-picker
+                #dayPicker
+                mode="day"
+                id="day"
+                ng-reflect-model="12-5-2022"
+                [config]="{
+                  firstDayOfWeek: 'mo',
+                  showNearMonthDays: false,
+                  opens: 'right'
+                }"
+                class="button"
+              ></dp-date-picker>
+            </div>
+          </div>
+
+          <button class="functional-button">
+            <button (click)="onClickPrev()">Tuần trước</button>
+          </button>
+          <button class="functional-button">
+            <button (click)="onClickNext()">Tuần tới</button>
+          </button>
         </div>
       </div>
-
-      <button class="functional-button">
-        <button (click)="onClickPrev()">Tuần trước</button>
-      </button>
-      <button class="functional-button">
-        <button (click)="onClickNext()">Tuần tới</button>
-      </button>
     </div>
   </div>
 
@@ -50,7 +70,7 @@
           *ngFor="let time of times; let i = index"
         >
           <ng-container
-            *ngIf="time.minute === 0; then hour; else empty"
+            *ngIf="time.minute === 0; then hour; else minute"
           ></ng-container>
 
           <ng-container *ngIf="time.day === 1; then schedule; else empty">
@@ -76,6 +96,11 @@
 
           <ng-template #schedule>
             <td
+              [ngClass]="{
+                today: time.status === 'today',
+                past: time.status === 'past',
+                future: time.status === 'future'
+              }"
               [rowSpan]="time.rowSpan"
               class="rowSpan"
               id="rowSpan"
@@ -84,10 +109,10 @@
               <div class="calendar-item">
                 <p class="font-semi" [innerHTML]="time.name"></p>
 
-                <div class="p-t-8">
+                <div class="p-t-8 info">
                   <p>
                     Thời gian:
-                    <span class="font-semi"
+                    <span
                       >{{ time.hour }}:{{ time.minute }} - {{ time.hourEnd }}:{{
                         time.minuteEnd
                       }}</span
@@ -95,7 +120,10 @@
                   </p>
                   <p>
                     Địa điểm:
-                    <span class="font-semi">{{ time.place }}</span>
+                    <span>{{ time.place }}</span>
+                  </p>
+                  <p>
+                    Lịch: <span>{{ time.type }}</span>
                   </p>
                 </div>
               </div>
@@ -105,6 +133,12 @@
           <ng-template #hour>
             <td class="text-center">
               {{ time.hour < 10 ? "0" + time.hour : time.hour }}:00
+            </td>
+          </ng-template>
+
+          <ng-template #minute>
+            <td class="text-center">
+              <p>{{ time.minute }}</p>
             </td>
           </ng-template>
 

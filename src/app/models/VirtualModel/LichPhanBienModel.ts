@@ -10,7 +10,7 @@ export class LichPhanBien {
     2: Phản biện
     3: Hội đồng
   */
-  public LoaiLich!: number;
+  public loaiLich!: number;
 
   constructor() {}
 }
