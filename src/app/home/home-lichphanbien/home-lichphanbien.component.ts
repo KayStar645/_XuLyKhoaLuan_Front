@@ -1,5 +1,11 @@
+import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
+import { lichPhanBienService } from './../../services/NghiepVu/lichphanbien.service';
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { HomeComponent } from '../home.component';
+import { GiangVien } from 'src/app/models/GiangVien.model';
+import { giangVienService } from 'src/app/services/giangVien.service';
+import { endOfWeek, startOfWeek } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 @Component({
   selector: 'app-home-lichphanbien',
@@ -7,36 +13,27 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./home-lichphanbien.component.scss'],
 })
 export class HomeLichphanbienComponent implements OnInit {
-  data: any[] = [];
+  lichPhanBiens: LichPhanBien[] = [];
+  giangVien!: GiangVien;
 
   constructor(
-    private titleService: Title
-  ){ }
+    private lichPhanVienService: lichPhanBienService,
+    private giangVienService: giangVienService
+  ) {}
 
-  ngOnInit(): void {
-    this.titleService.setTitle('Lịch phản biện');
+  async ngOnInit(): Promise<void> {
+    this.giangVien = await this.giangVienService.getById(
+      '' + localStorage.getItem('Id')?.toString()
+    );
 
-    this.data = [
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 1',
-        thoiDiem: '2023-12-19T8:30:00.000Z',
-        diaDia: 'Zoom 28',
-      },
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 2',
-        thoiDiem: '2023-12-23T13:00:00.000Z',
-        diaDia: 'Zoom 22',
-      },
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 3',
-        thoiDiem: '2023-12-19T15:00:00.000Z',
-        diaDia: 'Zoom 1',
-      },
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 4',
-        thoiDiem: '2023-12-19T19:00:00.000Z',
-        diaDia: 'Zoom 87',
-      },
-    ];
+    await this.getShedule();
+  }
+
+  async getShedule() {
+    await this.lichPhanVienService
+      .GetAllTraoDoiMotCongViec(this.giangVien.maGv)
+      .then((res) => {
+        this.lichPhanBiens = res;
+      });
   }
 }
