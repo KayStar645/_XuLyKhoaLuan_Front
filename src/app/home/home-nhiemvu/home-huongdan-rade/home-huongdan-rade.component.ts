@@ -13,6 +13,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { HomeMainComponent } from '../../home-main/home-main.component';
 import { shareService } from 'src/app/services/share.service';
 import { PbCham } from 'src/app/models/PbCham.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-huongdan-rade',
@@ -37,24 +38,27 @@ export class HomeHuongdanRadeComponent implements OnInit {
     private huongDanService: huongDanService,
     private giangVienService: giangVienService,
     private hdChamService: hdChamService,
-    private pbChamService: pbChamService
+    private pbChamService: pbChamService,
+    private toastr: ToastrService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
 
-    let giangViens1 = await this.giangVienService.getAll();
-    let giangViens2 = await this.giangVienService.getAll();
-
-    this.GVPBInputConfig.data = giangViens1;
-    this.GVPBInputConfig.keyWord = 'tenGv';
-    this.GVPBInputConfig.selectedItem = [];
-
-    this.GVHDInputConfig.data = giangViens2;
-    this.GVHDInputConfig.keyWord = 'tenGv';
-    this.GVHDInputConfig.selectedItem = [];
+    await this.getListGV([], []);
 
     await this.getAllDetai();
+  }
+
+  async getListGV(selectedGVHD: any, selectedGVPB: any) {
+    // Xử lý lại hàm này nè
+    this.GVHDInputConfig.data = await this.giangVienService.getAll();
+    this.GVHDInputConfig.keyWord = 'tenGv';
+    this.GVHDInputConfig.selectedItem = selectedGVHD;
+
+    this.GVPBInputConfig.data = await this.giangVienService.getAll();
+    this.GVPBInputConfig.keyWord = 'tenGv';
+    this.GVPBInputConfig.selectedItem = selectedGVPB;
   }
 
   async getAllDetai() {
@@ -198,7 +202,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
     }
   }
 
-  onUpdate(event: any) {
+  async onUpdate(event: any) {
     let id = event.target.dataset.index;
     let deTai =
       this.sinhViens.find((t) => t.maDT === id) ||
@@ -207,29 +211,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
     this.maDt = id;
 
     if (deTai) {
-      this.GVHDInputConfig.selectedItem = deTai.giangVienHD;
-
-      this.GVHDInputConfig.selectedItem.forEach((gv: any) => {
-        let index = this.GVPBInputConfig.data.findIndex(
-          (t: any) => t.maGv === gv.maGv
-        );
-
-        if (index > -1) {
-          this.GVPBInputConfig.data.splice(index, 1);
-        }
-      });
-
-      this.GVPBInputConfig.selectedItem = deTai.giangVienPB;
-
-      deTai.giangVienPB.forEach((gv: any) => {
-        let index = this.GVHDInputConfig.data.findIndex(
-          (t: any) => t.maGv === gv.maGv
-        );
-
-        if (index > -1) {
-          this.GVHDInputConfig.data.splice(index, 1);
-        }
-      });
+      await this.getListGV(deTai.giangVienHD, deTai.giangVienPB);
     }
   }
 
@@ -245,35 +227,42 @@ export class HomeHuongdanRadeComponent implements OnInit {
 
     try {
       await this.huongDanService.add(hd);
-      // Đây - Thêm HDCham cho toàn bộ sinh viên trong nhóm
-      let sinhViens = await this.getSinhvienByDt(this.maDt);
-      for(let sv of sinhViens) {
-        let hdcham = new HdCham();
-        hdcham.init(
-          HomeMainComponent.maGV,
-          this.maDt,
-          sv.maSv,
-          shareService.namHoc,
-          shareService.dot,
-          -1
-        );
-        await this.hdChamService.add(hdcham); 
+      try {
+        // Đây - Thêm HDCham cho toàn bộ sinh viên trong nhóm
+        let sinhViens = await this.getSinhvienByDt(this.maDt);
+        for (let sv of sinhViens) {
+          let hdcham = new HdCham();
+          hdcham.init(
+            HomeMainComponent.maGV,
+            this.maDt,
+            sv.maSv,
+            shareService.namHoc,
+            shareService.dot,
+            -1
+          );
+          await this.hdChamService.add(hdcham);
+        }
+      } catch {
+        this.toastr.error('Cho phép giảng viên chấm điểm lỗi!', 'Thông báo !');
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      this.toastr.error(
+        'Thêm giảng viên hướng dẫn không thành công!',
+        'Thông báo !'
+      );
     }
   }
 
   async onUnSelectGVHD(event: any) {
-    // Xu ly ne
-    this.GVPBInputConfig.data.push(event);
-
     try {
       await this.hdChamService.delete(HomeMainComponent.maGV, this.maDt);
       await this.huongDanService.delete(event.maGv, this.maDt);
-
-    } catch (error) {
-      console.log(error);
+      this.GVPBInputConfig.data.push(event);
+    } catch {
+      this.toastr.error(
+        'Xóa giảng viên hướng dẫn không thành công!',
+        'Thông báo !'
+      );
     }
   }
 
@@ -288,7 +277,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
     this.GVHDInputConfig.data.splice(index, 1);
 
     try {
-        await this.phanBienService.add(pb);
+      await this.phanBienService.add(pb);
       // Đây - Thêm PBCham cho toàn bộ sinh viên trong nhóm
       let sinhViens = await this.getSinhvienByDt(this.maDt);
       for (let sv of sinhViens) {
@@ -304,18 +293,25 @@ export class HomeHuongdanRadeComponent implements OnInit {
         await this.pbChamService.add(pbcham);
       }
     } catch (error) {
-      console.log(error);
+      this.toastr.error(
+        'Thêm giảng viên phản biện không thành công!',
+        'Thông báo !'
+      );
     }
   }
 
   async onUnSelectGVPB(event: any) {
-    // Xu ly ne
-    this.GVHDInputConfig.data.push(event);
-
-    // Đây - Xóa PBCham cho toàn bộ sinh viên trong nhóm
-    await this.pbChamService.delete(HomeMainComponent.maGV, this.maDt);
-
-    await this.phanBienService.delete(event.maGv, this.maDt);
+    try {
+      // Đây - Xóa PBCham cho toàn bộ sinh viên trong nhóm
+      await this.pbChamService.delete(HomeMainComponent.maGV, this.maDt);
+      await this.phanBienService.delete(event.maGv, this.maDt);
+      this.GVHDInputConfig.data.push(event);
+    } catch {
+      this.toastr.error(
+        'Xóa giảng viên phản biện không thành công!',
+        'Thông báo !'
+      );
+    }
   }
 
   getRowSpan(maDT: string) {
@@ -326,7 +322,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
     return this.deTais.find((t) => t.maDT === maDT)?.tenDT!;
   }
 
-  async getSinhvienByDt (maDt: string){
+  async getSinhvienByDt(maDt: string) {
     return await this.sinhVienService.getSinhvienByDetai(maDt);
   }
 }
