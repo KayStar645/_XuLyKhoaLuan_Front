@@ -22,8 +22,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home-huongdan-rade.component.scss'],
 })
 export class HomeHuongdanRadeComponent implements OnInit {
-  @ViewChild('test')
-  test!: DropDownComponent;
+  @ViewChild('GVHD_Input')
+  GVHD_Input!: DropDownComponent;
+  @ViewChild('GVPB_Input')
+  GVPB_Input!: DropDownComponent;
   selectedGVPB: any[] = [];
   GVPBInputConfig: any = {};
   GVHDInputConfig: any = {};
@@ -48,18 +50,21 @@ export class HomeHuongdanRadeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
 
-    await this.getListGV([], []);
-
     await this.getAllDetai();
   }
 
-  async getListGV(selectedGVHD: any, selectedGVPB: any) {
+  async getListGV(
+    gvhds: any[],
+    selectedGVHD: any,
+    gvpbs: any[],
+    selectedGVPB: any
+  ) {
     // Xử lý lại hàm này nè
-    this.GVHDInputConfig.data = await this.giangVienService.getAll();
+    this.GVHDInputConfig.data = gvhds;
     this.GVHDInputConfig.keyWord = 'tenGv';
     this.GVHDInputConfig.selectedItem = selectedGVHD;
 
-    this.GVPBInputConfig.data = await this.giangVienService.getAll();
+    this.GVPBInputConfig.data = gvpbs;
     this.GVPBInputConfig.keyWord = 'tenGv';
     this.GVPBInputConfig.selectedItem = selectedGVPB;
   }
@@ -214,12 +219,21 @@ export class HomeHuongdanRadeComponent implements OnInit {
     this.maDt = id;
 
     if (deTai) {
-      await this.getListGV(deTai.giangVienHD, deTai.giangVienPB);
+      let gvhds = await this.giangVienService.GetGiangVienByNhiemVu(
+        HomeMainComponent.maBm,
+        this.maDt,
+        1
+      );
+      let gvpbs = await this.giangVienService.GetGiangVienByNhiemVu(
+        HomeMainComponent.maBm,
+        this.maDt,
+        2
+      );
+      await this.getListGV(gvhds, deTai.giangVienHD, gvpbs, deTai.giangVienPB);
     }
   }
 
   async onSelectGVHD(event: any) {
-    // Xu ly ne
     let hd = new HuongDan();
     let index = this.GVPBInputConfig.data.findIndex(
       (t: any) => t.maGv === event.maGv
@@ -236,7 +250,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
         for (let sv of sinhViens) {
           let hdcham = new HdCham();
           hdcham.init(
-            HomeMainComponent.maGV,
+            event.maGv,
             this.maDt,
             sv.maSv,
             shareService.namHoc,
@@ -246,7 +260,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
           await this.hdChamService.add(hdcham);
         }
       } catch {
-        this.toastr.error('Cho phép giảng viên chấm điểm lỗi!', 'Thông báo !');
+        this.toastr.error('Không cho phép giảng viên chấm điểm!', 'Thông báo !');
       }
     } catch {
       this.toastr.error(
@@ -258,15 +272,19 @@ export class HomeHuongdanRadeComponent implements OnInit {
 
   async onUnSelectGVHD(event: any) {
     try {
-      await this.hdChamService.delete(HomeMainComponent.maGV, this.maDt);
+      
+      let sinhViens = await this.getSinhvienByDt(this.maDt);
+      for (let sv of sinhViens) {
+        await this.hdChamService.delete(event.maGv, this.maDt, sv.maSv, shareService.namHoc, shareService.dot);
+      }
       await this.huongDanService.delete(event.maGv, this.maDt);
       this.GVPBInputConfig.data.push(event);
     } catch (error) {
-      this.test.undoRemoveItem();
-       this.toastr.error(
-         'Xóa giảng viên hướng dẫn không thành công!',
-         'Thông báo !'
-       );
+      this.GVHD_Input.undoRemoveItem();
+      this.toastr.error(
+        'Xóa giảng viên hướng dẫn không thành công!',
+        'Thông báo !'
+      );
     }
   }
 
@@ -287,7 +305,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
       for (let sv of sinhViens) {
         let pbcham = new PbCham();
         pbcham.init(
-          HomeMainComponent.maGV,
+          event.maGv,
           this.maDt,
           sv.maSv,
           shareService.namHoc,
@@ -307,10 +325,20 @@ export class HomeHuongdanRadeComponent implements OnInit {
   async onUnSelectGVPB(event: any) {
     try {
       // Đây - Xóa PBCham cho toàn bộ sinh viên trong nhóm
-      await this.pbChamService.delete(HomeMainComponent.maGV, this.maDt);
+      let sinhViens = await this.getSinhvienByDt(this.maDt);
+      for (let sv of sinhViens) {
+        await this.pbChamService.delete(
+          event.maGv,
+          this.maDt,
+          sv.maSv,
+          shareService.namHoc,
+          shareService.dot
+        );
+      }
       await this.phanBienService.delete(event.maGv, this.maDt);
       this.GVHDInputConfig.data.push(event);
     } catch {
+      this.GVPB_Input.undoRemoveItem();
       this.toastr.error(
         'Xóa giảng viên phản biện không thành công!',
         'Thông báo !'

@@ -1,8 +1,8 @@
 <div class="p-t-16">
   <div class="detail-item">
     <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-        <tbody *ngFor="let dt of data">
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table" *ngFor="let dt of data">
+        <tbody>
           <tr>
             <th class="text-center" [colSpan]="
             dt.gvhDs.length == 0 ? 1 : dt.gvhDs.length +
@@ -20,19 +20,16 @@
 
           <tr>
             <td class="text-center" *ngFor="let gv of dt.gvhDs">{{ gv.tenGV }}</td>
-            <td *ngIf="dt.gvhDs.length == 0"></td>
 
             <td class="text-center" *ngFor="let gv of dt.gvpBs">{{ gv.tenGV }}</td>
-            <td *ngIf="dt.gvpBs.length == 0"></td>
 
             <td class="text-center" *ngFor="let gv of dt.hoiDongs">{{ gv.tenGV }}</td>
-            <td *ngIf="dt.hoiDongs.length == 0"></td>
           </tr>
 
           <tr *ngFor="let sv of dt.sinhViens">
             <td>{{ sv.maSV }}</td>
             <td>{{ sv.tenSV }}</td>
-            <td class="text-center" *ngFor="let d of sv.diems">{{ d.diem }}</td>
+            <td class="text-center" *ngFor="let d of sv.diems">{{ d.diem == -1 ? "-" : d.diem }}</td>
             <td *ngIf="dt.gvhDs.length == 0"></td>
             <td *ngIf="dt.gvpBs.length == 0"></td>
             <td *ngIf="dt.hoiDongs.length == 0"></td>            

@@ -81,7 +81,6 @@ export class DropDownComponent implements OnInit {
 
   public undoRemoveItem() {
     this.selectedItem.push(this.prevItem);
-    console.log(this.items);
   }
 
   onClickInput(event: any) {

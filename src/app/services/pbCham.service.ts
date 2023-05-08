@@ -11,42 +11,71 @@ import { shareService } from './../services/share.service';
   providedIn: 'root',
 })
 export class pbChamService {
-    private apiUrl = environment.api;
-    //private PbChams!: BehaviorSubject<PbCham>;
+  private apiUrl = environment.api;
+  //private PbChams!: BehaviorSubject<PbCham>;
 
-    constructor(private http: HttpClient, private router: Router,
-      private shareService: shareService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private shareService: shareService
+  ) {}
 
-    async getAll(): Promise<PbCham[]> {
-      return await this.http.get<PbCham[]>(`${this.apiUrl}/api/Pbchams`, this.shareService.httpOptions).toPromise() ?? [];
-    }
-
-    async getById(MaGV: string, MaDT: string):Promise<PbCham> {
-      try {
-        var response = new PbCham();
-        response = await this.http.get<PbCham>(
-          `${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+  async getAll(): Promise<PbCham[]> {
+    return (
+      (await this.http
+        .get<PbCham[]>(
+          `${this.apiUrl}/api/Pbchams`,
           this.shareService.httpOptions
-        ).toPromise() ?? response as PbCham;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    }
+        )
+        .toPromise()) ?? []
+    );
+  }
 
-    async add(PbCham: PbCham): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Pbchams`, 
-      PbCham, this.shareService.httpOptions).toPromise();
+  async getById(MaGV: string, MaDT: string): Promise<PbCham> {
+    try {
+      var response = new PbCham();
+      response =
+        (await this.http
+          .get<PbCham>(
+            `${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as PbCham);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
+  }
 
-    async update(PbCham: PbCham): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${PbCham.maGv}&MaDT=${PbCham.maDt}`, 
-      PbCham, this.shareService.httpOptions).toPromise();
-    }
+  async add(PbCham: PbCham): Promise<any> {
+    return await this.http
+      .post(`${this.apiUrl}/api/Pbchams`, PbCham, this.shareService.httpOptions)
+      .toPromise();
+  }
 
-    async delete(MaGV: string, MaDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
-      this.shareService.httpOptions).toPromise();
-    }
+  async update(PbCham: PbCham): Promise<any> {
+    return await this.http
+      .put<any>(
+        `${this.apiUrl}/api/Pbchams/MaGV, MaDT?MaGV=${PbCham.maGv}&MaDT=${PbCham.maDt}`,
+        PbCham,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+  
+  async delete(
+    MaGV: string,
+    MaDT: string,
+    maSv: string,
+    namHoc: string,
+    dot: number
+  ): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Pbchams/MaGV, MaDT, maSv, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&maSv=${maSv}&namHoc=${namHoc}&dot=${dot}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
 }
