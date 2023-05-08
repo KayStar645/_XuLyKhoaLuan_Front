@@ -1,7 +1,7 @@
 import { HdCham } from './../../../models/HdCham.model';
 import { pbChamService } from './../../../services/pbCham.service';
 import { hdChamService } from './../../../services/hdCham.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { HuongDan } from 'src/app/models/HuongDan.model';
 import { PhanBien } from 'src/app/models/PhanBien.model';
@@ -13,6 +13,7 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { HomeMainComponent } from '../../home-main/home-main.component';
 import { shareService } from 'src/app/services/share.service';
 import { PbCham } from 'src/app/models/PbCham.model';
+import { DropDownComponent } from 'src/app/components/drop-down/drop-down.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -21,6 +22,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home-huongdan-rade.component.scss'],
 })
 export class HomeHuongdanRadeComponent implements OnInit {
+  @ViewChild('test')
+  test!: DropDownComponent;
   selectedGVPB: any[] = [];
   GVPBInputConfig: any = {};
   GVHDInputConfig: any = {};
@@ -258,11 +261,12 @@ export class HomeHuongdanRadeComponent implements OnInit {
       await this.hdChamService.delete(HomeMainComponent.maGV, this.maDt);
       await this.huongDanService.delete(event.maGv, this.maDt);
       this.GVPBInputConfig.data.push(event);
-    } catch {
-      this.toastr.error(
-        'Xóa giảng viên hướng dẫn không thành công!',
-        'Thông báo !'
-      );
+    } catch (error) {
+      this.test.undoRemoveItem();
+       this.toastr.error(
+         'Xóa giảng viên hướng dẫn không thành công!',
+         'Thông báo !'
+       );
     }
   }
 
