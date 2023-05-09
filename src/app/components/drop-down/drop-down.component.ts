@@ -50,10 +50,14 @@ export class DropDownComponent implements OnInit, OnChanges {
   }
 
   onOpenDropdown(event: any) {
-    let parent = getParentElement(event.target, '.form-value');
+    let parent: HTMLElement = getParentElement(event.target, '.form-value');
 
     document.querySelector('.form-value.active')?.classList.remove('active');
     parent.classList.add('active');
+    parent.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
   }
 
   isItemExist(selected: any[], item: any) {
