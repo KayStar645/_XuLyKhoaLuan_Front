@@ -47,8 +47,12 @@ export class hdChamService {
       HdCham, this.shareService.httpOptions).toPromise();
     }
 
-    async delete(MaGV: string, MaDT: string): Promise<any> {
-      return await this.http.delete(`${this.apiUrl}/api/Hdchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`, 
-      this.shareService.httpOptions).toPromise();
+    async delete(MaGV: string, MaDT: string, maSv: string, namHoc: string, dot: number): Promise<any> {
+      return await this.http
+        .delete(
+          `${this.apiUrl}/api/Hdchams/MaGV, MaDT, maSv, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&maSv=${maSv}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise();
     }
 }
