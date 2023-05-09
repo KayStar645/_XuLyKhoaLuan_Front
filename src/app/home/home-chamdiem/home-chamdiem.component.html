@@ -1,35 +1,48 @@
 <div class="p-t-16">
   <div class="detail-item">
     <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table" *ngFor="let dt of data">
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table ma-t-16" *ngFor="let dt of data">
         <tbody>
           <tr>
             <th class="text-center" [colSpan]="20" 
             [innerHTML]="dt.tenDT"></th>
           </tr>
           <tr>
-            <td class="text-center" [rowSpan]="2">MSSV</td>
-            <td class="text-center" [rowSpan]="2">Họ tên</td>
-            <td class="text-center" [colSpan]="dt.gvhDs.length == 0 ? 1 : dt.gvhDs.length">Điểm GVHD</td>
-            <td class="text-center" [colSpan]="dt.gvpBs.length == 0 ? 1 : dt.gvpBs.length">Điểm GVPB</td>
-            <td class="text-center" [colSpan]="dt.hoiDongs.length == 0 ? 1 : dt.hoiDongs.length">Hội đồng</td>
+            <td class="text-center bold" [rowSpan]="2">MSSV</td>
+            <td class="text-center bold" [rowSpan]="2">Họ tên</td>
+            <td class="text-center bold" [colSpan]="dt.gvhDs.length == 0 ? 1 : dt.gvhDs.length">Điểm GVHD</td>
+            <td class="text-center bold" [colSpan]="dt.gvpBs.length == 0 ? 1 : dt.gvpBs.length">Điểm GVPB</td>
+            <td class="text-center bold" [colSpan]="dt.hoiDongs.length == 0 ? 1 : dt.hoiDongs.length">Hội đồng</td>
           </tr>
 
           <tr>
-            <td class="text-center" *ngFor="let gv of dt.gvhDs">{{ gv.tenGV }}</td>
+            <td class="text-center italic" *ngFor="let gv of dt.gvhDs">{{ gv.tenGV }}</td>
             <td class="text-center" *ngIf="dt.gvhDs.length == 0"></td>
 
-            <td class="text-center" *ngFor="let gv of dt.gvpBs">{{ gv.tenGV }}</td>
+            <td class="text-center italic" *ngFor="let gv of dt.gvpBs">{{ gv.tenGV }}</td>
             <td class="text-center" *ngIf="dt.gvpBs.length == 0"></td>
 
-            <td class="text-center" *ngFor="let gv of dt.hoiDongs">{{ gv.tenGV }}</td>
+            <td class="text-center italic" *ngFor="let gv of dt.hoiDongs">{{ gv.tenGV }}</td>
             <td class="text-center" *ngIf="dt.hoiDongs.length == 0"></td>
           </tr>
 
           <tr *ngFor="let sv of dt.sinhViens">
-            <td>{{ sv.maSV }}</td>
-            <td>{{ sv.tenSV }}</td>
-            <td class="text-center" *ngFor="let d of sv.diems">{{ d.diem == -1 ? "-" : d.diem }}</td>
+            <td class="text-center">{{ sv.maSV }}</td>
+            <td class="text-center">{{ sv.tenSV }}</td>
+            <td class="text-center" *ngFor="let d of sv.diems">
+              <input 
+                *ngIf="d.maGV == maGv; else Not"
+                (input)="onChangeDiem($event, d, dt)"
+                class="text-center red bold"
+                type="number"
+                value="{{ d.diem == -1 ? '0' : d.diem}}" 
+                min="0"
+                max="10"
+              />
+              <ng-template #Not>
+                {{ d.diem == -1 ? '-' : d.diem}}
+              </ng-template>
+            </td>
           </tr>
         </tbody>
       </table>
