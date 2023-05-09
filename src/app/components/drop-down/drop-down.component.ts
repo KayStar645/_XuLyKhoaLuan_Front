@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { getParentElement } from 'src/assets/utils';
 
 @Component({
@@ -6,7 +14,7 @@ import { getParentElement } from 'src/assets/utils';
   templateUrl: './drop-down.component.html',
   styleUrls: ['./drop-down.component.scss'],
 })
-export class DropDownComponent implements OnInit {
+export class DropDownComponent implements OnInit, OnChanges {
   // Params
   @Input() label: string = 'Tiêu đề';
   @Input() placeholder: string = 'Từ khóa';
@@ -14,6 +22,8 @@ export class DropDownComponent implements OnInit {
   @Input() selectedItem: any[] = [];
   @Input() primarKey: any;
   @Input() keyWord: string = '';
+  @Input() isSearchMultiple: boolean = true;
+  @Input() isRow: boolean = true;
 
   @Output() onParrentSelect = new EventEmitter();
   @Output() onParrentUnSelect = new EventEmitter();
@@ -21,13 +31,12 @@ export class DropDownComponent implements OnInit {
   // Components
   temp: any[] = [];
   prevItem: any;
+  prevItemIndexs: any[] = [];
 
   ngOnInit(): void {
-    this.temp = this.items;
-
     window.addEventListener('click', (e) => {
       let parent = getParentElement(e.target, '.form-value');
-      let activeList = document.querySelector('.selected-box.active');
+      let activeList = document.querySelector('.form-value.active');
 
       if (!parent && activeList) {
         activeList.classList.remove('active');
@@ -35,11 +44,16 @@ export class DropDownComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.items = changes.items.currentValue;
+    this.temp = changes.items.currentValue;
+  }
+
   onOpenDropdown(event: any) {
     let parent = getParentElement(event.target, '.form-value');
 
-    document.querySelector('.selected-box.active')?.classList.remove('active');
-    parent.querySelector('.selected-box').classList.add('active');
+    document.querySelector('.form-value.active')?.classList.remove('active');
+    parent.classList.add('active');
   }
 
   isItemExist(selected: any[], item: any) {
@@ -59,11 +73,17 @@ export class DropDownComponent implements OnInit {
       element.classList.remove('active');
       this.prevItem = item;
     } else {
-      this.selectedItem.push({
-        ...item,
-      });
+      if (this.isSearchMultiple) {
+        this.selectedItem.push(item);
+      } else {
+        if (this.selectedItem.length < 1) {
+          this.selectedItem.push(item);
+        } else {
+          this.selectedItem = [item];
+        }
+      }
 
-      element.classList.add('active');
+      if (this.isSearchMultiple) element.classList.add('active');
       this.onParrentSelect.emit(item);
     }
   }
@@ -81,7 +101,6 @@ export class DropDownComponent implements OnInit {
 
   public undoRemoveItem() {
     this.selectedItem.push(this.prevItem);
-    console.log(this.items);
   }
 
   onClickInput(event: any) {

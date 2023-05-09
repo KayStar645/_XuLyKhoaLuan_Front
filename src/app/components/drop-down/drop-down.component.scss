@@ -32,7 +32,7 @@
   }
 }
 
-.selected-box.active {
+.form-value.active {
   i {
     transform: rotate(180deg);
   }
@@ -45,11 +45,24 @@
 .item {
   padding: 8px 0;
   border-left: 0px solid transparent;
+  font-size: 1.4rem;
+  font-weight: 400;
+  cursor: pointer;
+  padding-right: 12px;
+
+  &:hover {
+    padding-left: 8px;
+    border-left: 3px solid #2378b8;
+  }
 
   &.active {
     padding-left: 12px;
-    padding-right: 12px;
     border-left: 5px solid #2378b8;
+
+    &:hover {
+      padding-left: 12px;
+      border-left: 5px solid #2378b8;
+    }
   }
 }
 
@@ -77,4 +90,16 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   margin: 4px;
+}
+
+.form-control {
+  .label {
+    width: auto;
+  }
+}
+
+.form-control.row {
+  .label {
+    width: 120px;
+  }
 }

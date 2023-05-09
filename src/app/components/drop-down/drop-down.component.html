@@ -1,5 +1,5 @@
-<div class="form-control form-no-box-shadow">
-  <p class="label w-auto p-b-4">{{ label }}</p>
+<div class="form-control form-no-box-shadow" [ngClass]="{ row: isRow }">
+  <p class="label p-b-4">{{ label }}</p>
 
   <div class="form-value">
     <div class="selected-box row" (click)="onOpenDropdown($event)">
@@ -11,32 +11,31 @@
         </div>
       </div>
 
-      <div>
+      <div class="ma-l-8">
         <i class="fa-solid fa-caret-down"></i>
       </div>
+    </div>
 
-      <div class="dropdown">
-        <input
-          type="text"
-          class="form-input"
-          [placeholder]="placeholder"
-          (input)="onSearchItem($event)"
-          (click)="onClickInput($event)"
-        />
+    <div class="dropdown">
+      <input
+        type="text"
+        class="form-input"
+        [placeholder]="placeholder"
+        (input)="onSearchItem($event)"
+        (click)="onClickInput($event)"
+      />
 
-        <div class="list p-t-16">
-          <div
-            *ngFor="let item of items; let i = index"
-            class="item"
-            [ngClass]="{ active: isItemExist(selectedItem, item) }"
-            [attr.data-id]="item[primarKey]"
-            (click)="onSetItem($event)"
-          >
-            {{ item.tenGv }}
-          </div>
+      <div class="list p-t-16">
+        <div
+          *ngFor="let item of items; let i = index"
+          class="item"
+          [ngClass]="{ active: isItemExist(selectedItem, item) }"
+          [attr.data-id]="item[primarKey]"
+          (click)="onSetItem($event)"
+        >
+          {{ item.tenGv }}
         </div>
       </div>
     </div>
-    <p class="error-mess"></p>
   </div>
 </div>

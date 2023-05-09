@@ -1,6 +1,11 @@
 .council-item {
   padding: 4px 0;
   font-weight: 500;
+
+  .label {
+    width: 120px;
+    font-weight: 400;
+  }
 }
 
 .council-item:nth-child(odd) {
@@ -23,11 +28,6 @@
     transform: translateX(-50%);
     border-radius: 500px;
   }
-}
-
-.label {
-  width: 120px;
-  font-weight: 400;
 }
 
 .description {

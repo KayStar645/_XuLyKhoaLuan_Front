@@ -77,8 +77,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
     this.setSchedule();
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   removeRightCell() {
     let table: HTMLTableElement = document.querySelector('.table')!;
@@ -118,6 +117,12 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
 
   onClickPrev() {
     this.rootDate = subDays(this.rootDate, 7);
+
+    this.setSchedule();
+  }
+
+  onClickCurrent() {
+    this.rootDate = this.currDate;
 
     this.setSchedule();
   }

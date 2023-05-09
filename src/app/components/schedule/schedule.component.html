@@ -1,8 +1,8 @@
 <div id="container">
   <div class="functional-list">
-    <div class="functional-container functional-wrapper">
+    <div class="functional-container">
       <div class="row jus-between ali-center">
-        <div class="row ali-center">
+        <div class="row ali-center gap-24">
           <div class="row ali-center past status">
             <div class="color"></div>
             <div class="note">Đã qua</div>
@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="row ali-center jus-end h-100">
+        <div class="row ali-center jus-end h-100 functional-wrapper">
           <div class="functional-button">
             <div class="row ali-center calendar-btn">
               <img src="../../.././assets/Images/calendar.png" alt="" />
@@ -38,6 +38,9 @@
 
           <button class="functional-button">
             <button (click)="onClickPrev()">Tuần trước</button>
+          </button>
+          <button class="functional-button">
+            <button (click)="onClickCurrent()">Hiện tại</button>
           </button>
           <button class="functional-button">
             <button (click)="onClickNext()">Tuần tới</button>
