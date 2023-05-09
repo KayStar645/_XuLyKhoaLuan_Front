@@ -4,10 +4,7 @@
       <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table" *ngFor="let dt of data">
         <tbody>
           <tr>
-            <th class="text-center" [colSpan]="
-            dt.gvhDs.length == 0 ? 1 : dt.gvhDs.length +
-            dt.gvpBs.length == 0 ? 1 : dt.gvpBs.length +
-            dt.hoiDongs.length == 0 ? 1 : dt.hoiDongs.length + 5" 
+            <th class="text-center" [colSpan]="20" 
             [innerHTML]="dt.tenDT"></th>
           </tr>
           <tr>
@@ -20,85 +17,21 @@
 
           <tr>
             <td class="text-center" *ngFor="let gv of dt.gvhDs">{{ gv.tenGV }}</td>
+            <td class="text-center" *ngIf="dt.gvhDs.length == 0"></td>
 
             <td class="text-center" *ngFor="let gv of dt.gvpBs">{{ gv.tenGV }}</td>
+            <td class="text-center" *ngIf="dt.gvpBs.length == 0"></td>
 
             <td class="text-center" *ngFor="let gv of dt.hoiDongs">{{ gv.tenGV }}</td>
+            <td class="text-center" *ngIf="dt.hoiDongs.length == 0"></td>
           </tr>
 
           <tr *ngFor="let sv of dt.sinhViens">
             <td>{{ sv.maSV }}</td>
             <td>{{ sv.tenSV }}</td>
             <td class="text-center" *ngFor="let d of sv.diems">{{ d.diem == -1 ? "-" : d.diem }}</td>
-            <td *ngIf="dt.gvhDs.length == 0"></td>
-            <td *ngIf="dt.gvpBs.length == 0"></td>
-            <td *ngIf="dt.hoiDongs.length == 0"></td>            
           </tr>
         </tbody>
-        <!-- <tr *ngFor="let dt of data">
-          <th class="text-center" [colSpan]="11" [innerHTML]="dt.tenDT">
-          </th>
-        </tr> -->
-        <!-- <tr>
-          <td class="text-center" [rowSpan]="2">MSSV</td>
-          <td class="text-center" [rowSpan]="2">Họ tên</td>
-          <td class="text-center" [colSpan]="2">Điểm GVHD</td>
-          <td class="text-center" [colSpan]="2">Điểm GVPB</td>
-          <td class="text-center" [colSpan]="6">Hội đồng</td>
-        </tr>
-        <tr>
-          <td class="text-center">ThS Trần Văn Thọ 1</td>
-          <td class="text-center">ThS Trần Văn Thọ 2</td>
-
-          <td class="text-center">ThS Trần Văn Thọ 1</td>
-          <td class="text-center">ThS Trần Văn Thọ 2</td>
-
-          <td class="text-center">ThS Trần Văn Thọ 1</td>
-          <td class="text-center">ThS Trần Văn Thọ 2</td>
-          <td class="text-center">ThS Trần Văn Thọ 3</td>
-          <td class="text-center">ThS Trần Văn Thọ 4</td>
-          <td class="text-center">ThS Trần Văn Thọ 5</td>
-        </tr> -->
-
-
-        <!-- Sơn nè -->
-        <!-- <tr>
-          <th class="text-center" [colSpan]="11">
-            Đây là 1 ví dụ về tên đề tài
-          </th>
-        </tr>
-        <tr>
-          <td class="text-center" [rowSpan]="2">MSSV</td>
-          <td class="text-center" [rowSpan]="2">Họ tên</td>
-          <td class="text-center" [colSpan]="2">Điểm GVHD</td>
-          <td class="text-center" [colSpan]="2">Điểm GVPB</td>
-          <td class="text-center" [colSpan]="6">Hội đồng</td>
-        </tr>
-        <tr>
-          <td class="text-center">ThS Trần Văn Thọ 1</td>
-          <td class="text-center">ThS Trần Văn Thọ 2</td>
-
-          <td class="text-center">ThS Trần Văn Thọ 1</td>
-          <td class="text-center">ThS Trần Văn Thọ 2</td>
-
-          <td class="text-center">ThS Trần Văn Thọ 1</td>
-          <td class="text-center">ThS Trần Văn Thọ 2</td>
-          <td class="text-center">ThS Trần Văn Thọ 3</td>
-          <td class="text-center">ThS Trần Văn Thọ 4</td>
-          <td class="text-center">ThS Trần Văn Thọ 5</td>
-        </tr>
-        <tr>
-          <td>2001202222</td>
-          <td>Ngô Văn Sơn</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr> -->
       </table>
     </div>
   </div>

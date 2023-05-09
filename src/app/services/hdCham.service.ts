@@ -12,47 +12,85 @@ import { shareService } from './../services/share.service';
   providedIn: 'root',
 })
 export class hdChamService {
-    private apiUrl = environment.api;
-    //private HdChams!: BehaviorSubject<HdCham>;
+  private apiUrl = environment.api;
+  //private HdChams!: BehaviorSubject<HdCham>;
 
-    constructor(private http: HttpClient, private router: Router,
-      private shareService: shareService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private shareService: shareService
+  ) {}
 
-    async getAll(): Promise<HdCham[]> {
-      return await this.http.get<HdCham[]>(`${this.apiUrl}/api/Hdchams`, 
-      this.shareService.httpOptions).toPromise() ?? [];
-    }
-
-    async getById(MaGV: string, MaDT: string):Promise<HdCham> {
-      try {
-        var response = new HdCham();
-        response = await this.http.get<HdCham>(
-          `${this.apiUrl}/api/Hdchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
-          this.shareService.httpOptions
-        ).toPromise() ?? response as HdCham;
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    }
-
-    async add(HdCham: HdCham): Promise<any> {
-      return await this.http.post(`${this.apiUrl}/api/Hdchams`,
-       HdCham, this.shareService.httpOptions).toPromise();
-    }
-
-    async update(HdCham: HdCham): Promise<any> {
-      return await this.http.put<any>(`${this.apiUrl}/api/Hdchams/MaGV, MaDT?MaGV=${HdCham.maGv}&MaDT=${HdCham.maDt}`, 
-      HdCham, this.shareService.httpOptions).toPromise();
-    }
-
-    async delete(MaGV: string, MaDT: string, maSv: string, namHoc: string, dot: number): Promise<any> {
-      return await this.http
-        .delete(
-          `${this.apiUrl}/api/Hdchams/MaGV, MaDT, maSv, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&maSv=${maSv}&namHoc=${namHoc}&dot=${dot}`,
+  async getAll(): Promise<HdCham[]> {
+    return (
+      (await this.http
+        .get<HdCham[]>(
+          `${this.apiUrl}/api/Hdchams`,
           this.shareService.httpOptions
         )
-        .toPromise();
+        .toPromise()) ?? []
+    );
+  }
+
+  async getById(MaGV: string, MaDT: string): Promise<HdCham> {
+    try {
+      var response = new HdCham();
+      response =
+        (await this.http
+          .get<HdCham>(
+            `${this.apiUrl}/api/Hdchams/MaGV, MaDT?MaGV=${MaGV}&MaDT=${MaDT}`,
+            this.shareService.httpOptions
+          )
+          .toPromise()) ?? (response as HdCham);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
+  }
+
+  async add(HdCham: HdCham): Promise<any> {
+    return await this.http
+      .post(`${this.apiUrl}/api/Hdchams`, HdCham, this.shareService.httpOptions)
+      .toPromise();
+  }
+
+  async update(HdCham: HdCham): Promise<any> {
+    return await this.http
+      .put<any>(
+        `${this.apiUrl}/api/Hdchams/MaGV, MaDT?MaGV=${HdCham.maGv}&MaDT=${HdCham.maDt}`,
+        HdCham,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async delete(
+    MaGV: string,
+    MaDT: string,
+    maSv: string,
+    namHoc: string,
+    dot: number
+  ): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Hdchams/MaGV, MaDT, maSv, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&maSv=${maSv}&namHoc=${namHoc}&dot=${dot}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async DeleteHdchamsByGvDt(
+    MaGV: string,
+    MaDT: string,
+    namHoc: string,
+    dot: number
+  ): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Hdchams/MaGV, MaDT, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&namHoc=${namHoc}&dot=${dot}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
 }

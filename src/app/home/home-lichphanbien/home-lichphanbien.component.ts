@@ -27,7 +27,7 @@ export class HomeLichphanbienComponent implements OnInit {
 
   async getShedule() {
     this.lichPhanBiens =
-      await this.lichPhanVienService.GetAllTraoDoiMotCongViec(
+      await this.lichPhanVienService.GetLichPhanBienByGvAsync(
         HomeMainComponent.maGV
       );
   }
