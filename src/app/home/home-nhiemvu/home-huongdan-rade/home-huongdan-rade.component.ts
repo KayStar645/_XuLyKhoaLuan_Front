@@ -272,12 +272,21 @@ export class HomeHuongdanRadeComponent implements OnInit {
 
   async onUnSelectGVHD(event: any) {
     try {
-      
-      let sinhViens = await this.getSinhvienByDt(this.maDt);
-      for (let sv of sinhViens) {
-        await this.hdChamService.delete(event.maGv, this.maDt, sv.maSv, shareService.namHoc, shareService.dot);
+      let flag = await this.hdChamService.DeleteHdchamsByGvDt(
+        event.maGv,
+        this.maDt,
+        shareService.namHoc,
+        shareService.dot
+      );
+      if (false == flag) {
+      this.GVHD_Input.undoRemoveItem();
+        this.toastr.error(
+          'Giảng viên này đã chấm điểm cho sinh viên, không thể thay đổi giảng viên!',
+          'Thông báo !'
+        );
+      } else {
+        await this.huongDanService.delete(event.maGv, this.maDt);
       }
-      await this.huongDanService.delete(event.maGv, this.maDt);
       this.GVPBInputConfig.data.push(event);
     } catch (error) {
       this.GVHD_Input.undoRemoveItem();
@@ -325,17 +334,21 @@ export class HomeHuongdanRadeComponent implements OnInit {
   async onUnSelectGVPB(event: any) {
     try {
       // Đây - Xóa PBCham cho toàn bộ sinh viên trong nhóm
-      let sinhViens = await this.getSinhvienByDt(this.maDt);
-      for (let sv of sinhViens) {
-        await this.pbChamService.delete(
-          event.maGv,
-          this.maDt,
-          sv.maSv,
-          shareService.namHoc,
-          shareService.dot
+      let flag = await this.pbChamService.DeletePbchamsByGvDt(
+        event.maGv,
+        this.maDt,
+        shareService.namHoc,
+        shareService.dot
+      );
+      if (false == flag) {
+        this.GVPB_Input.undoRemoveItem();
+        this.toastr.error(
+          'Giảng viên này đã chấm điểm cho sinh viên, không thể thay đổi giảng viên!',
+          'Thông báo !'
         );
+      } else {
+        await this.phanBienService.delete(event.maGv, this.maDt);
       }
-      await this.phanBienService.delete(event.maGv, this.maDt);
       this.GVHDInputConfig.data.push(event);
     } catch {
       this.GVPB_Input.undoRemoveItem();

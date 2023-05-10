@@ -63,7 +63,7 @@ export class pbChamService {
       )
       .toPromise();
   }
-  
+
   async delete(
     MaGV: string,
     MaDT: string,
@@ -74,6 +74,20 @@ export class pbChamService {
     return await this.http
       .delete(
         `${this.apiUrl}/api/Pbchams/MaGV, MaDT, maSv, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&maSv=${maSv}&namHoc=${namHoc}&dot=${dot}`,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
+  async DeletePbchamsByGvDt(
+    MaGV: string,
+    MaDT: string,
+    namHoc: string,
+    dot: number
+  ): Promise<any> {
+    return await this.http
+      .delete(
+        `${this.apiUrl}/api/Pbchams/MaGV, MaDT, namHoc, dot?MaGV=${MaGV}&MaDT=${MaDT}&namHoc=${namHoc}&dot=${dot}`,
         this.shareService.httpOptions
       )
       .toPromise();

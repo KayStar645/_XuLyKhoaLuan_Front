@@ -13,11 +13,22 @@ export class lichPhanBienService {
 
   constructor(private http: HttpClient, private shareService: shareService) {}
 
-  async GetAllTraoDoiMotCongViec(maGv: string): Promise<LichPhanBien[]> {
+  async GetLichPhanBienByGvAsync(maGv: string): Promise<LichPhanBien[]> {
     return (
       (await this.http
         .get<LichPhanBien[]>(
           `${this.apiUrl}/api/LichPhanBien/maGv?maGv=${maGv}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async GetLichPhanBienBySvAsync(maSv: string): Promise<LichPhanBien[]> {
+    return (
+      (await this.http
+        .get<LichPhanBien[]>(
+          `${this.apiUrl}/api/LichPhanBien/maGv?maSv=${maSv}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

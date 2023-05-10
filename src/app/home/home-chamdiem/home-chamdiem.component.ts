@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { deTaiDiemService } from './../../services/NghiepVu/detaidiem.service';
 import { DeTaiDiemVT } from 'src/app/models/VirtualModel/DeTaiDiemVTModel';
 import { HomeMainComponent } from '../home-main/home-main.component';
+import { DiemSoVT } from 'src/app/models/VirtualModel/DiemSoVTModel';
 
 @Component({
   selector: 'app-home-chamdiem',
@@ -12,6 +13,7 @@ import { HomeMainComponent } from '../home-main/home-main.component';
 export class HomeChamdiemComponent {
   data: DeTaiDiemVT[] = [];
   len = 0;
+  maGv = '';
 
   constructor(
     private titleService: Title,
@@ -20,9 +22,14 @@ export class HomeChamdiemComponent {
 
   async ngOnInit() {
     this.titleService.setTitle('Chấm điểm đề tài');
-    this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(
-      HomeMainComponent.maGV
-    );
-    console.log(this.data);
+    this.maGv = HomeMainComponent.maGV;
+    this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
+  }
+
+  onChangeDiem(event: any, diemSv: DiemSoVT, deTai: DeTaiDiemVT) {
+    let newDiem = event.target.value;
+    console.log(newDiem);
+    console.log(diemSv);
+    console.log(deTai);
   }
 }
