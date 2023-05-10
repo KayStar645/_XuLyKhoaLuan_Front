@@ -22,4 +22,23 @@ export class deTaiDiemService {
         .toPromise()) ?? []
     );
   }
+
+  async ChamDiemSv(
+    maGv: string,
+    maDt: string,
+    maSv: string,
+    namHoc: string,
+    dot: number,
+    vaiTro: number,
+    diem: number
+  ): Promise<boolean> {
+    return (
+      (await this.http
+        .put<boolean>(
+          `${this.apiUrl}/api/DeTaiDiem/maGv,maDt,maSv,namHoc,dot,vaiTro,diem?maGv=${maGv}&maDt=${maDt}&maSv=${maSv}&namHoc=${namHoc}&dot=${dot}&vaiTro=${vaiTro}&diem=${diem}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? false
+    );
+  }
 }

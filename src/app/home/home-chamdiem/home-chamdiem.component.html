@@ -1,7 +1,7 @@
 <div class="p-t-16">
   <div class="detail-item">
     <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table ma-t-16" *ngFor="let dt of data">
+      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table ma-t-32" *ngFor="let dt of data">
         <tbody>
           <tr>
             <th class="text-center" [colSpan]="20" 
@@ -29,13 +29,13 @@
           <tr *ngFor="let sv of dt.sinhViens">
             <td class="text-center">{{ sv.maSV }}</td>
             <td class="text-center">{{ sv.tenSV }}</td>
-            <td class="text-center" *ngFor="let d of sv.diems">
+            <td class="text-center" *ngFor="let d of sv.diems; let i = index">
               <input 
                 *ngIf="d.maGV == maGv; else Not"
-                (input)="onChangeDiem($event, d, dt)"
+                (input)="onChangeDiem($event, d, dt, sv)"
                 class="text-center red bold"
                 type="number"
-                value="{{ d.diem == -1 ? '0' : d.diem}}" 
+                value="{{ d.diem == -1 ? '0.0' : d.diem}}" 
                 min="0"
                 max="10"
               />
@@ -45,6 +45,10 @@
             </td>
           </tr>
         </tbody>
+        <div class="btn-add">
+          <button>Đưa ra hội đồng</button>
+          <!-- <button (click)="onShowFormAdd()">Thêm</button> -->
+        </div>
       </table>
     </div>
   </div>
