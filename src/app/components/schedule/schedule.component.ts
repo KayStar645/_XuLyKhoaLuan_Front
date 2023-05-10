@@ -1,3 +1,6 @@
+import { phanBienService } from 'src/app/services/phanBien.service';
+import { huongDanService } from 'src/app/services/huongDan.service';
+import { lichPhanBienService } from './../../services/NghiepVu/lichphanbien.service';
 import { Component, Input, OnInit, ViewChild, OnChanges } from '@angular/core';
 import {
   format,
@@ -11,7 +14,13 @@ import {
   isPast,
 } from 'date-fns';
 import { DatePickerComponent } from 'ng2-date-picker';
+import { ToastrService } from 'ngx-toastr';
+import { HomeMainComponent } from 'src/app/home/home-main/home-main.component';
+import { DeTai } from 'src/app/models/DeTai.model';
+import { HuongDan } from 'src/app/models/HuongDan.model';
+import { PhanBien } from 'src/app/models/PhanBien.model';
 import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
+import { deTaiService } from 'src/app/services/deTai.service';
 import { Form, dateVNConvert } from 'src/assets/utils';
 
 type date = {
@@ -63,11 +72,25 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
   lich: Form = new Form({
     ngayHienTai: [''],
+    ngayBD: [''],
+    TGBatDau: [''],
+    TGKetThuc: [''],
+    diaDiem: [''],
   });
+  loaiLich: any[] = [];
+  deTais: DeTai[] = [];
+  deTai: DeTai[] = [];
 
-  constructor() {}
+  constructor(
+    private huongDanService: huongDanService,
+    private phanBienService: phanBienService,
+    private toastService: ToastrService,
+    private deTaiService: deTaiService
+  ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    this.deTais = await this.deTaiService.getAll();
+  }
 
   ngOnChanges(): void {
     this.setSchedule();
@@ -281,6 +304,67 @@ export class ScheduleComponent implements OnInit, OnChanges {
       start: this.startOfWeek,
       end: this.endOfWeek,
     });
+  }
+
+  async addSchedule() {
+    try {
+      let formValue: any = this.lich.form.value;
+      let ngayLap = dateVNConvert(formValue.ngayBD);
+
+      switch (this.loaiLich[0].id) {
+        case 1: {
+          let lich = new HuongDan();
+
+          lich.diaDiem = formValue.diaDiem;
+          lich.duaRaHd = false;
+          lich.maDt = this.deTai[0].maDT;
+          lich.maGv = HomeMainComponent.maGV;
+          lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
+          lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+
+          await this.huongDanService.add(lich);
+          break;
+        }
+        case 2: {
+          let lich = new PhanBien();
+
+          lich.diaDiem = formValue.diaDiem;
+          lich.duaRaHd = false;
+          lich.maDt = this.deTai[0].maDT;
+          lich.maGv = HomeMainComponent.maGV;
+          lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
+          lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+
+          await this.phanBienService.add(lich);
+          break;
+        }
+
+        default:
+          break;
+      }
+      this.toastService.success('Thêm lịch thành công', 'Thông báo !');
+    } catch (error) {
+      this.toastService.error('Thêm lịch thất bại', 'Thông báo !');
+    }
+  }
+
+  onShowFormAdd() {
+    document.documentElement.classList.add('no-scroll');
+    let createBox = document.querySelector('#create_box')!;
+    let create = document.querySelector('#create')!;
+
+    createBox.classList.add('active');
+    create.classList.add('active');
+    this.lich.resetForm('#create_box');
+  }
+
+  handleToggleAdd() {
+    let createBox = document.querySelector('#create_box')!;
+    let create = document.querySelector('#create')!;
+
+    createBox.classList.remove('active');
+    create.classList.remove('active');
+    document.documentElement.classList.remove('no-scroll');
   }
 
   format(date: Date, formatString: string = 'dd-MM-yyyy') {

@@ -71,29 +71,36 @@ export class DropDownComponent implements OnInit, OnChanges {
   }
 
   onSetItem(event: any) {
-    let element = event.target;
+    let element = event.target.closest('.item');
     let id = element.dataset.id;
-    let item = this.items.find((t) => t[this.primarKey] === id);
-    let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
+    let item = this.items.find((t) => t[this.primarKey].toString() === id);
 
-    if (element.classList.contains('active')) {
-      this.onParrentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
-      element.classList.remove('active');
-      this.prevItem = item;
-    } else {
-      if (this.isSearchMultiple) {
-        element.classList.add('active');
-        this.selectedItem.push(item);
+    console.log(id);
+
+    if (item) {
+      let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
+
+      if (element.classList.contains('active')) {
+        this.onParrentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
+        element.classList.remove('active');
+        this.prevItem = item;
       } else {
-        if (this.selectedItem.length < 1) {
+        if (this.isSearchMultiple) {
+          element.classList.add('active');
           this.selectedItem.push(item);
         } else {
-          this.selectedItem = [item];
+          if (this.selectedItem.length < 1) {
+            this.selectedItem.push(item);
+          } else {
+            this.selectedItem = [item];
+          }
+          document
+            .querySelector('.selected.active')
+            ?.classList.remove('active');
         }
-        document.querySelector('.selected.active')?.classList.remove('active');
-      }
 
-      this.onParrentSelect.emit(item);
+        this.onParrentSelect.emit(item);
+      }
     }
   }
 
@@ -115,4 +122,6 @@ export class DropDownComponent implements OnInit, OnChanges {
   onClickInput(event: any) {
     event.stopPropagation();
   }
+
+  handleToggleAdd() {}
 }

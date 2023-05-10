@@ -9,9 +9,8 @@
             *ngFor="let item of selectedItem"
             class="item"
             [ngClass]="{ noActive: !isSearchMultiple }"
-          >
-            {{ item[keyWord] }}
-          </div>
+            [innerHTML]="item[keyWord]"
+          ></div>
         </div>
       </div>
 
@@ -36,9 +35,8 @@
           [ngClass]="{ active: isItemExist(selectedItem, item) }"
           [attr.data-id]="item[primarKey]"
           (click)="onSetItem($event)"
-        >
-          {{ item.tenGv }}
-        </div>
+          [innerHTML]="item[keyWord]"
+        ></div>
       </div>
     </div>
   </div>

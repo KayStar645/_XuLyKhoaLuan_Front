@@ -47,7 +47,7 @@
             <button (click)="onClickNext()">Tuần tới</button>
           </button>
           <button class="functional-button">
-            <button (click)="onClickNext()">Thêm lịch</button>
+            <button (click)="onShowFormAdd()">Thêm lịch</button>
           </button>
         </div>
       </div>
@@ -157,3 +157,99 @@
     </table>
   </div>
 </div>
+
+<div id="create" (click)="handleToggleAdd()"></div>
+<form id="create_box" [formGroup]="lich.form" class="form">
+  <h2 class="title">THÊM LỊCH PHẢN BIỆN MỚI</h2>
+
+  <p class="warn text-center">
+    Số phút bắt đầu và kết thúc phải là 00, 15, 30, 45 (7:00, 7:15, 7:30, 7:45)
+  </p>
+
+  <div class="row form-list form">
+    <div class="h-6 p-l-12 p-r-12">
+      <app-drop-down
+        label="Loại lịch"
+        placeholder="Tìm loại lịch"
+        [items]="[
+          { id: 1, name: 'Hướng dẫn' },
+          { id: 2, name: 'Phản biện' },
+          { id: 3, name: 'Hội đồng' }
+        ]"
+        [selectedItem]="loaiLich"
+        primarKey="id"
+        keyWord="name"
+        [isSearchMultiple]="false"
+      ></app-drop-down>
+
+      <label class="form-control form-no-box-shadow row ali-center">
+        <p class="label p-b-8">Bắt đầu</p>
+
+        <div class="form-value">
+          <dp-date-picker
+            mode="time"
+            formControlName="TGBatDau"
+            class="form-input"
+          ></dp-date-picker>
+          <p class="error-mess"></p>
+        </div>
+      </label>
+
+      <label class="form-control row ali-center form-control">
+        <p class="label">Địa điểm</p>
+        <div class="form-value">
+          <input type="text" formControlName="diaDiem" class="form-input" />
+          <p class="error-mess"></p>
+        </div>
+      </label>
+    </div>
+
+    <div class="h-6 p-l-12 p-r-12">
+      <label class="form-control form-no-box-shadow row ali-center">
+        <p class="label p-b-8">Ngày diễn ra</p>
+
+        <div class="form-value">
+          <dp-date-picker
+            mode="day"
+            formControlName="ngayBD"
+            [config]="{
+              firstDayOfWeek: 'mo',
+              showNearMonthDays: false
+            }"
+            class="form-input"
+          ></dp-date-picker>
+          <p class="error-mess"></p>
+        </div>
+      </label>
+
+      <label class="form-control form-no-box-shadow row ali-center">
+        <p class="label p-b-8">Kết thúc</p>
+
+        <div class="form-value">
+          <dp-date-picker
+            mode="time"
+            formControlName="TGKetThuc"
+            class="form-input"
+          ></dp-date-picker>
+          <p class="error-mess"></p>
+        </div>
+      </label>
+    </div>
+
+    <div class="h-12 p-l-12 p-r-12">
+      <app-drop-down
+        label="Đề tài"
+        placeholder="Tìm Đề tài"
+        [items]="deTais"
+        [selectedItem]="deTai"
+        primarKey="maDT"
+        keyWord="tenDT"
+        [isSearchMultiple]="false"
+      ></app-drop-down>
+    </div>
+  </div>
+
+  <div class="submit-btn text-right">
+    <button class="btn-add" (click)="addSchedule()">Thêm</button>
+  </div>
+</form>
