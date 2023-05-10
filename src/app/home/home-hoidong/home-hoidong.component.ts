@@ -122,6 +122,7 @@ export class HomeHoidongComponent implements OnInit {
     }
   }
 
+  // Danh sách chủ tịch fix ở đây
   onSelectCT($event: GiangVien) {
     let ctUVIndex = this.TKInputConfig.items.findIndex(
       (t) => t.maGv === $event.maGv
@@ -138,6 +139,7 @@ export class HomeHoidongComponent implements OnInit {
     this.TKInputConfig.items = [$event, ...this.TKInputConfig.items];
   }
 
+  // Danh sách thư ký fix ở đây
   onSelectTK($event: GiangVien) {
     let tkCTIndex = this.CTInputConfig.items.findIndex(
       (t) => t.maGv === $event.maGv
@@ -154,6 +156,7 @@ export class HomeHoidongComponent implements OnInit {
     this.UVInputConfig.items = [$event, ...this.UVInputConfig.items];
   }
 
+  // Danh sách ủy viên fix ở đây
   onSelectUV($event: GiangVien) {
     let uvCTIndex = this.CTInputConfig.items.findIndex(
       (t) => t.maGv === $event.maGv

@@ -96,6 +96,14 @@ export class ScheduleComponent implements OnInit, OnChanges {
     this.setSchedule();
   }
 
+  async onSelectType(event: any) {
+    // Thay đổi loại lịch khi thêm nè
+
+    this.deTais = [];
+
+    console.log(event);
+  }
+
   removeRightCell() {
     let table: HTMLTableElement = document.querySelector('.table')!;
     let cells: HTMLTableCellElement[] = [];

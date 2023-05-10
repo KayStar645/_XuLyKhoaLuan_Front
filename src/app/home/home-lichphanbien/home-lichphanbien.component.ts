@@ -31,4 +31,8 @@ export class HomeLichphanbienComponent implements OnInit {
         HomeMainComponent.maGV
       );
   }
+
+  onSelectType() {
+    
+  }
 }
