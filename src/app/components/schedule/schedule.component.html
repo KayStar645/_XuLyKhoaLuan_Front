@@ -19,18 +19,19 @@
 
         <div class="row ali-center jus-end h-100 functional-wrapper">
           <div class="functional-button">
-            <div class="row ali-center calendar-btn">
+            <div class="row ali-center calendar-btn" [formGroup]="lich.form">
               <img src="../../.././assets/Images/calendar.png" alt="" />
               <dp-date-picker
                 #dayPicker
                 mode="day"
                 id="day"
-                ng-reflect-model="12-5-2022"
+                formControlName="ngayHienTai"
                 [config]="{
                   firstDayOfWeek: 'mo',
                   showNearMonthDays: false,
                   opens: 'right'
                 }"
+                (onSelect)="onSelectDate($event)"
                 class="button"
               ></dp-date-picker>
             </div>
@@ -44,6 +45,9 @@
           </button>
           <button class="functional-button">
             <button (click)="onClickNext()">Tuần tới</button>
+          </button>
+          <button class="functional-button">
+            <button (click)="onClickNext()">Thêm lịch</button>
           </button>
         </div>
       </div>
@@ -126,7 +130,7 @@
                     <span>{{ time.place }}</span>
                   </p>
                   <p>
-                    Lịch: <span>{{ time.type }}</span>
+                    Loại lịch: <span>{{ time.type }}</span>
                   </p>
                 </div>
               </div>

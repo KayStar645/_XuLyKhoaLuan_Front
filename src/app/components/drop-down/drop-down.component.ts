@@ -35,8 +35,8 @@ export class DropDownComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     window.addEventListener('click', (e) => {
-      let parent = getParentElement(e.target, '.form-value');
-      let activeList = document.querySelector('.form-value.active');
+      let parent = getParentElement(e.target, '.selected');
+      let activeList = document.querySelector('.selected.active');
 
       if (!parent && activeList) {
         activeList.classList.remove('active');
@@ -50,9 +50,9 @@ export class DropDownComponent implements OnInit, OnChanges {
   }
 
   onOpenDropdown(event: any) {
-    let parent: HTMLElement = getParentElement(event.target, '.form-value');
+    let parent: HTMLElement = getParentElement(event.target, '.selected');
 
-    document.querySelector('.form-value.active')?.classList.remove('active');
+    document.querySelector('.selected.active')?.classList.remove('active');
     parent.classList.add('active');
     parent.scrollIntoView({
       behavior: 'smooth',
@@ -61,9 +61,13 @@ export class DropDownComponent implements OnInit, OnChanges {
   }
 
   isItemExist(selected: any[], item: any) {
-    return selected.find((t) => t[this.primarKey] === item[this.primarKey])
+    let result = selected.find(
+      (t) => t[this.primarKey] === item[this.primarKey]
+    )
       ? true
       : false;
+
+    return result;
   }
 
   onSetItem(event: any) {
@@ -78,6 +82,7 @@ export class DropDownComponent implements OnInit, OnChanges {
       this.prevItem = item;
     } else {
       if (this.isSearchMultiple) {
+        element.classList.add('active');
         this.selectedItem.push(item);
       } else {
         if (this.selectedItem.length < 1) {
@@ -85,9 +90,9 @@ export class DropDownComponent implements OnInit, OnChanges {
         } else {
           this.selectedItem = [item];
         }
+        document.querySelector('.selected.active')?.classList.remove('active');
       }
 
-      if (this.isSearchMultiple) element.classList.add('active');
       this.onParrentSelect.emit(item);
     }
   }

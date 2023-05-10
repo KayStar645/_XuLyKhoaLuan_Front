@@ -1,21 +1,10 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  ElementRef,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnChanges } from '@angular/core';
 import {
   format,
   startOfWeek,
   endOfWeek,
   eachDayOfInterval,
-  compareAsc,
   isWithinInterval,
-  max,
-  min,
-  add,
   subDays,
   addDays,
   isToday,
@@ -23,6 +12,7 @@ import {
 } from 'date-fns';
 import { DatePickerComponent } from 'ng2-date-picker';
 import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
+import { Form, dateVNConvert } from 'src/assets/utils';
 
 type date = {
   start: Date;
@@ -48,7 +38,7 @@ type time = {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
 })
-export class ScheduleComponent implements OnInit, AfterViewInit {
+export class ScheduleComponent implements OnInit, OnChanges {
   @ViewChild('dayPicker')
   datePicker!: DatePickerComponent;
 
@@ -71,13 +61,17 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
 
   times: time[] = [];
 
-  constructor(private elementRef: ElementRef) {}
+  lich: Form = new Form({
+    ngayHienTai: [''],
+  });
 
-  ngOnInit(): void {
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  ngOnChanges(): void {
     this.setSchedule();
   }
-
-  ngAfterViewInit(): void {}
 
   removeRightCell() {
     let table: HTMLTableElement = document.querySelector('.table')!;
@@ -94,13 +88,22 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       let start = parseInt(cell.dataset.index!);
       for (let i = start + 2; i <= this.times.length; i++) {
         if (count < cell.rowSpan - 1) {
-          table.rows[i].deleteCell(7);
-          count++;
+          if (table.rows[i]) {
+            table.rows[i].deleteCell(table.rows[i].cells.length - 1);
+            count++;
+          }
         } else {
           break;
         }
       }
     });
+  }
+
+  onSelectDate($event: any) {
+    let formValue: any = this.lich.form.value;
+
+    this.rootDate = new Date(dateVNConvert(formValue.ngayHienTai));
+    this.setSchedule();
   }
 
   setSchedule() {

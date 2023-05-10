@@ -247,6 +247,38 @@
           <p class="error-mess"></p>
         </div>
       </label>
+
+      <label class="form-control form-no-box-shadow row ali-center">
+        <p class="label p-b-8">Ngày diễn ra</p>
+
+        <div class="form-value">
+          <dp-date-picker
+            mode="day"
+            formControlName="ngayBD"
+            [config]="{
+              firstDayOfWeek: 'mo',
+              showNearMonthDays: false
+            }"
+            (onSelect)="onDateChange($event)"
+            class="form-input"
+          ></dp-date-picker>
+          <p class="error-mess"></p>
+        </div>
+      </label>
+
+      <label class="form-control form-no-box-shadow row ali-center">
+        <p class="label p-b-8">Bắt đầu</p>
+
+        <div class="form-value">
+          <dp-date-picker
+            mode="time"
+            formControlName="TGBatDau"
+            (onSelect)="onDateChange($event)"
+            class="form-input"
+          ></dp-date-picker>
+          <p class="error-mess"></p>
+        </div>
+      </label>
     </div>
 
     <div class="h-6 p-l-12 p-r-12">
@@ -275,6 +307,28 @@
         (onParrentUnSelect)="onUnSelectTK($event)"
         [isSearchMultiple]="false"
       ></app-drop-down>
+
+      <label class="form-control row ali-center form-control">
+        <p class="label">Địa điểm</p>
+        <div class="form-value">
+          <input type="text" formControlName="diaDiem" class="form-input" />
+          <p class="error-mess"></p>
+        </div>
+      </label>
+
+      <label class="form-control form-no-box-shadow row ali-center">
+        <p class="label p-b-8">Kết thúc</p>
+
+        <div class="form-value">
+          <dp-date-picker
+            mode="time"
+            formControlName="TGKetThuc"
+            (onSelect)="onDateChange($event)"
+            class="form-input"
+          ></dp-date-picker>
+          <p class="error-mess"></p>
+        </div>
+      </label>
     </div>
 
     <div class="h-12 p-l-12 p-r-12">

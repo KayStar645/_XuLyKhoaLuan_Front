@@ -1,8 +1,13 @@
+import { thamGiaHdService } from './../../services/thamGiaHD.service';
+import { hoiDongService } from './../../services/hoiDong.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { Component, OnInit } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
-import { Form } from 'src/assets/utils';
+import { Form, dateVNConvert } from 'src/assets/utils';
 import { Validators } from '@angular/forms';
+import { HoiDong } from 'src/app/models/HoiDong.model';
+import { ThamGiaHd } from 'src/app/models/ThamGiaHd.model';
+import { ToastrService } from 'ngx-toastr';
 
 type InputConfigProp = {
   items: GiangVien[];
@@ -35,9 +40,18 @@ export class HomeHoidongComponent implements OnInit {
   hoiDong: Form = new Form({
     tenHd: ['', Validators.required],
     maHd: ['', Validators.required],
+    diaDiem: ['', Validators.required],
+    TGBatDau: ['', Validators.required],
+    TGKetThuc: ['', Validators.required],
+    ngayBD: ['', Validators.required],
   });
 
-  constructor(private giangVienService: giangVienService) {}
+  constructor(
+    private giangVienService: giangVienService,
+    private hoiDongService: hoiDongService,
+    private thamGiaHdService: thamGiaHdService,
+    private toastService: ToastrService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.CTInputConfig.items = await this.giangVienService.getAll();
@@ -64,7 +78,49 @@ export class HomeHoidongComponent implements OnInit {
     document.documentElement.classList.remove('no-scroll');
   }
 
-  addHoiDong() {}
+  async addHoiDong() {
+    try {
+      let hoiDong = new HoiDong();
+      let chuTich = new ThamGiaHd();
+      let thuKy = new ThamGiaHd();
+      let uyViens: ThamGiaHd[] = [];
+      let [selectedCT] = this.CTInputConfig.selectedItem;
+      let [selectedTK] = this.TKInputConfig.selectedItem;
+      let selectedUVs = this.UVInputConfig.selectedItem;
+      let formValue: any = this.hoiDong.form.value;
+      let ngayLap = dateVNConvert(formValue.ngayBD);
+
+      hoiDong.maHd = formValue.maHd;
+      hoiDong.tenHd = formValue.tenHd;
+      hoiDong.diaDiem = formValue.diaDiem;
+      hoiDong.ngayLap = ngayLap;
+      hoiDong.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
+      hoiDong.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+
+      chuTich.maGv = selectedCT.maGv;
+      chuTich.maHd = formValue.maHd;
+      chuTich.maVt = 'VT1';
+
+      thuKy.maGv = selectedTK.maGv;
+      thuKy.maHd = formValue.maHd;
+      thuKy.maVt = 'VT2';
+
+      selectedUVs.forEach((uv) => {
+        uyViens.push({ maGv: uv.maGv, maHd: formValue.maHd, maVt: 'VT3' });
+      });
+
+      await this.hoiDongService.add(hoiDong);
+      await this.thamGiaHdService.add(chuTich);
+      await this.thamGiaHdService.add(thuKy);
+      uyViens.forEach(async (uv) => {
+        await this.thamGiaHdService.add(uv);
+      });
+
+      this.toastService.success('Thêm hội đồng thành công', 'Thông báo !');
+    } catch (error) {
+      this.toastService.error('Thêm hội đồng thất bại', 'Thông báo !');
+    }
+  }
 
   onSelectCT($event: GiangVien) {
     let ctUVIndex = this.TKInputConfig.items.findIndex(
@@ -113,4 +169,6 @@ export class HomeHoidongComponent implements OnInit {
     this.CTInputConfig.items = [$event, ...this.CTInputConfig.items];
     this.TKInputConfig.items = [$event, ...this.TKInputConfig.items];
   }
+
+  onDateChange($event: any) {}
 }
