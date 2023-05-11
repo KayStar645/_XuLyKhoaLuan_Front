@@ -423,4 +423,15 @@ export class WebsocketService {
   public receiveFromXacNhan = (callback: any) => {
     this.hubConnection.on('ReceiveFromXacNhan', callback);
   };
+
+  // 36. Xác nhận
+  public sendForDeTaiDiem = (dataChange: boolean) => {
+    this.hubConnection
+      .invoke('sendForDeTaiDiem', dataChange)
+      .catch((err) => console.error(err));
+  };
+
+  public receiveFromDeTaiDiem = (callback: any) => {
+    this.hubConnection.on('ReceiveFromDeTaiDiem', callback);
+  };
 }

@@ -1,3 +1,6 @@
+import { WebsocketService } from 'src/app/services/Websocket.service';
+import { phanBienService } from './../../services/phanBien.service';
+import { huongDanService } from './../../services/huongDan.service';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { deTaiDiemService } from './../../services/NghiepVu/detaidiem.service';
@@ -7,6 +10,10 @@ import { DiemSoVT } from 'src/app/models/VirtualModel/DiemSoVTModel';
 import { shareService } from 'src/app/services/share.service';
 import { SinhVienVT } from 'src/app/models/VirtualModel/SinhVienVTModel';
 import { Option } from 'src/assets/utils';
+import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
+import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
+import { HuongDan } from 'src/app/models/HuongDan.model';
+import { PhanBien } from 'src/app/models/PhanBien.model';
 
 @Component({
   selector: 'app-home-chamdiem',
@@ -20,13 +27,21 @@ export class HomeChamdiemComponent {
 
   constructor(
     private titleService: Title,
-    private deTaiDiemService: deTaiDiemService
+    private deTaiDiemService: deTaiDiemService,
+    private huongDanService: huongDanService,
+    private phanBienService: phanBienService,
+    private WebsocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
     this.titleService.setTitle('Chấm điểm đề tài');
     this.maGv = HomeMainComponent.maGV;
     this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
+
+    this.WebsocketService.startConnection();
+    this.WebsocketService.receiveFromDeTai(async (dataChange: boolean) => {
+      this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
+    });
   }
 
   async onChangeDiem(
@@ -49,18 +64,55 @@ export class HomeChamdiemComponent {
     }
   }
 
-  onConfirm() {
+  onConfirm(maDt: string) {
     let option = new Option('#confirm');
-
     option.show('warning', () => {});
-
-    option.cancel(() => {
-      console.log('Hủy nè');
-    });
 
     option.agree(() => {
       document.documentElement.classList.remove('no-scroll');
-      console.log('Đồng ý nè');
+      
+      for (let dt of this.data) {
+        if (dt.maDT == maDt) {
+          for (let gv of dt.gvhDs) {
+            if (gv.maGV == this.maGv) {
+              let hd = new HuongDan();
+              hd.init(this.maGv, maDt, true);
+              this.huongDanService.update(hd);
+              this.WebsocketService.sendForDeTaiDiem(true);
+              return;
+            }
+          }
+
+          for (let gv of dt.gvpBs) {
+            if (gv.maGV == this.maGv) {
+              let pb = new PhanBien();
+              pb.init(this.maGv, maDt, true);
+              this.phanBienService.update(pb);
+              this.WebsocketService.sendForDeTaiDiem(true);
+              return;
+            }
+          }
+        }
+      }
     });
+  }
+
+  isDuaRaHoiDong(maDt: string) {
+    for(let dt of this.data) {
+      if (dt.maDT == maDt) {
+        for(let gv of dt.gvhDs) {
+          if (gv.maGV == this.maGv) {
+            return gv.duaRaHoiDong == 0 ? false : true;
+          }
+        }
+
+        for (let gv of dt.gvpBs) {
+          if (gv.maGV == this.maGv) {
+            return gv.duaRaHoiDong == 0 ? false : true;
+          }
+        }
+      }
+    }
+    return true;
   }
 }

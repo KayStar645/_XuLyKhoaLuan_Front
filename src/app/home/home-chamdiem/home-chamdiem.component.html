@@ -73,8 +73,12 @@
       </table>
       <div class="row jus-end ma-t-8">
         <div class="functional-button">
-          <button (click)="onConfirm()">Đưa ra hội đồng</button>
-          <!-- <button (click)="onShowFormAdd()">Thêm</button> -->
+          <button 
+            [hidden]="isDuaRaHoiDong(dt.maDT)"
+            (click)="onConfirm(dt.maDT)"
+            >
+            Đưa ra hội đồng
+          </button>
         </div>
       </div>
     </div>

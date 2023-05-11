@@ -8,6 +8,7 @@ export class GiangVienVT {
   */
   public vaiTro!: number;
   public chucVu!: number;
+  public duaRaHoiDong!: number;
 
   constructor() {}
 }
