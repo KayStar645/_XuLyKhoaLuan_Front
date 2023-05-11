@@ -1,28 +1,53 @@
 <div class="p-t-16">
   <div class="detail-item">
-    <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table ma-t-32" *ngFor="let dt of data">
+    <div *ngFor="let dt of data">
+      <table
+        border="1"
+        [cellPadding]="0"
+        [cellSpacing]="0"
+        class="table ma-t-32"
+      >
         <tbody>
           <tr>
-            <th class="text-center" [colSpan]="20" 
-            [innerHTML]="dt.tenDT"></th>
+            <th class="text-center" [colSpan]="20" [innerHTML]="dt.tenDT"></th>
           </tr>
           <tr>
             <td class="text-center bold" [rowSpan]="2">MSSV</td>
             <td class="text-center bold" [rowSpan]="2">Họ tên</td>
-            <td class="text-center bold" [colSpan]="dt.gvhDs.length == 0 ? 1 : dt.gvhDs.length">Điểm GVHD</td>
-            <td class="text-center bold" [colSpan]="dt.gvpBs.length == 0 ? 1 : dt.gvpBs.length">Điểm GVPB</td>
-            <td class="text-center bold" [colSpan]="dt.hoiDongs.length == 0 ? 1 : dt.hoiDongs.length">Hội đồng</td>
+            <td
+              class="text-center bold"
+              [colSpan]="dt.gvhDs.length == 0 ? 1 : dt.gvhDs.length"
+            >
+              Điểm GVHD
+            </td>
+            <td
+              class="text-center bold"
+              [colSpan]="dt.gvpBs.length == 0 ? 1 : dt.gvpBs.length"
+            >
+              Điểm GVPB
+            </td>
+            <td
+              class="text-center bold"
+              [colSpan]="dt.hoiDongs.length == 0 ? 1 : dt.hoiDongs.length"
+            >
+              Hội đồng
+            </td>
           </tr>
 
           <tr>
-            <td class="text-center italic" *ngFor="let gv of dt.gvhDs">{{ gv.tenGV }}</td>
+            <td class="text-center italic" *ngFor="let gv of dt.gvhDs">
+              {{ gv.tenGV }}
+            </td>
             <td class="text-center" *ngIf="dt.gvhDs.length == 0"></td>
 
-            <td class="text-center italic" *ngFor="let gv of dt.gvpBs">{{ gv.tenGV }}</td>
+            <td class="text-center italic" *ngFor="let gv of dt.gvpBs">
+              {{ gv.tenGV }}
+            </td>
             <td class="text-center" *ngIf="dt.gvpBs.length == 0"></td>
 
-            <td class="text-center italic" *ngFor="let gv of dt.hoiDongs">{{ gv.tenGV }}</td>
+            <td class="text-center italic" *ngFor="let gv of dt.hoiDongs">
+              {{ gv.tenGV }}
+            </td>
             <td class="text-center" *ngIf="dt.hoiDongs.length == 0"></td>
           </tr>
 
@@ -30,26 +55,42 @@
             <td class="text-center">{{ sv.maSV }}</td>
             <td class="text-center">{{ sv.tenSV }}</td>
             <td class="text-center" *ngFor="let d of sv.diems; let i = index">
-              <input 
+              <input
                 *ngIf="d.maGV == maGv; else Not"
                 (input)="onChangeDiem($event, d, dt, sv)"
                 class="text-center red bold"
                 type="number"
-                value="{{ d.diem == -1 ? '0.0' : d.diem}}" 
+                value="{{ d.diem == -1 ? '0.0' : d.diem }}"
                 min="0"
                 max="10"
               />
               <ng-template #Not>
-                {{ d.diem == -1 ? '-' : d.diem}}
+                {{ d.diem == -1 ? "-" : d.diem }}
               </ng-template>
             </td>
           </tr>
         </tbody>
-        <div class="btn-add">
-          <button>Đưa ra hội đồng</button>
+      </table>
+      <div class="row jus-end ma-t-8">
+        <div class="functional-button">
+          <button (click)="onConfirm()">Đưa ra hội đồng</button>
           <!-- <button (click)="onShowFormAdd()">Thêm</button> -->
         </div>
-      </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="confirm">
+  <div class="form-notify">
+    <div class="notify-container">
+      <p class="notify-title">Thông báo !</p>
+      <p class="notify-content">Bạn có chắc chắn muốn đưa ra hội đồng</p>
+      <div class="row ali-center jus-end">
+        <button class="cancel">Hủy</button>
+        <button class="agree">Đồng ý</button>
+      </div>
+      <div class="progress-bar"></div>
     </div>
   </div>
 </div>

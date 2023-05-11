@@ -6,6 +6,7 @@ import { HomeMainComponent } from '../home-main/home-main.component';
 import { DiemSoVT } from 'src/app/models/VirtualModel/DiemSoVTModel';
 import { shareService } from 'src/app/services/share.service';
 import { SinhVienVT } from 'src/app/models/VirtualModel/SinhVienVTModel';
+import { Option } from 'src/assets/utils';
 
 @Component({
   selector: 'app-home-chamdiem',
@@ -28,7 +29,12 @@ export class HomeChamdiemComponent {
     this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
   }
 
-  async onChangeDiem(event: any, diemSv: DiemSoVT, deTai: DeTaiDiemVT, sv: SinhVienVT) {
+  async onChangeDiem(
+    event: any,
+    diemSv: DiemSoVT,
+    deTai: DeTaiDiemVT,
+    sv: SinhVienVT
+  ) {
     let newDiem = event.target.value;
     if (newDiem != '') {
       await this.deTaiDiemService.ChamDiemSv(
@@ -41,5 +47,20 @@ export class HomeChamdiemComponent {
         newDiem
       );
     }
+  }
+
+  onConfirm() {
+    let option = new Option('#confirm');
+
+    option.show('warning', () => {});
+
+    option.cancel(() => {
+      console.log('Hủy nè');
+    });
+
+    option.agree(() => {
+      document.documentElement.classList.remove('no-scroll');
+      console.log('Đồng ý nè');
+    });
   }
 }
