@@ -28,7 +28,7 @@ export class lichPhanBienService {
     return (
       (await this.http
         .get<LichPhanBien[]>(
-          `${this.apiUrl}/api/LichPhanBien/maGv?maSv=${maSv}`,
+          `${this.apiUrl}/api/LichPhanBien/maSv?maSv=${maSv}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

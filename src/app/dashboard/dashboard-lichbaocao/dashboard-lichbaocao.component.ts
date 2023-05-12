@@ -1,36 +1,35 @@
+import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
+import { lichPhanBienService } from './../../services/NghiepVu/lichphanbien.service';
 import { Component, OnInit } from '@angular/core';
+import { GiangVien } from 'src/app/models/GiangVien.model';
+import { giangVienService } from 'src/app/services/giangVien.service';
+import { endOfWeek, startOfWeek } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { DashboardMainComponent } from '../dashboard-main/dashboard-main.component';
 
 @Component({
   selector: 'app-dashboard-lichbaocao',
   templateUrl: './dashboard-lichbaocao.component.html',
-  styleUrls: ['./dashboard-lichbaocao.component.scss'],
 })
-export class DashboardLichbaocaoComponent {
-  data: any[] = [];
+export class DashboardLichbaocaoComponent implements OnInit {
+  lichPhanBiens: LichPhanBien[] = [];
 
-  ngOnInit(): void {
-    this.data = [
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 1',
-        thoiDiem: '2023-12-19T8:30:00.000Z',
-        diaDia: 'Zoom 28',
-      },
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 2',
-        thoiDiem: '2023-12-23T13:00:00.000Z',
-        diaDia: 'Zoom 22',
-      },
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 3',
-        thoiDiem: '2023-12-19T15:00:00.000Z',
-        diaDia: 'Zoom 1',
-      },
-      {
-        tenDT: 'Quản lý tiến trình khóa luận 4',
-        thoiDiem: '2023-12-19T19:00:00.000Z',
-        diaDia: 'Zoom 87',
-      },
-    ];
+  constructor(
+    private lichPhanVienService: lichPhanBienService
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    await this.getShedule();
   }
+
+  async getShedule() {
+    this.lichPhanBiens =
+      await this.lichPhanVienService.GetLichPhanBienBySvAsync(
+        DashboardMainComponent.maSV
+      );
+  }
+
+  onSelectType() {}
 }
+
 

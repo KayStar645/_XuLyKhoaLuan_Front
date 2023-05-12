@@ -201,7 +201,6 @@ import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/d
     AppRoutingModule,
     HomeMainComponent,
     Location,
-    // DanhsachgiangvienComponent,
   ],
 
   bootstrap: [AppComponent],
