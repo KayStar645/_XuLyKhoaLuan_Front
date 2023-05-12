@@ -18,12 +18,16 @@ import { sinhVienService } from 'src/app/services/sinhVien.service';
 })
 export class DashboardMainComponent implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
+
+  static maSV: string;
+
   data: any = SinhVien;
   listTB: ThongBao[] = [];
   countTB = 0;
   countKH = 0;
   chuyenNganh = '';
   isJoinedGroup = false;
+  maSV = '' + localStorage.getItem('Id')?.toString();
 
   constructor(
     private authService: AuthService,
@@ -47,6 +51,8 @@ export class DashboardMainComponent implements OnInit {
     } else {
       this.isLoggedIn$ = of(true);
     }
+
+    DashboardMainComponent.maSV = this.maSV;
 
     this.resetNavbar();
 
