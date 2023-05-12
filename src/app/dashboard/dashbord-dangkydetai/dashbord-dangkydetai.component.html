@@ -2,11 +2,11 @@
   <div class="detail-container">
     <div class="row functional-wrapper">
       <div class="h-7 p-r-8 p-l-8">
-        <div class="detail-item">
+        <div class="detail-item selected-topic">
           <p class="table-title p-b-12">Danh sách đề tài</p>
 
           <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-            <tr>
+            <tr class="thead">
               <th>Mã ĐT</th>
               <th>Tên đề tài</th>
               <th>Số lượng sinh viên</th>
@@ -15,7 +15,7 @@
             </tr>
 
             <tbody *ngFor="let dt of listDT">
-              <tr class="br-line" (dblclick)="clickLine($event)">
+              <tr class="br-line" (dblclick)="clickLine($event, dt)">
                 <td class="text-center">{{ dt.maDT }}</td>
                 <td class="text-left">
                   <p class="cell-limit" [innerHTML]="dt?.tenDT"></p>
@@ -24,7 +24,9 @@
                 <td class="text-center">
                   {{ getTenGvHuongdanByMaDT(dt.maDT) }}
                 </td>
-                <td class="text-center">{{ getChuyennganhPhuhop(dt.maDT) }}</td>
+                <td class="text-center">
+                  {{ getChuyennganhPhuhop(dt.maDT) }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -32,27 +34,22 @@
       </div>
 
       <div class="h-5 p-r-8 p-l-8">
-        <div class="detail-item">
+        <div class="detail-item selected-topic">
           <!-- Đề tài đang chọn -->
+          <div class="row ali-center jus-between p-b-12 table-title">
+            <p>Nội dung đề tài đang chọn</p>
+            <button
+              *ngIf="isTruongnhom && !isDangky"
+              class="dangKy-btn submit-btn"
+              (click)="onDangKy(lineDT.maDT)"
+            >
+              <button>Đăng ký</button>
+            </button>
+          </div>
           <div *ngIf="lineDT">
-            <div class="row ali-center jus-between p-b-12">
-              <p class="table-title">Nội dung đề tài đang chọn</p>
-              <button
-                *ngIf="isTruongnhom && !isDangky"
-                class="dangKy-btn submit-btn"
-                (click)="onDangKy(lineDT.maDT)"
-              >
-                <button>Đăng ký</button>
-              </button>
-            </div>
-            <div>
-              <td class="text-left">
-                <p
-                  class="cell-limit font-normal"
-                  [innerHTML]="lineDT.tomTat"
-                ></p>
-              </td>
-            </div>
+            <td class="text-left">
+              <p class="cell-limit font-normal" [innerHTML]="lineDT.tomTat"></p>
+            </td>
           </div>
         </div>
       </div>
@@ -63,7 +60,7 @@
       <div class="detail-item">
         <p class="table-title p-b-12">Đề tài đã đăng ký</p>
         <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-          <tr>
+          <tr class="thead">
             <th>Mã ĐT</th>
             <th>Tên đề tài</th>
             <th>Chi tiết</th>

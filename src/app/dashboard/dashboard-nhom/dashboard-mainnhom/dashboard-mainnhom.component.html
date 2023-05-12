@@ -20,20 +20,26 @@
 
           <p class="title">Thành viên nhóm</p>
 
-          <div class="member-list">
-            <div class="member-item row ali-center" *ngFor="let item of listSV">
-              <div *ngIf="item.gioiTinh === 'Nam'; else female">
-                <img
-                  src="../../../../../assets/Images/avatar-nam.jpeg"
-                  alt=""
-                />
+          <div class="time-out-list">
+            <div class="list-item row ali-center" *ngFor="let item of listSV">
+              <div class="item-img no-bg">
+                <ng-container
+                  *ngIf="item.gioiTinh === 'Nam'; then male; else female"
+                >
+                </ng-container>
+              </div>
+              <div class="flex-1 item-info">
+                <p class="item-time">{{ item.tenSv }}</p>
+                <p class="item-title">{{ item.maSv }}</p>
               </div>
 
-              <ng-template #female>
-                <img src="../../../../../assets/Images/avatar-nu.jpg" alt="" />
+              <ng-template #male>
+                <img src="../../../../../assets/Images/avatar-nam.jpeg" />
               </ng-template>
 
-              <p class="member-info">{{ item.tenSv }} - {{ item.maSv }}</p>
+              <ng-template #female>
+                <img src="../../../../../assets/Images/avatar-nu.jpg" />
+              </ng-template>
             </div>
           </div>
         </div>
@@ -86,8 +92,7 @@
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
 
-            <p class="flex-1 mission-title" [innerHTML]="item.tenCv">
-            </p>
+            <p class="flex-1 mission-title" [innerHTML]="item.tenCv"></p>
 
             <div class="row ali-center">
               <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
@@ -97,8 +102,7 @@
           <div class="collapse-block">
             <div class="row jus-between">
               <div class="mission-info">
-                <p class="mission-description" [innerHTML]="item.yeuCau">
-                </p>
+                <p class="mission-description" [innerHTML]="item.yeuCau"></p>
               </div>
 
               <div class="row flex-column ali-center mission-rate">
@@ -110,14 +114,14 @@
               </div>
             </div>
 
-            <div class="c-blue for-detail">
+            <div class="option-item ma-t-8 p-t-8">
               <a
                 [routerLink]="[
                   '/dashboard/nhom/bai-tap-chi-tiet',
                   { maCv: item.maCv }
                 ]"
-                >Xem chi tiết</a
-              >
+                >Xem chi tiết
+              </a>
             </div>
           </div>
         </div>

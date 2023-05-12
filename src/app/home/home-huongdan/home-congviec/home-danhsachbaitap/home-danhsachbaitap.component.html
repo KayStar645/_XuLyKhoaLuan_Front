@@ -10,11 +10,7 @@
 <div class="p-t-16">
   <div class="functional-container row jus-end functional-wrapper">
     <div class="functional-button btn-add">
-      <button
-        [routerLink]="['/home/cham-diem']"
-      >
-        Chấm điểm đề tài
-      </button>
+      <button [routerLink]="['/home/cham-diem']">Chấm điểm đề tài</button>
     </div>
     <div class="functional-button">
       <button
@@ -47,7 +43,6 @@
                   *ngIf="item.gioiTinh === 'Nam'; then male; else female"
                 >
                 </ng-container>
-                <img src="../../../../../assets/Images/avatar-nam.jpeg" />
               </div>
               <div class="flex-1 item-info">
                 <p class="item-time">{{ item.tenSv }}</p>

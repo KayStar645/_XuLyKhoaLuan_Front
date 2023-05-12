@@ -9,3 +9,25 @@
     padding: 8px 12px;
   }
 }
+
+.selected-topic {
+  height: 500px;
+  overflow: auto;
+  padding-top: 0;
+}
+
+.table-title {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 10;
+  padding-top: 16px;
+}
+
+.table tr.thead {
+  position: sticky;
+  top: 60px;
+  z-index: 9;
+}

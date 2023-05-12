@@ -51,8 +51,11 @@ export class ScheduleComponent implements OnInit, OnChanges {
   @ViewChild('dayPicker')
   datePicker!: DatePickerComponent;
 
+  // Props
   @Input() data: LichPhanBien[] = [];
+  @Input() isStudent: boolean = false;
 
+  // Component
   currDate: Date = new Date();
   rootDate: Date = new Date();
 

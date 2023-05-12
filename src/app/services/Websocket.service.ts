@@ -424,10 +424,10 @@ export class WebsocketService {
     this.hubConnection.on('ReceiveFromXacNhan', callback);
   };
 
-  // 36. Xác nhận
+  // 37. Điểm đề tài
   public sendForDeTaiDiem = (dataChange: boolean) => {
     this.hubConnection
-      .invoke('sendForDeTaiDiem', dataChange)
+      .invoke('SendForDeTaiDiem', dataChange)
       .catch((err) => console.error(err));
   };
 

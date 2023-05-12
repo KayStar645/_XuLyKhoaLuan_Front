@@ -49,7 +49,12 @@ export class HomeDanhsachbaitapComponent implements OnInit {
     await this.getListBT();
 
     this.nhom = await this.nhomService.GetNhomByMadtAsync(this.maDT);
-    this.listSV = await this.sinhVienService.getSinhvienByDetai(this.maDT);
+    this.listSV = (
+      await this.sinhVienService.getSinhvienByDetai(this.maDT)
+    ).map((t) => ({
+      ...t,
+      gioiTinh: t.gioiTinh ? t.gioiTinh : 'Nam',
+    }));
     this.deTai = await this.deTaiService.getById(this.maDT);
 
     this.getNearTimeOutMission();

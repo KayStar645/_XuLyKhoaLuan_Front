@@ -133,12 +133,11 @@ export class DashbordDangkydetaiComponent {
     return result;
   }
 
-  async clickLine(event: any) {
+  async clickLine(event: any, dt: DeTai) {
     const parent = getParentElement(event.target, '.br-line');
-    const firstChild = parent.firstChild;
 
     if (!parent.classList.contains('br-line-dblclick')) {
-      this.lineDT = await this.deTaiService.getById(firstChild.innerText);
+      this.lineDT = dt;
       parent.classList.add('br-line-dblclick');
     } else {
       this.lineDT = new DeTai();

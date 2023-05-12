@@ -45,7 +45,9 @@
             </div>
 
             <div class="row jus-end">
-              <button class="comment-btn" (click)="onAddComment()">Đăng</button>
+              <button class="comment-btn" (click)="onAddComment()">
+                Nhận xét
+              </button>
             </div>
 
             <div class="comment-list">
@@ -58,7 +60,7 @@
                   <div class="comment-info">
                     <p class="title">{{ duyet.tenHienThi }}</p>
                     <p class="content" [innerHTML]="duyet.noiDung"></p>
-                    <p class="time">{{ duyet.thoiGian }}</p>
+                    <p class="time ma-t-4">{{ duyet.thoiGian }}</p>
                   </div>
                 </div>
               </div>

@@ -37,11 +37,12 @@ export class HomeChamdiemComponent {
     this.titleService.setTitle('Chấm điểm đề tài');
     this.maGv = HomeMainComponent.maGV;
     this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
-
+    
     this.WebsocketService.startConnection();
-    this.WebsocketService.receiveFromDeTai(async (dataChange: boolean) => {
+    this.WebsocketService.receiveFromDeTaiDiem(async (dataChange: boolean) => {
       this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
     });
+
   }
 
   async onChangeDiem(

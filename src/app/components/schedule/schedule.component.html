@@ -46,7 +46,7 @@
           <button class="functional-button">
             <button (click)="onClickNext()">Tuần tới</button>
           </button>
-          <button class="functional-button">
+          <button class="functional-button" *ngIf="!isStudent">
             <button (click)="onShowFormAdd()">Thêm lịch</button>
           </button>
         </div>
