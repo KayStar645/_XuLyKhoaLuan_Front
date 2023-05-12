@@ -12,6 +12,7 @@
     <div class="functional-button">
       <button
         [routerLink]="['/home/huong-dan/cong-viec/chi-tiet', { maCv: -1 }]"
+        [state]="{ isUpdate: true }"
       >
         Thêm bài tập
       </button>
@@ -32,20 +33,26 @@
 
           <p class="title">Thành viên nhóm</p>
 
-          <div class="member-list">
-            <div class="member-item row ali-center" *ngFor="let item of listSV">
-              <div *ngIf="item.gioiTinh === 'Nam'; else female">
-                <img
-                  src="../../../../../assets/Images/avatar-nam.jpeg"
-                  alt=""
-                />
+          <div class="time-out-list">
+            <div class="list-item row ali-center" *ngFor="let item of listSV">
+              <div class="item-img no-bg">
+                <ng-container
+                  *ngIf="item.gioiTinh === 'Nam'; then male; else female"
+                >
+                </ng-container>
+              </div>
+              <div class="flex-1 item-info">
+                <p class="item-time">{{ item.tenSv }}</p>
+                <p class="item-title">{{ item.maSv }}</p>
               </div>
 
-              <ng-template #female>
-                <img src="../../../../../assets/Images/avatar-nu.jpg" alt="" />
+              <ng-template #male>
+                <img src="../../../../../assets/Images/avatar-nam.jpeg" />
               </ng-template>
 
-              <p class="member-info">{{ item.tenSv }} - {{ item.maSv }}</p>
+              <ng-template #female>
+                <img src="../../../../../assets/Images/avatar-nu.jpg" />
+              </ng-template>
             </div>
           </div>
         </div>
@@ -61,7 +68,7 @@
               class="list-item row ali-center"
               *ngFor="let cv of nearTimeOutMS"
             >
-              <div class="item-img ma-r-12">
+              <div class="item-img">
                 <img src="../../../../assets/Images/mission.svg" alt="" />
               </div>
               <div class="flex-1 item-info">
@@ -71,6 +78,7 @@
                     '/home/huong-dan/cong-viec/chi-tiet',
                     { maCv: cv.maCv }
                   ]"
+                  [state]="{ isUpdate: false }"
                   class="item-title"
                   >{{ cv.thoiGianKt2 }} - {{ cv.tenCv }}</a
                 >
@@ -117,6 +125,7 @@
                       '/home/huong-dan/cong-viec/chi-tiet',
                       { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
                     ]"
+                    [state]="{ isUpdate: true }"
                   >
                     Chỉnh sửa
                   </p>
@@ -131,9 +140,7 @@
           <div class="collapse-block">
             <div class="row jus-between">
               <div class="mission-info">
-                <p class="mission-description" [innerHTML]="item.yeuCau">
-                  
-                </p>
+                <p class="mission-description" [innerHTML]="item.yeuCau"></p>
               </div>
 
               <div class="row flex-column ali-center mission-rate">
@@ -145,17 +152,16 @@
               </div>
             </div>
 
-            <div>
-              <hr />
-              <p
-                class="option-item"
+            <div class="option-item ma-t-8 p-t-8">
+              <a
                 [routerLink]="[
                   '/home/huong-dan/cong-viec/chi-tiet',
                   { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
                 ]"
+                [state]="{ isUpdate: false }"
               >
                 Xem chi tiết
-              </p>
+              </a>
             </div>
           </div>
         </div>

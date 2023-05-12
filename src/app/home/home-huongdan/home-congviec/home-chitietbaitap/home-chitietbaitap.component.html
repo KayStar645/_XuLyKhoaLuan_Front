@@ -1,17 +1,20 @@
-<div *ngIf="maCV === '-1'; else hasMaCV">
+<div *ngIf="isUpdate; else detail">
   <div id="functional-container">
     <div class="functional-list">
       <div
         class="functional-container row ali-center jus-end functional-wrapper"
       >
-        <div class="functional-button">
+        <div class="functional-button" *ngIf="!isUpdate">
           <button (click)="onAdd()">Thêm</button>
+        </div>
+        <div class="functional-button" *ngIf="isUpdate">
+          <button (click)="onUpdate()">Sửa</button>
         </div>
       </div>
     </div>
   </div>
 
-  <form class="tb-form" [formGroup]="khForm.form">
+  <form class="tb-form" [formGroup]="baiTap.form">
     <div class="container row p-t-16 functional-wrapper">
       <div class="h-8 p-l-8 p-r-8">
         <div class="detail-item">
@@ -22,9 +25,9 @@
               <input
                 type="text"
                 class="form-input title"
-                formControlName="tenCv"
+                formControlName="tenCV"
                 spellcheck="false"
-                (blur)="khForm.inputBlur($event)"
+                (blur)="baiTap.inputBlur($event)"
               />
               <p class="error-mess"></p>
             </div>
@@ -71,7 +74,7 @@
               <dp-date-picker
                 mode="day"
                 id="day"
-                formControlName="ngayKt"
+                formControlName="hanChot"
                 [config]="{
                   firstDayOfWeek: 'mo',
                   showNearMonthDays: false
@@ -106,7 +109,7 @@
   </div>
 </div>
 
-<ng-template #hasMaCV>
+<ng-template #detail>
   <form class="tb-form detail-container">
     <div class="row functional-wrapper">
       <div class="h-9 p-l-8 p-r-8">
@@ -155,7 +158,7 @@
 
               <div class="row jus-end">
                 <button class="comment-btn" (click)="onAddComment()">
-                  Đăng
+                  Nhận xét
                 </button>
               </div>
 
@@ -172,7 +175,7 @@
                     <div class="comment-info">
                       <p class="title">{{ duyet.tenHienThi }}</p>
                       <p class="content" [innerHTML]="duyet.noiDung"></p>
-                      <p class="time">{{ duyet.thoiGian }}</p>
+                      <p class="time ma-t-4">{{ duyet.thoiGian }}</p>
                     </div>
                   </div>
                 </div>

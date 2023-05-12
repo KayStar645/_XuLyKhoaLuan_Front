@@ -29,11 +29,11 @@ export class HomeChitietbaitapComponent {
   giangVien: GiangVien = new GiangVien();
   thoiHan = '';
   listTraoDoi: Traodoi[] = [];
-  khForm = new Form({
-    tenCv: ['', Validators.required],
+  baiTap = new Form({
+    tenCV: ['', Validators.required],
     yeuCau: ['', Validators.required],
     moTa: ['', Validators.required],
-    ngayKt: ['', Validators.required],
+    hanChot: ['', Validators.required],
   });
   quillConfig: any = {
     toolbar: {
@@ -47,10 +47,10 @@ export class HomeChitietbaitapComponent {
     },
   };
   GVInputConfig: any = {};
-
   dtForm = new Form({
     nhanXet: [''],
   });
+  isUpdate: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,26 +67,30 @@ export class HomeChitietbaitapComponent {
     this.route.params.subscribe(async (params) => {
       this.maCV = params['maCv'];
     });
-
-    this.GVInputConfig.data = await this.giangVienService.getAll();
-    this.GVInputConfig.keyword = 'tenGv';
-
-    this.cviec = await this.congViecService.getById(this.maCV);
-    this.giangVien = await this.giangVienService.getById(this.cviec.maGv);
-    this.catchDateTime();
-    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(
-      this.maCV
-    );
-
-    await this.getComment();
-
     this.websocketService.startConnection();
+    this.isUpdate = window.history.state.isUpdate;
+
+    if (this.maCV !== '-1') {
+      this.GVInputConfig.data = await this.giangVienService.getAll();
+      this.GVInputConfig.keyword = 'tenGv';
+
+      this.cviec = await this.congViecService.getById(this.maCV);
+      this.giangVien = await this.giangVienService.getById(this.cviec.maGv);
+      this.catchDateTime();
+      this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(
+        this.maCV
+      );
+
+      this.setForm();
+
+      await this.getComment();
+    }
   }
 
   async onAdd() {
     try {
       let congViec = new CongViec();
-      let formValue: any = this.khForm.form.value;
+      let formValue: any = this.baiTap.form.value;
       congViec.init(
         '0',
         formValue.tenCv,
@@ -110,6 +114,42 @@ export class HomeChitietbaitapComponent {
     }
   }
 
+  async onUpdate() {
+    try {
+      let congViec = new CongViec();
+      let formValue: any = this.baiTap.form.value;
+      congViec.init(
+        this.maCV,
+        formValue.tenCV,
+        formValue.yeuCau,
+        formValue.moTa,
+        dateVNConvert(formValue.hanChot),
+        0,
+        HomeMainComponent.maGV,
+        HomeDanhsachbaitapComponent.maDt,
+        HomeDanhsachbaitapComponent.maNhom
+      );
+      await this.congViecService.update(congViec);
+      this.toastService.success('Sửa bài tập thành công', 'Thông báo !');
+      this.router.navigate([
+        '/home/huong-dan/cong-viec',
+        { maDt: HomeDanhsachbaitapComponent.maDt },
+      ]);
+    } catch (error) {
+      this.toastService.error('Sửa bài tập thất bại', 'Thông báo !');
+      console.log(error);
+    }
+  }
+
+  setForm() {
+    this.baiTap.form.patchValue({
+      tenCV: this.cviec.tenCv,
+      yeuCau: this.cviec.yeuCau,
+      moTa: this.cviec.moTa,
+      hanChot: format(new Date(this.cviec.hanChot), 'dd-MM-yyyy'),
+    });
+  }
+
   onDateChange($event: any) {}
 
   catchDateTime() {
@@ -127,7 +167,7 @@ export class HomeChitietbaitapComponent {
           return {
             ...t,
             thoiGian:
-              t.thoiGian.substr(0, 10) +
+              format(new Date(t.thoiGian), 'dd-MM-yyyy') +
               ' (' +
               formatDistanceToNowStrict(new Date(t.thoiGian), {
                 locale: vi,
