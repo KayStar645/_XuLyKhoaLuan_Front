@@ -280,6 +280,10 @@
   color: #4285f4;
   border-top: 1.6px solid #e0e0e0;
 
+  &:first-child {
+    border: none;
+  }
+
   a:hover {
     text-decoration: underline;
   }
