@@ -16,11 +16,9 @@ import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.co
 import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
 import { MinistryKehoachComponent } from './ministry/ministry-kehoach/ministry-kehoach.component';
 import { MinistryNhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-nhiemvu.component';
-import { MinistryHoidongComponent } from './ministry/ministry-hoidong/ministry-hoidong.component';
 import { MinistryDetaiComponent } from './ministry/ministry-detai/ministry-detai.component';
 import { MinistryGiangvienComponent } from './ministry/ministry-giangvien/ministry-giangvien.component';
 import { MinistrySinhvienComponent } from './ministry/ministry-sinhvien/ministry-sinhvien.component';
-import { MinistryQuanlychungComponent } from './ministry/ministry-quanlychung/ministry-quanlychung.component';
 import { HomeKehoachComponent } from './home/home-kehoach/home-kehoach.component';
 import { HomeGiangvienComponent } from './home/home-giangvien/home-giangvien.component';
 import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
@@ -64,6 +62,8 @@ import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
+import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
+import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -130,11 +130,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'hoi-dong',
-        component: MinistryHoidongComponent,
-        canActivate: [AuthGuard],
-      },
-      {
         path: 'de-tai',
         component: MinistryDetaiComponent,
         canActivate: [AuthGuard],
@@ -188,8 +183,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'quan-ly-chung',
-        component: MinistryQuanlychungComponent,
+        component: MinistryThongkediemComponent,
+        path: 'thong-ke-diem',
         canActivate: [AuthGuard],
       },
     ],
@@ -354,6 +349,11 @@ const routes: Routes = [
       {
         path: 'hoi-dong',
         component: HomeHoidongComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'quan-ly-chung',
+        component: HomeQuanlychungComponent,
         canActivate: [AuthGuard],
       },
     ],

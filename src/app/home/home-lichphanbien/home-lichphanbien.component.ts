@@ -9,12 +9,14 @@ import { HomeMainComponent } from '../home-main/home-main.component';
 })
 export class HomeLichphanbienComponent implements OnInit {
   lichPhanBiens: LichPhanBien[] = [];
+  maGv = '';
 
   constructor(
     private lichPhanVienService: lichPhanBienService
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.maGv = HomeMainComponent.maGV;
     await this.getShedule();
   }
 
@@ -23,9 +25,5 @@ export class HomeLichphanbienComponent implements OnInit {
       await this.lichPhanVienService.GetLichPhanBienByGvAsync(
         HomeMainComponent.maGV
       );
-  }
-
-  onSelectType() {
-    
   }
 }

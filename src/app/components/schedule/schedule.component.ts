@@ -22,6 +22,7 @@ import { PhanBien } from 'src/app/models/PhanBien.model';
 import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { Form, dateVNConvert } from 'src/assets/utils';
+import { shareService } from 'src/app/services/share.service';
 
 type date = {
   start: Date;
@@ -54,6 +55,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
   // Props
   @Input() data: LichPhanBien[] = [];
   @Input() isStudent: boolean = false;
+  @Input() maGv!: string;
 
   // Component
   currDate: Date = new Date();
@@ -88,11 +90,12 @@ export class ScheduleComponent implements OnInit, OnChanges {
     private huongDanService: huongDanService,
     private phanBienService: phanBienService,
     private toastService: ToastrService,
-    private deTaiService: deTaiService
+    private deTaiService: deTaiService,
+    private lichPhanBienService: lichPhanBienService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.deTais = await this.deTaiService.getAll();
+    this.deTais = [];
   }
 
   ngOnChanges(): void {
@@ -101,10 +104,13 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
   async onSelectType(event: any) {
     // Thay đổi loại lịch khi thêm nè
-
-    this.deTais = [];
-
-    console.log(event);
+    console.log(this.maGv);
+    this.deTais = await this.lichPhanBienService.GetSelectDetaiByGiangVien(
+      this.maGv,
+      shareService.namHoc,
+      shareService.dot,
+      event.id
+    );
   }
 
   removeRightCell() {

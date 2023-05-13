@@ -1,3 +1,4 @@
+import { shareService } from './../../services/share.service';
 import { thamGiaHdService } from './../../services/thamGiaHD.service';
 import { hoiDongService } from './../../services/hoiDong.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
@@ -8,6 +9,8 @@ import { Validators } from '@angular/forms';
 import { HoiDong } from 'src/app/models/HoiDong.model';
 import { ThamGiaHd } from 'src/app/models/ThamGiaHd.model';
 import { ToastrService } from 'ngx-toastr';
+import { HomeMainComponent } from '../home-main/home-main.component';
+import { HoiDongVT } from 'src/app/models/VirtualModel/HoiDongVTModel';
 
 type InputConfigProp = {
   items: GiangVien[];
@@ -21,6 +24,8 @@ type InputConfigProp = {
   styleUrls: ['./home-hoidong.component.scss'],
 })
 export class HomeHoidongComponent implements OnInit {
+  hoiDongs: HoiDongVT[] = [];
+
   CTInputConfig: InputConfigProp = {
     items: [],
     selectedItem: [],
@@ -50,13 +55,21 @@ export class HomeHoidongComponent implements OnInit {
     private giangVienService: giangVienService,
     private hoiDongService: hoiDongService,
     private thamGiaHdService: thamGiaHdService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private shareService: shareService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.CTInputConfig.items = await this.giangVienService.getAll();
-    this.TKInputConfig.items = await this.giangVienService.getAll();
-    this.UVInputConfig.items = await this.giangVienService.getAll();
+    this.hoiDongs = await this.hoiDongService.GetHoidongsByGiangvien(
+      HomeMainComponent.maGV
+    );
+    //console.log(this.hoiDongs);
+
+    this.CTInputConfig.items = await this.giangVienService.getByBoMon(
+      HomeMainComponent.maBm
+    );
+    this.TKInputConfig.items = this.CTInputConfig.items;
+    this.UVInputConfig.items = this.CTInputConfig.items;
   }
 
   onShowFormAdd() {
@@ -174,4 +187,8 @@ export class HomeHoidongComponent implements OnInit {
   }
 
   onDateChange($event: any) {}
+
+  dateFormat(str: any): string {
+    return this.shareService.dateFormat(str);
+  }
 }

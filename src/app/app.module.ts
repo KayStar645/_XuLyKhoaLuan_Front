@@ -35,10 +35,8 @@ import { HomeLichphanbienComponent } from './home/home-lichphanbien/home-lichpha
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistryMainComponent } from './ministry/ministry-main/ministry-main.component';
 import { MinistryGiangvienComponent } from './ministry/ministry-giangvien/ministry-giangvien.component';
-import { MinistryHoidongComponent } from './ministry/ministry-hoidong/ministry-hoidong.component';
 import { MinistryKehoachComponent } from './ministry/ministry-kehoach/ministry-kehoach.component';
 import { MinistryNhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-nhiemvu.component';
-import { MinistryQuanlychungComponent } from './ministry/ministry-quanlychung/ministry-quanlychung.component';
 import { MinistrySinhvienComponent } from './ministry/ministry-sinhvien/ministry-sinhvien.component';
 import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
 import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
@@ -86,6 +84,8 @@ import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/h
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
+import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
+import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
 
 @NgModule({
   declarations: [
@@ -112,8 +112,6 @@ import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/d
     MinistryDanhsachsinhvienComponent,
     MinistryDotthamgiaComponent,
     MinistryDanhsachthamgiaComponent,
-    MinistryHoidongComponent,
-    MinistryQuanlychungComponent,
     DashboardNhomComponent,
     MinistryChitietdetaiComponent,
 
@@ -144,6 +142,8 @@ import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/d
     HomeChitietthongbaoComponent,
     HomeDanhsachbaitapComponent,
     HomeChitietbaitapComponent,
+    HomeChamdiemComponent,
+    HomeQuanlychungComponent,
 
     DropDownComponent,
 
@@ -158,13 +158,13 @@ import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/d
     DashboardThemthanhvienComponent,
     DashboardDanhsachsinhvienComponent,
     DashboardMainnhomComponent,
-
-    TestComponent,
     DashbordDangkydetaiComponent,
-    ScheduleComponent,
-    HomeChamdiemComponent,
     DashboardDanhsachdetaiComponent,
     DashboardLichbaocaoComponent,
+
+    TestComponent,
+    ScheduleComponent,
+    MinistryThongkediemComponent,
   ],
 
   imports: [
