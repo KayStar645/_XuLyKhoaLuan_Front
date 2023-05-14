@@ -167,7 +167,7 @@ export class HomeChitietkehoachComponent {
       let formValue: any = this.khForm.form.value;
       keHoach.init(
         0,
-        formValue.tenKh,
+        formValue.maBm + ': ' +formValue.tenKh,
         formValue.soLuongDt,
         format(new Date(), 'yyyy-MM-dd'),
         dateVNConvert(formValue.ngayKt) + 'T' + formValue.thoiGianKt + '.000Z',

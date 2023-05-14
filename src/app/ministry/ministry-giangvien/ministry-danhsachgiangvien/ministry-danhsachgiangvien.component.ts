@@ -27,7 +27,6 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   _maBm = '';
 
   listBM: BoMon[] = [];
-  root: GiangVien[] = [];
   lineGV = new GiangVien();
   elementOld: any;
   listGV: GiangVien[] = [];
@@ -87,22 +86,35 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   }
 
   async getAllGiangVien() {
-    this.listGV = await this.giangVienService.getAll();
-    this.root = this.listGV;
+    this.listGV = await this.giangVienService.search(
+      "",
+      this._searchName,
+      shareService.namHoc,
+      shareService.dot,
+      false
+    );
   }
 
   async getGiangVienByMaBM(maBM: string) {
     this._maBm = maBM;
-    this.listGV = await this.giangVienService.search(this._maBm, this._searchName);
+    this.listGV = await this.giangVienService.search(
+      this._maBm,
+      this._searchName,
+      shareService.namHoc,
+      shareService.dot,
+      false
+    );
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      const searchName = this.searchName.trim().toLowerCase();
-      this._searchName = searchName;
+      this._searchName = this.searchName.trim().toLowerCase();
       this.listGV = await this.giangVienService.search(
         this._maBm,
-        this._searchName
+        this._searchName,
+        shareService.namHoc,
+        shareService.dot,
+        false
       );
     }
   }

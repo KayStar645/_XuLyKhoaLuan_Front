@@ -19,46 +19,48 @@ import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims
 export class HomeDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
 
-  root: GiangVien[] = [];
   listGV: GiangVien[] = [];
-  listBM: BoMon[] = [];
 
   constructor(
     private giangVienService: giangVienService,
     private boMonService: boMonService,
-    private shareService: shareService,
-    private truongKhoaService: truongKhoaService,
-    private truongBmService: truongBmService,
+    private shareService: shareService
   ) {}
 
   async ngOnInit() {
     this.getAllGiangVien();
-    this.listBM = await this.boMonService.getAll();
   }
 
   async getAllGiangVien() {
     const maGv = HomeMainComponent.maGV;
-    let isTruongKhoa, isTruongBm;
-    isTruongKhoa = await this.truongKhoaService.isTruongKhoaByMaGV(maGv);
-    isTruongBm = await this.truongBmService.isTruongBomonByMaGV(maGv);
 
-    if (isTruongKhoa) {
-      let truongKhoa = await this.truongKhoaService.CheckTruongKhoaByMaGV(maGv);
-      this.listGV = await this.giangVienService.getByMaKhoa(truongKhoa.maKhoa);
-      this.root = this.listGV;
-    } else if (isTruongBm) {
-      let truongBm = await this.truongBmService.CheckTruongBomonByMaGV(maGv);
-      this.listGV = await this.giangVienService.getByBoMon(truongBm.maBm);
-      this.root = this.listGV;
+    if (HomeMainComponent.maKhoa) {
+      this.listGV = await this.giangVienService.search(
+        '',
+        this.searchName,
+        shareService.namHoc,
+        shareService.dot,
+        true
+      );
+    } else if (HomeMainComponent.maBm) {
+      this.listGV = await this.giangVienService.search(
+        HomeMainComponent.maBm,
+        this.searchName,
+        shareService.namHoc,
+        shareService.dot,
+        true
+      );
     } else {
       this.listGV = [];
-      this.root = [];
     }
-    
-    for(let gv of this.listGV) {
-      gv.cNhiemVu = await this.giangVienService.GetSoLuongNhiemVu(gv.maGv, shareService.namHoc, shareService.dot);
+
+    for (let gv of this.listGV) {
+      gv.cNhiemVu = await this.giangVienService.GetSoLuongNhiemVu(
+        gv.maGv,
+        shareService.namHoc,
+        shareService.dot
+      );
     }
-    console.log("a");
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -72,20 +74,9 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
     return bomon.tenBm;
   }
 
-  getNameBomonById(maBm: string): string {
-    let tenbm: any = '';
-
-    if (this.listBM) {
-      tenbm = this.listBM.find((t) => t.maBm === maBm)?.tenBm;
-    }
-    return tenbm;
-  }
-
   filterItems() {
     const searchName = this.searchName.trim().toLowerCase();
-    this.listGV = this.root.filter((item) =>
-      item.tenGv.toLowerCase().includes(searchName)
-    );
+    this.getAllGiangVien();
   }
 
   dateFormat(str: string): string {

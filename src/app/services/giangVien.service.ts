@@ -42,11 +42,11 @@ export class giangVienService {
     );
   }
 
-  async search(maBm: string, tenGv: string): Promise<GiangVien[]> {
+  async search(maBm: string, tenGv: string, namHoc: string, dot: number, flag: boolean): Promise<GiangVien[]> {
     return (
       (await this.http
         .get<GiangVien[]>(
-          `${this.apiUrl}/api/Giangviens/maBm, tenGv?maBm=${maBm}&tenGv=${tenGv}`,
+          `${this.apiUrl}/api/Giangviens/maBm,tenGv,namHoc,dot,flag?maBm=${maBm}&tenGv=${tenGv}&namHoc=${namHoc}&dot=${dot}&flag=${flag}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

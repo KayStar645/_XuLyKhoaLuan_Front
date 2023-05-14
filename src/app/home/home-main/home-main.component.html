@@ -36,7 +36,7 @@
                       <p>Giới tính:</p>
                       <b>{{ data?.gioiTinh }}</b>
                     </li>
-                    <li class="info-left-item row ali-center">
+                    <li class="info-left-item row ali-center" *ngIf="data.ngaySinh">
                       <p>Ngày sinh:</p>
                       <b>{{ dateFormat(data?.ngaySinh) }}</b>
                     </li>
@@ -50,7 +50,7 @@
                   </ul>
                 </div>
                 <div class="info-right">
-                  <li class="info-left-item row ali-center">
+                  <li class="info-left-item row ali-center" *ngIf="data.ngayNhanViec">
                     <p>Ngày nhận việc:</p>
                     <b>{{ dateFormat(data?.ngayNhanViec) }}</b>
                   </li>

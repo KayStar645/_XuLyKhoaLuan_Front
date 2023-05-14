@@ -152,26 +152,25 @@ export class DashbordDangkydetaiComponent {
     this.oldParent = parent;
   }
 
-  async onDangKy(maDT: string) {
-    let dk = new DangKy();
-    // dk.init(DashboardComponent.maNhom, maDT, '', '', ''); // Xem lại cái này
-    dk.maDt = maDT;
-    dk.maNhom = DashboardComponent.maNhom;
-    dk.ngayDk = new Date().toISOString();
+  async onDangKy(deTai: DeTai) {
+    if (deTai) {
+      let dk = new DangKy();
+      dk.init2(DashboardComponent.maNhom, deTai.maDT, new Date().toISOString());
 
-    try {
-      await this.dangKyService.add(dk);
-      this.websocketService.sendForDangKy(true);
-      this.lineDTdk = await this.deTaiService.getById(maDT);
-      this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
+      try {
+        await this.dangKyService.add(dk);
+        this.websocketService.sendForDangKy(true);
+        this.lineDTdk = await this.deTaiService.getById(deTai.maDT);
+        this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
 
-      this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
-        DashboardComponent.maNhom
-      ))
-        ? true
-        : false;
-    } catch (error) {
-      console.log(error);
+        this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
+          DashboardComponent.maNhom
+        ))
+          ? true
+          : false;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 

@@ -14,21 +14,9 @@
         </select>
       </li>
       <li class="functional-item">
-        <select
-          class="functional-select"
-          id="functional-select"
-          (change)="getSinhVienByClass($event)"
-        >
-          <option value="">Tất cả</option>
-          <option *ngFor="let lop of listLop" [value]="lop">
-            {{ lop }}
-          </option>
-        </select>
-      </li>
-      <li class="functional-item">
         <input
           type="text"
-          placeholder="Tìm theo tên..."
+          placeholder="Tìm kiếm..."
           [(ngModel)]="searchName"
         />
       </li>

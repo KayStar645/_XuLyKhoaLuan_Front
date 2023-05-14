@@ -140,7 +140,7 @@ export class HomeChitietnhiemvuComponent {
       let formValue: any = this.nvForm.form.value;
       nhiemVu.init(
         0,
-        formValue.tenNv,
+        formValue.hoTen.tenGv + ': ' + formValue.tenNv,
         formValue.soLuongDt,
         format(new Date(), 'yyyy-MM-dd'),
         dateVNConvert(formValue.ngayKt) + 'T' + formValue.thoiGianKt + '.000Z',
