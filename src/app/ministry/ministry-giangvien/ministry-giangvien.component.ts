@@ -110,14 +110,15 @@ export class MinistryGiangvienComponent implements OnInit {
       let option = new Option('#create_box');
 
       option.show('warning', () => {
-        createBox.classList.remove('active');
+        create.classList.remove('active');
       });
 
-      option.cancel();
+      option.cancel(() => {
+        create.classList.remove('active');
+      });
 
       option.agree(() => {
         this.gvForm.resetForm('#create_box');
-        createBox.classList.remove('active');
         create.classList.remove('active');
         document.documentElement.classList.remove('no-scroll');
       });
@@ -139,13 +140,14 @@ export class MinistryGiangvienComponent implements OnInit {
       let option = new Option('#update_box');
 
       option.show('warning', () => {
-        updateBox.classList.remove('active');
+        update.classList.remove('active');
       });
 
-      option.cancel();
+      option.cancel(() => {
+        update.classList.remove('active');
+      });
 
       option.agree(() => {
-        updateBox.classList.remove('active');
         update.classList.remove('active');
         this.gvForm.resetValidte('#update_box');
         document.documentElement.classList.remove('no-scroll');
@@ -154,7 +156,6 @@ export class MinistryGiangvienComponent implements OnInit {
       option.save(() => {
         this.updateGiangVien();
         update.classList.remove('active');
-        updateBox.classList.remove('active');
         document.documentElement.classList.remove('no-scroll');
       });
     } else {
@@ -307,23 +308,15 @@ export class MinistryGiangvienComponent implements OnInit {
   }
 
   clickDelete() {
-    const _delete = this.elementRef.nativeElement.querySelector('#delete');
-
     if (Object.entries(this.DSGVComponent.lineGV).length > 0) {
-      _delete.classList.add('active');
       let option = new Option('#delete');
 
-      option.show('error', () => {
-        _delete.classList.remove('active');
-      });
+      option.show('error', () => {});
 
-      option.cancel(() => {
-        _delete.classList.remove('active');
-      });
+      option.cancel(() => {});
 
       option.agree(() => {
         this.f_DeleteGiangVien(this.DSGVComponent.lineGV.maGv);
-        _delete.classList.remove('active');
       });
     } else {
       this.toastr.warning('Vui lòng chọn giảng viên để xóa', 'Thông báo !');

@@ -64,7 +64,7 @@ export class MinistrySinhvienComponent implements OnInit {
     if (this.listChuyenNganh.length > 0) {
       this.selectedChuyenNganh = this.listChuyenNganh[0].maCn;
     }
-    this.listLop = await this.sinhVienService.getClass("", 0);
+    this.listLop = await this.sinhVienService.getClass('', 0);
     this.websocketService.startConnection();
   }
 
@@ -110,13 +110,16 @@ export class MinistrySinhvienComponent implements OnInit {
     if (this.svForm.isHaveValue()) {
       let option = new Option('#create_box');
 
-      option.show('warning');
+      option.show('warning', () => {
+        create.classList.remove('active');
+      });
 
-      option.cancel();
+      option.cancel(() => {
+        create.classList.remove('active');
+      });
 
       option.agree(() => {
         this.svForm.resetForm('#create_box');
-        createBox.classList.remove('active');
         create.classList.remove('active');
         document.documentElement.classList.remove('no-scroll');
       });
@@ -136,12 +139,15 @@ export class MinistrySinhvienComponent implements OnInit {
     ) {
       let option = new Option('#update_box');
 
-      option.show('warning');
+      option.show('warning', () => {
+        update.classList.remove('active');
+      });
 
-      option.cancel();
+      option.cancel(() => {
+        update.classList.remove('active');
+      });
 
       option.agree(() => {
-        updateBox.classList.remove('active');
         update.classList.remove('active');
         this.svForm.resetValidte('#update_box');
         document.documentElement.classList.remove('no-scroll');
@@ -150,7 +156,6 @@ export class MinistrySinhvienComponent implements OnInit {
       option.save(() => {
         this.updateSinhVien();
         update.classList.remove('active');
-        updateBox.classList.remove('active');
         document.documentElement.classList.remove('no-scroll');
       });
     } else {
@@ -253,19 +258,12 @@ export class MinistrySinhvienComponent implements OnInit {
   }
 
   async clickDelete() {
-    const _delete = this.elementRef.nativeElement.querySelector('#delete');
-
     if (Object.entries(this.DSSVComponent.lineSV).length > 0) {
-      _delete.classList.add('active');
       let option = new Option('#delete');
 
-      option.show('error', () => {
-        _delete.classList.remove('active');
-      });
+      option.show('error', () => {});
 
-      option.cancel(() => {
-        _delete.classList.remove('active');
-      });
+      option.cancel(() => {});
 
       option.agree(async () => {
         try {
@@ -280,7 +278,6 @@ export class MinistrySinhvienComponent implements OnInit {
             'Thông báo !'
           );
         }
-        _delete.classList.remove('active');
       });
     } else if (
       Object.entries(this.DSSVComponent.lineSV).length === 0 &&

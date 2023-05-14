@@ -157,18 +157,12 @@ export class MinistryDotthamgiaComponent implements OnInit {
   }
 
   async clickDelete() {
-    const _delete = this.elementRef.nativeElement.querySelector('#delete');
     if (Object.entries(this.DSTGComponent.lineTG).length > 0) {
-      _delete.classList.add('active');
       let option = new Option('#delete');
 
-      option.show('error', () => {
-        _delete.classList.remove('active');
-      });
+      option.show('error', () => {});
 
-      option.cancel(() => {
-        _delete.classList.remove('active');
-      });
+      option.cancel(() => {});
 
       option.agree(async () => {
         try {
@@ -187,7 +181,6 @@ export class MinistryDotthamgiaComponent implements OnInit {
             'Thông báo !'
           );
         }
-        _delete.classList.remove('active');
       });
     } else if (
       Object.entries(this.DSTGComponent.lineTG).length === 0 &&
@@ -229,7 +222,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
       const thamgia = new ThamGia();
       thamgia.init(sv.maSv, this.namHoc, this.dot, maNhom, 0, true);
       await this.thamGiaService.add(thamgia);
-      
+
       this.websocketService.sendForThamGia(true);
 
       this.toastr.success(

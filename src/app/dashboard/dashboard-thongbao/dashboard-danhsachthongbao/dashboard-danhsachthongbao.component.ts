@@ -19,6 +19,8 @@ import { DashboardComponent } from '../../dashboard.component';
 import { format } from 'date-fns';
 import { Nhom } from 'src/app/models/Nhom.model';
 import { ThamGia } from 'src/app/models/ThamGia.model';
+import { Option } from 'src/assets/utils';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-danhsachthongbao',
@@ -33,11 +35,9 @@ export class DashboardDanhsachthongbaoComponent {
   maSv: string = '';
   lstLoiMoi: LoiMoi[] = [];
   isAccept = false;
-  isConfirmDialogVisible = false;
   loiMoi: any;
   isTeamLeader = false;
   isGroupHaveOneMember = false;
-  isPopupVisible = false;
   lstNhom: Nhom[] = [];
   listThamGia: ThamGia[] = [];
 
@@ -50,6 +50,7 @@ export class DashboardDanhsachthongbaoComponent {
   root: ThongBao[] = [];
   lineTB = new ThongBao();
   elementOld: any;
+  option!: Option;
 
   constructor(
     private thongBaoService: thongBaoService,
@@ -59,11 +60,13 @@ export class DashboardDanhsachthongbaoComponent {
     private loiMoiService: loiMoiService,
     private thamGiaService: thamGiaService,
     private cd: ChangeDetectorRef,
-    private nhomService: nhomService
+    private nhomService: nhomService,
+    private toastService: ToastrService
   ) {}
 
   async ngOnInit() {
     await this.getAllThongBao();
+    this.option = new Option('#notify');
 
     this.maSv = DashboardComponent.maSV;
     this.getAllLoiMoi();
@@ -74,7 +77,7 @@ export class DashboardDanhsachthongbaoComponent {
         shareService.dot
       )
     ) {
-      const groupJoinedId = await (
+      const groupJoinedId = (
         await this.thamGiaService.getById(
           this.maSv,
           shareService.namHoc,
@@ -132,11 +135,14 @@ export class DashboardDanhsachthongbaoComponent {
   // Thông báo từ lời mời nè
   async acceptInvitation(loiMoi: LoiMoi) {
     if (DashboardComponent.isSignUpDeTai) {
-      this.isPopupVisible = true;
+      this.toastService.error(
+        'Nhóm bạn đã đăng ký đề tài nên không thể chuyển nhóm',
+        'Thông báo !'
+      );
       return;
     }
 
-    let groupIdCreated = await (
+    let groupIdCreated = (
       await this.thamGiaService.getById(
         DashboardComponent.maSV,
         shareService.namHoc,
@@ -149,7 +155,10 @@ export class DashboardDanhsachthongbaoComponent {
       shareService.dot
     );
     if (groupIdCreated !== null && groupIdCreated !== '') {
-      this.isConfirmDialogVisible = true;
+      this.option.show('warning');
+      this.option.agree(() => {
+        this.performAction();
+      });
       this.isTeamLeader = thamGia.truongNhom;
       this.loiMoi = loiMoi;
     }
@@ -172,16 +181,7 @@ export class DashboardDanhsachthongbaoComponent {
     this.cd.detectChanges();
   }
 
-  async showConfirmDialog() {
-    this.isConfirmDialogVisible = true;
-  }
-
-  hideConfirmDialog() {
-    this.isConfirmDialogVisible = false;
-  }
-
   async performAction() {
-    this.isConfirmDialogVisible = false;
     var thamGia = await this.thamGiaService.getById(
       this.loiMoi.maSv,
       shareService.namHoc,
@@ -227,10 +227,6 @@ export class DashboardDanhsachthongbaoComponent {
       shareService.dot
     );
     this.cd.detectChanges();
-  }
-
-  hidePopup() {
-    this.isPopupVisible = false;
   }
 
   // Thông báo từ khoa

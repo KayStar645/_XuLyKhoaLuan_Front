@@ -374,13 +374,9 @@ export class HomeChitietdetaiComponent {
 
     _delete.classList.add('active');
 
-    option.show('error', () => {
-      _delete.classList.remove('active');
-    });
+    option.show('error', () => {});
 
-    option.cancel(() => {
-      _delete.classList.remove('active');
-    });
+    option.cancel(() => {});
 
     option.agree(async () => {
       try {
@@ -411,7 +407,6 @@ export class HomeChitietdetaiComponent {
       } catch (error) {
         this.toastr.error('Xóa Đề tài thất bại', 'Đề tài!');
       }
-      _delete.classList.remove('active');
     });
   }
 

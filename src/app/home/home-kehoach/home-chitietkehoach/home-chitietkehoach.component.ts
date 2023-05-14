@@ -246,18 +246,11 @@ export class HomeChitietkehoachComponent {
   }
 
   onDelete() {
-    const _delete = document.querySelector('#delete')!;
-
-    _delete.classList.add('active');
     let option = new Option('#delete');
 
-    option.show('error', () => {
-      _delete.classList.remove('active');
-    });
+    option.show('error', () => {});
 
-    option.cancel(() => {
-      _delete.classList.remove('active');
-    });
+    option.cancel(() => {});
 
     option.agree(async () => {
       try {
@@ -269,7 +262,6 @@ export class HomeChitietkehoachComponent {
       } catch (error) {
         this.toastr.error('Xóa kế hoạch thất bại', 'Kế hoạch !');
       }
-      _delete.classList.remove('active');
     });
   }
 

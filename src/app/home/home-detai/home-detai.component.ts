@@ -136,13 +136,16 @@ export class HomeDetaiComponent implements OnInit {
     if (this.dtForm.isHaveValue(this.exceptInput)) {
       let option = new Option('#create_box');
 
-      option.show('warning');
+      option.show('warning', () => {
+        create.classList.remove('active');
+      });
 
-      option.cancel();
+      option.cancel(() => {
+        create.classList.remove('active');
+      });
 
       option.agree(() => {
         this.resetForm('#create_box');
-        createBox.classList.remove('active');
         create.classList.remove('active');
       });
     } else {
@@ -160,12 +163,15 @@ export class HomeDetaiComponent implements OnInit {
     ) {
       let option = new Option('#update_box');
 
-      option.show('warning');
+      option.show('warning', () => {
+        update.classList.remove('active');
+      });
 
-      option.cancel();
+      option.cancel(() => {
+        update.classList.remove('active');
+      });
 
       option.agree(() => {
-        updateBox.classList.remove('active');
         update.classList.remove('active');
         this.dtForm.resetValidte('#update_box');
       });
@@ -265,7 +271,7 @@ export class HomeDetaiComponent implements OnInit {
       datas.forEach(async (data: any) => {
         let dt = new DeTai();
         dt.init(
-          "",
+          '',
           data[0] ? data[0] : '',
           data[1] ? data[1] : '',
           data[2] ? data[2] : '',
@@ -287,17 +293,12 @@ export class HomeDetaiComponent implements OnInit {
       _delete.classList.add('active');
       let option = new Option('#delete');
 
-      option.show('error', () => {
-        _delete.classList.remove('active');
-      });
+      option.show('error', () => {});
 
-      option.cancel(() => {
-        _delete.classList.remove('active');
-      });
+      option.cancel(() => {});
 
       option.agree(() => {
         this.f_DeleteDetai(this.DSDTComponent.lineDT.maDT);
-        _delete.classList.remove('active');
       });
     } else if (
       Object.entries(this.DSDTComponent.lineDT).length === 0 &&
@@ -327,7 +328,7 @@ export class HomeDetaiComponent implements OnInit {
     if (this.dtAddForm.valid) {
       const deTai = new DeTai();
       deTai.init(
-        "",
+        '',
         this.dtAddForm.value['tenDT'],
         this.dtAddForm.value['tomTat'],
         this.dtAddForm.value['slMin'],
@@ -372,7 +373,7 @@ export class HomeDetaiComponent implements OnInit {
       } else {
         const deTai = new DeTai();
         deTai.init(
-          "",
+          '',
           this.dtUpdateForm.value['tenDT'],
           this.dtUpdateForm.value['tomTat'],
           this.dtUpdateForm.value['slMin'],

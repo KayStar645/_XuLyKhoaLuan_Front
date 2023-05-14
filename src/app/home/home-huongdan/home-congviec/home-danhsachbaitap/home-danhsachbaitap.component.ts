@@ -163,9 +163,7 @@ export class HomeDanhsachbaitapComponent implements OnInit {
   }
 
   async onDeleteJob(maCv: string) {
-    let create = document.querySelector('#create');
     let option = new Option('#create');
-    create?.classList.add('active');
 
     option.show('warning');
 
@@ -173,16 +171,12 @@ export class HomeDanhsachbaitapComponent implements OnInit {
       try {
         await this.congViecService.delete(maCv);
         this.toastService.success('Xóa công việc thành công', 'thông báo !');
-        create?.classList.remove('active');
       } catch (error) {
         this.toastService.error('Xóa công việc thất bại', 'Thông báo !');
-        create?.classList.remove('active');
       }
       await this.getListBT();
     });
 
-    option.cancel(() => {
-      create?.classList.remove('active');
-    });
+    option.cancel(() => {});
   }
 }

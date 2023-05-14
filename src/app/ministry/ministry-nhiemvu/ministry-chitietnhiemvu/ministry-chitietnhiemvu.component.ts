@@ -219,18 +219,11 @@ export class MinistryChitietnhiemvuComponent {
   }
 
   onDelete() {
-    const _delete = document.querySelector('#delete')!;
-
-    _delete.classList.add('active');
     let option = new Option('#delete');
 
-    option.show('error', () => {
-      _delete.classList.remove('active');
-    });
+    option.show('error', () => {});
 
-    option.cancel(() => {
-      _delete.classList.remove('active');
-    });
+    option.cancel(() => {});
 
     option.agree(async () => {
       try {
@@ -241,7 +234,6 @@ export class MinistryChitietnhiemvuComponent {
       } catch (error) {
         this.toastr.error('Xóa nhiệm vụ thất bại', 'Thông báo !');
       }
-      _delete.classList.remove('active');
     });
   }
 

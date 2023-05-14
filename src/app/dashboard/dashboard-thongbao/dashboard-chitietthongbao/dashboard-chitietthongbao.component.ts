@@ -200,13 +200,9 @@ export class DashboardChitietthongbaoComponent implements OnInit {
     _delete.classList.add('active');
     let option = new Option('#delete');
 
-    option.show('error', () => {
-      _delete.classList.remove('active');
-    });
+    option.show('error', () => {});
 
-    option.cancel(() => {
-      _delete.classList.remove('active');
-    });
+    option.cancel(() => {});
 
     option.agree(async () => {
       try {

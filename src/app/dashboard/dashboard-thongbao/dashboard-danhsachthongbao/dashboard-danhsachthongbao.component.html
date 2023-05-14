@@ -33,7 +33,7 @@
       <div class="h-5 p-l-8 p-r-8">
         <div class="detail-item">
           <h3 class="title">Danh sách lời mời</h3>
-          <div class="row">
+          <div class="row list-card">
             <div class="card h-12 ma-b-24" *ngFor="let loiMoi of lstLoiMoi">
               <div class="row ali-start card-container">
                 <img
@@ -54,7 +54,7 @@
                     </div>
 
                     <div>
-                      <p class="cart-title">Thời gian</p>
+                      <p class="cart-title text-right">Thời gian</p>
                       <p class="cart-description">{{ loiMoi.thoiGian }}</p>
                     </div>
                   </div>
@@ -81,34 +81,30 @@
               </div>
             </div>
           </div>
-          <div class="modal" *ngIf="isConfirmDialogVisible">
-            <div class="modal-content">
-              <p
-                *ngIf="!isTeamLeader || (isTeamLeader && isGroupHaveOneMember)"
-              >
-                Bạn đang trong một nhóm. Bạn có muốn thoát khỏi nhóm cũ và tham
-                gia vào nhóm mới không?
-              </p>
-              <p *ngIf="isTeamLeader && !isGroupHaveOneMember">
-                Bạn đang là trưởng nhóm, vui lòng chọn trưởng nhóm khác trước
-                khi rời nhóm
-              </p>
-              <div class="modal-buttons">
-                <button (click)="hideConfirmDialog()">Từ chối</button>
-                <button class="modal-ok-btn" (click)="performAction()">
-                  Đồng ý
-                </button>
-              </div>
-            </div>
-          </div>
 
-          <div *ngIf="isPopupVisible" class="blur-frame">
-            <div class="popup-failed">
-              <img src="./../../../assets/Images/that-bai.png" />
-              <div class="popup-wrapper">
-                <h2>Thất bại</h2>
-                <p>Nhóm bạn đã đăng ký đề tài nên không thể chuyển nhóm</p>
-                <button (click)="hidePopup()">Đóng</button>
+          <div id="notify">
+            <div class="form-notify">
+              <div class="notify-container">
+                <p class="notify-title">Thông báo !</p>
+                <div class="notify-content">
+                  <p
+                    *ngIf="
+                      !isTeamLeader || (isTeamLeader && isGroupHaveOneMember)
+                    "
+                  >
+                    Bạn đang trong một nhóm. Bạn có muốn thoát khỏi nhóm cũ và
+                    tham gia vào nhóm mới không?
+                  </p>
+                  <p *ngIf="isTeamLeader && !isGroupHaveOneMember">
+                    Bạn đang là trưởng nhóm, vui lòng chọn trưởng nhóm khác
+                    trước khi rời nhóm
+                  </p>
+                </div>
+                <div class="row ali-center jus-end">
+                  <button class="cancel">Hủy</button>
+                  <button class="agree">Đồng ý</button>
+                </div>
+                <div class="progress-bar"></div>
               </div>
             </div>
           </div>

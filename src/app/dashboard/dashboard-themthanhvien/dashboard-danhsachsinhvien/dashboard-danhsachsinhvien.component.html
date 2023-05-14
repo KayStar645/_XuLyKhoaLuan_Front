@@ -13,7 +13,7 @@
           <td class="text-center">{{ tg?.maSv }}</td>
           <td class="text-left">{{ tg.tenSv }}</td>
           <td class="text-center">{{ tg.lop }}</td>
-          <td class="text-left">{{ getTenCNById(tg.maCn) }}</td>
+          <td class="text-left">{{ tg.chuyenNganh }}</td>
           <td
             [attr.data-index]="tg.maSv"
             *ngIf="checkSentInvitation(tg.maSv); else chuaGui"
@@ -41,7 +41,7 @@
 
 <div id="create" (click)="onHideInvite($event)"></div>
 <div id="create_box" [formGroup]="lmForm.form" *ngIf="sinhVien">
-  <p class="title">Gửi lời mời</p>
+  <p class="title">Thông tin sinh viên</p>
 
   <div class="background">
     <div class="user-info row flex-column ali-center">
@@ -84,34 +84,4 @@
       </button>
     </div>
   </ng-template>
-</div>
-
-<div *ngIf="isPopupVisible" class="blur-frame">
-  <div class="popup-failed">
-    <img src="./../../../assets/Images/that-bai.png" />
-    <div class="popup-wrapper">
-      <h2>Thất bại</h2>
-      <p *ngIf="showGroupMemberAlreadySent">
-        Nhóm bạn đã gửi lời mời cho sinh viên này
-      </p>
-      <p *ngIf="isNotHaveStudent">Không tìm thấy sinh viên để mời</p>
-      <p *ngIf="isSentToNotJoinStudent">
-        Sinh viên được mời không có trong đợt làm khóa luận này
-      </p>
-      <p *ngIf="isSignUpDeTai">
-        Nhóm bạn đã đăng ký đề tài nên không thể gửi lời mời nhóm
-      </p>
-      <button (click)="hidePopup()">Đóng</button>
-    </div>
-  </div>
-
-  <div *ngIf="showSuccessMessage" class="popup-success">
-    <img src="./../../../assets/Images/tich-xanh.png" />
-    <div class="popup-wrapper">
-      <h2>Thành công</h2>
-      <p *ngIf="isRemoveInvite">Bạn đã xóa lời mời thành công</p>
-      <p *ngIf="!isRemoveInvite">Bạn đã gửi lời mời thành công</p>
-      <button (click)="hidePopup()">Đóng</button>
-    </div>
-  </div>
 </div>

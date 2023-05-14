@@ -15,7 +15,7 @@ import { SinhVien } from 'src/app/models/SinhVien.model';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { Form, getParentElement } from 'src/assets/utils';
+import { Form } from 'src/assets/utils';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { Validators } from '@angular/forms';
 import { DashboardComponent } from '../../dashboard.component';
@@ -42,14 +42,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   groupIdCreated = '';
   lstLoiMoi: LoiMoi[] = [];
 
-  isNotHaveStudent = false;
-  isSignUpDeTai = false;
-  isPopupVisible = false;
-  isSentToNotJoinStudent = false;
-  showSuccessMessage = false;
-  showGroupMemberAlreadySent = false;
-  isRemoveInvite = false;
-
   listSV: SinhVien[] = [];
   listCN: ChuyenNganh[] = [];
   selectedTG: any[] = [];
@@ -69,7 +61,8 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     private thamGiaService: thamGiaService,
     private websocketService: WebsocketService,
     private nhomService: nhomService,
-    private loiMoiService: loiMoiService
+    private loiMoiService: loiMoiService,
+    private toastService: ToastrService
   ) {}
 
   async ngOnInit() {
@@ -112,19 +105,15 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   async onSendInvite() {
     let create = document.querySelector('#create');
     let createBox = document.querySelector('#create_box');
-    this.isNotHaveStudent = false;
-    this.isSignUpDeTai = false;
-    this.isPopupVisible = false;
-    this.isSentToNotJoinStudent = false;
-    this.showSuccessMessage = false;
-    this.showGroupMemberAlreadySent = false;
 
     //Xuất ra lỗi khi nhóm đã đăng ký đề tài
     if (DashboardComponent.isSignUpDeTai) {
-      this.isSignUpDeTai = true;
+      this.toastService.error(
+        'Nhóm bạn đã đăng ký đề tài nên không thể gửi lời mời nhóm',
+        'Thông báo !'
+      );
       create?.classList.remove('active');
       createBox?.classList.remove('active');
-      this.isPopupVisible = true;
       return;
     }
 
@@ -138,7 +127,7 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
       await this.createGroup();
       await this.joinStudentIntoGroup();
     } else {
-      this.groupIdCreated = await (
+      this.groupIdCreated = (
         await this.thamGiaService.getById(
           DashboardComponent.maSV,
           shareService.namHoc,
@@ -150,15 +139,15 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     if (await this.checkGroupMemberSentInvitation()) {
       create?.classList.remove('active');
       createBox?.classList.remove('active');
-      this.isPopupVisible = true;
-      this.showGroupMemberAlreadySent = true;
+      this.toastService.info(
+        'Nhóm bạn đã gửi lời mời cho sinh viên này',
+        'Thông báo !'
+      );
       return;
     } else {
       await this.createLoiMoi();
       create?.classList.remove('active');
       createBox?.classList.remove('active');
-      this.showSuccessMessage = true;
-      this.isPopupVisible = true;
       this.ngOnInit();
     }
   }
@@ -202,17 +191,11 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
   }
 
   async getAllThamgiaByDotdk() {
-    this.listTg = await this.thamGiaService.GetAllThamgiaDotdkNotme(
+    this.listTg = await this.thamGiaService.GetAllThamgiaInfDotdkNotme(
       DashboardComponent.maSV,
       shareService.namHoc,
       shareService.dot
     );
-
-    // this.listTg = this.listTg.map((tg) => ({
-    //   ...tg,
-    //   ...this.getSinhVienById(tg.maSv),
-    // }));
-
     this.root = this.listTg;
   }
 
@@ -229,7 +212,12 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     loiMoi.thoiGian = date.toISOString();
     loiMoi.trangThai = false;
 
-    await this.loiMoiService.add(loiMoi);
+    try {
+      await this.loiMoiService.add(loiMoi);
+      this.toastService.success('Gửi lời mời thành công', 'Thông báo !');
+    } catch (error) {
+      this.toastService.error('Gửi lời mời thất bại', 'Thông báo !');
+    }
   }
 
   async getThamgiaByMaCN(maCn: string) {
@@ -240,12 +228,6 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
       shareService.namHoc,
       shareService.dot
     );
-    // this.listTg = this.listTg.map((tg) => ({
-    //   ...tg,
-    //   ...this.getSinhVienById(tg.maSv),
-    // }));
-
-    console.log(this.listTg);
   }
 
   async ngOnChanges(changes: SimpleChanges) {
@@ -259,24 +241,7 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
         shareService.namHoc,
         shareService.dot
       );
-      // this.listTg = this.listTg.map((tg) => ({
-      //   ...tg,
-      //   ...this.getSinhVienById(tg.maSv),
-      // }));
     }
-  }
-
-  getTenCNById(maCn: string): string {
-    let tencn: any = '';
-
-    // if (this.listCN) {
-    //   tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
-    //   this.listTg = this.listTg.map((tg) => ({
-    //     ...tg,
-    //     ...this.getSinhVienById(tg.maSv),
-    //   }));
-    // }
-    return tencn;
   }
 
   getSinhVienById(maSV: string) {
@@ -307,18 +272,12 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     create?.classList.remove('active');
     createBox?.classList.remove('active');
 
-    this.showSuccessMessage = true;
-    this.isPopupVisible = true;
-    this.isRemoveInvite = true;
+    this.toastService.success('Hủy lời mời thành công', 'Thông báo !');
 
     this.ngOnInit();
   }
 
   dateFormat(str: string) {
     return this.shareService.dateFormat(str);
-  }
-
-  hidePopup() {
-    this.isPopupVisible = false;
   }
 }

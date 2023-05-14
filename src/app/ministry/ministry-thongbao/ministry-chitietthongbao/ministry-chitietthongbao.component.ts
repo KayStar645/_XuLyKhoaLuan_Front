@@ -191,17 +191,12 @@ export class MinistryChitietthongbaoComponent implements OnInit {
   }
 
   onDelete() {
-    const _delete = document.querySelector('#delete')!;
-
-    _delete.classList.add('active');
     let option = new Option('#delete');
 
     option.show('error', () => {
-      _delete.classList.remove('active');
     });
 
     option.cancel(() => {
-      _delete.classList.remove('active');
     });
 
     option.agree(async () => {
@@ -213,7 +208,6 @@ export class MinistryChitietthongbaoComponent implements OnInit {
       } catch (error) {
         this.toastr.error('Xóa thông báo thất bại', 'Thông báo !');
       }
-      _delete.classList.remove('active');
     });
   }
 
