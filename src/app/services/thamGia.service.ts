@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ThamGia } from '../models/ThamGia.model';
 import { shareService } from './../services/share.service';
 import { SinhVien } from '../models/SinhVien.model';
+import { ThamGiaVT } from '../models/VirtualModel/ThamGiaVTModel';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,21 @@ export class thamGiaService {
       (await this.http
         .get<ThamGia[]>(
           `${this.apiUrl}/api/Thamgias/notmaSV, namHoc, dot?notmaSV=${maSV}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async GetAllThamgiaInfDotdkNotme(
+    maSV: string,
+    namHoc: string,
+    dot: number
+  ): Promise<ThamGiaVT[]> {
+    return (
+      (await this.http
+        .get<ThamGiaVT[]>(
+          `${this.apiUrl}/api/Thamgias/maSv,namHoc,dot?maSv=${maSV}&namHoc=${namHoc}&dot=${dot}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
@@ -116,7 +132,12 @@ export class thamGiaService {
     );
   }
 
-  async search(tenSv: string, maCn: string, namHoc: string, dot:number): Promise<ThamGia[]> {
+  async search(
+    tenSv: string,
+    maCn: string,
+    namHoc: string,
+    dot: number
+  ): Promise<ThamGia[]> {
     return (
       (await this.http
         .get<ThamGia[]>(
