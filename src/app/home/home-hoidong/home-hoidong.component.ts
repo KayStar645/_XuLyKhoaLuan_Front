@@ -2,7 +2,7 @@ import { shareService } from './../../services/share.service';
 import { thamGiaHdService } from './../../services/thamGiaHD.service';
 import { hoiDongService } from './../../services/hoiDong.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { Form, dateVNConvert } from 'src/assets/utils';
 import { Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { ThamGiaHd } from 'src/app/models/ThamGiaHd.model';
 import { ToastrService } from 'ngx-toastr';
 import { HomeMainComponent } from '../home-main/home-main.component';
 import { HoiDongVT } from 'src/app/models/VirtualModel/HoiDongVTModel';
+import { DropDownComponent } from 'src/app/components/drop-down/drop-down.component';
 
 type InputConfigProp = {
   items: GiangVien[];
@@ -24,6 +25,9 @@ type InputConfigProp = {
   styleUrls: ['./home-hoidong.component.scss'],
 })
 export class HomeHoidongComponent implements OnInit {
+  @ViewChild('chuTich') chuTichComponent!: DropDownComponent;
+  @ViewChild('thuKy') thuKyComponent!: DropDownComponent;
+  @ViewChild('uyVien') uyVienComponent!: DropDownComponent;
   hoiDongs: HoiDongVT[] = [];
 
   CTInputConfig: InputConfigProp = {
@@ -68,8 +72,12 @@ export class HomeHoidongComponent implements OnInit {
     this.CTInputConfig.items = await this.giangVienService.getByBoMon(
       HomeMainComponent.maBm
     );
-    this.TKInputConfig.items = this.CTInputConfig.items;
-    this.UVInputConfig.items = this.CTInputConfig.items;
+    this.TKInputConfig.items = await this.giangVienService.getByBoMon(
+      HomeMainComponent.maBm
+    );
+    this.UVInputConfig.items = await this.giangVienService.getByBoMon(
+      HomeMainComponent.maBm
+    );
   }
 
   onShowFormAdd() {
@@ -112,14 +120,14 @@ export class HomeHoidongComponent implements OnInit {
 
       chuTich.maGv = selectedCT.maGv;
       chuTich.maHd = formValue.maHd;
-      chuTich.maVt = 'VT1';
+      chuTich.maVt = 'VT01';
 
       thuKy.maGv = selectedTK.maGv;
       thuKy.maHd = formValue.maHd;
-      thuKy.maVt = 'VT2';
+      thuKy.maVt = 'VT02';
 
       selectedUVs.forEach((uv) => {
-        uyViens.push({ maGv: uv.maGv, maHd: formValue.maHd, maVt: 'VT3' });
+        uyViens.push({ maGv: uv.maGv, maHd: formValue.maHd, maVt: 'VT03' });
       });
 
       await this.hoiDongService.add(hoiDong);
@@ -146,6 +154,8 @@ export class HomeHoidongComponent implements OnInit {
 
     this.UVInputConfig.items?.splice(ctUVIndex, 1);
     this.TKInputConfig.items?.splice(ctTKIndex, 1);
+    this.uyVienComponent.undoRemoveItem();
+    this.thuKyComponent.undoRemoveItem();
   }
   onUnSelecCT($event: GiangVien) {
     this.UVInputConfig.items = [$event, ...this.UVInputConfig.items];
@@ -163,6 +173,8 @@ export class HomeHoidongComponent implements OnInit {
 
     this.CTInputConfig.items?.splice(tkCTIndex, 1);
     this.UVInputConfig.items?.splice(tkUVIndex, 1);
+    this.chuTichComponent.undoRemoveItem();
+    this.uyVienComponent.undoRemoveItem();
   }
   onUnSelectTK($event: GiangVien) {
     this.CTInputConfig.items = [$event, ...this.CTInputConfig.items];
@@ -180,6 +192,8 @@ export class HomeHoidongComponent implements OnInit {
 
     this.CTInputConfig.items?.splice(uvCTIndex, 1);
     this.TKInputConfig.items?.splice(uvTKIndex, 1);
+    this.chuTichComponent.undoRemoveItem();
+    this.thuKyComponent.undoRemoveItem();
   }
   onUnSelectUV($event: GiangVien) {
     this.CTInputConfig.items = [$event, ...this.CTInputConfig.items];

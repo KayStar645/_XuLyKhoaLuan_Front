@@ -10,13 +10,12 @@
 .popup-success,
 .popup-failed {
   z-index: 12;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 360px;
   margin: 0 auto;
-  margin-top: 180px;
   text-align: center;
   background-color: #fff;
   font-size: 16.25px;
@@ -61,7 +60,7 @@
 }
 
 .blur-frame {
-  z-index: 12;
+  z-index: 100;
   position: fixed;
   top: 0;
   left: 0;

@@ -29,14 +29,30 @@
       />
 
       <div class="list p-t-16">
-        <div
-          *ngFor="let item of items; let i = index"
-          class="item"
-          [ngClass]="{ active: isItemExist(selectedItem, item) }"
-          [attr.data-id]="item[primarKey]"
-          (click)="onSetItem($event)"
-          [innerHTML]="item[keyWord]"
-        ></div>
+        <ng-container *ngIf="temps.length > 0; then temp; else item">
+        </ng-container>
+
+        <ng-template #item>
+          <div
+            *ngFor="let item of items; let i = index"
+            class="item"
+            [ngClass]="{ active: isItemExist(selectedItem, item) }"
+            [attr.data-id]="item[primarKey]"
+            (click)="onSetItem($event)"
+            [innerHTML]="item[keyWord]"
+          ></div>
+        </ng-template>
+
+        <ng-template #temp>
+          <div
+            *ngFor="let item of temps; let i = index"
+            class="item"
+            [ngClass]="{ active: isItemExist(selectedItem, item) }"
+            [attr.data-id]="item[primarKey]"
+            (click)="onSetItem($event)"
+            [innerHTML]="item[keyWord]"
+          ></div>
+        </ng-template>
       </div>
     </div>
   </div>

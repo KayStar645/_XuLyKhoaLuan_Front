@@ -110,12 +110,12 @@ export class HomeChitietdetaiComponent {
     );
     this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
     this.isTruongK = HomeMainComponent.maKhoa == null ? false : true;
+
+    this.websocketService.startConnection();
     this.isTrangthaiDetai(this.maDt);
     this.tenGv = (
       await this.giangVienService.getById(HomeMainComponent.maGV)
     ).tenGv;
-
-   this.websocketService.startConnection();
   }
 
   onSetDeTai(event: any) {}
@@ -416,7 +416,12 @@ export class HomeChitietdetaiComponent {
   }
 
   async onBrowse(maDT: string, flag: boolean) {
-    this.duyetDTService.UpdateTrangthaiDetai(maDT, this.oldForm.maGv, flag);
+    await this.duyetDTService.UpdateTrangthaiDetai(
+      maDT,
+      this.oldForm.maGv,
+      flag
+    );
+
     this.websocketService.sendForDeTai(true);
   }
 

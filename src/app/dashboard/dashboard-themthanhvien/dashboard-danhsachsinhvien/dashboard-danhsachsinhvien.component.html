@@ -15,17 +15,19 @@
           <td class="text-center">{{ tg.lop }}</td>
           <td class="text-left">{{ getTenCNById(tg.maCn) }}</td>
           <td
+            [attr.data-index]="tg.maSv"
             *ngIf="checkSentInvitation(tg.maSv); else chuaGui"
             class="text-center action-btn"
-            (click)="onShowInvite(tg.maSv)"
+            (click)="onShowInvite($event)"
             style="color: #ff0000"
           >
             Hủy lời mời
           </td>
           <ng-template #chuaGui>
             <td
+              [attr.data-index]="tg.maSv"
               class="text-center action-btn"
-              (click)="onShowInvite(tg.maSv)"
+              (click)="onShowInvite($event)"
               style="color: #0984e3"
             >
               Mời tham gia
@@ -39,11 +41,18 @@
 
 <div id="create" (click)="onHideInvite($event)"></div>
 <div id="create_box" [formGroup]="lmForm.form" *ngIf="sinhVien">
-  <p class="title">Thông tin sinh viên</p>
+  <p class="title">Gửi lời mời</p>
 
   <div class="background">
     <div class="user-info row flex-column ali-center">
-      <img src="../../../../assets/Images/avatar-nam.jpeg" alt="" />
+      <ng-container *ngIf="sinhVien.gioiTinh === 'Nữ'; then female; else male">
+      </ng-container>
+      <ng-template #male>
+        <img src="../../../../assets/Images/avatar-nam.jpeg" alt="" />
+      </ng-template>
+      <ng-template #female>
+        <img src="../../../../assets/Images/avatar-nu.jpg" alt="" />
+      </ng-template>
       <p>{{ sinhVien.tenSv }}</p>
     </div>
   </div>

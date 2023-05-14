@@ -29,11 +29,13 @@ export class DropDownComponent implements OnInit, OnChanges {
   @Output() onParrentUnSelect = new EventEmitter();
 
   // Components
-  temp: any[] = [];
+  temps: any[] = [];
   prevItem: any;
   prevItemIndexs: any[] = [];
 
   ngOnInit(): void {
+    this.temps = this.items;
+
     window.addEventListener('click', (e) => {
       let parent = getParentElement(e.target, '.selected');
       let activeList = document.querySelector('.selected.active');
@@ -44,10 +46,7 @@ export class DropDownComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.items = changes.items.currentValue;
-    this.temp = changes.items.currentValue;
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   onOpenDropdown(event: any) {
     let parent: HTMLElement = getParentElement(event.target, '.selected');
@@ -75,8 +74,6 @@ export class DropDownComponent implements OnInit, OnChanges {
     let id = element.dataset.id;
     let item = this.items.find((t) => t[this.primarKey].toString() === id);
 
-    console.log(id);
-
     if (item) {
       let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
 
@@ -92,8 +89,10 @@ export class DropDownComponent implements OnInit, OnChanges {
           if (this.selectedItem.length < 1) {
             this.selectedItem.push(item);
           } else {
+            this.prevItem = this.selectedItem[0];
             this.selectedItem = [item];
           }
+
           document
             .querySelector('.selected.active')
             ?.classList.remove('active');
@@ -109,14 +108,20 @@ export class DropDownComponent implements OnInit, OnChanges {
     let value = event.target.value;
 
     if (value.trim()) {
-      this.items = this.items.filter((t) => t[this.keyWord].includes(value));
+      this.temps = this.items.filter((t) => t[this.keyWord].includes(value));
     } else {
-      this.items = this.temp;
+      this.temps = this.items;
     }
   }
 
-  public undoRemoveItem() {
+  undoRemoveSelectedItem() {
     this.selectedItem.push(this.prevItem);
+  }
+
+  undoRemoveItem() {
+    if (this.prevItem) {
+      this.items.push(this.prevItem);
+    }
   }
 
   onClickInput(event: any) {

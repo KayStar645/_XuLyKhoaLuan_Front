@@ -1,1 +1,34 @@
-<p>ministry-thongkediem works!</p>
+<div id="container">
+  <div class="functional-list">
+    <ul class="functional-container row ali-center functional-wrapper">
+      <li class="functional-item">
+        <select
+          class="functional-select"
+          id="functional-select"
+          (change)="onChange($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let cn of list" [value]="cn?.maCn">
+            {{ cn?.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class="functional-item">
+        <input
+          type="text"
+          placeholder="Tìm theo tên..."
+          [(ngModel)]="keyword"
+        />
+      </li>
+      <li
+        class="functional-item row ali-center jus-end flex-1 functional-wrapper"
+      >
+        <div class="functional-button">
+          <button (click)="onExportList()">Xuất danh sách</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <app-ministry-thongkediem-danhsachsinhvien></app-ministry-thongkediem-danhsachsinhvien>
+</div>

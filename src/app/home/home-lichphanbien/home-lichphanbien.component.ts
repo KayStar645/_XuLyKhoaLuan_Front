@@ -11,9 +11,7 @@ export class HomeLichphanbienComponent implements OnInit {
   lichPhanBiens: LichPhanBien[] = [];
   maGv = '';
 
-  constructor(
-    private lichPhanVienService: lichPhanBienService
-  ) {}
+  constructor(private lichPhanVienService: lichPhanBienService) {}
 
   async ngOnInit(): Promise<void> {
     this.maGv = HomeMainComponent.maGV;

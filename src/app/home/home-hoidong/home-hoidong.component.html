@@ -14,7 +14,7 @@
   <div class="h-4 p-r-8 p-l-8 p-t-8 p-b-8" *ngFor="let h of hoiDongs">
     <div class="detail-item">
       <div class="row council-item jus-betwwen">
-        <p class="label">Hội đồng: </p>
+        <p class="label">Hội đồng:</p>
         <p class="description">{{ h.tenHD }}</p>
       </div>
       <div class="row council-item jus-betwwen">
@@ -106,6 +106,7 @@
 
     <div class="h-6 p-l-12 p-r-12">
       <app-drop-down
+        #chuTich
         *ngIf="CTInputConfig.items.length > 0"
         label="Chủ tịch"
         placeholder="Tìm giảng viên"
@@ -119,6 +120,7 @@
       ></app-drop-down>
 
       <app-drop-down
+        #thuKy
         *ngIf="TKInputConfig.items.length > 0"
         label="Thư ký"
         placeholder="Tìm giảng viên"
@@ -156,6 +158,7 @@
 
     <div class="h-12 p-l-12 p-r-12">
       <app-drop-down
+        #uyVien
         *ngIf="UVInputConfig.items.length > 0"
         label="Ủy viên"
         placeholder="Tìm giảng viên"

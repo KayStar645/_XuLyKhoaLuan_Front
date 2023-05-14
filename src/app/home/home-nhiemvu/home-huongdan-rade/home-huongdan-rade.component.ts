@@ -260,7 +260,10 @@ export class HomeHuongdanRadeComponent implements OnInit {
           await this.hdChamService.add(hdcham);
         }
       } catch {
-        this.toastr.error('Không cho phép giảng viên chấm điểm!', 'Thông báo !');
+        this.toastr.error(
+          'Không cho phép giảng viên chấm điểm!',
+          'Thông báo !'
+        );
       }
     } catch {
       this.toastr.error(
@@ -279,7 +282,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
         shareService.dot
       );
       if (false == flag) {
-      this.GVHD_Input.undoRemoveItem();
+        this.GVHD_Input.undoRemoveSelectedItem();
         this.toastr.error(
           'Giảng viên này đã chấm điểm cho sinh viên, không thể thay đổi giảng viên!',
           'Thông báo !'
@@ -289,7 +292,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
       }
       this.GVPBInputConfig.data.push(event);
     } catch (error) {
-      this.GVHD_Input.undoRemoveItem();
+      this.GVHD_Input.undoRemoveSelectedItem();
       this.toastr.error(
         'Xóa giảng viên hướng dẫn không thành công!',
         'Thông báo !'
@@ -341,7 +344,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
         shareService.dot
       );
       if (false == flag) {
-        this.GVPB_Input.undoRemoveItem();
+        this.GVPB_Input.undoRemoveSelectedItem();
         this.toastr.error(
           'Giảng viên này đã chấm điểm cho sinh viên, không thể thay đổi giảng viên!',
           'Thông báo !'
@@ -351,7 +354,7 @@ export class HomeHuongdanRadeComponent implements OnInit {
       }
       this.GVHDInputConfig.data.push(event);
     } catch {
-      this.GVPB_Input.undoRemoveItem();
+      this.GVPB_Input.undoRemoveSelectedItem();
       this.toastr.error(
         'Xóa giảng viên phản biện không thành công!',
         'Thông báo !'

@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { thamGiaService } from './../../../services/thamGia.service';
 import { ThamGia } from './../../../models/ThamGia.model';
 import {
@@ -76,6 +77,13 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
     this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
 
+    this.lstLoiMoi =
+      await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(
+        DashboardComponent.maNhom,
+        shareService.namHoc,
+        shareService.dot
+      );
+
     this.websocketService.startConnection();
     this.websocketService.receiveFromThamGia((dataChange: boolean) => {
       if (dataChange) {
@@ -83,22 +91,17 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
         this.getAllThamgiaByDotdk();
       }
     });
-
-    this.lstLoiMoi =
-      await this.loiMoiService.getAllLoiMoiSinhVienByDotNamHocNhom(
-        DashboardComponent.maNhom,
-        shareService.namHoc,
-        shareService.dot
-      );
   }
 
-  onShowInvite(maSv: string) {
+  onShowInvite(event: MouseEvent) {
+    let element = event.target as HTMLElement;
     let create = document.querySelector('#create');
     let createBox = document.querySelector('#create_box');
 
     create?.classList.add('active');
     createBox?.classList.add('active');
-    this.getSinhVienById(maSv);
+
+    this.getSinhVienById(element.dataset.index!);
   }
 
   onHideInvite(event: any) {
@@ -205,10 +208,10 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
       shareService.dot
     );
 
-    this.listTg = this.listTg.map((tg) => ({
-      ...tg,
-      ...this.getSinhVienById(tg.maSv),
-    }));
+    // this.listTg = this.listTg.map((tg) => ({
+    //   ...tg,
+    //   ...this.getSinhVienById(tg.maSv),
+    // }));
 
     this.root = this.listTg;
   }
@@ -237,45 +240,48 @@ export class DashboardDanhsachsinhvienComponent implements OnInit {
       shareService.namHoc,
       shareService.dot
     );
-    this.listTg = this.listTg.map((tg) => ({
-      ...tg,
-      ...this.getSinhVienById(tg.maSv),
-    }));
+    // this.listTg = this.listTg.map((tg) => ({
+    //   ...tg,
+    //   ...this.getSinhVienById(tg.maSv),
+    // }));
+
+    console.log(this.listTg);
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       const name = this.searchName.trim().toLowerCase();
       this._searchName = name;
-      
+
       this.listTg = await this.thamGiaService.search(
         this._searchName,
         this._maCn,
         shareService.namHoc,
         shareService.dot
       );
-      this.listTg = this.listTg.map((tg) => ({
-        ...tg,
-        ...this.getSinhVienById(tg.maSv),
-      }));
+      // this.listTg = this.listTg.map((tg) => ({
+      //   ...tg,
+      //   ...this.getSinhVienById(tg.maSv),
+      // }));
     }
   }
 
   getTenCNById(maCn: string): string {
     let tencn: any = '';
 
-    if (this.listCN) {
-      tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
-      this.listTg = this.listTg.map((tg) => ({
-        ...tg,
-        ...this.getSinhVienById(tg.maSv),
-      }));
-    }
+    // if (this.listCN) {
+    //   tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
+    //   this.listTg = this.listTg.map((tg) => ({
+    //     ...tg,
+    //     ...this.getSinhVienById(tg.maSv),
+    //   }));
+    // }
     return tencn;
   }
 
   getSinhVienById(maSV: string) {
     this.sinhVien = this.listSV.find((t) => t.maSv === maSV)!;
+
     return this.sinhVien;
   }
 
