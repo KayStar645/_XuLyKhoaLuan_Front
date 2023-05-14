@@ -10,8 +10,6 @@ import { DiemSoVT } from 'src/app/models/VirtualModel/DiemSoVTModel';
 import { shareService } from 'src/app/services/share.service';
 import { SinhVienVT } from 'src/app/models/VirtualModel/SinhVienVTModel';
 import { Option } from 'src/assets/utils';
-import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
-import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
 import { HuongDan } from 'src/app/models/HuongDan.model';
 import { PhanBien } from 'src/app/models/PhanBien.model';
 
@@ -68,6 +66,10 @@ export class HomeChamdiemComponent {
   onConfirm(maDt: string) {
     let option = new Option('#confirm');
     option.show('warning', () => {});
+
+    option.cancel(() => {
+      
+    });
 
     option.agree(() => {
       document.documentElement.classList.remove('no-scroll');

@@ -15,7 +15,7 @@
     <div class="functional-button">
       <button
         [routerLink]="['/home/huong-dan/cong-viec/chi-tiet', { maCv: -1 }]"
-        [state]="{ isUpdate: true }"
+        [state]="{ isUpdate: true, isAdd: true }"
       >
         Thêm bài tập
       </button>
@@ -110,8 +110,8 @@
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
 
-            <p class="flex-1 mission-title">
-              {{ item.tenCv ? item.tenCv : item.moTa }}
+            <p class="flex-1 mission-title" [innerHTML]="item.tenCv ? item.tenCv : item.moTa">
+              
             </p>
 
             <div class="row ali-center">
@@ -128,7 +128,7 @@
                       '/home/huong-dan/cong-viec/chi-tiet',
                       { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
                     ]"
-                    [state]="{ isUpdate: true }"
+                    [state]="{ isUpdate: true, isAdd: false }"
                   >
                     Chỉnh sửa
                   </p>

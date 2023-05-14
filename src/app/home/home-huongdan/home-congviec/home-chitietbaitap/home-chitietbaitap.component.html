@@ -4,10 +4,10 @@
       <div
         class="functional-container row ali-center jus-end functional-wrapper"
       >
-        <div class="functional-button" *ngIf="!isUpdate">
+        <div class="functional-button" *ngIf="isAdd">
           <button (click)="onAdd()">Thêm</button>
         </div>
-        <div class="functional-button" *ngIf="isUpdate">
+        <div class="functional-button" *ngIf="!isAdd">
           <button (click)="onUpdate()">Sửa</button>
         </div>
       </div>
@@ -186,8 +186,23 @@
       </div>
 
       <div class="h-3 p-l-8 p-r-8">
-        <div class="detail-item"></div>
+      <div class="detail-item">
+        <div class="list-file" *ngIf="apiHomeworkFiles.length > 0">
+          <div
+            class="file-item row ali-center"
+            *ngFor="let item of apiHomeworkFiles"
+          >
+            <img [src]="item.img" alt="" />
+
+            <div class="item-info">
+              <p>{{ item.name }}</p>
+              <span>{{ item.type }}</span>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+      
     </div>
   </form>
 </ng-template>

@@ -1,4 +1,3 @@
-import { traoDoiService } from '../../../services/NghiepVu/traodoi.service';
 import { sinhVienService } from './../../../services/sinhVien.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -6,7 +5,12 @@ import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
+import {
+  compareAsc,
+  format,
+  formatDistanceToNow,
+  formatDistanceToNowStrict,
+} from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
@@ -16,10 +20,9 @@ import { ToastrService } from 'ngx-toastr';
 import { baoCaoService } from 'src/app/services/baoCao.service';
 import { BaoCao } from 'src/app/models/BaoCao.model';
 import { Validators } from '@angular/forms';
-import { fi, vi } from 'date-fns/locale';
+import { vi } from 'date-fns/locale';
 import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
-import { shareService } from 'src/app/services/share.service';
-
+import { traoDoiService } from 'src/app/services/NghiepVu/traodoi.service';
 @Component({
   selector: 'app-dashboard-baitapchitiet',
   templateUrl: './dashboard-baitapchitiet.component.html',
@@ -37,7 +40,6 @@ export class DashboardBaitapchitietComponent {
   homeworkFiles: any[] = [];
   apiHomeworkFiles: any[] = [];
   apiBaoCaos: BaoCao[] = [];
-  selectedFiles: any[] = [];
 
   dtForm = new Form({
     nhanXet: ['', Validators.required],
@@ -54,13 +56,10 @@ export class DashboardBaitapchitietComponent {
     private websocketService: WebsocketService,
     private binhLuanService: binhLuanService,
     private baoCaoService: baoCaoService,
-    private sinhVienService: sinhVienService,
-    private shareSerivce: shareService
+    private sinhVienService: sinhVienService
   ) {}
-
   async ngOnInit() {
     this.getNamhocDot();
-
     this.route.params.subscribe(async (params) => {
       this.maCV = params['maCv'];
     });
@@ -83,7 +82,7 @@ export class DashboardBaitapchitietComponent {
     await this.getAllHomeworkFiles();
 
     if (
-      compareAsc(new Date(), new Date(this.cviec.hanChot)) === -1 &&
+      compareAsc(new Date(this.cviec.hanChot), new Date()) === -1 &&
       this.apiHomeworkFiles.length === 0
     ) {
       // Đã nộp nè
@@ -113,7 +112,7 @@ export class DashboardBaitapchitietComponent {
           return {
             ...t,
             thoiGian:
-              format(new Date(t.thoiGian), 'dd-MM-yyyy') +
+              t.thoiGian.substr(0, 10) +
               ' (' +
               formatDistanceToNowStrict(new Date(t.thoiGian), {
                 locale: vi,
@@ -123,19 +122,16 @@ export class DashboardBaitapchitietComponent {
         });
       });
   }
-
   catchDateTime() {
     this.thoiHan = format(new Date(this.cviec.hanChot), 'HH:mm dd-MM').replace(
       '-',
       ' tháng '
     );
   }
-
   async onAddComment() {
     if (this.dtForm.form.valid) {
       let formValue: any = this.dtForm.form.value;
       let binhLuan = new BinhLuan();
-
       binhLuan.dot = this.dot;
       binhLuan.id = 0;
       binhLuan.maCv = this.maCV;
@@ -147,7 +143,6 @@ export class DashboardBaitapchitietComponent {
         'T' +
         format(new Date(), 'HH:mm:ss') +
         '.000Z';
-
       try {
         await this.binhLuanService.add(binhLuan);
         this.websocketService.sendForBinhLuan(true);
@@ -217,31 +212,24 @@ export class DashboardBaitapchitietComponent {
       } else {
         item['img'] = `../../../../assets/Images/file_type/doc.png`;
       }
-
       item['name'] = file.name;
       item['type'] = type;
-
       this.homeworkFiles.push(item);
     });
   }
-
   async onAddFile() {
     let input: any = document.querySelector('.home-work input');
-
     input.click();
   }
-
   onRemveFileItem(event: any, name: String) {
     let index = this.homeworkFiles.findIndex((t) => t.name === name);
-
     this.homeworkFiles.splice(index, 1);
   }
-
   async onSubmitHomeWork() {
-    if (this.selectedFiles.length > 0) {
+    if (this.homeworkFiles.length > 0) {
       try {
-        for (var file of this.selectedFiles) {
-          await this.addBaoCao(file);
+        for (var file of this.homeworkFiles) {
+          await this.addBaoCao(file.name);
           this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
           this.websocketService.sendForBaoCao(true);
         }
@@ -252,15 +240,13 @@ export class DashboardBaitapchitietComponent {
       this.toastService.warning('Vui lòng thêm file đi kèm', 'Thông báo !');
     }
   }
-
-  async addBaoCao(file: any) {
+  async addBaoCao(fileName: string) {
     let currDate = new Date();
     let thoiGianNop =
       format(currDate, 'yyyy-MM-dd') +
       'T' +
       format(currDate, 'HH:mm:ss') +
       '.000Z';
-
     let baoCao = new BaoCao();
     baoCao.init(
       this.maCV,
@@ -268,21 +254,14 @@ export class DashboardBaitapchitietComponent {
       this.namHoc,
       this.dot,
       thoiGianNop,
-      file.name
+      fileName
     );
-
-    await this.shareSerivce.createFolderAndUploadFile(
-      `Homework/${this.giangVien.maGv}`,
-      file
-    );
-    // await this.baoCaoService.add(baoCao);
+    await this.baoCaoService.add(baoCao);
   }
-
   async getNameSinhvien(maSv: string) {
     let sv = await this.sinhVienService.getById(maSv);
     return sv.maSv + ' - ' + sv.tenSv;
   }
-
   getNamhocDot() {
     let maNhom = DashboardComponent.maNhom;
     this.namHoc = maNhom.substring(10, 19);

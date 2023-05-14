@@ -72,14 +72,6 @@
 
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
-        <div class="row ali-center jus-between home-work">
-          <p class="home-work-title p-b-8">Báo cáo của bạn</p>
-          <p class="mission-note" *ngIf="isOutDate == -1">Thiếu</p>
-          <p class="mission-note" *ngIf="isOutDate == 0">Nộp muộn</p>
-          <p class="complete-note" *ngIf="isOutDate == 1">Đã nộp</p>
-          <input type="file" hidden (input)="onConfirmFile($event)" multiple />
-        </div>
-
         <div class="list-file" *ngIf="homeworkFiles.length > 0">
           <div
             class="file-item row ali-center"

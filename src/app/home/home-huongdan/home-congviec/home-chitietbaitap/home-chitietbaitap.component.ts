@@ -1,3 +1,4 @@
+import { BaoCao } from './../../../../models/BaoCao.model';
 import { traoDoiService } from '../../../../services/NghiepVu/traodoi.service';
 import { hdGopYService } from './../../../../services/hdGopY.service';
 import { Component } from '@angular/core';
@@ -10,13 +11,13 @@ import { format, formatDistanceToNowStrict } from 'date-fns';
 import { Form, dateVNConvert } from 'src/assets/utils';
 import { vi } from 'date-fns/locale';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { DuyetDt } from 'src/app/models/DuyetDt.model';
 import { HomeMainComponent } from 'src/app/home/home-main/home-main.component';
 import { HdGopi } from 'src/app/models/HdGopi.model';
 import { HomeDanhsachbaitapComponent } from '../home-danhsachbaitap/home-danhsachbaitap.component';
 import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 import { Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { baoCaoService } from 'src/app/services/baoCao.service';
 
 @Component({
   selector: 'app-home-chitietbaitap',
@@ -50,7 +51,13 @@ export class HomeChitietbaitapComponent {
   dtForm = new Form({
     nhanXet: [''],
   });
+
+  apiHomeworkFiles: any[] = [];
+  apiBaoCaos: BaoCao[] = [];
+  types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
+
   isUpdate: boolean = false;
+  isAdd: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,15 +67,18 @@ export class HomeChitietbaitapComponent {
     private traoDoiService: traoDoiService,
     private hdGopYService: hdGopYService,
     private websocketService: WebsocketService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private baoCaoService: baoCaoService
   ) {}
 
   async ngOnInit() {
+    this.websocketService.startConnection();
+    this.isUpdate = window.history.state.isUpdate;
+    this.isAdd = window.history.state.isAdd;
+
     this.route.params.subscribe(async (params) => {
       this.maCV = params['maCv'];
     });
-    this.websocketService.startConnection();
-    this.isUpdate = window.history.state.isUpdate;
 
     if (this.maCV !== '-1') {
       this.GVInputConfig.data = await this.giangVienService.getAll();
@@ -83,20 +93,65 @@ export class HomeChitietbaitapComponent {
 
       this.setForm();
 
+      this.getAllHomeworkFiles();
+
       await this.getComment();
     }
   }
 
+  async getAllHomeworkFiles() {
+    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+
+    this.apiBaoCaos.forEach((file: BaoCao) => {
+      let fileSplit: string[] = file.fileBc.split('.');
+      let type = fileSplit[fileSplit.length - 1];
+      let item: any = {};
+
+      if (this.types.includes(type)) {
+        item['img'] = `../../../../assets/Images/file_type/${type}.png`;
+      } else {
+        item['img'] = `../../../../assets/Images/file_type/doc.png`;
+      }
+      item['name'] = file.fileBc;
+      item['type'] = type;
+      this.apiHomeworkFiles.push(item);
+    });
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromBaoCao(async (dataChange: boolean) => {
+      this.apiHomeworkFiles.splice(0, this.apiHomeworkFiles.length);
+
+      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+
+      this.apiBaoCaos.forEach((file: BaoCao) => {
+        let fileSplit: string[] = file.fileBc.split('.');
+        let type = fileSplit[fileSplit.length - 1];
+        let item: any = {};
+
+        if (this.types.includes(type)) {
+          item['img'] = `../../../../assets/Images/file_type/${type}.png`;
+        } else {
+          item['img'] = `../../../../assets/Images/file_type/doc.png`;
+        }
+        item['name'] = file.fileBc;
+        item['type'] = type;
+        this.apiHomeworkFiles.push(item);
+      });
+    });
+  }
+
   async onAdd() {
+    let formValue: any = this.baiTap.form.value;
+
     try {
       let congViec = new CongViec();
       let formValue: any = this.baiTap.form.value;
       congViec.init(
         '0',
-        formValue.tenCv,
+        formValue.tenCV,
         formValue.yeuCau,
         formValue.moTa,
-        dateVNConvert(formValue.ngayKt),
+        dateVNConvert(formValue.hanChot),
         0,
         HomeMainComponent.maGV,
         HomeDanhsachbaitapComponent.maDt,
