@@ -1,7 +1,9 @@
 <div *ngIf="isTruongK; else notTruongK">
   <div id="functional-container">
     <div class="functional-list">
-      <div class="functional-container row ali-center jus-end functional-wrapper">
+      <div
+        class="functional-container row ali-center jus-end functional-wrapper"
+      >
         <div class="functional-button" *ngIf="maKh == -1">
           <button (click)="onAdd()">Thêm</button>
         </div>
@@ -149,8 +151,8 @@
       <div class="notify-container">
         <p class="notify-title">Thông báo !</p>
         <p class="notify-content">
-          Việc xóa sẽ làm tất cả thông tin có liên quan đến kế hoạch sẽ biến mất.
-          Bạn có chắc chắn muốn xóa ?
+          Việc xóa sẽ làm tất cả thông tin có liên quan đến kế hoạch sẽ biến
+          mất. Bạn có chắc chắn muốn xóa ?
         </p>
         <div class="row ali-center jus-end">
           <button class="cancel">Hủy</button>

@@ -31,7 +31,6 @@
       <div class="row jus-end h-100" *ngIf="isTruongBM">
         <div class="functional-button">
           <button
-            *ngIf="homeNhiemVuService.getIsAddBtnActive()"
             [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: -1 }]"
             (click)="onCheckIsAddBtnActive()"
           >

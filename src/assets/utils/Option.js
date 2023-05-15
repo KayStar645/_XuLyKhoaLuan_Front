@@ -9,6 +9,7 @@ class Option {
   show(type = "info", doAfter = () => {}) {
     this.type = type;
     this.notify.classList.add(this.type);
+    this.root.classList.add("active");
 
     this.timeoutId = setTimeout(() => {
       this.notify.classList.remove(this.type);

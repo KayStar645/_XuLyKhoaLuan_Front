@@ -78,49 +78,29 @@ export class DashboardBaitapchitietComponent {
     });
 
     this.websocketService.receiveFromBaoCao(async (dataChange: boolean) => {
-      this.apiHomeworkFiles.splice(0, this.apiHomeworkFiles.length);
-
-      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
-
-      this.apiBaoCaos.forEach((file: BaoCao) => {
-        let fileSplit: string[] = file.fileBc.split('.');
-        let type = fileSplit[fileSplit.length - 1];
-        let item: any = {};
-
-        if (this.types.includes(type)) {
-          item['img'] = `../../../../assets/Images/file_type/${type}.png`;
-        } else {
-          item['img'] = `../../../../assets/Images/file_type/doc.png`;
-        }
-        item['name'] = file.fileBc;
-        item['type'] = type;
-        this.apiHomeworkFiles.push(item);
-      });
+      if (dataChange) {
+        this.getAllHomeworkFiles();
+      }
     });
+    this.getAllHomeworkFiles();
 
     await this.getBinhLuans();
-
-    await this.getAllHomeworkFiles();
 
     if (
       compareAsc(new Date(this.cviec.hanChot), new Date()) === -1 &&
       this.apiHomeworkFiles.length === 0
     ) {
-      // Đã nộp nè
-      let isOut = false;
+      this.isOutDate = -1;
+    } else {
       for (let b of this.apiBaoCaos) {
         if (
-          compareAsc(new Date(b.thoiGianNop), new Date(this.cviec.hanChot)) ===
-          1
+          compareAsc(new Date(this.cviec.hanChot), new Date(b.thoiGianNop)) ===
+          -1
         ) {
-          isOut = true;
-          break;
+          this.isOutDate = 0;
+          return;
         }
-      }
-      if (isOut) {
-        this.isOutDate = 1; // Đã nộp
-      } else {
-        this.isOutDate = 0; // Nộp muộn
+        this.isOutDate = 1;
       }
     }
   }
@@ -143,12 +123,14 @@ export class DashboardBaitapchitietComponent {
         });
       });
   }
+
   catchDateTime() {
     this.thoiHan = format(new Date(this.cviec.hanChot), 'HH:mm dd-MM').replace(
       '-',
       ' tháng '
     );
   }
+
   async onAddComment() {
     if (this.dtForm.form.valid) {
       let formValue: any = this.dtForm.form.value;
@@ -179,6 +161,8 @@ export class DashboardBaitapchitietComponent {
   }
 
   async getAllHomeworkFiles() {
+    this.apiHomeworkFiles = [];
+    this.homeworkFiles = [];
     this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
 
     this.apiBaoCaos.forEach((file: BaoCao) => {
@@ -215,14 +199,17 @@ export class DashboardBaitapchitietComponent {
       this.homeworkFiles.push(item);
     });
   }
+
   async onAddFile() {
     let input: any = document.querySelector('.home-work input');
     input.click();
   }
+
   onRemveFileItem(event: any, name: String) {
     let index = this.homeworkFiles.findIndex((t) => t.name === name);
     this.homeworkFiles.splice(index, 1);
   }
+
   async onSubmitHomeWork() {
     if (this.homeworkFiles.length > 0) {
       try {
@@ -237,8 +224,6 @@ export class DashboardBaitapchitietComponent {
     } else {
       this.toastService.warning('Vui lòng thêm file đi kèm', 'Thông báo !');
     }
-    this.getAllHomeworkFiles();
-    this.homeworkFiles.splice(0, this.homeworkFiles.length);
   }
   async addBaoCao(fileName: string) {
     let currDate = new Date();

@@ -7,7 +7,6 @@ import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { shareService } from 'src/app/services/share.service';
 import { HomeMainComponent } from '../../home-main/home-main.component';
 import { HomeNhiemvuComponent } from '../home-nhiemvu.component';
-import { homeNhiemVuService } from '../home_nhiemvu.service';
 
 @Component({
   selector: 'app-home-danhsachnhiemvu',
@@ -26,8 +25,7 @@ export class HomeDanhsachnhiemvuComponent {
   constructor(
     private nhiemVuService: nhiemVuService,
     private shareService: shareService,
-    private websocketService: WebsocketService,
-    private homeNhiemVuService: homeNhiemVuService
+    private websocketService: WebsocketService
   ) {}
 
   async ngOnInit() {
@@ -44,9 +42,7 @@ export class HomeDanhsachnhiemvuComponent {
     });
   }
 
-  onShowDetail() {
-    this.homeNhiemVuService.setIsAddBtnActive(false);
-  }
+  onShowDetail() {}
 
   async getAllNhiemVu() {
     // Nếu là trưởng bộ môn thì được xem tất cả nhiệm vụ của bộ môn

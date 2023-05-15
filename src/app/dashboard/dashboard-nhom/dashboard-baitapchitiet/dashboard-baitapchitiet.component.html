@@ -66,6 +66,7 @@
           <p class="mission-note" *ngIf="isOutDate == -1">Thiếu</p>
           <p class="mission-note" *ngIf="isOutDate == 0">Nộp muộn</p>
           <p class="complete-note" *ngIf="isOutDate == 1">Đã nộp</p>
+          <p class="complete-note" *ngIf="isOutDate == -2">Chưa nộp</p>
           <input type="file" hidden (input)="onConfirmFile($event)" multiple />
         </div>
 
