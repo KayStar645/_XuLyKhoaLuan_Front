@@ -6,32 +6,27 @@
           <div class="mission-img row ali-center jus-center ma-r-16">
             <img src="../../../../assets/Images/mission.svg" alt="" />
           </div>
-
           <div>
             <div class="misstion-name p-b-8">{{ cviec.tenCv }}</div>
             <div class="row ali-center jus-between">
               <div class="teacher-name">{{ giangVien.tenGv }}</div>
               <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
             </div>
-
             <div class="mission-request" style="border: none">
               <span>Mô tả: </span>
-              <span [innerHTML]="cviec.moTa"></span>
+              <p [innerHTML]="cviec.moTa"></p>
             </div>
-
             <div class="mission-request">
               <span>Yêu cầu: </span>
-              <span [innerHTML]="cviec.yeuCau"></span>
+              <p [innerHTML]="cviec.yeuCau"></p>
             </div>
           </div>
-
           <div [formGroup]="dtForm.form" class="commment-form">
             <p class="comment-title">Nhận xét về công việc</p>
             <div class="form-control">
               <div class="user-img row ali-center jus-center ma-r-16">
                 <img src="../../../../assets/Images/user-icon.svg" alt="" />
               </div>
-
               <div class="form-value">
                 <quill-editor
                   spellcheck="false"
@@ -43,24 +38,19 @@
                 <p class="error-mess"></p>
               </div>
             </div>
-
             <div class="row jus-end">
-              <button class="comment-btn" (click)="onAddComment()">
-                Nhận xét
-              </button>
+              <button class="comment-btn" (click)="onAddComment()">Đăng</button>
             </div>
-
             <div class="comment-list">
               <div class="comment-item" *ngFor="let duyet of listTraoDoi">
                 <div class="row">
                   <div>
                     <img src="../../../../assets/Images/user-icon.svg" alt="" />
                   </div>
-
                   <div class="comment-info">
                     <p class="title">{{ duyet.tenHienThi }}</p>
                     <p class="content" [innerHTML]="duyet.noiDung"></p>
-                    <p class="time ma-t-4">{{ duyet.thoiGian }}</p>
+                    <p class="time">{{ duyet.thoiGian }}</p>
                   </div>
                 </div>
               </div>
@@ -69,21 +59,26 @@
         </div>
       </div>
     </div>
-
     <div class="h-3 p-l-8 p-r-8">
       <div class="detail-item">
+        <div class="row ali-center jus-between home-work">
+          <p class="home-work-title p-b-8">Báo cáo của bạn</p>
+          <p class="mission-note" *ngIf="isOutDate == -1">Thiếu</p>
+          <p class="mission-note" *ngIf="isOutDate == 0">Nộp muộn</p>
+          <p class="complete-note" *ngIf="isOutDate == 1">Đã nộp</p>
+          <input type="file" hidden (input)="onConfirmFile($event)" multiple />
+        </div>
+
         <div class="list-file" *ngIf="homeworkFiles.length > 0">
           <div
             class="file-item row ali-center"
             *ngFor="let item of homeworkFiles"
           >
             <img [src]="item.img" alt="" />
-
             <div class="item-info">
               <p>{{ item.name }}</p>
               <span>{{ item.type }}</span>
             </div>
-
             <i
               class="fa-solid fa-xmark remove-btn"
               style="color: #878787"

@@ -41,6 +41,7 @@ export class HomeChamdiemComponent {
       this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
     });
 
+    console.log(this.data);
   }
 
   async onChangeDiem(

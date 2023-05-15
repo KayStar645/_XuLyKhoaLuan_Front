@@ -339,7 +339,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
           lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
           lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
 
-          await this.huongDanService.add(lich);
+          await this.huongDanService.update(lich);
           break;
         }
         case 2: {
@@ -352,7 +352,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
           lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
           lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
 
-          await this.phanBienService.add(lich);
+          await this.phanBienService.update(lich);
           break;
         }
 

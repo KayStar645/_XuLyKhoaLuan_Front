@@ -1,3 +1,6 @@
+import { pbChamService } from './../../services/pbCham.service';
+import { hdChamService } from './../../services/hdCham.service';
+import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { WebsocketService } from './../../services/Websocket.service';
 import { chuyenNganhService } from './../../services/chuyenNganh.service';
 import { deTai_chuyenNganhService } from './../../services/deTai_chuyenNganh.service';
@@ -20,6 +23,9 @@ import { DangKy } from 'src/app/models/DangKy.model';
 import { ToastrService } from 'ngx-toastr';
 import { async } from 'rxjs';
 import { nhomService } from 'src/app/services/nhom.service';
+import { PbCham } from 'src/app/models/PbCham.model';
+import { HdCham } from 'src/app/models/HdCham.model';
+import { GiangVienDtVT } from 'src/app/models/VirtualModel/GiangVienDtVTModel';
 
 @Component({
   selector: 'app-dashbord-dangkydetai',
@@ -51,7 +57,10 @@ export class DashbordDangkydetaiComponent {
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private chuyenNganhService: chuyenNganhService,
     private websocketService: WebsocketService,
-    private nhomService: nhomService
+    private nhomService: nhomService,
+    private sinhVienService: sinhVienService,
+    private hdChamService: hdChamService,
+    private pbChamService: pbChamService
   ) {}
 
   async ngOnInit() {
@@ -163,14 +172,57 @@ export class DashbordDangkydetaiComponent {
         this.lineDTdk = await this.deTaiService.getById(deTai.maDT);
         this.toastr.success('Thành công!', 'Đăng ký đề tài thành công!');
 
-        this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
-          DashboardComponent.maNhom
-        ))
-          ? true
-          : false;
+        this.isDangky = true;
+
+        var giangVienDt = await this.deTaiService.GetGiangvienByDetai(
+          deTai.maDT
+        );
+        
+        // Thêm HdCham - Danh sách GVHD
+        for (var gv of giangVienDt.gvhds) {
+          this.addHdCham(deTai.maDT, gv.maGV);
+        }
+        // Thêm PbCham - Danh sách GVPB
+        for (var gv of giangVienDt.gvpbs) {
+          this.addPbCham(deTai.maDT, gv.maGV);
+        }
       } catch (error) {
         console.log(error);
       }
+    }
+  }
+
+  async addHdCham(maDt: string, maGv: string) {
+    // Đây - Thêm HDCham cho toàn bộ sinh viên trong nhóm
+    let sinhViens = await this.sinhVienService.getSinhvienByDetai(maDt);
+    for (let sv of sinhViens) {
+      let hdcham = new HdCham();
+      hdcham.init(
+        maGv,
+        maDt,
+        sv.maSv,
+        shareService.namHoc,
+        shareService.dot,
+        -1
+      );
+      await this.hdChamService.add(hdcham);
+    }
+  }
+
+  async addPbCham(maDt: string, maGv: string) {
+    // Đây - Thêm PBCham cho toàn bộ sinh viên trong nhóm
+    let sinhViens = await this.sinhVienService.getSinhvienByDetai(maDt);
+    for (let sv of sinhViens) {
+      let pbcham = new PbCham();
+      pbcham.init(
+        maGv,
+        maDt,
+        sv.maSv,
+        shareService.namHoc,
+        shareService.dot,
+        -1
+      );
+      await this.pbChamService.add(pbcham);
     }
   }
 
@@ -181,11 +233,18 @@ export class DashbordDangkydetaiComponent {
       this.lineDTdk = new DeTai();
       this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
 
-      this.isDangky = (await this.dangKyService.isNhomDangkyDetaiAsyc(
-        DashboardComponent.maNhom
-      ))
-        ? true
-        : false;
+      this.isDangky = false;
+
+      // // Xóa nè Chấm điểm nè
+      // var giangVienDt = await this.deTaiService.GetGiangvienByDetai(maDT);
+      // // Thêm HdCham - Danh sách GVHD
+      // for (var gv of giangVienDt.gvhDs) {
+      //   await this.hdChamService.delete(gv.maGV, maDT);
+      // }
+      // // Thêm PbCham - Danh sách GVPB
+      // for (var gv of giangVienDt.gvpBs) {
+      //   this.addPbCham(deTai.maDT, gv.maGV);
+      // }
     } catch (error) {
       console.log(error);
     }

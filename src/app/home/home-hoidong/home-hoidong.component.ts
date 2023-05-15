@@ -117,6 +117,7 @@ export class HomeHoidongComponent implements OnInit {
       hoiDong.ngayLap = ngayLap;
       hoiDong.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
       hoiDong.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+      hoiDong.maBm = HomeMainComponent.maBm;
 
       chuTich.maGv = selectedCT.maGv;
       chuTich.maHd = formValue.maHd;

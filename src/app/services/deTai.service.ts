@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { DeTai } from '../models/DeTai.model';
 import { shareService } from './share.service';
 import { SinhVien } from '../models/SinhVien.model';
+import { GiangVienDtVT } from '../models/VirtualModel/GiangVienDtVTModel';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,18 @@ export class deTaiService {
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
+    );
+  }
+
+  async GetGiangvienByDetai(maDt: string): Promise<GiangVienDtVT> {
+    var response = new GiangVienDtVT();
+    return (
+      (await this.http
+        .get<GiangVienDtVT>(
+          `${this.apiUrl}/api/Detais/deTai?maDt=${maDt}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? (response as GiangVienDtVT)
     );
   }
 
