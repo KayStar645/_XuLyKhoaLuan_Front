@@ -1,6 +1,5 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { format } from 'date-fns';

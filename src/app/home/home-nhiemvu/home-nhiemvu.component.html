@@ -32,7 +32,8 @@
         <div class="functional-button">
           <button
             [routerLink]="['/home/nhiem-vu/chi-tiet', { maNv: -1 }]"
-            (click)="onCheckIsAddBtnActive()"
+            *ngIf="isShowAddBtn"
+            (click)="onClickAdd($event)"
           >
             Thêm
           </button>
