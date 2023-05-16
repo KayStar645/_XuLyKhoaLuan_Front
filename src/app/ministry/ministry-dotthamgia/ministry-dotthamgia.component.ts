@@ -259,7 +259,7 @@ export class MinistryDotthamgiaComponent implements OnInit {
     return this.DSTGComponent.getTenCNById(maCn);
   }
 
-  getThamgiaByDotDk(event: any) {
+async getThamgiaByDotDk(event: any) {
     const dotdk = event.target.value;
     this.DSTGComponent.getThamgiaByDotDk(dotdk);
   }

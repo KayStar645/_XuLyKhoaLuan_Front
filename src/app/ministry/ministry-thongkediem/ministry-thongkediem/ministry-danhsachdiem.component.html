@@ -1,0 +1,30 @@
+<div id="container">
+  <div>
+    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+      <tr>
+        <th>Mã SV</th>
+        <th>Họ và tên</th>
+        <th>Lớp</th>
+        <th>Chuyên ngành</th>
+        <th>Điểm GVHD</th>
+        <th>Điểm GVPB</th>
+        <th>Điểm HĐ</th>
+        <th>Điểm TB</th>
+      </tr>
+      <tbody *ngFor="let sv of listSV">
+        <tr
+          class="br-line"
+        >
+          <td class="text-center">{{ sv.maSv }}</td>
+          <td class="text-left">{{ sv.tenSv }}</td>
+          <td class="text-center">{{ sv.lop }}</td>
+          <td class="text-left">{{ sv.chuyenNganh }}</td>
+          <td class="text-center">{{ sv.diemHd == -1 ? '-' : sv.diemHd }}</td>
+          <td class="text-center">{{ sv.diemPb == -1 ? '-' : sv.diemPb }}</td>
+          <td class="text-center">{{ sv.diemHdpb == -1 ? '-' : sv.diemHdpb }}</td>
+          <td class="text-center">{{ sv.diemTb }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

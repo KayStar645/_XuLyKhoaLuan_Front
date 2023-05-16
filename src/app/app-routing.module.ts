@@ -64,6 +64,7 @@ import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachd
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
 import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
+import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -185,6 +186,13 @@ const routes: Routes = [
       {
         component: MinistryThongkediemComponent,
         path: 'thong-ke-diem',
+        children: [
+          {
+            path: 'danh-sach-diem',
+            component: MinistryDanhsachdiemComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
         canActivate: [AuthGuard],
       },
     ],

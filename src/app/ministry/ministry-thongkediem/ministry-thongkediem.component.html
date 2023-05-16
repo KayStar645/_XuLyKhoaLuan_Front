@@ -5,11 +5,23 @@
         <select
           class="functional-select"
           id="functional-select"
-          (change)="onChange($event)"
+          (change)="onChangeCn($event)"
         >
           <option value="">Tất cả</option>
-          <option *ngFor="let cn of list" [value]="cn?.maCn">
+          <option *ngFor="let cn of listCN" [value]="cn?.maCn">
             {{ cn?.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class="functional-item">
+        <select
+          class="functional-select"
+          id="functional-select"
+          (change)="onChangeDotdk($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let dk of listDotdk" [value]="dk.namHoc + dk.dot">
+            {{ dk.namHoc + ' - Đợt ' + dk.dot }}
           </option>
         </select>
       </li>
@@ -18,6 +30,7 @@
           type="text"
           placeholder="Tìm theo tên..."
           [(ngModel)]="keyword"
+          (ngModelChange)="handleInputChange($event)"
         />
       </li>
       <li
@@ -30,5 +43,5 @@
     </ul>
   </div>
 
-  <app-ministry-thongkediem-danhsachsinhvien></app-ministry-thongkediem-danhsachsinhvien>
+  <app-ministry-danhsachdiem></app-ministry-danhsachdiem>
 </div>

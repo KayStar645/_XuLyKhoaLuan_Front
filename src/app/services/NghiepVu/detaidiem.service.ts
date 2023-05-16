@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { shareService } from '../share.service';
 import { DeTaiDiemVT } from 'src/app/models/VirtualModel/DeTaiDiemVTModel';
+import { DiemSVVT } from 'src/app/models/VirtualModel/DiemSVVTModel';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,22 @@ export class deTaiDiemService {
           this.shareService.httpOptions
         )
         .toPromise()) ?? false
+    );
+  }
+
+  async GetDanhSachDiem(
+    keyword: string,
+    maCn: string,
+    namHoc: string,
+    dot: number
+  ): Promise<DiemSVVT[]> {
+    return (
+      (await this.http
+        .get<DiemSVVT[]>(
+          `${this.apiUrl}/api/DeTaiDiem/keyword,maCn,namHoc,dot?keyword=${keyword}&maCn=${maCn}&namHoc=${namHoc}&dot=${dot}`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
     );
   }
 }

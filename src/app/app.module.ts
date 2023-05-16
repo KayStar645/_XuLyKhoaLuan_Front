@@ -87,7 +87,7 @@ import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachd
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
 import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
-import { MinistryThongkediemDanhsachsinhvienComponent } from './ministry/ministry-thongkediem/ministry-thongkediem-danhsachsinhvien/ministry-thongkediem-danhsachsinhvien.component';
+import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 
 @NgModule({
   declarations: [
@@ -167,7 +167,7 @@ import { MinistryThongkediemDanhsachsinhvienComponent } from './ministry/ministr
     TestComponent,
     ScheduleComponent,
     MinistryThongkediemComponent,
-    MinistryThongkediemDanhsachsinhvienComponent,
+    MinistryDanhsachdiemComponent,
   ],
 
   imports: [
