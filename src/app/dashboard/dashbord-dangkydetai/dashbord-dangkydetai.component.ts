@@ -174,10 +174,10 @@ export class DashbordDangkydetaiComponent {
 
         this.isDangky = true;
 
+        // Thêm chấm điểm cho nhóm sinh viên này
         var giangVienDt = await this.deTaiService.GetGiangvienByDetai(
           deTai.maDT
         );
-        
         // Thêm HdCham - Danh sách GVHD
         for (var gv of giangVienDt.gvhds) {
           this.addHdCham(deTai.maDT, gv.maGV);
@@ -189,6 +189,33 @@ export class DashbordDangkydetaiComponent {
       } catch (error) {
         console.log(error);
       }
+    }
+  }
+
+  async onHuyDangKy(maDT: string) {
+    var giangVienDt = await this.deTaiService.GetGiangvienByDetai(maDT);
+    let flag = true;
+    // Xóa HdCham - Danh sách GVHD
+    for (var gv of giangVienDt.gvhds) {
+      flag = await this.deleteHdCham(maDT, gv.maGV);
+    }
+    // Xóa PbCham - Danh sách GVPB
+    for (var gv of giangVienDt.gvpbs) {
+      flag = await this.deletePbCham(maDT, gv.maGV);
+    }
+    if(flag) {
+      try {
+        await this.dangKyService.delete(maDT, DashboardComponent.maNhom);
+        this.websocketService.sendForDangKy(true);
+        this.lineDTdk = new DeTai();
+        this.isDangky = false;
+        this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else {
+      this.toastr.error('Thất bại!', 'Không thể hủy đề tài!');
     }
   }
 
@@ -226,27 +253,21 @@ export class DashbordDangkydetaiComponent {
     }
   }
 
-  async onHuyDangKy(maDT: string) {
-    try {
-      await this.dangKyService.delete(maDT, DashboardComponent.maNhom);
-      this.websocketService.sendForDangKy(true);
-      this.lineDTdk = new DeTai();
-      this.toastr.success('Thành công!', 'Hủy đề tài thành công!');
+  async deleteHdCham(maDt: string, maGv: string) {
+    return await this.hdChamService.DeleteHdchamsByGvDt(
+      maGv,
+      maDt,
+      shareService.namHoc,
+      shareService.dot
+    );
+  }
 
-      this.isDangky = false;
-
-      // // Xóa nè Chấm điểm nè
-      // var giangVienDt = await this.deTaiService.GetGiangvienByDetai(maDT);
-      // // Thêm HdCham - Danh sách GVHD
-      // for (var gv of giangVienDt.gvhDs) {
-      //   await this.hdChamService.delete(gv.maGV, maDT);
-      // }
-      // // Thêm PbCham - Danh sách GVPB
-      // for (var gv of giangVienDt.gvpBs) {
-      //   this.addPbCham(deTai.maDT, gv.maGV);
-      // }
-    } catch (error) {
-      console.log(error);
-    }
+  async deletePbCham(maDt: string, maGv: string) {
+    return await this.pbChamService.DeletePbchamsByGvDt(
+      maGv,
+      maDt,
+      shareService.namHoc,
+      shareService.dot
+    );
   }
 }
