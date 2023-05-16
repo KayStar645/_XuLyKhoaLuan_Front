@@ -1,3 +1,4 @@
+import { shareService } from './../../../services/share.service';
 import { sinhVienService } from './../../../services/sinhVien.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -5,12 +6,7 @@ import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import {
-  compareAsc,
-  format,
-  formatDistanceToNow,
-  formatDistanceToNowStrict,
-} from 'date-fns';
+import { compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
@@ -23,6 +19,7 @@ import { Validators } from '@angular/forms';
 import { vi } from 'date-fns/locale';
 import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 import { traoDoiService } from 'src/app/services/NghiepVu/traodoi.service';
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-dashboard-baitapchitiet',
   templateUrl: './dashboard-baitapchitiet.component.html',
@@ -45,7 +42,18 @@ export class DashboardBaitapchitietComponent {
     nhanXet: ['', Validators.required],
   });
 
-  types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
+  types = [
+    'xlsx',
+    'jpg',
+    'png',
+    'pptx',
+    'sql',
+    'docx',
+    'txt',
+    'pdf',
+    'rar',
+    'zip',
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,7 +64,8 @@ export class DashboardBaitapchitietComponent {
     private websocketService: WebsocketService,
     private binhLuanService: binhLuanService,
     private baoCaoService: baoCaoService,
-    private sinhVienService: sinhVienService
+    private sinhVienService: sinhVienService,
+    private shareService: shareService
   ) {}
   async ngOnInit() {
     this.getNamhocDot();
@@ -79,10 +88,10 @@ export class DashboardBaitapchitietComponent {
 
     this.websocketService.receiveFromBaoCao(async (dataChange: boolean) => {
       if (dataChange) {
-        this.getAllHomeworkFiles();
+        await this.getAllHomeworkFiles();
       }
     });
-    this.getAllHomeworkFiles();
+    await this.getAllHomeworkFiles();
 
     await this.getBinhLuans();
 
@@ -103,6 +112,30 @@ export class DashboardBaitapchitietComponent {
         this.isOutDate = 1;
       }
     }
+  }
+
+  onSelect(event: any) {
+    event.addedFiles.forEach((file: any) => {
+      let fileSplit: string[] = file.name.split('.');
+      let type = fileSplit[fileSplit.length - 1];
+      let item: any = {};
+
+      if (this.types.includes(type)) {
+        item['img'] = `../../../../assets/Images/file_type/${type}.png`;
+      } else {
+        item['img'] = `../../../../assets/Images/file_type/doc.png`;
+      }
+      item['name'] = file.name;
+      item['type'] = type;
+      item['file'] = file;
+      this.homeworkFiles.push(item);
+    });
+  }
+
+  onRemove(event: any) {
+    let index = this.homeworkFiles.findIndex((t) => t.file === event);
+
+    this.homeworkFiles.splice(index, 1);
   }
 
   async getBinhLuans() {
@@ -166,8 +199,8 @@ export class DashboardBaitapchitietComponent {
     this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
 
     this.apiBaoCaos.forEach((file: BaoCao) => {
-      let fileSplit: string[] = file.fileBc.split('.');
-      let type = fileSplit[fileSplit.length - 1];
+      let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
+      let type = fileSplit[0];
       let item: any = {};
 
       if (this.types.includes(type)) {
@@ -175,28 +208,9 @@ export class DashboardBaitapchitietComponent {
       } else {
         item['img'] = `../../../../assets/Images/file_type/doc.png`;
       }
-      item['name'] = file.fileBc;
+      item['name'] = file.fileBc.split('-')[0];
       item['type'] = type;
       this.apiHomeworkFiles.push(item);
-    });
-  }
-
-  async onConfirmFile(event: any) {
-    const files = Array.from(event.target.files);
-
-    files.forEach((file: any) => {
-      let fileSplit: string[] = file.name.split('.');
-      let type = fileSplit[fileSplit.length - 1];
-      let item: any = {};
-
-      if (this.types.includes(type)) {
-        item['img'] = `../../../../assets/Images/file_type/${type}.png`;
-      } else {
-        item['img'] = `../../../../assets/Images/file_type/doc.png`;
-      }
-      item['name'] = file.name;
-      item['type'] = type;
-      this.homeworkFiles.push(item);
     });
   }
 
@@ -205,16 +219,28 @@ export class DashboardBaitapchitietComponent {
     input.click();
   }
 
-  onRemveFileItem(event: any, name: String) {
-    let index = this.homeworkFiles.findIndex((t) => t.name === name);
-    this.homeworkFiles.splice(index, 1);
-  }
+  onRemveFileItem(event: any, name: String) {}
 
   async onSubmitHomeWork() {
     if (this.homeworkFiles.length > 0) {
       try {
-        for (var file of this.homeworkFiles) {
-          await this.addBaoCao(file.name);
+        for (let homework of this.homeworkFiles) {
+          let fileName = homework.name.concat(
+            '-',
+            DashboardComponent.maSV,
+            '-',
+            this.namHoc,
+            '-',
+            this.dot.toString(),
+            '-',
+            format(new Date(), 'HH:mm:ss')
+          );
+          await this.addBaoCao(fileName);
+          await this.shareService.uploadFile(
+            homework.file,
+            environment.githubHomeworkFilesAPI,
+            fileName
+          );
           this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
           this.websocketService.sendForBaoCao(true);
         }
@@ -225,6 +251,7 @@ export class DashboardBaitapchitietComponent {
       this.toastService.warning('Vui lòng thêm file đi kèm', 'Thông báo !');
     }
   }
+
   async addBaoCao(fileName: string) {
     let currDate = new Date();
     let thoiGianNop =
@@ -243,10 +270,12 @@ export class DashboardBaitapchitietComponent {
     );
     await this.baoCaoService.add(baoCao);
   }
+
   async getNameSinhvien(maSv: string) {
     let sv = await this.sinhVienService.getById(maSv);
     return sv.maSv + ' - ' + sv.tenSv;
   }
+
   getNamhocDot() {
     let maNhom = DashboardComponent.maNhom;
     this.namHoc = maNhom.substring(10, 19);

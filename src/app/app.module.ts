@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { QuillModule } from 'ngx-quill';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { HomeMainComponent } from './home/home-main/home-main.component';
 import { HomeThongbaoComponent } from './home/home-thongbao/home-thongbao.component';
@@ -184,6 +185,7 @@ import { MinistryThongkediemDanhsachsinhvienComponent } from './ministry/ministr
     NgxPaginationModule,
     DpDatePickerModule,
     AutocompleteLibModule,
+    NgxDropzoneModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot({

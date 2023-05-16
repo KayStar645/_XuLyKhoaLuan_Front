@@ -39,10 +39,11 @@ export class shareService {
 
   public async uploadFile(
     file: any,
-    apiUrl: string = environment.githubNotifyFilesAPI
+    apiUrl: string = environment.githubNotifyFilesAPI,
+    fileName?: string
   ): Promise<any> {
     const fileReader = new FileReader();
-    const url = apiUrl + file.name;
+    const url = apiUrl + (fileName || file.name);
 
     try {
       await this.http.get(url).toPromise();

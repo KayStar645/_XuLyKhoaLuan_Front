@@ -1,0 +1,40 @@
+.hide-dropzone ngx-dropzone {
+  display: none;
+}
+
+.grid.wide ngx-dropzone {
+  display: block;
+  height: auto;
+  background: #fff;
+  cursor: pointer;
+  color: initial;
+  border: none;
+  border-radius: 0;
+  font-size: inherit;
+  overflow-x: auto;
+}
+
+.grid.wide ngx-dropzone-preview {
+  display: block !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  max-width: initial !important;
+  min-height: initial !important;
+  min-width: initial !important;
+  padding: 0 !important;
+  background: none;
+}
+
+.grid.wide ngx-dropzone-label {
+  text-align: initial;
+  margin: 0;
+  flex-wrap: initial;
+}
+
+.grid.wide ngx-dropzone-remove-badge {
+  top: 50%;
+  right: 4px;
+  transform: translate(0, -50%);
+  opacity: 1 !important;
+}
