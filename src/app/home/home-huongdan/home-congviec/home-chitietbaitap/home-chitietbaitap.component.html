@@ -112,7 +112,7 @@
 <ng-template #detail>
   <form class="tb-form detail-container">
     <div class="row functional-wrapper">
-      <div class="h-9 p-l-8 p-r-8">
+      <div class="h-8 p-l-8 p-r-8">
         <div class="detail-item">
           <div class="mission-info relative">
             <div class="mission-img row ali-center jus-center ma-r-16">
@@ -138,7 +138,6 @@
             </div>
 
             <div [formGroup]="dtForm.form" class="commment-form">
-              <p class="comment-title">Nhận xét về công việc</p>
               <div class="form-control">
                 <div class="user-img row ali-center jus-center ma-r-16">
                   <img src="../../../../assets/Images/user-icon.svg" alt="" />
@@ -185,24 +184,104 @@
         </div>
       </div>
 
-      <div class="h-3 p-l-8 p-r-8">
-      <div class="detail-item">
-        <div class="list-file" *ngIf="apiHomeworkFiles.length > 0">
-          <div
-            class="file-item row ali-center"
-            *ngFor="let item of apiHomeworkFiles"
-          >
-            <img [src]="item.img" alt="" />
+      <div class="h-4 p-l-8 p-r-8">
+        <div class="detail-item">
+          <div class="misstion-name p-b-8">Sinh viên nộp báo cáo</div>
+          <div class="students" *ngIf="apiHomeworkFiles.length > 0">
+            <div class="student">
+              <div
+                class="row ali-center student-info"
+                (click)="onStudentClick($event)"
+              >
+                <img
+                  src="../../../../../assets/Images/avatar-nam.jpeg"
+                  alt=""
+                />
 
-            <div class="item-info">
-              <p>{{ item.name }}</p>
-              <span>{{ item.type }}</span>
+                <div class="item-info flex-1 overflow-hidden">
+                  <p>2001202222 - Ngô Văn Sơn</p>
+                </div>
+
+                <i
+                  class="fa-solid fa-caret-down ma-l-12"
+                  style="color: #000000"
+                ></i>
+              </div>
+
+              <div class="collapse-block">
+                <div class="files row flex-column gap-16">
+                  <div class="file row ali-center">
+                    <img
+                      src="../../../../../assets/Images/file_type/rar.png"
+                      alt=""
+                    />
+
+                    <div class="flex-1 overflow-hidden">
+                      <p>200120222_BaiTapTuan1</p>
+                      <p>rar</p>
+                    </div>
+                  </div>
+                  <div class="file row ali-center">
+                    <img
+                      src="../../../../../assets/Images/file_type/rar.png"
+                      alt=""
+                    />
+
+                    <div class="flex-1 overflow-hidden">
+                      <p>200120222_BaiTapTuan1</p>
+                      <p>rar</p>
+                    </div>
+                  </div>
+                  <div class="file row ali-center">
+                    <img
+                      src="../../../../../assets/Images/file_type/rar.png"
+                      alt=""
+                    />
+
+                    <div class="flex-1 overflow-hidden">
+                      <p>200120222_BaiTapTuan1</p>
+                      <p>rar</p>
+                    </div>
+                  </div>
+                  <div class="file row ali-center">
+                    <img
+                      src="../../../../../assets/Images/file_type/rar.png"
+                      alt=""
+                    />
+
+                    <div class="flex-1 overflow-hidden">
+                      <p>200120222_BaiTapTuan1</p>
+                      <p>rar</p>
+                    </div>
+                  </div>
+                  <div class="file row ali-center">
+                    <img
+                      src="../../../../../assets/Images/file_type/rar.png"
+                      alt=""
+                    />
+
+                    <div class="flex-1 overflow-hidden">
+                      <p>200120222_BaiTapTuan1</p>
+                      <p>rar</p>
+                    </div>
+                  </div>
+                  <div class="file row ali-center">
+                    <img
+                      src="../../../../../assets/Images/file_type/rar.png"
+                      alt=""
+                    />
+
+                    <div class="flex-1 overflow-hidden">
+                      <p>200120222_BaiTapTuan1</p>
+                      <p>rar</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-      
     </div>
   </form>
 </ng-template>

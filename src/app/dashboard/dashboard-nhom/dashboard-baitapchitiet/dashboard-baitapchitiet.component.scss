@@ -232,7 +232,7 @@
 }
 
 .list-file {
-  max-height: 250px;
+  max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -248,16 +248,12 @@
   margin-right: 8px;
 }
 
-.item-info {
-  width: 72%;
-}
-
 .file-item p {
   color: #4c4d4f;
-  width: 99%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  width: calc(100% - 32px);
 }
 
 .file-item span {

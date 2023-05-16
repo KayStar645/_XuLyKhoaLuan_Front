@@ -128,12 +128,6 @@
   }
 }
 
-.time-out-list .list-item .item-title:hover {
-  text-decoration: underline;
-  color: rgb(66, 133, 244);
-  cursor: pointer;
-}
-
 .functional-list {
   padding: 0;
 }
@@ -149,6 +143,12 @@
   transform: scale(0);
   transform-origin: 50% top;
   transition-duration: 0.3s;
+}
+
+.time-out-list .list-item .item-title:hover {
+  text-decoration: underline;
+  color: rgb(66, 133, 244);
+  cursor: pointer;
 }
 
 .mission-list .list-item {

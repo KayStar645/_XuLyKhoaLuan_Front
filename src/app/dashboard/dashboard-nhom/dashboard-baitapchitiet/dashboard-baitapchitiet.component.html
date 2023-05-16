@@ -1,6 +1,6 @@
 <form class="tb-form detail-container">
   <div class="row functional-wrapper">
-    <div class="h-9 p-l-8 p-r-8">
+    <div class="h-8 p-l-8 p-r-8">
       <div class="detail-item">
         <div class="mission-info relative">
           <div class="mission-img row ali-center jus-center ma-r-16">
@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    <div class="h-3 p-l-8 p-r-8">
+    <div class="h-4 p-l-8 p-r-8">
       <div class="detail-item home-work">
         <div class="row ali-center jus-between">
           <p class="home-work-title p-b-8">Báo cáo của bạn</p>
@@ -78,7 +78,7 @@
             >
               <ngx-dropzone-label class="file-item row ali-center">
                 <img [src]="item.img" alt="" />
-                <div class="item-info">
+                <div class="item-info flex-1 overflow-hidden">
                   <p>{{ item.name }}</p>
                   <span>{{ item.type }}</span>
                 </div>
@@ -90,7 +90,7 @@
             <ngx-dropzone-preview *ngFor="let item of apiHomeworkFiles">
               <ngx-dropzone-label class="file-item row ali-center">
                 <img [src]="item.img" alt="" />
-                <div class="item-info">
+                <div class="item-info flex-1">
                   <p>{{ item.name }}</p>
                   <span>{{ item.type }}</span>
                 </div>

@@ -1,6 +1,6 @@
-import { BaoCao } from './../../../../models/BaoCao.model';
+import { BaoCao } from '../../../../models/BaoCao.model';
 import { traoDoiService } from '../../../../services/NghiepVu/traodoi.service';
-import { hdGopYService } from './../../../../services/hdGopY.service';
+import { hdGopYService } from '../../../../services/hdGopY.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CongViec } from 'src/app/models/CongViec.model';
@@ -8,7 +8,7 @@ import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
 import { format, formatDistanceToNowStrict } from 'date-fns';
-import { Form, dateVNConvert } from 'src/assets/utils';
+import { Form, dateVNConvert, getParentElement } from 'src/assets/utils';
 import { vi } from 'date-fns/locale';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { HomeMainComponent } from 'src/app/home/home-main/home-main.component';
@@ -55,6 +55,7 @@ export class HomeChitietbaitapComponent {
   apiHomeworkFiles: any[] = [];
   apiBaoCaos: BaoCao[] = [];
   types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
+  defaultHeight: number = 60;
 
   isUpdate: boolean = false;
   isAdd: boolean = false;
@@ -99,12 +100,28 @@ export class HomeChitietbaitapComponent {
     }
   }
 
+  onStudentClick(event: MouseEvent) {
+    let element = event.target as HTMLElement;
+    let parent: HTMLInputElement = getParentElement(element, '.student');
+    let collape: HTMLElement = parent.querySelector('.collapse-block')!;
+    let heightAdd = this.defaultHeight + collape.offsetHeight + 16;
+    let heightSub = parent.scrollHeight - collape.offsetHeight - 16;
+
+    if (parent.classList.contains('active')) {
+      parent.classList.remove('active');
+      parent.style.height = `${heightSub}px`;
+    } else {
+      parent.classList.add('active');
+      parent.style.height = `${heightAdd}px`;
+    }
+  }
+
   async getAllHomeworkFiles() {
     this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
 
     this.apiBaoCaos.forEach((file: BaoCao) => {
-      let fileSplit: string[] = file.fileBc.split('.');
-      let type = fileSplit[fileSplit.length - 1];
+      let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
+      let type = fileSplit[0];
       let item: any = {};
 
       if (this.types.includes(type)) {
@@ -112,9 +129,11 @@ export class HomeChitietbaitapComponent {
       } else {
         item['img'] = `../../../../assets/Images/file_type/doc.png`;
       }
-      item['name'] = file.fileBc;
+      item['name'] = file.fileBc.split('.')[0];
       item['type'] = type;
       this.apiHomeworkFiles.push(item);
+
+      console.log(this.apiBaoCaos);
     });
 
     this.websocketService.startConnection();
