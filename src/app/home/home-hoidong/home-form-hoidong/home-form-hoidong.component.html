@@ -1,0 +1,200 @@
+<div class="functional-list">
+  <ul class="functional-container row ali-center functional-wrapper">
+    <li
+      class="functional-item row ali-center jus-end flex-1 functional-wrapper"
+    >
+      <div class="functional-button">
+        <button routerLink="/home/hoi-dong/form-hoidong">Thêm</button>
+      </div>
+    </li>
+  </ul>
+</div>
+<form [formGroup]="hoiDong.form" class="form">
+  <div class="row functional-wrapper">
+    <div class="h-6 p-l-8 p-r-8">
+      <div class="detail-item">
+        <label class="form-control row ali-center">
+          <p class="label p-b-8">Mã hội đồng</p>
+          <div class="form-value">
+            <input type="text" formControlName="maHd" class="form-input" />
+            <p class="error-mess"></p>
+          </div>
+        </label>
+
+        <label class="form-control row ali-center">
+          <p class="label p-b-8">Tên hội đồng</p>
+          <div class="form-value">
+            <input type="text" formControlName="tenHd" class="form-input" />
+            <p class="error-mess"></p>
+          </div>
+        </label>
+
+        <label class="form-control form-no-box-shadow row ali-center">
+          <p class="label p-b-8">Ngày diễn ra</p>
+
+          <div class="form-value">
+            <dp-date-picker
+              mode="day"
+              formControlName="ngayBD"
+              [config]="{
+                firstDayOfWeek: 'mo',
+                showNearMonthDays: false
+              }"
+              (onSelect)="onDateChange($event)"
+              class="form-input"
+            ></dp-date-picker>
+            <p class="error-mess"></p>
+          </div>
+        </label>
+
+        <label class="form-control form-no-box-shadow row ali-center">
+          <p class="label p-b-8">Bắt đầu</p>
+
+          <div class="form-value">
+            <dp-date-picker
+              mode="time"
+              formControlName="TGBatDau"
+              (onSelect)="onDateChange($event)"
+              class="form-input"
+            ></dp-date-picker>
+            <p class="error-mess"></p>
+          </div>
+        </label>
+
+        <label class="form-control row ali-center">
+          <p class="label p-b-8">Địa điểm</p>
+          <div class="form-value">
+            <input type="text" formControlName="diaDiem" class="form-input" />
+            <p class="error-mess"></p>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="h-6 p-l-8 p-r-8">
+      <div class="detail-item">
+        <app-drop-down
+          #chuTich
+          label="Chủ tịch"
+          placeholder="Tìm giảng viên"
+          [items]="CTInputConfig.items"
+          [selectedItem]="CTInputConfig.selectedItem"
+          primarKey="maGv"
+          keyWord="tenGv"
+          (onParrentSelect)="onSelectCT($event)"
+          (onParrentUnSelect)="onUnSelecCT($event)"
+          [isSearchMultiple]="false"
+          [isRow]="false"
+        ></app-drop-down>
+
+        <app-drop-down
+          #thuKy
+          label="Thư ký"
+          placeholder="Tìm giảng viên"
+          [items]="TKInputConfig.items"
+          [selectedItem]="TKInputConfig.selectedItem"
+          primarKey="maGv"
+          keyWord="tenGv"
+          (onParrentSelect)="onSelectTK($event)"
+          (onParrentUnSelect)="onUnSelectTK($event)"
+          [isSearchMultiple]="false"
+          [isRow]="false"
+        ></app-drop-down>
+
+        <app-drop-down
+          #uyVien
+          label="Ủy viên"
+          placeholder="Tìm giảng viên"
+          [items]="UVInputConfig.items"
+          [selectedItem]="UVInputConfig.selectedItem"
+          primarKey="maGv"
+          keyWord="tenGv"
+          (onParrentSelect)="onSelectUV($event)"
+          (onParrentUnSelect)="onUnSelectUV($event)"
+          [isRow]="false"
+        ></app-drop-down>
+
+        <label class="form-control form-no-box-shadow row ali-center">
+          <p class="label p-b-8">Kết thúc</p>
+
+          <div class="form-value">
+            <dp-date-picker
+              mode="time"
+              formControlName="TGKetThuc"
+              (onSelect)="onDateChange($event)"
+              class="form-input"
+            ></dp-date-picker>
+            <p class="error-mess"></p>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-item ma-t-16">
+    <p class="list-label p-b-16">Danh sách đề tài đã chọn</p>
+
+    <div id="container">
+      <div>
+        <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+          <tr>
+            <th>Mã đề tài</th>
+            <th>Tên đề tài</th>
+            <th>GVHD</th>
+            <th>GVPB</th>
+            <th>Thao tác</th>
+          </tr>
+          <tbody>
+            <tr *ngFor="let dt of selectedDetais">
+              <td>{{ dt.maDT }}</td>
+              <td [innerHTML]="dt.tenDT"></td>
+              <td></td>
+              <td></td>
+              <td class="text-center action" (click)="onRemove(dt)">Hủy</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-item ma-t-16">
+    <div class="row ali-center jus-between header p-b-16">
+      <p class="list-label">Danh sách đề tài</p>
+
+      <label class="form-control row ali-center jus-end h-4">
+        <div class="form-value">
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Tìm đề tài"
+            (input)="onSearch($event)"
+          />
+        </div>
+      </label>
+    </div>
+
+    <div id="container">
+      <div>
+        <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+          <tr>
+            <th class="text-center">Mã đề tài</th>
+            <th>Tên đề tài</th>
+            <th>GVHD</th>
+            <th>GVPB</th>
+            <th>Thao tác</th>
+          </tr>
+          <tbody>
+            <tr *ngFor="let dt of searchedDetais">
+              <td>{{ dt.maDT }}</td>
+              <td [innerHTML]="dt.tenDT"></td>
+              <td></td>
+              <td></td>
+              <td class="text-center action" (click)="onSelect(dt)">Chọn</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

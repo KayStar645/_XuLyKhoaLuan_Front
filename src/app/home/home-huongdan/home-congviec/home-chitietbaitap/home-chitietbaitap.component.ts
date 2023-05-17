@@ -1,3 +1,4 @@
+import { WebsocketService } from './../../../../services/Websocket.service';
 import { traoDoiService } from '../../../../services/NghiepVu/traodoi.service';
 import { hdGopYService } from '../../../../services/hdGopY.service';
 import { Component } from '@angular/core';
@@ -6,10 +7,9 @@ import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { format, formatDistanceToNowStrict } from 'date-fns';
+import { add, format, formatDistanceToNowStrict, compareAsc } from 'date-fns';
 import { Form, dateVNConvert, getParentElement } from 'src/assets/utils';
 import { vi } from 'date-fns/locale';
-import { WebsocketService } from 'src/app/services/Websocket.service';
 import { HomeMainComponent } from 'src/app/home/home-main/home-main.component';
 import { HdGopi } from 'src/app/models/HdGopi.model';
 import { HomeDanhsachbaitapComponent } from '../home-danhsachbaitap/home-danhsachbaitap.component';
@@ -98,6 +98,13 @@ export class HomeChitietbaitapComponent {
 
       await this.getComment();
     }
+
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromHuongDanGopY((dataChange: Boolean) => {
+      if (dataChange) {
+        this.getComment();
+      }
+    });
   }
 
   onStudentClick(event: MouseEvent) {
@@ -117,7 +124,7 @@ export class HomeChitietbaitapComponent {
   }
 
   async getAllHomeworkFiles() {
-    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, "");
+    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, '');
 
     this.apiBaoCaos.forEach((file: BaoCaoVT) => {
       let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
@@ -132,15 +139,13 @@ export class HomeChitietbaitapComponent {
       item['name'] = file.fileBc.split('.')[0];
       item['type'] = type;
       this.apiHomeworkFiles.push(item);
-
-      console.log(this.apiBaoCaos);
     });
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromBaoCao(async (dataChange: boolean) => {
       this.apiHomeworkFiles.splice(0, this.apiHomeworkFiles.length);
 
-      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, "");
+      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, '');
 
       this.apiBaoCaos.forEach((file: BaoCaoVT) => {
         let fileSplit: string[] = file.fileBc.split('.');
@@ -234,22 +239,25 @@ export class HomeChitietbaitapComponent {
   }
 
   async getComment() {
-    await this.traoDoiService
-      .GetAllTraoDoiMotCongViec(this.maCV)
-      .then((data) => {
-        this.listTraoDoi = data.map((t: any) => {
-          return {
-            ...t,
-            thoiGian:
-              format(new Date(t.thoiGian), 'dd-MM-yyyy') +
-              ' (' +
-              formatDistanceToNowStrict(new Date(t.thoiGian), {
-                locale: vi,
-              }) +
-              ' trước) ',
-          };
-        });
-      });
+    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(
+      this.maCV
+    );
+  }
+
+  format(value: string) {
+    let date = new Date(value);
+    let dateAdd = add(date, { days: 1 });
+    let newValue = format(date, 'dd-MM-yyyy HH:mm');
+
+    if (compareAsc(dateAdd, new Date()) === 1) {
+      return (
+        formatDistanceToNowStrict(date, {
+          locale: vi,
+        }) + ' trước'
+      );
+    }
+
+    return newValue;
   }
 
   async onAddComment() {
@@ -271,7 +279,10 @@ export class HomeChitietbaitapComponent {
         );
 
         await this.hdGopYService.add(gopy);
-        await this.getComment();
+        this.dtForm.form.patchValue({
+          nhanXet: '',
+        });
+        this.websocketService.sendForHuongDanGopY(true);
       } catch (error) {}
     }
   }

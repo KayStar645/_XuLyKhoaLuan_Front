@@ -24,6 +24,7 @@ export class DropDownComponent implements OnInit, OnChanges {
   @Input() keyWord: string = '';
   @Input() isSearchMultiple: boolean = true;
   @Input() isRow: boolean = true;
+  @Input() max: number = 4;
 
   @Output() onParrentSelect = new EventEmitter();
   @Output() onParrentUnSelect = new EventEmitter();
@@ -38,9 +39,11 @@ export class DropDownComponent implements OnInit, OnChanges {
 
     window.addEventListener('click', (e) => {
       let parent = getParentElement(e.target, '.selected');
+      let element = e.target as HTMLElement;
+      let activeElement = element.closest('.selected-box');
       let activeList = document.querySelector('.selected.active');
 
-      if (!parent && activeList) {
+      if (!parent && activeList && !activeElement) {
         activeList.classList.remove('active');
       }
     });
@@ -51,12 +54,16 @@ export class DropDownComponent implements OnInit, OnChanges {
   onOpenDropdown(event: any) {
     let parent: HTMLElement = getParentElement(event.target, '.selected');
 
-    document.querySelector('.selected.active')?.classList.remove('active');
-    parent.classList.add('active');
-    parent.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-    });
+    if (parent.classList.contains('active')) {
+      parent.classList.remove('active');
+    } else {
+      document.querySelector('.selected.active')?.classList.remove('active');
+      parent.classList.add('active');
+      parent.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
   }
 
   isItemExist(selected: any[], item: any) {

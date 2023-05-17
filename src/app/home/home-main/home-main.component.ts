@@ -1,6 +1,3 @@
-import { phanBienService } from 'src/app/services/phanBien.service';
-import { huongDanService } from 'src/app/services/huongDan.service';
-import { nhiemVuService } from 'src/app/services/nhiemVu.service';
 import { ThongBao } from 'src/app/models/ThongBao.model';
 import { thongBaoService } from 'src/app/services/thongBao.service';
 import { HoiDong } from './../../models/HoiDong.model';
@@ -52,10 +49,7 @@ export class HomeMainComponent {
     private truongBmService: truongBmService,
     private boMonService: boMonService,
     private el: ElementRef,
-    private thongBaoService: thongBaoService,
-    private nhiemVuService: nhiemVuService,
-    private huongDanService: huongDanService,
-    private phanBienService: phanBienService
+    private thongBaoService: thongBaoService
   ) {}
 
   public async ngOnInit() {
@@ -75,19 +69,23 @@ export class HomeMainComponent {
 
     // Kiểm tra có phải là trưởng bộ môn hoặc trưởng khoa hay không?
     if (await this.truongBmService.isTruongBomonByMaGV(this.maGV)) {
-      this.maBm = await (
+      this.maBm = (
         await this.truongBmService.CheckTruongBomonByMaGV(this.maGV)
       ).maBm;
       HomeMainComponent.maBm = this.maBm;
     }
     if (await this.truongKhoaService.isTruongKhoaByMaGV(this.maGV)) {
-      this.maKhoa = await (
+      this.maKhoa = (
         await this.truongKhoaService.CheckTruongKhoaByMaGV(this.maGV)
       ).maKhoa;
       HomeMainComponent.maKhoa = this.maKhoa;
     }
 
-    this.cNhiemVu = await this.giangVienService.GetSoLuongNhiemVu(HomeMainComponent.maGV, shareService.namHoc, shareService.dot);
+    this.cNhiemVu = await this.giangVienService.GetSoLuongNhiemVu(
+      HomeMainComponent.maGV,
+      shareService.namHoc,
+      shareService.dot
+    );
 
     // Nếu có chức vụ hoặc tham gia hội đồng thì giảm item xuống và css lại
     this.resetNavbar();

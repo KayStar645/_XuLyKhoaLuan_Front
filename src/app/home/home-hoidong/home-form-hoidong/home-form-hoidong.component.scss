@@ -1,0 +1,20 @@
+.label {
+  width: 100%;
+}
+
+.list-label {
+  font-size: 2rem;
+  color: #0d6bb3;
+  font-weight: 700;
+}
+
+.action {
+  &:hover {
+    background: rgba(29, 148, 239, 0.3);
+    cursor: pointer;
+  }
+}
+
+.header .form-control {
+    padding-bottom: 0;
+}

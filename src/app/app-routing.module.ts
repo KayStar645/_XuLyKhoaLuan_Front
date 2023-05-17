@@ -65,6 +65,8 @@ import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/d
 import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
 import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
+import { HomeDanhsachhoidongComponent } from './home/home-hoidong/home-danhsachhoidong/home-danhsachhoidong.component';
+import { HomeFormHoidongComponent } from './home/home-hoidong/home-form-hoidong/home-form-hoidong.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -358,6 +360,18 @@ const routes: Routes = [
         path: 'hoi-dong',
         component: HomeHoidongComponent,
         canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: HomeDanhsachhoidongComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'form-hoidong',
+            component: HomeFormHoidongComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
       },
       {
         path: 'quan-ly-chung',

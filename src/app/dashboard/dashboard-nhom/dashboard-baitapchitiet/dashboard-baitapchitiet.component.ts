@@ -6,7 +6,7 @@ import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
+import { add, compareAsc, format, formatDistanceToNowStrict } from 'date-fns';
 import { BinhLuan } from 'src/app/models/BinhLuan.model';
 import { Form } from 'src/assets/utils';
 import { binhLuanService } from 'src/app/services/binhLuan.service';
@@ -139,22 +139,9 @@ export class DashboardBaitapchitietComponent {
   }
 
   async getBinhLuans() {
-    await this.traoDoiService
-      .GetAllTraoDoiMotCongViec(this.maCV)
-      .then((data) => {
-        this.listTraoDoi = data.map((t: any) => {
-          return {
-            ...t,
-            thoiGian:
-              t.thoiGian.substr(0, 10) +
-              ' (' +
-              formatDistanceToNowStrict(new Date(t.thoiGian), {
-                locale: vi,
-              }) +
-              ' trước) ',
-          };
-        });
-      });
+    this.listTraoDoi = await this.traoDoiService.GetAllTraoDoiMotCongViec(
+      this.maCV
+    );
   }
 
   catchDateTime() {
@@ -196,7 +183,7 @@ export class DashboardBaitapchitietComponent {
   async getAllHomeworkFiles() {
     this.apiHomeworkFiles = [];
     this.homeworkFiles = [];
-    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, "");
+    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, '');
 
     this.apiBaoCaos.forEach((file: BaoCaoVT) => {
       let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
@@ -217,6 +204,22 @@ export class DashboardBaitapchitietComponent {
   async onAddFile() {
     let input: any = document.querySelector('.home-work input');
     input.click();
+  }
+
+  format(value: string) {
+    let date = new Date(value);
+    let dateAdd = add(date, { days: 1 });
+    let newValue = format(date, 'dd-MM-yyyy HH:mm');
+
+    if (compareAsc(dateAdd, new Date()) === 1) {
+      return (
+        formatDistanceToNowStrict(date, {
+          locale: vi,
+        }) + ' trước'
+      );
+    }
+
+    return newValue;
   }
 
   onRemveFileItem(event: any, name: String) {}

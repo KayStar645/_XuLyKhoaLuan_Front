@@ -1,0 +1,49 @@
+<div class="functional-list">
+  <ul class="functional-container row ali-center functional-wrapper">
+    <li
+      class="functional-item row ali-center jus-end flex-1 functional-wrapper"
+    >
+      <div class="functional-button">
+        <button routerLink="/home/hoi-dong/form-hoidong">Thêm</button>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="row functional-wrapper" style="margin-top: '-8px'">
+  <div class="h-4 p-r-8 p-l-8 p-t-8 p-b-8" *ngFor="let h of hoiDongs">
+    <div class="detail-item">
+      <div class="row council-item jus-betwwen">
+        <p class="label">Hội đồng:</p>
+        <p class="description">{{ h.tenHD }}</p>
+      </div>
+      <div class="row council-item jus-betwwen">
+        <p class="label">Ngày lập:</p>
+        <p class="description">{{ dateFormat(h.ngayLap) }}</p>
+      </div>
+      <div class="row council-item jus-betwwen">
+        <p class="label">Ngày bảo vệ:</p>
+        <p class="description">{{ dateFormat(h.thoiGianBD) }}</p>
+      </div>
+      <div class="row council-item jus-betwwen">
+        <p class="label">Địa điểm:</p>
+        <p class="description">{{ h.diaDiem }}</p>
+      </div>
+      <div class="row council-item jus-betwwen">
+        <p class="label">Chủ tịch:</p>
+        <p class="description">{{ h.chuTich.tenGV }}</p>
+      </div>
+
+      <div class="row council-item jus-betwwen">
+        <p class="label">Thư ký:</p>
+        <p class="description">{{ h.thuKy.tenGV }}</p>
+      </div>
+
+      <div class="row council-item jus-betwwen">
+        <p class="label">Ủy viên:</p>
+        <div class="description">
+          <p *ngFor="let u of h.uyViens">{{ u.tenGV }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
