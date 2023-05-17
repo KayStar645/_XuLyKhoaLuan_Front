@@ -1,4 +1,3 @@
-import { BaoCao } from '../../../../models/BaoCao.model';
 import { traoDoiService } from '../../../../services/NghiepVu/traodoi.service';
 import { hdGopYService } from '../../../../services/hdGopY.service';
 import { Component } from '@angular/core';
@@ -18,6 +17,7 @@ import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 import { Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { baoCaoService } from 'src/app/services/baoCao.service';
+import { BaoCaoVT } from 'src/app/models/VirtualModel/BaoCaoVTModel';
 
 @Component({
   selector: 'app-home-chitietbaitap',
@@ -53,7 +53,7 @@ export class HomeChitietbaitapComponent {
   });
 
   apiHomeworkFiles: any[] = [];
-  apiBaoCaos: BaoCao[] = [];
+  apiBaoCaos: BaoCaoVT[] = [];
   types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
   defaultHeight: number = 60;
 
@@ -117,9 +117,9 @@ export class HomeChitietbaitapComponent {
   }
 
   async getAllHomeworkFiles() {
-    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, "");
 
-    this.apiBaoCaos.forEach((file: BaoCao) => {
+    this.apiBaoCaos.forEach((file: BaoCaoVT) => {
       let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
       let type = fileSplit[0];
       let item: any = {};
@@ -140,9 +140,9 @@ export class HomeChitietbaitapComponent {
     this.websocketService.receiveFromBaoCao(async (dataChange: boolean) => {
       this.apiHomeworkFiles.splice(0, this.apiHomeworkFiles.length);
 
-      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+      this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, "");
 
-      this.apiBaoCaos.forEach((file: BaoCao) => {
+      this.apiBaoCaos.forEach((file: BaoCaoVT) => {
         let fileSplit: string[] = file.fileBc.split('.');
         let type = fileSplit[fileSplit.length - 1];
         let item: any = {};

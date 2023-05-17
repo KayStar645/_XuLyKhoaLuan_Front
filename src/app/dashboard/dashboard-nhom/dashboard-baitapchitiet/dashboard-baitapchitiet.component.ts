@@ -20,6 +20,7 @@ import { vi } from 'date-fns/locale';
 import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 import { traoDoiService } from 'src/app/services/NghiepVu/traodoi.service';
 import { environment } from 'src/environments/environment.prod';
+import { BaoCaoVT } from 'src/app/models/VirtualModel/BaoCaoVTModel';
 @Component({
   selector: 'app-dashboard-baitapchitiet',
   templateUrl: './dashboard-baitapchitiet.component.html',
@@ -36,7 +37,7 @@ export class DashboardBaitapchitietComponent {
   isOutDate: number = -2; // Chưa nộp
   homeworkFiles: any[] = [];
   apiHomeworkFiles: any[] = [];
-  apiBaoCaos: BaoCao[] = [];
+  apiBaoCaos: BaoCaoVT[] = [];
 
   dtForm = new Form({
     nhanXet: ['', Validators.required],
@@ -103,8 +104,7 @@ export class DashboardBaitapchitietComponent {
     } else {
       for (let b of this.apiBaoCaos) {
         if (
-          compareAsc(new Date(this.cviec.hanChot), new Date(b.thoiGianNop)) ===
-          -1
+          compareAsc(new Date(this.cviec.hanChot), new Date(b.tgNop)) === -1
         ) {
           this.isOutDate = 0;
           return;
@@ -196,9 +196,9 @@ export class DashboardBaitapchitietComponent {
   async getAllHomeworkFiles() {
     this.apiHomeworkFiles = [];
     this.homeworkFiles = [];
-    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV);
+    this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, "");
 
-    this.apiBaoCaos.forEach((file: BaoCao) => {
+    this.apiBaoCaos.forEach((file: BaoCaoVT) => {
       let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
       let type = fileSplit[0];
       let item: any = {};

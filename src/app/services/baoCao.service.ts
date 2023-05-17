@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { BaoCao } from '../models/BaoCao.model';
 import { shareService } from './share.service';
+import { BaoCaoVT } from '../models/VirtualModel/BaoCaoVTModel';
 
 @Injectable({
   providedIn: 'root',
@@ -80,11 +81,11 @@ export class baoCaoService {
       .toPromise();
   }
 
-  async GetBaocaoByMacv(maCv: string): Promise<BaoCao[]> {
+  async GetBaocaoByMacv(maCv: string, maSv: string): Promise<BaoCaoVT[]> {
     return (
       (await this.http
-        .get<BaoCao[]>(
-          `${this.apiUrl}/api/Baocaos/maCv?maCv=${maCv}`,
+        .get<BaoCaoVT[]>(
+          `${this.apiUrl}/api/Baocaos/maCv,maSv?maCv=${maCv}&maSv=${maSv}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

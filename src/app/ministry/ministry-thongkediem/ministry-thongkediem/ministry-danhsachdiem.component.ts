@@ -40,17 +40,7 @@ export class MinistryDanhsachdiemComponent implements OnInit {
       this._dot
     );
 
-    this.websocketService.startConnection();
-    this.websocketService.receiveFromSinhVien(async (dataChange: boolean) => {
-      if (dataChange) {
-        this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
-          this._keyword,
-          this._maCn,
-          this._namHoc,
-          this._dot
-        );
-      }
-    });
+    this.Websocket();
   }
 
   async getSinhVienByMaCN(maCn: string) {
@@ -79,19 +69,6 @@ export class MinistryDanhsachdiemComponent implements OnInit {
     );
   }
 
-  // async ngOnChanges(changes: SimpleChanges) {
-  //   if (changes.keyword) {
-  //     const keyword = this.keyword.trim().toLowerCase();
-  //     this._keyword = keyword;
-  //     this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
-  //       this._keyword,
-  //       this._maCn,
-  //       this._namHoc,
-  //       this._dot
-  //     );
-  //   }
-  // }
-
   async updateData(keyword: string) {
     this._keyword = keyword;
     this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
@@ -99,6 +76,47 @@ export class MinistryDanhsachdiemComponent implements OnInit {
       this._maCn,
       this._namHoc,
       this._dot
+    );
+  }
+
+  async Websocket() {
+    this.websocketService.startConnection();
+    this.websocketService.receiveFromHuongDanCham(
+      async (dataChange: boolean) => {
+        if (dataChange) {
+          this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
+            this._keyword,
+            this._maCn,
+            this._namHoc,
+            this._dot
+          );
+        }
+      }
+    );
+    this.websocketService.receiveFromPhanBienCham(
+      async (dataChange: boolean) => {
+        if (dataChange) {
+          this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
+            this._keyword,
+            this._maCn,
+            this._namHoc,
+            this._dot
+          );
+        }
+      }
+    );
+
+    this.websocketService.receiveFromHoiDongPhanBien(
+      async (dataChange: boolean) => {
+        if (dataChange) {
+          this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
+            this._keyword,
+            this._maCn,
+            this._namHoc,
+            this._dot
+          );
+        }
+      }
     );
   }
 }
