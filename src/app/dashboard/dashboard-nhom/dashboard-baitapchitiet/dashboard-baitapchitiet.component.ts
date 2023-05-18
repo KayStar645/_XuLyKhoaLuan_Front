@@ -186,7 +186,7 @@ export class DashboardBaitapchitietComponent {
     this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, '');
 
     this.apiBaoCaos.forEach((file: BaoCaoVT) => {
-      let fileSplit: string[] = file.fileBc.split('.')[1].split('-');
+      let fileSplit: string[] = file.fileBc.split('.')[1].split('|');
       let type = fileSplit[0];
       let item: any = {};
 
@@ -229,13 +229,13 @@ export class DashboardBaitapchitietComponent {
       try {
         for (let homework of this.homeworkFiles) {
           let fileName = homework.name.concat(
-            '-',
+            '|',
             DashboardComponent.maSV,
-            '-',
+            '|',
             this.namHoc,
-            '-',
+            '|',
             this.dot.toString(),
-            '-',
+            '|',
             format(new Date(), 'HH:mm:ss')
           );
           await this.addBaoCao(fileName);

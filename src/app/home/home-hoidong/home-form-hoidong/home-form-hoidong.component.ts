@@ -82,49 +82,53 @@ export class HomeFormHoidongComponent implements OnInit {
     this.searchedDetais = this.deTais;
   }
 
-  async addHoiDong() {
-    try {
-      let hoiDong = new HoiDong();
-      let chuTich = new ThamGiaHd();
-      let thuKy = new ThamGiaHd();
-      let uyViens: ThamGiaHd[] = [];
-      let [selectedCT] = this.CTInputConfig.selectedItem;
-      let [selectedTK] = this.TKInputConfig.selectedItem;
-      let selectedUVs = this.UVInputConfig.selectedItem;
-      let formValue: any = this.hoiDong.form.value;
-      let ngayLap = dateVNConvert(formValue.ngayBD);
+  async onAddHoiDong() {
+    let formValue: any = this.hoiDong.form.value;
+    console.log(formValue.maHd);
+    console.log(this.selectedDetais);
 
-      hoiDong.maHd = formValue.maHd;
-      hoiDong.tenHd = formValue.tenHd;
-      hoiDong.diaDiem = formValue.diaDiem;
-      hoiDong.ngayLap = ngayLap;
-      hoiDong.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
-      hoiDong.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
-      hoiDong.maBm = HomeMainComponent.maBm;
+    // try {
+    //   let hoiDong = new HoiDong();
+    //   let chuTich = new ThamGiaHd();
+    //   let thuKy = new ThamGiaHd();
+    //   let uyViens: ThamGiaHd[] = [];
+    //   let [selectedCT] = this.CTInputConfig.selectedItem;
+    //   let [selectedTK] = this.TKInputConfig.selectedItem;
+    //   let selectedUVs = this.UVInputConfig.selectedItem;
+    //
+    //   let ngayLap = dateVNConvert(formValue.ngayBD);
 
-      chuTich.maGv = selectedCT.maGv;
-      chuTich.maHd = formValue.maHd;
-      chuTich.maVt = 'VT01';
+    //   hoiDong.maHd = formValue.maHd;
+    //   hoiDong.tenHd = formValue.tenHd;
+    //   hoiDong.diaDiem = formValue.diaDiem;
+    //   hoiDong.ngayLap = ngayLap;
+    //   hoiDong.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
+    //   hoiDong.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+    //   hoiDong.maBm = HomeMainComponent.maBm;
 
-      thuKy.maGv = selectedTK.maGv;
-      thuKy.maHd = formValue.maHd;
-      thuKy.maVt = 'VT02';
+    //   chuTich.maGv = selectedCT.maGv;
+    //   chuTich.maHd = formValue.maHd;
+    //   chuTich.maVt = 'VT01';
 
-      selectedUVs.forEach((uv) => {
-        uyViens.push({ maGv: uv.maGv, maHd: formValue.maHd, maVt: 'VT03' });
-      });
+    //   thuKy.maGv = selectedTK.maGv;
+    //   thuKy.maHd = formValue.maHd;
+    //   thuKy.maVt = 'VT02';
 
-      await this.hoiDongService.add(hoiDong);
-      await this.thamGiaHdService.add(chuTich);
-      await this.thamGiaHdService.add(thuKy);
-      uyViens.forEach(async (uv) => {
-        await this.thamGiaHdService.add(uv);
-      });
+    //   selectedUVs.forEach((uv) => {
+    //     uyViens.push({ maGv: uv.maGv, maHd: formValue.maHd, maVt: 'VT03' });
+    //   });
 
-      this.toastService.success('Thêm hội đồng thành công', 'Thông báo !');
-    } catch (error) {
-      this.toastService.error('Thêm hội đồng thất bại', 'Thông báo !');
-    }
+    //   await this.hoiDongService.add(hoiDong);
+    //   await this.thamGiaHdService.add(chuTich);
+    //   await this.thamGiaHdService.add(thuKy);
+    //   uyViens.forEach(async (uv) => {
+    //     await this.thamGiaHdService.add(uv);
+    //   });
+
+    //   this.toastService.success('Thêm hội đồng thành công', 'Thông báo !');
+    // } catch (error) {
+    //   this.toastService.error('Thêm hội đồng thất bại', 'Thông báo !');
+    // }
   }
 
   onSearch(event: Event) {

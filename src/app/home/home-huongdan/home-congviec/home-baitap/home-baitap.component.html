@@ -1,0 +1,34 @@
+<div class="functional-container row jus-between functional-wrapper">
+  <div class="h-3"></div>
+
+  <div class="h-6">
+    <div class="row ali-center jus-center nav-bar functional-wrapper h-100">
+      <a
+        routerLinkActive="active"
+        class="nav-item"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="['/home/huong-dan/cong-viec/bao-cao']"
+        [state]="{ maCv: maCv, maDt: maDt, maNhom: maNhom }"
+        (click)="onChangeCurrent($event)"
+      >
+        Hướng dẫn
+        <div class="line"></div>
+      </a>
+      <a
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="['/home/huong-dan/cong-viec/bao-cao/nop-bai']"
+        [state]="{ maCv: maCv, maDt: maDt, maNhom: maNhom }"
+        (click)="onChangeInstruct($event)"
+      >
+        Báo cáo
+        <div class="line"></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="h-3"></div>
+</div>
+
+<router-outlet></router-outlet>

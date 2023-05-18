@@ -67,6 +67,8 @@ import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/mi
 import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 import { HomeDanhsachhoidongComponent } from './home/home-hoidong/home-danhsachhoidong/home-danhsachhoidong.component';
 import { HomeFormHoidongComponent } from './home/home-hoidong/home-form-hoidong/home-form-hoidong.component';
+import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/home-danhsachnopbai/home-danhsachnopbai.component';
+import { HomeBaitapComponent } from './home/home-huongdan/home-congviec/home-baitap/home-baitap.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -338,9 +340,21 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
               },
               {
-                path: 'chi-tiet',
-                component: HomeChitietbaitapComponent,
+                path: 'bao-cao',
+                component: HomeBaitapComponent,
                 canActivate: [AuthGuard],
+                children: [
+                  {
+                    path: '',
+                    component: HomeChitietbaitapComponent,
+                    canActivate: [AuthGuard],
+                  },
+                  {
+                    path: 'nop-bai',
+                    component: HomeDanhsachnopbaiComponent,
+                    canActivate: [AuthGuard],
+                  },
+                ],
               },
             ],
           },

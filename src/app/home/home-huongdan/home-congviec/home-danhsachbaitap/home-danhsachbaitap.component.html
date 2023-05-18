@@ -14,7 +14,7 @@
     </div>
     <div class="functional-button">
       <button
-        [routerLink]="['/home/huong-dan/cong-viec/chi-tiet', { maCv: -1 }]"
+        [routerLink]="['/home/huong-dan/cong-viec/bao-cao', { maCv: -1 }]"
         [state]="{ isUpdate: true, isAdd: true }"
       >
         Thêm bài tập
@@ -110,9 +110,10 @@
               <img src="../../../../assets/Images/mission.svg" alt="" />
             </div>
 
-            <p class="flex-1 mission-title" [innerHTML]="item.tenCv ? item.tenCv : item.moTa">
-              
-            </p>
+            <p
+              class="flex-1 mission-title"
+              [innerHTML]="item.tenCv ? item.tenCv : item.moTa"
+            ></p>
 
             <div class="row ali-center">
               <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
@@ -124,11 +125,14 @@
                 <div class="list-option">
                   <p
                     class="option-item"
-                    [routerLink]="[
-                      '/home/huong-dan/cong-viec/chi-tiet',
-                      { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
-                    ]"
-                    [state]="{ isUpdate: true, isAdd: false }"
+                    [routerLink]="['/home/huong-dan/cong-viec/chi-tiet']"
+                    [state]="{
+                      isUpdate: true,
+                      isAdd: false,
+                      maCv: item.maCv,
+                      maDt: maDT,
+                      maNhom: nhom.maNhom
+                    }"
                   >
                     Chỉnh sửa
                   </p>
@@ -157,11 +161,13 @@
 
             <div class="option-item ma-t-8 p-t-8">
               <a
-                [routerLink]="[
-                  '/home/huong-dan/cong-viec/chi-tiet',
-                  { maCv: item.maCv, maDt: maDT, maNhom: nhom.maNhom }
-                ]"
-                [state]="{ isUpdate: false }"
+                [routerLink]="['/home/huong-dan/cong-viec/bao-cao']"
+                [state]="{
+                  isUpdate: false,
+                  maCv: item.maCv,
+                  maDt: maDT,
+                  maNhom: nhom.maNhom
+                }"
               >
                 Xem chi tiết
               </a>

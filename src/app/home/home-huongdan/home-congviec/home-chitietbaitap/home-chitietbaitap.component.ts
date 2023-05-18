@@ -1,8 +1,8 @@
+import { Router } from '@angular/router';
 import { WebsocketService } from './../../../../services/Websocket.service';
 import { traoDoiService } from '../../../../services/NghiepVu/traodoi.service';
 import { hdGopYService } from '../../../../services/hdGopY.service';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
@@ -61,7 +61,6 @@ export class HomeChitietbaitapComponent {
   isAdd: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private congViecService: congViecService,
     private giangVienService: giangVienService,
@@ -76,10 +75,9 @@ export class HomeChitietbaitapComponent {
     this.websocketService.startConnection();
     this.isUpdate = window.history.state.isUpdate;
     this.isAdd = window.history.state.isAdd;
+    this.maCV = window.history.state['maCv'];
 
-    this.route.params.subscribe(async (params) => {
-      this.maCV = params['maCv'];
-    });
+    console.log(window.history.state);
 
     if (this.maCV !== '-1') {
       this.GVInputConfig.data = await this.giangVienService.getAll();

@@ -1,0 +1,67 @@
+<div class="row functional-wrapper">
+  <div class="h-4 p-l-8 p-r-8">
+    <div class="detail-item all-members">
+      <div class="row ali-center gap-16 p-b-16">
+        <input type="checkbox" />
+
+        <div class="members-img row ali-center jus-center">
+          <i class="fa-solid fa-users" style="color: #ffffff"></i>
+        </div>
+
+        <p>Tất cả học viên</p>
+      </div>
+
+      <div
+        class="row ali-center gap-16 p-t-8 p-b-8"
+        *ngFor="let sv of sinhViens"
+      >
+        <input type="checkbox" />
+
+        <ng-container *ngIf="sv.gioiTinh === 'Nữ'; then female; else male">
+        </ng-container>
+
+        <ng-template #female>
+          <img
+            class="member-img"
+            src="../../../../../assets/Images/avatar-nam.jpeg"
+            alt=""
+          />
+        </ng-template>
+
+        <ng-template #male>
+          <img
+            class="member-img"
+            src="../../../../../assets/Images/avatar-nu.jpg"
+            alt=""
+          />
+        </ng-template>
+
+        <p>{{ sv.tenSv }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-8 p-l-8 p-r-8">
+    <div class="detail-item file-list">
+      <div class="row ali-center functional-wrapper">
+        <div *ngFor="let baoCao of baoCaos" class="h-6 p-b-8 p-l-8 p-r-8 p-t-8">
+          <div class="file-info">
+            <div class="row ali-center jus-between p-b-12">
+              <p class="name">{{ baoCao.tenSv }}</p>
+              <a href=""
+                ><i class="fa-solid fa-download" style="color: #000000"></i
+              ></a>
+            </div>
+            <div class="row ali-center">
+              <img [src]="baoCao.hinh" alt="" />
+              <div>
+                <p class="file-name">{{ baoCao.fileBc }}</p>
+                <p class="time">{{ baoCao.tgNop }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

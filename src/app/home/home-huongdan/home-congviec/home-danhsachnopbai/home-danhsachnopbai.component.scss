@@ -1,0 +1,41 @@
+.all-members input {
+  width: 16px;
+  height: 16px;
+}
+
+.member-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.file-list {
+  padding: 8px 16px;
+}
+
+.members-img {
+  background: #4285f4;
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+
+  i {
+    font-size: 1.4rem;
+  }
+}
+
+.file-info {
+  background: #e5e9ef;
+  padding: 8px 12px;
+  border-radius: 5px;
+
+  img {
+    width: 50px;
+    height: 55px;
+  }
+}
+
+.fa-download {
+  cursor: pointer;
+  font-size: 1.7rem;
+}

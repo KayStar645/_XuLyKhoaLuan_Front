@@ -90,6 +90,8 @@ import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/mi
 import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 import { HomeFormHoidongComponent } from './home/home-hoidong/home-form-hoidong/home-form-hoidong.component';
 import { HomeDanhsachhoidongComponent } from './home/home-hoidong/home-danhsachhoidong/home-danhsachhoidong.component';
+import { HomeBaitapComponent } from './home/home-huongdan/home-congviec/home-baitap/home-baitap.component';
+import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/home-danhsachnopbai/home-danhsachnopbai.component';
 
 @NgModule({
   declarations: [
@@ -172,6 +174,8 @@ import { HomeDanhsachhoidongComponent } from './home/home-hoidong/home-danhsachh
     MinistryDanhsachdiemComponent,
     HomeFormHoidongComponent,
     HomeDanhsachhoidongComponent,
+    HomeBaitapComponent,
+    HomeDanhsachnopbaiComponent,
   ],
 
   imports: [

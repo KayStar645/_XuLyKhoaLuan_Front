@@ -9,8 +9,8 @@
     </li>
   </ul>
 </div>
-<div class="row functional-wrapper" style="margin-top: '-8px'">
-  <div class="h-4 p-r-8 p-l-8 p-t-8 p-b-8" *ngFor="let h of hoiDongs">
+<!-- <div class="row functional-wrapper" style="margin-top: '-8px'">
+  <div class="h-4 p-r-8 p-l-8 p-t-8 p-b-8" >
     <div class="detail-item">
       <div class="row council-item jus-betwwen">
         <p class="label">Hội đồng:</p>
@@ -46,4 +46,29 @@
       </div>
     </div>
   </div>
+</div> -->
+<div>
+  <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+    <tr>
+      <th>Hội đồng</th>
+      <th>Ngày lập</th>
+      <th>Ngày bảo vệ</th>
+      <th>Địa điểm</th>
+      <th>Chủ tịch</th>
+      <th>Thư ký</th>
+      <th>Ủy viên</th>
+    </tr>
+    <!-- *ngFor="let h of hoiDongs" -->
+    <tr *ngFor="let h of hoiDongs">
+      <td>{{ h.tenHD }}</td>
+      <td class="text-center">{{ dateFormat(h.ngayLap) }}</td>
+      <td class="text-center">{{ dateFormat(h.thoiGianBD) }}</td>
+      <td>{{ h.diaDiem }}</td>
+      <td class="text-center">{{ h.chuTich.tenGV }}</td>
+      <td class="text-center">{{ h.thuKy.tenGV }}</td>
+      <td>
+        <p *ngFor="let u of h.uyViens">{{ u.tenGV }}</p>
+      </td>
+    </tr>
+  </table>
 </div>
