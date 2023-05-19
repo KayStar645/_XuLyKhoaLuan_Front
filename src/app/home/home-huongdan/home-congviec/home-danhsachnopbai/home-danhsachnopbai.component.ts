@@ -32,15 +32,19 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
     this.maNhom = window.history.state['maNhom'];
 
     this.sinhViens = await this.sinhVienService.getSinhvienByDetai(this.maDt);
+    this.baoCaos = await this.getAllBaoCao();
     this.selectedSVs = this.sinhViens.map((t) => t.maSv);
-    await this.getAllBaoCao();
   }
 
   async getAllBaoCao(maSv: string = '') {
-    this.baoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCv, maSv);
-    this.baoCaos.forEach(async (res: any) => {
+    let result: any[] = await this.baoCaoService.GetBaocaoByMacv(
+      this.maCv,
+      maSv
+    );
+
+    result.forEach(async (res: any) => {
       let hinh = `../../../../../assets/Images/file_type/doc.png`;
-      let splits = res.fileBc.split('|')[0].split('.');
+      let splits = res.fileBc.split('__')[0].split('.');
       let type = splits[1];
       let src = '';
 
@@ -48,7 +52,7 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
         hinh = `../../../../../assets/Images/file_type/${type}.png`;
       }
       res['hinh'] = hinh;
-      res['name'] = res.fileBc.split('|')[0];
+      res['name'] = res.fileBc.split('__')[0];
 
       await axios
         .get(environment.githubHomeworkFilesAPI + res.fileBc)
@@ -58,7 +62,7 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
         });
     });
 
-    return this.baoCaos;
+    return result;
   }
 
   onSaveFile(url: string, name: string) {
@@ -67,6 +71,8 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
 
   onChooseSinhVien(event: Event, maSv: string) {
     let element = event.target as HTMLInputElement;
+
+    this.baoCaos = [];
 
     if (element.checked) {
       this.selectedSVs.push(maSv);
@@ -84,7 +90,11 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
       }
     }
     this.selectedSVs.forEach(async (maSV) => {
-      this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(maSV))];
+      let result = [...this.baoCaos, ...(await this.getAllBaoCao(maSV))];
+
+      if (result.length > 0) {
+        this.baoCaos = result;
+      }
     });
   }
 

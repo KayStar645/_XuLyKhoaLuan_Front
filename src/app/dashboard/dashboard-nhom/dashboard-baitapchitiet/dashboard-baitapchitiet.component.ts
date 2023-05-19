@@ -186,7 +186,7 @@ export class DashboardBaitapchitietComponent {
     this.apiBaoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCV, '');
 
     this.apiBaoCaos.forEach((file: BaoCaoVT) => {
-      let fileSplit: string[] = file.fileBc.split('.')[1].split('|');
+      let fileSplit: string[] = file.fileBc.split('.')[1].split('__');
       let type = fileSplit[0];
       let item: any = {};
 
@@ -195,7 +195,7 @@ export class DashboardBaitapchitietComponent {
       } else {
         item['img'] = `../../../../assets/Images/file_type/doc.png`;
       }
-      item['name'] = file.fileBc.split('-')[0];
+      item['name'] = file.fileBc.split('__')[0];
       item['type'] = type;
       this.apiHomeworkFiles.push(item);
     });
@@ -229,13 +229,13 @@ export class DashboardBaitapchitietComponent {
       try {
         for (let homework of this.homeworkFiles) {
           let fileName = homework.name.concat(
-            '|',
+            '__',
             DashboardComponent.maSV,
-            '|',
+            '__',
             this.namHoc,
-            '|',
+            '__',
             this.dot.toString(),
-            '|',
+            '__',
             format(new Date(), 'HH:mm:ss')
           );
           await this.addBaoCao(fileName);
