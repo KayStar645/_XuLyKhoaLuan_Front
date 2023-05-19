@@ -12,5 +12,6 @@ export const environment = {
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Plan/Files/',
   githubHomeworkFilesAPI:
     'https://api.github.com/repos/chuazz/HeThongKhoaLuan_Assets/contents/Homework/Files/',
-  githubToken: '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',
+  githubToken:
+    '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',
 };
