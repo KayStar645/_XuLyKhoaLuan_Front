@@ -1,21 +1,22 @@
+import { ChuyenNganh } from "../ChuyenNganh.model";
 import { GiangVienVT } from "./GiangVienVTModel";
 
 export class DetaiVT {
-  public MaDT!: string;
-  public TenDT!: string;
-  public TomTat!: string;
-  public SLMin!: number;
-  public SLMax!: number;
-  public TrangThai!: string;
-  public NamHoc!: string;
-  public Dot!: number;
-  public duyetDT!: string;
+  public maDT!: string;
+  public tenDT!: string;
+  public tomTat!: string;
+  public slMin!: number;
+  public slMax!: number;
+  public trangThai!: string;
+  public namHoc!: string;
+  public dot!: number;
+  public duyetDT!: number;
   public ngayDuyet!: string;
 
-  public CnPhuHop!: string;
-  public GVRD: GiangVienVT[] = [];
-  public GVHD: GiangVienVT[] = [];
-  public GVPB: GiangVienVT[] = [];
+  public cnPhuHop: ChuyenNganh[] = [];
+  public gvrd: GiangVienVT[] = [];
+  public gvhd: GiangVienVT[] = [];
+  public gvpb: GiangVienVT[] = [];
 
   constructor() {}
 }

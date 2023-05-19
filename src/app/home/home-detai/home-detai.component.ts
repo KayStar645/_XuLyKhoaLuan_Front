@@ -9,7 +9,6 @@ import { deTaiService } from 'src/app/services/deTai.service';
 import { Form, getParentElement, Option } from 'src/assets/utils';
 import * as XLSX from 'xlsx';
 import { HomeDanhsachdetaiComponent } from './home-danhsachdetai/home-danhsachdetai.component';
-import { HomeMainComponent } from '../home-main/home-main.component';
 import { HomeComponent } from '../home.component';
 import { shareService } from 'src/app/services/share.service';
 
@@ -106,27 +105,6 @@ export class HomeDetaiComponent implements OnInit {
 
     createBox.classList.add('active');
     create.classList.add('active');
-  }
-
-  onShowFormUpdate() {
-    let updateBox = this.elementRef.nativeElement.querySelector('#update_box');
-    let update = this.elementRef.nativeElement.querySelector('#update');
-
-    if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
-      this.dtForm.form.setValue({
-        ...this.DSDTComponent.lineDT,
-        trangThai: JSON.stringify(this.DSDTComponent.lineDT.trangThai),
-      });
-
-      updateBox.classList.add('active');
-      update.classList.add('active');
-      this.dtOldForm = this.dtForm.form.value;
-    } else {
-      this.toastr.warning(
-        'Vui lòng chọn đề tài để cập nhập thông tin',
-        'Thông báo !'
-      );
-    }
   }
 
   handleToggleAdd() {
@@ -286,40 +264,6 @@ export class HomeDetaiComponent implements OnInit {
     }
   }
 
-  clickDelete() {
-    const _delete = this.elementRef.nativeElement.querySelector('#delete');
-
-    if (Object.entries(this.DSDTComponent.lineDT).length > 0) {
-      _delete.classList.add('active');
-      let option = new Option('#delete');
-
-      option.show('error', () => {});
-
-      option.cancel(() => {});
-
-      option.agree(() => {
-        this.f_DeleteDetai(this.DSDTComponent.lineDT.maDT);
-      });
-    } else if (
-      Object.entries(this.DSDTComponent.lineDT).length === 0 &&
-      this.DSDTComponent.selectedDT.length === 0
-    ) {
-      this.toastr.warning('Vui lòng chọn đề tài để xóa', 'Thông báo !');
-    }
-
-    this.DSDTComponent.selectedDT.forEach((maDT) => {
-      try {
-        this.deTaiService.delete(maDT);
-        this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-        this.DSDTComponent.lineDT = new DeTai();
-        this.DSDTComponent.getAllDeTai();
-        this.isSelectedDT = false;
-      } catch (error) {
-        this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-      }
-    });
-  }
-
   async addDeTai() {
     this.dtForm.form.patchValue({
       trangThai: 'false',
@@ -348,13 +292,6 @@ export class HomeDetaiComponent implements OnInit {
 
     drag.classList.add('active');
     dragBox.classList.add('active');
-  }
-
-  resetLineActive() {
-    this.DSDTComponent.lineDT = new DeTai();
-    this.elementRef.nativeElement
-      .querySelector('.table tr.br-line-hover')
-      .classList.remove('br-line-hover');
   }
 
   async updateDeTai() {
@@ -386,7 +323,6 @@ export class HomeDetaiComponent implements OnInit {
           update.classList.remove('active');
           updateBox.classList.remove('active');
           this.DSDTComponent.getAllDeTai();
-          this.resetLineActive();
           this.toastr.success(
             'Cập nhập thông tin đề tài viên thành công',
             'Thông báo !'
@@ -416,16 +352,5 @@ export class HomeDetaiComponent implements OnInit {
 
   async f_UpdateDetai(dt: DeTai) {
     await this.deTaiService.update(dt);
-  }
-
-  async f_DeleteDetai(maDT: string) {
-    try {
-      await this.deTaiService.delete(this.DSDTComponent.lineDT.maDT);
-      this.toastr.success('Xóa đề tài thành công', 'Thông báo !');
-      this.DSDTComponent.lineDT = new DeTai();
-      this.DSDTComponent.getAllDeTai();
-    } catch {
-      this.toastr.error('Xóa đề tài thất bại', 'Thông báo !');
-    }
   }
 }

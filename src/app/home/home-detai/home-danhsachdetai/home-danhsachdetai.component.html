@@ -74,25 +74,24 @@
               >
             </td>
             <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
-            <td class="text-center">{{ getTenChuyennganhByMaDT(dt.maDT) }}</td>
-            <td class="text-center">{{ getTenGvRadeByMaDT(dt.maDT) }}</td>
+            <td class="text-center">{{ getCnPhuhop(dt.cnPhuHop) }}</td>
+            <td class="text-center">{{ getGvrd(dt.gvrd) }}</td>
             <td class="text-center">
               <b>
-                {{ getThoiGianDuyetByMaDT(dt.maDT) }}
+                {{ dateFormat(dt.ngayDuyet) }}
                 <br />
                 <span
                   style="color: blue"
-                  *ngIf="
-                    getThoiGianDuyetByMaDT(dt.maDT) == '' &&
-                      !getTrangthaiDetai(dt.maDT);
-                    else isDuyet
-                  "
-                  >Chưa duyệt</span
+                  *ngIf="dt.duyetDT == -1">Chưa duyệt</span
                 >
-                <ng-template #isDuyet>
-                  <span style="color: #15fa00" *ngIf="dt.trangThai">Đạt</span>
-                  <span style="color: red" *ngIf="!dt.trangThai">Chưa đạt</span>
-                </ng-template>
+                <span
+                  style="color: red"
+                  *ngIf="dt.duyetDT == 0">Chưa đạt</span
+                >
+                <span
+                  style="color: #15fa00"
+                  *ngIf="dt.duyetDT == 1">Đạt</span
+                >
               </b>
             </td>
             <td class="text-center white-space-no-wrap">

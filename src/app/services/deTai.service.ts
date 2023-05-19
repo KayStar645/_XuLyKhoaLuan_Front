@@ -6,6 +6,7 @@ import { DeTai } from '../models/DeTai.model';
 import { shareService } from './share.service';
 import { SinhVien } from '../models/SinhVien.model';
 import { GiangVienDtVT } from '../models/VirtualModel/GiangVienDtVTModel';
+import { DetaiVT } from '../models/VirtualModel/DetaiVTModel';
 
 @Injectable({
   providedIn: 'root',
@@ -39,19 +40,38 @@ export class deTaiService {
     );
   }
 
+  // async search(
+  //   maCn: string,
+  //   tenDt: string,
+  //   namHoc: string,
+  //   dot: number,
+  //   key: string,
+  //   maGv: string,
+  //   chucVu: number
+  // ): Promise<DeTai[]> {
+  //   return (
+  //     (await this.http
+  //       .get<DeTai[]>(
+  //         `${this.apiUrl}/api/Detais/maCn, tenDt, namHoc, dot, key, maGv, chucVu?maCn=${maCn}&tenDt=${tenDt}&namHoc=${namHoc}&dot=${dot}&key=${key}&maGv=${maGv}&chucVu=${chucVu}`,
+  //         this.shareService.httpOptions
+  //       )
+  //       .toPromise()) ?? []
+  //   );
+  // }
+
   async search(
-    maCn: string,
-    tenDt: string,
+    keyword: string,
+    maBm: string,
+    maGv: string,
     namHoc: string,
     dot: number,
-    key: string,
-    maGv: string,
+    flag: boolean,
     chucVu: number
-  ): Promise<DeTai[]> {
+  ): Promise<DetaiVT[]> {
     return (
       (await this.http
-        .get<DeTai[]>(
-          `${this.apiUrl}/api/Detais/maCn, tenDt, namHoc, dot, key, maGv, chucVu?maCn=${maCn}&tenDt=${tenDt}&namHoc=${namHoc}&dot=${dot}&key=${key}&maGv=${maGv}&chucVu=${chucVu}`,
+        .get<DetaiVT[]>(
+          `${this.apiUrl}/api/Detais/keyword,maBm,maGv,namHoc,dot,flag,chucVu?keyword=${keyword}&maBm=${maBm}&maGv=${maGv}&namHoc=${namHoc}&dot=${dot}&flag=${flag}&chucVu=${chucVu}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []
