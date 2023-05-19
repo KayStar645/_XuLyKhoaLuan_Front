@@ -236,7 +236,7 @@ export class DashboardBaitapchitietComponent {
             '__',
             this.dot.toString(),
             '__',
-            format(new Date(), 'HH:mm:ss')
+            new Date().getTime()
           );
           await this.addBaoCao(fileName);
           await this.shareService.uploadFile(
