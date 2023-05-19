@@ -1,12 +1,10 @@
-import { async } from 'rxjs';
 import { sinhVienService } from './../../../../services/sinhVien.service';
-import { BaoCaoVT } from 'src/app/models/VirtualModel/BaoCaoVTModel';
 import { baoCaoService } from './../../../../services/baoCao.service';
 import { Component, OnInit } from '@angular/core';
 import { SinhVien } from 'src/app/models/SinhVien.model';
-import { format } from 'date-fns';
 import axios from 'axios';
 import { environment } from 'src/environments/environment.prod';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home-danhsachnopbai',
@@ -20,6 +18,8 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
   baoCaos: any[] = [];
   sinhViens: SinhVien[] = [];
   types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
+  isClickAll: boolean = true;
+  selectedSVs: any[] = [];
 
   constructor(
     private baoCaoService: baoCaoService,
@@ -32,46 +32,76 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
     this.maNhom = window.history.state['maNhom'];
 
     this.sinhViens = await this.sinhVienService.getSinhvienByDetai(this.maDt);
+    this.selectedSVs = this.sinhViens.map((t) => t.maSv);
     await this.getAllBaoCao();
-    this.getFileSrc();
-
-    console.log(this.baoCaos);
   }
 
-  async getAllBaoCao() {
-    await this.baoCaoService.GetBaocaoByMacv(this.maCv, '').then((res: any) => {
-      this.baoCaos = res.map(async (res: any) => {
-        let hinh = `../../../../../assets/Images/file_type/doc.png`;
-        let splits = res.fileBc.split('|')[0].split('.');
-        let type = splits[1];
+  async getAllBaoCao(maSv: string = '') {
+    this.baoCaos = await this.baoCaoService.GetBaocaoByMacv(this.maCv, maSv);
+    this.baoCaos.forEach(async (res: any) => {
+      let hinh = `../../../../../assets/Images/file_type/doc.png`;
+      let splits = res.fileBc.split('|')[0].split('.');
+      let type = splits[1];
+      let src = '';
 
-        if (this.types.includes(type)) {
-          hinh = `../../../../../assets/Images/file_type/${type}.png`;
-        }
+      if (this.types.includes(type)) {
+        hinh = `../../../../../assets/Images/file_type/${type}.png`;
+      }
+      res['hinh'] = hinh;
+      res['name'] = res.fileBc.split('|')[0];
 
-        return {
-          ...res,
-          hinh,
-          tgNop: format(new Date(res.tgNop), 'dd-MM-yyyy HH:mm'),
-        };
-      });
+      await axios
+        .get(environment.githubHomeworkFilesAPI + res.fileBc)
+        .then((data) => {
+          src = data.data.download_url;
+          res['src'] = src;
+        });
+    });
+
+    return this.baoCaos;
+  }
+
+  onSaveFile(url: string, name: string) {
+    saveAs(url, name);
+  }
+
+  onChooseSinhVien(event: Event, maSv: string) {
+    let element = event.target as HTMLInputElement;
+
+    if (element.checked) {
+      this.selectedSVs.push(maSv);
+      if (this.selectedSVs.length === this.sinhViens.length) {
+        this.isClickAll = true;
+      }
+    } else {
+      this.selectedSVs.splice(this.selectedSVs.indexOf(maSv), 1);
+      this.baoCaos.splice(
+        this.baoCaos.findIndex((t) => t.maSv === maSv),
+        1
+      );
+      if (this.selectedSVs.length === 0) {
+        this.isClickAll = false;
+      }
+    }
+    this.selectedSVs.forEach(async (maSV) => {
+      this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(maSV))];
     });
   }
 
-  getFileSrc() {
-    let src = '';
+  onClickAll(event: Event) {
+    let element = event.target as HTMLInputElement;
 
-    this.baoCaos.map(async (baoCao) => {
-      await axios
-        .get(environment.githubHomeworkFilesAPI + baoCao.fileBc)
-        .then((response) => {
-          src = response.data.download_url;
-        });
+    this.baoCaos = [];
+    this.isClickAll = element.checked;
 
-      return {
-        ...baoCao,
-        src,
-      };
+    if (element.checked) {
+      this.selectedSVs = this.sinhViens.map((t) => t.maSv);
+    } else {
+      this.selectedSVs = [];
+    }
+
+    this.selectedSVs.forEach(async (sv) => {
+      this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(sv))];
     });
   }
 }

@@ -1,21 +1,32 @@
 <div class="row functional-wrapper">
   <div class="h-4 p-l-8 p-r-8">
     <div class="detail-item all-members">
-      <div class="row ali-center gap-16 p-b-16">
-        <input type="checkbox" />
+      <label
+        class="row ali-center gap-16 ma-b-8 member p-l-8 p-r-8 p-t-8 p-b-8"
+      >
+        <input
+          (input)="onClickAll($event)"
+          type="checkbox"
+          [checked]="isClickAll"
+        />
 
         <div class="members-img row ali-center jus-center">
           <i class="fa-solid fa-users" style="color: #ffffff"></i>
         </div>
 
         <p>Tất cả học viên</p>
-      </div>
+      </label>
 
-      <div
-        class="row ali-center gap-16 p-t-8 p-b-8"
+      <label
+        ngClass="member"
+        class="row ali-center gap-16 p-l-8 p-r-8 p-t-8 p-b-8"
         *ngFor="let sv of sinhViens"
       >
-        <input type="checkbox" />
+        <input
+          (input)="onChooseSinhVien($event, sv.maSv)"
+          type="checkbox"
+          [checked]="isClickAll"
+        />
 
         <ng-container *ngIf="sv.gioiTinh === 'Nữ'; then female; else male">
         </ng-container>
@@ -36,8 +47,8 @@
           />
         </ng-template>
 
-        <p>{{ sv.tenSv }}</p>
-      </div>
+        <p class="name">{{ sv.tenSv }}</p>
+      </label>
     </div>
   </div>
 
@@ -48,14 +59,16 @@
           <div class="file-info">
             <div class="row ali-center jus-between p-b-12">
               <p class="name">{{ baoCao.tenSv }}</p>
-              <a href=""
-                ><i class="fa-solid fa-download" style="color: #000000"></i
-              ></a>
+              <i
+                class="fa-solid fa-download"
+                style="color: #000000"
+                (click)="onSaveFile(baoCao.src, baoCao.name)"
+              ></i>
             </div>
             <div class="row ali-center">
-              <img [src]="baoCao.hinh" alt="" />
+              <img [src]="baoCao.hinh" alt="" class="ma-r-12" />
               <div>
-                <p class="file-name">{{ baoCao.fileBc }}</p>
+                <p class="file-name p-b-4">{{ baoCao.name }}</p>
                 <p class="time">{{ baoCao.tgNop }}</p>
               </div>
             </div>
