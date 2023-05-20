@@ -4,7 +4,7 @@
       class="functional-item row ali-center jus-end flex-1 functional-wrapper"
     >
       <div class="functional-button">
-        <button (click)="onAddHoiDong()">Thêm</button>
+        <button (click)="onSaveHoiDong()">Lưu</button>
       </div>
     </li>
   </ul>
@@ -16,7 +16,7 @@
         <label class="form-control row ali-center">
           <p class="label p-b-8">Mã hội đồng</p>
           <div class="form-value">
-            <input type="text" formControlName="maHd" class="form-input" />
+            <input type="text" formControlName="maHd" class="form-input" [readOnly]="!isAdd" />
             <p class="error-mess"></p>
           </div>
         </label>
@@ -30,30 +30,16 @@
         </label>
 
         <label class="form-control form-no-box-shadow row ali-center">
-          <p class="label p-b-8">Ngày diễn ra</p>
+          <p class="label p-b-8">Thời gian bảo vệ</p>
 
           <div class="form-value">
             <dp-date-picker
-              mode="day"
-              formControlName="ngayBD"
+              mode="daytime"
+              formControlName="thoiGianBd"
               [config]="{
                 firstDayOfWeek: 'mo',
                 showNearMonthDays: false
               }"
-              (onSelect)="onDateChange($event)"
-              class="form-input"
-            ></dp-date-picker>
-            <p class="error-mess"></p>
-          </div>
-        </label>
-
-        <label class="form-control form-no-box-shadow row ali-center">
-          <p class="label p-b-8">Bắt đầu</p>
-
-          <div class="form-value">
-            <dp-date-picker
-              mode="time"
-              formControlName="TGBatDau"
               (onSelect)="onDateChange($event)"
               class="form-input"
             ></dp-date-picker>
@@ -120,7 +106,7 @@
           <div class="form-value">
             <dp-date-picker
               mode="time"
-              formControlName="TGKetThuc"
+              formControlName="thoiGianKt"
               (onSelect)="onDateChange($event)"
               class="form-input"
             ></dp-date-picker>
@@ -131,69 +117,71 @@
     </div>
   </div>
 
-  <div class="detail-item ma-t-16">
-    <p class="list-label p-b-16">Danh sách đề tài đã chọn</p>
+  <div *ngIf="!isAdd">
+    <div class="detail-item ma-t-16">
+      <p class="list-label p-b-16">Danh sách đề tài đã chọn</p>
 
-    <div id="container">
-      <div>
-        <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-          <tr>
-            <th>Mã đề tài</th>
-            <th>Tên đề tài</th>
-            <th>GVHD</th>
-            <th>GVPB</th>
-            <th>Thao tác</th>
-          </tr>
-          <tbody>
-            <tr *ngFor="let dt of selectedDetais">
-              <td>{{ dt.maDT }}</td>
-              <td [innerHTML]="dt.tenDT"></td>
-              <td></td>
-              <td></td>
-              <td class="text-center action" (click)="onRemove(dt)">Hủy</td>
+      <div id="container">
+        <div>
+          <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+            <tr>
+              <th>Mã đề tài</th>
+              <th>Tên đề tài</th>
+              <th>GVHD</th>
+              <th>GVPB</th>
+              <th>Thao tác</th>
             </tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr *ngFor="let dt of selectedDetais">
+                <td>{{ dt.maDT }}</td>
+                <td [innerHTML]="dt.tenDT"></td>
+                <td></td>
+                <td></td>
+                <td class="text-center action" (click)="onRemove(dt)">Hủy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="detail-item ma-t-16">
-    <div class="row ali-center jus-between header p-b-16">
-      <p class="list-label">Danh sách đề tài</p>
+    <div class="detail-item ma-t-16">
+      <div class="row ali-center jus-between header p-b-16">
+        <p class="list-label">Danh sách đề tài</p>
 
-      <label class="form-control row ali-center jus-end h-4">
-        <div class="form-value">
-          <input
-            type="text"
-            class="form-input"
-            placeholder="Tìm đề tài"
-            (input)="onSearch($event)"
-          />
-        </div>
-      </label>
-    </div>
+        <label class="form-control row ali-center jus-end h-4">
+          <div class="form-value">
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Tìm đề tài"
+              (input)="onSearch($event)"
+            />
+          </div>
+        </label>
+      </div>
 
-    <div id="container">
-      <div>
-        <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-          <tr>
-            <th class="text-center">Mã đề tài</th>
-            <th>Tên đề tài</th>
-            <th>GVHD</th>
-            <th>GVPB</th>
-            <th>Thao tác</th>
-          </tr>
-          <tbody>
-            <tr *ngFor="let dt of searchedDetais">
-              <td>{{ dt.maDT }}</td>
-              <td [innerHTML]="dt.tenDT"></td>
-              <td></td>
-              <td></td>
-              <td class="text-center action" (click)="onSelect(dt)">Chọn</td>
+      <div id="container">
+        <div>
+          <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+            <tr>
+              <th class="text-center">Mã đề tài</th>
+              <th>Tên đề tài</th>
+              <th>GVHD</th>
+              <th>GVPB</th>
+              <th>Thao tác</th>
             </tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr *ngFor="let dt of searchedDetais">
+                <td>{{ dt.maDT }}</td>
+                <td [innerHTML]="dt.tenDT"></td>
+                <td></td>
+                <td></td>
+                <td class="text-center action" (click)="onSelect(dt)">Chọn</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

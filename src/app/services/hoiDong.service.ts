@@ -1,3 +1,4 @@
+import { TL_HoiDongVT } from './../models/VirtualModel/TL_HoiDongVTModel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -15,11 +16,7 @@ export class hoiDongService {
   private apiUrl = environment.api;
   //private hoiDongs!: BehaviorSubject<HoiDong>;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private shareService: shareService
-  ) {}
+  constructor(private http: HttpClient, private shareService: shareService) {}
 
   async getAll(): Promise<HoiDong[]> {
     return (
@@ -71,20 +68,20 @@ export class hoiDongService {
     }
   }
 
-  async add(hoidong: HoiDong): Promise<any> {
+  async add(hoiDong: TL_HoiDongVT): Promise<any> {
     return await this.http
       .post(
         `${this.apiUrl}/api/Hoidongs`,
-        hoidong,
+        hoiDong,
         this.shareService.httpOptions
       )
       .toPromise();
   }
 
-  async update(hoidong: HoiDong): Promise<any> {
+  async update(hoidong: TL_HoiDongVT): Promise<any> {
     return await this.http
       .put<any>(
-        `${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${hoidong.maHd}`,
+        `${this.apiUrl}/api/Hoidongs/MaHD?MaHD=${hoidong.hoiDong.maHD}`,
         hoidong,
         this.shareService.httpOptions
       )

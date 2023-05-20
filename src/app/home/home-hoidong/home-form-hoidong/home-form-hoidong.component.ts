@@ -4,15 +4,15 @@ import { DropDownComponent } from 'src/app/components/drop-down/drop-down.compon
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { HomeMainComponent } from '../../home-main/home-main.component';
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { HoiDong } from 'src/app/models/HoiDong.model';
-import { ThamGiaHd } from 'src/app/models/ThamGiaHd.model';
-import { Form, dateVNConvert } from 'src/assets/utils';
 import { Validators } from '@angular/forms';
 import { hoiDongService } from 'src/app/services/hoiDong.service';
-import { thamGiaHdService } from 'src/app/services/thamGiaHD.service';
 import { ToastrService } from 'ngx-toastr';
 import { shareService } from 'src/app/services/share.service';
 import { DeTai } from 'src/app/models/DeTai.model';
+import { TL_HoiDongVT } from 'src/app/models/VirtualModel/TL_HoiDongVTModel';
+import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
+import { format } from 'date-fns';
+import { dateVNConvert, Form, Option } from 'src/assets/utils';
 
 type GVInputConfigProp = {
   items: GiangVien[];
@@ -30,22 +30,12 @@ export class HomeFormHoidongComponent implements OnInit {
   @ViewChild('thuKy') thuKyComponent!: DropDownComponent;
   @ViewChild('uyVien') uyVienComponent!: DropDownComponent;
 
-  constructor(
-    private giangVienService: giangVienService,
-    private hoiDongService: hoiDongService,
-    private thamGiaHdService: thamGiaHdService,
-    private toastService: ToastrService,
-    private shareService: shareService,
-    private deTaiService: deTaiService
-  ) {}
-
   hoiDong: Form = new Form({
-    tenHd: ['', Validators.required],
     maHd: ['', Validators.required],
+    tenHd: ['', Validators.required],
+    thoiGianBd: ['', Validators.required],
+    thoiGianKt: ['', Validators.required],
     diaDiem: ['', Validators.required],
-    TGBatDau: ['', Validators.required],
-    TGKetThuc: ['', Validators.required],
-    ngayBD: ['', Validators.required],
   });
 
   deTais: DeTai[] = [];
@@ -68,7 +58,19 @@ export class HomeFormHoidongComponent implements OnInit {
     keyword: 'tenGv',
   };
 
+  isAdd = true;
+
+  constructor(
+    private giangVienService: giangVienService,
+    private hoiDongService: hoiDongService,
+    private shareService: shareService,
+    private deTaiService: deTaiService,
+    private ToastrService: ToastrService
+  ) {}
+
   async ngOnInit(): Promise<void> {
+    this.isAdd = window.history.state.isAdd;
+
     this.CTInputConfig.items = await this.giangVienService.getByBoMon(
       HomeMainComponent.maBm
     );
@@ -80,68 +82,6 @@ export class HomeFormHoidongComponent implements OnInit {
     );
     this.deTais = await this.deTaiService.getAll();
     this.searchedDetais = this.deTais;
-  }
-
-  async onAddHoiDong() {
-    let formValue: any = this.hoiDong.form.value;
-    console.log(formValue.maHd);
-    console.log(this.selectedDetais);
-
-    // try {
-    //   let hoiDong = new HoiDong();
-    //   let chuTich = new ThamGiaHd();
-    //   let thuKy = new ThamGiaHd();
-    //   let uyViens: ThamGiaHd[] = [];
-    //   let [selectedCT] = this.CTInputConfig.selectedItem;
-    //   let [selectedTK] = this.TKInputConfig.selectedItem;
-    //   let selectedUVs = this.UVInputConfig.selectedItem;
-    //
-    //   let ngayLap = dateVNConvert(formValue.ngayBD);
-
-    //   hoiDong.maHd = formValue.maHd;
-    //   hoiDong.tenHd = formValue.tenHd;
-    //   hoiDong.diaDiem = formValue.diaDiem;
-    //   hoiDong.ngayLap = ngayLap;
-    //   hoiDong.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
-    //   hoiDong.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
-    //   hoiDong.maBm = HomeMainComponent.maBm;
-
-    //   chuTich.maGv = selectedCT.maGv;
-    //   chuTich.maHd = formValue.maHd;
-    //   chuTich.maVt = 'VT01';
-
-    //   thuKy.maGv = selectedTK.maGv;
-    //   thuKy.maHd = formValue.maHd;
-    //   thuKy.maVt = 'VT02';
-
-    //   selectedUVs.forEach((uv) => {
-    //     uyViens.push({ maGv: uv.maGv, maHd: formValue.maHd, maVt: 'VT03' });
-    //   });
-
-    //   await this.hoiDongService.add(hoiDong);
-    //   await this.thamGiaHdService.add(chuTich);
-    //   await this.thamGiaHdService.add(thuKy);
-    //   uyViens.forEach(async (uv) => {
-    //     await this.thamGiaHdService.add(uv);
-    //   });
-
-    //   this.toastService.success('Thêm hội đồng thành công', 'Thông báo !');
-    // } catch (error) {
-    //   this.toastService.error('Thêm hội đồng thất bại', 'Thông báo !');
-    // }
-  }
-
-  onSearch(event: Event) {
-    let element = event.target as HTMLInputElement;
-    let value = element.value;
-
-    if (value) {
-      this.searchedDetais = this.deTais.filter(
-        (t) => t.maDT.includes(value) || t.tenDT.includes(value)
-      );
-    } else {
-      this.searchedDetais = this.deTais;
-    }
   }
 
   onSelect(dt: DeTai) {
@@ -212,6 +152,85 @@ export class HomeFormHoidongComponent implements OnInit {
   }
 
   onDateChange($event: any) {}
+
+  async onSaveHoiDong() {
+    //console.log(this.selectedDetais);
+
+    try {
+      let formValue: any = this.hoiDong.form.value;
+
+      let chuTich = new GiangVienVT();
+      chuTich.createNull();
+      chuTich.maGV = this.CTInputConfig.selectedItem[0]?.maGv;
+
+      let thuKy = new GiangVienVT();
+      thuKy.createNull();
+      thuKy.maGV = this.TKInputConfig.selectedItem[0]?.maGv;
+
+      let uyViens: GiangVienVT[] = [];
+      for (let gv of this.UVInputConfig.selectedItem) {
+        let uyVien = new GiangVienVT();
+        uyVien.createNull();
+        uyVien.maGV = gv.maGv;
+        uyViens.push(uyVien);
+      }
+
+      let tlHoiDong = new TL_HoiDongVT();
+      tlHoiDong.initHoiDong(
+        formValue.maHd,
+        formValue.tenHd,
+        new Date().toISOString(),
+        dateVNConvert(formValue.thoiGianBd.slice(0, 10)) +
+          'T' +
+          formValue.thoiGianBd.slice(11) +
+          '.000Z',
+        dateVNConvert(formValue.thoiGianBd.slice(0, 10)) +
+          'T' +
+          formValue.thoiGianKt +
+          '.000Z',
+        formValue.diaDiem,
+        HomeMainComponent.maBm,
+        chuTich,
+        thuKy,
+        uyViens
+      );
+
+      let deTais: DeTai[] = [];
+      for (let dt of this.selectedDetais) {
+        let deTai = new DeTai();
+        deTai.maDT = dt.maDT;
+        deTais.push(deTai);
+      }
+      tlHoiDong.deTais = deTais;
+      
+      if (this.isAdd) {
+        await this.hoiDongService.add(tlHoiDong);
+      } else {
+        await this.hoiDongService.update(tlHoiDong);
+      }
+      this.ToastrService.success(
+        'Cập nhật hội đồng thành công!',
+        'Thất bại!'
+      );
+    } catch {
+      this.ToastrService.error(
+        'Cập nhật hội đồng không thành công!',
+        'Thất bại!'
+      );
+    }
+  }
+  onSearch(event: Event) {
+    let element = event.target as HTMLInputElement;
+    let value = element.value;
+
+    if (value) {
+      this.searchedDetais = this.deTais.filter(
+        (t) => t.maDT.includes(value) || t.tenDT.includes(value)
+      );
+    } else {
+      this.searchedDetais = this.deTais;
+    }
+  }
 
   dateFormat(str: any): string {
     return this.shareService.dateFormat(str);

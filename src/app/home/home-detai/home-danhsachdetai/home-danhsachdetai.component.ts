@@ -2,21 +2,12 @@ import { dotDkService } from './../../../services/dotDk.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
 import { chuyenNganhService } from './../../../services/chuyenNganh.service';
-import { duyetDtService } from './../../../services/duyetDt.service';
-import { DuyetDt } from '../../../models/DuyetDt.model';
-import { GiangVien } from 'src/app/models/GiangVien.model';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
 import { DeTai_ChuyenNganh } from '../../../models/DeTai_ChuyenNganh.model';
 import { giangVienService } from '../../../services/giangVien.service';
 import { RaDe } from '../../../models/RaDe.model';
 import { raDeService } from '../../../services/raDe.service';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
@@ -36,34 +27,25 @@ import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
   styleUrls: ['./home-danhsachdetai.component.scss'],
 })
 export class HomeDanhsachdetaiComponent {
-  searchName = '';
-
   _searchName = '';
-  _maCn = '';
   _namHoc = '';
   _dot = 0;
   _chucVu = 0;
 
   listDT: DetaiVT[] = [];
-
-  listDeta_Chuyennganh: DeTai_ChuyenNganh[] = [];
+  
   listChuyennganh: ChuyenNganh[] = [];
 
   dtUpdate: any = DeTai;
   selectedBomon!: string;
   deTaiFile: any;
-  listCn: ChuyenNganh[] = [];
   listDotdk: DotDk[] = [];
 
   dtAddForm: any;
   dtUpdateForm: any;
   dtOldForm: any;
 
-  dtForm = new Form();
 
-  exceptInput = ['slMin', 'slMax'];
-
-  tenDT = new Subject<string>();
 
   _ListCn: string[] = ['CNPM', 'MMT', 'KHPTDL', 'HTTT'];
 
@@ -72,8 +54,6 @@ export class HomeDanhsachdetaiComponent {
     private elementRef: ElementRef,
     private shareService: shareService,
     private raDeService: raDeService,
-    private duyetDtService: duyetDtService,
-    private giangVienService: giangVienService,
     private deTai_chuyenNganhService: deTai_chuyenNganhService,
     private titleService: Title,
     private toastr: ToastrService,
@@ -92,17 +72,15 @@ export class HomeDanhsachdetaiComponent {
       this._chucVu = 1;
     }
 
-    this.listCn = await this.chuyenNganhService.getAll();
-
     this.listDotdk = await this.dotDkService.getAll();
     await this.getAllDeTai();
 
-    this.listDeta_Chuyennganh = await this.deTai_chuyenNganhService.getAll();
     this.listChuyennganh = await this.chuyenNganhService.getAll();
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromDeTai((dataChange: boolean) => {
       if (dataChange) {
+        console.log('websocketService');
         this.getAllDeTai();
       }
     });
@@ -247,25 +225,10 @@ export class HomeDanhsachdetaiComponent {
     dragBox.classList.add('active');
   }
 
-  async onGetDetaiByMaCn(event: any) {
-    const maCn = event.target.value;
-    this._searchName = maCn;
-    
-    console.log(maCn);
-    this.listDT = await this.deTaiService.search(
-      this._searchName,
-      HomeMainComponent.maBm,
-      HomeMainComponent.maGV,
-      this._namHoc,
-      this._dot,
-      false,
-      this._chucVu
-    );
-  }
-
   async onSearchName(event: any) {
     const searchName = event.target.value.trim().toLowerCase();
     this._searchName = searchName;
+    console.log('onSearchName: ' + this._searchName);
     this.listDT = await this.deTaiService.search(
       this._searchName,
       HomeMainComponent.maBm,
@@ -281,6 +244,7 @@ export class HomeDanhsachdetaiComponent {
     const dotdk = event.target.value;
     this._namHoc = dotdk.slice(0, dotdk.length - 1);
     this._dot = dotdk.slice(dotdk.length - 1);
+    console.log('onGetDotdk: ' + this._searchName);
 
     this.listDT = await this.deTaiService.search(
       this._searchName,
@@ -294,6 +258,7 @@ export class HomeDanhsachdetaiComponent {
   }
 
   async getAllDeTai() {
+    console.log('getAllDeTai: ' + this._searchName);
     this.listDT = await this.deTaiService.search(
       this._searchName,
       HomeMainComponent.maBm,
