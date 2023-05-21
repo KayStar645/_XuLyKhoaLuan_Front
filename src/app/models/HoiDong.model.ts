@@ -1,6 +1,6 @@
 export class HoiDong {
-  public maHd!: string;
-  public tenHd!: string;
+  public maHD!: string;
+  public tenHD!: string;
   public ngayLap!: string;
   public thoiGianBD!: string;
   public thoiGianKT!: string;

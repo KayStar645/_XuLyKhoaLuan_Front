@@ -37,6 +37,16 @@ export class shareService {
     return date;
   }
 
+  public dateFormat2(date: string) {
+    if (date != null) {
+      const newDate = new Date(date);
+      const datePipe = new DatePipe('en-US');
+      const formattedDate = datePipe.transform(newDate, 'dd-MM-yyyy');
+      return formattedDate == null ? '---' : formattedDate.toString();
+    }
+    return date;
+  }
+
   public async uploadFile(
     file: any,
     apiUrl: string = environment.githubNotifyFilesAPI,

@@ -1,11 +1,8 @@
 <div class="functional-list">
   <ul class="functional-container row ali-center functional-wrapper">
-    <li
+    <li *ngIf="isTbm"
       class="functional-item row ali-center jus-end flex-1 functional-wrapper"
     >
-      <div class="functional-button">
-        <button routerLink="/home/hoi-dong/form-hoidong" [state]="{isAdd: false}">Sửa</button>
-      </div>
       <div class="functional-button">
         <button routerLink="/home/hoi-dong/form-hoidong" [state]="{isAdd: true}">Thêm</button>
       </div>
@@ -16,25 +13,28 @@
 <div>
   <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
     <tr>
+      <th>Mã hội đồng</th>
       <th>Hội đồng</th>
       <th>Ngày lập</th>
-      <th>Ngày bảo vệ</th>
       <th>Địa điểm</th>
+      <th>Thời gian bảo vệ</th>
       <th>Chủ tịch</th>
       <th>Thư ký</th>
       <th>Ủy viên</th>
+      <th>Thao tác</th>
     </tr>
-    <!-- *ngFor="let h of hoiDongs" -->
     <tr *ngFor="let h of hoiDongs">
+      <td class="text-center">{{ h.maHD }}</td>
       <td>{{ h.tenHD }}</td>
       <td class="text-center">{{ dateFormat(h.ngayLap) }}</td>
-      <td class="text-center">{{ dateFormat(h.thoiGianBD) }}</td>
       <td>{{ h.diaDiem }}</td>
-      <td class="text-center">{{ h.chuTich.tenGV }}</td>
-      <td class="text-center">{{ h.thuKy.tenGV }}</td>
+      <td class="text-center">{{ thoiGianBaoVe(h.thoiGianBD, h.thoiGianKT) }}</td>
+      <td class="text-center">{{ h.chuTich.tenGv }}</td>
+      <td class="text-center">{{ h.thuKy.tenGv }}</td>
       <td>
-        <p *ngFor="let u of h.uyViens">{{ u.tenGV }}</p>
+        <p *ngFor="let u of h.uyViens">{{ u.tenGv }}</p>
       </td>
+      <td class='text-center action' (click)='onUpdate(h.maHD)'>Sửa</td>
     </tr>
   </table>
 </div>

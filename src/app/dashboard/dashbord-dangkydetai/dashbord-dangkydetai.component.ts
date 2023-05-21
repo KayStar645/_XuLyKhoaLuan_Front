@@ -180,11 +180,11 @@ export class DashbordDangkydetaiComponent {
         );
         // Thêm HdCham - Danh sách GVHD
         for (var gv of giangVienDt.gvhds) {
-          this.addHdCham(deTai.maDT, gv.maGV);
+          this.addHdCham(deTai.maDT, gv.maGv);
         }
         // Thêm PbCham - Danh sách GVPB
         for (var gv of giangVienDt.gvpbs) {
-          this.addPbCham(deTai.maDT, gv.maGV);
+          this.addPbCham(deTai.maDT, gv.maGv);
         }
       } catch (error) {
         console.log(error);
@@ -197,11 +197,11 @@ export class DashbordDangkydetaiComponent {
     let flag = true;
     // Xóa HdCham - Danh sách GVHD
     for (var gv of giangVienDt.gvhds) {
-      flag = await this.deleteHdCham(maDT, gv.maGV);
+      flag = await this.deleteHdCham(maDT, gv.maGv);
     }
     // Xóa PbCham - Danh sách GVPB
     for (var gv of giangVienDt.gvpbs) {
-      flag = await this.deletePbCham(maDT, gv.maGV);
+      flag = await this.deletePbCham(maDT, gv.maGv);
     }
     if(flag) {
       try {

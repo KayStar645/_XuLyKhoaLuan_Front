@@ -62,7 +62,6 @@ import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
-import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
 import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 import { HomeDanhsachhoidongComponent } from './home/home-hoidong/home-danhsachhoidong/home-danhsachhoidong.component';
@@ -386,11 +385,6 @@ const routes: Routes = [
             canActivate: [AuthGuard],
           },
         ],
-      },
-      {
-        path: 'quan-ly-chung',
-        component: HomeQuanlychungComponent,
-        canActivate: [AuthGuard],
       },
     ],
   },

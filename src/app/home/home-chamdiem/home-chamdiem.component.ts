@@ -40,8 +40,6 @@ export class HomeChamdiemComponent {
     this.WebsocketService.receiveFromDeTaiDiem(async (dataChange: boolean) => {
       this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
     });
-
-    console.log(this.data);
   }
 
   async onChangeDiem(
@@ -78,7 +76,7 @@ export class HomeChamdiemComponent {
       for (let dt of this.data) {
         if (dt.maDT == maDt) {
           for (let gv of dt.gvhDs) {
-            if (gv.maGV == this.maGv) {
+            if (gv.maGv == this.maGv) {
               let hd = new HuongDan();
               hd.init(this.maGv, maDt, true);
               this.huongDanService.update(hd);
@@ -88,7 +86,7 @@ export class HomeChamdiemComponent {
           }
 
           for (let gv of dt.gvpBs) {
-            if (gv.maGV == this.maGv) {
+            if (gv.maGv == this.maGv) {
               let pb = new PhanBien();
               pb.init(this.maGv, maDt, true);
               this.phanBienService.update(pb);
@@ -105,13 +103,13 @@ export class HomeChamdiemComponent {
     for(let dt of this.data) {
       if (dt.maDT == maDt) {
         for(let gv of dt.gvhDs) {
-          if (gv.maGV == this.maGv) {
+          if (gv.maGv == this.maGv) {
             return gv.duaRaHoiDong == 0 ? false : true;
           }
         }
 
         for (let gv of dt.gvpBs) {
-          if (gv.maGV == this.maGv) {
+          if (gv.maGv == this.maGv) {
             return gv.duaRaHoiDong == 0 ? false : true;
           }
         }

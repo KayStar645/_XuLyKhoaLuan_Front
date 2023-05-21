@@ -85,7 +85,6 @@ import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/h
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
-import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
 import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 import { HomeFormHoidongComponent } from './home/home-hoidong/home-form-hoidong/home-form-hoidong.component';
@@ -149,7 +148,6 @@ import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/
     HomeDanhsachbaitapComponent,
     HomeChitietbaitapComponent,
     HomeChamdiemComponent,
-    HomeQuanlychungComponent,
 
     DropDownComponent,
 

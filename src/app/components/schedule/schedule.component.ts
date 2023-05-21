@@ -104,7 +104,6 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
   async onSelectType(event: any) {
     // Thay đổi loại lịch khi thêm nè
-    console.log(this.maGv);
     this.deTais = await this.lichPhanBienService.GetSelectDetaiByGiangVien(
       this.maGv,
       shareService.namHoc,
