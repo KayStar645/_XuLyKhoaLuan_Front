@@ -1,38 +1,40 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { getParentElement } from 'src/assets/utils';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-drop-down',
   templateUrl: './drop-down.component.html',
   styleUrls: ['./drop-down.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DropDownComponent),
+      multi: true
+    }
+  ]
 })
-export class DropDownComponent implements OnInit, OnChanges {
+export class DropDownComponent implements OnInit, ControlValueAccessor {
   // Params
   @Input() label: string = 'Tiêu đề';
   @Input() placeholder: string = 'Từ khóa';
   @Input() items: any[] = [];
   @Input() selectedItem: any[] = [];
-  @Input() primarKey: any;
+  @Input() primaryKey: any;
   @Input() keyWord: string = '';
   @Input() isSearchMultiple: boolean = true;
   @Input() isRow: boolean = true;
   @Input() max: number = 4;
+  @Input() name: string = '';
 
-  @Output() onParrentSelect = new EventEmitter();
-  @Output() onParrentUnSelect = new EventEmitter();
+  @Output() onParentSelect = new EventEmitter();
+  @Output() onParentUnSelect = new EventEmitter();
 
   // Components
   temps: any[] = [];
   prevItem: any;
-  prevItemIndexs: any[] = [];
+  value: string = '';
+  onChange!: (value: string) => void;
 
   ngOnInit(): void {
     this.temps = this.items;
@@ -49,8 +51,6 @@ export class DropDownComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
   onOpenDropdown(event: any) {
     let parent: HTMLElement = getParentElement(event.target, '.selected');
 
@@ -61,31 +61,27 @@ export class DropDownComponent implements OnInit, OnChanges {
       parent.classList.add('active');
       parent.scrollIntoView({
         behavior: 'smooth',
-        block: 'center',
+        block: 'center'
       });
     }
   }
 
   isItemExist(selected: any[], item: any) {
-    let result = selected.find(
-      (t) => t[this.primarKey] === item[this.primarKey]
-    )
-      ? true
-      : false;
-
-    return result;
+    return !!selected.find(
+      (t) => t[this.primaryKey] === item[this.primaryKey]
+    );
   }
 
   onSetItem(event: any) {
     let element = event.target.closest('.item');
     let id = element.dataset.id;
-    let item = this.items.find((t) => t[this.primarKey].toString() === id);
+    let item = this.items.find((t) => t[this.primaryKey].toString() === id);
 
     if (item) {
-      let index = this.selectedItem.findIndex((t) => t[this.primarKey] === id);
+      let index = this.selectedItem.findIndex((t) => t[this.primaryKey] === id);
 
       if (element.classList.contains('active')) {
-        this.onParrentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
+        this.onParentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
         element.classList.remove('active');
         this.prevItem = item;
       } else {
@@ -105,8 +101,14 @@ export class DropDownComponent implements OnInit, OnChanges {
             ?.classList.remove('active');
         }
 
-        this.onParrentSelect.emit(item);
+        this.onParentSelect.emit(item);
       }
+
+      this.value = JSON.stringify(this.selectedItem.map(t => t[this.primaryKey]));
+      if (this.selectedItem.length === 0) {
+        this.value = '';
+      }
+      this.onChange(this.value);
     }
   }
 
@@ -135,5 +137,17 @@ export class DropDownComponent implements OnInit, OnChanges {
     event.stopPropagation();
   }
 
-  handleToggleAdd() {}
+  writeValue(obj: any): void {
+    this.value = obj;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+  }
 }

@@ -1,59 +1,68 @@
-<div class="form-control form-no-box-shadow" [ngClass]="{ row: isRow }">
-  <p class="label p-b-8">{{ label }}</p>
+<div class='form-control form-no-box-shadow' [ngClass]='{ row: isRow }'>
+  <p class='label p-b-8'>{{ label }}</p>
 
-  <div class="form-value selected">
-    <div class="selected-box row" (click)="onOpenDropdown($event)">
-      <div class="selected-item flex-1">
-        <div class="row ali-center gap-8">
+  <div class='form-value selected'>
+    <input
+      type='text'
+      hidden
+      class='form-input'
+      [attr.data-controlName]='name'
+      [ngModel]='value'
+      (ngModelChange)='onChange($event)' />
+    <div class='selected-box row' (click)='onOpenDropdown($event)'>
+      <div class='selected-item flex-1'>
+        <div class='row ali-center gap-8'>
           <div
-            *ngFor="let item of selectedItem"
-            class="item"
-            [ngClass]="{ noActive: !isSearchMultiple }"
-            [innerHTML]="item[keyWord]"
+            *ngFor='let item of selectedItem'
+            class='item'
+            [ngClass]='{ noActive: !isSearchMultiple }'
+            [innerHTML]='item[keyWord]'
           ></div>
         </div>
       </div>
 
-      <div class="ma-l-8">
-        <i class="fa-solid fa-caret-down"></i>
+      <div class='ma-l-8'>
+        <i class='fa-solid fa-caret-down'></i>
       </div>
     </div>
 
-    <div class="dropdown">
+    <div class='dropdown'>
       <input
-        type="text"
-        class="form-input"
-        [placeholder]="placeholder"
-        (input)="onSearchItem($event)"
-        (click)="onClickInput($event)"
+        type='text'
+        class='form-input'
+        [placeholder]='placeholder'
+        (input)='onSearchItem($event)'
+        (click)='onClickInput($event)'
       />
 
-      <div class="list p-t-16">
-        <ng-container *ngIf="temps.length > 0; then temp; else item">
+      <div class='list p-t-16'>
+        <ng-container *ngIf='temps.length > 0; then temp; else item'>
         </ng-container>
 
         <ng-template #item>
           <div
-            *ngFor="let item of items; let i = index"
-            class="item"
-            [ngClass]="{ active: isItemExist(selectedItem, item) }"
-            [attr.data-id]="item[primarKey]"
-            (click)="onSetItem($event)"
-            [innerHTML]="item[keyWord]"
+            *ngFor='let item of items; let i = index'
+            class='item'
+            [ngClass]='{ active: isItemExist(selectedItem, item) }'
+            [attr.data-id]='item[primaryKey]'
+            (click)='onSetItem($event)'
+            [innerHTML]='item[keyWord]'
           ></div>
         </ng-template>
 
         <ng-template #temp>
           <div
-            *ngFor="let item of temps; let i = index"
-            class="item"
-            [ngClass]="{ active: isItemExist(selectedItem, item) }"
-            [attr.data-id]="item[primarKey]"
-            (click)="onSetItem($event)"
-            [innerHTML]="item[keyWord]"
+            *ngFor='let item of temps; let i = index'
+            class='item'
+            [ngClass]='{ active: isItemExist(selectedItem, item) }'
+            [attr.data-id]='item[primaryKey]'
+            (click)='onSetItem($event)'
+            [innerHTML]='item[keyWord]'
           ></div>
         </ng-template>
       </div>
     </div>
+
+    <div class='error-mess'></div>
   </div>
 </div>

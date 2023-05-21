@@ -123,10 +123,10 @@
           placeholder="Tìm giảng viên"
           [items]="GVHDInputConfig.data"
           [selectedItem]="GVHDInputConfig.selectedItem"
-          primarKey="maGv"
+          primaryKey="maGv"
           keyWord="tenGv"
-          (onParrentSelect)="onSelectGVHD($event)"
-          (onParrentUnSelect)="onUnSelectGVHD($event)"
+          (onParentSelect)="onSelectGVHD($event)"
+          (onParentUnSelect)="onUnSelectGVHD($event)"
         ></app-drop-down>
 
         <app-drop-down
@@ -136,10 +136,10 @@
           placeholder="Tìm giảng viên"
           [items]="GVPBInputConfig.data"
           [selectedItem]="GVPBInputConfig.selectedItem"
-          primarKey="maGv"
+          primaryKey="maGv"
           keyWord="tenGv"
-          (onParrentSelect)="onSelectGVPB($event)"
-          (onParrentUnSelect)="onUnSelectGVPB($event)"
+          (onParentSelect)="onSelectGVPB($event)"
+          (onParentUnSelect)="onUnSelectGVPB($event)"
         ></app-drop-down>
       </div>
     </div>

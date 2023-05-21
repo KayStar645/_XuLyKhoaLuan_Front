@@ -1,39 +1,39 @@
-import getParentElement from "./getParentElement";
+import getParentElement from './getParentElement';
 
 function setErrors(errors, element, parentSelector, errorSelector) {
-  let parent = getParentElement(element, parentSelector || ".form-control");
-  let errorMess = parent.querySelector(errorSelector || ".error-mess");
+  let parent = getParentElement(element, parentSelector || '.form-control');
+  let errorMess = parent.querySelector(errorSelector || '.error-mess');
 
   if (parent) {
     if (errors) {
-      parent.classList.add("invalid");
+      parent.classList.add('invalid');
 
       if (errors.required) {
-        errorMess && (errorMess.innerText = "Trường này là bắt buộc");
+        errorMess && (errorMess.innerText = 'Trường này là bắt buộc');
       }
-      
+
       if (errors.email) {
-        errorMess && (errorMess.innerText = "Email không hợp lệ");
+        errorMess && (errorMess.innerText = 'Email không hợp lệ');
       }
 
       if (errors.min) {
         errorMess &&
-          (errorMess.innerText = `Số lượng tối thiểu phải lớn ${
-            errors.min.min - 1
-          }`);
+        (errorMess.innerText = `Số lượng tối thiểu phải lớn ${
+          errors.min.min - 1
+        }`);
       }
 
       if (errors.smallerDay) {
         errorMess &&
-          (errorMess.innerText = "Ngày kết thúc phải lớn hơn ngày bắt đầu");
+        (errorMess.innerText = 'Ngày kết thúc phải lớn hơn ngày bắt đầu');
       }
 
       if (errors.dateBirth18) {
-        errorMess && (errorMess.innerText = "Ngày sinh phải đủ 18 tuổi");
+        errorMess && (errorMess.innerText = 'Ngày sinh phải đủ 18 tuổi');
       }
     } else {
-      parent.classList.remove("invalid");
-      errorMess && (errorMess.innerText = "");
+      parent.classList.remove('invalid');
+      errorMess && (errorMess.innerText = '');
     }
   }
 }
