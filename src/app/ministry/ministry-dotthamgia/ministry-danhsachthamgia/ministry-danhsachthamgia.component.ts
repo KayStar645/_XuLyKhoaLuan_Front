@@ -1,5 +1,5 @@
-import { thamGiaService } from './../../../services/thamGia.service';
-import { ThamGia } from './../../../models/ThamGia.model';
+import { thamGiaService } from '../../../services/thamGia.service';
+import { ThamGia } from '../../../models/ThamGia.model';
 import {
   Component,
   ElementRef,
@@ -7,7 +7,7 @@ import {
   OnInit,
   SimpleChanges,
   EventEmitter,
-  Output,
+  Output
 } from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
@@ -16,20 +16,20 @@ import { shareService } from 'src/app/services/share.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
 import { getParentElement } from 'src/assets/utils';
 import { WebsocketService } from 'src/app/services/Websocket.service';
+import { DotDk } from '../../../models/DotDk.model';
+import { dotDkService } from '../../../services/dotDk.service';
 
 @Component({
   selector: 'app-ministry-danhsachthamgia',
-  templateUrl: './ministry-danhsachthamgia.component.html',
+  templateUrl: './ministry-danhsachthamgia.component.html'
   // styleUrls: ['./ministry-danhsachthamgia.component.scss']
 })
 export class MinistryDanhsachthamgiaComponent implements OnInit {
-  @Input() searchName = '';
-  @Input() isSelectedTG = false;
-  @Output() returnIsSelectedTG = new EventEmitter<boolean>();
-  _searchName = '';
-  _maCn = '';
-  _namHoc = '';
-  _dot = 0;
+  isSelectedTG = false;
+  searchName = '';
+  maCn = '';
+  namHoc = '';
+  dot = 0;
 
   listTg: ThamGia[] = [];
   sinhVien = new SinhVien();
@@ -39,6 +39,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   selectedTG: any[] = [];
   lineTG = new ThamGia();
   elementOld: any;
+  listDotDk: DotDk[] = [];
 
   constructor(
     private sinhVienService: sinhVienService,
@@ -46,18 +47,21 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
     private thamGiaService: thamGiaService,
-    private websocketService: WebsocketService
-  ) {}
+    private websocketService: WebsocketService,
+    private dotDkService: dotDkService
+  ) {
+  }
 
   async ngOnInit() {
     this.listSV = await this.sinhVienService.getAll();
-    this.getAllThamgiaByDotdk();
     this.listCN = await this.chuyenNganhService.getAll();
+    this.listDotDk = await this.dotDkService.getAll();
+    await this.getAllThamgiaByDotdk();
+
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.selectedTG = [];
-        this.returnIsSelectedTG.emit(false);
         let activeLine = this.elementRef.nativeElement.querySelectorAll(
           '.br-line.br-line-click'
         );
@@ -82,7 +86,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   async clickLine(event: any) {
     const parent = getParentElement(event.target, '.br-line');
     const firstChild = parent.firstChild;
-    const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
+    const namHoc_Dot: string = parent.querySelector('.namhocdot').innerText;
     const namHoc = namHoc_Dot.substring(0, 9);
     const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
 
@@ -101,61 +105,61 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
   async getAllThamgiaByDotdk() {
     this.listTg = await this.thamGiaService.search(
-      this._searchName,
-      this._maCn,
-      this._namHoc,
-      this._dot
+      this.searchName,
+      this.maCn,
+      this.namHoc,
+      this.dot
     );
   }
 
-  async getThamgiaByMaCN(maCn: string) {
-    this._maCn = maCn;
+  async getThamgiaByMaCN(event: any) {
+    this.maCn = event.target.value;
     this.listTg = await this.thamGiaService.search(
-      this._searchName,
-      this._maCn,
-      this._namHoc,
-      this._dot
+      this.searchName,
+      this.maCn,
+      this.namHoc,
+      this.dot
     );
   }
 
-  async getThamgiaByDotDk(dotdk: string) {
-    this._namHoc = '';
-    this._dot = 0;
+  async getThamgiaByDotDk(event: any) {
+    let dotdk = event.target.value;
+    this.namHoc = '';
+    this.dot = 0;
     if (dotdk != '') {
-      this._namHoc = dotdk.slice(0, dotdk.length - 1);
-      this._dot = parseInt(dotdk.slice(dotdk.length - 1));
+      this.namHoc = dotdk.slice(0, dotdk.length - 1);
+      this.dot = parseInt(dotdk.slice(dotdk.length - 1));
     }
     this.listTg = await this.thamGiaService.search(
-      this._searchName,
-      this._maCn,
-      this._namHoc,
-      this._dot
+      this.searchName,
+      this.maCn,
+      this.namHoc,
+      this.dot
     );
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
       const name = this.searchName.trim().toLowerCase();
-      this._searchName = name;
+      this.searchName = name;
 
       this.listTg = await this.thamGiaService.search(
-        this._searchName,
-        this._maCn,
-        this._namHoc,
-        this._dot
+        this.searchName,
+        this.maCn,
+        this.namHoc,
+        this.dot
       );
     }
   }
 
   getSelectedLine(e: any) {
     if (e.ctrlKey) {
-      this.returnIsSelectedTG.emit(true);
       const activeDblClick = this.elementRef.nativeElement.querySelector(
         '.br-line.br-line-dblclick'
       );
       const parent = getParentElement(e.target, '.br-line');
       const firstChild = parent.firstChild;
-      const namHoc_Dot: string = parent.querySelector('.namhoc_dot').innerText;
+      const namHoc_Dot: string = parent.querySelector('.namhocdot').innerText;
       const namHoc = namHoc_Dot.substring(0, 9);
       const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
 
@@ -176,13 +180,9 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
         var idTg = {
           maSv: firstChild.innerText,
           namHoc: namHoc,
-          dot: dot,
+          dot: dot
         };
         this.selectedTG.push(idTg);
-      }
-
-      if (this.selectedTG.length === 0) {
-        this.returnIsSelectedTG.emit(false);
       }
     }
   }

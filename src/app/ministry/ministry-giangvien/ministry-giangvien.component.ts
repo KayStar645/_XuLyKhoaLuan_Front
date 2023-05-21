@@ -149,7 +149,7 @@ export class MinistryGiangvienComponent implements OnInit {
 
       option.agree(() => {
         update.classList.remove('active');
-        this.gvForm.resetValidte('#update_box');
+        this.gvForm.resetValidate('#update_box');
         document.documentElement.classList.remove('no-scroll');
       });
 

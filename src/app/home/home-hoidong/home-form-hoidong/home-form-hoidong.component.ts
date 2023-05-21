@@ -11,7 +11,7 @@ import { shareService } from 'src/app/services/share.service';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { TL_HoiDongVT } from 'src/app/models/VirtualModel/TL_HoiDongVTModel';
 import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
-import { dateVNConvert, Form, Option } from 'src/assets/utils';
+import { dateVNConvert, Form } from 'src/assets/utils';
 
 type GVInputConfigProp = {
   items: GiangVien[];

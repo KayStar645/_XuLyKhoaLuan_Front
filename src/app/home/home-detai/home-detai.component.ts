@@ -151,7 +151,7 @@ export class HomeDetaiComponent implements OnInit {
 
       option.agree(() => {
         update.classList.remove('active');
-        this.dtForm.resetValidte('#update_box');
+        this.dtForm.resetValidate('#update_box');
       });
 
       option.save(() => {

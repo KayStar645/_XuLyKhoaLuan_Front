@@ -1,6 +1,6 @@
 import { phanBienService } from 'src/app/services/phanBien.service';
 import { huongDanService } from 'src/app/services/huongDan.service';
-import { lichPhanBienService } from './../../services/NghiepVu/lichphanbien.service';
+import { lichPhanBienService } from '../../services/NghiepVu/lichphanbien.service';
 import { Component, Input, OnInit, ViewChild, OnChanges } from '@angular/core';
 import {
   format,
@@ -11,7 +11,7 @@ import {
   subDays,
   addDays,
   isToday,
-  isPast,
+  isPast
 } from 'date-fns';
 import { DatePickerComponent } from 'ng2-date-picker';
 import { ToastrService } from 'ngx-toastr';
@@ -46,7 +46,7 @@ type time = {
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss'],
+  styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit, OnChanges {
   @ViewChild('dayPicker')
@@ -80,8 +80,9 @@ export class ScheduleComponent implements OnInit, OnChanges {
     ngayBD: [''],
     TGBatDau: [''],
     TGKetThuc: [''],
-    diaDiem: [''],
+    diaDiem: ['']
   });
+  form = this.lich.form;
   loaiLich: any[] = [];
   deTais: DeTai[] = [];
   deTai: DeTai[] = [];
@@ -92,7 +93,8 @@ export class ScheduleComponent implements OnInit, OnChanges {
     private toastService: ToastrService,
     private deTaiService: deTaiService,
     private lichPhanBienService: lichPhanBienService
-  ) {}
+  ) {
+  }
 
   async ngOnInit(): Promise<void> {
     this.deTais = [];
@@ -180,7 +182,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
     this.data.forEach((lich) => {
       this.dates.push({
         start: new Date(lich.thoiGianBD),
-        end: new Date(lich.thoiGianKT),
+        end: new Date(lich.thoiGianKT)
       });
     });
   }
@@ -193,7 +195,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
       if (
         isWithinInterval(date.start, {
           start: this.startOfWeek,
-          end: this.endOfWeek,
+          end: this.endOfWeek
         })
       ) {
         this.dateInWeek.push(date);
@@ -204,7 +206,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
       if (
         isWithinInterval(new Date(lich.thoiGianBD), {
           start: this.startOfWeek,
-          end: this.endOfWeek,
+          end: this.endOfWeek
         })
       ) {
         this.schedule.push(lich);
@@ -226,22 +228,22 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
       this.times.push({
         hour: i,
-        minute: minute,
+        minute: minute
       });
 
       this.times.push({
         hour: i,
-        minute: (minute += 15),
+        minute: (minute += 15)
       });
 
       this.times.push({
         hour: i,
-        minute: (minute += 15),
+        minute: (minute += 15)
       });
 
       this.times.push({
         hour: i,
-        minute: (minute += 15),
+        minute: (minute += 15)
       });
     }
   }
@@ -310,16 +312,16 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
   getWeek() {
     this.startOfWeek = startOfWeek(this.rootDate, {
-      weekStartsOn: 1,
+      weekStartsOn: 1
     });
 
     this.endOfWeek = endOfWeek(this.rootDate, {
-      weekStartsOn: 1,
+      weekStartsOn: 1
     });
 
     this.dateOfWeek = eachDayOfInterval({
       start: this.startOfWeek,
-      end: this.endOfWeek,
+      end: this.endOfWeek
     });
   }
 
@@ -414,7 +416,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
     return {
       hour: smallestHours,
-      minute: smallestMinutes,
+      minute: smallestMinutes
     };
   }
 
@@ -437,7 +439,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
     return {
       hour: largestHours,
-      minute: largestMinutes,
+      minute: largestMinutes
     };
   }
 }

@@ -149,7 +149,7 @@ export class MinistrySinhvienComponent implements OnInit {
 
       option.agree(() => {
         update.classList.remove('active');
-        this.svForm.resetValidte('#update_box');
+        this.svForm.resetValidate('#update_box');
         document.documentElement.classList.remove('no-scroll');
       });
 

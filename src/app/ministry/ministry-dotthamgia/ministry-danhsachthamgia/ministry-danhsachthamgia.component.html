@@ -1,34 +1,92 @@
-<div id="container">
-    <div>
-      <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
-        <tr>
-          <th>Mã SV</th>
-          <th>Họ và tên</th>
-          <th>Email</th>
-          <th>Giới tính</th>
-          <th>SĐT</th>
-          <th>Lớp</th>
-          <th>Chuyên ngành</th>
-          <th>Đợt</th>
-        </tr>
-        <tbody *ngFor="let tg of listTg">
-          <tr
-            class="br-line"
-            (dblclick)="clickLine($event)"
-            (mousedown)="getSelectedLine($event)"
-          >
-            <td class="text-center">{{ tg?.maSv }}</td>
-            {{getSinhVienById(tg.maSv)}}
-            <td class="text-left">{{ sinhVien.tenSv }}</td>
-            <td class="text-left">{{ sinhVien.email }}</td>
-            <td class="text-center">{{ sinhVien.gioiTinh }}</td>
-            <td class="text-center">{{ sinhVien.sdt }}</td>
-            <td class="text-center">{{ sinhVien.lop }}</td>
-            <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
-            <td class="text-left namhoc_dot">{{ tg.namHoc }} - Đợt {{ tg.dot }}</td>
-          </tr>
-        </tbody>
-      </table>
+<div id='functional-container'>
+  <div class='functional-list'>
+    <ul class='functional-container row ali-center functional-wrapper'>
+      <li class='functional-item'>
+        <select
+          class='functional-select'
+          (change)='getThamgiaByMaCN($event)'
+        >
+          <option value=''>Tất cả</option>
+          <option *ngFor='let cn of listCN' [value]='cn?.maCn'>
+            {{ cn?.tenCn }}
+          </option>
+        </select>
+      </li>
+      <li class='functional-item'>
+        <input
+          type='text'
+          placeholder='Tìm theo tên...'
+          [(ngModel)]='searchName'
+        />
+      </li>
+      <li class='functional-item'>
+        <select
+          class='functional-select'
+          (change)='getThamgiaByDotDk($event)'
+        >
+          <option value=''>Tất cả</option>
+          <option *ngFor='let dk of listDotDk' [value]='dk.namHoc + dk.dot'>
+            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
+          </option>
+        </select>
+      </li>
+      <li
+        class='functional-item functional-wrapper row ali-center jus-end flex-1'
+      >
+        <div class='functional-button'>
+          <button
+            routerLink='/ministry/tham-gia/form-thamgia'
+            [state]='{isUpdate: false}'>
+            Thêm
+          </button>
+        </div>
+
+        <div class='functional-button'>
+          <button>Xóa</button>
+        </div>
+      </li>
+    </ul>
+
+    <div class='p-t-12'>
+      <p class='notify' *ngIf='!isSelectedTG'>
+        (⁎) Giữ CRT + Click để chọn nhiều
+      </p>
+      <p class='notify' *ngIf='isSelectedTG'>
+        (⁎) Nhấn Esc để thoát chọn nhiều
+      </p>
     </div>
   </div>
-  
+</div>
+<div id='container'>
+  <div>
+    <table [cellPadding]='0' [cellSpacing]='0' class='table'>
+      <tr>
+        <th>Mã SV</th>
+        <th>Họ và tên</th>
+        <th>Email</th>
+        <th>Giới tính</th>
+        <th>SĐT</th>
+        <th>Lớp</th>
+        <th>Chuyên ngành</th>
+        <th>Đợt</th>
+      </tr>
+      <tbody *ngFor='let tg of listTg'>
+      <tr
+        class='br-line'
+        (dblclick)='clickLine($event)'
+        (mousedown)='getSelectedLine($event)'
+      >
+        <td class='text-center'>{{ tg?.maSv }}</td>
+        {{getSinhVienById(tg.maSv)}}
+        <td class='text-left'>{{ sinhVien.tenSv }}</td>
+        <td class='text-left'>{{ sinhVien.email }}</td>
+        <td class='text-center'>{{ sinhVien.gioiTinh }}</td>
+        <td class='text-center'>{{ sinhVien.sdt }}</td>
+        <td class='text-center'>{{ sinhVien.lop }}</td>
+        <td class='text-left'>{{ getTenCNById(sinhVien.maCn) }}</td>
+        <td class='text-left namhoc_dot'>{{ tg.namHoc }} - Đợt {{ tg.dot }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

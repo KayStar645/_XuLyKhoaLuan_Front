@@ -1,6 +1,10 @@
-import { HomeDanhsachsinhvienComponent } from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
+import {
+  HomeDanhsachsinhvienComponent
+} from './home/home-sinhvien/home-danhsachsinhvien/home-danhsachsinhvien.component';
 import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
-import { HomeDanhsachgiangvienComponent } from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
+import {
+  HomeDanhsachgiangvienComponent
+} from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
 import { MinistryDetaiComponent } from './ministry/ministry-detai/ministry-detai.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -40,58 +44,101 @@ import { MinistryKehoachComponent } from './ministry/ministry-kehoach/ministry-k
 import { MinistryNhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-nhiemvu.component';
 import { MinistrySinhvienComponent } from './ministry/ministry-sinhvien/ministry-sinhvien.component';
 import { MinistryThongbaoComponent } from './ministry/ministry-thongbao/ministry-thongbao.component';
-import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
-import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
-import { MinistryDanhsachdetaiComponent } from './ministry/ministry-detai/ministry-danhsachdetai/ministry-danhsachdetai.component';
+import {
+  MinistryDanhsachgiangvienComponent
+} from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
+import {
+  MinistryDanhsachsinhvienComponent
+} from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
+import {
+  MinistryDanhsachdetaiComponent
+} from './ministry/ministry-detai/ministry-danhsachdetai/ministry-danhsachdetai.component';
 import { HomeNhiemvuComponent } from './home/home-nhiemvu/home-nhiemvu.component';
-import { MinistryDanhsachthongbaoComponent } from './ministry/ministry-thongbao/ministry-danhsachthongbao/ministry-danhsachthongbao.component';
-import { MinistryChitietthongbaoComponent } from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
+import {
+  MinistryDanhsachthongbaoComponent
+} from './ministry/ministry-thongbao/ministry-danhsachthongbao/ministry-danhsachthongbao.component';
+import {
+  MinistryChitietthongbaoComponent
+} from './ministry/ministry-thongbao/ministry-chitietthongbao/ministry-chitietthongbao.component';
 import { MinistryDotthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-dotthamgia.component';
-import { MinistryDanhsachthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
+import {
+  MinistryDanhsachthamgiaComponent
+} from './ministry/ministry-dotthamgia/ministry-danhsachthamgia/ministry-danhsachthamgia.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Location } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { MinistryDanhsachnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
-import { MinistryChitietnhiemvuComponent } from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
+import {
+  MinistryDanhsachnhiemvuComponent
+} from './ministry/ministry-nhiemvu/ministry-danhsachnhiemvu/ministry-danhsachnhiemvu.component';
+import {
+  MinistryChitietnhiemvuComponent
+} from './ministry/ministry-nhiemvu/ministry-chitietnhiemvu/ministry-chitietnhiemvu.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { HomeDanhsachnhiemvuComponent } from './home/home-nhiemvu/home-danhsachnhiemvu/home-danhsachnhiemvu.component';
 import { HomeChitietnhiemvuComponent } from './home/home-nhiemvu/home-chitietnhiemvu/home-chitietnhiemvu.component';
-import { MinistryDanhsachkehoachComponent } from './ministry/ministry-kehoach/ministry-danhsachkehoach/ministry-danhsachkehoach.component';
-import { MinistryChitietkehoachComponent } from './ministry/ministry-kehoach/ministry-chitietkehoach/ministry-chitietkehoach.component';
+import {
+  MinistryDanhsachkehoachComponent
+} from './ministry/ministry-kehoach/ministry-danhsachkehoach/ministry-danhsachkehoach.component';
+import {
+  MinistryChitietkehoachComponent
+} from './ministry/ministry-kehoach/ministry-chitietkehoach/ministry-chitietkehoach.component';
 import { DashboardNhomComponent } from './dashboard/dashboard-nhom/dashboard-nhom.component';
-import { MinistryChitietdetaiComponent } from './ministry/ministry-detai/ministry-chitietdetai/ministry-chitietdetai.component';
+import {
+  MinistryChitietdetaiComponent
+} from './ministry/ministry-detai/ministry-chitietdetai/ministry-chitietdetai.component';
 import { HomeChitietdetaiComponent } from './home/home-detai/home-chitietdetai/home-chitietdetai.component';
 import { HomeChitietkehoachComponent } from './home/home-kehoach/home-chitietkehoach/home-chitietkehoach.component';
 import { HomeDanhsachkehoachComponent } from './home/home-kehoach/home-danhsachkehoach/home-danhsachkehoach.component';
 import { HomeFormdetaiComponent } from './home/home-detai/home-formdetai/home-formdetai.component';
 import { HomeHuongdanRadeComponent } from './home/home-nhiemvu/home-huongdan-rade/home-huongdan-rade.component';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
-import { HomeDanhsachthongbaoComponent } from './home/home-thongbao/home-danhsachthongbao/home-danhsachthongbao.component';
-import { DashboardDanhsachthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
-import { DashboardChitietthongbaoComponent } from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
+import {
+  HomeDanhsachthongbaoComponent
+} from './home/home-thongbao/home-danhsachthongbao/home-danhsachthongbao.component';
+import {
+  DashboardDanhsachthongbaoComponent
+} from './dashboard/dashboard-thongbao/dashboard-danhsachthongbao/dashboard-danhsachthongbao.component';
+import {
+  DashboardChitietthongbaoComponent
+} from './dashboard/dashboard-thongbao/dashboard-chitietthongbao/dashboard-chitietthongbao.component';
 import { HomeChitietthongbaoComponent } from './home/home-thongbao/home-chitietthongbao/home-chitietthongbao.component';
-import { DashboardBaitapchitietComponent } from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
+import {
+  DashboardBaitapchitietComponent
+} from './dashboard/dashboard-nhom/dashboard-baitapchitiet/dashboard-baitapchitiet.component';
 import { DashboardThemthanhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-themthanhvien.component';
-import { DashboardDanhsachsinhvienComponent } from './dashboard/dashboard-themthanhvien/dashboard-danhsachsinhvien/dashboard-danhsachsinhvien.component';
+import {
+  DashboardDanhsachsinhvienComponent
+} from './dashboard/dashboard-themthanhvien/dashboard-danhsachsinhvien/dashboard-danhsachsinhvien.component';
 import { HomeHuongdanComponent } from './home/home-huongdan/home-huongdan.component';
 import { HomeNhomsinhvienComponent } from './home/home-huongdan/home-nhomsinhvien/home-nhomsinhvien.component';
 import { HomeCongviecComponent } from './home/home-huongdan/home-congviec/home-congviec.component';
 import { RouterModule } from '@angular/router';
-import { HomeDanhsachbaitapComponent } from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
+import {
+  HomeDanhsachbaitapComponent
+} from './home/home-huongdan/home-congviec/home-danhsachbaitap/home-danhsachbaitap.component';
 import { DashbordDangkydetaiComponent } from './dashboard/dashbord-dangkydetai/dashbord-dangkydetai.component';
 import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard-mainnhom/dashboard-mainnhom.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { HomeChitietbaitapComponent } from './home/home-huongdan/home-congviec/home-chitietbaitap/home-chitietbaitap.component';
+import {
+  HomeChitietbaitapComponent
+} from './home/home-huongdan/home-congviec/home-chitietbaitap/home-chitietbaitap.component';
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
 import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
-import { MinistryDanhsachdiemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
+import {
+  MinistryDanhsachdiemComponent
+} from './ministry/ministry-thongkediem/ministry-thongkediem/ministry-danhsachdiem.component';
 import { HomeFormHoidongComponent } from './home/home-hoidong/home-form-hoidong/home-form-hoidong.component';
 import { HomeDanhsachhoidongComponent } from './home/home-hoidong/home-danhsachhoidong/home-danhsachhoidong.component';
 import { HomeBaitapComponent } from './home/home-huongdan/home-congviec/home-baitap/home-baitap.component';
-import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/home-danhsachnopbai/home-danhsachnopbai.component';
+import {
+  HomeDanhsachnopbaiComponent
+} from './home/home-huongdan/home-congviec/home-danhsachnopbai/home-danhsachnopbai.component';
+import {
+  MinistryFormDotthamgiaComponent
+} from './ministry/ministry-dotthamgia/ministry-form-dotthamgia/ministry-form-dotthamgia.component';
 
 @NgModule({
   declarations: [
@@ -176,6 +223,7 @@ import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/
     HomeDanhsachhoidongComponent,
     HomeBaitapComponent,
     HomeDanhsachnopbaiComponent,
+    MinistryFormDotthamgiaComponent
   ],
 
   imports: [
@@ -203,7 +251,8 @@ import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/
       timeOut: 3500,
       titleClass: 'toast-title',
       messageClass: 'toast-mess',
-    }),
+      preventDuplicates: true
+    })
   ],
 
   providers: [
@@ -212,9 +261,10 @@ import { HomeDanhsachnopbaiComponent } from './home/home-huongdan/home-congviec/
     BrowserModule,
     AppRoutingModule,
     HomeMainComponent,
-    Location,
+    Location
   ],
 
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

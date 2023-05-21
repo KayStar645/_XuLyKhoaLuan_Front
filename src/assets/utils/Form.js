@@ -35,7 +35,7 @@ class Form {
     });
   }
 
-  resetValidte(formSelector, except = {}) {
+  resetValidate(formSelector, except = {}) {
     let form = document.querySelector(formSelector);
     let formElement = form.querySelectorAll('.form-input');
 
