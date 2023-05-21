@@ -1,6 +1,6 @@
 export class GiangVienVT {
-  public maGV!: string;
-  public tenGV!: string;
+  public maGv!: string;
+  public tenGv!: string;
   /*
     1: Hướng dẫn
     2: Phản biện
@@ -14,8 +14,8 @@ export class GiangVienVT {
   constructor() {}
 
   createNull() {
-    this.maGV = '';
-    this.tenGV = '';
+    this.maGv = '';
+    this.tenGv = '';
     this.vaiTro = 0;
     this.maChucVu = "";
     this.chucVu = '';

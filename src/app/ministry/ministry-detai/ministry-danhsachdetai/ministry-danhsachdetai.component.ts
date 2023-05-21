@@ -167,7 +167,7 @@ export class MinistryDanhsachdetaiComponent {
   }
 
   getGvrd(gvrd: GiangVienVT[]) {
-    return gvrd.map((re) => re.tenGV);
+    return gvrd.map((re) => re.tenGv);
   }
 
   dateFormat(str: string): string {

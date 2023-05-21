@@ -40,24 +40,6 @@
           </div>
         </label>
 
-        <label class='form-control form-no-box-shadow row ali-center'>
-          <p class='label p-b-8'>Thời gian bảo vệ</p>
-
-          <div class='form-value'>
-            <dp-date-picker
-              mode='daytime'
-              formControlName='thoiGianBd'
-              [config]="{
-                firstDayOfWeek: 'mo',
-                showNearMonthDays: false
-              }"
-              (onSelect)='onDateChange($event)'
-              class='form-input'
-            ></dp-date-picker>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-
         <label class='form-control row ali-center'>
           <p class='label p-b-8'>Địa điểm</p>
           <div class='form-value'>
@@ -67,6 +49,25 @@
               class='form-input'
               (blur)='hoiDong.inputBlur($event)'
             />
+            <p class='error-mess'></p>
+          </div>
+        </label>
+
+        <label class='form-control form-no-box-shadow row ali-center'>
+          <p class='label p-b-8'>Thời gian bảo vệ</p>
+
+          <div class='form-value'>
+            <dp-date-picker
+              mode='daytime'
+              formControlName='thoiGianBd'
+              [config]="{
+                firstDayOfWeek: 'mo',
+                showNearMonthDays: false,
+                showSeconds: false
+              }"
+              (onSelect)='onDateChange($event)'
+              class='form-input'
+            ></dp-date-picker>
             <p class='error-mess'></p>
           </div>
         </label>

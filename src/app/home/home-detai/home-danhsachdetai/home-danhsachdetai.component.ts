@@ -4,18 +4,16 @@ import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.
 import { chuyenNganhService } from './../../../services/chuyenNganh.service';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
 import { DeTai_ChuyenNganh } from '../../../models/DeTai_ChuyenNganh.model';
-import { giangVienService } from '../../../services/giangVien.service';
 import { RaDe } from '../../../models/RaDe.model';
 import { raDeService } from '../../../services/raDe.service';
 import { Component, ElementRef } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
-import { Form, getParentElement, Option } from 'src/assets/utils';
+import {  getParentElement, Option } from 'src/assets/utils';
 import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
-import { Subject } from 'rxjs';
 import { HomeMainComponent } from '../../home-main/home-main.component';
 import { DotDk } from 'src/app/models/DotDk.model';
 import { DetaiVT } from 'src/app/models/VirtualModel/DetaiVTModel';
@@ -228,7 +226,6 @@ export class HomeDanhsachdetaiComponent {
   async onSearchName(event: any) {
     const searchName = event.target.value.trim().toLowerCase();
     this._searchName = searchName;
-    console.log('onSearchName: ' + this._searchName);
     this.listDT = await this.deTaiService.search(
       this._searchName,
       HomeMainComponent.maBm,
@@ -244,7 +241,6 @@ export class HomeDanhsachdetaiComponent {
     const dotdk = event.target.value;
     this._namHoc = dotdk.slice(0, dotdk.length - 1);
     this._dot = dotdk.slice(dotdk.length - 1);
-    console.log('onGetDotdk: ' + this._searchName);
 
     this.listDT = await this.deTaiService.search(
       this._searchName,
@@ -258,7 +254,6 @@ export class HomeDanhsachdetaiComponent {
   }
 
   async getAllDeTai() {
-    console.log('getAllDeTai: ' + this._searchName);
     this.listDT = await this.deTaiService.search(
       this._searchName,
       HomeMainComponent.maBm,
@@ -293,7 +288,7 @@ export class HomeDanhsachdetaiComponent {
   }
 
   getGvrd(gvrd: GiangVienVT[]) {
-    return gvrd.map((re) => re.tenGV);
+    return gvrd.map((re) => re.tenGv);
   }
 
   dateFormat(str: string): string {

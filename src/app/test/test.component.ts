@@ -24,7 +24,6 @@ export class TestComponent implements OnInit {
 
   async getDeTaiDiem() {
     let result = await this.deTaiDiemService.GetDanhSachDiemByGv('GV00001');
-    console.log(result);
   }
 
   async createMaDt() {

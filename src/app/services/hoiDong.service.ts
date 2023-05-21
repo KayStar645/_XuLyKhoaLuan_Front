@@ -88,6 +88,16 @@ export class hoiDongService {
       .toPromise();
   }
 
+  async updateAll(hoidong: TL_HoiDongVT): Promise<any> {
+    return await this.http
+      .put<any>(
+        `${this.apiUrl}/api/Hoidongs`,
+        hoidong,
+        this.shareService.httpOptions
+      )
+      .toPromise();
+  }
+
   async delete(maHD: string): Promise<any> {
     return await this.http
       .delete(

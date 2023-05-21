@@ -27,15 +27,9 @@ import { HomeDetaiComponent } from './home/home-detai/home-detai.component';
 import { HomeSinhvienComponent } from './home/home-sinhvien/home-sinhvien.component';
 import { HomeHoidongComponent } from './home/home-hoidong/home-hoidong.component';
 import { HomeLichphanbienComponent } from './home/home-lichphanbien/home-lichphanbien.component';
-import {
-  HomeDanhsachgiangvienComponent
-} from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
-import {
-  MinistryDanhsachgiangvienComponent
-} from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
-import {
-  MinistryDanhsachsinhvienComponent
-} from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
+import {HomeDanhsachgiangvienComponent } from './home/home-giangvien/home-danhsachgiangvien/home-danhsachgiangvien.component';
+import { MinistryDanhsachgiangvienComponent } from './ministry/ministry-giangvien/ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
+import { MinistryDanhsachsinhvienComponent } from './ministry/ministry-sinhvien/ministry-danhsachsinhvien/ministry-danhsachsinhvien.component';
 import { HomeDanhsachdetaiComponent } from './home/home-detai/home-danhsachdetai/home-danhsachdetai.component';
 import {
   HomeDanhsachsinhvienComponent
@@ -100,7 +94,6 @@ import { DashboardMainnhomComponent } from './dashboard/dashboard-nhom/dashboard
 import { HomeChamdiemComponent } from './home/home-chamdiem/home-chamdiem.component';
 import { DashboardDanhsachdetaiComponent } from './dashboard/dashboard-danhsachdetai/dashboard-danhsachdetai.component';
 import { DashboardLichbaocaoComponent } from './dashboard/dashboard-lichbaocao/dashboard-lichbaocao.component';
-import { HomeQuanlychungComponent } from './home/home-quanlychung/home-quanlychung.component';
 import { MinistryThongkediemComponent } from './ministry/ministry-thongkediem/ministry-thongkediem.component';
 import {
   MinistryDanhsachdiemComponent
@@ -437,12 +430,7 @@ const routes: Routes = [
           }
         ]
       },
-      {
-        path: 'quan-ly-chung',
-        component: HomeQuanlychungComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
+    ],
   },
   //======================================================================================
   {

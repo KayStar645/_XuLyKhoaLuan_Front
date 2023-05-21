@@ -77,8 +77,6 @@ export class HomeChitietbaitapComponent {
     this.isAdd = window.history.state.isAdd;
     this.maCV = window.history.state['maCv'];
 
-    console.log(window.history.state);
-
     if (this.maCV !== '-1') {
       this.GVInputConfig.data = await this.giangVienService.getAll();
       this.GVInputConfig.keyword = 'tenGv';

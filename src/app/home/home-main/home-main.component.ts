@@ -31,8 +31,7 @@ export class HomeMainComponent {
   maBm!: string;
   maKhoa!: string;
   maGV = '' + localStorage.getItem('Id')?.toString();
-
-  hoiDong: any = HoiDong;
+  
   itemNumber = 9;
 
   boMon = '';
