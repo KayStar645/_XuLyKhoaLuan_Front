@@ -1,18 +1,17 @@
-import { pbChamService } from './../../services/pbCham.service';
-import { hdChamService } from './../../services/hdCham.service';
-import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { WebsocketService } from './../../services/Websocket.service';
-import { chuyenNganhService } from './../../services/chuyenNganh.service';
-import { deTai_chuyenNganhService } from './../../services/deTai_chuyenNganh.service';
-import { huongDanService } from './../../services/huongDan.service';
-import { giangVienService } from './../../services/giangVien.service';
-import { shareService } from './../../services/share.service';
-import { dangKyService } from './../../services/dangKy.service';
-import { deTaiService } from './../../services/deTai.service';
+import { pbChamService } from '../../services/pbCham.service';
+import { hdChamService } from '../../services/hdCham.service';
+import { sinhVienService } from '../../services/sinhVien.service';
+import { WebsocketService } from '../../services/Websocket.service';
+import { chuyenNganhService } from '../../services/chuyenNganh.service';
+import { deTai_chuyenNganhService } from '../../services/deTai_chuyenNganh.service';
+import { huongDanService } from '../../services/huongDan.service';
+import { giangVienService } from '../../services/giangVien.service';
+import { shareService } from '../../services/share.service';
+import { dangKyService } from '../../services/dangKy.service';
+import { deTaiService } from '../../services/deTai.service';
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DeTai } from 'src/app/models/DeTai.model';
-import { HomeComponent } from 'src/app/home/home.component';
 import { DashboardComponent } from '../dashboard.component';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { HuongDan } from 'src/app/models/HuongDan.model';
@@ -21,11 +20,9 @@ import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { getParentElement } from 'src/assets/utils';
 import { DangKy } from 'src/app/models/DangKy.model';
 import { ToastrService } from 'ngx-toastr';
-import { async } from 'rxjs';
 import { nhomService } from 'src/app/services/nhom.service';
 import { PbCham } from 'src/app/models/PbCham.model';
 import { HdCham } from 'src/app/models/HdCham.model';
-import { GiangVienDtVT } from 'src/app/models/VirtualModel/GiangVienDtVTModel';
 
 @Component({
   selector: 'app-dashbord-dangkydetai',

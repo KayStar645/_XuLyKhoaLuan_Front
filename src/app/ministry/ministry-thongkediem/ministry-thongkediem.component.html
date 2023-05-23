@@ -1,47 +1,45 @@
-<div id="container">
-  <div class="functional-list">
-    <ul class="functional-container row ali-center functional-wrapper">
-      <li class="functional-item">
+<div id='container'>
+  <div class='functional-list'>
+    <ul class='functional-container row ali-center functional-wrapper'>
+      <li class='functional-item'>
         <select
-          class="functional-select"
-          id="functional-select"
-          (change)="onChangeCn($event)"
+          class='functional-select'
+          (change)='onChangeCn($event)'
         >
-          <option value="">Tất cả</option>
-          <option *ngFor="let cn of listCN" [value]="cn?.maCn">
+          <option value=''>Tất cả</option>
+          <option *ngFor='let cn of listCN' [value]='cn?.maCn'>
             {{ cn?.tenCn }}
           </option>
         </select>
       </li>
-      <li class="functional-item">
+      <li class='functional-item'>
         <select
-          class="functional-select"
-          id="functional-select"
-          (change)="onChangeDotdk($event)"
+          class='functional-select'
+          (change)='onChangeDotdk($event)'
         >
-          <option value="">Tất cả</option>
-          <option *ngFor="let dk of listDotdk" [value]="dk.namHoc + dk.dot">
+          <option value=''>Tất cả</option>
+          <option *ngFor='let dk of listDotdk' [value]='dk.namHoc + dk.dot'>
             {{ dk.namHoc + ' - Đợt ' + dk.dot }}
           </option>
         </select>
       </li>
-      <li class="functional-item">
+      <li class='functional-item'>
         <input
-          type="text"
-          placeholder="Tìm theo tên..."
-          [(ngModel)]="keyword"
-          (ngModelChange)="handleInputChange($event)"
+          type='text'
+          placeholder='Tìm theo tên...'
+          [(ngModel)]='keyword'
+          (ngModelChange)='handleInputChange($event)'
         />
       </li>
       <li
-        class="functional-item row ali-center jus-end flex-1 functional-wrapper"
+        class='functional-item row ali-center jus-end flex-1 functional-wrapper'
       >
-        <div class="functional-button">
-          <button (click)="onExportList()">Xuất danh sách</button>
+        <div class='functional-button'>
+          <button (click)='onExportList()'>Xuất danh sách</button>
         </div>
       </li>
     </ul>
   </div>
 
-  <app-ministry-danhsachdiem></app-ministry-danhsachdiem>
+  <app-ministry-danhsachdiem #list></app-ministry-danhsachdiem>
 </div>

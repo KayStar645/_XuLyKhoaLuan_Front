@@ -1,6 +1,6 @@
-<div id="container">
+<div id='container'>
   <div>
-    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+    <table [cellPadding]='0' [cellSpacing]='0' class='table'>
       <tr>
         <th>Mã SV</th>
         <th>Họ và tên</th>
@@ -10,20 +10,20 @@
         <th>SĐT</th>
         <th>Chuyên ngành</th>
       </tr>
-      <tbody *ngFor="let sv of listSV">
-        <tr
-          class="br-line"
-          (dblclick)="clickLine($event)"
-          (mousedown)="getSelectedLine($event)"
-        >
-          <td class="text-center">{{ sv?.maSv }}</td>
-          <td class="text-left">{{ sv.tenSv }}</td>
-          <td class="text-center">{{ sv.lop }}</td>
-          <td class="text-center">{{ sv.gioiTinh }}</td>
-          <td class="text-left">{{ sv.email }}</td>
-          <td class="text-center">{{ sv.sdt }}</td>
-          <td class="text-left">{{ getTenCNById(sv.maCn) }}</td>
-        </tr>
+      <tbody *ngFor='let sv of temps'>
+      <tr
+        class='br-line'
+        (dblclick)='clickLine($event)'
+        (mousedown)='getSelectedLine($event)'
+      >
+        <td class='text-center'>{{ sv?.maSv }}</td>
+        <td class='text-left'>{{ sv.tenSv }}</td>
+        <td class='text-center'>{{ sv.lop }}</td>
+        <td class='text-center'>{{ sv.gioiTinh }}</td>
+        <td class='text-left'>{{ sv.email }}</td>
+        <td class='text-center'>{{ sv.sdt }}</td>
+        <td class='text-left'>{{ getTenCNById(sv.maCn) }}</td>
+      </tr>
       </tbody>
     </table>
   </div>

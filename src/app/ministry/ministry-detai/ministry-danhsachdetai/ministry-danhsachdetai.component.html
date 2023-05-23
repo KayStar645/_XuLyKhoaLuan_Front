@@ -1,33 +1,31 @@
-<div id="functional-container">
-  <div class="functional-list">
-    <ul class="functional-container row ali-center functional-wrapper">
-      <li class="functional-item">
+<div id='functional-container'>
+  <div class='functional-list'>
+    <ul class='functional-container row ali-center functional-wrapper'>
+      <li class='functional-item'>
         <select
-          class="search-select"
-          id="search-select"
-          (change)="onGetDetaiByMaCn($event)"
+          class='search-select'
+          (change)='onGetDetaiByMaCn($event)'
         >
-          <option value="">Tất cả</option>
-          <option *ngFor="let cn of listCn" value="{{ cn.maCn }}">
+          <option value=''>Tất cả</option>
+          <option *ngFor='let cn of listCn' value='{{ cn.maCn }}'>
             {{ cn.tenCn }}
           </option>
         </select>
       </li>
-      <li class="functional-item">
+      <li class='functional-item'>
         <input
-          type="text"
-          placeholder="Tìm theo tên..."
-          (input)="onSearchName($event)"
+          type='text'
+          placeholder='Tìm đề tài...'
+          (input)='onSearchName($event)'
         />
       </li>
-      <li class="functional-item">
+      <li class='functional-item'>
         <select
-          class="search-select"
-          id="search-select"
-          (change)="onGetDotdk($event)"
+          class='search-select'
+          (change)='onGetDotdk($event)'
         >
-          <option value="">Tất cả</option>
-          <option *ngFor="let dk of listDotdk" [value]="dk.namHoc + dk.dot">
+          <option value=''>Tất cả</option>
+          <option *ngFor='let dk of listDotdk' [value]='dk.namHoc + dk.dot'>
             {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
           </option>
         </select>
@@ -36,9 +34,9 @@
   </div>
 </div>
 
-<div id="container">
+<div id='container'>
   <div>
-    <table border="1" [cellPadding]="0" [cellSpacing]="0" class="table">
+    <table [cellPadding]='0' [cellSpacing]='0' class='table'>
       <tr>
         <th>Mã ĐT</th>
         <th>Tên đề tài</th>
@@ -48,42 +46,42 @@
         <th>Giảng viên ra đề</th>
         <th>Lần cuối duyệt</th>
       </tr>
-      <tbody *ngFor="let dt of listDT">
-        <tr class="br-line">
-          <td class="text-center">{{ dt.maDT }}</td>
-          <td class="text-left">
-            <p class="cell-limit" [innerHTML]="dt?.tenDT"></p>
-          </td>
-          <td class="text-left relative">
-            <p class="topic-summary cell-limit" [innerHTML]="dt?.tomTat"></p>
+      <tbody *ngFor='let dt of temps'>
+      <tr class='br-line'>
+        <td class='text-center'>{{ dt.maDT }}</td>
+        <td class='text-left'>
+          <p class='cell-limit' [innerHTML]='dt?.tenDT'></p>
+        </td>
+        <td class='text-left relative'>
+          <p class='topic-summary cell-limit' [innerHTML]='dt?.tomTat'></p>
+          <span
+            class='show-more'
+            [routerLink]="['/ministry/de-tai/chi-tiet', { maDt: dt.maDT }]"
+          >[Chi tiết]</span
+          >
+        </td>
+        <td class='text-center'>{{ dt?.slMin }} - {{ dt?.slMax }}</td>
+        <td class='text-center'>{{ getCnPhuhop(dt.cnPhuHop) }}</td>
+        <td class='text-center'>{{ getGvrd(dt.gvrd) }}</td>
+        <td class='text-center'>
+          <b>
+            {{ dateFormat(dt.ngayDuyet) }}
+            <br />
             <span
-              class="show-more"
-              [routerLink]="['/ministry/de-tai/chi-tiet', { maDt: dt.maDT }]"
-              >[Chi tiết]</span
+              style='color: blue'
+              *ngIf='dt.duyetDT == -1'>Chưa duyệt</span
             >
-          </td>
-          <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
-          <td class="text-center">{{ getCnPhuhop(dt.cnPhuHop) }}</td>
-            <td class="text-center">{{ getGvrd(dt.gvrd) }}</td>
-          <td class="text-center">
-            <b>
-                 {{ dateFormat(dt.ngayDuyet) }}
-                <br />
-                <span
-                  style="color: blue"
-                  *ngIf="dt.duyetDT == -1">Chưa duyệt</span
-                >
-                <span
-                  style="color: red"
-                  *ngIf="dt.duyetDT == 0">Chưa đạt</span
-                >
-                <span
-                  style="color: #15fa00"
-                  *ngIf="dt.duyetDT == 1">Đạt</span
-                >
-              </b>
-          </td>
-        </tr>
+            <span
+              style='color: red'
+              *ngIf='dt.duyetDT == 0'>Chưa đạt</span
+            >
+            <span
+              style='color: #15fa00'
+              *ngIf='dt.duyetDT == 1'>Đạt</span
+            >
+          </b>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

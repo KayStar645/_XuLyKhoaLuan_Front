@@ -36,6 +36,7 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
   selectedSV: string[] = [];
   lineSV = new SinhVien();
   elementOld: any;
+  temps: SinhVien[] = [];
 
   constructor(
     private sinhVienService: sinhVienService,
@@ -46,7 +47,7 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.getAllSinhVien();
+    await this.getAllSinhVien();
     this.listCN = await this.chuyenNganhService.getAll();
 
     window.addEventListener('keydown', (e) => {
@@ -91,6 +92,8 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
       this._lop,
       this._searchName
     );
+
+    this.temps = this.listSV;
   }
 
   async getSinhVienByMaCN(maCn: string) {
@@ -100,6 +103,7 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
       this._lop,
       this._searchName
     );
+    this.temps = this.listSV;
   }
 
   async getSinhVienByClass(lop: string) {
@@ -109,6 +113,7 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
       this._lop,
       this._searchName
     );
+    this.temps = this.listSV;
   }
 
   getSelectedLine(e: any) {
@@ -145,13 +150,20 @@ export class MinistryDanhsachsinhvienComponent implements OnInit {
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      const searchName = this.searchName.trim().toLowerCase();
+      const searchName = changes.searchName.currentValue;
       this._searchName = searchName;
-      this.listSV = await this.sinhVienService.search(
-        this._maCn,
-        this._lop,
-        this._searchName
-      );
+
+      if (searchName) {
+        this.temps = this.listSV.filter(
+          (t) =>
+            t.lop.includes(searchName) ||
+            t.maSv.includes(searchName) ||
+            t.sdt.includes(searchName) ||
+            t.tenSv.includes(searchName)
+        );
+      } else {
+        this.temps = this.listSV;
+      }
     }
   }
 

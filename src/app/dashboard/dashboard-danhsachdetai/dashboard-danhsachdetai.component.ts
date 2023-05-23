@@ -26,7 +26,7 @@ import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims
 @Component({
   selector: 'app-dashboard-danhsachdetai',
   templateUrl: './dashboard-danhsachdetai.component.html',
-  styleUrls: ['./dashboard-danhsachdetai.component.scss'],
+  styleUrls: ['./dashboard-danhsachdetai.component.scss']
 })
 export class DashboardDanhsachdetaiComponent {
   lineDT!: DeTai;
@@ -54,7 +54,8 @@ export class DashboardDanhsachdetaiComponent {
     private chuyenNganhService: chuyenNganhService,
     private websocketService: WebsocketService,
     private nhomService: nhomService
-  ) {}
+  ) {
+  }
 
   async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài dự kiến');
@@ -116,23 +117,23 @@ export class DashboardDanhsachdetaiComponent {
     let result = [];
     let chuyenNganhs = this.listCnPhuhop.filter((item) => item.maDt == maDT);
     let count = 0;
-    if(chuyenNganhs.length >= 4) {
+    if (chuyenNganhs.length >= 4) {
       for (let cn of chuyenNganhs) {
-        if(this._ListCn.includes(cn.maCn)) {
+        if (this._ListCn.includes(cn.maCn)) {
           count++;
         }
       }
     }
-    if(count == 4) {
+    if (count == 4) {
       result.push('Công nghệ thông tin');
     }
     for (let item of chuyenNganhs) {
       if (count == 4 && this._ListCn.includes(item.maCn)) {
         continue;
       }
-        result.push(
-          this.listChuyennganh.find((g) => g.maCn == item.maCn)?.tenCn
-        );
+      result.push(
+        this.listChuyennganh.find((g) => g.maCn == item.maCn)?.tenCn
+      );
     }
     return result;
   }

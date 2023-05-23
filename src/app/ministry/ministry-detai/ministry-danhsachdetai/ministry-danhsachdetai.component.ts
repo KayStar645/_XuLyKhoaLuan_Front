@@ -1,4 +1,4 @@
-import { dotDkService } from './../../../services/dotDk.service';
+import { dotDkService } from '../../../services/dotDk.service';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
 import { DeTai_ChuyenNganh } from '../../../models/DeTai_ChuyenNganh.model';
 import { deTai_chuyenNganhService } from '../../../services/deTai_chuyenNganh.service';
@@ -7,7 +7,7 @@ import { giangVienService } from '../../../services/giangVien.service';
 import { duyetDtService } from '../../../services/duyetDt.service';
 import { raDeService } from '../../../services/raDe.service';
 import {
-  Component,
+  Component
 } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
@@ -24,7 +24,7 @@ import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
 @Component({
   selector: 'app-ministry-danhsachdetai',
   templateUrl: './ministry-danhsachdetai.component.html',
-  styleUrls: ['./ministry-danhsachdetai.component.scss'],
+  styleUrls: ['./ministry-danhsachdetai.component.scss']
 })
 export class MinistryDanhsachdetaiComponent {
   searchName = '';
@@ -55,6 +55,7 @@ export class MinistryDanhsachdetaiComponent {
   exceptInput = ['slMin', 'slMax'];
 
   tenDT = new Subject<string>();
+  temps: DetaiVT[] = [];
 
   constructor(
     private deTaiService: deTaiService,
@@ -67,7 +68,8 @@ export class MinistryDanhsachdetaiComponent {
     private chuyenNganhService: chuyenNganhService,
     private websocketService: WebsocketService,
     private dotDkService: dotDkService
-  ) {}
+  ) {
+  }
 
   async ngOnInit() {
     this.listCn = await this.chuyenNganhService.getAll();
@@ -107,9 +109,19 @@ export class MinistryDanhsachdetaiComponent {
   }
 
   async onSearchName(event: any) {
-    const searchName = event.target.value.trim().toLowerCase();
+    const searchName = event.target.value.trim();
     this._searchName = searchName;
-    await this.getAllDeTai();
+
+    if (searchName) {
+      this.temps = this.listDT.filter(t =>
+        t.tenDT.includes(searchName) ||
+        t.maDT.includes(searchName) ||
+        t.tomTat.includes(searchName) ||
+        t.gvhd.filter(t => t.tenGv.includes(searchName)).length > 0
+      );
+    } else {
+      this.temps = this.listDT;
+    }
   }
 
   async onGetDotdk(event: any) {
@@ -130,6 +142,8 @@ export class MinistryDanhsachdetaiComponent {
       false,
       this._chucVu
     );
+
+    this.temps = this.listDT;
   }
 
   async getDetaiByMaCn(maBM: string) {
@@ -161,7 +175,11 @@ export class MinistryDanhsachdetaiComponent {
       if (count == 4 && this._ListCn.includes(item.maCn)) {
         continue;
       }
-      result.push(this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn);
+
+      let chuyenNganh = this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn;
+      if (chuyenNganh) {
+        result.push(chuyenNganh);
+      }
     }
     return result;
   }

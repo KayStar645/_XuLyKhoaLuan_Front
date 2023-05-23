@@ -7,7 +7,7 @@ import {
   OnInit,
   SimpleChanges,
   EventEmitter,
-  Output
+  Output,
 } from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { SinhVien } from 'src/app/models/SinhVien.model';
@@ -21,7 +21,7 @@ import { dotDkService } from '../../../services/dotDk.service';
 
 @Component({
   selector: 'app-ministry-danhsachthamgia',
-  templateUrl: './ministry-danhsachthamgia.component.html'
+  templateUrl: './ministry-danhsachthamgia.component.html',
   // styleUrls: ['./ministry-danhsachthamgia.component.scss']
 })
 export class MinistryDanhsachthamgiaComponent implements OnInit {
@@ -40,6 +40,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
   lineTG = new ThamGia();
   elementOld: any;
   listDotDk: DotDk[] = [];
+  temps: ThamGia[] = [];
 
   constructor(
     private sinhVienService: sinhVienService,
@@ -49,15 +50,13 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     private thamGiaService: thamGiaService,
     private websocketService: WebsocketService,
     private dotDkService: dotDkService
-  ) {
-  }
+  ) {}
 
   async ngOnInit() {
     this.listSV = await this.sinhVienService.getAll();
     this.listCN = await this.chuyenNganhService.getAll();
     this.listDotDk = await this.dotDkService.getAll();
     await this.getAllThamgiaByDotdk();
-
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -110,6 +109,8 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       this.namHoc,
       this.dot
     );
+
+    this.temps = this.listTg;
   }
 
   async getThamgiaByMaCN(event: any) {
@@ -120,6 +121,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       this.namHoc,
       this.dot
     );
+    this.temps = this.listTg;
   }
 
   async getThamgiaByDotDk(event: any) {
@@ -136,11 +138,12 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       this.namHoc,
       this.dot
     );
+    this.temps = this.listTg;
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      const name = this.searchName.trim().toLowerCase();
+      const name = this.searchName.trim();
       this.searchName = name;
 
       this.listTg = await this.thamGiaService.search(
@@ -149,6 +152,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
         this.namHoc,
         this.dot
       );
+      this.temps = this.listTg;
     }
   }
 
@@ -180,7 +184,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
         var idTg = {
           maSv: firstChild.innerText,
           namHoc: namHoc,
-          dot: dot
+          dot: dot,
         };
         this.selectedTG.push(idTg);
       }

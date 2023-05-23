@@ -30,6 +30,7 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   lineGV = new GiangVien();
   elementOld: any;
   listGV: GiangVien[] = [];
+  temps: GiangVien[] = [];
 
   constructor(
     private giangVienService: giangVienService,
@@ -40,8 +41,7 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.getAllGiangVien();
-
+    await this.getAllGiangVien();
     this.listBM = await this.boMonService.getAll();
 
     this.websocketService.startConnection();
@@ -87,12 +87,13 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
 
   async getAllGiangVien() {
     this.listGV = await this.giangVienService.search(
-      "",
+      '',
       this._searchName,
       shareService.namHoc,
       shareService.dot,
       false
     );
+    this.temps = this.listGV;
   }
 
   async getGiangVienByMaBM(maBM: string) {
@@ -104,18 +105,24 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
       shareService.dot,
       false
     );
+    this.temps = this.listGV;
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      this._searchName = this.searchName.trim().toLowerCase();
-      this.listGV = await this.giangVienService.search(
-        this._maBm,
-        this._searchName,
-        shareService.namHoc,
-        shareService.dot,
-        false
-      );
+      if (changes.searchName.currentValue) {
+        let value = changes.searchName.currentValue;
+        this.temps = this.listGV.filter(
+          (t) =>
+            t.hocVi.includes(value) ||
+            t.hocHam.includes(value) ||
+            t.email.includes(value) ||
+            t.tenGv.includes(value) ||
+            t.sdt.includes(value)
+        );
+      } else {
+        this.temps = this.listGV;
+      }
     }
   }
 

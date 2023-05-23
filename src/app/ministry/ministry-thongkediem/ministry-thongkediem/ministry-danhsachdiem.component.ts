@@ -1,15 +1,9 @@
 import { deTaiDiemService } from '../../../services/NghiepVu/detaidiem.service';
-import {
-  Component,
-  Input,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { DiemSVVT } from 'src/app/models/VirtualModel/DiemSVVTModel';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
-
 
 @Component({
   selector: 'app-ministry-danhsachdiem',
@@ -23,6 +17,7 @@ export class MinistryDanhsachdiemComponent implements OnInit {
 
   listCN: ChuyenNganh[] = [];
   listSV: DiemSVVT[] = [];
+  temps: DiemSVVT[] = [];
 
   constructor(
     private chuyenNganhService: chuyenNganhService,
@@ -40,7 +35,9 @@ export class MinistryDanhsachdiemComponent implements OnInit {
       this._dot
     );
 
-    this.Websocket();
+    this.temps = this.listSV;
+
+    await this.Websocket();
   }
 
   async getSinhVienByMaCN(maCn: string) {
@@ -51,6 +48,7 @@ export class MinistryDanhsachdiemComponent implements OnInit {
       this._namHoc,
       this._dot
     );
+    this.temps = this.listSV;
   }
 
   async getSinhVienByDotdk(dotdk: string) {
@@ -67,16 +65,24 @@ export class MinistryDanhsachdiemComponent implements OnInit {
       this._namHoc,
       this._dot
     );
+    this.temps = this.listSV;
   }
 
   async updateData(keyword: string) {
     this._keyword = keyword;
-    this.listSV = await this.deTaiDiemService.GetDanhSachDiem(
-      this._keyword,
-      this._maCn,
-      this._namHoc,
-      this._dot
-    );
+
+    if (keyword) {
+      this.temps = this.listSV.filter(
+        (t) =>
+          t.tenSv.includes(keyword) ||
+          t.maSv.includes(keyword) ||
+          t.chuyenNganh.includes(keyword) ||
+          t.lop.includes(keyword)
+      );
+    } else {
+      this.temps = this.listSV;
+    }
+    this.temps = this.listSV;
   }
 
   async Websocket() {
@@ -118,5 +124,6 @@ export class MinistryDanhsachdiemComponent implements OnInit {
         }
       }
     );
+    this.temps = this.listSV;
   }
 }
