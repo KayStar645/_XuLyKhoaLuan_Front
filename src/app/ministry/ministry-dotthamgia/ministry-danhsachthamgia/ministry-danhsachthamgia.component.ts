@@ -1,207 +1,105 @@
-import { thamGiaService } from '../../../services/thamGia.service';
-import { ThamGia } from '../../../models/ThamGia.model';
+import { dotDkService } from './../../../services/dotDk.service';
+import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
+import { thamGiaService } from 'src/app/services/thamGia.service';
 import {
   Component,
-  ElementRef,
-  Input,
   OnInit,
-  SimpleChanges,
-  EventEmitter,
-  Output,
 } from '@angular/core';
-import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
-import { SinhVien } from 'src/app/models/SinhVien.model';
-import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { shareService } from 'src/app/services/share.service';
-import { sinhVienService } from 'src/app/services/sinhVien.service';
-import { getParentElement } from 'src/assets/utils';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { DotDk } from '../../../models/DotDk.model';
-import { dotDkService } from '../../../services/dotDk.service';
+import { SinhVienVT } from 'src/app/models/VirtualModel/SinhVienVTModel';
+import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
+import { DotDk } from 'src/app/models/DotDk.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ministry-danhsachthamgia',
   templateUrl: './ministry-danhsachthamgia.component.html',
-  // styleUrls: ['./ministry-danhsachthamgia.component.scss']
 })
 export class MinistryDanhsachthamgiaComponent implements OnInit {
-  isSelectedTG = false;
-  searchName = '';
-  maCn = '';
-  namHoc = '';
-  dot = 0;
+  _searchName = '';
+  _maCn = '';
+  _namHoc = '';
+  _dot = 0;
 
-  listTg: ThamGia[] = [];
-  sinhVien = new SinhVien();
+  listSv: SinhVienVT[] = [];
+  temps: SinhVienVT[] = [];
 
-  listSV: SinhVien[] = [];
-  listCN: ChuyenNganh[] = [];
-  selectedTG: any[] = [];
-  lineTG = new ThamGia();
-  elementOld: any;
+  listCn: ChuyenNganh[] = [];
   listDotDk: DotDk[] = [];
-  temps: ThamGia[] = [];
 
   constructor(
-    private sinhVienService: sinhVienService,
-    private elementRef: ElementRef,
-    private chuyenNganhService: chuyenNganhService,
     private shareService: shareService,
-    private thamGiaService: thamGiaService,
     private websocketService: WebsocketService,
-    private dotDkService: dotDkService
+    private thamGiaService: thamGiaService,
+    private chuyenNganhService: chuyenNganhService,
+    private dotDkService: dotDkService,
+    private toastService: ToastrService
   ) {}
 
   async ngOnInit() {
-    this.listSV = await this.sinhVienService.getAll();
-    this.listCN = await this.chuyenNganhService.getAll();
+    await this.getAll();
+
+    this.listCn = await this.chuyenNganhService.getAll();
     this.listDotDk = await this.dotDkService.getAll();
-    await this.getAllThamgiaByDotdk();
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.selectedTG = [];
-        let activeLine = this.elementRef.nativeElement.querySelectorAll(
-          '.br-line.br-line-click'
-        );
-
-        if (activeLine) {
-          activeLine.forEach((line: any) => {
-            line.classList.remove('br-line-click');
-          });
-        }
-      }
-    });
 
     this.websocketService.startConnection();
     this.websocketService.receiveFromThamGia((dataChange: boolean) => {
       if (dataChange) {
-        this.sinhVienService.getAll().then((data) => (this.listSV = data));
-        this.getAllThamgiaByDotdk();
       }
     });
   }
 
-  async clickLine(event: any) {
-    const parent = getParentElement(event.target, '.br-line');
-    const firstChild = parent.firstChild;
-    const namHoc_Dot: string = parent.querySelector('.namhocdot').innerText;
-    const namHoc = namHoc_Dot.substring(0, 9);
-    const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
+  async getAll() {
+    this.listSv = await this.thamGiaService.SearchInfo(
+      this._searchName,
+      this._maCn,
+      false,
+      this._namHoc,
+      this._dot
+    );
+    this.onSearchChange();
+  }
 
-    if (!parent.classList.contains('br-line-dblclick')) {
-      this.lineTG = await this.thamGiaService.getById(
-        firstChild.innerText,
-        namHoc,
-        dot
+  onSearchChange() {
+    if (this._searchName) {
+      let value = this._searchName.toLowerCase();
+      this.temps = this.listSv.filter(
+        (t) =>
+          t.maSV.toLowerCase().includes(value) ||
+          t.tenSV.toLowerCase().includes(value) ||
+          t.email.toLowerCase().includes(value) ||
+          t.gioiTinh.toLowerCase().includes(value) ||
+          t.sdt.toLowerCase().includes(value) ||
+          t.lop.toLowerCase().includes(value) ||
+          t.chuyenNganh.toLowerCase().includes(value)
       );
-      parent.classList.add('br-line-dblclick');
     } else {
-      this.lineTG = new ThamGia();
-      parent.classList.remove('br-line-dblclick');
+      this.temps = this.listSv;
     }
   }
 
-  async getAllThamgiaByDotdk() {
-    this.listTg = await this.thamGiaService.search(
-      this.searchName,
-      this.maCn,
-      this.namHoc,
-      this.dot
-    );
-
-    this.temps = this.listTg;
+  getThamgiaByMaCN(event: any) {
+    this._maCn = event.target.value;
+    this.getAll();
   }
 
-  async getThamgiaByMaCN(event: any) {
-    this.maCn = event.target.value;
-    this.listTg = await this.thamGiaService.search(
-      this.searchName,
-      this.maCn,
-      this.namHoc,
-      this.dot
-    );
-    this.temps = this.listTg;
-  }
-
-  async getThamgiaByDotDk(event: any) {
-    let dotdk = event.target.value;
-    this.namHoc = '';
-    this.dot = 0;
-    if (dotdk != '') {
-      this.namHoc = dotdk.slice(0, dotdk.length - 1);
-      this.dot = parseInt(dotdk.slice(dotdk.length - 1));
-    }
-    this.listTg = await this.thamGiaService.search(
-      this.searchName,
-      this.maCn,
-      this.namHoc,
-      this.dot
-    );
-    this.temps = this.listTg;
-  }
-
-  async ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      const name = this.searchName.trim();
-      this.searchName = name;
-
-      this.listTg = await this.thamGiaService.search(
-        this.searchName,
-        this.maCn,
-        this.namHoc,
-        this.dot
-      );
-      this.temps = this.listTg;
+  getThamgiaByDotDk(event: any) {
+    let value = event.target.value;
+    if (value) {
+      this._namHoc = value.slice(0, value.length - 1);
+      this._dot = +value[value.length - 1];
+      this.getAll();
     }
   }
 
-  getSelectedLine(e: any) {
-    if (e.ctrlKey) {
-      const activeDblClick = this.elementRef.nativeElement.querySelector(
-        '.br-line.br-line-dblclick'
-      );
-      const parent = getParentElement(e.target, '.br-line');
-      const firstChild = parent.firstChild;
-      const namHoc_Dot: string = parent.querySelector('.namhocdot').innerText;
-      const namHoc = namHoc_Dot.substring(0, 9);
-      const dot = parseInt(namHoc_Dot[namHoc_Dot.length - 1]);
-
-      if (activeDblClick) {
-        activeDblClick.classList.remove('.br-line-dblclick');
-        this.lineTG = new ThamGia();
-      }
-
-      if (parent.classList.contains('br-line-click')) {
-        let childIndex = this.selectedTG.findIndex(
-          (t) => t === firstChild.innerText
-        );
-
-        parent.classList.remove('br-line-click');
-        this.selectedTG.splice(childIndex, 1);
-      } else {
-        parent.classList.add('br-line-click');
-        var idTg = {
-          maSv: firstChild.innerText,
-          namHoc: namHoc,
-          dot: dot,
-        };
-        this.selectedTG.push(idTg);
-      }
+  async onDelete(maSv: string, namHoc: string, dot: number) {
+    try {
+      await this.thamGiaService.delete(maSv, namHoc, dot);
+      this.toastService.success('Xóa thành công!', 'Thông báo!');
+    } catch (error) {
+      this.toastService.error('Không thể xóa sinh viên này khỏi đợt đăng ký!', 'Thông báo !');
     }
-  }
-
-  getTenCNById(maCn: string): string {
-    let tencn: any = '';
-
-    if (this.listCN) {
-      tencn = this.listCN.find((t) => t.maCn === maCn)?.tenCn;
-    }
-    return tencn;
-  }
-
-  getSinhVienById(maSV: string) {
-    this.sinhVien = this.listSV.find((t) => t.maSv === maSV) ?? this.sinhVien;
   }
 
   dateFormat(str: string) {

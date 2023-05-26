@@ -6,6 +6,7 @@ import { ThamGia } from '../models/ThamGia.model';
 import { shareService } from './../services/share.service';
 import { SinhVien } from '../models/SinhVien.model';
 import { ThamGiaVT } from '../models/VirtualModel/ThamGiaVTModel';
+import { SinhVienVT } from '../models/VirtualModel/SinhVienVTModel';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,23 @@ export class thamGiaService {
       (await this.http
         .get<ThamGia[]>(
           `${this.apiUrl}/api/Thamgias`,
+          this.shareService.httpOptions
+        )
+        .toPromise()) ?? []
+    );
+  }
+
+  async SearchInfo(
+    keyword: string,
+    maCn: string,
+    isAdd: boolean,
+    namHoc: string,
+    dot: number
+  ): Promise<SinhVienVT[]> {
+    return (
+      (await this.http
+        .get<SinhVienVT[]>(
+          `${this.apiUrl}/api/Thamgias/search,maCn,isAdd,namHoc,dot?search=${keyword}&maCn=${maCn}&isAdd=${isAdd}&namHoc=${namHoc}&dot=${dot}`,
           this.shareService.httpOptions
         )
         .toPromise()) ?? []

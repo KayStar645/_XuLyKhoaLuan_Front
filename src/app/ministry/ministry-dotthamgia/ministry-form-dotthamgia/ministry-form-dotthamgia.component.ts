@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ChuyenNganh } from '../../../models/ChuyenNganh.model';
-import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { WebsocketService } from '../../../services/Websocket.service';
 import { chuyenNganhService } from '../../../services/chuyenNganh.service';
@@ -17,9 +16,14 @@ import { thamGiaService } from '../../../services/thamGia.service';
 @Component({
   selector: 'app-ministry-form-dotthamgia',
   templateUrl: './ministry-form-dotthamgia.component.html',
-  styleUrls: ['./ministry-form-dotthamgia.component.scss']
+  styleUrls: ['./ministry-form-dotthamgia.component.scss'],
 })
 export class MinistryFormDotthamgiaComponent implements OnInit {
+  _searchName = '';
+  _maCn = '';
+  _namHoc = '';
+  _dot = 0;
+
   listChuyenNganh: ChuyenNganh[] = [];
   listSinhVien: SinhVien[] = [];
   selectedSV: any[] = [];
@@ -36,8 +40,7 @@ export class MinistryFormDotthamgiaComponent implements OnInit {
     private dotDkService: dotDkService,
     private thamGiaService: thamGiaService,
     private websocketService: WebsocketService
-  ) {
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.listChuyenNganh = await this.chuyenNganhService.getAll();
@@ -109,7 +112,7 @@ export class MinistryFormDotthamgiaComponent implements OnInit {
   }
 
   getTenCnById(maCn: string) {
-    return this.listChuyenNganh.find(t => t.maCn === maCn)?.tenCn;
+    return this.listChuyenNganh.find((t) => t.maCn === maCn)?.tenCn;
   }
 
   toggleAddAll(event: any) {

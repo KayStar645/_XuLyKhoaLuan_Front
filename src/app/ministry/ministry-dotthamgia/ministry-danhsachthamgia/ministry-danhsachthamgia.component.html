@@ -1,10 +1,19 @@
+<style>
+  .action {
+    &:hover {
+      background: rgba(29, 148, 239, 0.3);
+      cursor: pointer;
+    }
+  }
+</style>
+
 <div id="functional-container">
   <div class="functional-list">
     <ul class="functional-container row ali-center functional-wrapper">
       <li class="functional-item">
         <select class="functional-select" (change)="getThamgiaByMaCN($event)">
           <option value="">Tất cả</option>
-          <option *ngFor="let cn of listCN" [value]="cn?.maCn">
+          <option *ngFor="let cn of listCn" [value]="cn?.maCn">
             {{ cn?.tenCn }}
           </option>
         </select>
@@ -12,8 +21,9 @@
       <li class="functional-item">
         <input
           type="text"
-          placeholder="Tìm theo tên..."
-          [(ngModel)]="searchName"
+          placeholder="Tìm kiếm..."
+          [(ngModel)]="_searchName"
+          (ngModelChange)="onSearchChange()"
         />
       </li>
       <li class="functional-item">
@@ -35,21 +45,8 @@
             Thêm
           </button>
         </div>
-
-        <div class="functional-button">
-          <button>Xóa</button>
-        </div>
       </li>
     </ul>
-
-    <div class="p-t-12">
-      <p class="notify" *ngIf="!isSelectedTG">
-        (⁎) Giữ CRT + Click để chọn nhiều
-      </p>
-      <p class="notify" *ngIf="isSelectedTG">
-        (⁎) Nhấn Esc để thoát chọn nhiều
-      </p>
-    </div>
   </div>
 </div>
 <div id="container">
@@ -64,26 +61,21 @@
         <th>Lớp</th>
         <th>Chuyên ngành</th>
         <th>Đợt</th>
+        <th>Thao tác</th>
       </tr>
-      <tbody *ngFor="let tg of temps">
-        <tr
-          class="br-line"
-          (dblclick)="clickLine($event)"
-          (mousedown)="getSelectedLine($event)"
-        >
-          <td class="text-center">{{ tg?.maSv }}</td>
-          {{
-            getSinhVienById(tg.maSv)
-          }}
-          <td class="text-left">{{ sinhVien.tenSv }}</td>
-          <td class="text-left">{{ sinhVien.email }}</td>
-          <td class="text-center">{{ sinhVien.gioiTinh }}</td>
-          <td class="text-center">{{ sinhVien.sdt }}</td>
-          <td class="text-center">{{ sinhVien.lop }}</td>
-          <td class="text-left">{{ getTenCNById(sinhVien.maCn) }}</td>
+      <tbody *ngFor="let sv of temps">
+        <tr>
+          <td class="text-center">{{ sv?.maSV }}</td>
+          <td class="text-left">{{ sv.tenSV }}</td>
+          <td class="text-left">{{ sv.email }}</td>
+          <td class="text-center">{{ sv.gioiTinh }}</td>
+          <td class="text-center">{{ sv.sdt }}</td>
+          <td class="text-center">{{ sv.lop }}</td>
+          <td class="text-left">{{ sv.chuyenNganh }}</td>
           <td class="text-left namhoc_dot">
-            {{ tg.namHoc }} - Đợt {{ tg.dot }}
+            {{ sv.namHoc }} - Đợt {{ sv.dot }}
           </td>
+          <td class='text-center action' (click)='onDelete(sv.maSV, sv.namHoc, sv.dot)'>Xóa</td>
         </tr>
       </tbody>
     </table>

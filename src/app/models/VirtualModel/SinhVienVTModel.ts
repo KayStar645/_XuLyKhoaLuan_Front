@@ -6,7 +6,12 @@ export class SinhVienVT {
   public lop!: string;
   public namHoc!: string;
   public dot!: number;
-  public diems!: DiemSoVT[]
+  public email!: string;
+  public gioiTinh!: string;
+  public sdt!: string;
+  public maCn!: string;
+  public chuyenNganh!: string;
+  public diems!: DiemSoVT[];
 
   constructor() {}
 }
