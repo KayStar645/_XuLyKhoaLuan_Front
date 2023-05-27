@@ -1,68 +1,73 @@
-<form class='form'>
-  <div class='functional-list'>
-    <ul class='functional-container row ali-center functional-wrapper'>
-      <li class='functional-item'>
-        <select
-          class='search-select form-input'
-          (change)='getSinhvienByMaCN($event)'
-        >
-          <option value=''>Tất cả</option>
-          <option *ngFor='let cn of listChuyenNganh' [value]='cn?.maCn'>
-            {{ cn?.tenCn }}
-          </option>
-        </select>
-      </li>
-      <li class='functional-item'>
-        <select
-          class='search-select form-input'
-          id='search-select'
-          (change)='getSinhvienByNotDotDk($event)'
-        >
-          <option
-            *ngFor='let dk of listDotDk'
-            [value]='dk.namHoc + dk.dot'
-          >
-            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
-          </option>
-        </select>
-      </li>
-      <li
-        class='functional-item row ali-center jus-end flex-1 functional-wrapper'
+<div class='functional-list'>
+  <ul class='functional-container row ali-center functional-wrapper'>
+    <li class='functional-item'>
+      <select
+        class='search-select form-input'
+        (change)='getThamgiaByMaCN($event)'
       >
-        <div class='functional-button'>
-          <button (click)='addThamgia()'>Thêm sinh viên</button>
-        </div>
-    </ul>
-  </div>
+        <option value=''>Tất cả</option>
+        <option *ngFor='let cn of listCn' [value]='cn?.maCn'>
+          {{ cn?.tenCn }}
+        </option>
+      </select>
+    </li>
+    <li class="functional-item">
+      <input
+        type="text"
+        placeholder="Tìm kiếm..."
+        [(ngModel)]="_searchName"
+        (ngModelChange)="onSearchChange()"
+      />
+    </li>
+    <li class='functional-item'>
+      <select
+        class='search-select form-input'
+        id='search-select'
+        (change)='getSinhvienByNotDotDk($event)'
+      >
+        <option
+          *ngFor='let dk of listDotDk'
+          [value]='dk.namHoc + dk.dot'
+        >
+          {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
+        </option>
+      </select>
+    </li>
+    <li
+      class='functional-item row ali-center jus-end flex-1 functional-wrapper'
+    >
+      <div class='functional-button'>
+        <button (click)='addThamgia()'>Thêm sinh viên</button>
+      </div>
+  </ul>
+</div>
 
-  <div class='list'>
-    <table [cellPadding]='0' [cellSpacing]='0' class='table'>
-      <tr class='list-header'>
-        <th>Mã SV</th>
-        <th>Họ và tên</th>
-        <th>Lớp</th>
-        <th>Chuyên ngành</th>
-        <th class='add-all' (click)='toggleAddAll($event)'>Tất cả</th>
-      </tr>
+<div class='list'>
+  <table [cellPadding]='0' [cellSpacing]='0' class='table'>
+    <tr class='list-header'>
+      <th>Mã SV</th>
+      <th>Họ và tên</th>
+      <th>Lớp</th>
+      <th>Chuyên ngành</th>
+      <th class='add-all' (click)='toggleAddAll($event)'>Tất cả</th>
+    </tr>
 
-      <tbody *ngFor='let sv of listSinhVien'>
-      <tr class='br-line'>
-        <td class='text-center'>{{ sv?.maSv }}</td>
-        <td>
-          {{ sv.tenSv }}
-        </td>
-        <td>{{ sv.lop }}</td>
-        <td>{{ getTenCnById(sv.maCn) }}</td>
-        <td class='text-center add-btn' (click)='toggleAdd($event)'>
-          <img
-            src='../../../assets/Images/tich-xanh.png'
-            style='width: 30%'
-            class='none'
-          />
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</form>
-
+    <tbody *ngFor='let sv of temps'>
+    <tr class='br-line'>
+      <td class='text-center'>{{ sv?.maSV }}</td>
+      <td>
+        {{ sv.tenSV }}
+      </td>
+      <td>{{ sv.lop }}</td>
+      <td>{{ sv.chuyenNganh }}</td>
+      <td class='text-center add-btn' (click)='toggleAdd($event)'>
+        <img
+          src='../../../assets/Images/tich-xanh.png'
+          style='width: 30%'
+          class='none'
+        />
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
