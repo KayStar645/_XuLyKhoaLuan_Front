@@ -1,6 +1,7 @@
 <div class='functional-list'>
   <ul class='functional-container row ali-center functional-wrapper'>
     <li
+    *ngIf="isTBM"
       class='functional-item row ali-center jus-end flex-1 functional-wrapper'
     >
       <div class='functional-button'>
@@ -34,6 +35,7 @@
               type='text'
               formControlName='tenHd'
               class='form-input'
+              [readOnly]='!isTBM'
               (blur)='hoiDong.inputBlur($event)'
             />
             <p class='error-mess'></p>
@@ -47,6 +49,7 @@
               type='text'
               formControlName='diaDiem'
               class='form-input'
+              [readOnly]='!isTBM'
               (blur)='hoiDong.inputBlur($event)'
             />
             <p class='error-mess'></p>
@@ -67,7 +70,8 @@
               }"
               (onSelect)='onDateChange($event)'
               class='form-input'
-            ></dp-date-picker>
+            >
+            </dp-date-picker>
             <p class='error-mess'></p>
           </div>
         </label>

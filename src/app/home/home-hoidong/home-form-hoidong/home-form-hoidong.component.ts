@@ -29,12 +29,8 @@ export class HomeFormHoidongComponent implements OnInit {
   @ViewChild('chuTich') chuTichComponent!: DropDownComponent;
   @ViewChild('thuKy') thuKyComponent!: DropDownComponent;
   @ViewChild('uyVien') uyVienComponent!: DropDownComponent;
-  // minutesInterval: number[] = [
-  //   TimeUnit.Minute * 0,
-  //   TimeUnit.Minute * 15,
-  //   TimeUnit.Minute * 30,
-  //   TimeUnit.Minute * 45,
-  // ];
+
+  isTBM = false;
 
   hoiDong: Form = new Form({
     maHd: ['', Validators.required],
@@ -82,6 +78,8 @@ export class HomeFormHoidongComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.isTBM = HomeMainComponent.maBm == undefined ? false : true;
+
     this.isAdd = window.history.state.isAdd;
     if (!this.isAdd) {
       this._hoiDong = window.history.state.hoiDong;

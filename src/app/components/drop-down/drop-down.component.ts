@@ -62,8 +62,6 @@ export class DropDownComponent implements OnInit, ControlValueAccessor {
    onOpenDropdown(event: any) {
       let parent: HTMLElement = getParentElement(event.target, '.selected');
 
-      console.log(this.disabled);
-
       if (!this.disabled) {
          if (parent.classList.contains('active')) {
             parent.classList.remove('active');

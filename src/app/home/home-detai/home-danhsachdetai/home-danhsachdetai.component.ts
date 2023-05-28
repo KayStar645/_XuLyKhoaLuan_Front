@@ -287,9 +287,9 @@ export class HomeDanhsachdetaiComponent {
     return result;
   }
 
-  getGvrd(gvrd: GiangVienVT[]) {
-    return gvrd.map((re) => re.tenGv);
-  }
+  // getGvrd(gvrd: GiangVienVT[]) {
+  //   return gvrd.map((re) => re.tenGv);
+  // }
 
   dateFormat(str: string): string {
     return this.shareService.dateFormat(str);

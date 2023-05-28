@@ -57,13 +57,13 @@
               <p class="topic-summary cell-limit" [innerHTML]="dt?.tomTat"></p>
               <span
                 class="show-more"
-                [routerLink]="['/home/de-tai/chi-tiet', { maDt: dt.maDT }]"
+                [routerLink]="['/home/de-tai/chi-tiet', { maDt: dt.maDT, maGv: dt.gvrd[0].maGv }]"
                 >[Chi tiết]</span
               >
             </td>
             <td class="text-center">{{ dt?.slMin }} - {{ dt?.slMax }}</td>
             <td class="text-center">{{ getCnPhuhop(dt.cnPhuHop) }}</td>
-            <td class="text-center">{{ getGvrd(dt.gvrd) }}</td>
+            <td class="text-center">{{ dt.gvrd[0].tenGv }}</td>
             <td class="text-center">
               <b>
                 {{ dateFormat(dt.ngayDuyet) }}
