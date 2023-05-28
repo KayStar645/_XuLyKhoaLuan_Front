@@ -46,13 +46,14 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     this.websocketService.startConnection();
     this.websocketService.receiveFromThamGia((dataChange: boolean) => {
       if (dataChange) {
+        this.getAll();
       }
     });
   }
 
   async getAll() {
     this.listSv = await this.thamGiaService.SearchInfo(
-      this._searchName,
+      "",
       this._maCn,
       false,
       this._namHoc,
@@ -89,16 +90,24 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
     if (value) {
       this._namHoc = value.slice(0, value.length - 1);
       this._dot = +value[value.length - 1];
-      this.getAll();
     }
+    else {
+      this._namHoc = "";
+      this._dot = 0;
+    }
+    this.getAll();
   }
 
   async onDelete(maSv: string, namHoc: string, dot: number) {
     try {
       await this.thamGiaService.delete(maSv, namHoc, dot);
+      this.websocketService.sendForThamGia(true);
       this.toastService.success('Xóa thành công!', 'Thông báo!');
     } catch (error) {
-      this.toastService.error('Không thể xóa sinh viên này khỏi đợt đăng ký!', 'Thông báo !');
+      this.toastService.error(
+        'Không thể xóa sinh viên này khỏi đợt đăng ký!',
+        'Thông báo !'
+      );
     }
   }
 
