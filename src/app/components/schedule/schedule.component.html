@@ -77,7 +77,8 @@
          </div>
       </div>
 
-      <div *ngFor="let time of times; let i = index" class="row">
+      <div *ngFor="let time of times; let i = index" class="row schedules">
+         <div class="devide"></div>
          <div class="text-center time" [attr.data-time]="time">
             <p>{{ time < 10 ? "0" + time : time }}:00</p>
          </div>
@@ -189,9 +190,66 @@
    </div>
 </form>
 
+<div id="update" (click)="handleToggleUpdate()"></div>
+<form id="update_box" [formGroup]="form" class="form">
+   <h2 class="title">CẬP NHẬP LỊCH PHẢN BIỆN</h2>
+   <label class="form-control form-no-box-shadow row ali-center">
+      <p class="label p-b-8">Ngày diễn ra</p>
+
+      <div class="form-value">
+         <dp-date-picker
+            mode="day"
+            formControlName="ngayBD"
+            [config]="{
+               firstDayOfWeek: 'mo',
+               showNearMonthDays: false
+            }"
+            class="form-input"
+         ></dp-date-picker>
+         <p class="error-mess"></p>
+      </div>
+   </label>
+
+   <div class="row form-list form">
+      <div class="h-6 p-l-12 p-r-12">
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Bắt đầu</p>
+
+            <div class="form-value">
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGBatDau"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+      </div>
+
+      <div class="h-6 p-l-12 p-r-12">
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Kết thúc</p>
+
+            <div class="form-value">
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGKetThuc"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+      </div>
+   </div>
+
+   <div class="submit-btn text-right">
+      <button class="btn-add" (click)="addSchedule()">Lưu</button>
+   </div>
+</form>
+
 <div
    *ngFor="let schedule of schedules"
-   class="calendar-item"
+   class="calendar-item row flex-column jus-between"
    [ngClass]="schedule.status"
    [style]="{
       left: schedule.offsetX,
@@ -212,6 +270,17 @@
          <p>
             Loại lịch: <span>{{ schedule.type }}</span>
          </p>
+      </div>
+   </div>
+
+   <div class="item-footer">
+      <div class="row ali-center jus-end">
+         <div
+            class="action row ali-center jus-center"
+            (click)="onShowFormUpdate(schedule.detail)"
+         >
+            <i class="fa-regular fa-pen-to-square"></i>
+         </div>
       </div>
    </div>
 </div>

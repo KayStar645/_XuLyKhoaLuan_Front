@@ -51,6 +51,7 @@ type schedule = {
    offsetY?: string;
    width?: string;
    height?: string;
+   detail?: LichPhanBien;
 };
 
 @Component({
@@ -253,6 +254,8 @@ export class ScheduleComponent
          let start = new Date(lich.thoiGianBD);
          let end = new Date(lich.thoiGianKT);
          let hour = start.getHours();
+         let height = (end.getHours() - start.getHours()) * 80;
+         let heightBonus = height > 0 ? 0 : 20;
          let time = format(start, 'HH:mm')
             .concat(' - ')
             .concat(format(end, 'HH:mm'));
@@ -267,11 +270,8 @@ export class ScheduleComponent
             status: this.getScheduleStatus(start),
             place: lich.diaDiem,
             width: day.getBoundingClientRect().width - 8 + 'px',
-            height:
-               (end.getHours() - start.getHours()) * 80 +
-               20 +
-               end.getMinutes() +
-               'px',
+            height: end.getMinutes() + heightBonus + height + 'px',
+            detail: lich,
          });
       });
    }
@@ -279,13 +279,10 @@ export class ScheduleComponent
    getOffsetY(date: Date): string {
       let daysElement = document.querySelector('.days') as HTMLDivElement;
       let offsetYBonus = daysElement.getBoundingClientRect().bottom + 4;
+      let hour = (date.getHours() - this.minHour) * 80;
+      let bonus = hour > 0 ? 6 : 0;
 
-      return (
-         offsetYBonus +
-         date.getMinutes() +
-         (date.getHours() - this.minHour) * 80 +
-         'px'
-      );
+      return offsetYBonus + date.getMinutes() + bonus + hour + 'px';
    }
 
    getOffsetX(date: Date): string {
@@ -353,6 +350,24 @@ export class ScheduleComponent
       }
 
       return undefined;
+   }
+
+   onShowFormUpdate(lich: LichPhanBien | undefined) {
+      try {
+         let update = document.querySelector('#update');
+         let update_box = document.querySelector('#update_box');
+
+         update?.classList.add('active');
+         update_box?.classList.add('active');
+      } catch (error) {}
+   }
+
+   handleToggleUpdate() {
+      let update = document.querySelector('#update');
+      let update_box = document.querySelector('#update_box');
+
+      update?.classList.remove('active');
+      update_box?.classList.remove('active');
    }
 
    getScheduleStatus(date: Date): 'past' | 'today' | 'future' | undefined {
