@@ -1,256 +1,217 @@
-<div id='container'>
-  <div class='functional-list'>
-    <div class='functional-container'>
-      <div class='row jus-between ali-center'>
-        <div class='row ali-center gap-24'>
-          <div class='row ali-center past status'>
-            <div class='color'></div>
-            <div class='note'>Đã qua</div>
-          </div>
-          <div class='row ali-center today status'>
-            <div class='color'></div>
-            <div class='note'>Hôm nay</div>
-          </div>
-          <div class='row ali-center future status'>
-            <div class='color'></div>
-            <div class='note'>Sắp tới</div>
-          </div>
-        </div>
-
-        <div class='row ali-center jus-end h-100 functional-wrapper'>
-          <div class='functional-button'>
-            <div class='row ali-center calendar-btn' [formGroup]='form'>
-              <img src='../../.././assets/Images/calendar.png' alt='' />
-              <dp-date-picker
-                #dayPicker
-                mode='day'
-                id='day'
-                formControlName='ngayHienTai'
-                [config]="{
-                  firstDayOfWeek: 'mo',
-                  showNearMonthDays: false,
-                  opens: 'right'
-                }"
-                (onSelect)='onSelectDate($event)'
-                class='button'
-              ></dp-date-picker>
+<div id="container">
+   <div class="functional-list">
+      <div class="functional-container">
+         <div class="row jus-between ali-center">
+            <div class="row ali-center gap-24">
+               <div class="row ali-center past status">
+                  <div class="color"></div>
+                  <div class="note">Đã qua</div>
+               </div>
+               <div class="row ali-center today status">
+                  <div class="color"></div>
+                  <div class="note">Hôm nay</div>
+               </div>
+               <div class="row ali-center future status">
+                  <div class="color"></div>
+                  <div class="note">Sắp tới</div>
+               </div>
             </div>
-          </div>
 
-          <button class='functional-button'>
-            <button (click)='onClickPrev()'>Tuần trước</button>
-          </button>
-          <button class='functional-button'>
-            <button (click)='onClickCurrent()'>Hiện tại</button>
-          </button>
-          <button class='functional-button'>
-            <button (click)='onClickNext()'>Tuần tới</button>
-          </button>
-          <button class='functional-button' *ngIf='!isStudent'>
-            <button (click)='onShowFormAdd()'>Thêm lịch</button>
-          </button>
-        </div>
+            <div class="row ali-center jus-end h-100 functional-wrapper">
+               <div class="functional-button">
+                  <div class="row ali-center calendar-btn" [formGroup]="form">
+                     <img src="../../.././assets/Images/calendar.png" alt="" />
+                     <dp-date-picker
+                        #dayPicker
+                        mode="day"
+                        id="day"
+                        formControlName="ngayHienTai"
+                        [config]="{
+                           firstDayOfWeek: 'mo',
+                           showNearMonthDays: false,
+                           opens: 'right'
+                        }"
+                        (onSelect)="onSelectDate($event)"
+                        class="button"
+                     ></dp-date-picker>
+                  </div>
+               </div>
+
+               <button class="functional-button">
+                  <button (click)="onClickPrev()">Tuần trước</button>
+               </button>
+               <button class="functional-button">
+                  <button (click)="onClickCurrent()">Hiện tại</button>
+               </button>
+               <button class="functional-button">
+                  <button (click)="onClickNext()">Tuần tới</button>
+               </button>
+               <button class="functional-button" *ngIf="!isStudent">
+                  <button (click)="onShowFormAdd()">Thêm lịch</button>
+               </button>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 
-  <div class='relative'>
-    <table [cellPadding]='0' [cellSpacing]='0' class='table'>
-      <thead class='days'>
-      <tr>
-        <th class='time'></th>
-        <th *ngFor='let date of dateOfWeek'>
-          <div class='day' [ngClass]='{ active: compareDate(date) }'>
-            <p *ngIf='date.getDay() > 0; else sunday'>
-              Thứ {{ date.getDay() + 1 }}
-            </p>
-            <ng-template #sunday>Chủ nhật</ng-template>
-            <p>{{ format(date) }}</p>
-          </div>
-        </th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr
-        [ngClass]='{ hour: time.minute === 0, minute: time.minute > 0 }'
-        *ngFor='let time of times; let i = index'
-      >
-        <ng-container
-          *ngIf='time.minute === 0; then hour; else minute'
-        ></ng-container>
-
-        <ng-container *ngIf='time.day === 1; then schedule; else empty'>
-        </ng-container>
-
-        <ng-container *ngIf='time.day === 2; then schedule; else empty'>
-        </ng-container>
-
-        <ng-container *ngIf='time.day === 3; then schedule; else empty'>
-        </ng-container>
-
-        <ng-container *ngIf='time.day === 4; then schedule; else empty'>
-        </ng-container>
-
-        <ng-container *ngIf='time.day === 5; then schedule; else empty'>
-        </ng-container>
-
-        <ng-container *ngIf='time.day === 6; then schedule; else empty'>
-        </ng-container>
-
-        <ng-container *ngIf='time.day === 0; then schedule; else empty'>
-        </ng-container>
-
-        <ng-template #schedule>
-          <td
-            [ngClass]="{
-                today: time.status === 'today',
-                past: time.status === 'past',
-                future: time.status === 'future'
-              }"
-            [rowSpan]='time.rowSpan'
-            class='rowSpan'
-            id='rowSpan'
-            [attr.data-index]='time.index'
-          >
-            <div class='calendar-item'>
-              <p class='font-semi' [innerHTML]='time.name'></p>
-
-              <div class='p-t-8 info'>
-                <p>
-                  Thời gian:
-                  <span
-                  >{{ time.hour }}:{{ time.minute }} - {{ time.hourEnd }}:{{
-                    time.minuteEnd
-                    }}</span
-                  >
-                </p>
-                <p>
-                  Địa điểm:
-                  <span>{{ time.place }}</span>
-                </p>
-                <p>
-                  Loại lịch: <span>{{ time.type }}</span>
-                </p>
-              </div>
+   <div class="calendar">
+      <div class="days">
+         <div class="row ali-center">
+            <div class="day"></div>
+            <div
+               class="day day-in-week"
+               *ngFor="let date of dateOfWeek"
+               [attr.data-day]="date.getDay()"
+            >
+               <div
+                  class="row flex-column ali-center jus-center h-100"
+                  [ngClass]="{ active: compareDate(date) }"
+               >
+                  <p *ngIf="date.getDay() > 0; else sunday">
+                     Thứ {{ date.getDay() + 1 }}
+                  </p>
+                  <ng-template #sunday>Chủ nhật</ng-template>
+                  <p>{{ format(date) }}</p>
+               </div>
             </div>
-          </td>
-        </ng-template>
+         </div>
+      </div>
 
-        <ng-template #hour>
-          <td class='text-center'>
-            {{ time.hour < 10 ? "0" + time.hour : time.hour }}:00
-          </td>
-        </ng-template>
-
-        <ng-template #minute>
-          <td class='text-center'>
-            <p>{{ time.minute }}</p>
-          </td>
-        </ng-template>
-
-        <ng-template #empty>
-          <td></td>
-        </ng-template>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+      <div *ngFor="let time of times; let i = index" class="row">
+         <div class="text-center time" [attr.data-time]="time">
+            <p>{{ time < 10 ? "0" + time : time }}:00</p>
+         </div>
+         <div class="schedule"></div>
+         <div class="schedule"></div>
+         <div class="schedule"></div>
+         <div class="schedule"></div>
+         <div class="schedule"></div>
+         <div class="schedule"></div>
+         <div class="schedule"></div>
+      </div>
+   </div>
 </div>
 
-<div id='create' (click)='handleToggleAdd()'></div>
-<form id='create_box' [formGroup]='form' class='form'>
-  <h2 class='title'>THÊM LỊCH PHẢN BIỆN MỚI</h2>
+<div id="create" (click)="handleToggleAdd()"></div>
+<form id="create_box" [formGroup]="form" class="form">
+   <h2 class="title">THÊM LỊCH PHẢN BIỆN MỚI</h2>
 
-  <p class='warn text-center'>
-    Số phút bắt đầu và kết thúc phải là 00, 15, 30, 45 (7:00, 7:15, 7:30, 7:45)
-  </p>
+   <div class="row form-list form">
+      <div class="h-6 p-l-12 p-r-12">
+         <app-drop-down
+            label="Loại lịch"
+            placeholder="Tìm loại lịch"
+            [items]="[
+               { id: 1, name: 'Hướng dẫn' },
+               { id: 2, name: 'Phản biện' },
+               { id: 3, name: 'Hội đồng' }
+            ]"
+            [selectedItem]="loaiLich"
+            primaryKey="id"
+            keyWord="name"
+            [isSearchMultiple]="false"
+            (onParentSelect)="onSelectType($event)"
+         ></app-drop-down>
 
-  <div class='row form-list form'>
-    <div class='h-6 p-l-12 p-r-12'>
-      <app-drop-down
-        label='Loại lịch'
-        placeholder='Tìm loại lịch'
-        [items]="[
-          { id: 1, name: 'Hướng dẫn' },
-          { id: 2, name: 'Phản biện' },
-          { id: 3, name: 'Hội đồng' }
-        ]"
-        [selectedItem]='loaiLich'
-        primaryKey='id'
-        keyWord='name'
-        [isSearchMultiple]='false'
-        (onParentSelect)='onSelectType($event)'
-      ></app-drop-down>
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Bắt đầu</p>
 
-      <label class='form-control form-no-box-shadow row ali-center'>
-        <p class='label p-b-8'>Bắt đầu</p>
+            <div class="form-value">
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGBatDau"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
 
-        <div class='form-value'>
-          <dp-date-picker
-            mode='time'
-            formControlName='TGBatDau'
-            class='form-input'
-          ></dp-date-picker>
-          <p class='error-mess'></p>
-        </div>
-      </label>
+         <label class="form-control row ali-center form-control">
+            <p class="label">Địa điểm</p>
+            <div class="form-value">
+               <input
+                  type="text"
+                  formControlName="diaDiem"
+                  class="form-input"
+               />
+               <p class="error-mess"></p>
+            </div>
+         </label>
+      </div>
 
-      <label class='form-control row ali-center form-control'>
-        <p class='label'>Địa điểm</p>
-        <div class='form-value'>
-          <input type='text' formControlName='diaDiem' class='form-input' />
-          <p class='error-mess'></p>
-        </div>
-      </label>
-    </div>
+      <div class="h-6 p-l-12 p-r-12">
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Ngày diễn ra</p>
 
-    <div class='h-6 p-l-12 p-r-12'>
-      <label class='form-control form-no-box-shadow row ali-center'>
-        <p class='label p-b-8'>Ngày diễn ra</p>
+            <div class="form-value">
+               <dp-date-picker
+                  mode="day"
+                  formControlName="ngayBD"
+                  [config]="{
+                     firstDayOfWeek: 'mo',
+                     showNearMonthDays: false
+                  }"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
 
-        <div class='form-value'>
-          <dp-date-picker
-            mode='day'
-            formControlName='ngayBD'
-            [config]="{
-              firstDayOfWeek: 'mo',
-              showNearMonthDays: false
-            }"
-            class='form-input'
-          ></dp-date-picker>
-          <p class='error-mess'></p>
-        </div>
-      </label>
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Kết thúc</p>
 
-      <label class='form-control form-no-box-shadow row ali-center'>
-        <p class='label p-b-8'>Kết thúc</p>
+            <div class="form-value">
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGKetThuc"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+      </div>
 
-        <div class='form-value'>
-          <dp-date-picker
-            mode='time'
-            formControlName='TGKetThuc'
-            class='form-input'
-          ></dp-date-picker>
-          <p class='error-mess'></p>
-        </div>
-      </label>
-    </div>
+      <div class="h-12 p-l-12 p-r-12">
+         <app-drop-down
+            label="Đề tài"
+            placeholder="Tìm Đề tài"
+            [items]="deTais"
+            [selectedItem]="deTai"
+            primaryKey="maDT"
+            keyWord="tenDT"
+            [isSearchMultiple]="false"
+         ></app-drop-down>
+      </div>
+   </div>
 
-    <div class='h-12 p-l-12 p-r-12'>
-      <app-drop-down
-        label='Đề tài'
-        placeholder='Tìm Đề tài'
-        [items]='deTais'
-        [selectedItem]='deTai'
-        primaryKey='maDT'
-        keyWord='tenDT'
-        [isSearchMultiple]='false'
-      ></app-drop-down>
-    </div>
-  </div>
-
-  <div class='submit-btn text-right'>
-    <button class='btn-add' (click)='addSchedule()'>Thêm</button>
-  </div>
+   <div class="submit-btn text-right">
+      <button class="btn-add" (click)="addSchedule()">Thêm</button>
+   </div>
 </form>
+
+<div
+   *ngFor="let schedule of schedules"
+   class="calendar-item"
+   [ngClass]="schedule.status"
+   [style]="{
+      left: schedule.offsetX,
+      top: schedule.offsetY,
+      width: schedule.width,
+      height: schedule.height
+   }"
+>
+   <div (click)="onShowDropDown($event)" class="item-container">
+      <p class="font-semi name" [innerHTML]="schedule.name"></p>
+
+      <div class="p-t-8 info">
+         <p>Thời gian: {{ schedule.time }}</p>
+         <p>
+            Địa điểm:
+            <span>{{ schedule.place }}</span>
+         </p>
+         <p>
+            Loại lịch: <span>{{ schedule.type }}</span>
+         </p>
+      </div>
+   </div>
+</div>

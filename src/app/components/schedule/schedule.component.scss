@@ -1,152 +1,151 @@
-.table tr th {
-  width: calc(100% / 7);
-  background: #fafafa;
-  color: #5c676f;
-  height: 65px;
-  padding: 4px 8px;
-  border: 1px solid #d1d4d7;
-}
-
-.table {
-  tbody td {
-    border: none;
-    border-right: 1px solid #d1d4d7;
-    vertical-align: top;
-    height: 16px !important;
-    padding-top: 8px;
-    padding-bottom: 0;
-  }
-
-  tr:last-child {
-    td {
-      margin-bottom: 8px;
-    }
-  }
-}
-
-.day {
-  height: 100%;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.day.active {
-  background: #195ce5;
-  color: #ffff;
-}
-
-.table tr th.time {
-  width: 80px;
-}
-
-.day .active {
-  background: #195ce5;
-  color: #ffff;
-  height: 100%;
-  border-radius: 10px;
+.calendar {
+   border: 1px solid #d1d4d7;
+   background: #ffff;
 }
 
 .days {
-  position: sticky;
-  top: 131px;
-  z-index: 10;
+   position: sticky;
+   top: 131px;
+   z-index: 10;
 }
 
-.hour td:first-child {
-  font-weight: 500;
-  vertical-align: bottom;
-  position: relative;
-  padding-left: 16px;
-  padding-right: 16px;
-  font-size: 1.4rem;
-  color: #5c676f;
+.days .day {
+   flex: 1;
+   background: #fafafa;
+   color: #5c676f;
+   height: 65px;
+   padding: 4px;
+   border-right: 1px solid #d1d4d7;
+   border-bottom: 1px solid #d1d4d7;
+   font-size: 1.2rem;
+
+   &:last-child {
+      border-right: none;
+   }
+
+   &:first-child {
+      flex-basis: 60px;
+      max-width: 60px;
+   }
+
+   .active {
+      background: #195ce5;
+      color: #ffff;
+      border-radius: 10px;
+   }
 }
 
-.minute td > p {
-  font-size: 1.4rem;
-  color: #3479ac;
-  font-weight: 500;
+.time {
+   flex-basis: 60px;
+   max-width: 60px;
+   height: 80px;
+   font-size: 1.35rem;
+   position: relative;
+   background: #fafafa;
+   border-right: 1px solid #d1d4d7;
+
+   p {
+      height: 20px;
+      line-height: 1.5;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #545a5e;
+   }
 }
 
-.rowSpan {
-  padding-left: 8px;
-  padding-right: 8px;
+.schedule {
+   padding: 4px;
+   flex: 1;
+   border-right: 1px solid #d1d4d7;
+
+   &:last-child {
+      border-right: none;
+   }
 }
 
 .calendar-item {
-  height: 100%;
-  width: 100%;
-  padding: 8px;
-  border-radius: 10px;
-  border: 2px solid #ebeced;
-  position: relative;
-  z-index: 9;
-}
+   position: absolute;
+   padding: 8px;
+   border-radius: 10px;
+   border: 2px solid #ebeced;
+   overflow: hidden;
+   transition: all 0.2s linear;
 
-.today {
-  .calendar-item {
-    background: #85d4e8;
-  }
-}
+   &.past {
+      background: #e4d37e;
+   }
 
-.past {
-  .calendar-item {
-    background: #e4d37e;
-  }
-}
+   &.today {
+      background: #85d4e8;
+   }
 
-.future {
-  .calendar-item {
-    background: #85e796;
-  }
+   &.future {
+      background: #85e796;
+   }
+
+   &:hover {
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(25, 92, 229, 0.8);
+   }
+
+   &.active {
+      height: auto !important;
+   }
+
+   .name {
+      font-size: 1.2rem;
+   }
+
+   .info {
+      font-size: 1.2rem;
+   }
 }
 
 .calendar-btn {
-  background: #ffff;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0 0 0 4px;
-  width: 150px;
+   background: #ffff;
+   border-radius: 5px;
+   cursor: pointer;
+   padding: 0 0 0 4px;
+   width: 150px;
 
-  img {
-    width: 32px;
-    margin-right: 8px;
-  }
+   img {
+      width: 32px;
+      margin-right: 8px;
+   }
 }
 
 .functional-button button {
-  padding: 8px 12px;
+   padding: 8px 12px;
 }
 
 .status {
-  font-size: 1.4rem;
-  font-weight: 500;
+   font-size: 1.4rem;
+   font-weight: 500;
 
-  .color {
-    width: 48px;
-    height: 24px;
-    border-radius: 8px;
-    margin-right: 8px;
-  }
+   .color {
+      width: 48px;
+      height: 24px;
+      border-radius: 8px;
+      margin-right: 8px;
+   }
 }
 
 .past {
-  .color {
-    background: #e4d37e;
-  }
+   .color {
+      background: #e4d37e;
+   }
 }
 
 .today {
-  .color {
-    background: #85d4e8;
-  }
+   .color {
+      background: #85d4e8;
+   }
 }
 
 .future {
-  .color {
-    background: #85e796;
-  }
+   .color {
+      background: #85e796;
+   }
 }
