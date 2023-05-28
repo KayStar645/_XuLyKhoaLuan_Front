@@ -402,6 +402,7 @@ export class ScheduleComponent
       try {
          let formValue: any = this.lich.form.value;
          let ngayLap = dateVNConvert(formValue.ngayBD);
+         let flag = -1;
 
          switch (this.loaiLich[0].id) {
             case 1: {
@@ -413,6 +414,33 @@ export class ScheduleComponent
                lich.maGv = HomeMainComponent.maGV;
                lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
                lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+
+               if(lich.diaDiem == '') {
+                  this.toastService.warning(
+                     'Vui lòng nhập địa điểm!',
+                     'Thông báo !'
+                  );
+                  return;
+               }
+
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(
+                  lich.maGv,
+                  lich.thoiGianBD,
+                  lich.thoiGianKT
+               );
+               if (flag == -1) {
+                  this.toastService.error(
+                     'Thời gian bị trùng! Thêm lịch thất bại!',
+                     'Thông báo !'
+                  );
+                  return;
+               } else if (flag == 0) {
+                  this.toastService.error(
+                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
+                     'Thông báo !'
+                  );
+                  return;
+               }
 
                await this.huongDanService.update(lich);
                break;
@@ -426,6 +454,25 @@ export class ScheduleComponent
                lich.maGv = HomeMainComponent.maGV;
                lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
                lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(
+                  lich.maGv,
+                  lich.thoiGianBD,
+                  lich.thoiGianKT
+               );
+               if (flag == -1) {
+                  this.toastService.error(
+                     'Thời gian bị trùng! Thêm lịch thất bại!',
+                     'Thông báo !'
+                  );
+                  return;
+               } else if (flag == 0) {
+                  this.toastService.error(
+                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
+                     'Thông báo !'
+                  );
+                  return;
+               }
 
                await this.phanBienService.update(lich);
                break;

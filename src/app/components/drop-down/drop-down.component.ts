@@ -108,7 +108,9 @@ export class DropDownComponent implements OnInit, ControlValueAccessor {
       if (this.selectedItem.length === 0) {
         this.value = '';
       }
-      this.onChange(this.value);
+      if (typeof this.onChange == 'function') {
+         this.onChange(this.value);
+      }
     }
   }
 
