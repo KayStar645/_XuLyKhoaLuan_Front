@@ -1,16 +1,9 @@
 import { giangVienService } from 'src/app/services/giangVien.service';
-import { nhiemVuService } from './../../../services/nhiemVu.service';
-import { TruongBm } from './../../../models/TruongBm.model';
-import { TruongKhoa } from './../../../models/TruongKhoa.model';
-import { truongBmService } from './../../../services/truongBm.service';
-import { truongKhoaService } from './../../../services/truongKhoa.service';
 import { HomeMainComponent } from './../../home-main/home-main.component';
 import { shareService } from '../../../services/share.service';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { boMonService } from 'src/app/services/boMon.service';
-import { BoMon } from 'src/app/models/BoMon.model';
-import { forEach } from 'src/assets/fonts/fontawesome-free-6.0.0-web/js/v4-shims';
 
 @Component({
   selector: 'app-home-danhsachgiangvien',
@@ -20,6 +13,7 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
   @Input() searchName = '';
 
   listGV: GiangVien[] = [];
+  temps: GiangVien[] = [];
 
   constructor(
     private giangVienService: giangVienService,
@@ -61,22 +55,27 @@ export class HomeDanhsachgiangvienComponent implements OnInit {
         shareService.dot
       );
     }
+    this.temps = this.listGV;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.searchName) {
-      this.filterItems();
+      let value = this.searchName.trim().toLowerCase();
+      this.temps = this.listGV.filter(
+        (t) =>
+          t.maGv.toLowerCase().includes(value) ||
+          t.tenGv.toLowerCase().includes(value) ||
+          t.email.toLowerCase().includes(value) ||
+          t.sdt.toLowerCase().includes(value)
+      );
+    } else {
+      this.temps = this.listGV;
     }
   }
 
   async getNameBomonById1(maBm: string) {
     var bomon = await this.boMonService.getById(maBm);
     return bomon.tenBm;
-  }
-
-  filterItems() {
-    const searchName = this.searchName.trim().toLowerCase();
-    this.getAllGiangVien();
   }
 
   dateFormat(str: string): string {

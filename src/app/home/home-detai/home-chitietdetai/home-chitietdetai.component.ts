@@ -28,6 +28,7 @@ import { shareService } from 'src/app/services/share.service';
 })
 export class HomeChitietdetaiComponent {
   DSDTComponent!: HomeDanhsachdetaiComponent;
+  _gvrd!: string;
 
   maDt: string = '';
   oldForm: any;
@@ -44,6 +45,7 @@ export class HomeChitietdetaiComponent {
   isTruongBM: boolean = false;
   isTruongK: boolean = false;
   isDTMe: boolean = false;
+  isDTBM: boolean = false;
   isTrangThai: number = 0;
 
   GVInputConfig: any = {};
@@ -99,8 +101,10 @@ export class HomeChitietdetaiComponent {
 
     this.route.params.subscribe((params) => {
       this.maDt = params['maDt'];
+      this._gvrd = params['maGv'];
       this.setForm();
     });
+    await this.isDeTaiOfBoMonMe(this._gvrd);
 
     await this.getComment();
 
@@ -470,5 +474,12 @@ export class HomeChitietdetaiComponent {
     return this.GVInputConfig.data.find(
       (t: any) => t.maGv === this.listRaDe.find((t) => t.maDt === maDT)?.maGv
     );
+  }
+
+async isDeTaiOfBoMonMe(gvrd: string) {
+    let gv = await this.giangVienService.getById(gvrd);
+    if(gv.maBm == HomeMainComponent.maBm) {
+      this.isDTBM = true;
+    }
   }
 }
