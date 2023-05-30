@@ -1,15 +1,7 @@
 import { phanBienService } from 'src/app/services/phanBien.service';
 import { huongDanService } from 'src/app/services/huongDan.service';
 import { lichPhanBienService } from '../../services/NghiepVu/lichphanbien.service';
-import {
-   Component,
-   Input,
-   OnInit,
-   ViewChild,
-   OnChanges,
-   AfterViewInit,
-   AfterContentInit,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnChanges, AfterViewInit, AfterContentInit } from '@angular/core';
 import {
    format,
    startOfWeek,
@@ -59,9 +51,7 @@ type schedule = {
    templateUrl: './schedule.component.html',
    styleUrls: ['./schedule.component.scss'],
 })
-export class ScheduleComponent
-   implements OnInit, OnChanges, AfterContentInit, AfterViewInit
-{
+export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit {
    @ViewChild('dayPicker')
    datePicker!: DatePickerComponent;
 
@@ -120,9 +110,7 @@ export class ScheduleComponent
          let element = target.closest('.calendar-item');
 
          if (!element) {
-            document
-               .querySelector('.calendar-item.active')
-               ?.classList.remove('active');
+            document.querySelector('.calendar-item.active')?.classList.remove('active');
          }
       });
    }
@@ -175,13 +163,9 @@ export class ScheduleComponent
       let target = event.target as HTMLElement;
       let element: HTMLDivElement = target.closest('.calendar-item')!;
 
-      let check =
-         element.scrollHeight > element.clientHeight ||
-         element.scrollWidth > element.clientWidth;
+      let check = element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
 
-      document
-         .querySelector('.calendar-item.active')
-         ?.classList.remove('active');
+      document.querySelector('.calendar-item.active')?.classList.remove('active');
 
       if (check) {
          element.classList.add('active');
@@ -256,9 +240,7 @@ export class ScheduleComponent
          let hour = start.getHours();
          let height = (end.getHours() - start.getHours()) * 80;
          let heightBonus = height > 0 ? 0 : 20;
-         let time = format(start, 'HH:mm')
-            .concat(' - ')
-            .concat(format(end, 'HH:mm'));
+         let time = format(start, 'HH:mm').concat(' - ').concat(format(end, 'HH:mm'));
 
          this.schedules.push({
             time,
@@ -286,16 +268,10 @@ export class ScheduleComponent
    }
 
    getOffsetX(date: Date): string {
-      let days: HTMLDivElement[] = Array.from(
-         document.querySelectorAll('.day')
-      );
+      let days: HTMLDivElement[] = Array.from(document.querySelectorAll('.day'));
       let day = date.getDay().toString();
 
-      return (
-         days.find((t) => t.dataset.day === day)!.getBoundingClientRect().left +
-         4 +
-         'px'
-      );
+      return days.find((t) => t.dataset.day === day)!.getBoundingClientRect().left + 4 + 'px';
    }
 
    getSmallestTime(dates: Date[]) {
@@ -336,9 +312,7 @@ export class ScheduleComponent
       return biggestHours;
    }
 
-   getScheduleType(
-      type: Number
-   ): 'Hướng dẫn' | 'Phản biện' | 'Hội đồng' | undefined {
+   getScheduleType(type: Number): 'Hướng dẫn' | 'Phản biện' | 'Hội đồng' | undefined {
       if (type === 1) {
          return 'Hướng dẫn';
       }
@@ -430,30 +404,17 @@ export class ScheduleComponent
                lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
                lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
 
-               if(lich.diaDiem == '') {
-                  this.toastService.warning(
-                     'Vui lòng nhập địa điểm!',
-                     'Thông báo !'
-                  );
+               if (lich.diaDiem == '') {
+                  this.toastService.warning('Vui lòng nhập địa điểm!', 'Thông báo !');
                   return;
                }
 
-               flag = await this.huongDanService.CheckThoiGianUpdateLich(
-                  lich.maGv,
-                  lich.thoiGianBD,
-                  lich.thoiGianKT
-               );
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(lich.maGv, lich.thoiGianBD, lich.thoiGianKT);
                if (flag == -1) {
-                  this.toastService.error(
-                     'Thời gian bị trùng! Thêm lịch thất bại!',
-                     'Thông báo !'
-                  );
+                  this.toastService.error('Thời gian bị trùng! Thêm lịch thất bại!', 'Thông báo !');
                   return;
                } else if (flag == 0) {
-                  this.toastService.error(
-                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
-                     'Thông báo !'
-                  );
+                  this.toastService.error('Thời gian bắt đầu phải trước thời gian kết thúc!', 'Thông báo !');
                   return;
                }
 
@@ -470,22 +431,12 @@ export class ScheduleComponent
                lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
                lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
 
-               flag = await this.huongDanService.CheckThoiGianUpdateLich(
-                  lich.maGv,
-                  lich.thoiGianBD,
-                  lich.thoiGianKT
-               );
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(lich.maGv, lich.thoiGianBD, lich.thoiGianKT);
                if (flag == -1) {
-                  this.toastService.error(
-                     'Thời gian bị trùng! Thêm lịch thất bại!',
-                     'Thông báo !'
-                  );
+                  this.toastService.error('Thời gian bị trùng! Thêm lịch thất bại!', 'Thông báo !');
                   return;
                } else if (flag == 0) {
-                  this.toastService.error(
-                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
-                     'Thông báo !'
-                  );
+                  this.toastService.error('Thời gian bắt đầu phải trước thời gian kết thúc!', 'Thông báo !');
                   return;
                }
 
