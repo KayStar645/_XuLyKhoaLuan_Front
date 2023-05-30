@@ -71,14 +71,5 @@ export class MinistryDetaiComponent implements OnInit {
   async ngOnInit() {
     this.titleService.setTitle('Danh sách đề tài');
     this.listCn = await this.chuyenNganhService.getAll();
-  } 
-
-  getDetaiByMaCn(event: any) {
-    const maBM = event.target.value;
-    if (maBM == '') {
-      this.DSDTComponent.getAllDeTai();
-    } else {
-      this.DSDTComponent.getDetaiByMaCn(maBM);
-    }
   }
 }

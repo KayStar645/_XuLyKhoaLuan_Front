@@ -11,13 +11,11 @@ import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
 import { MinistryDanhsachgiangvienComponent } from './ministry-danhsachgiangvien/ministry-danhsachgiangvien.component';
 import { WebsocketService } from 'src/app/services/Websocket.service';
-import { DeTai } from 'src/app/models/DeTai.model';
-import { compareAsc, formatDistance, formatDistanceStrict } from 'date-fns';
+import { compareAsc, formatDistanceStrict } from 'date-fns';
 
 @Component({
   selector: 'app-ministry-giangvien',
   templateUrl: './ministry-giangvien.component.html',
-  // styleUrls: ['./ministry-giangvien.component.scss'],
 })
 export class MinistryGiangvienComponent implements OnInit {
   @ViewChild(MinistryDanhsachgiangvienComponent)

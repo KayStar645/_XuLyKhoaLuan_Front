@@ -2,17 +2,6 @@
   <div class='functional-list'>
     <ul class='functional-container row ali-center functional-wrapper'>
       <li class='functional-item'>
-        <select
-          class='search-select'
-          (change)='onGetDetaiByMaCn($event)'
-        >
-          <option value=''>Tất cả</option>
-          <option *ngFor='let cn of listCn' value='{{ cn.maCn }}'>
-            {{ cn.tenCn }}
-          </option>
-        </select>
-      </li>
-      <li class='functional-item'>
         <input
           type='text'
           placeholder='Tìm đề tài...'
