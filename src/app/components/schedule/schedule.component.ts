@@ -492,6 +492,11 @@ export class ScheduleComponent
                await this.phanBienService.update(lich);
                break;
             }
+            case 3: {
+               // Không có thêm lịch hội đồng ở đâu (lập hội đồng tự có)
+
+               break;
+            }
 
             default:
                break;
