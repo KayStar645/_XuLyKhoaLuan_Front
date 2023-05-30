@@ -2,7 +2,7 @@ import { GiangVienVT } from "./GiangVienVTModel";
 
 export class HoiDongVT {
   public maHD!: string;
-  public tenHD!: string;
+  public tenHd!: string;
   public ngayLap!: string;
   public thoiGianBD!: string;
   public thoiGianKT!: string;
@@ -16,8 +16,8 @@ export class HoiDongVT {
   constructor() {}
 
   init(
-    maHD: string,
-    tenHD: string,
+    maHd: string,
+    tenHd: string,
     ngayLap: string,
     thoiGianBD: string,
     thoiGianKT: string,
@@ -27,8 +27,8 @@ export class HoiDongVT {
     thuKy: GiangVienVT,
     uyViens: GiangVienVT[]
   ) {
-    this.maHD = maHD;
-    this.tenHD = tenHD;
+    this.maHD = maHd;
+    this.tenHd = tenHd;
     this.ngayLap = ngayLap;
     this.thoiGianBD = thoiGianBD;
     this.thoiGianKT = thoiGianKT;

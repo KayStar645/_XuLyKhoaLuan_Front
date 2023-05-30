@@ -1,7 +1,7 @@
 export class SinhVien {
   public maSv!: string;
   public tenSv!: string;
-  //public ngaySinh!: string;
+  public ngaySinh!: string;
   public gioiTinh!: string;
   public lop!: string;
   public sdt!: string;
@@ -22,7 +22,7 @@ export class SinhVien {
   ) {
     this.maSv = maSv;
     this.tenSv = tenSv;
-    //ngaySinh && (this.ngaySinh = ngaySinh);
+    //this.ngaySinh = ngaySinh;
     this.gioiTinh = gioiTinh;
     this.lop = lop;
     this.sdt = sdt;

@@ -18,7 +18,6 @@ import { getParentElement } from 'src/assets/utils';
 @Component({
   selector: 'app-ministry-danhsachsinhvien',
   templateUrl: './ministry-danhsachsinhvien.component.html',
-  // styleUrls: ['./ministry-danhsachsinhvien.component.scss'],
 })
 export class MinistryDanhsachsinhvienComponent implements OnInit {
   @Input() searchName = '';

@@ -46,7 +46,7 @@
             <td class="text-center" *ngIf="dt.gvpBs.length == 0"></td>
 
             <td class="text-center italic" *ngFor="let gv of dt.hoiDongs">
-              {{ gv.tenGv }}
+              {{ gv.chucVu + ' ' + gv.tenGv }}
             </td>
             <td class="text-center" *ngIf="dt.hoiDongs.length == 0"></td>
           </tr>
