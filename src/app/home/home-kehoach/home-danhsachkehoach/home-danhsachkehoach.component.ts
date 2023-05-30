@@ -50,6 +50,7 @@ export class HomeDanhsachkehoachComponent {
         .maBm;
       this.listKH = await this.KeHoachService.getKeHoachByMaBM(maBM);
     }
+    //this.listKH.reverse();
     this.root = this.listKH;
   }
 

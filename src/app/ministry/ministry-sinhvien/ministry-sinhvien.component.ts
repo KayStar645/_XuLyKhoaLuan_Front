@@ -242,14 +242,23 @@ export class MinistrySinhvienComponent implements OnInit {
       for (let data of datas) {
         let sinhVien = new SinhVien();
         let cn = await this.chuyenNganhService.GetMaCnByTenAsync(
-          this.shareService.removeSpace(data[5])
+          this.shareService.removeSpace(data[9])
         );
-        sinhVien.init2(
-          data[3].toString(),
-          data[1] + ' ' + data[2],
-          data[4],
-          cn.maCn
+        sinhVien.init(
+           data[3].toString(),
+           data[1] + ' ' + data[2],
+           data[6],
+           data[4],
+           data[8],
+           data[7],
+           cn.maCn
         );
+        // sinhVien.init2(
+        //   data[3].toString(),
+        //   data[1] + ' ' + data[2],
+        //   data[4],
+        //   cn.maCn
+        // );
         await this.f_AddSinhVien(sinhVien);
       }
 

@@ -65,7 +65,6 @@ export class MinistryFormDotthamgiaComponent implements OnInit {
   }
 
   async getAll() {
-    console.log('api', this._maCn, this._namHoc, this._dot)
     this.listSv = await this.thamGiaService.SearchInfo(
       '',
       this._maCn,
@@ -120,6 +119,7 @@ export class MinistryFormDotthamgiaComponent implements OnInit {
       let sv = await this.sinhVienService.getById(maSv);
       await this.f_AddThamgia(sv);
     }
+    this.selectedSV = []
   }
 
   toggleAddAll(event: any) {

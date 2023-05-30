@@ -28,10 +28,7 @@
             <div class="flex-1 item-info">
               <p class="item-time">Đến hạn {{ kh.thu }}</p>
               <a
-                [routerLink]="[
-                  '/home/nhiem-vu/chi-tiet',
-                  { maKh: kh.maKh }
-                ]"
+                 [routerLink]="['/home/ke-hoach/chi-tiet', { maKh: kh.maKh }]"
                 class="item-title"
                 >{{ kh.thoiGianKt }} - {{ kh.tenKh }}</a
               >

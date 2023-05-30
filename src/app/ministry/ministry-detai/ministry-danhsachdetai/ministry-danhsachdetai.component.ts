@@ -6,9 +6,7 @@ import { chuyenNganhService } from 'src/app/services/chuyenNganh.service';
 import { giangVienService } from '../../../services/giangVien.service';
 import { duyetDtService } from '../../../services/duyetDt.service';
 import { raDeService } from '../../../services/raDe.service';
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
@@ -22,173 +20,164 @@ import { DetaiVT } from 'src/app/models/VirtualModel/DetaiVTModel';
 import { GiangVienVT } from 'src/app/models/VirtualModel/GiangVienVTModel';
 
 @Component({
-  selector: 'app-ministry-danhsachdetai',
-  templateUrl: './ministry-danhsachdetai.component.html',
-  styleUrls: ['./ministry-danhsachdetai.component.scss']
+   selector: 'app-ministry-danhsachdetai',
+   templateUrl: './ministry-danhsachdetai.component.html',
+   styleUrls: ['./ministry-danhsachdetai.component.scss'],
 })
 export class MinistryDanhsachdetaiComponent {
-  searchName = '';
-  _searchName = '';
-  _maCn = '';
-  _namHoc = '';
-  _dot = 0;
-  _chucVu = -1;
+   searchName = '';
+   _searchName = '';
+   _maCn = '';
+   _namHoc = '';
+   _dot = 0;
+   _chucVu = -1;
 
-  _ListCn: string[] = ['CNPM', 'MMT', 'KHPTDL', 'HTTT'];
+   _ListCn: string[] = ['CNPM', 'MMT', 'KHPTDL', 'HTTT'];
 
-  listDT: DetaiVT[] = [];
+   listDT: DetaiVT[] = [];
 
-  listDeta_Chuyennganh: DeTai_ChuyenNganh[] = [];
-  listChuyennganh: ChuyenNganh[] = [];
+   listDeta_Chuyennganh: DeTai_ChuyenNganh[] = [];
 
-  dtUpdate: any = DeTai;
-  deTaiFile: any;
-  listCn: ChuyenNganh[] = [];
-  listDotdk: DotDk[] = [];
+   dtUpdate: any = DeTai;
+   deTaiFile: any;
+   listCn: ChuyenNganh[] = [];
+   listDotdk: DotDk[] = [];
 
-  dtAddForm: any;
-  dtUpdateForm: any;
-  dtOldForm: any;
+   dtAddForm: any;
+   dtUpdateForm: any;
+   dtOldForm: any;
 
-  dtForm = new Form();
+   dtForm = new Form();
 
-  exceptInput = ['slMin', 'slMax'];
+   exceptInput = ['slMin', 'slMax'];
 
-  tenDT = new Subject<string>();
-  temps: DetaiVT[] = [];
+   tenDT = new Subject<string>();
+   temps: DetaiVT[] = [];
 
-  constructor(
-    private deTaiService: deTaiService,
-    private shareService: shareService,
-    private raDeService: raDeService,
-    private duyetDtService: duyetDtService,
-    private giangVienService: giangVienService,
-    private deTai_chuyenNganhService: deTai_chuyenNganhService,
-    private titleService: Title,
-    private chuyenNganhService: chuyenNganhService,
-    private websocketService: WebsocketService,
-    private dotDkService: dotDkService
-  ) {
-  }
+   constructor(
+      private deTaiService: deTaiService,
+      private shareService: shareService,
+      private raDeService: raDeService,
+      private duyetDtService: duyetDtService,
+      private giangVienService: giangVienService,
+      private deTai_chuyenNganhService: deTai_chuyenNganhService,
+      private titleService: Title,
+      private chuyenNganhService: chuyenNganhService,
+      private websocketService: WebsocketService,
+      private dotDkService: dotDkService
+   ) {}
 
-  async ngOnInit() {
-    this.listCn = await this.chuyenNganhService.getAll();
+   async ngOnInit() {
+      this.listCn = await this.chuyenNganhService.getAll();
 
-    this.listDotdk = await this.dotDkService.getAll();
-    await this.getAllDeTai();
+      this.listDotdk = await this.dotDkService.getAll();
+      await this.getAllDeTai();
 
-    this.websocketService.startConnection();
-    this.websocketService.receiveFromDeTai((dataChange: boolean) => {
-      if (dataChange) {
-        this.getAllDeTai();
+      this.websocketService.startConnection();
+      this.websocketService.receiveFromDeTai((dataChange: boolean) => {
+         if (dataChange) {
+            this.getAllDeTai();
+         }
+      });
+   }
+
+   onDragFileEnter(event: any) {
+      event.preventDefault();
+      const parent = getParentElement(event.target, '.drag-form');
+
+      parent.classList.add('active');
+   }
+
+   onDragFileOver(event: any) {
+      event.preventDefault();
+      event.target.classList.add('active');
+   }
+
+   onDragFileLeave(event: any) {
+      event.preventDefault();
+      event.target.classList.remove('active');
+   }
+
+   async onGetDetaiByMaCn(event: any) {
+      const maCn = event.target.value;
+      this._maCn = maCn;
+      await this.getAllDeTai();
+   }
+
+   async onSearchName(event: any) {
+      const searchName = event.target.value.trim().toLowerCase();
+      this._searchName = searchName;
+
+      if (searchName) {
+         this.temps = this.listDT.filter(
+            (t) =>
+               t.tenDT.toLowerCase().includes(searchName) ||
+               t.maDT.toLowerCase().includes(searchName) ||
+               t.cnPhuHop.filter((cn) =>
+                  cn.tenCn.toLowerCase().includes(searchName)
+               ).length > 0 ||
+               t.gvrd.filter((gv) =>
+                  gv.tenGv.toLowerCase().includes(searchName)
+               ).length > 0
+         );
+      } else {
+         this.temps = this.listDT;
       }
-    });
-  }
+   }
 
-  onDragFileEnter(event: any) {
-    event.preventDefault();
-    const parent = getParentElement(event.target, '.drag-form');
+   async onGetDotdk(event: any) {
+      const dotdk = event.target.value;
+      this._namHoc = dotdk.slice(0, dotdk.length - 1);
+      this._dot = dotdk.slice(dotdk.length - 1);
 
-    parent.classList.add('active');
-  }
+      await this.getAllDeTai();
+   }
 
-  onDragFileOver(event: any) {
-    event.preventDefault();
-    event.target.classList.add('active');
-  }
-
-  onDragFileLeave(event: any) {
-    event.preventDefault();
-    event.target.classList.remove('active');
-  }
-
-  async onGetDetaiByMaCn(event: any) {
-    const maCn = event.target.value;
-    this._maCn = maCn;
-    await this.getAllDeTai();
-  }
-
-  async onSearchName(event: any) {
-    const searchName = event.target.value.trim();
-    this._searchName = searchName;
-
-    if (searchName) {
-      this.temps = this.listDT.filter(t =>
-        t.tenDT.includes(searchName) ||
-        t.maDT.includes(searchName) ||
-        t.tomTat.includes(searchName) ||
-        t.gvhd.filter(t => t.tenGv.includes(searchName)).length > 0
+   async getAllDeTai() {
+      this.listDT = await this.deTaiService.search(
+         this._searchName,
+         HomeMainComponent.maBm,
+         HomeMainComponent.maGV,
+         this._namHoc,
+         this._dot,
+         false,
+         this._chucVu
       );
-    } else {
+
       this.temps = this.listDT;
-    }
-  }
+   }
 
-  async onGetDotdk(event: any) {
-    const dotdk = event.target.value;
-    this._namHoc = dotdk.slice(0, dotdk.length - 1);
-    this._dot = dotdk.slice(dotdk.length - 1);
-
-    await this.getAllDeTai();
-  }
-
-  async getAllDeTai() {
-    this.listDT = await this.deTaiService.search(
-      this._searchName,
-      HomeMainComponent.maBm,
-      HomeMainComponent.maGV,
-      this._namHoc,
-      this._dot,
-      false,
-      this._chucVu
-    );
-
-    this.temps = this.listDT;
-  }
-
-  async getDetaiByMaCn(maBM: string) {
-    this.listDT = await this.deTaiService.search(
-      this._searchName,
-      maBM,
-      HomeMainComponent.maGV,
-      this._namHoc,
-      this._dot,
-      false,
-      this._chucVu
-    );
-  }
-
-  getCnPhuhop(cnPhuHop: ChuyenNganh[]) {
-    let result = [];
-    let count = 0;
-    if (cnPhuHop.length >= 4) {
-      for (let cn of cnPhuHop) {
-        if (this._ListCn.includes(cn.maCn)) {
-          count++;
-        }
+   getCnPhuhop(cnPhuHop: ChuyenNganh[]) {
+      let result = [];
+      let count = 0;
+      if (cnPhuHop.length >= 4) {
+         for (let cn of cnPhuHop) {
+            if (this._ListCn.includes(cn.maCn)) {
+               count++;
+            }
+         }
       }
-    }
-    if (count == 4) {
-      result.push('Công nghệ thông tin');
-    }
-    for (let item of cnPhuHop) {
-      if (count == 4 && this._ListCn.includes(item.maCn)) {
-        continue;
+      if (count == 4) {
+         result.push('Công nghệ thông tin');
       }
+      for (let item of cnPhuHop) {
+         if (count == 4 && this._ListCn.includes(item.maCn)) {
+            continue;
+         }
 
-      let chuyenNganh = this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn;
-      if (chuyenNganh) {
-        result.push(chuyenNganh);
+         let chuyenNganh = this.listCn.find((c) => c.maCn == item.maCn)?.tenCn;
+         if (chuyenNganh) {
+            result.push(chuyenNganh);
+         }
       }
-    }
-    return result;
-  }
+      return result;
+   }
 
-  getGvrd(gvrd: GiangVienVT[]) {
-    return gvrd.map((re) => re.tenGv);
-  }
+   getGvrd(gvrd: GiangVienVT[]) {
+      return gvrd.map((re) => re.tenGv);
+   }
 
-  dateFormat(str: string): string {
-    return this.shareService.dateFormat(str);
-  }
+   dateFormat(str: string): string {
+      return this.shareService.dateFormat(str);
+   }
 }

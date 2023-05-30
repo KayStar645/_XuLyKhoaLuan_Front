@@ -153,16 +153,17 @@
           <tr>
             <th>Mã đề tài</th>
             <th>Tên đề tài</th>
-            <th>GVHD</th>
-            <th>GVPB</th>
             <th>Thao tác</th>
           </tr>
           <tbody>
-          <tr *ngFor='let dt of selectedDetais'>
+            <tr *ngFor='let dt of selectedDetaisAPI'>
             <td>{{ dt.maDT }}</td>
             <td [innerHTML]='dt.tenDT'></td>
             <td></td>
-            <td></td>
+          </tr>
+          <tr *ngFor='let dt of selectedDetais'>
+            <td>{{ dt.maDT }}</td>
+            <td [innerHTML]='dt.tenDT'></td>
             <td class='text-center action' (click)='onRemove(dt)'>Hủy</td>
           </tr>
           </tbody>
@@ -192,16 +193,12 @@
             <tr>
               <th class='text-center'>Mã đề tài</th>
               <th>Tên đề tài</th>
-              <th>GVHD</th>
-              <th>GVPB</th>
               <th>Thao tác</th>
             </tr>
             <tbody>
             <tr *ngFor='let dt of searchedDetais'>
               <td>{{ dt.maDT }}</td>
               <td [innerHTML]='dt.tenDT'></td>
-              <td></td>
-              <td></td>
               <td class='text-center action' (click)='onSelect(dt)'>Chọn</td>
             </tr>
             </tbody>

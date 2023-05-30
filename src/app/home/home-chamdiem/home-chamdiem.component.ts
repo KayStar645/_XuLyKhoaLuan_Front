@@ -1,7 +1,7 @@
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { phanBienService } from './../../services/phanBien.service';
 import { huongDanService } from './../../services/huongDan.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { deTaiDiemService } from './../../services/NghiepVu/detaidiem.service';
 import { DeTaiDiemVT } from 'src/app/models/VirtualModel/DeTaiDiemVTModel';

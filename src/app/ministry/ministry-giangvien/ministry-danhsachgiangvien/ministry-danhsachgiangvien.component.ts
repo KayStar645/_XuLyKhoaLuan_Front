@@ -109,22 +109,49 @@ export class MinistryDanhsachgiangvienComponent implements OnInit {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (changes.searchName) {
-      if (changes.searchName.currentValue) {
-        let value = changes.searchName.currentValue;
-        this.temps = this.listGV.filter(
-          (t) =>
-            t.hocVi.includes(value) ||
-            t.hocHam.includes(value) ||
-            t.email.includes(value) ||
-            t.tenGv.includes(value) ||
-            t.sdt.includes(value)
-        );
-      } else {
-        this.temps = this.listGV;
-      }
+  if (changes.searchName) {
+    if (changes.searchName.currentValue) {
+      
+      let value = changes.searchName.currentValue.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      this.temps = this.listGV.filter(
+         (t) =>
+            t.hocVi
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .includes(value) ||
+            t.hocHam
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .includes(value) ||
+            t.email
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .includes(value) ||
+            t.tenGv
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .includes(value) ||
+            t.maGv
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .includes(value) ||
+            t.sdt
+               .toLowerCase()
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .includes(value)
+      );
+    } else {
+      this.temps = this.listGV;
     }
   }
+}
+
 
   getTenBMById(maBM: string): string {
     let tenbbm: any = '';
