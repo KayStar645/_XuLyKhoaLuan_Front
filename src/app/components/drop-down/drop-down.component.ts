@@ -1,11 +1,4 @@
-import {
-   Component,
-   EventEmitter,
-   forwardRef,
-   Input,
-   OnInit,
-   Output,
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { getParentElement } from 'src/assets/utils';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -66,9 +59,7 @@ export class DropDownComponent implements OnInit, ControlValueAccessor {
          if (parent.classList.contains('active')) {
             parent.classList.remove('active');
          } else {
-            document
-               .querySelector('.selected.active')
-               ?.classList.remove('active');
+            document.querySelector('.selected.active')?.classList.remove('active');
             parent.classList.add('active');
             parent.scrollIntoView({
                behavior: 'smooth',
@@ -79,9 +70,7 @@ export class DropDownComponent implements OnInit, ControlValueAccessor {
    }
 
    isItemExist(selected: any[], item: any) {
-      return !!selected.find(
-         (t) => t[this.primaryKey] === item[this.primaryKey]
-      );
+      return !!selected.find((t) => t[this.primaryKey] === item[this.primaryKey]);
    }
 
    onSetItem(event: any) {
@@ -90,9 +79,7 @@ export class DropDownComponent implements OnInit, ControlValueAccessor {
       let item = this.items.find((t) => t[this.primaryKey].toString() === id);
 
       if (item) {
-         let index = this.selectedItem.findIndex(
-            (t) => t[this.primaryKey] === id
-         );
+         let index = this.selectedItem.findIndex((t) => t[this.primaryKey] === id);
 
          if (element.classList.contains('active')) {
             this.onParentUnSelect.emit(this.selectedItem.splice(index, 1)[0]);
@@ -110,17 +97,13 @@ export class DropDownComponent implements OnInit, ControlValueAccessor {
                   this.selectedItem = [item];
                }
 
-               document
-                  .querySelector('.selected.active')
-                  ?.classList.remove('active');
+               document.querySelector('.selected.active')?.classList.remove('active');
             }
 
             this.onParentSelect.emit(item);
          }
 
-         this.value = JSON.stringify(
-            this.selectedItem.map((t) => t[this.primaryKey])
-         );
+         this.value = JSON.stringify(this.selectedItem.map((t) => t[this.primaryKey]));
          if (this.selectedItem.length === 0) {
             this.value = '';
          }

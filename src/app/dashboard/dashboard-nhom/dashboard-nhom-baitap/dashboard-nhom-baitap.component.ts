@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-   selector: 'app-home-baitap',
-   templateUrl: './home-baitap.component.html',
-   styleUrls: ['./home-baitap.component.scss'],
+   selector: 'app-dashboard-nhom-baitap',
+   templateUrl: './dashboard-nhom-baitap.component.html',
+   styleUrls: ['./dashboard-nhom-baitap.component.scss'],
 })
-export class HomeBaitapComponent implements OnInit {
+export class DashboardNhomBaitapComponent implements OnInit {
    maCv = '';
    maDt = '';
    maNhom = '';
-
-   constructor(private route: ActivatedRoute) {}
 
    ngOnInit(): void {
       this.maCv = window.history.state['maCv'];

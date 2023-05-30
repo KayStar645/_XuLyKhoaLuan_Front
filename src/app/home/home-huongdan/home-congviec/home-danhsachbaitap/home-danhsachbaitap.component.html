@@ -1,194 +1,180 @@
 <div class="poster">
-  <div class="layer">
-    <div class="poster-info">
-      <p class="group-name">{{ nhom.tenNhom }}</p>
-      <p [innerHTML]="deTai.tenDT" class="topic-name"></p>
-    </div>
-  </div>
+   <div class="layer">
+      <div class="poster-info">
+         <p class="group-name">{{ nhom.tenNhom }}</p>
+         <p [innerHTML]="deTai.tenDT" class="topic-name"></p>
+      </div>
+   </div>
 </div>
 
 <div class="p-t-16">
-  <div class="functional-container row jus-end functional-wrapper">
-    <div class="functional-button btn-add">
-      <button [routerLink]="['/home/cham-diem']">Chấm điểm đề tài</button>
-    </div>
-    <div class="functional-button">
-      <button
-        [routerLink]="['/home/huong-dan/cong-viec/bao-cao', { maCv: -1 }]"
-        [state]="{ isUpdate: true, isAdd: true }"
-      >
-        Thêm bài tập
-      </button>
-    </div>
-  </div>
+   <div class="functional-container row jus-end functional-wrapper">
+      <div class="functional-button btn-add">
+         <button [routerLink]="['/home/cham-diem']">Chấm điểm đề tài</button>
+      </div>
+      <div class="functional-button">
+         <button
+            [routerLink]="['/home/huong-dan/cong-viec/bao-cao', { maCv: -1 }]"
+            [state]="{ isUpdate: true, isAdd: true }"
+         >
+            Thêm bài tập
+         </button>
+      </div>
+   </div>
 </div>
 
 <div id="container">
-  <div class="row">
-    <div class="h-4 p-l-8 p-r-8">
-      <div class="first-info">
-        <div class="time-out ma-b-16">
-          <div class="ma-b-16">
-            <p class="title">Mã nhóm</p>
+   <div class="row">
+      <div class="h-4 p-l-8 p-r-8">
+         <div class="first-info">
+            <div class="time-out ma-b-16">
+               <div class="ma-b-16">
+                  <p class="title">Mã nhóm</p>
 
-            <p class="group-id">{{ nhom.maNhom }}</p>
-          </div>
+                  <p class="group-id">{{ nhom.maNhom }}</p>
+               </div>
 
-          <p class="title">Thành viên nhóm</p>
+               <p class="title">Thành viên nhóm</p>
 
-          <div class="time-out-list">
-            <div class="list-item row ali-center" *ngFor="let item of listSV">
-              <div class="item-img no-bg">
-                <ng-container
-                  *ngIf="item.gioiTinh === 'Nam'; then male; else female"
-                >
-                </ng-container>
-              </div>
-              <div class="flex-1 item-info">
-                <p class="item-time">{{ item.tenSv }}</p>
-                <p class="item-title">{{ item.maSv }}</p>
-              </div>
+               <div class="time-out-list">
+                  <div class="list-item row ali-center" *ngFor="let item of listSV">
+                     <div class="item-img no-bg">
+                        <ng-container *ngIf="item.gioiTinh === 'Nam'; then male; else female">
+                        </ng-container>
+                     </div>
+                     <div class="flex-1 item-info">
+                        <p class="item-time">{{ item.tenSv }}</p>
+                        <p class="item-title">{{ item.maSv }}</p>
+                     </div>
 
-              <ng-template #male>
-                <img src="../../../../../assets/Images/avatar-nam.jpeg" />
-              </ng-template>
+                     <ng-template #male>
+                        <img src="../../../../../assets/Images/avatar-nam.jpeg" />
+                     </ng-template>
 
-              <ng-template #female>
-                <img src="../../../../../assets/Images/avatar-nu.jpg" />
-              </ng-template>
+                     <ng-template #female>
+                        <img src="../../../../../assets/Images/avatar-nu.jpg" />
+                     </ng-template>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
 
-        <div class="time-out">
-          <p class="title">Sắp đến hạn</p>
+            <div class="time-out">
+               <p class="title">Sắp đến hạn</p>
 
-          <div
-            class="time-out-list"
-            *ngIf="nearTimeOutMS.length > 0; else noMission"
-          >
-            <div
-              class="list-item row ali-center"
-              *ngFor="let cv of nearTimeOutMS"
-            >
-              <div class="item-img">
-                <img src="../../../../assets/Images/mission.svg" alt="" />
-              </div>
-              <div class="flex-1 item-info">
-                <p class="item-time">Đến hạn {{ cv.thu }}</p>
-                <a
-                  [routerLink]="[
-                    '/home/huong-dan/cong-viec/chi-tiet',
-                    { maCv: cv.maCv }
-                  ]"
-                  [state]="{ isUpdate: false }"
-                  class="item-title"
-                  >{{ cv.thoiGianKt2 }} - {{ cv.tenCv }}</a
-                >
-              </div>
+               <div class="time-out-list" *ngIf="nearTimeOutMS.length > 0; else noMission">
+                  <div class="list-item row ali-center" *ngFor="let cv of nearTimeOutMS">
+                     <div class="item-img">
+                        <img src="../../../../assets/Images/mission.svg" alt="" />
+                     </div>
+                     <div class="flex-1 item-info">
+                        <p class="item-time">Đến hạn {{ cv.thu }}</p>
+                        <a
+                           [routerLink]="['/home/huong-dan/cong-viec/chi-tiet', { maCv: cv.maCv }]"
+                           [state]="{
+                              isUpdate: false,
+                              maCv: cv.maCv,
+                              maDt: maDT,
+                              maNhom: nhom.maNhom
+                           }"
+                           class="item-title"
+                           >{{ cv.thoiGianKt2 }} - {{ cv.tenCv }}</a
+                        >
+                     </div>
+                  </div>
+               </div>
+
+               <ng-template #noMission>
+                  <p class="no-missioin">Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!</p>
+               </ng-template>
             </div>
-          </div>
-
-          <ng-template #noMission>
-            <p class="no-missioin">
-              Tuyệt vời, chưa có nhiệm vụ nào sắp đến hạn!
-            </p>
-          </ng-template>
-        </div>
+         </div>
       </div>
-    </div>
 
-    <div class="h-8 p-l-8 p-r-8">
-      <div class="mission-list">
-        <div
-          class="list-item"
-          (click)="onShowMore($event)"
-          *ngFor="let item of listBT"
-        >
-          <div class="row ali-center mission-header">
-            <div class="item-img ma-r-12">
-              <img src="../../../../assets/Images/mission.svg" alt="" />
-            </div>
+      <div class="h-8 p-l-8 p-r-8">
+         <div class="mission-list">
+            <div class="list-item" (click)="onShowMore($event)" *ngFor="let item of listBT">
+               <div class="row ali-center mission-header">
+                  <div class="item-img ma-r-12">
+                     <img src="../../../../assets/Images/mission.svg" alt="" />
+                  </div>
 
-            <p
-              class="flex-1 mission-title"
-              [innerHTML]="item.tenCv ? item.tenCv : item.moTa"
-            ></p>
-
-            <div class="row ali-center">
-              <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
-              <div class="option relative">
-                <div class="option-img" (click)="onShowOption($event)">
-                  <img src="../../../../../assets/Images/option.svg" alt="" />
-                </div>
-
-                <div class="list-option">
                   <p
-                    class="option-item"
-                    [routerLink]="['/home/huong-dan/cong-viec/bao-cao']"
-                    [state]="{
-                      isUpdate: true,
-                      isAdd: false,
-                      maCv: item.maCv,
-                      maDt: maDT,
-                      maNhom: nhom.maNhom
-                    }"
-                  >
-                    Chỉnh sửa
-                  </p>
-                  <p class="option-item" (click)="onDeleteJob(item.maCv)">
-                    Xóa
-                  </p>
-                </div>
-              </div>
+                     class="flex-1 mission-title"
+                     [innerHTML]="item.tenCv ? item.tenCv : item.moTa"
+                  ></p>
+
+                  <div class="row ali-center">
+                     <p class="mission-timeout">Đến hạn {{ item.thoiHan }}</p>
+                     <div class="option relative">
+                        <div class="option-img" (click)="onShowOption($event)">
+                           <img src="../../../../../assets/Images/option.svg" alt="" />
+                        </div>
+
+                        <div class="list-option">
+                           <p
+                              class="option-item"
+                              [routerLink]="['/home/huong-dan/cong-viec/bao-cao']"
+                              [state]="{
+                                 isUpdate: true,
+                                 isAdd: false,
+                                 maCv: item.maCv,
+                                 maDt: maDT,
+                                 maNhom: nhom.maNhom
+                              }"
+                           >
+                              Chỉnh sửa
+                           </p>
+                           <p class="option-item" (click)="onDeleteJob(item.maCv)">Xóa</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="collapse-block">
+                  <div class="row jus-between">
+                     <div class="mission-info">
+                        <p class="mission-description" [innerHTML]="item.yeuCau"></p>
+                     </div>
+
+                     <div class="row flex-column ali-center mission-rate">
+                        <p class="rate-title">Tiến độ thực hiện</p>
+
+                        <p class="rate-score">
+                           {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
+                        </p>
+                     </div>
+                  </div>
+
+                  <div class="option-item ma-t-8 p-t-8">
+                     <a
+                        [routerLink]="['/home/huong-dan/cong-viec/bao-cao']"
+                        [state]="{
+                           isUpdate: false,
+                           maCv: item.maCv,
+                           maDt: maDT,
+                           maNhom: nhom.maNhom
+                        }"
+                     >
+                        Xem chi tiết
+                     </a>
+                  </div>
+               </div>
             </div>
-          </div>
-
-          <div class="collapse-block">
-            <div class="row jus-between">
-              <div class="mission-info">
-                <p class="mission-description" [innerHTML]="item.yeuCau"></p>
-              </div>
-
-              <div class="row flex-column ali-center mission-rate">
-                <p class="rate-title">Tiến độ thực hiện</p>
-
-                <p class="rate-score">
-                  {{ item.mucDoHoanThanh ? item.mucDoHoanThanh : "__" }} | 10
-                </p>
-              </div>
-            </div>
-
-            <div class="option-item ma-t-8 p-t-8">
-              <a
-                [routerLink]="['/home/huong-dan/cong-viec/bao-cao']"
-                [state]="{
-                  isUpdate: false,
-                  maCv: item.maCv,
-                  maDt: maDT,
-                  maNhom: nhom.maNhom
-                }"
-              >
-                Xem chi tiết
-              </a>
-            </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </div>
 
 <div id="create">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">Bạn có chắc muốn xóa nhiệm vụ này chứ !</p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
+   <div class="form-notify">
+      <div class="notify-container">
+         <p class="notify-title">Thông báo !</p>
+         <p class="notify-content">Bạn có chắc muốn xóa nhiệm vụ này chứ !</p>
+         <div class="row ali-center jus-end">
+            <button class="cancel">Hủy</button>
+            <button class="agree">Đồng ý</button>
+         </div>
+         <div class="progress-bar"></div>
       </div>
-      <div class="progress-bar"></div>
-    </div>
-  </div>
+   </div>
 </div>

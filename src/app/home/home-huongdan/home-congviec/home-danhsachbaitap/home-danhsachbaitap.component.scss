@@ -1,313 +1,310 @@
 .poster {
-  background: url("../../../../../assets/Images/group_bg.jpg") center / cover
-    no-repeat;
-  height: 250px;
-  border-radius: 10px;
-  overflow: hidden;
-  border-radius: 10px;
-  position: relative;
+   background: url("../../../../../assets/Images/group_bg.jpg") center / cover no-repeat;
+   height: 250px;
+   border-radius: 10px;
+   overflow: hidden;
+   border-radius: 10px;
+   position: relative;
 
-  .layer {
-    padding-right: 24px;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(
-      40rem 18.75rem ellipse at bottom right,
-      rgb(66, 133, 244),
-      transparent
-    );
-  }
+   .layer {
+      padding-right: 24px;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+         40rem 18.75rem ellipse at bottom right,
+         rgb(66, 133, 244),
+         transparent
+      );
+   }
 }
 
 .poster-info {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  color: #fff;
-  width: 100%;
+   position: absolute;
+   bottom: 16px;
+   left: 16px;
+   color: #fff;
+   width: 100%;
 
-  .group-name {
-    font-size: 3.2rem;
-  }
+   .group-name {
+      font-size: 3.2rem;
+   }
 
-  .topic-name {
-    font-size: 2rem;
-    width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+   .topic-name {
+      font-size: 2rem;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+   }
 }
 
 #container {
-  padding-top: 16px;
-  margin: 0 -8px;
+   padding-top: 16px;
+   margin: 0 -8px;
 }
 
 .group-id {
-  color: rgb(25, 103, 210);
-  font-size: 1.8rem;
-  font-weight: 600;
+   color: rgb(25, 103, 210);
+   font-size: 1.8rem;
+   font-weight: 600;
 }
 
 .first-info {
-  position: sticky;
-  top: 76px;
+   position: sticky;
+   top: 76px;
 }
 
 .time-out {
-  padding: 12px 16px;
-  border-radius: 10px;
-  background: #fff;
+   padding: 12px 16px;
+   border-radius: 10px;
+   background: #fff;
 
-  .title {
-    font-size: 1.7rem;
-    padding-bottom: 4px;
-  }
+   .title {
+      font-size: 1.7rem;
+      padding-bottom: 4px;
+   }
 }
 
 .time-out-list {
-  max-height: 300px;
-  overflow: auto;
-  margin-right: -16px;
-  padding-right: 16px;
+   max-height: 300px;
+   overflow: auto;
+   margin-right: -16px;
+   padding-right: 16px;
 }
 
 .time-out-list .list-item {
-  padding: 8px 0;
+   padding: 8px 0;
 
-  &:last-child {
-    border: none;
-    padding-bottom: 4px;
-  }
+   &:last-child {
+      border: none;
+      padding-bottom: 4px;
+   }
 
-  .item-info {
-    overflow: hidden;
-  }
+   .item-info {
+      overflow: hidden;
+   }
 
-  .item-time {
-    color: rgba(0, 0, 0, 0.767);
-    font-size: 1.5rem;
-  }
+   .item-time {
+      color: rgba(0, 0, 0, 0.767);
+      font-size: 1.5rem;
+   }
 
-  .item-title {
-    color: rgba(0, 0, 0, 0.603);
-    font-size: 1.45rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: block;
-  }
+   .item-title {
+      color: rgba(0, 0, 0, 0.603);
+      font-size: 1.45rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+   }
 }
 
 .item-img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background: #4285f4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
+   width: 35px;
+   height: 35px;
+   border-radius: 50%;
+   background: #4285f4;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-right: 12px;
 
-  img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-  }
+   img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+   }
 }
 
 .item-img.no-bg {
-  background: none;
-  width: auto;
-  height: auto;
+   background: none;
+   width: auto;
+   height: auto;
 
-  img {
-    width: 35px;
-    height: 35px;
-  }
+   img {
+      width: 35px;
+      height: 35px;
+   }
 }
 
 .functional-list {
-  padding: 0;
+   padding: 0;
 }
 
 .mission-list {
-  background: #fff;
-  padding: 16px 16px 1px 16px;
-  border-radius: 10px;
+   background: #fff;
+   padding: 16px 16px 1px 16px;
+   border-radius: 10px;
 }
 
 .collapse-block {
-  opacity: 0;
-  transform: scale(0);
-  transform-origin: 50% top;
-  transition-duration: 0.3s;
+   opacity: 0;
+   transform: scale(0);
+   transform-origin: 50% top;
+   transition-duration: 0.3s;
 }
 
 .time-out-list .list-item .item-title:hover {
-  text-decoration: underline;
-  color: rgb(66, 133, 244);
-  cursor: pointer;
+   text-decoration: underline;
+   color: rgb(66, 133, 244);
+   cursor: pointer;
 }
 
 .mission-list .list-item {
-  margin-bottom: 16px;
-  border-bottom: 1.6px solid #e0e0e0;
-  transition-duration: 0.1s;
-  cursor: pointer;
-  padding: 12px 16px;
-  height: 64px;
-  transition-duration: 0.3s;
+   margin-bottom: 16px;
+   border-bottom: 1.6px solid #e0e0e0;
+   transition-duration: 0.1s;
+   cursor: pointer;
+   padding: 12px 16px;
+   height: 64px;
+   transition-duration: 0.3s;
 
-  &:hover {
-    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
-      0 2px 6px 2px rgba(60, 64, 67, 0.15);
-    border-radius: 10px;
-    border-color: transparent;
-  }
+   &:hover {
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+      border-radius: 10px;
+      border-color: transparent;
+   }
 
-  .mission-title {
-    font-size: 1.4rem;
-    color: #3c4043;
-  }
+   .mission-title {
+      font-size: 1.4rem;
+      color: #3c4043;
+   }
 
-  .mission-timeout {
-    font-size: 1.3rem;
-    color: rgba(0, 0, 0, 0.549);
-  }
+   .mission-timeout {
+      font-size: 1.3rem;
+      color: rgba(0, 0, 0, 0.549);
+   }
 
-  .mission-description {
-    font-size: 1.4rem;
-    color: rgb(75 75 75);
-  }
+   .mission-description {
+      font-size: 1.4rem;
+      color: rgb(75 75 75);
+   }
 }
 
 .mission-list .list-item.active {
-  height: 210px;
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
-    0 2px 6px 2px rgba(60, 64, 67, 0.15);
-  border-radius: 10px;
-  border-color: transparent;
+   height: 210px;
+   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+   border-radius: 10px;
+   border-color: transparent;
 
-  .mission-header {
-    padding-bottom: 16px;
-    margin-bottom: 16px;
-    border-bottom: 1.6px solid #e0e0e0;
-  }
+   .mission-header {
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1.6px solid #e0e0e0;
+   }
 
-  .collapse-block {
-    opacity: 1;
-    transform: scale(1);
-  }
+   .collapse-block {
+      opacity: 1;
+      transform: scale(1);
+   }
 }
 
 .no-missioin {
-  font-size: 1.4rem;
-  padding: 16px 0;
-  color: rgba(0, 0, 0, 0.549);
+   font-size: 1.4rem;
+   padding: 16px 0;
+   color: rgba(0, 0, 0, 0.549);
 }
 
 .rate-title {
-  font-size: 1.5rem;
-  color: #555657;
+   font-size: 1.5rem;
+   color: #555657;
 }
 
 .rate-score {
-  font-size: 3rem;
-  color: #3c4043;
+   font-size: 3rem;
+   color: #3c4043;
 }
 
 .mission-header .option-img {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-left: 8px;
+   width: 40px;
+   height: 40px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 50%;
+   margin-left: 8px;
 
-  &:hover {
-    background: #f6f6f6;
-  }
+   &:hover {
+      background: #f6f6f6;
+   }
 
-  img {
-    width: 24px;
-    height: 24px;
-  }
+   img {
+      width: 24px;
+      height: 24px;
+   }
 }
 
 .option .list-option {
-  position: absolute;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0 1px 1px 0 rgba(0, 0, 0, 0.141), 0 1px 3px 0 rgba(0, 0, 0, 0.122);
-  right: 0;
-  top: 112%;
-  width: 190px;
-  padding: 12px 0;
-  border-radius: 5px;
-  background: #fff;
-  z-index: 9;
-  transform: scale(0);
-  opacity: 0;
-  transform-origin: top right;
+   position: absolute;
+   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.141),
+      0 1px 3px 0 rgba(0, 0, 0, 0.122);
+   right: 0;
+   top: 112%;
+   width: 190px;
+   padding: 12px 0;
+   border-radius: 5px;
+   background: #fff;
+   z-index: 9;
+   transform: scale(0);
+   opacity: 0;
+   transform-origin: top right;
 }
 
 .mission-header .option.active {
-  .option-img {
-    background: #d3d3d3;
-  }
+   .option-img {
+      background: #d3d3d3;
+   }
 
-  .list-option {
-    transform: scale(1);
-    opacity: 1;
-  }
+   .list-option {
+      transform: scale(1);
+      opacity: 1;
+   }
 }
 
 .option .list-option .option-item {
-  color: #222;
-  padding: 8px 12px;
-  font-size: 1.5rem;
-  cursor: pointer;
+   color: #222;
+   padding: 8px 12px;
+   font-size: 1.5rem;
+   cursor: pointer;
 
-  &:hover {
-    background: #eee;
-  }
+   &:hover {
+      background: #eee;
+   }
 }
 
 .option-item {
-  font-size: 1.3rem;
-  color: #4285f4;
-  border-top: 1.6px solid #e0e0e0;
+   font-size: 1.3rem;
+   color: #4285f4;
+   border-top: 1.6px solid #e0e0e0;
 
-  &:first-child {
-    border: none;
-  }
+   &:first-child {
+      border: none;
+   }
 
-  a:hover {
-    text-decoration: underline;
-  }
+   a:hover {
+      text-decoration: underline;
+   }
 }
 
 .member-list {
-  padding: 4px 0;
+   padding: 4px 0;
 }
 
 .member-item {
-  padding: 8px 0;
+   padding: 8px 0;
 }
 
 .member-item img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  margin-right: 12px;
+   width: 36px;
+   height: 36px;
+   border-radius: 50%;
+   margin-right: 12px;
 }
 
 .member-item .member-info {
-  font-size: 1.4rem;
+   font-size: 1.4rem;
 }
 
 .btn-add button {
-  background-color: #09e38e;
+   background-color: #09e38e;
 }
