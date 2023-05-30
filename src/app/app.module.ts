@@ -138,6 +138,8 @@ import {
 import {
   MinistryFormDotthamgiaComponent
 } from './ministry/ministry-dotthamgia/ministry-form-dotthamgia/ministry-form-dotthamgia.component';
+import { DashboardDanhsachnopbaiComponent } from './dashboard/dashboard-nhom/dashboard-danhsachnopbai/dashboard-danhsachnopbai.component';
+import { DashboardNhomBaitapComponent } from './dashboard/dashboard-nhom/dashboard-nhom-baitap/dashboard-nhom-baitap.component';
 
 @NgModule({
   declarations: [
@@ -221,7 +223,9 @@ import {
     HomeDanhsachhoidongComponent,
     HomeBaitapComponent,
     HomeDanhsachnopbaiComponent,
-    MinistryFormDotthamgiaComponent
+    MinistryFormDotthamgiaComponent,
+    DashboardDanhsachnopbaiComponent,
+    DashboardNhomBaitapComponent
   ],
 
   imports: [

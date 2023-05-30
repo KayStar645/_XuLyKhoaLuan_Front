@@ -1,267 +1,266 @@
 .detail-container {
-  margin: 0 -90px;
-  padding-top: 0;
-  padding-bottom: 0;
+   padding-top: 0;
+   padding-bottom: 0;
 }
 
 .color-blue {
-  color: rgb(25, 103, 210);
+   color: rgb(25, 103, 210);
 }
 
 .assignment-detail {
-  background: #fff;
-  padding: 16px 16px 1px 16px;
-  border-radius: 10px;
+   background: #fff;
+   padding: 16px 16px 1px 16px;
+   border-radius: 10px;
 }
 
 .assignment-name {
-  font-size: 40px;
-  margin-bottom: 0.25rem;
+   font-size: 40px;
+   margin-bottom: 0.25rem;
 }
 
 .deadline {
-  padding-bottom: 0.5rem;
-  display: flex;
-  justify-content: right;
-  border-bottom: 1px solid rgb(66 133 244);
-  margin-bottom: 1rem;
+   padding-bottom: 0.5rem;
+   display: flex;
+   justify-content: right;
+   border-bottom: 1px solid rgb(66 133 244);
+   margin-bottom: 1rem;
 }
 
 .date {
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 30px;
-  color: #3c4043;
+   font-size: 20px;
+   font-weight: 500;
+   line-height: 30px;
+   color: #3c4043;
 }
 
 .command-for-assignment {
-  padding-top: 1rem;
-  font-size: 16px;
-  font-weight: 500;
-  color: #3c4043;
+   padding-top: 1rem;
+   font-size: 16px;
+   font-weight: 500;
+   color: #3c4043;
 }
 
 .add-command {
-  margin-top: 0.25rem;
-  padding: 0.5rem 0;
-  display: inline-block;
-  color: rgb(25, 103, 210);
+   margin-top: 0.25rem;
+   padding: 0.5rem 0;
+   display: inline-block;
+   color: rgb(25, 103, 210);
 }
 
 .assignment-submition {
-  padding: 12px 16px;
-  border-radius: 10px;
-  background: #fff;
+   padding: 12px 16px;
+   border-radius: 10px;
+   background: #fff;
 }
 
 .btn-submit {
-  display: block;
-  border: 1px solid #ccc;
-  padding: 5px 0;
-  border-radius: 5px;
+   display: block;
+   border: 1px solid #ccc;
+   padding: 5px 0;
+   border-radius: 5px;
 }
 
 .congviec-detail {
-  background: #fff;
-  border-radius: 10px;
-  padding: 8px 16px;
+   background: #fff;
+   border-radius: 10px;
+   padding: 8px 16px;
 
-  .label {
-    width: auto;
-  }
+   .label {
+      width: auto;
+   }
 }
 
 .misstion-name {
-  color: rgb(25, 103, 210);
-  font-size: 2.5rem;
-  font-weight: 600;
+   color: rgb(25, 103, 210);
+   font-size: 2.5rem;
+   font-weight: 600;
 }
 
 .teacher-name {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: #4c4d4f;
+   font-size: 1.5rem;
+   font-weight: 500;
+   color: #4c4d4f;
 }
 
 .congviec-mota {
-  color: #5f6368;
-  padding-top: 8px;
-  font-size: 1.7rem;
-  font-weight: 500;
-  line-height: 1.25rem;
+   color: #5f6368;
+   padding-top: 8px;
+   font-size: 1.7rem;
+   font-weight: 500;
+   line-height: 1.25rem;
 }
 
 .mission-request {
-  font-size: 1.4rem;
-  padding: 16px 0;
-  color: #5f6368;
-  border-top: 1px solid rgb(25, 103, 210);
+   font-size: 1.4rem;
+   padding: 16px 0;
+   color: #5f6368;
+   border-top: 1px solid rgb(25, 103, 210);
 }
 
 .mission-timeout {
-  font-size: 1.4rem;
-  color: rgba(0, 0, 0, 0.7);
+   font-size: 1.4rem;
+   color: rgba(0, 0, 0, 0.7);
 }
 
 .form-value {
-  position: relative;
+   position: relative;
 
-  .dropdown {
-    display: none;
-    position: absolute;
-    z-index: 10;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    top: 120%;
-    left: 0;
-    width: 100%;
-  }
+   .dropdown {
+      display: none;
+      position: absolute;
+      z-index: 10;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      top: 120%;
+      left: 0;
+      width: 100%;
+   }
 }
 
 .comment-btn {
-  background: #0984e3;
-  color: #fff;
-  padding: 8px 12px;
-  min-width: 75px;
-  font-weight: 600;
-  font-size: 1.4rem;
-  border-radius: 5px;
-  margin-top: 12px;
-  cursor: pointer;
+   background: #0984e3;
+   color: #fff;
+   padding: 8px 12px;
+   min-width: 75px;
+   font-weight: 600;
+   font-size: 1.4rem;
+   border-radius: 5px;
+   margin-top: 12px;
+   cursor: pointer;
 
-  &:hover {
-    background: #36a0f1;
-  }
+   &:hover {
+      background: #36a0f1;
+   }
 }
 
 .comment-item {
-  padding-bottom: 32px;
+   padding-bottom: 32px;
 
-  img {
-    width: 35px;
-  }
+   img {
+      width: 35px;
+   }
 }
 
 .comment-info {
-  background: #f0f2f5;
-  padding: 8px 16px;
-  border-radius: 18px;
-  margin-left: 8px;
-  min-width: 200px;
-  position: relative;
+   background: #f0f2f5;
+   padding: 8px 16px;
+   border-radius: 18px;
+   margin-left: 8px;
+   min-width: 200px;
+   position: relative;
 
-  .title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    padding-bottom: 2px;
-  }
+   .title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      padding-bottom: 2px;
+   }
 
-  .content {
-    font-size: 1.4rem;
-    color: #635f5f;
-  }
+   .content {
+      font-size: 1.4rem;
+      color: #635f5f;
+   }
 
-  .time {
-    position: absolute;
-    left: 16px;
-    font-size: 1.2rem;
-    color: #7c7c7c;
-    font-weight: 600;
-    top: 100%;
-  }
+   .time {
+      position: absolute;
+      left: 16px;
+      font-size: 1.2rem;
+      color: #7c7c7c;
+      font-weight: 600;
+      top: 100%;
+   }
 }
 
 .mission-img {
-  height: 40px;
-  width: 40px;
-  background: dodgerblue;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  left: 0;
+   height: 40px;
+   width: 40px;
+   background: dodgerblue;
+   border-radius: 50%;
+   position: absolute;
+   top: 0;
+   left: 0;
 
-  img {
-    width: auto;
-  }
+   img {
+      width: auto;
+   }
 }
 
 .mission-info {
-  padding-left: 54px;
+   padding-left: 54px;
 }
 
 .commment-form {
-  padding-top: 16px;
-  border-top: 1.6px solid #e0e0e0;
+   padding-top: 16px;
+   border-top: 1.6px solid #e0e0e0;
 }
 
 .commment-form .form-control {
-  position: relative;
-  padding-left: 40px;
-  padding-top: 0;
-  padding-bottom: 0;
+   position: relative;
+   padding-left: 40px;
+   padding-top: 0;
+   padding-bottom: 0;
 }
 
 .comment-title {
-  color: #3c4043;
-  font-size: 1.5rem;
-  padding-bottom: 12px;
+   color: #3c4043;
+   font-size: 1.5rem;
+   padding-bottom: 12px;
 }
 
 .commment-form .user-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 32px;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 32px;
 }
 
 .home-work-title {
-  font-size: 2.2rem;
-  color: #56595c;
+   font-size: 2.2rem;
+   color: #56595c;
 }
 
 .mission-note {
-  color: #db0909;
-  font-size: 1.5rem;
+   color: #db0909;
+   font-size: 1.5rem;
 }
 
 .complete-note {
-  color: #298ce2;
-  font-size: 1.5rem;
+   color: #298ce2;
+   font-size: 1.5rem;
 }
 
 .list-file {
-  max-height: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
+   max-height: 300px;
+   overflow-y: auto;
+   overflow-x: hidden;
 }
 
 .file-item {
-  padding: 8px 0;
-  flex-wrap: nowrap;
+   padding: 8px 0;
+   flex-wrap: nowrap;
 }
 
 .file-item img {
-  width: 40px;
-  height: 45px;
-  margin-right: 8px;
+   width: 40px;
+   height: 45px;
+   margin-right: 8px;
 }
 
 .file-item p {
-  color: #4c4d4f;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: calc(100% - 32px);
+   color: #4c4d4f;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   width: calc(100% - 32px);
 }
 
 .file-item span {
-  color: #919191;
+   color: #919191;
 }
 
 .remove-btn {
-  font-size: 2.2rem;
-  padding: 8px;
-  cursor: pointer;
+   font-size: 2.2rem;
+   padding: 8px;
+   cursor: pointer;
 }

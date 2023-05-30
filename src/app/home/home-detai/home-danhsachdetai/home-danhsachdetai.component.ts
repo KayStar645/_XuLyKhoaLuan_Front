@@ -10,7 +10,7 @@ import { Component, ElementRef } from '@angular/core';
 import { DeTai } from 'src/app/models/DeTai.model';
 import { deTaiService } from 'src/app/services/deTai.service';
 import { shareService } from 'src/app/services/share.service';
-import {  getParentElement, Option } from 'src/assets/utils';
+import { getParentElement } from 'src/assets/utils';
 import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
@@ -120,9 +120,7 @@ export class HomeDanhsachdetaiComponent {
          const workBook = XLSX.read(data, { type: 'array' });
          const workSheet = workBook.Sheets[workBook.SheetNames[0]];
          const excelData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-         const datas = excelData
-            .slice(1, excelData.length)
-            .filter((data: any) => data.length > 0);
+         const datas = excelData.slice(1, excelData.length).filter((data: any) => data.length > 0);
 
          datas.forEach((data: any, i) => {
             data[1] = `<p>${data[1].replaceAll('\r\n', ' ')}</p>`;
@@ -140,16 +138,13 @@ export class HomeDanhsachdetaiComponent {
    }
 
    onSelect() {
-      let input = this.elementRef.nativeElement.querySelector(
-         '#drag-file_box input[type=file]'
-      );
+      let input = this.elementRef.nativeElement.querySelector('#drag-file_box input[type=file]');
 
       input.click();
    }
 
    onCloseDrag(event: any) {
-      let dragBox =
-         this.elementRef.nativeElement.querySelector('#drag-file_box');
+      let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
 
       event.target.classList.remove('active');
       dragBox.classList.remove('active');
@@ -179,9 +174,7 @@ export class HomeDanhsachdetaiComponent {
 
    async createChuyenNganh_DeTai(listCns: any, maDT: string) {
       let deTaiChuyenNganhs: DeTai_ChuyenNganh[] = [];
-      let chuyenNganhs = listCns
-         .split(',')
-         .map((t: any) => this.shareService.removeSpace(t));
+      let chuyenNganhs = listCns.split(',').map((t: any) => this.shareService.removeSpace(t));
       chuyenNganhs.forEach((item: any) => {
          let deTaiChuyenNganh = new DeTai_ChuyenNganh();
          deTaiChuyenNganh.init(item, maDT);
@@ -215,8 +208,7 @@ export class HomeDanhsachdetaiComponent {
 
    onShowFormDrag() {
       let drag = this.elementRef.nativeElement.querySelector('#drag-file');
-      let dragBox =
-         this.elementRef.nativeElement.querySelector('#drag-file_box');
+      let dragBox = this.elementRef.nativeElement.querySelector('#drag-file_box');
 
       drag.classList.add('active');
       dragBox.classList.add('active');
@@ -231,12 +223,8 @@ export class HomeDanhsachdetaiComponent {
             (t) =>
                t.tenDT.toLowerCase().includes(searchName) ||
                t.maDT.toLowerCase().includes(searchName) ||
-               t.cnPhuHop.filter((cn) =>
-                  cn.tenCn.toLowerCase().includes(searchName)
-               ).length > 0 ||
-               t.gvrd.filter((gv) =>
-                  gv.tenGv.toLowerCase().includes(searchName)
-               ).length > 0
+               t.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(searchName)).length > 0 ||
+               t.gvrd.filter((gv) => gv.tenGv.toLowerCase().includes(searchName)).length > 0
          );
       } else {
          this.temps = this.listDT;
@@ -289,9 +277,7 @@ export class HomeDanhsachdetaiComponent {
          if (count == 4 && this._ListCn.includes(item.maCn)) {
             continue;
          }
-         result.push(
-            this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn
-         );
+         result.push(this.listChuyennganh.find((c) => c.maCn == item.maCn)?.tenCn);
       }
       return result;
    }

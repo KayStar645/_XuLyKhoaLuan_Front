@@ -1,113 +1,109 @@
 <form class="tb-form detail-container">
-  <div class="row functional-wrapper">
-    <div class="h-8 p-l-8 p-r-8">
-      <div class="detail-item">
-        <div class="mission-info relative">
-          <div class="mission-img row ali-center jus-center ma-r-16">
-            <img src="../../../../assets/Images/mission.svg" alt="" />
-          </div>
-          <div>
-            <div class="misstion-name p-b-8">{{ cviec.tenCv }}</div>
+   <div class="row functional-wrapper">
+      <div class="h-8 p-l-8 p-r-8">
+         <div class="detail-item">
+            <div class="mission-info relative">
+               <div class="mission-img row ali-center jus-center ma-r-16">
+                  <img src="../../../../assets/Images/mission.svg" alt="" />
+               </div>
+               <div>
+                  <div class="misstion-name p-b-8">{{ cviec.tenCv }}</div>
+                  <div class="row ali-center jus-between">
+                     <div class="teacher-name">{{ giangVien.tenGv }}</div>
+                     <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+                  </div>
+                  <div class="mission-request" style="border: none">
+                     <span>Mô tả: </span>
+                     <p [innerHTML]="cviec.moTa"></p>
+                  </div>
+                  <div class="mission-request">
+                     <span>Yêu cầu: </span>
+                     <p [innerHTML]="cviec.yeuCau"></p>
+                  </div>
+               </div>
+               <div [formGroup]="dtForm.form" class="commment-form">
+                  <p class="comment-title">Nhận xét về công việc</p>
+                  <div class="form-control">
+                     <div class="user-img row ali-center jus-center ma-r-16">
+                        <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                     </div>
+                     <div class="form-value">
+                        <quill-editor
+                           spellcheck="false"
+                           class="form-input"
+                           placeholder="Thêm nhận xét cho công việc tại đây"
+                           [modules]="{ toolbar: false }"
+                           formControlName="nhanXet"
+                        ></quill-editor>
+                        <p class="error-mess"></p>
+                     </div>
+                  </div>
+                  <div class="row jus-end">
+                     <button class="comment-btn" (click)="onAddComment()">Đăng</button>
+                  </div>
+                  <div class="comment-list">
+                     <div class="comment-item" *ngFor="let duyet of listTraoDoi">
+                        <div class="row">
+                           <div>
+                              <img src="../../../../assets/Images/user-icon.svg" alt="" />
+                           </div>
+                           <div class="comment-info">
+                              <p class="title">{{ duyet.tenHienThi }}</p>
+                              <p class="content" [innerHTML]="duyet.noiDung"></p>
+                              <p class="time">{{ format(duyet.thoiGian) }}</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="h-4 p-l-8 p-r-8">
+         <div class="detail-item home-work">
             <div class="row ali-center jus-between">
-              <div class="teacher-name">{{ giangVien.tenGv }}</div>
-              <p class="mission-timeout">Đến hạn {{ thoiHan }}</p>
+               <p class="home-work-title p-b-8">Báo cáo của bạn</p>
+               <p class="mission-note" *ngIf="isOutDate == -1">Thiếu</p>
+               <p class="mission-note" *ngIf="isOutDate == 0">Nộp muộn</p>
+               <p class="complete-note" *ngIf="isOutDate == 1">Đã nộp</p>
+               <p class="complete-note" *ngIf="isOutDate == -2">Chưa nộp</p>
             </div>
-            <div class="mission-request" style="border: none">
-              <span>Mô tả: </span>
-              <p [innerHTML]="cviec.moTa"></p>
+
+            <ngx-dropzone (change)="onSelect($event)" class="files">
+               <div class="list-file" *ngIf="homeworkFiles.length > 0">
+                  <ngx-dropzone-preview
+                     *ngFor="let item of homeworkFiles"
+                     [removable]="true"
+                     (removed)="onRemove(item.file)"
+                  >
+                     <ngx-dropzone-label class="file-item row ali-center">
+                        <img [src]="item.img" alt="" />
+                        <div class="item-info flex-1 overflow-hidden">
+                           <p>{{ item.name }}</p>
+                           <span>{{ item.type }}</span>
+                        </div>
+                     </ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+               </div>
+
+               <div class="list-file" *ngIf="apiHomeworkFiles.length > 0">
+                  <ngx-dropzone-preview *ngFor="let item of apiHomeworkFiles">
+                     <ngx-dropzone-label class="file-item row ali-center">
+                        <img [src]="item.img" alt="" />
+                        <div class="item-info flex-1">
+                           <p>{{ item.name }}</p>
+                           <span>{{ item.type }}</span>
+                        </div>
+                     </ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+               </div>
+            </ngx-dropzone>
+
+            <div>
+               <button class="comment-btn w-100" (click)="onAddFile()">Thêm file đi kèm</button>
+               <button class="comment-btn w-100" (click)="onSubmitHomeWork()">Nộp báo cáo</button>
             </div>
-            <div class="mission-request">
-              <span>Yêu cầu: </span>
-              <p [innerHTML]="cviec.yeuCau"></p>
-            </div>
-          </div>
-          <div [formGroup]="dtForm.form" class="commment-form">
-            <p class="comment-title">Nhận xét về công việc</p>
-            <div class="form-control">
-              <div class="user-img row ali-center jus-center ma-r-16">
-                <img src="../../../../assets/Images/user-icon.svg" alt="" />
-              </div>
-              <div class="form-value">
-                <quill-editor
-                  spellcheck="false"
-                  class="form-input"
-                  placeholder="Thêm nhận xét cho công việc tại đây"
-                  [modules]="{ toolbar: false }"
-                  formControlName="nhanXet"
-                ></quill-editor>
-                <p class="error-mess"></p>
-              </div>
-            </div>
-            <div class="row jus-end">
-              <button class="comment-btn" (click)="onAddComment()">Đăng</button>
-            </div>
-            <div class="comment-list">
-              <div class="comment-item" *ngFor="let duyet of listTraoDoi">
-                <div class="row">
-                  <div>
-                    <img src="../../../../assets/Images/user-icon.svg" alt="" />
-                  </div>
-                  <div class="comment-info">
-                    <p class="title">{{ duyet.tenHienThi }}</p>
-                    <p class="content" [innerHTML]="duyet.noiDung"></p>
-                    <p class="time">{{ format(duyet.thoiGian) }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-    <div class="h-4 p-l-8 p-r-8">
-      <div class="detail-item home-work">
-        <div class="row ali-center jus-between">
-          <p class="home-work-title p-b-8">Báo cáo của bạn</p>
-          <p class="mission-note" *ngIf="isOutDate == -1">Thiếu</p>
-          <p class="mission-note" *ngIf="isOutDate == 0">Nộp muộn</p>
-          <p class="complete-note" *ngIf="isOutDate == 1">Đã nộp</p>
-          <p class="complete-note" *ngIf="isOutDate == -2">Chưa nộp</p>
-        </div>
-
-        <ngx-dropzone (change)="onSelect($event)" class="files">
-          <div class="list-file" *ngIf="homeworkFiles.length > 0">
-            <ngx-dropzone-preview
-              *ngFor="let item of homeworkFiles"
-              [removable]="true"
-              (removed)="onRemove(item.file)"
-            >
-              <ngx-dropzone-label class="file-item row ali-center">
-                <img [src]="item.img" alt="" />
-                <div class="item-info flex-1 overflow-hidden">
-                  <p>{{ item.name }}</p>
-                  <span>{{ item.type }}</span>
-                </div>
-              </ngx-dropzone-label>
-            </ngx-dropzone-preview>
-          </div>
-
-          <div class="list-file" *ngIf="apiHomeworkFiles.length > 0">
-            <ngx-dropzone-preview *ngFor="let item of apiHomeworkFiles">
-              <ngx-dropzone-label class="file-item row ali-center">
-                <img [src]="item.img" alt="" />
-                <div class="item-info flex-1">
-                  <p>{{ item.name }}</p>
-                  <span>{{ item.type }}</span>
-                </div>
-              </ngx-dropzone-label>
-            </ngx-dropzone-preview>
-          </div>
-        </ngx-dropzone>
-
-        <div>
-          <button class="comment-btn w-100" (click)="onAddFile()">
-            Thêm file đi kèm
-          </button>
-          <button class="comment-btn w-100" (click)="onSubmitHomeWork()">
-            Nộp báo cáo
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+   </div>
 </form>

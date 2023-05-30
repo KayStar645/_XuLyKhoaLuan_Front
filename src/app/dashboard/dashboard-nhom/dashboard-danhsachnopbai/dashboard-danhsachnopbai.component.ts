@@ -1,18 +1,18 @@
-import { sinhVienService } from './../../../../services/sinhVien.service';
-import { baoCaoService } from './../../../../services/baoCao.service';
 import { Component, OnInit } from '@angular/core';
-import { SinhVien } from 'src/app/models/SinhVien.model';
 import axios from 'axios';
-import { environment } from 'src/environments/environment.prod';
-import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
+import * as saveAs from 'file-saver';
+import { SinhVien } from 'src/app/models/SinhVien.model';
+import { baoCaoService } from 'src/app/services/baoCao.service';
+import { sinhVienService } from 'src/app/services/sinhVien.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
-   selector: 'app-home-danhsachnopbai',
-   templateUrl: './home-danhsachnopbai.component.html',
-   styleUrls: ['./home-danhsachnopbai.component.scss'],
+   selector: 'app-dashboard-danhsachnopbai',
+   templateUrl: './dashboard-danhsachnopbai.component.html',
+   styleUrls: ['./dashboard-danhsachnopbai.component.scss'],
 })
-export class HomeDanhsachnopbaiComponent implements OnInit {
+export class DashboardDanhsachnopbaiComponent implements OnInit {
    maCv = '';
    maDt = '';
    maNhom = '';
