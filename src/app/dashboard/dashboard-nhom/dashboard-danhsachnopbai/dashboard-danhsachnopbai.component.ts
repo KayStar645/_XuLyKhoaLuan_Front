@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import axios from 'axios';
 import { format } from 'date-fns';
 import * as saveAs from 'file-saver';
@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment.prod';
    templateUrl: './dashboard-danhsachnopbai.component.html',
    styleUrls: ['./dashboard-danhsachnopbai.component.scss'],
 })
-export class DashboardDanhsachnopbaiComponent implements OnInit {
+export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
    maCv = '';
    maDt = '';
    maNhom = '';
@@ -20,9 +20,16 @@ export class DashboardDanhsachnopbaiComponent implements OnInit {
    sinhViens: SinhVien[] = [];
    types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
    isClickAll: boolean = true;
-   selectedSVs: any[] = [];
+   @Input() selectedSVs: any[] = [];
 
    constructor(private baoCaoService: baoCaoService, private sinhVienService: sinhVienService) {}
+
+   ngOnChanges(changes: SimpleChanges): void {
+      this.baoCaos = [];
+      this.selectedSVs.forEach(async (sv) => {
+         this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(sv))];
+      });
+   }
 
    async ngOnInit(): Promise<void> {
       this.maCv = window.history.state['maCv'];
@@ -66,8 +73,6 @@ export class DashboardDanhsachnopbaiComponent implements OnInit {
    onChooseSinhVien(event: Event, maSv: string) {
       let element = event.target as HTMLInputElement;
 
-      this.baoCaos = [];
-
       if (element.checked) {
          this.selectedSVs.push(maSv);
          if (this.selectedSVs.length === this.sinhViens.length) {
@@ -83,19 +88,11 @@ export class DashboardDanhsachnopbaiComponent implements OnInit {
             this.isClickAll = false;
          }
       }
-      this.selectedSVs.forEach(async (maSV) => {
-         let result = [...this.baoCaos, ...(await this.getAllBaoCao(maSV))];
-
-         if (result.length > 0) {
-            this.baoCaos = result;
-         }
-      });
    }
 
    onClickAll(event: Event) {
       let element = event.target as HTMLInputElement;
 
-      this.baoCaos = [];
       this.isClickAll = element.checked;
 
       if (element.checked) {
@@ -103,9 +100,5 @@ export class DashboardDanhsachnopbaiComponent implements OnInit {
       } else {
          this.selectedSVs = [];
       }
-
-      this.selectedSVs.forEach(async (sv) => {
-         this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(sv))];
-      });
    }
 }

@@ -203,18 +203,7 @@ export class DashboardBaitapchitietComponent {
       if (this.homeworkFiles.length > 0) {
          try {
             for (let homework of this.homeworkFiles) {
-               let fileName = DashboardComponent.maSV
-                  .toString()
-                  .concat(
-                     '__',
-                     this.namHoc,
-                     '__',
-                     this.dot.toString(),
-                     '__',
-                     new Date().getTime().toString(),
-                     '__',
-                     homework.name
-                  );
+               let fileName = new Date().getTime().toString().concat('__', homework.name);
                await this.addBaoCao(fileName);
                await this.shareService.uploadFile(
                   homework.file,
