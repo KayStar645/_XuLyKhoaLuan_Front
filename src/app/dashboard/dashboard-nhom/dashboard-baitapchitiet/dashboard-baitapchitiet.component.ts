@@ -205,14 +205,14 @@ export class DashboardBaitapchitietComponent {
       if (this.homeworkFiles.length > 0) {
          try {
             for (let homework of this.homeworkFiles) {
-               let fileName = new Date().getTime().toString().concat('__', homework.name);
+               //let fileName = new Date().getTime().toString().concat('__', homework.name);
                // await this.shareService.uploadFile(
                //    homework.file,
                //    environment.githubHomeworkFilesAPI,
                //    fileName
                // );
-               await this.fileService.uploadFile(homework.file);
-               await this.addBaoCao(fileName);
+               let file = await this.fileService.uploadFile(homework.file);
+               await this.addBaoCao(file.fileName);
                this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
                this.websocketService.sendForBaoCao(true);
             }
