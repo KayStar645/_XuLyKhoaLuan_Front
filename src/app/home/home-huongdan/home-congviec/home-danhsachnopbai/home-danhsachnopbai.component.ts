@@ -2,10 +2,9 @@ import { sinhVienService } from './../../../../services/sinhVien.service';
 import { baoCaoService } from './../../../../services/baoCao.service';
 import { Component, OnInit } from '@angular/core';
 import { SinhVien } from 'src/app/models/SinhVien.model';
-import axios from 'axios';
-import { environment } from 'src/environments/environment.prod';
-import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
+import { FileService } from 'src/app/services/file.service.ts.service';
+
 
 @Component({
    selector: 'app-home-danhsachnopbai',
@@ -22,7 +21,11 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
    isClickAll: boolean = true;
    selectedSVs: any[] = [];
 
-   constructor(private baoCaoService: baoCaoService, private sinhVienService: sinhVienService) {}
+   constructor(
+      private baoCaoService: baoCaoService,
+      private sinhVienService: sinhVienService,
+      private fileService: FileService
+   ) {}
 
    async ngOnInit(): Promise<void> {
       this.maCv = window.history.state['maCv'];
@@ -48,19 +51,15 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
          }
          res['hinh'] = hinh;
          res['name'] = res.fileBc.split('__').pop();
+         res['fileBc'] = res.fileBc;
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
-
-         await axios.get(environment.githubHomeworkFilesAPI + res.fileBc).then((data) => {
-            src = data.data.download_url;
-            res['src'] = src;
-         });
       });
 
       return result;
    }
 
-   onSaveFile(url: string, name: string) {
-      saveAs(url, name);
+   async onSaveFile(name: string) {
+      await this.fileService.downloadFile(name);
    }
 
    onChooseSinhVien(event: Event, maSv: string) {
