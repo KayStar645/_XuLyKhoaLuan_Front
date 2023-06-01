@@ -45,9 +45,4 @@ export class DashboardThemthanhvienComponent implements OnInit {
     );
     this.websocketService.startConnection();
   }
-
-  getThamgiaByMaCN(event: any) {
-    const maCn = event.target.value;
-    this.DSTGComponent.getThamgiaByMaCN(maCn);
-  }
 }
