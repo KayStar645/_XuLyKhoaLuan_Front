@@ -1,3 +1,4 @@
+import { FileService } from './../../../services/file.service.ts.service';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -22,7 +23,11 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
    isClickAll: boolean = true;
    @Input() selectedSVs: any[] = [];
 
-   constructor(private baoCaoService: baoCaoService, private sinhVienService: sinhVienService) {}
+   constructor(
+      private baoCaoService: baoCaoService,
+      private sinhVienService: sinhVienService,
+      private fileService: FileService
+   ) {}
 
    ngOnChanges(changes: SimpleChanges): void {
       this.baoCaos = [];
@@ -56,18 +61,13 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
          res['hinh'] = hinh;
          res['name'] = res.fileBc.split('__').pop();
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
-
-         await axios.get(environment.githubHomeworkFilesAPI + res.fileBc).then((data) => {
-            src = data.data.download_url;
-            res['src'] = src;
-         });
       });
 
       return result;
    }
 
-   onSaveFile(url: string, name: string) {
-      saveAs(url, name);
+   async onSaveFile(name: string) {
+      await this.fileService.downloadFile(name);
    }
 
    onChooseSinhVien(event: Event, maSv: string) {

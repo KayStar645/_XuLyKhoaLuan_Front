@@ -21,6 +21,7 @@ import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 import { traoDoiService } from 'src/app/services/NghiepVu/traodoi.service';
 import { environment } from 'src/environments/environment.prod';
 import { BaoCaoVT } from 'src/app/models/VirtualModel/BaoCaoVTModel';
+import { FileService } from 'src/app/services/file.service.ts.service';
 @Component({
    selector: 'app-dashboard-baitapchitiet',
    templateUrl: './dashboard-baitapchitiet.component.html',
@@ -55,7 +56,8 @@ export class DashboardBaitapchitietComponent {
       private binhLuanService: binhLuanService,
       private baoCaoService: baoCaoService,
       private sinhVienService: sinhVienService,
-      private shareService: shareService
+      private shareService: shareService,
+      private fileService: FileService
    ) {}
    async ngOnInit() {
       this.getNamhocDot();
@@ -204,12 +206,13 @@ export class DashboardBaitapchitietComponent {
          try {
             for (let homework of this.homeworkFiles) {
                let fileName = new Date().getTime().toString().concat('__', homework.name);
+               // await this.shareService.uploadFile(
+               //    homework.file,
+               //    environment.githubHomeworkFilesAPI,
+               //    fileName
+               // );
+               await this.fileService.uploadFile(homework.file);
                await this.addBaoCao(fileName);
-               await this.shareService.uploadFile(
-                  homework.file,
-                  environment.githubHomeworkFilesAPI,
-                  fileName
-               );
                this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
                this.websocketService.sendForBaoCao(true);
             }
