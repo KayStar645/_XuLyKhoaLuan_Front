@@ -58,8 +58,15 @@
       <div class="days">
          <div class="row ali-center">
             <div class="day"></div>
-            <div class="day day-in-week" *ngFor="let date of dateOfWeek" [attr.data-day]="date.getDay()">
-               <div class="row flex-column ali-center jus-center h-100" [ngClass]="{ active: compareDate(date) }">
+            <div
+               class="day day-in-week"
+               *ngFor="let date of dateOfWeek"
+               [attr.data-day]="date.getDay()"
+            >
+               <div
+                  class="row flex-column ali-center jus-center h-100"
+                  [ngClass]="{ active: compareDate(date) }"
+               >
                   <p *ngIf="date.getDay() > 0; else sunday">Thứ {{ date.getDay() + 1 }}</p>
                   <ng-template #sunday>Chủ nhật</ng-template>
                   <p>{{ format(date) }}</p>
@@ -108,7 +115,11 @@
             <p class="label p-b-8">Bắt đầu</p>
 
             <div class="form-value">
-               <dp-date-picker mode="time" formControlName="TGBatDau" class="form-input"></dp-date-picker>
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGBatDau"
+                  class="form-input"
+               ></dp-date-picker>
                <p class="error-mess"></p>
             </div>
          </label>
@@ -144,7 +155,11 @@
             <p class="label p-b-8">Kết thúc</p>
 
             <div class="form-value">
-               <dp-date-picker mode="time" formControlName="TGKetThuc" class="form-input"></dp-date-picker>
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGKetThuc"
+                  class="form-input"
+               ></dp-date-picker>
                <p class="error-mess"></p>
             </div>
          </label>
@@ -194,7 +209,11 @@
             <p class="label p-b-8">Bắt đầu</p>
 
             <div class="form-value">
-               <dp-date-picker mode="time" formControlName="TGBatDau" class="form-input"></dp-date-picker>
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGBatDau"
+                  class="form-input"
+               ></dp-date-picker>
                <p class="error-mess"></p>
             </div>
          </label>
@@ -205,7 +224,11 @@
             <p class="label p-b-8">Kết thúc</p>
 
             <div class="form-value">
-               <dp-date-picker mode="time" formControlName="TGKetThuc" class="form-input"></dp-date-picker>
+               <dp-date-picker
+                  mode="time"
+                  formControlName="TGKetThuc"
+                  class="form-input"
+               ></dp-date-picker>
                <p class="error-mess"></p>
             </div>
          </label>

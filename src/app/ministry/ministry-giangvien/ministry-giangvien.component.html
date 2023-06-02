@@ -1,370 +1,358 @@
-<div id='container'>
-  <div class='functional-list'>
-    <ul class='functional-container row ali-center functional-wrapper'>
-      <li class='functional-item'>
-        <select
-          class='functional-select'
-          id='functional-select'
-          (change)='getGiangVienByMaBM($event)'
-        >
-          <option value=''>Tất cả</option>
-          <option *ngFor='let bm of listBoMon' value='{{ bm.maBm }}'>
-            {{ bm.tenBm }}
-          </option>
-        </select>
-      </li>
-      <li class='functional-item'>
-        <input
-          type='text'
-          placeholder='Tìm giảng viên...'
-          [(ngModel)]='searchName'
-        />
-      </li>
-      <li
-        class='functional-item row ali-center jus-end flex-1 functional-wrapper'
+<div id="container">
+   <div class="functional-list">
+      <ul class="functional-container row ali-center functional-wrapper">
+         <li class="functional-item">
+            <select
+               class="functional-select"
+               id="functional-select"
+               (change)="getGiangVienByMaBM($event)"
+            >
+               <option value="">Tất cả</option>
+               <option *ngFor="let bm of listBoMon" value="{{ bm.maBm }}">
+                  {{ bm.tenBm }}
+               </option>
+            </select>
+         </li>
+         <li class="functional-item">
+            <input type="text" placeholder="Tìm giảng viên..." [(ngModel)]="searchName" />
+         </li>
+         <li class="functional-item row ali-center jus-end flex-1 functional-wrapper">
+            <div class="functional-button">
+               <button (click)="onShowFormAdd()">Thêm</button>
+            </div>
+            <div class="functional-button">
+               <button (click)="onShowFormUpdate()">Sửa</button>
+            </div>
+            <div class="functional-button">
+               <button (click)="clickDelete()">Xóa</button>
+            </div>
+            <div class="functional-button">
+               <button (click)="onShowFormDrag()">Nhập DS</button>
+            </div>
+         </li>
+      </ul>
+   </div>
+   <app-ministry-danhsachgiangvien [searchName]="searchName"></app-ministry-danhsachgiangvien>
+
+   <div id="create" (click)="handleToggleAdd()"></div>
+   <form id="create_box" [formGroup]="gvAddForm" class="form">
+      <div class="form-notify">
+         <div class="notify-container">
+            <p class="notify-title">Thông báo !</p>
+            <p class="notify-content">
+               Việc tắt Form sẽ xóa tất cả thông tin hiện đang có trên Form.
+            </p>
+            <div class="row ali-center jus-end">
+               <button class="cancel">Hủy</button>
+               <button class="agree">Đồng ý</button>
+            </div>
+            <div class="progress-bar"></div>
+         </div>
+      </div>
+
+      <h2 class="title">THÊM GIẢNG VIÊN MỚI</h2>
+
+      <div class="row form-list form">
+         <div class="h-6 p-l-12 p-r-12">
+            <label class="form-control row ali-center form-control">
+               <p class="label">Mã giảng viên</p>
+               <div class="form-value">
+                  <input
+                     type="text"
+                     formControlName="maGv"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Email</p>
+               <div class="form-value">
+                  <input
+                     type="text"
+                     formControlName="email"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+
+            <label class="form-control row ali-center form-control">
+               <p class="label">Tên giảng viên</p>
+               <div class="form-value">
+                  <input
+                     type="text"
+                     formControlName="tenGv"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="form-control row ali-center form-control">
+               <p class="label">Giới tính</p>
+               <div class="form-value">
+                  <select
+                     formControlName="gioiTinh"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  >
+                     <option value="Nam">Nam</option>
+                     <option value="Nữ">Nữ</option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+         </div>
+         <div class="h-6 p-l-12 p-r-12">
+            <label class="form-control row ali-center form-control">
+               <p class="label">Bộ môn</p>
+               <div class="form-value">
+                  <select
+                     formControlName="maBm"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  >
+                     <option *ngFor="let bm of listBoMon" value="{{ bm.maBm }}">
+                        {{ bm.tenBm }}
+                     </option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Học hàm</p>
+               <div class="form-value">
+                  <select
+                     formControlName="hocHam"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  >
+                     <option value="">Không có</option>
+                     <option value="GS">Giáo sư</option>
+                     <option value="PGS">Phó giáo sư</option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Số điện thoại</p>
+               <div class="form-value">
+                  <input
+                     type="text"
+                     formControlName="sdt"
+                     maxlength="10"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Học vị</p>
+               <div class="form-value">
+                  <select
+                     formControlName="hocVi"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  >
+                     <option value="">Không có</option>
+                     <option value="CH">Cao học</option>
+                     <option value="ThS">Thạc sĩ</option>
+                     <option value="TS">Tiến sĩ</option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+         </div>
+      </div>
+
+      <div class="submit-btn text-right">
+         <button class="ma-r-12" (click)="gvForm.resetForm('#create_box')">Làm mới</button>
+         <button class="btn-add" (click)="addGiangVien()">Thêm giảng viên</button>
+      </div>
+   </form>
+
+   <div id="update" (click)="handleToggleUpdate()"></div>
+   <form id="update_box" [formGroup]="gvUpdateForm" class="form">
+      <div class="form-notify">
+         <div class="notify-container">
+            <p class="notify-title">Thông báo !</p>
+            <p class="notify-content">
+               Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
+            </p>
+            <div class="row ali-center jus-end">
+               <button class="cancel">Hủy</button>
+               <button class="agree">Đồng ý</button>
+               <button class="save">Lưu thay đổi và thoát</button>
+            </div>
+
+            <div class="progress-bar"></div>
+         </div>
+      </div>
+
+      <h2 class="title">CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
+      <div class="row form-list form">
+         <div class="h-6 p-l-12 p-r-12">
+            <label class="form-control row ali-center form-control">
+               <p class="label">Mã giảng viên</p>
+               <div class="form-value">
+                  <input [readonly]="true" type="text" formControlName="maGv" />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Email</p>
+               <div class="form-value">
+                  <input
+                     type="text"
+                     formControlName="email"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+
+            <label class="form-control row ali-center form-control">
+               <p class="label">Tên giảng viên</p>
+               <div class="form-value">
+                  <input
+                     type="text"
+                     formControlName="tenGv"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="form-control row ali-center form-control">
+               <p class="label">Giới tính</p>
+               <div class="form-value">
+                  <select
+                     formControlName="gioiTinh"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  >
+                     <option value="Nam">Nam</option>
+                     <option value="Nữ">Nữ</option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+         </div>
+         <div class="h-6 p-l-12 p-r-12">
+            <label class="form-control row ali-center form-control">
+               <p class="label">Bộ môn</p>
+               <div class="form-value">
+                  <select
+                     formControlName="maBm"
+                     (blur)="gvForm.inputBlur($event)"
+                     class="form-input"
+                  >
+                     <option *ngFor="let bm of listBoMon" [value]="bm.maBm">
+                        {{ bm.tenBm }}
+                     </option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Học hàm</p>
+               <div class="form-value">
+                  <select formControlName="hocHam">
+                     <option value="">Không có</option>
+                     <option value="GS">Giáo sư</option>
+                     <option value="PGS">Phó giáo sư</option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Số điện thoại</p>
+               <div class="form-value">
+                  <input type="text" formControlName="sdt" maxlength="10" />
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+            <label class="input row ali-center form-control">
+               <p class="label">Học vị</p>
+               <div class="form-value">
+                  <select formControlName="hocVi">
+                     <option value="">Không có</option>
+                     <option value="CH">Cao học</option>
+                     <option value="ThS">Thạc sĩ</option>
+                     <option value="TS">Tiến sĩ</option>
+                  </select>
+                  <p class="error-mess"></p>
+               </div>
+            </label>
+         </div>
+      </div>
+
+      <div class="submit-btn text-right">
+         <button class="btn-update" (click)="updateGiangVien()">Cập nhật thông tin</button>
+      </div>
+   </form>
+
+   <div id="drag-file" (click)="onCloseDrag($event)"></div>
+   <div id="drag-file_box">
+      <p class="title">Nhập danh sách</p>
+      <p class="description">Nhập danh sách giảng viên thông qua 1 file excel</p>
+
+      <form
+         class="drag-form form row flex-column ali-center jus-center"
+         (dragover)="onDragFileOver($event)"
+         (dragleave)="onDragFileLeave($event)"
+         (drop)="onDropFile($event)"
+         (dragenter)="onDragFileOver($event)"
       >
-        <div class='functional-button'>
-          <button (click)='onShowFormAdd()'>Thêm</button>
-        </div>
-        <div class='functional-button'>
-          <button (click)='onShowFormUpdate()'>Sửa</button>
-        </div>
-        <div class='functional-button'>
-          <button (click)='clickDelete()'>Xóa</button>
-        </div>
-        <div class='functional-button'>
-          <button (click)='onShowFormDrag()'>Nhập DS</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <app-ministry-danhsachgiangvien
-    [searchName]='searchName'
-  ></app-ministry-danhsachgiangvien>
+         <input
+            type="file"
+            class="file-content"
+            hidden
+            (input)="onFileInput($event)"
+            accept=".xls, .xlsx"
+         />
+         <i class="fa-solid fa-cloud-arrow-up"></i>
+         <p>
+            Kéo và thả file vào đây hoặc
+            <span class="choose-file" (click)="onSelect()">chọn file</span>
+         </p>
+      </form>
 
-  <div id='create' (click)='handleToggleAdd()'></div>
-  <form id='create_box' [formGroup]='gvAddForm' class='form'>
-    <div class='form-notify'>
-      <div class='notify-container'>
-        <p class='notify-title'>Thông báo !</p>
-        <p class='notify-content'>
-          Việc tắt Form sẽ xóa tất cả thông tin hiện đang có trên Form.
-        </p>
-        <div class='row ali-center jus-end'>
-          <button class='cancel'>Hủy</button>
-          <button class='agree'>Đồng ý</button>
-        </div>
-        <div class='progress-bar'></div>
+      <div class="file-choose" *ngIf="giangVienFile">
+         <p class="title">File đã chọn</p>
+         <div class="row ali-center file-choose-container">
+            <i class="fa-solid fa-file-excel"></i>
+            <div class="row ali-center jus-between flex-1">
+               <div class="file-info">
+                  <p class="file-name">{{ giangVienFile.name }}</p>
+                  <p class="file-size">{{ giangVienFile.size }}</p>
+               </div>
+               <p class="import-btn" (click)="onReadFile()">Nhập</p>
+            </div>
+         </div>
       </div>
-    </div>
+   </div>
 
-    <h2 class='title'>THÊM GIẢNG VIÊN MỚI</h2>
+   <div id="delete">
+      <div class="form-notify">
+         <div class="notify-container">
+            <p class="notify-title">Thông báo !</p>
+            <p class="notify-content">
+               Việc xóa sẽ làm tất cả thông tin có liên quan đến giảng viên sẽ biến mất. Bạn có chắc
+               chắn muốn xóa ?
+            </p>
+            <div class="row ali-center jus-end">
+               <button class="cancel">Hủy</button>
+               <button class="agree">Đồng ý</button>
+            </div>
 
-    <div class='row form-list form'>
-      <div class='h-6 p-l-12 p-r-12'>
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Mã giảng viên</p>
-          <div class='form-value'>
-            <input
-              type='text'
-              formControlName='maGv'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Email</p>
-          <div class='form-value'>
-            <input
-              type='text'
-              formControlName='email'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Tên giảng viên</p>
-          <div class='form-value'>
-            <input
-              type='text'
-              formControlName='tenGv'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Giới tính</p>
-          <div class='form-value'>
-            <select
-              formControlName='gioiTinh'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            >
-              <option value='Nam'>Nam</option>
-              <option value='Nữ'>Nữ</option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
+            <div class="progress-bar"></div>
+         </div>
       </div>
-      <div class='h-6 p-l-12 p-r-12'>
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Bộ môn</p>
-          <div class='form-value'>
-            <select
-              formControlName='maBm'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            >
-              <option *ngFor='let bm of listBoMon' value='{{ bm.maBm }}'>
-                {{ bm.tenBm }}
-              </option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Học hàm</p>
-          <div class='form-value'>
-            <select
-              formControlName='hocHam'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            >
-              <option value=''>Không có</option>
-              <option value='GS'>Giáo sư</option>
-              <option value='PGS'>Phó giáo sư</option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Số điện thoại</p>
-          <div class='form-value'>
-            <input
-              type='text'
-              formControlName='sdt'
-              maxlength='10'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Học vị</p>
-          <div class='form-value'>
-            <select
-              formControlName='hocVi'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            >
-              <option value=''>Không có</option>
-              <option value='CH'>Cao học</option>
-              <option value='ThS'>Thạc sĩ</option>
-              <option value='TS'>Tiến sĩ</option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <div class='submit-btn text-right'>
-      <button class='ma-r-12' (click)="gvForm.resetForm('#create_box')">
-        Làm mới
-      </button>
-      <button class='btn-add' (click)='addGiangVien()'>Thêm giảng viên</button>
-    </div>
-  </form>
-
-  <div id='update' (click)='handleToggleUpdate()'></div>
-  <form id='update_box' [formGroup]='gvUpdateForm' class='form'>
-    <div class='form-notify'>
-      <div class='notify-container'>
-        <p class='notify-title'>Thông báo !</p>
-        <p class='notify-content'>
-          Có vẻ như bạn chưa lưu thay đổi. Bạn có chắc chắn muốn thoát ?
-        </p>
-        <div class='row ali-center jus-end'>
-          <button class='cancel'>Hủy</button>
-          <button class='agree'>Đồng ý</button>
-          <button class='save'>Lưu thay đổi và thoát</button>
-        </div>
-
-        <div class='progress-bar'></div>
-      </div>
-    </div>
-
-    <h2 class='title'>CẬP NHẬT THÔNG TIN GIẢNG VIÊN</h2>
-    <div class='row form-list form'>
-      <div class='h-6 p-l-12 p-r-12'>
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Mã giảng viên</p>
-          <div class='form-value'>
-            <input [readonly]='true' type='text' formControlName='maGv' />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Email</p>
-          <div class='form-value'>
-            <input
-              type='text'
-              formControlName='email'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Tên giảng viên</p>
-          <div class='form-value'>
-            <input
-              type='text'
-              formControlName='tenGv'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Giới tính</p>
-          <div class='form-value'>
-            <select
-              formControlName='gioiTinh'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            >
-              <option value='Nam'>Nam</option>
-              <option value='Nữ'>Nữ</option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-      </div>
-      <div class='h-6 p-l-12 p-r-12'>
-        <label class='form-control row ali-center form-control'>
-          <p class='label'>Bộ môn</p>
-          <div class='form-value'>
-            <select
-              formControlName='maBm'
-              (blur)='gvForm.inputBlur($event)'
-              class='form-input'
-            >
-              <option *ngFor='let bm of listBoMon' [value]='bm.maBm'>
-                {{ bm.tenBm }}
-              </option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Học hàm</p>
-          <div class='form-value'>
-            <select formControlName='hocHam'>
-              <option value=''>Không có</option>
-              <option value='GS'>Giáo sư</option>
-              <option value='PGS'>Phó giáo sư</option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Số điện thoại</p>
-          <div class='form-value'>
-            <input type='text' formControlName='sdt' maxlength='10' />
-            <p class='error-mess'></p>
-          </div>
-        </label>
-        <label class='input row ali-center form-control'>
-          <p class='label'>Học vị</p>
-          <div class='form-value'>
-            <select formControlName='hocVi'>
-              <option value=''>Không có</option>
-              <option value='CH'>Cao học</option>
-              <option value='ThS'>Thạc sĩ</option>
-              <option value='TS'>Tiến sĩ</option>
-            </select>
-            <p class='error-mess'></p>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <div class='submit-btn text-right'>
-      <button class='btn-update' (click)='updateGiangVien()'>
-        Cập nhật thông tin
-      </button>
-    </div>
-  </form>
-
-  <div id='drag-file' (click)='onCloseDrag($event)'></div>
-  <div id='drag-file_box'>
-    <p class='title'>Nhập danh sách</p>
-    <p class='description'>Nhập danh sách giảng viên thông qua 1 file excel</p>
-
-    <form
-      class='drag-form form row flex-column ali-center jus-center'
-      (dragover)='onDragFileOver($event)'
-      (dragleave)='onDragFileLeave($event)'
-      (drop)='onDropFile($event)'
-      (dragenter)='onDragFileOver($event)'
-    >
-      <input
-        type='file'
-        class='file-content'
-        hidden
-        (input)='onFileInput($event)'
-        accept='.xls, .xlsx'
-      />
-      <i class='fa-solid fa-cloud-arrow-up'></i>
-      <p>
-        Kéo và thả file vào đây hoặc
-        <span class='choose-file' (click)='onSelect()'>chọn file</span>
-      </p>
-    </form>
-
-    <div class='file-choose' *ngIf='giangVienFile'>
-      <p class='title'>File đã chọn</p>
-      <div class='row ali-center file-choose-container'>
-        <i class='fa-solid fa-file-excel'></i>
-        <div class='row ali-center jus-between flex-1'>
-          <div class='file-info'>
-            <p class='file-name'>{{ giangVienFile.name }}</p>
-            <p class='file-size'>{{ giangVienFile.size }}</p>
-          </div>
-          <p class='import-btn' (click)='onReadFile()'>Nhập</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id='delete'>
-    <div class='form-notify'>
-      <div class='notify-container'>
-        <p class='notify-title'>Thông báo !</p>
-        <p class='notify-content'>
-          Việc xóa sẽ làm tất cả thông tin có liên quan đến giảng viên sẽ biến
-          mất. Bạn có chắc chắn muốn xóa ?
-        </p>
-        <div class='row ali-center jus-end'>
-          <button class='cancel'>Hủy</button>
-          <button class='agree'>Đồng ý</button>
-        </div>
-
-        <div class='progress-bar'></div>
-      </div>
-    </div>
-  </div>
+   </div>
 </div>

@@ -1,83 +1,155 @@
-<style>
-  .action {
-    &:hover {
-      background: rgba(29, 148, 239, 0.3);
-      cursor: pointer;
-    }
-  }
-</style>
-
 <div id="functional-container">
-  <div class="functional-list">
-    <ul class="functional-container row ali-center functional-wrapper">
-      <li class="functional-item">
-        <select class="functional-select" (change)="getThamgiaByMaCN($event)">
-          <option value="">Tất cả</option>
-          <option *ngFor="let cn of listCn" [value]="cn?.maCn">
-            {{ cn?.tenCn }}
-          </option>
-        </select>
-      </li>
-      <li class="functional-item">
-        <input
-          type="text"
-          placeholder="Tìm kiếm..."
-          [(ngModel)]="_searchName"
-          (ngModelChange)="onSearchChange()"
-        />
-      </li>
-      <li class="functional-item">
-        <select class="functional-select" (change)="getThamgiaByDotDk($event)">
-          <option value="">Tất cả</option>
-          <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
-            {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
-          </option>
-        </select>
-      </li>
-      <li
-        class="functional-item functional-wrapper row ali-center jus-end flex-1"
-      >
-        <div class="functional-button">
-          <button
-            routerLink="/ministry/tham-gia/form-thamgia"
-            [state]="{ isUpdate: false }"
-          >
-            Thêm
-          </button>
-        </div>
-      </li>
-    </ul>
-  </div>
+   <div class="functional-list">
+      <ul class="functional-container row ali-center functional-wrapper">
+         <li class="functional-item">
+            <select class="functional-select" (change)="getThamgiaByMaCN($event)">
+               <option value="">Tất cả</option>
+               <option *ngFor="let cn of listCn" [value]="cn?.maCn">
+                  {{ cn?.tenCn }}
+               </option>
+            </select>
+         </li>
+         <li class="functional-item">
+            <input
+               type="text"
+               placeholder="Tìm kiếm..."
+               [(ngModel)]="_searchName"
+               (ngModelChange)="onSearchChange()"
+            />
+         </li>
+         <li class="functional-item">
+            <select class="functional-select" (change)="getThamgiaByDotDk($event)">
+               <option value="">Tất cả</option>
+               <option *ngFor="let dk of listDotDk" [value]="dk.namHoc + dk.dot">
+                  {{ dk?.namHoc }} ^ Đợt {{ dk?.dot }}
+               </option>
+            </select>
+         </li>
+         <li class="functional-item functional-wrapper row ali-center jus-end flex-1">
+            <div class="functional-button" (click)="onShowForm()">
+               <button>Thêm đợt đăng ký</button>
+            </div>
+            <div class="functional-button">
+               <button routerLink="/ministry/tham-gia/form-thamgia" [state]="{ isUpdate: false }">
+                  Thêm
+               </button>
+            </div>
+         </li>
+      </ul>
+   </div>
 </div>
 <div id="container">
-  <div>
-    <table [cellPadding]="0" [cellSpacing]="0" class="table">
-      <tr>
-        <th>Mã SV</th>
-        <th>Họ và tên</th>
-        <th>Email</th>
-        <th>Giới tính</th>
-        <th>SĐT</th>
-        <th>Lớp</th>
-        <th>Chuyên ngành</th>
-        <th>Đợt</th>
-        <th>Thao tác</th>
-      </tr>
-      <tbody *ngFor="let sv of temps">
-        <tr>
-          <td class="text-center">{{ sv?.maSV }}</td>
-          <td class="text-left">{{ sv.tenSV }}</td>
-          <td class="text-left">{{ sv.email }}</td>
-          <td class="text-center">{{ sv.gioiTinh }}</td>
-          <td class="text-center">{{ sv.sdt }}</td>
-          <td class="text-center">{{ sv.lop }}</td>
-          <td class="text-left">{{ sv.chuyenNganh }}</td>
-          <td class="text-left namhoc_dot">
-            {{ sv.namHoc }} - Đợt {{ sv.dot }}
-          </td>
-          <td class='text-center action' (click)='onDelete(sv.maSV, sv.namHoc, sv.dot)'>Xóa</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+   <div>
+      <table [cellPadding]="0" [cellSpacing]="0" class="table">
+         <tr>
+            <th>Mã SV</th>
+            <th>Họ và tên</th>
+            <th>Email</th>
+            <th>Giới tính</th>
+            <th>SĐT</th>
+            <th>Lớp</th>
+            <th>Chuyên ngành</th>
+            <th>Đợt</th>
+            <th>Thao tác</th>
+         </tr>
+         <tbody *ngFor="let sv of temps">
+            <tr>
+               <td class="text-center">{{ sv?.maSV }}</td>
+               <td class="text-left">{{ sv.tenSV }}</td>
+               <td class="text-left">{{ sv.email }}</td>
+               <td class="text-center">{{ sv.gioiTinh }}</td>
+               <td class="text-center">{{ sv.sdt }}</td>
+               <td class="text-center">{{ sv.lop }}</td>
+               <td class="text-left">{{ sv.chuyenNganh }}</td>
+               <td class="text-left namhoc_dot">{{ sv.namHoc }} - Đợt {{ sv.dot }}</td>
+               <td class="text-center action" (click)="onDelete(sv.maSV, sv.namHoc, sv.dot)">
+                  Xóa
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
 </div>
+
+<div id="create" (click)="handleToggleAdd()"></div>
+<form id="create_box" [formGroup]="addForm" class="form">
+   <h2 class="title">THÊM ĐỢT ĐĂNG KÝ MỚI</h2>
+
+   <div class="row form-list form">
+      <div class="h-6 p-l-12 p-r-12">
+         <label class="form-control row ali-center form-control">
+            <p class="label">Năm học</p>
+            <div class="form-value">
+               <input type="text" formControlName="nam" class="form-input" />
+               <p class="error-mess"></p>
+            </div>
+         </label>
+
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Bắt đầu đợt</p>
+
+            <div class="form-value">
+               <dp-date-picker
+                  mode="daytime"
+                  formControlName="bdDot"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Kết thúc đợt</p>
+
+            <div class="form-value">
+               <dp-date-picker
+                  mode="daytime"
+                  formControlName="ktDot"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+      </div>
+
+      <div class="h-6 p-l-12 p-r-12">
+         <label class="form-control row ali-center form-control">
+            <p class="label">Đợt đăng ký</p>
+            <div class="form-value">
+               <input type="text" formControlName="dot" class="form-input" />
+               <p class="error-mess"></p>
+            </div>
+         </label>
+
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Đăng ký ngày</p>
+
+            <div class="form-value">
+               <dp-date-picker
+                  mode="daytime"
+                  formControlName="bdDK"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+
+         <label class="form-control form-no-box-shadow row ali-center">
+            <p class="label p-b-8">Kết thúc ngày</p>
+
+            <div class="form-value">
+               <dp-date-picker
+                  mode="daytime"
+                  formControlName="ktDK"
+                  class="form-input"
+               ></dp-date-picker>
+               <p class="error-mess"></p>
+            </div>
+         </label>
+      </div>
+   </div>
+
+   <div class="submit-btn text-right">
+      <button class="btn-add" (click)="addDotDK()">Thêm</button>
+   </div>
+</form>
