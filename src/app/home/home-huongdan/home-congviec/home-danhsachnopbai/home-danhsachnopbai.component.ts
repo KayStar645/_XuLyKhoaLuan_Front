@@ -50,10 +50,10 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
          res['name'] = res.fileBc.split('__').pop();
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
 
-         await axios.get(environment.githubHomeworkFilesAPI + res.fileBc).then((data) => {
-            src = data.data.download_url;
-            res['src'] = src;
-         });
+         // await axios.get(environment.githubHomeworkFilesAPI + res.fileBc).then((data) => {
+         //    src = data.data.download_url;
+         //    res['src'] = src;
+         // });
       });
 
       return result;

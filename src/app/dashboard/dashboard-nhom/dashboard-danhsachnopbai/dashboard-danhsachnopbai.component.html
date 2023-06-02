@@ -44,11 +44,9 @@
                <div class="file-info">
                   <div class="row ali-center jus-between p-b-12">
                      <p class="name">{{ baoCao.tenSv }}</p>
-                     <i
-                        class="fa-solid fa-download"
-                        style="color: #000000"
-                        (click)="onSaveFile(baoCao.name)"
-                     ></i>
+                     <a [href]="baoCao.src">
+                        <i class="fa-solid fa-download" style="color: #000000"></i>
+                     </a>
                   </div>
                   <div class="row ali-center">
                      <img [src]="baoCao.hinh" alt="" class="ma-r-12" />

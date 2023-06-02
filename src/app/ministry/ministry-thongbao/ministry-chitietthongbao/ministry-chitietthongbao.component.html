@@ -1,90 +1,90 @@
 <div id="functional-container">
-  <div class="functional-list">
-    <div class="functional-container functional-wrapper row ali-center jus-end">
-      <div class="functional-button" *ngIf="maTb == -1">
-        <button (click)="onAdd()">Thêm</button>
-      </div>
+   <div class="functional-list">
+      <div class="functional-container functional-wrapper row ali-center jus-end">
+         <div class="functional-button" *ngIf="maTb == -1">
+            <button (click)="onAdd()">Thêm</button>
+         </div>
 
-      <div class="functional-button" *ngIf="maTb > -1">
-        <button (click)="onUpdate()">Sửa</button>
+         <div class="functional-button" *ngIf="maTb > -1">
+            <button (click)="onUpdate()">Sửa</button>
+         </div>
+         <div class="functional-button" *ngIf="maTb > -1">
+            <button (click)="onDelete()">Xóa</button>
+         </div>
       </div>
-      <div class="functional-button" *ngIf="maTb > -1">
-        <button (click)="onDelete()">Xóa</button>
-      </div>
-    </div>
-  </div>
+   </div>
 </div>
 
 <form class="container tb-form" [formGroup]="tbForm.form">
-  <div class="form-control">
-    <p class="label p-b-8">Tiêu đề thông báo</p>
+   <div class="form-control">
+      <p class="label p-b-8">Tiêu đề thông báo</p>
 
-    <div class="form-value">
-      <quill-editor
-        class="form-input title"
-        spellcheck="false"
-        placeholder=""
-        formControlName="tenTb"
-        [modules]="notifyNameConfig"
-      >
-      </quill-editor>
-      <p class="error-mess"></p>
-    </div>
-  </div>
+      <div class="form-value">
+         <quill-editor
+            class="form-input title"
+            spellcheck="false"
+            placeholder=""
+            formControlName="tenTb"
+            [modules]="notifyNameConfig"
+         >
+         </quill-editor>
+         <p class="error-mess"></p>
+      </div>
+   </div>
 
-  <div class="form-control">
-    <p class="label p-b-8">Nội dung</p>
+   <div class="form-control">
+      <p class="label p-b-8">Nội dung</p>
 
-    <div class="form-value">
-      <quill-editor
-        class="form-input content"
-        spellcheck="false"
-        placeholder=""
-        formControlName="noiDung"
-        [modules]="notifyContentConfig"
-      >
-      </quill-editor>
-      <p class="error-mess"></p>
-    </div>
-  </div>
+      <div class="form-value">
+         <quill-editor
+            class="form-input content"
+            spellcheck="false"
+            placeholder=""
+            formControlName="noiDung"
+            [modules]="notifyContentConfig"
+         >
+         </quill-editor>
+         <p class="error-mess"></p>
+      </div>
+   </div>
 
-  <div class="form-control">
-    <p class="label p-b-8">File đi kèm:</p>
+   <div class="form-control">
+      <p class="label p-b-8">File đi kèm:</p>
 
-    <div class="form-value">
-      <input
-        type="file"
-        (change)="onChange($event)"
-        class="attach-file"
-        value="test.pdf"
-        accept="application/pdf"
-      />
-      <p class="error-mess"></p>
-    </div>
-  </div>
+      <div class="form-value">
+         <input
+            type="file"
+            (change)="onChange($event)"
+            class="attach-file"
+            value="test.pdf"
+            accept="application/pdf"
+         />
+         <p class="error-mess"></p>
+      </div>
+   </div>
 
-  <pdf-viewer
-    [src]="pdfSrc"
-    [render-text]="true"
-    [original-size]="false"
-    style="width: 60%; height: 100vh; margin: 0 auto; overflow: hidden"
-  ></pdf-viewer>
+   <pdf-viewer
+      [src]="pdfSrc"
+      [render-text]="true"
+      [original-size]="false"
+      style="width: 60%; height: 100vh; margin: 0 auto; overflow: hidden"
+   ></pdf-viewer>
 </form>
 
 <div id="delete">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">
-        Việc xóa sẽ làm tất cả thông tin có liên quan đến thông báo sẽ biến mất.
-        Bạn có chắc chắn muốn xóa ?
-      </p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
+   <div class="form-notify">
+      <div class="notify-container">
+         <p class="notify-title">Thông báo !</p>
+         <p class="notify-content">
+            Việc xóa sẽ làm tất cả thông tin có liên quan đến thông báo sẽ biến mất. Bạn có chắc
+            chắn muốn xóa ?
+         </p>
+         <div class="row ali-center jus-end">
+            <button class="cancel">Hủy</button>
+            <button class="agree">Đồng ý</button>
+         </div>
 
-      <div class="progress-bar"></div>
-    </div>
-  </div>
+         <div class="progress-bar"></div>
+      </div>
+   </div>
 </div>

@@ -47,7 +47,6 @@ export class DashboardBaitapchitietComponent {
    types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar', 'zip'];
 
    constructor(
-      private route: ActivatedRoute,
       private congViecService: congViecService,
       private giangVienService: giangVienService,
       private traoDoiService: traoDoiService,
@@ -56,7 +55,6 @@ export class DashboardBaitapchitietComponent {
       private binhLuanService: binhLuanService,
       private baoCaoService: baoCaoService,
       private sinhVienService: sinhVienService,
-      private shareService: shareService,
       private fileService: FileService
    ) {}
    async ngOnInit() {
@@ -205,14 +203,10 @@ export class DashboardBaitapchitietComponent {
       if (this.homeworkFiles.length > 0) {
          try {
             for (let homework of this.homeworkFiles) {
-               let fileName = new Date().getTime().toString().concat('__', homework.name);
-               // await this.shareService.uploadFile(
-               //    homework.file,
-               //    environment.githubHomeworkFilesAPI,
-               //    fileName
-               // );
-               await this.fileService.uploadFile(homework.file);
-               await this.addBaoCao(fileName);
+               let res = await this.fileService.uploadFile(homework.file, 'Homework');
+
+               await this.addBaoCao(res.fileName);
+
                this.toastService.success('Nộp báo cáo thành công', 'Thông báo !');
                this.websocketService.sendForBaoCao(true);
             }

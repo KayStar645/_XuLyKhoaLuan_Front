@@ -1,119 +1,115 @@
 #container {
-  padding-top: 16px;
+   padding-top: 16px;
 }
 
 .item-container {
-  cursor: pointer;
+   cursor: pointer;
 }
 
 .list-item {
-  padding: 8px 0px;
+   padding: 8px 0px;
 }
 
 .list-item img {
-  width: 120px;
-  border-radius: 4px;
+   width: 120px;
+   border-radius: 4px;
 }
 
 .list-item .info {
-  padding-left: 12px;
+   padding-left: 12px;
 }
 
 .first-info img {
-  width: 100%;
-  padding: 0;
-  border-radius: 8px;
+   width: 100%;
+   padding: 0;
+   border-radius: 8px;
 }
 
 .name {
-  --height: calc(1.6 * 1.3rem * 3);
-  font-size: 1.5rem;
-  text-align: justify;
-  max-height: var(--height);
-  overflow: hidden;
-  position: relative;
+   --height: calc(1.6 * 1.3rem * 3);
+   font-size: 1.5rem;
+   text-align: justify;
+   max-height: var(--height);
+   overflow: hidden;
+   position: relative;
 }
 
 .date {
-  padding-top: 8px;
-  color: #6e6e6e;
-  font-size: 1.3rem;
+   padding-top: 8px;
+   color: #6e6e6e;
+   font-size: 1.3rem;
 
-  i {
-    font-size: 1.2rem;
-    padding-right: 4px;
-    color: dodgerblue;
-  }
+   i {
+      font-size: 1.2rem;
+      padding-right: 4px;
+      color: dodgerblue;
+   }
 }
 
 .card .btn {
-  min-width: 120px;
-  padding: 8px 0;
-  font-size: 1.5rem;
-  border-radius: 999px;
-  background: #f0f2f5;
-  font-weight: 500;
-  cursor: pointer;
+   min-width: 120px;
+   padding: 8px 0;
+   font-size: 1.5rem;
+   border-radius: 999px;
+   background: #f0f2f5;
+   font-weight: 500;
+   cursor: pointer;
 
-  &:hover {
-    background: #e3e3e3;
-  }
+   &:hover {
+      background: #e3e3e3;
+   }
 }
 
 .card .btn-success {
-  background: rgb(35, 197, 35);
-  color: #fff;
+   background: rgb(35, 197, 35);
+   color: #fff;
 
-  &:hover {
-    background: rgb(21, 161, 21);
-  }
+   &:hover {
+      background: rgb(21, 161, 21);
+   }
 }
 
 .cart-info {
-  background: #f0f2f5;
-  padding: 8px 12px;
-  border-radius: 20px;
+   background: #f0f2f5;
+   padding: 8px 12px;
+   border-radius: 20px;
 }
 
 .card-container img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+   width: 45px;
+   height: 45px;
+   border-radius: 50%;
 }
 
 .cart-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #443f3f;
+   font-size: 1.5rem;
+   font-weight: 700;
+   color: #443f3f;
 }
 
 .cart-description {
-  font-size: 1.4rem;
-  color: #6b6868;
+   font-size: 1.4rem;
+   color: #6b6868;
 }
 
 .cart-mess {
-  padding-top: 8px;
-  font-weight: 400;
-  max-height: 200px;
-  overflow-y: auto;
+   padding-top: 8px;
+   font-weight: 400;
+   max-height: 200px;
+   overflow-y: auto;
 
-  span {
-    font-weight: 500;
-    color: #6b6868;
-  }
-}
-
-.detail-item:last-child {
-  padding-right: 0;
+   span {
+      font-weight: 500;
+      color: #6b6868;
+   }
 }
 
 .list-card {
-  max-height: 500px;
-  overflow: auto;
-  padding-right: 16px;
+   max-height: 500px;
+   overflow: auto;
+   padding-right: 16px;
 }
 
 .title {
-  color: #0066cb;
+   color: #0066cb;
 }

@@ -13,219 +13,100 @@ import { Location } from '@angular/common';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 
 @Component({
-  selector: 'app-home-chitietthongbao',
-  templateUrl: './home-chitietthongbao.component.html',
-  styleUrls: [
-    './home-chitietthongbao.component.scss',
-    '../home-thongbao.component.scss',
-  ],
+   selector: 'app-home-chitietthongbao',
+   templateUrl: './home-chitietthongbao.component.html',
+   styleUrls: ['./home-chitietthongbao.component.scss', '../home-thongbao.component.scss'],
 })
 export class HomeChitietthongbaoComponent implements OnInit {
-  maTb: number = -1;
-  listTB: any = [];
-  oldForm: any;
-  pdfSrc: any;
-  thongBao: ThongBao = new ThongBao();
-  tbForm = new Form({
-    tenTb: ['', Validators.required],
-    noiDung: [''],
-    hinhAnh: ['man_with_tab.png', Validators.required],
-    fileTb: [''],
-    maKhoa: ['CNTT', Validators.required],
-    ngayTb: [format(new Date(), 'yyyy-MM-dd')],
-  });
-  notifyNameConfig = {
-    toolbar: [['bold', 'italic', 'underline'], [{ color: [] }], ['clean']],
-  };
+   maTb: number = -1;
+   listTB: any = [];
+   oldForm: any;
+   pdfSrc: any;
+   thongBao: ThongBao = new ThongBao();
+   tbForm = new Form({
+      tenTb: ['', Validators.required],
+      noiDung: [''],
+      hinhAnh: ['man_with_tab.png', Validators.required],
+      fileTb: [''],
+      maKhoa: ['CNTT', Validators.required],
+      ngayTb: [format(new Date(), 'yyyy-MM-dd')],
+   });
+   notifyNameConfig = {
+      toolbar: [['bold', 'italic', 'underline'], [{ color: [] }], ['clean']],
+   };
 
-  notifyContentConfig = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      ['blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ color: [] }],
-      [{ align: [] }],
-      ['link'],
-      ['clean'],
-    ],
-  };
+   notifyContentConfig = {
+      toolbar: [
+         [{ header: [1, 2, 3, 4, 5, 6, false] }],
+         ['bold', 'italic', 'underline', 'strike'],
+         ['blockquote'],
+         [{ list: 'ordered' }, { list: 'bullet' }],
+         [{ color: [] }],
+         [{ align: [] }],
+         ['link'],
+         ['clean'],
+      ],
+   };
 
-  constructor(
-    private route: ActivatedRoute,
-    private sharedService: shareService,
-    private thongBaoService: thongBaoService,
-    private toastr: ToastrService,
-    private router: Router,
-    private websocketService: WebsocketService,
-    private shareService: shareService
-  ) {}
+   constructor(
+      private route: ActivatedRoute,
+      private sharedService: shareService,
+      private thongBaoService: thongBaoService,
+      private toastr: ToastrService,
+      private router: Router,
+      private websocketService: WebsocketService,
+      private shareService: shareService
+   ) {}
 
-  async ngOnInit() {
-    this.listTB = await this.thongBaoService.getAll();
+   async ngOnInit() {
+      this.listTB = await this.thongBaoService.getAll();
 
-    this.route.params.subscribe(async (params) => {
-      this.maTb = parseInt(params['maTb']);
-      await this.setForm();
-    });
+      this.route.params.subscribe(async (params) => {
+         this.maTb = parseInt(params['maTb']);
+         await this.setForm();
+      });
 
-    this.websocketService.startConnection();
-  }
+      this.websocketService.startConnection();
+   }
 
-  async setForm() {
-    if (this.maTb > 0) {
-      await this.thongBaoService
-        .getById(this.maTb)
-        .then((data) => {
-          this.thongBao = data;
-          return data;
-        })
-        .then((response) => {
-          axios
-            .get(environment.githubNotifyFilesAPI + response.fileTb)
-            .then((response) => {
-              this.pdfSrc = response.data.download_url;
+   async setForm() {
+      if (this.maTb > 0) {
+         await this.thongBaoService.getById(this.maTb).then((data) => {
+            this.thongBao = data;
+
+            this.tbForm.form.patchValue({
+               ...this.thongBao,
             });
 
-          this.tbForm.form.patchValue({
-            ...this.thongBao,
-          });
-
-          this.oldForm = this.tbForm.form.value;
-        });
-    } else {
-      this.maTb = -1;
-      this.tbForm.resetForm('.tb-form');
-      this.pdfSrc = 'https:/error.pdf';
-    }
-  }
-
-  onChange(event: any) {
-    let $img: any = event.target;
-
-    this.tbForm.form.patchValue({
-      fileTb: event.target.files[0].name,
-    });
-
-    if (typeof FileReader !== 'undefined') {
-      let reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.pdfSrc = e.target.result;
-      };
-
-      reader.readAsArrayBuffer($img.files[0]);
-    }
-  }
-
-  async onAdd() {
-    if (this.tbForm.form.valid) {
-      let thongBao = new ThongBao();
-      let file: any = document.querySelector('.attach-file');
-      let formValue: any = this.tbForm.form.value;
-      thongBao.init(
-        0,
-        formValue.tenTb,
-        formValue.noiDung,
-        formValue.hinhAnh,
-        formValue.fileTb,
-        formValue.maKhoa,
-        formValue.ngayTb
-      );
-      try {
-        if (file && file.files[0]) {
-          await this.sharedService.uploadFile(file.files[0]);
-        }
-        await this.thongBaoService.add(thongBao);
-        await this.setForm();
-        this.websocketService.sendForThongBao(true);
-
-        this.router.navigate(['/home/thong-bao/chi-tiet', { maTb: -1 }]);
-        this.toastr.success('Thêm thông báo thành công', 'Thông báo !');
-      } catch (error) {
-        this.toastr.error('Thêm thông báo thất bại', 'Thông báo !');
-        console.log(error);
-      }
-    } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
-    }
-  }
-
-  async onUpdate() {
-    this.tbForm.form.patchValue({
-      ngayTb: format(new Date(), 'yyyy-MM-dd'),
-    });
-
-    if (this.tbForm.form.valid) {
-      if (
-        JSON.stringify(this.oldForm) !== JSON.stringify(this.tbForm.form.value)
-      ) {
-        let thongBao = new ThongBao();
-        let file: any = document.querySelector('.attach-file');
-        let formValue: any = this.tbForm.form.value;
-        thongBao.init(
-          this.maTb,
-          formValue.tenTb,
-          formValue.noiDung,
-          formValue.hinhAnh,
-          formValue.fileTb,
-          formValue.maKhoa,
-          formValue.ngayTb
-        );
-        try {
-          if (file && file.files[0]) {
-            await this.sharedService.uploadFile(file.files[0]);
-          }
-          await this.thongBaoService.update(thongBao);
-          this.websocketService.sendForThongBao(true);
-
-          this.toastr.success('Cập nhập thông báo thành công', 'Thông báo !');
-        } catch (error) {
-          this.toastr.error('Cập nhập thông báo thất bại', 'Thông báo !');
-        }
+            this.pdfSrc = environment.downloadLink + this.thongBao.fileTb + '?folder=Notification';
+            this.oldForm = this.tbForm.form.value;
+         });
       } else {
-        this.toastr.info(
-          'Thông tin của bạn không thay đổi kể từ lần cuối',
-          'Thông báo !'
-        );
+         this.maTb = -1;
+         this.tbForm.resetForm('.tb-form');
+         this.pdfSrc = 'https:/error.pdf';
       }
-    } else {
-      this.toastr.warning('Thông tin bạn cung cấp không hợp lệ', 'Thông báo !');
-    }
-  }
+   }
 
-  onDelete() {
-    let option = new Option('#delete');
+   onChange(event: any) {
+      let $img: any = event.target;
 
-    option.show('error', () => {});
+      this.tbForm.form.patchValue({
+         fileTb: event.target.files[0].name,
+      });
 
-    option.cancel(() => {});
+      if (typeof FileReader !== 'undefined') {
+         let reader = new FileReader();
 
-    option.agree(async () => {
-      try {
-        await this.thongBaoService.delete(this.maTb);
-        this.setForm();
-        this.toastr.success('Xóa thông báo thành công', 'Thông báo !');
-        this.router.navigate(['/home/thong-bao/']);
-      } catch (error) {
-        this.toastr.error('Xóa thông báo thất bại', 'Thông báo !');
+         reader.onload = (e: any) => {
+            this.pdfSrc = e.target.result;
+         };
+
+         reader.readAsArrayBuffer($img.files[0]);
       }
-    });
-  }
+   }
 
-  randomNumber(length: number): number {
-    let result = '';
-    const characters = '0123456789';
-    const charactersLength = characters.length;
-
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return parseInt(result);
-  }
-
-  dateFormat(str: string) {
-    return this.shareService.dateFormat(str);
-  }
+   dateFormat(str: string) {
+      return this.shareService.dateFormat(str);
+   }
 }

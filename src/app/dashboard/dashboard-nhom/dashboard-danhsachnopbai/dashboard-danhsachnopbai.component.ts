@@ -53,7 +53,6 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
          let hinh = `../../../../../assets/Images/file_type/doc.png`;
          let splits = res.fileBc.split('.');
          let type = splits[1];
-         let src = '';
 
          if (this.types.includes(type)) {
             hinh = `../../../../../assets/Images/file_type/${type}.png`;
@@ -61,13 +60,10 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
          res['hinh'] = hinh;
          res['name'] = res.fileBc.split('__').pop();
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
+         res['src'] = environment.downloadLink + res.fileBc + '?folder=Homework';
       });
 
       return result;
-   }
-
-   async onSaveFile(name: string) {
-      await this.fileService.downloadFile(name);
    }
 
    onChooseSinhVien(event: Event, maSv: string) {

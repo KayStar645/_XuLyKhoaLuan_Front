@@ -3,9 +3,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { environment } from 'src/environments/environment.prod';
 import { WebsocketService } from './Websocket.service';
-import { catchError } from 'rxjs';
 
 @Injectable({
    providedIn: 'root',
@@ -21,11 +19,7 @@ export class shareService {
       }),
    };
 
-   constructor(
-      private http: HttpClient,
-      private dotDkService: dotDkService,
-      private websocketService: WebsocketService
-   ) {}
+   constructor(private dotDkService: dotDkService) {}
 
    public dateFormat(date: string) {
       if (date != null) {
@@ -56,112 +50,6 @@ export class shareService {
          return formattedDate == null ? '' : formattedDate.toString() + s;
       }
       return date;
-   }
-
-   public async uploadFile(
-      file: any,
-      apiUrl: string = environment.githubNotifyFilesAPI,
-      fileName?: string
-   ): Promise<any> {
-      const fileReader = new FileReader();
-      const url = apiUrl + (fileName || file.name);
-
-      try {
-         await this.http.get(url).toPromise();
-      } catch (err) {
-         fileReader.onload = async () => {
-            const fileDataUrl = fileReader.result as string;
-            const fileContent = fileDataUrl.split(',')[1];
-
-            const httpOptions = {
-               headers: new HttpHeaders({
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${environment.githubToken}`,
-               }),
-            };
-            const body = {
-               message: `Add ${file.name}`,
-               content: fileContent,
-               branch: 'main',
-            };
-
-            try {
-               await this.http.put(url, body, httpOptions).toPromise();
-            } catch (error) {
-               console.error(error);
-            }
-         };
-
-         fileReader.readAsDataURL(file);
-      }
-   }
-
-   public async createFolderAndUploadFile(folderCheck: String, file: any) {
-      const folderPath = 'Homework';
-
-      this.createDirectory(folderPath).subscribe(
-         () => {
-            const formData = new FormData();
-            formData.append('file', file, `${folderPath}/${file.name}`);
-
-            const options = {
-               headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `token ${environment.githubToken}`,
-               },
-            };
-
-            this.http
-               .put(
-                  `${environment.githubAPI}${folderPath}/${file.name}`,
-                  {
-                     message: `Add ${file.name}`,
-                     content: btoa(file),
-                  },
-                  options
-               )
-               .subscribe(
-                  (response) => {
-                     console.log(`File ${file.name} has been added to GitHub`);
-                  },
-                  (error) => {
-                     console.error(
-                        `Error adding file ${file.name} to GitHub: ${error}`
-                     );
-                  }
-               );
-         },
-         (error) => {
-            console.error(`Error creating directory ${folderPath}: ${error}`);
-         }
-      );
-   }
-
-   createDirectory(folderPath: string) {
-      const options = {
-         headers: {
-            'Content-Type': 'application/json',
-            Authorization: `token ${environment.githubToken}`,
-         },
-      };
-
-      return this.http
-         .get(`${environment.githubAPI}${folderPath}`, options)
-         .pipe(
-            catchError(() => {
-               const payload = {
-                  message: `Create ${folderPath} directory`,
-                  content: '',
-                  path: `${folderPath}/`,
-               };
-
-               return this.http.put(
-                  `${environment.githubAPI}${folderPath}`,
-                  payload,
-                  options
-               );
-            })
-         );
    }
 
    public getDay(date: string) {
@@ -210,15 +98,9 @@ export class shareService {
       return str.replace(/\s+/g, ' ').trim();
    }
 
-   customValidator(
-      nameError: string,
-      regex: RegExp,
-      logicResult: boolean = false
-   ): ValidatorFn {
+   customValidator(nameError: string, regex: RegExp, logicResult: boolean = false): ValidatorFn {
       return (control: AbstractControl): { [key: string]: any } | null => {
-         let isValid = regex.test(control.value)
-            ? null
-            : { [nameError]: { value: control.value } };
+         let isValid = regex.test(control.value) ? null : { [nameError]: { value: control.value } };
 
          if (logicResult) {
             isValid = null;
