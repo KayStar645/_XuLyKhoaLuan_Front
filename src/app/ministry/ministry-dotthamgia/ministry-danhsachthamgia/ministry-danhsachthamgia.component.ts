@@ -76,14 +76,6 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       if (this.addForm.valid) {
          let value: any = this.dotDK.form.value;
          let dotDk = new DotDk();
-         console.log(
-            format(new Date('01-06-2023 13:56:22'), 'yyyy-MM-dd') +
-               'T' +
-               format(new Date('01-06-2023 13:56:22'), 'HH:mm:ss') +
-               '.000Z'
-         );
-         console.log(value.bdDot);
-         console.log(value.nam);
 
          dotDk.init(value.nam, value.dot, value.bdDot, value.ktDot, value.bdDK, value.ktDK);
          console.log(dotDk);

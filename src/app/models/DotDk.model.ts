@@ -20,25 +20,29 @@ export class DotDk {
    ) {
       this.namHoc = namHoc;
       this.dot = dot;
-      this.ngayBd =
-         format(new Date(ngayBd), 'yyyy-MM-dd') +
+      this.ngayBd = (
+         format(new Date(ngayBd.slice(0, 10)), 'yyyy-MM-dd') +
          'T' +
-         format(new Date(ngayBd), 'HH:mm:ss') +
-         '.000Z';
-      this.ngayKt =
-         format(new Date(ngayKt), 'yyyy-MM-dd') +
+         format(new Date(ngayBd.slice(11, ngayBd.length)), 'HH:mm:ss') +
+         '.000Z'
+      ).toString();
+      this.ngayKt = (
+         format(new Date(ngayKt.slice(0, 10)), 'yyyy-MM-dd') +
          'T' +
-         format(new Date(ngayKt), 'HH:mm:ss') +
-         '.000Z';
-      this.tgbddk =
-         format(new Date(tgbddk), 'yyyy-MM-dd') +
+         format(new Date(ngayKt.slice(11, ngayKt.length)), 'HH:mm:ss') +
+         '.000Z'
+      ).toString();
+      this.tgbddk = (
+         format(new Date(tgbddk.slice(0, 10)), 'yyyy-MM-dd') +
          'T' +
-         format(new Date(tgbddk), 'HH:mm:ss') +
-         '.000Z';
-      this.tgktdk =
-         format(new Date(tgktdk), 'yyyy-MM-dd') +
+         format(new Date(tgbddk.slice(11, tgbddk.length)), 'HH:mm:ss') +
+         '.000Z'
+      ).toString();
+      this.tgktdk = (
+         format(new Date(tgktdk.slice(0, 10)), 'yyyy-MM-dd') +
          'T' +
-         format(new Date(tgktdk), 'HH:mm:ss') +
-         '.000Z';
+         format(new Date(tgktdk.slice(11, tgktdk.length)), 'HH:mm:ss') +
+         '.000Z'
+      ).toString();
    }
 }
