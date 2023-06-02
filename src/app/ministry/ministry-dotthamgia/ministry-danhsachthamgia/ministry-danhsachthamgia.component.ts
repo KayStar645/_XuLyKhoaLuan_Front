@@ -56,9 +56,8 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
    getListNamHoc() {
       let currentYear = new Date().getFullYear();
-      console.log(this.cbbNamHoc);
-      for(let i = -2; i < 2; i++) {
-         let namHoc = (currentYear + i) + '-' + (currentYear + i +1);
+      for (let i = -2; i < 2; i++) {
+         let namHoc = currentYear + i + '-' + (currentYear + i + 1);
          this.cbbNamHoc.push(namHoc);
       }
    }
@@ -75,7 +74,7 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
    async addDotDK() {
       if (this.addForm.valid) {
-         let value:any = this.dotDK.form.value;
+         let value: any = this.dotDK.form.value;
          let dotDk = new DotDk();
          console.log(
             format(new Date('01-06-2023 13:56:22'), 'yyyy-MM-dd') +
@@ -84,14 +83,13 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
                '.000Z'
          );
          console.log(value.bdDot);
+         console.log(value.nam);
+
          dotDk.init(value.nam, value.dot, value.bdDot, value.ktDot, value.bdDK, value.ktDK);
          console.log(dotDk);
 
          await this.dotDkService.add(dotDk);
-         this.toastService.success(
-            'Thêm đợt đăng ký thành công!',
-            'Thông báo!'
-         );
+         this.toastService.success('Thêm đợt đăng ký thành công!', 'Thông báo!');
       }
 
       this.dotDK.validate('.form');
