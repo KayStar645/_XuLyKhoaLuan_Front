@@ -25,20 +25,20 @@ export class DotDk {
          'T' +
          format(new Date(ngayBd), 'HH:mm:ss') +
          '.000Z';
-    this.ngayKt =
-        format(new Date(ngayKt), 'yyyy-MM-dd') +
-        'T' +
-        format(new Date(ngayKt), 'HH:mm:ss') +
-        '.000Z';
-    this.tgbddk =
-       format(new Date(tgbddk), 'yyyy-MM-dd') +
-       'T' +
-       format(new Date(tgbddk), 'HH:mm:ss') +
-       '.000Z';
-    this.tgktdk =
-       format(new Date(tgktdk), 'yyyy-MM-dd') +
-       'T' +
-       format(new Date(tgktdk), 'HH:mm:ss') +
-       '.000Z';
+      this.ngayKt =
+         format(new Date(ngayKt), 'yyyy-MM-dd') +
+         'T' +
+         format(new Date(ngayKt), 'HH:mm:ss') +
+         '.000Z';
+      this.tgbddk =
+         format(new Date(tgbddk), 'yyyy-MM-dd') +
+         'T' +
+         format(new Date(tgbddk), 'HH:mm:ss') +
+         '.000Z';
+      this.tgktdk =
+         format(new Date(tgktdk), 'yyyy-MM-dd') +
+         'T' +
+         format(new Date(tgktdk), 'HH:mm:ss') +
+         '.000Z';
    }
 }
