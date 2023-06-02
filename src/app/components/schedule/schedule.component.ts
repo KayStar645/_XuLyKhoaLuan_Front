@@ -1,7 +1,16 @@
+import { WebsocketService } from './../../services/Websocket.service';
 import { phanBienService } from 'src/app/services/phanBien.service';
 import { huongDanService } from 'src/app/services/huongDan.service';
 import { lichPhanBienService } from '../../services/NghiepVu/lichphanbien.service';
-import { Component, Input, OnInit, ViewChild, OnChanges, AfterViewInit, AfterContentInit } from '@angular/core';
+import {
+   Component,
+   Input,
+   OnInit,
+   ViewChild,
+   OnChanges,
+   AfterViewInit,
+   AfterContentInit,
+} from '@angular/core';
 import {
    format,
    startOfWeek,
@@ -21,7 +30,7 @@ import { DeTai } from 'src/app/models/DeTai.model';
 import { HuongDan } from 'src/app/models/HuongDan.model';
 import { PhanBien } from 'src/app/models/PhanBien.model';
 import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
-import { Form, dateVNConvert, getParentElement } from 'src/assets/utils';
+import { Form, dateVNConvert } from 'src/assets/utils';
 import { shareService } from 'src/app/services/share.service';
 
 type date = {
@@ -95,7 +104,8 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
       private huongDanService: huongDanService,
       private phanBienService: phanBienService,
       private toastService: ToastrService,
-      private lichPhanBienService: lichPhanBienService
+      private lichPhanBienService: lichPhanBienService,
+      private websocketService: WebsocketService
    ) {}
 
    ngAfterContentInit(): void {}
@@ -113,6 +123,8 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
             document.querySelector('.calendar-item.active')?.classList.remove('active');
          }
       });
+
+      this.websocketService.startConnection();
    }
 
    ngOnChanges(): void {
@@ -163,7 +175,8 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
       let target = event.target as HTMLElement;
       let element: HTMLDivElement = target.closest('.calendar-item')!;
 
-      let check = element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+      let check =
+         element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
 
       document.querySelector('.calendar-item.active')?.classList.remove('active');
 
@@ -238,7 +251,7 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
          let start = new Date(lich.thoiGianBD);
          let end = new Date(lich.thoiGianKT);
          let hour = start.getHours();
-         let height = (end.getHours() - start.getHours()) * 80;
+         let height = (end.getHours() - start.getHours()) * 70;
          let heightBonus = height > 0 ? 0 : 20;
          let time = format(start, 'HH:mm').concat(' - ').concat(format(end, 'HH:mm'));
 
@@ -409,16 +422,24 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
                   return;
                }
 
-               flag = await this.huongDanService.CheckThoiGianUpdateLich(lich.maGv, lich.thoiGianBD, lich.thoiGianKT);
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(
+                  lich.maGv,
+                  lich.thoiGianBD,
+                  lich.thoiGianKT
+               );
                if (flag == -1) {
                   this.toastService.error('Thời gian bị trùng! Thêm lịch thất bại!', 'Thông báo !');
                   return;
                } else if (flag == 0) {
-                  this.toastService.error('Thời gian bắt đầu phải trước thời gian kết thúc!', 'Thông báo !');
+                  this.toastService.error(
+                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
+                     'Thông báo !'
+                  );
                   return;
                }
 
                await this.huongDanService.update(lich);
+               this.websocketService.sendForHuongDan(true);
                break;
             }
             case 2: {
@@ -431,16 +452,24 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
                lich.thoiGianBD = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
                lich.thoiGianKT = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
 
-               flag = await this.huongDanService.CheckThoiGianUpdateLich(lich.maGv, lich.thoiGianBD, lich.thoiGianKT);
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(
+                  lich.maGv,
+                  lich.thoiGianBD,
+                  lich.thoiGianKT
+               );
                if (flag == -1) {
                   this.toastService.error('Thời gian bị trùng! Thêm lịch thất bại!', 'Thông báo !');
                   return;
                } else if (flag == 0) {
-                  this.toastService.error('Thời gian bắt đầu phải trước thời gian kết thúc!', 'Thông báo !');
+                  this.toastService.error(
+                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
+                     'Thông báo !'
+                  );
                   return;
                }
 
                await this.phanBienService.update(lich);
+               this.websocketService.sendForPhanBien(true);
                break;
             }
             case 3: {

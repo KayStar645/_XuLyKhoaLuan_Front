@@ -108,7 +108,10 @@ export class HomeChitietdetaiComponent {
 
       await this.getComment();
 
-      this.isDTMe = await this.deTaiService.CheckisDetaiOfGiangvien(this.maDt, HomeMainComponent.maGV);
+      this.isDTMe = await this.deTaiService.CheckisDetaiOfGiangvien(
+         this.maDt,
+         HomeMainComponent.maGV
+      );
       this.isTruongBM = HomeMainComponent.maBm == null ? false : true;
       this.isTruongK = HomeMainComponent.maKhoa == null ? false : true;
 
@@ -217,7 +220,9 @@ export class HomeChitietdetaiComponent {
             });
 
             this.oldForm = this.dtForm.form.value;
-            this.oldForm.tenDT = this.oldForm.tenDT.replace('</p>', ` đợt ${data.dot} năm học ${data.namHoc}`) + '</p>';
+            this.oldForm.tenDT =
+               this.oldForm.tenDT.replace('</p>', ` đợt ${data.dot} năm học ${data.namHoc}`) +
+               '</p>';
          });
       } else {
          this.dtForm.resetForm('.dt-form');
@@ -253,6 +258,9 @@ export class HomeChitietdetaiComponent {
 
             await this.duyetDTService.add(duyetDt);
             await this.getComment();
+            this.dtForm.form.patchValue({
+               nhanXet: '',
+            });
          } catch (error) {}
       }
    }
@@ -446,7 +454,9 @@ export class HomeChitietdetaiComponent {
    }
 
    getGvRadeByMaDT(maDT: string) {
-      return this.GVInputConfig.data.find((t: any) => t.maGv === this.listRaDe.find((t) => t.maDt === maDT)?.maGv);
+      return this.GVInputConfig.data.find(
+         (t: any) => t.maGv === this.listRaDe.find((t) => t.maDt === maDT)?.maGv
+      );
    }
 
    async isDeTaiOfBoMonMe(gvrd: string) {
