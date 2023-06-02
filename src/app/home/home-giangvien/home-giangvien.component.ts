@@ -8,30 +8,30 @@ import { of } from 'rxjs/internal/observable/of';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
-  selector: 'app-home-giangvien',
-  templateUrl: './home-giangvien.component.html',
+   selector: 'app-home-giangvien',
+   templateUrl: './home-giangvien.component.html',
 })
 export class HomeGiangvienComponent implements OnInit {
-  public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
-  @ViewChild(HomeDanhsachgiangvienComponent)
-  listBoMon: BoMon[] = [];
-  searchName = '';
+   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
+   @ViewChild(HomeDanhsachgiangvienComponent)
+   listBoMon: BoMon[] = [];
+   searchName = '';
 
-  constructor(
-    private titleService: Title,
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+   constructor(
+      private titleService: Title,
+      private authService: AuthService,
+      private router: Router
+   ) {}
 
-  async ngOnInit() {
-    this.titleService.setTitle('Danh sách giảng viên');
-    // Kiểm tra đăng nhập để điều hướng
-    this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
-      this.isLoggedIn$ = of(false);
-      this.router.navigate(['/login']);
-    } else {
-      this.isLoggedIn$ = of(true);
-    }
-  }
+   async ngOnInit() {
+      this.titleService.setTitle('Danh sách giảng viên');
+      // Kiểm tra đăng nhập để điều hướng
+      this.isLoggedIn$ = this.authService.isLoggedIn();
+      if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
+         this.isLoggedIn$ = of(false);
+         this.router.navigate(['/login']);
+      } else {
+         this.isLoggedIn$ = of(true);
+      }
+   }
 }
