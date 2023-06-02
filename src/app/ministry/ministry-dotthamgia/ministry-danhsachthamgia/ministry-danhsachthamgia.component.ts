@@ -8,10 +8,11 @@ import { SinhVienVT } from 'src/app/models/VirtualModel/SinhVienVTModel';
 import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { DotDk } from 'src/app/models/DotDk.model';
 import { ToastrService } from 'ngx-toastr';
-import { Form, Option, dateVNConvert } from 'src/assets/utils';
+import { Form, dateVNConvert } from 'src/assets/utils';
 import { from } from 'rxjs';
 import { FormGroup, Validators } from '@angular/forms';
 import { compareAsc, isWithinInterval } from 'date-fns';
+import { format } from 'date-fns';
 
 @Component({
    selector: 'app-ministry-danhsachthamgia',
@@ -22,6 +23,8 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
    _maCn = '';
    _namHoc = '';
    _dot = 0;
+
+   cbbNamHoc: string[] = [];
 
    listSv: SinhVienVT[] = [];
    temps: SinhVienVT[] = [];
@@ -48,6 +51,16 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       private toastService: ToastrService
    ) {
       this.addForm = this.dotDK.form;
+      this.getListNamHoc();
+   }
+
+   getListNamHoc() {
+      let currentYear = new Date().getFullYear();
+      console.log(this.cbbNamHoc);
+      for(let i = -2; i < 2; i++) {
+         let namHoc = (currentYear + i) + '-' + (currentYear + i +1);
+         this.cbbNamHoc.push(namHoc);
+      }
    }
 
    handleToggleAdd() {
@@ -60,8 +73,25 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       document.documentElement.classList.remove('no-scroll');
    }
 
-   addDotDK() {
+   async addDotDK() {
       if (this.addForm.valid) {
+         let value:any = this.dotDK.form.value;
+         let dotDk = new DotDk();
+         console.log(
+            format(new Date('01-06-2023 13:56:22'), 'yyyy-MM-dd') +
+               'T' +
+               format(new Date('01-06-2023 13:56:22'), 'HH:mm:ss') +
+               '.000Z'
+         );
+         console.log(value.bdDot);
+         dotDk.init(value.nam, value.dot, value.bdDot, value.ktDot, value.bdDK, value.ktDK);
+         console.log(dotDk);
+
+         await this.dotDkService.add(dotDk);
+         this.toastService.success(
+            'Thêm đợt đăng ký thành công!',
+            'Thông báo!'
+         );
       }
 
       this.dotDK.validate('.form');
