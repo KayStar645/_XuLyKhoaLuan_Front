@@ -71,6 +71,7 @@ import { HomeBaitapComponent } from './home/home-huongdan/home-congviec/home-bai
 import { MinistryFormDotthamgiaComponent } from './ministry/ministry-dotthamgia/ministry-form-dotthamgia/ministry-form-dotthamgia.component';
 import { DashboardNhomBaitapComponent } from './dashboard/dashboard-nhom/dashboard-nhom-baitap/dashboard-nhom-baitap.component';
 import { DashboardDanhsachnopbaiComponent } from './dashboard/dashboard-nhom/dashboard-danhsachnopbai/dashboard-danhsachnopbai.component';
+import { DashboardKetquaComponent } from './dashboard/dashboard-ketqua/dashboard-ketqua.component';
 
 const routes: Routes = [
    { path: 'login', component: LoginComponent },
@@ -471,6 +472,11 @@ const routes: Routes = [
          {
             path: 'lich-bao-cao',
             component: DashboardLichbaocaoComponent,
+            canActivate: [AuthGuard],
+         },
+         {
+            path: 'ket-qua',
+            component: DashboardKetquaComponent,
             canActivate: [AuthGuard],
          },
       ],

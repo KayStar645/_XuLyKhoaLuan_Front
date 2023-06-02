@@ -58,46 +58,11 @@
             <td class="text-center">{{ sv.maSV }}</td>
             <td class="text-center">{{ sv.tenSV }}</td>
             <td class="text-center" *ngFor="let d of sv.diems; let i = index">
-              <input
-                *ngIf="d.maGV == maGv; else Not"
-                (input)="onChangeDiem($event, d, dt, sv)"
-                class="text-center red bold"
-                type="number"
-                value="{{ d.diem == -1 ? '0.0' : d.diem }}"
-                min="0"
-                max="10"
-              />
-              <ng-template #Not>
-                {{ d.diem == -1 ? "-" : d.diem }}
-              </ng-template>
+              {{ d.diem == -1 ? "-" : d.diem }}
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="row jus-end ma-t-8">
-        <div class="functional-button">
-          <button 
-            [hidden]="isDuaRaHoiDong(dt.maDT)"
-            (click)="onConfirm(dt.maDT)"
-            >
-            Đưa ra hội đồng
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="confirm">
-  <div class="form-notify">
-    <div class="notify-container">
-      <p class="notify-title">Thông báo !</p>
-      <p class="notify-content">Bạn có chắc chắn muốn đưa ra hội đồng</p>
-      <div class="row ali-center jus-end">
-        <button class="cancel">Hủy</button>
-        <button class="agree">Đồng ý</button>
-      </div>
-      <div class="progress-bar"></div>
     </div>
   </div>
 </div>

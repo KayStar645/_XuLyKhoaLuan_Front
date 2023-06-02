@@ -59,6 +59,7 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
          }
          res['hinh'] = hinh;
          res['name'] = res.fileBc.split('__').pop();
+         res['fileBc'] = res.fileBc;
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
          res['src'] = environment.downloadLink + res.fileBc + '?folder=Homework';
       });
