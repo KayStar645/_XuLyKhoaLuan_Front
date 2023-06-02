@@ -80,8 +80,11 @@
          <label class="form-control row ali-center form-control">
             <p class="label">Năm học</p>
             <div class="form-value">
-               
-               <input type="text" formControlName="nam" class="form-input" />
+               <select formControlName="nam" class="form-input">
+                  <option *ngFor="let namHoc of cbbNamHoc" [value]="namHoc">
+                     {{ namHoc }}
+                  </option>
+               </select>
                <p class="error-mess"></p>
             </div>
          </label>
