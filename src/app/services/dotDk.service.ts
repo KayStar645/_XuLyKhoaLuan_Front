@@ -54,9 +54,7 @@ export class dotDkService {
   }
 
   async add(dotDk: DotDk): Promise<any> {
-    return this.http
-      .post(`${this.apiUrl}/api/Dotdks`, dotDk, this.httpOptions)
-      .toPromise();
+    return this.http.post(`${this.apiUrl}/api/Dotdks`, dotDk, this.httpOptions).toPromise();
   }
 
   async delete(namhoc: string, dot: number): Promise<any> {
