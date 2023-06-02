@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { format } from 'date-fns';
 import { FileService } from 'src/app/services/file.service.ts.service';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Component({
@@ -52,13 +53,10 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
          res['name'] = res.fileBc.split('__').pop();
          res['fileBc'] = res.fileBc;
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
+         res['src'] = environment.downloadLink + res.fileBc + '?folder=Homework';
       });
 
       return result;
-   }
-
-   async onSaveFile(name: string) {
-      await this.fileService.downloadFile(name);
    }
 
    onChooseSinhVien(event: Event, maSv: string) {
