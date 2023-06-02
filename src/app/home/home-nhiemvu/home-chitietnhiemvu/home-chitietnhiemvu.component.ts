@@ -141,7 +141,8 @@ export class HomeChitietnhiemvuComponent {
             await this.nhiemVuService.add(nhiemVu);
             this.websocketService.sendForNhiemVu(true);
             this.toastr.success('Thêm nhiệm vụ thành công', 'Thông báo !');
-            this.router.navigate(['/home/nhiem-vu/']);
+            //this.router.navigate(['/home/nhiem-vu/']);
+            this.setForm();
          } catch (error) {
             this.toastr.error('Thêm nhiệm vụ thất bại', 'Thông báo !');
          }

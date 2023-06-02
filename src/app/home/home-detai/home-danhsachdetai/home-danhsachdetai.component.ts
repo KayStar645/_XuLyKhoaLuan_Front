@@ -245,6 +245,7 @@ export class HomeDanhsachdetaiComponent {
          false,
          this._chucVu
       );
+      this.temps = this.listDT;
    }
 
    async getAllDeTai() {
