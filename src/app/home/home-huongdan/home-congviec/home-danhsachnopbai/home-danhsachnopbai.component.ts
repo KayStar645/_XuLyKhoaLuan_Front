@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import { FileService } from 'src/app/services/file.service.ts.service';
 import { environment } from 'src/environments/environment.prod';
 
-
 @Component({
    selector: 'app-home-danhsachnopbai',
    templateUrl: './home-danhsachnopbai.component.html',
@@ -34,8 +33,14 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
       this.maNhom = window.history.state['maNhom'];
 
       this.sinhViens = await this.sinhVienService.getSinhvienByDetai(this.maDt);
-      this.baoCaos = await this.getAllBaoCao();
       this.selectedSVs = this.sinhViens.map((t) => t.maSv);
+
+      this.baoCaos = [];
+
+      this.selectedSVs.forEach(async (sv) => {
+         let result = await this.getAllBaoCao(sv);
+         this.baoCaos = [...this.baoCaos, ...result];
+      });
    }
 
    async getAllBaoCao(maSv: string = '') {
@@ -62,8 +67,6 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
    onChooseSinhVien(event: Event, maSv: string) {
       let element = event.target as HTMLInputElement;
 
-      this.baoCaos = [];
-
       if (element.checked) {
          this.selectedSVs.push(maSv);
          if (this.selectedSVs.length === this.sinhViens.length) {
@@ -79,19 +82,17 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
             this.isClickAll = false;
          }
       }
-      this.selectedSVs.forEach(async (maSV) => {
-         let result = [...this.baoCaos, ...(await this.getAllBaoCao(maSV))];
+      this.baoCaos = [];
 
-         if (result.length > 0) {
-            this.baoCaos = result;
-         }
+      this.selectedSVs.forEach(async (sv) => {
+         let result = await this.getAllBaoCao(sv);
+         this.baoCaos = [...this.baoCaos, ...result];
       });
    }
 
    onClickAll(event: Event) {
       let element = event.target as HTMLInputElement;
 
-      this.baoCaos = [];
       this.isClickAll = element.checked;
 
       if (element.checked) {
@@ -99,9 +100,11 @@ export class HomeDanhsachnopbaiComponent implements OnInit {
       } else {
          this.selectedSVs = [];
       }
+      this.baoCaos = [];
 
       this.selectedSVs.forEach(async (sv) => {
-         this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(sv))];
+         let result = await this.getAllBaoCao(sv);
+         this.baoCaos = [...this.baoCaos, ...result];
       });
    }
 }

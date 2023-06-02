@@ -1,8 +1,5 @@
-import { FileService } from './../../../services/file.service.ts.service';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import axios from 'axios';
+import { Component, OnInit } from '@angular/core';
 import { format } from 'date-fns';
-import * as saveAs from 'file-saver';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { baoCaoService } from 'src/app/services/baoCao.service';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
@@ -13,7 +10,7 @@ import { environment } from 'src/environments/environment.prod';
    templateUrl: './dashboard-danhsachnopbai.component.html',
    styleUrls: ['./dashboard-danhsachnopbai.component.scss'],
 })
-export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
+export class DashboardDanhsachnopbaiComponent implements OnInit {
    maCv = '';
    maDt = '';
    maNhom = '';
@@ -21,20 +18,9 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
    sinhViens: SinhVien[] = [];
    types = ['xlsx', 'jpg', 'png', 'pptx', 'sql', 'docx', 'txt', 'pdf', 'rar'];
    isClickAll: boolean = true;
-   @Input() selectedSVs: any[] = [];
+   selectedSVs: any[] = [];
 
-   constructor(
-      private baoCaoService: baoCaoService,
-      private sinhVienService: sinhVienService,
-      private fileService: FileService
-   ) {}
-
-   ngOnChanges(changes: SimpleChanges): void {
-      this.baoCaos = [];
-      this.selectedSVs.forEach(async (sv) => {
-         this.baoCaos = [...this.baoCaos, ...(await this.getAllBaoCao(sv))];
-      });
-   }
+   constructor(private baoCaoService: baoCaoService, private sinhVienService: sinhVienService) {}
 
    async ngOnInit(): Promise<void> {
       this.maCv = window.history.state['maCv'];
@@ -42,8 +28,14 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
       this.maNhom = window.history.state['maNhom'];
 
       this.sinhViens = await this.sinhVienService.getSinhvienByDetai(this.maDt);
-      this.baoCaos = await this.getAllBaoCao();
       this.selectedSVs = this.sinhViens.map((t) => t.maSv);
+
+      this.baoCaos = [];
+
+      this.selectedSVs.forEach(async (sv) => {
+         let result = await this.getAllBaoCao(sv);
+         this.baoCaos = [...this.baoCaos, ...result];
+      });
    }
 
    async getAllBaoCao(maSv: string = '') {
@@ -58,6 +50,8 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
             hinh = `../../../../../assets/Images/file_type/${type}.png`;
          }
          res['hinh'] = hinh;
+         console.log(hinh);
+
          res['name'] = res.fileBc.split('__').pop();
          res['fileBc'] = res.fileBc;
          res['tgNop'] = format(new Date(res.tgNop), 'HH:mm dd-MM-yyyy');
@@ -85,6 +79,12 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
             this.isClickAll = false;
          }
       }
+      this.baoCaos = [];
+
+      this.selectedSVs.forEach(async (sv) => {
+         let result = await this.getAllBaoCao(sv);
+         this.baoCaos = [...this.baoCaos, ...result];
+      });
    }
 
    onClickAll(event: Event) {
@@ -97,5 +97,11 @@ export class DashboardDanhsachnopbaiComponent implements OnInit, OnChanges {
       } else {
          this.selectedSVs = [];
       }
+      this.baoCaos = [];
+
+      this.selectedSVs.forEach(async (sv) => {
+         let result = await this.getAllBaoCao(sv);
+         this.baoCaos = [...this.baoCaos, ...result];
+      });
    }
 }
