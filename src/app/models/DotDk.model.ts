@@ -20,29 +20,9 @@ export class DotDk {
    ) {
       this.namHoc = namHoc;
       this.dot = dot;
-      this.ngayBd = (
-         format(new Date(ngayBd.slice(0, 10)), 'yyyy-MM-dd') +
-         'T' +
-         format(new Date(ngayBd.slice(11, ngayBd.length)), 'HH:mm:ss') +
-         '.000Z'
-      ).toString();
-      this.ngayKt = (
-         format(new Date(ngayKt.slice(0, 10)), 'yyyy-MM-dd') +
-         'T' +
-         format(new Date(ngayKt.slice(11, ngayKt.length)), 'HH:mm:ss') +
-         '.000Z'
-      ).toString();
-      this.tgbddk = (
-         format(new Date(tgbddk.slice(0, 10)), 'yyyy-MM-dd') +
-         'T' +
-         format(new Date(tgbddk.slice(11, tgbddk.length)), 'HH:mm:ss') +
-         '.000Z'
-      ).toString();
-      this.tgktdk = (
-         format(new Date(tgktdk.slice(0, 10)), 'yyyy-MM-dd') +
-         'T' +
-         format(new Date(tgktdk.slice(11, tgktdk.length)), 'HH:mm:ss') +
-         '.000Z'
-      ).toString();
+      this.ngayBd = ngayBd;
+      this.ngayKt = ngayKt;
+      this.tgbddk = tgbddk;
+      this.tgktdk = tgktdk;
    }
 }

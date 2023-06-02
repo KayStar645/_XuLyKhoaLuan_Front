@@ -9,10 +9,8 @@ import { ChuyenNganh } from 'src/app/models/ChuyenNganh.model';
 import { DotDk } from 'src/app/models/DotDk.model';
 import { ToastrService } from 'ngx-toastr';
 import { Form, dateVNConvert } from 'src/assets/utils';
-import { from } from 'rxjs';
 import { FormGroup, Validators } from '@angular/forms';
 import { compareAsc, isWithinInterval } from 'date-fns';
-import { format } from 'date-fns';
 
 @Component({
    selector: 'app-ministry-danhsachthamgia',
@@ -51,7 +49,26 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
       private toastService: ToastrService
    ) {
       this.addForm = this.dotDK.form;
+   }
+
+   async ngOnInit() {
+      await this.getAll();
       this.getListNamHoc();
+
+      this.listCn = await this.chuyenNganhService.getAll();
+      this.listDotDk = await this.dotDkService.getAll();
+
+      this.websocketService.startConnection();
+      this.websocketService.receiveFromThamGia((dataChange: boolean) => {
+         if (dataChange) {
+            this.getAll();
+         }
+      });
+      this.websocketService.receiveFromDotDangKy(async (dataChange: boolean) => {
+         if (dataChange) {
+            this.listDotDk = await this.dotDkService.getAll();
+         }
+      });
    }
 
    getListNamHoc() {
@@ -74,14 +91,25 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
    async addDotDK() {
       if (this.addForm.valid) {
-         let value: any = this.dotDK.form.value;
+         let formValue = this.addForm.value;
          let dotDk = new DotDk();
 
-         dotDk.init(value.nam, value.dot, value.bdDot, value.ktDot, value.bdDK, value.ktDK);
-         console.log(dotDk);
+         dotDk.init(
+            formValue.nam,
+            formValue.dot,
+            this.convertDate(formValue.bdDot),
+            this.convertDate(formValue.ktDot),
+            this.convertDate(formValue.bdDK),
+            this.convertDate(formValue.ktDK)
+         );
 
-         await this.dotDkService.add(dotDk);
-         this.toastService.success('Thêm đợt đăng ký thành công!', 'Thông báo!');
+         try {
+            await this.dotDkService.add(dotDk);
+            this.toastService.success('Thêm đợt đăng ký thành công!', 'Thông báo!');
+            this.websocketService.sendForDotDangKy(true);
+         } catch {
+            this.toastService.error('Thêm đợt đăng ký thất bại!', 'Thông báo!');
+         }
       }
 
       this.dotDK.validate('.form');
@@ -135,20 +163,6 @@ export class MinistryDanhsachthamgiaComponent implements OnInit {
 
       createBox.classList.add('active');
       create.classList.add('active');
-   }
-
-   async ngOnInit() {
-      await this.getAll();
-
-      this.listCn = await this.chuyenNganhService.getAll();
-      this.listDotDk = await this.dotDkService.getAll();
-
-      this.websocketService.startConnection();
-      this.websocketService.receiveFromThamGia((dataChange: boolean) => {
-         if (dataChange) {
-            this.getAll();
-         }
-      });
    }
 
    async getAll() {
