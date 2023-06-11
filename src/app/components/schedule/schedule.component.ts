@@ -1,3 +1,4 @@
+import { GapMatHdService } from './../../services/gapMatHd.service';
 import { WebsocketService } from './../../services/Websocket.service';
 import { phanBienService } from 'src/app/services/phanBien.service';
 import { huongDanService } from 'src/app/services/huongDan.service';
@@ -32,6 +33,7 @@ import { PhanBien } from 'src/app/models/PhanBien.model';
 import { LichPhanBien } from 'src/app/models/VirtualModel/LichPhanBienModel';
 import { Form, dateVNConvert } from 'src/assets/utils';
 import { shareService } from 'src/app/services/share.service';
+import { GapMatHd } from 'src/app/models/GapMatHd.model';
 
 type date = {
    start: Date;
@@ -47,7 +49,7 @@ type schedule = {
    place?: string;
    index?: number;
    status?: 'past' | 'today' | 'future';
-   type?: 'Hướng dẫn' | 'Phản biện' | 'Hội đồng';
+   type?: 'Hàng tuần' | 'Hướng dẫn' | 'Phản biện' | 'Hội đồng';
    offsetX?: string;
    offsetY?: string;
    width?: string;
@@ -105,7 +107,8 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
       private phanBienService: phanBienService,
       private toastService: ToastrService,
       private lichPhanBienService: lichPhanBienService,
-      private websocketService: WebsocketService
+      private websocketService: WebsocketService,
+      private GapMatHdService: GapMatHdService
    ) {}
 
    ngAfterContentInit(): void {}
@@ -148,7 +151,7 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
          this.maGv,
          shareService.namHoc,
          shareService.dot,
-         event.id
+         event.id == '0' ? '1' : event.id 
       );
    }
 
@@ -325,7 +328,10 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
       return biggestHours;
    }
 
-   getScheduleType(type: Number): 'Hướng dẫn' | 'Phản biện' | 'Hội đồng' | undefined {
+   getScheduleType(type: Number): 'Hàng tuần' | 'Hướng dẫn' | 'Phản biện' | 'Hội đồng' | undefined {
+      if (type === 0) {
+         return 'Hàng tuần';
+      }
       if (type === 1) {
          return 'Hướng dẫn';
       }
@@ -407,6 +413,41 @@ export class ScheduleComponent implements OnInit, OnChanges, AfterContentInit, A
          let flag = -1;
 
          switch (this.loaiLich[0].id) {
+            case 0: {
+               let lich = new GapMatHd();
+
+               lich.id = 0;
+               lich.diaDiem = formValue.diaDiem;
+               lich.maDt = this.deTai[0].maDT;
+               lich.maGv = HomeMainComponent.maGV;
+               lich.thoiGianBd = ngayLap + 'T' + formValue.TGBatDau + '.000Z';
+               lich.thoiGianKt = ngayLap + 'T' + formValue.TGKetThuc + '.000Z';
+
+               if (lich.diaDiem == '') {
+                  this.toastService.warning('Vui lòng nhập địa điểm!', 'Thông báo !');
+                  return;
+               }
+
+               flag = await this.huongDanService.CheckThoiGianUpdateLich(
+                  lich.maGv,
+                  lich.thoiGianBd,
+                  lich.thoiGianKt
+               );
+               if (flag == -1) {
+                  this.toastService.error('Thời gian bị trùng! Thêm lịch thất bại!', 'Thông báo !');
+                  return;
+               } else if (flag == 0) {
+                  this.toastService.error(
+                     'Thời gian bắt đầu phải trước thời gian kết thúc!',
+                     'Thông báo !'
+                  );
+                  return;
+               }
+
+               await this.GapMatHdService.update(lich);
+               this.websocketService.sendForGapMatHd(true);
+               break;
+            }
             case 1: {
                let lich = new HuongDan();
 

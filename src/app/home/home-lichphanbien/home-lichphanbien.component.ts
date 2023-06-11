@@ -33,6 +33,11 @@ export class HomeLichphanbienComponent implements OnInit {
             await this.getShedule();
          }
       });
+      this.websocketService.ReceiveFromGapMatHd(async (dataChange: boolean) => {
+         if (dataChange) {
+            await this.getShedule();
+         }
+      });
    }
 
    async getShedule() {

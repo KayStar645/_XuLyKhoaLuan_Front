@@ -1,6 +1,18 @@
 <div id="functional-container">
   <div class="functional-list">
     <ul class="functional-container row ali-center functional-wrapper">
+      <li class="functional-item" *ngIf="isTK">
+        <select
+          class="search-select"
+          id="search-select"
+          (change)="onGetDtByBm($event)"
+        >
+          <option value="">Tất cả</option>
+          <option *ngFor="let b of listBM" [value]="b.maBm">
+            {{ b.tenBm }}
+          </option>
+        </select>
+      </li>
       <li class="functional-item">
         <input
           type="text"

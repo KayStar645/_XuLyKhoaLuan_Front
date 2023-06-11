@@ -1,3 +1,4 @@
+import { boMonService } from './../../../services/boMon.service';
 import { dotDkService } from './../../../services/dotDk.service';
 import { WebsocketService } from 'src/app/services/Websocket.service';
 import { deTai_chuyenNganhService } from './../../../services/deTai_chuyenNganh.service';
@@ -17,6 +18,7 @@ import * as XLSX from 'xlsx';
 import { HomeMainComponent } from '../../home-main/home-main.component';
 import { DotDk } from 'src/app/models/DotDk.model';
 import { DetaiVT } from 'src/app/models/VirtualModel/DetaiVTModel';
+import { BoMon } from 'src/app/models/BoMon.model';
 
 @Component({
    selector: 'app-home-danhsachdetai',
@@ -28,11 +30,14 @@ export class HomeDanhsachdetaiComponent {
    _namHoc = '';
    _dot = 0;
    _chucVu = 0;
+   _boMon = '';
 
    listDT: DetaiVT[] = [];
    temps: DetaiVT[] = [];
+   isTK = false;
 
    listChuyennganh: ChuyenNganh[] = [];
+   listBM: BoMon[] = [];
 
    dtUpdate: any = DeTai;
    selectedBomon!: string;
@@ -55,15 +60,18 @@ export class HomeDanhsachdetaiComponent {
       private toastr: ToastrService,
       private chuyenNganhService: chuyenNganhService,
       private dotDkService: dotDkService,
-      private websocketService: WebsocketService
+      private websocketService: WebsocketService,
+      private boMonService: boMonService
    ) {}
 
    async ngOnInit() {
       this.titleService.setTitle('Danh sách đề tài');
       if (HomeMainComponent.maKhoa && HomeMainComponent.maBm) {
          this._chucVu = 3;
+         this.isTK = true;
       } else if (HomeMainComponent.maKhoa) {
          this._chucVu = 2;
+         this.isTK = true;
       } else if (HomeMainComponent.maBm) {
          this._chucVu = 1;
       }
@@ -72,6 +80,7 @@ export class HomeDanhsachdetaiComponent {
       await this.getAllDeTai();
 
       this.listChuyennganh = await this.chuyenNganhService.getAll();
+      this.listBM = await this.boMonService.getAll();
 
       this.websocketService.startConnection();
       this.websocketService.receiveFromDeTai((dataChange: boolean) => {
@@ -152,7 +161,6 @@ export class HomeDanhsachdetaiComponent {
 
    async createDeTai(data: any) {
       let deTai = new DeTai();
-      // let maDT = await this.deTaiService.createMaDT('CNTT');
       deTai.init(
          '',
          data[1] ? data[1] : '',
@@ -221,13 +229,19 @@ export class HomeDanhsachdetaiComponent {
       if (searchName) {
          this.temps = this.listDT.filter(
             (t) =>
-               t.tenDT.toLowerCase().includes(searchName) ||
-               t.maDT.toLowerCase().includes(searchName) ||
-               t.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(searchName)).length > 0 ||
-               t.gvrd.filter((gv) => gv.tenGv.toLowerCase().includes(searchName)).length > 0
+               t?.maBm == this._boMon &&
+               (t?.tenDT.toLowerCase().includes(this._searchName) ||
+                  t?.maDT.toLowerCase().includes(this._searchName) ||
+                  t?.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(this._searchName))
+                     .length > 0 ||
+                  t?.gvrd.filter((gv) => gv?.tenGv.toLowerCase().includes(this._searchName))
+                     .length > 0)
          );
       } else {
-         this.temps = this.listDT;
+         this.temps = this.listDT.filter(
+            (t) =>
+               t?.maBm == this._boMon
+         );
       }
    }
 
@@ -246,6 +260,31 @@ export class HomeDanhsachdetaiComponent {
          this._chucVu
       );
       this.temps = this.listDT;
+   }
+
+   async onGetDtByBm(event: any) {
+      this._boMon = event.target.value;
+      if (this._boMon) {
+         this.temps = this.listDT.filter(
+            (t) =>
+               t?.maBm == this._boMon &&
+               (t?.tenDT.toLowerCase().includes(this._searchName) ||
+               t?.maDT.toLowerCase().includes(this._searchName) ||
+               t?.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(this._searchName)).length >
+                  0 ||
+               t?.gvrd.filter((gv) => gv?.tenGv.toLowerCase().includes(this._searchName)).length > 0)
+         );
+      } else {
+         this.temps = this.listDT.filter(
+            (t) =>
+               (t?.tenDT.toLowerCase().includes(this._searchName) ||
+                  t?.maDT.toLowerCase().includes(this._searchName) ||
+                  t?.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(this._searchName))
+                     .length > 0 ||
+                  t?.gvrd.filter((gv) => gv?.tenGv.toLowerCase().includes(this._searchName))
+                     .length > 0)
+         );
+      } 
    }
 
    async getAllDeTai() {
@@ -282,10 +321,7 @@ export class HomeDanhsachdetaiComponent {
       }
       return result;
    }
-
-   // getGvrd(gvrd: GiangVienVT[]) {
-   //   return gvrd.map((re) => re.tenGv);
-   // }
+   
 
    dateFormat(str: string): string {
       return this.shareService.dateFormat(str);
