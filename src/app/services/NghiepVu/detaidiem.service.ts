@@ -13,11 +13,11 @@ export class deTaiDiemService {
 
    constructor(private http: HttpClient, private shareService: shareService) {}
 
-   async GetDanhSachDiemByGv(maGv: string): Promise<DeTaiDiemVT[]> {
+   async GetDanhSachDiemByGv(maGv: string, namHoc: string, dot: number): Promise<DeTaiDiemVT[]> {
       return (
          (await this.http
             .get<DeTaiDiemVT[]>(
-               `${this.apiUrl}/api/DeTaiDiem/maGv?maGv=${maGv}`,
+               `${this.apiUrl}/api/DeTaiDiem/maGv,namHoc,dot?maGv=${maGv}&namHoc=${namHoc}&dot=${dot}`,
                this.shareService.httpOptions
             )
             .toPromise()) ?? []

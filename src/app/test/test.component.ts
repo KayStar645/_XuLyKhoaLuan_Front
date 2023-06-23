@@ -6,6 +6,7 @@ import { DeTai_ChuyenNganh } from './../models/DeTai_ChuyenNganh.model';
 import { Component, OnInit } from '@angular/core';
 import { RaDe } from '../models/RaDe.model';
 import { User } from '../models/User.model';
+import { shareService } from '../services/share.service';
 
 
 @Component({
@@ -23,7 +24,11 @@ export class TestComponent implements OnInit {
   ngOnInit(): void {}
 
   async getDeTaiDiem() {
-    let result = await this.deTaiDiemService.GetDanhSachDiemByGv('GV00001');
+    let result = await this.deTaiDiemService.GetDanhSachDiemByGv(
+       'GV00001',
+       shareService.namHoc,
+       shareService.dot
+    );
   }
 
   async createMaDt() {

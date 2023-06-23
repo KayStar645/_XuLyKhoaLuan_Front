@@ -34,11 +34,15 @@ export class HomeChamdiemComponent {
   async ngOnInit() {
     this.titleService.setTitle('Chấm điểm đề tài');
     this.maGv = HomeMainComponent.maGV;
-    this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
+    this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv, shareService.namHoc, shareService.dot);
     
     this.WebsocketService.startConnection();
     this.WebsocketService.receiveFromDeTaiDiem(async (dataChange: boolean) => {
-      this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(this.maGv);
+      this.data = await this.deTaiDiemService.GetDanhSachDiemByGv(
+         this.maGv,
+         shareService.namHoc,
+         shareService.dot
+      );
     });
   }
 
@@ -60,6 +64,7 @@ export class HomeChamdiemComponent {
         newDiem
       );
     }
+    this.WebsocketService.sendForDeTaiDiem(true);
   }
 
   onConfirm(maDt: string) {
