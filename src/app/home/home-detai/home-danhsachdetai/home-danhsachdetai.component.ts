@@ -30,7 +30,7 @@ export class HomeDanhsachdetaiComponent {
    _namHoc = '';
    _dot = 0;
    _chucVu = 0;
-   _boMon = '';
+   _boMon = HomeMainComponent.maBm;
 
    listDT: DetaiVT[] = [];
    temps: DetaiVT[] = [];
@@ -69,25 +69,31 @@ export class HomeDanhsachdetaiComponent {
       if (HomeMainComponent.maKhoa && HomeMainComponent.maBm) {
          this._chucVu = 3;
          this.isTK = true;
+         this._boMon = '';
       } else if (HomeMainComponent.maKhoa) {
          this._chucVu = 2;
          this.isTK = true;
+         this._boMon = '';
       } else if (HomeMainComponent.maBm) {
          this._chucVu = 1;
       }
 
       this.listDotdk = await this.dotDkService.getAll();
-      await this.getAllDeTai();
+      await this.onSearch(this._searchName, this._boMon, this._namHoc, this._dot);
 
       this.listChuyennganh = await this.chuyenNganhService.getAll();
       this.listBM = await this.boMonService.getAll();
 
       this.websocketService.startConnection();
-      this.websocketService.receiveFromDeTai((dataChange: boolean) => {
+      this.websocketService.receiveFromDeTai(async (dataChange: boolean) => {
          if (dataChange) {
-            this.getAllDeTai();
+            await this.onSearch(this._searchName, this._boMon, this._namHoc, this._dot);
          }
       });
+   }
+
+   async getAllDeTai() {
+      await this.onSearch(this._searchName, this._boMon, this._namHoc, this._dot);
    }
 
    onDragFileEnter(event: any) {
@@ -222,27 +228,16 @@ export class HomeDanhsachdetaiComponent {
       dragBox.classList.add('active');
    }
 
-   async onSearchName(event: any) {
-      const searchName = event.target.value.trim().toLowerCase();
-      this._searchName = searchName;
+   async onGetDtByBm(event: any) {
+      this._boMon = event.target.value;
 
-      if (searchName) {
-         this.temps = this.listDT.filter(
-            (t) =>
-               t?.maBm == this._boMon &&
-               (t?.tenDT.toLowerCase().includes(this._searchName) ||
-                  t?.maDT.toLowerCase().includes(this._searchName) ||
-                  t?.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(this._searchName))
-                     .length > 0 ||
-                  t?.gvrd.filter((gv) => gv?.tenGv.toLowerCase().includes(this._searchName))
-                     .length > 0)
-         );
-      } else {
-         this.temps = this.listDT.filter(
-            (t) =>
-               t?.maBm == this._boMon
-         );
-      }
+      this.onSearch(this._searchName, this._boMon, this._namHoc, this._dot);
+   }
+
+   async onSearchName(event: any) {
+      this._searchName = event.target.value.trim().toLowerCase();
+
+      this.onSearch(this._searchName, this._boMon, this._namHoc, this._dot);
    }
 
    async onGetDotdk(event: any) {
@@ -250,54 +245,59 @@ export class HomeDanhsachdetaiComponent {
       this._namHoc = dotdk.slice(0, dotdk.length - 1);
       this._dot = dotdk.slice(dotdk.length - 1);
 
+      this.onSearch(this._searchName, this._boMon, this._namHoc, this._dot);
+   }
+
+   async onSearch(searchName: any, boMon: any, namHoc: string, dot: number) {
       this.listDT = await this.deTaiService.search(
          this._searchName,
-         HomeMainComponent.maBm,
+         this._chucVu == 3 || this._chucVu == 2 ? this._boMon : HomeMainComponent.maBm,
          HomeMainComponent.maGV,
          this._namHoc,
          this._dot,
          false,
          this._chucVu
       );
-      this.temps = this.listDT;
-   }
 
-   async onGetDtByBm(event: any) {
-      this._boMon = event.target.value;
-      if (this._boMon) {
+      if (searchName && boMon) {
          this.temps = this.listDT.filter(
             (t) =>
                t?.maBm == this._boMon &&
-               (t?.tenDT.toLowerCase().includes(this._searchName) ||
-               t?.maDT.toLowerCase().includes(this._searchName) ||
-               t?.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(this._searchName)).length >
-                  0 ||
-               t?.gvrd.filter((gv) => gv?.tenGv.toLowerCase().includes(this._searchName)).length > 0)
+               (t.tenDT.toLowerCase().includes(searchName) ||
+                  t.maDT.toLowerCase().includes(searchName) ||
+                  t.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(searchName)).length >
+                     0 ||
+                  t.gvrd.filter((gv) => gv.tenGv.toLowerCase().includes(searchName)).length > 0)
          );
-      } else {
+      } else if (searchName) {
          this.temps = this.listDT.filter(
             (t) =>
-               (t?.tenDT.toLowerCase().includes(this._searchName) ||
-                  t?.maDT.toLowerCase().includes(this._searchName) ||
-                  t?.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(this._searchName))
-                     .length > 0 ||
-                  t?.gvrd.filter((gv) => gv?.tenGv.toLowerCase().includes(this._searchName))
-                     .length > 0)
+               t.tenDT.toLowerCase().includes(searchName) ||
+               t.maDT.toLowerCase().includes(searchName) ||
+               t.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(searchName)).length > 0 ||
+               t.gvrd.filter((gv) => gv.tenGv.toLowerCase().includes(searchName)).length > 0
          );
-      } 
+      } else if (boMon) {
+         this.temps = this.listDT.filter((t) => t?.maBm == this._boMon);
+      } else {
+         this.temps = this.listDT;
+      }
    }
 
-   async getAllDeTai() {
-      this.listDT = await this.deTaiService.search(
-         this._searchName,
-         HomeMainComponent.maBm,
-         HomeMainComponent.maGV,
-         this._namHoc,
-         this._dot,
-         false,
-         this._chucVu
-      );
-      this.temps = this.listDT;
+   searchName(searchName: any) {
+      this._searchName = searchName;
+
+      if (searchName) {
+         this.temps = this.listDT.filter(
+            (t) =>
+               t.tenDT.toLowerCase().includes(searchName) ||
+               t.maDT.toLowerCase().includes(searchName) ||
+               t.cnPhuHop.filter((cn) => cn.tenCn.toLowerCase().includes(searchName)).length > 0 ||
+               t.gvrd.filter((gv) => gv.tenGv.toLowerCase().includes(searchName)).length > 0
+         );
+      } else {
+         this.temps = this.listDT;
+      }
    }
 
    getCnPhuhop(cnPhuHop: ChuyenNganh[]) {
@@ -321,7 +321,6 @@ export class HomeDanhsachdetaiComponent {
       }
       return result;
    }
-   
 
    dateFormat(str: string): string {
       return this.shareService.dateFormat(str);
