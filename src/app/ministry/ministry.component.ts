@@ -2,11 +2,13 @@ import { GiaoVu } from './../models/GiaoVu.model';
 import { giaoVuService } from './../services/giaoVu.service';
 import { shareService } from './../services/share.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from '../services/auth/auth.service';
-import { dotDkService } from '../services/dotDk.service';
+import { newUser } from '../models/newUser.model';
+import { Toast } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
    selector: 'app-ministry',
@@ -32,7 +34,7 @@ export class MinistryComponent implements OnInit {
       private giaoVuService: giaoVuService,
       private elementRef: ElementRef,
       private shareService: shareService,
-      private dotDkService: dotDkService
+      private toastService: ToastrService
    ) {}
 
    public async ngOnInit() {
@@ -51,8 +53,22 @@ export class MinistryComponent implements OnInit {
       await this.shareService.namHocDotDk();
    }
 
-   onConfirmPassword(data: any) {
-      console.log(data);
+   async onConfirmPassword(data: any) {
+      if (data.confirm.lenght < 6 && data.new.lenght < 6) {
+         this.toastService.warning('Độ dài mật khẩu ít nhất bằng 6!', 'Thông báo');
+         return;
+      }
+      if (data.confirm != data.new) {
+         this.toastService.warning('Mật khẩu không khớp!', 'Thông báo');
+         return;
+      }
+
+      try {
+         await this.authService.changePassword(new newUser(this.data.maGv, data.old, data.new));
+         this.toastService.success('Đổi mật khẩu thành công!', 'Thông báo');
+      } catch (error) {
+         this.toastService.warning('Mật khẩu không hợp lệ, Đổi mật khẩu không thành công!', 'Thông báo');
+      }
    }
 
    clickAccount() {

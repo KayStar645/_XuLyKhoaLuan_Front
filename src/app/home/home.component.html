@@ -52,7 +52,7 @@
                     <a href="" class="account-link"> Thông tin cá nhân </a>
                   </li>
                   <li class="account-item">
-                    <a href="" class="account-link"> Đổi mật khẩu </a>
+                    <div class="account-link" (click)="isReset = true">Đổi mật khẩu</div>
                   </li>
                   <li class="account-item">
                     <a (click)="logOut()" class="account-link"> Đăng xuất </a>
@@ -71,4 +71,10 @@
       </div>
     </div>
   </div>
+
+  <app-logout-form
+      [show]="isReset"
+      (onClose)="isReset = false"
+      (onConfirm)="onConfirmPassword($event)"
+   ></app-logout-form>
 </div>

@@ -1,7 +1,5 @@
-import { shareService } from './../../../services/share.service';
 import { sinhVienService } from './../../../services/sinhVien.service';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CongViec } from 'src/app/models/CongViec.model';
 import { GiangVien } from 'src/app/models/GiangVien.model';
 import { congViecService } from 'src/app/services/congViec.service';
@@ -19,7 +17,6 @@ import { Validators } from '@angular/forms';
 import { vi } from 'date-fns/locale';
 import { Traodoi } from 'src/app/models/VirtualModel/TraodoiModel';
 import { traoDoiService } from 'src/app/services/NghiepVu/traodoi.service';
-import { environment } from 'src/environments/environment.prod';
 import { BaoCaoVT } from 'src/app/models/VirtualModel/BaoCaoVTModel';
 import { FileService } from 'src/app/services/file.service.ts.service';
 @Component({
