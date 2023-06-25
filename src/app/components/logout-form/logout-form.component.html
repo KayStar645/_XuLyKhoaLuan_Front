@@ -1,0 +1,31 @@
+<div *ngIf="show">
+   <div class="container" (click)="onCloseForm()"></div>
+   <div class="form" [formGroup]="reset.form">
+      <h2 class="title">ĐỔI MẬT KHẨU</h2>
+      <label class="form-control row ali-center form-control">
+         <p class="label">Mật khẩu cũ</p>
+         <div class="form-value">
+            <input class="form-input" type="text" formControlName="old" />
+            <p class="error-mess"></p>
+         </div>
+      </label>
+      <label class="form-control row ali-center form-control">
+         <p class="label">Mật khẩu mới</p>
+         <div class="form-value">
+            <input class="form-input" type="text" formControlName="new" />
+            <p class="error-mess"></p>
+         </div>
+      </label>
+      <label class="form-control row ali-center form-control">
+         <p class="label">Xác nhận mật khẩu</p>
+         <div class="form-value">
+            <input class="form-input" type="text" formControlName="confirm" />
+            <p class="error-mess"></p>
+         </div>
+      </label>
+
+      <div class="submit-btn text-right">
+         <button class="btn-update" (click)="onConfirmPassword()">Xác nhận</button>
+      </div>
+   </div>
+</div>

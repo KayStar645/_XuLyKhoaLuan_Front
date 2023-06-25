@@ -141,6 +141,7 @@ import {
 import { DashboardDanhsachnopbaiComponent } from './dashboard/dashboard-nhom/dashboard-danhsachnopbai/dashboard-danhsachnopbai.component';
 import { DashboardNhomBaitapComponent } from './dashboard/dashboard-nhom/dashboard-nhom-baitap/dashboard-nhom-baitap.component';
 import { DashboardKetquaComponent } from './dashboard/dashboard-ketqua/dashboard-ketqua.component';
+import { LogoutFormComponent } from './components/logout-form/logout-form.component';
 
 @NgModule({
   declarations: [
@@ -227,7 +228,8 @@ import { DashboardKetquaComponent } from './dashboard/dashboard-ketqua/dashboard
     MinistryFormDotthamgiaComponent,
     DashboardDanhsachnopbaiComponent,
     DashboardNhomBaitapComponent,
-    DashboardKetquaComponent
+    DashboardKetquaComponent,
+    LogoutFormComponent
   ],
 
   imports: [

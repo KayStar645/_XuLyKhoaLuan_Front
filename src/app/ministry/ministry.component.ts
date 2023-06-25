@@ -9,63 +9,66 @@ import { AuthService } from '../services/auth/auth.service';
 import { dotDkService } from '../services/dotDk.service';
 
 @Component({
-  selector: 'app-ministry',
-  templateUrl: './ministry.component.html',
-  styleUrls: ['./ministry.component.scss'],
+   selector: 'app-ministry',
+   templateUrl: './ministry.component.html',
+   styleUrls: ['./ministry.component.scss'],
 })
 export class MinistryComponent implements OnInit {
-  title = 'Quản lý';
-  public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
-  data: any = GiaoVu;
-  countTB = 0;
-  countKH = 0;
-  namHoc = '';
-  dot = -1;
-  // Sửa lại sau
-  public role!: string;
-  public id!: string;
+   title = 'Quản lý';
+   public isLoggedIn$: Observable<boolean> = new Observable<boolean>();
+   data: any = GiaoVu;
+   countTB = 0;
+   countKH = 0;
+   namHoc = '';
+   dot = -1;
+   // Sửa lại sau
+   public role!: string;
+   public id!: string;
+   isReset: boolean = false;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private giaoVuService: giaoVuService,
-    private elementRef: ElementRef,
-    private shareService: shareService,
-    private dotDkService: dotDkService
-  ) {}
+   constructor(
+      private authService: AuthService,
+      private router: Router,
+      private giaoVuService: giaoVuService,
+      private elementRef: ElementRef,
+      private shareService: shareService,
+      private dotDkService: dotDkService
+   ) {}
 
-  public async ngOnInit() {
-    // Kiểm tra đăng nhập để điều hướng
-    this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Ministry')) {
-      this.isLoggedIn$ = of(false);
+   public async ngOnInit() {
+      // Kiểm tra đăng nhập để điều hướng
+      this.isLoggedIn$ = this.authService.isLoggedIn();
+      if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Ministry')) {
+         this.isLoggedIn$ = of(false);
+         this.router.navigate(['/login']);
+      } else {
+         this.isLoggedIn$ = of(true);
+      }
+
+      // Get dữ liệu của giáo vụ
+      this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
+
+      await this.shareService.namHocDotDk();
+   }
+
+   onConfirmPassword(data: any) {
+      console.log(data);
+   }
+
+   clickAccount() {
+      const form_logout = this.elementRef.nativeElement.querySelector('#box-account');
+      const form_logout2 = this.elementRef.nativeElement.querySelector('#box-body');
+      if (!form_logout.classList.contains('active')) {
+         form_logout.classList.add('active');
+         form_logout2.classList.add('active');
+      } else {
+         form_logout.classList.remove('active');
+         form_logout2.classList.remove('active');
+      }
+   }
+
+   logOut() {
+      this.authService.logOut();
       this.router.navigate(['/login']);
-    } else {
-      this.isLoggedIn$ = of(true);
-    }
-
-    // Get dữ liệu của giáo vụ
-    this.data = await this.giaoVuService.getById('' + localStorage.getItem('Id')?.toString());
-    
-    await this.shareService.namHocDotDk();
-  }
-
-  clickAccount() {
-    const form_logout =
-      this.elementRef.nativeElement.querySelector('#box-account');
-    const form_logout2 =
-      this.elementRef.nativeElement.querySelector('#box-body');
-    if (!form_logout.classList.contains('active')) {
-      form_logout.classList.add('active');
-      form_logout2.classList.add('active');
-    } else {
-      form_logout.classList.remove('active');
-      form_logout2.classList.remove('active');
-    }
-  }
-
-  logOut() {
-    this.authService.logOut();
-    this.router.navigate(['/login']);
-  }
+   }
 }
