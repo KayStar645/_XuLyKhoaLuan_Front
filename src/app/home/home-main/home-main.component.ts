@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { of } from 'rxjs/internal/observable/of';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home-main',
@@ -55,7 +56,7 @@ export class HomeMainComponent {
     this.titleService.setTitle('Quản lý');
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
+    if (!(this.isLoggedIn$ && localStorage.getItem('role') == environment.Teacher)) {
       this.isLoggedIn$ = of(false);
       this.router.navigate(['/login']);
     } else {

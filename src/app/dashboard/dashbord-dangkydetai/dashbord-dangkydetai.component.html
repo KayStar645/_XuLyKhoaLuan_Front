@@ -12,6 +12,7 @@
               <th>Số lượng sinh viên</th>
               <th>Giảng viên hướng dẫn</th>
               <th>Chuyên ngành phù hợp</th>
+              <th>Nhóm đăng ký</th>
             </tr>
 
             <tbody *ngFor="let dt of listDT">
@@ -26,6 +27,9 @@
                 </td>
                 <td class="text-center">
                   {{ getChuyennganhPhuhop(dt.maDT) }}
+                </td>
+                <td class="text-center">
+                  Tên nhóm đăng ký
                 </td>
               </tr>
             </tbody>

@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 import { SinhVien } from 'src/app/models/SinhVien.model';
 import { sinhVienService } from 'src/app/services/sinhVien.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard-main',
@@ -45,7 +46,7 @@ export class DashboardMainComponent implements OnInit {
 
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Student')) {
+    if (!(this.isLoggedIn$ && localStorage.getItem('role') == environment.Student)) {
       this.isLoggedIn$ = of(false);
       this.router.navigate(['/login']);
     } else {

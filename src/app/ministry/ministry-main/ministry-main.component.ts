@@ -9,6 +9,7 @@ import { giaoVuService } from 'src/app/services/giaoVu.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 import { ThongBao } from 'src/app/models/ThongBao.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ministry-main',
@@ -36,7 +37,7 @@ export class MinistryMainComponent implements OnInit {
 
     // Kiểm tra đăng nhập để điều hướng
     this.isLoggedIn$ = this.authService.isLoggedIn();
-    if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Ministry')) {
+    if (!(this.isLoggedIn$ && localStorage.getItem('role') == environment.Ministry)) {
       this.isLoggedIn$ = of(false);
       this.router.navigate(['/login']);
     } else {

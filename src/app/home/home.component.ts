@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { newUser } from '../models/newUser.model';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Component({
    selector: 'app-home',
@@ -42,7 +43,7 @@ export class HomeComponent implements OnInit {
    public async ngOnInit() {
       // Kiểm tra đăng nhập để điều hướng
       this.isLoggedIn$ = this.authService.isLoggedIn();
-      if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
+      if (!(this.isLoggedIn$ && localStorage.getItem('role') == environment.Teacher)) {
          this.isLoggedIn$ = of(false);
          this.router.navigate(['/login']);
       } else {

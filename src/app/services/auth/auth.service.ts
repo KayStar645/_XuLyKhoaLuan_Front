@@ -25,29 +25,12 @@ export class AuthService {
       private shareService: shareService
    ) {}
 
-   public logIn(user: User, role: string) {
-      localStorage.setItem('Id', user.Id);
-      localStorage.setItem('role', role);
-
-      if (role == 'Ministry') {
-         return this.http.post<any>(
-            `${this.apiUrl}/api/Accounts/SigInMinistry`,
-            user,
-            this.shareService.httpOptions
-         );
-      } else if (role == 'Teacher') {
-         return this.http.post<any>(
-            `${this.apiUrl}/api/Accounts/SigInTeacher`,
-            user,
-            this.shareService.httpOptions
-         );
-      } else {
-         return this.http.post<any>(
-            `${this.apiUrl}/api/Accounts/SigInStudent`,
-            user,
-            this.shareService.httpOptions
-         );
-      }
+   async logIn(user: User) {
+      return await this.http.post<any>(
+         `${this.apiUrl}/api/Accounts/SigIn`,
+         user,
+         this.shareService.httpOptions
+      ).toPromise();
    }
 
    public logOut() {
@@ -58,8 +41,6 @@ export class AuthService {
       localStorage.removeItem('Id');
 
       this.loggedIn.next(false);
-
-      //this.router.navigate(['/login']); // Sai chỗ này
    }
 
    public isLoggedIn(): Observable<boolean> {

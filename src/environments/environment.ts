@@ -5,6 +5,10 @@
 export const environment = {
    production: false,
    api: 'https://localhost:7139',
+   secretKey: 'ThisIsTheSecureKey1234567890',
+   Ministry: 'M',
+   Teacher: 'T',
+   Student: 'S',
 };
 
 /*

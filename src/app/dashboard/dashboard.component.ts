@@ -11,6 +11,7 @@ import { dangKyService } from '../services/dangKy.service';
 import { raDeService } from '../services/raDe.service';
 import { ToastrService } from 'ngx-toastr';
 import { newUser } from '../models/newUser.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
    selector: 'app-dashboard',
@@ -46,7 +47,7 @@ export class DashboardComponent implements OnInit {
 
    public async ngOnInit() {
       // Kiểm tra đăng nhập để điều hướng
-      if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Student')) {
+      if (!(this.isLoggedIn$ && localStorage.getItem('role') == environment.Student)) {
          this.isLoggedIn$ = of(false);
          this.router.navigate(['/login']);
       } else {

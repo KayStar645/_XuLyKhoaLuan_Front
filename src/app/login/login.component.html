@@ -4,31 +4,8 @@
   </div>
   <div id="main">
     <div class="row ali-start jus-center h-100">
-      <div id="form__role" class="form">
-        <h2 class="title">Bạn là ai ?</h2>
-        <div class="row ali-center role-list">
-          <div class="select__role text-center">
-            <div class="role" (click)="clickRole($event)" name="Ministry">
-              Giáo vụ
-            </div>
-          </div>
-          <div class="select__role text-center">
-            <div class="role" (click)="clickRole($event)" name="Teacher">
-              Giảng viên
-            </div>
-          </div>
-          <div class="select__role text-center">
-            <div class="role" (click)="clickRole($event)" name="Student">
-              Sinh viên
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div *ngIf="activeForm == true; then form"></div>
-
-      <ng-template #form class="relative">
-        <form
+      <form
           id="form"
           class="form center-2"
           (ngSubmit)="logIn()"
@@ -77,17 +54,7 @@
           <div class="submit-btn text-right">
             <button type="submit">ĐĂNG NHẬP</button>
           </div>
-          <div class="back row ali-center">
-            <div>
-              <i class="fa-solid fa-chevron-left"></i>
-            </div>
-
-            <div>
-              <a class="back__link" (click)="clickBack($event)">Quay lại</a>
-            </div>
-          </div>
         </form>
-      </ng-template>
     </div>
   </div>
 

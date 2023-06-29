@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { HomeDanhsachgiangvienComponent } from './home-danhsachgiangvien/home-danhsachgiangvien.component';
 import { BoMon } from '../../models/BoMon.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -27,7 +28,7 @@ export class HomeGiangvienComponent implements OnInit {
       this.titleService.setTitle('Danh sách giảng viên');
       // Kiểm tra đăng nhập để điều hướng
       this.isLoggedIn$ = this.authService.isLoggedIn();
-      if (!(this.isLoggedIn$ && localStorage.getItem('role') == 'Teacher')) {
+      if (!(this.isLoggedIn$ && localStorage.getItem('role') == environment.Teacher)) {
          this.isLoggedIn$ = of(false);
          this.router.navigate(['/login']);
       } else {
