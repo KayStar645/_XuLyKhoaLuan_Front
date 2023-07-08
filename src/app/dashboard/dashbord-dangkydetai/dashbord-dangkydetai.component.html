@@ -29,7 +29,7 @@
                   {{ getChuyennganhPhuhop(dt.maDT) }}
                 </td>
                 <td class="text-center">
-                  Tên nhóm đăng ký
+                  {{ dt.noteDangKy }}
                 </td>
               </tr>
             </tbody>
@@ -43,7 +43,7 @@
           <div class="row ali-center jus-between p-b-12 table-title">
             <p>Nội dung đề tài đang chọn</p>
             <button
-              *ngIf="isTruongnhom && !isDangky"
+              *ngIf="isTruongnhom && !isDangky && ! lineDT?.noteDangKy"
               class="dangKy-btn submit-btn"
               (click)="onDangKy(lineDT)"
             >

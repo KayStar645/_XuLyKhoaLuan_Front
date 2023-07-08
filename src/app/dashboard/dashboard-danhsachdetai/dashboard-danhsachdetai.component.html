@@ -29,7 +29,11 @@
                 {{ getTenGvHuongdanByMaDT(dt.maDT) }}
               </td>
               <td class="text-center">{{ getChuyennganhPhuhop(dt.maDT) }}</td>
-              <td>Lý do tại sao ở đây nè</td>
+              <td>
+                <span *ngIf="!dt.isDangKy">
+                  {{ dt.noteDangKy }}
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
